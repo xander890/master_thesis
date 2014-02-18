@@ -13,7 +13,6 @@
 
 #define SOLUTION_CODE
 
-#include "auxil.h"
 #include "Terrain.h"
 
 #define USE_VERTEX_ARRAY 1
@@ -26,7 +25,7 @@ float Terrain::height(float _x, float _y) const
 {
     float x = delta*_x+x0;
     float y = delta*_y+y0;
-    return A*turbulence(x,y);
+    return A;
 }
 
 Vec3f Terrain::normal(float x, float y) const 
@@ -113,4 +112,5 @@ void Terrain::draw(ShaderProgramDraw& shader_prog)
         glBindVertexArray(VAO);
 
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, NUM_VERTICES);
+
 }

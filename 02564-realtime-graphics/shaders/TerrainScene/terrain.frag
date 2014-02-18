@@ -1,5 +1,5 @@
 #version 150
-#define SOLUTION_CODE
+//#define SOLUTION_CODE
 uniform vec4 light_pos;
 uniform vec4 light_diff;
 uniform vec4 light_spec;

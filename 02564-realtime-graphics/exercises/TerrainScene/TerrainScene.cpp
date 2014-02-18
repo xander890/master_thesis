@@ -25,8 +25,6 @@
 #include <GLGraphics/User.h>
 
 #include "ShadowBuffer.h"
-#include "auxil.h"
-#include "lsys.h"
 #include "Terrain.h"
 #include "TerrainScene.h"
 #include <GLGraphics/ShaderProgram.h>
@@ -74,10 +72,10 @@ void draw_objects(ShaderProgramDraw& shader_prog)
     
     if(objects.empty())
     {
-        objects.push_back(ThreeDObject());
-        objects[objects.size()-1].init(objects_path+"cottage_obj/cottage.obj");
-        objects.back().scale(Vec3f(1));
-        objects.back().translate(Vec3f(-14.8718f,-7.91218f,terra.height(-14.8718f,-7.91218f)));
+        //objects.push_back(ThreeDObject());
+        //objects[objects.size()-1].init(objects_path+"cottage_obj/cottage.obj");
+        //objects.back().scale(Vec3f(1));
+        //objects.back().translate(Vec3f(-14.8718f,-7.91218f,terra.height(-14.8718f,-7.91218f)));
 
         objects.push_back(ThreeDObject());
         objects[objects.size()-1].init(objects_path+"cow.obj");
@@ -106,6 +104,7 @@ void TerrainScene::set_light_and_camera(ShaderProgramDraw& shader_prog)
     shader_prog.set_light_intensities(light_diffuse, light_specular, light_ambient);
 }
 
+/*
 #ifdef SOLUTION_CODE
 void draw_trees(ShaderProgramDraw& shader_prog)
 {
@@ -172,42 +171,42 @@ void draw_trees(ShaderProgramDraw& shader_prog)
         glBindVertexArray(0);
     }
 #endif
+*/
 
 void TerrainScene::render_direct(bool reload)
 {
     // Load shaders for terrain and general objects. The terrain color is computed
     // procedurally, so we need a different shader.
+
     static ShaderProgramDraw terrain_shader(shader_path, "terrain.vert", "", "terrain.frag");
+
     static ShaderProgramDraw object_shader(shader_path, "object.vert", "", "object.frag");
-#ifdef SOLUTION_CODE
-    static ShaderProgramDraw instanced_object_shader(shader_path, "instanced_object.vert", "", "instanced_object.frag");
-#endif
+
 
     if(reload)
     {
         terrain_shader.reload();
         object_shader.reload();
-#ifdef SOLUTION_CODE
-        instanced_object_shader.reload();
-#endif
     }
 
     glClearColor(0.4f,0.35f,0.95f,0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-    
+
     terrain_shader.use();
     set_light_and_camera(terrain_shader);
+
     terra.draw(terrain_shader);
 
     object_shader.use();
     set_light_and_camera(object_shader);
     draw_objects(object_shader);
+
 #ifdef SOLUTION_CODE
-    instanced_object_shader.use();
-    set_light_and_camera(instanced_object_shader);
-    draw_trees(instanced_object_shader);
+    //instanced_object_shader.use();
+    //set_light_and_camera(instanced_object_shader);
+    //draw_trees(instanced_object_shader);
 #else
-    draw_trees(object_shader);
+    //draw_trees(object_shader);
 #endif
     check_gl_error();
 }
@@ -237,7 +236,7 @@ void TerrainScene::render_direct_wireframe(bool reload)
 
     terra.draw(wire_shader);
     draw_objects(wire_shader);
-    draw_trees(wire_shader);
+    //draw_trees(wire_shader);
 }
 
 void TerrainScene::render_direct_fur(bool reload)
@@ -318,9 +317,9 @@ void TerrainScene::render_to_gbuffer(GBuffer& gbuffer, bool reload)
 #ifdef SOLUTION_CODE
     instanced_objects_render_to_gbuffer.use();
     set_light_and_camera(instanced_objects_render_to_gbuffer);
-    draw_trees(instanced_objects_render_to_gbuffer);
+    //draw_trees(instanced_objects_render_to_gbuffer);
 #else
-    draw_trees(objects_render_to_gbuffer);
+    //draw_trees(objects_render_to_gbuffer);
 #endif
 }
 
@@ -443,7 +442,7 @@ void TerrainScene::render_deferred_ssao(bool reload)
 #endif
     terra.draw(render_to_shadow_map);
     draw_objects(render_to_shadow_map);
-    draw_trees(render_to_shadow_map);
+    //draw_trees(render_to_shadow_map);
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
     glDrawBuffer(GL_BACK);
 
@@ -600,6 +599,7 @@ void TerrainScene::paintGL()
 #ifdef SOLUTION_CODE
         //render_indirect();
 #endif
+
         render_direct(reload_shaders);
         break;
     case DRAW_FUR:
