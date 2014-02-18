@@ -1,0 +1,25 @@
+<RCC>
+    <qresource prefix="/">
+        <file>shaders/PoolScene/fish.frag</file>
+        <file>shaders/PoolScene/fish.vert</file>
+        <file>shaders/PoolScene/fluid_solver.frag</file>
+        <file>shaders/PoolScene/particles.frag</file>
+        <file>shaders/PoolScene/particles.geom</file>
+        <file>shaders/PoolScene/particles.vert</file>
+        <file>shaders/PoolScene/render_water.frag</file>
+        <file>shaders/PoolScene/render_water.vert</file>
+        <file>shaders/PoolScene/room.frag</file>
+        <file>shaders/PoolScene/room.vert</file>
+        <file>shaders/PoolScene/swap_and_splash.frag</file>
+        <file>data/NeonTeT.bmp</file>
+        <file>data/NeonTetra0.3ds</file>
+        <file>data/NeonTetra0.obj</file>
+        <file>data/NeonTetra0.obj.mtl</file>
+        <file>data/Textures/pale-tiles-bump.jpg</file>
+        <file>data/Textures/pale-tiles.jpg</file>
+        <file>data/Textures/lion-bump.png</file>
+        <file>data/Textures/lion.png</file>
+        <file>shaders/PoolScene/update_fish.frag</file>
+        <file>shaders/PoolScene/swap_and_splash.vert</file>
+    </qresource>
+</RCC>

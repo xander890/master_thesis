@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/">
+        <file>data/cow.mtl</file>
+        <file>data/cow.obj</file>
+        <file>shaders/TerrainSceneES/object.frag</file>
+        <file>shaders/TerrainSceneES/object.vert</file>
+        <file>shaders/TerrainSceneES/terrain.frag</file>
+        <file>shaders/TerrainSceneES/terrain.vert</file>
+        <file>data/portal.mtl</file>
+        <file>data/portal.obj</file>
+        <file>data/cottage_obj_s/cottage.obj</file>
+        <file>data/cottage_obj_s/cottage.mtl</file>
+        <file>data/cottage_obj_s/Ceil.jpg</file>
+        <file>data/cottage_obj_s/Walls.jpg</file>
+        <file>TerrainSceneES80.png</file>
+    </qresource>
+</RCC>
