@@ -10,8 +10,9 @@
 namespace Mesh
 {
     /// A simple struct containing material properties.
-	struct Material
+    class Material
 	{
+    public:
 		std::string name;			   
         CGLA::Vec4f diffuse;
 		CGLA::Vec4f specular;

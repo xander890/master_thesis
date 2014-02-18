@@ -29,12 +29,14 @@ QMAKE_CXXFLAGS += /wd4996
 HEADERS += exercises/TerrainScene/GBuffer.h\
         exercises/TerrainScene/ShadowBuffer.h\
         exercises/TerrainScene/Terrain.h\
-        exercises/TerrainScene/TerrainScene.h
+        exercises/TerrainScene/TerrainScene.h \
+    lib02564/Mesh/scatteringmaterial.h
 
 SOURCES += exercises/TerrainScene/GBuffer.cpp\
         exercises/TerrainScene/ShadowBuffer.cpp\
         exercises/TerrainScene/Terrain.cpp\
-    exercises/TerrainScene/TerrainScene.cpp
+    exercises/TerrainScene/TerrainScene.cpp \
+    lib02564/Mesh/scatteringmaterial.cpp
 
 HEADERS += lib02564/CGLA/ArithMatFloat.h\
 lib02564/CGLA/ArithQuat.h\
