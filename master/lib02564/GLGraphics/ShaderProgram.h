@@ -101,6 +101,14 @@ namespace GLGraphics {
         void set_uniform(const char* name, const CGLA::Mat4x4f &value);
         void set_uniform(const char* name, const CGLA::Mat3x3f &value);
 
+        void set_uniform(const char* name, std::vector<int> value, unsigned int size);
+        void set_uniform(const char* name, std::vector<float> value, unsigned int size);
+        void set_uniform(const char* name, const std::vector<CGLA::Vec2f> &value , unsigned int size);
+        void set_uniform(const char* name, const std::vector<CGLA::Vec3f> &value, unsigned int size);
+        void set_uniform(const char* name, const std::vector<CGLA::Vec4f> &value, unsigned int size);
+        void set_uniform(const char* name, const std::vector<CGLA::Mat4x4f> &value, unsigned int size);
+        void set_uniform(const char* name, const std::vector<CGLA::Mat3x3f> &value, unsigned int size);
+
         GLint get_attrib_location(const std::string& name);
         
         void use_texture(GLenum target, const std::string& name, GLuint tex, GLuint active_texture=0);
@@ -162,9 +170,8 @@ namespace GLGraphics {
 
         void reload();
                 
-        void set_light_position(const CGLA::Vec4f& light_pos);
-        
-        void set_light_intensities(const CGLA::Vec4f& diff, const CGLA::Vec4f& spec, const CGLA::Vec4f& amb);
+        //void set_light_position(const CGLA::Vec4f& light_pos);
+        //void set_light_intensities(const CGLA::Vec4f& diff, const CGLA::Vec4f& spec, const CGLA::Vec4f& amb);
         
         void set_material(const CGLA::Vec4f& diff, const CGLA::Vec4f& spec, float exp);
         

@@ -1,0 +1,45 @@
+<RCC>
+    <qresource prefix="/">
+        <file>data/cow.mtl</file>
+        <file>data/cow.obj</file>
+        <file>data/cottage_obj/door12+.jpg</file>
+        <file>data/cottage_obj/door12+b.jpg</file>
+        <file>data/cottage_obj/IMG_0367.jpg</file>
+        <file>data/cottage_obj/IMG_0367A.jpg</file>
+        <file>data/cottage_obj/leafs.jpg</file>
+        <file>data/cottage_obj/m1.jpg</file>
+        <file>data/cottage_obj/stroh_4d.jpg</file>
+        <file>data/cottage_obj/stroh_4e.jpg</file>
+        <file>data/cottage_obj/strohalp.jpg</file>
+        <file>data/cottage_obj/wheelb.jpg</file>
+        <file>data/cottage_obj/WoodRough0021_L90.jpg</file>
+        <file>data/cottage_obj/cottage.mtl</file>
+        <file>data/cottage_obj/cottage.obj</file>
+        <file>data/portal.mtl</file>
+        <file>data/portal.obj</file>
+        <file>shaders/TranslucentMaterials/deferred.vert</file>
+        <file>shaders/TranslucentMaterials/deferred_ssao.frag</file>
+        <file>shaders/TranslucentMaterials/deferred_ssao_combination.frag</file>
+        <file>shaders/TranslucentMaterials/deferred_toon.frag</file>
+        <file>shaders/TranslucentMaterials/fur.frag</file>
+        <file>shaders/TranslucentMaterials/fur.geom</file>
+        <file>shaders/TranslucentMaterials/fur.vert</file>
+        <file>shaders/TranslucentMaterials/instanced_object.frag</file>
+        <file>shaders/TranslucentMaterials/instanced_object.vert</file>
+        <file>shaders/TranslucentMaterials/instanced_objects_gbuffer.frag</file>
+        <file>shaders/TranslucentMaterials/instanced_objects_gbuffer.vert</file>
+        <file>shaders/TranslucentMaterials/object.frag</file>
+        <file>shaders/TranslucentMaterials/object.vert</file>
+        <file>shaders/TranslucentMaterials/objects_gbuffer.frag</file>
+        <file>shaders/TranslucentMaterials/objects_gbuffer.vert</file>
+        <file>shaders/TranslucentMaterials/shadow.frag</file>
+        <file>shaders/TranslucentMaterials/shadow.vert</file>
+        <file>shaders/TranslucentMaterials/terrain.frag</file>
+        <file>shaders/TranslucentMaterials/terrain.vert</file>
+        <file>shaders/TranslucentMaterials/terrain_gbuffer.frag</file>
+        <file>shaders/TranslucentMaterials/terrain_gbuffer.vert</file>
+        <file>shaders/TranslucentMaterials/wire.frag</file>
+        <file>shaders/TranslucentMaterials/wire.geom</file>
+        <file>shaders/TranslucentMaterials/wire.vert</file>
+    </qresource>
+</RCC>

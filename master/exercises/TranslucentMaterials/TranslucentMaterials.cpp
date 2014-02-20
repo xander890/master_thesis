@@ -26,24 +26,31 @@
 
 #include "ShadowBuffer.h"
 #include "Terrain.h"
-#include "TerrainScene.h"
+#include "TranslucentMaterials.h"
 #include <GLGraphics/ShaderProgram.h>
+#include <GLGraphics/lightmanager.h>
+#include <GLGraphics/light.h>
+
+#include "Mesh/proceduralsphere.h"
 
 using namespace std;
 using namespace CGLA;
 using namespace GLGraphics;
 
 
-const string shader_path = "./shaders/TerrainScene/";
+const string shader_path = "./shaders/TranslucentMaterials/";
 const string objects_path = "./data/";
+static const Vec4f light_ambient(0.3f,0.4f,0.6f,0.4f);
 
 Terrain terra(30,0.025f);
-Vec4f light_position(.3f,.3f,1,0);
+//Vec4f light_position(.3f,.3f,1,0);
 
 User user (&terra);
 bool reload_shaders = true;
 enum RenderMode {DRAW_NORMAL=0, DRAW_WIRE=1, DRAW_DEFERRED_TOON=2, DRAW_SSAO=3, DRAW_FUR=4};
 RenderMode render_mode = DRAW_NORMAL;
+
+LightManager manager;
 
 void draw_screen_aligned_quad(ShaderProgram& shader_prog)
 {
@@ -68,8 +75,8 @@ void draw_screen_aligned_quad(ShaderProgram& shader_prog)
 
 void draw_objects(ShaderProgramDraw& shader_prog)
 {
-    static vector<ThreeDObject> objects;
-    
+
+static vector<ThreeDObject> objects;
     if(objects.empty())
     {
         //objects.push_back(ThreeDObject());
@@ -83,25 +90,50 @@ void draw_objects(ShaderProgramDraw& shader_prog)
         objects.back().rotate(Vec3f(1,0,0), 90);
         objects.back().translate(Vec3f(5,7,terra.height(5,7)+1.6f));
 
-        objects.push_back(ThreeDObject());
-        objects[objects.size()-1].init(objects_path+"portal.obj");
-        objects.back().scale(Vec3f(2));
-        objects.back().translate(Vec3f(0,0,terra.height(0,0)+1.0));
+        //objects.push_back(ThreeDObject());
+        //objects[objects.size()-1].init(objects_path+"portal.obj");
+        //objects.back().scale(Vec3f(2));
+        //objects.back().translate(Vec3f(0,0,terra.height(0,0)+1.0));
     }
+
+
     for(unsigned int i=0;i < objects.size();++i)
         objects[i].display(shader_prog);
 }
 
-void TerrainScene::set_light_and_camera(ShaderProgramDraw& shader_prog)
+void draw_spheres(ShaderProgramDraw& shader_prog)
 {
-    static const Vec4f light_specular(0.6f,0.6f,0.3f,0.6f);
-    static const Vec4f light_diffuse(0.6f,0.6f,0.3f,0.6f);
-    static const Vec4f light_ambient(0.3f,0.4f,0.6f,0.4f);
+
+    static GLuint vao;
+    static int count;
+    static bool was_here = false;
+    if(!was_here)
+    {
+        vector<Vec3f> strip(0);
+        sphere(2.0f, 30,30,strip);
+        vao = create_sphere_vertex_array_object(strip);
+        count = strip.size();
+        was_here =true;
+    }
+    shader_prog.set_model_matrix(translation_Mat4x4f(Vec3f(5,0,terra.height(5,0)+1.0f) ));
+    glBindVertexArray(vao);
+    glDrawArrays(GL_TRIANGLE_STRIP,0, count);
+
+    shader_prog.set_model_matrix(translation_Mat4x4f(Vec3f(5,5,terra.height(5,5)+1.0f) ));
+    glDrawArrays(GL_TRIANGLE_STRIP,0, count);
+}
+
+void TranslucentMaterials::set_light_and_camera(ShaderProgramDraw& shader_prog)
+{
 
     shader_prog.set_projection_matrix(perspective_Mat4x4f(55, float(window_width)/window_height, 0.01f, 100));
     shader_prog.set_view_matrix(user.get_view_matrix());
-    shader_prog.set_light_position(light_position);
-    shader_prog.set_light_intensities(light_diffuse, light_specular, light_ambient);
+    shader_prog.set_uniform("light_amb", light_ambient);
+    check_gl_error();
+    manager.loadLights(shader_prog);
+    check_gl_error();
+    //shader_prog.set_light_position(light_position);
+    //shader_prog.set_light_intensities(light_diffuse, light_specular, light_ambient);
 }
 
 /*
@@ -173,7 +205,7 @@ void draw_trees(ShaderProgramDraw& shader_prog)
 #endif
 */
 
-void TerrainScene::render_direct(bool reload)
+void TranslucentMaterials::render_direct(bool reload)
 {
     // Load shaders for terrain and general objects. The terrain color is computed
     // procedurally, so we need a different shader.
@@ -192,14 +224,15 @@ void TerrainScene::render_direct(bool reload)
     glClearColor(0.4f,0.35f,0.95f,0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
-    terrain_shader.use();
-    set_light_and_camera(terrain_shader);
+    //terrain_shader.use();
+    //set_light_and_camera(terrain_shader);
 
-    terra.draw(terrain_shader);
+    //terra.draw(terrain_shader);
 
     object_shader.use();
     set_light_and_camera(object_shader);
     draw_objects(object_shader);
+    draw_spheres(object_shader);
 
 #ifdef SOLUTION_CODE
     //instanced_object_shader.use();
@@ -211,7 +244,7 @@ void TerrainScene::render_direct(bool reload)
     check_gl_error();
 }
 
-void TerrainScene::render_direct_wireframe(bool reload)
+void TranslucentMaterials::render_direct_wireframe(bool reload)
 {
     // Create shader program. Note that this is the only program which has
     // a geometry shader. Also there is only one shader in this function since
@@ -239,7 +272,7 @@ void TerrainScene::render_direct_wireframe(bool reload)
     //draw_trees(wire_shader);
 }
 
-void TerrainScene::render_direct_fur(bool reload)
+void TranslucentMaterials::render_direct_fur(bool reload)
 {
     static GLuint texname=0;
     static bool was_here = false;
@@ -287,7 +320,7 @@ void TerrainScene::render_direct_fur(bool reload)
     glDisable(GL_BLEND);
 }
 
-void TerrainScene::render_to_gbuffer(GBuffer& gbuffer, bool reload)
+void TranslucentMaterials::render_to_gbuffer(GBuffer& gbuffer, bool reload)
 {
     static ShaderProgramDraw objects_render_to_gbuffer(shader_path, "objects_gbuffer.vert", "", "objects_gbuffer.frag");
     static ShaderProgramDraw terrain_render_to_gbuffer(shader_path, "terrain_gbuffer.vert", "", "terrain_gbuffer.frag");
@@ -323,7 +356,7 @@ void TerrainScene::render_to_gbuffer(GBuffer& gbuffer, bool reload)
 #endif
 }
 
-void TerrainScene::render_deferred_toon(bool reload)
+void TranslucentMaterials::render_deferred_toon(bool reload)
 {
     // Initialize resources. Note that we have a G-Buffer here. This buffer captures eye
     // space position, normal, and color for each pixel. We then do deferred shading based
@@ -358,7 +391,7 @@ void TerrainScene::render_deferred_toon(bool reload)
     glEnable(GL_DEPTH_TEST);
 }
 
-void TerrainScene::render_deferred_ssao(bool reload)
+void TranslucentMaterials::render_deferred_ssao(bool reload)
 {
     const int NO_DISC_POINTS = 32;
     const int SHADOW_SIZE = 4096;
@@ -424,7 +457,7 @@ void TerrainScene::render_deferred_ssao(bool reload)
     
     // Set up a modelview matrix suitable for shadow: Maps from world coords to
     // shadow buffer coords.
-    Vec3f v = Vec3f(light_position) * 75;
+    Vec3f v = Vec3f(manager[0].position) * 75;
     render_to_shadow_map.set_view_matrix(lookat_Mat4x4f(v,-v,Vec3f(0,0,1)));
     render_to_shadow_map.set_model_matrix(identity_Mat4x4f());
     render_to_shadow_map.set_projection_matrix(ortho_Mat4x4f(Vec3f(-35,-35,50),Vec3f(35,35,150)));
@@ -524,7 +557,7 @@ void TerrainScene::render_deferred_ssao(bool reload)
 }
 
 #ifdef SOLUTION_CODE
-void TerrainScene::render_indirect()
+void TranslucentMaterials::render_indirect()
 {
     static GLuint fbo=0, rb=0, tex=0;
     static ShaderProgram prog("", "$void main(){gl_Position = gl_Vertex;}", "",
@@ -574,16 +607,24 @@ void TerrainScene::render_indirect()
 #endif
 
 
-TerrainScene::TerrainScene( const QGLFormat& format, QWidget* parent)
+TranslucentMaterials::TranslucentMaterials( const QGLFormat& format, QWidget* parent)
     : QGLWidget( new Core3_2_context(format), (QWidget*) parent),
       ax(0), ay(0), dist(12),ang_x(0),ang_y(0),mouse_x0(0),mouse_y0(0)
 {
+    static const Vec4f light_specular(0.6f,0.6f,0.3f,0.6f);
+    static const Vec4f light_diffuse(0.6f,0.6f,0.3f,0.6f);
+
+    Vec4f light_position(.3f,.3f,1,0);
+
+    Light mainLight (light_position, light_diffuse, light_specular, true);
+    manager.addLight(mainLight);
+
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(animate()));
     timer->start(16);
 }
 
-void TerrainScene::paintGL()
+void TranslucentMaterials::paintGL()
 {
 #ifdef SOLUTION_CODE
     static QTime stopwatch;
@@ -630,7 +671,7 @@ void TerrainScene::paintGL()
 #endif
 }
 
-void TerrainScene::resizeGL(int W, int H)
+void TranslucentMaterials::resizeGL(int W, int H)
 {
     window_width = W;
     window_height = H;
@@ -639,26 +680,26 @@ void TerrainScene::resizeGL(int W, int H)
 }
 
 
-void TerrainScene::animate()
+void TranslucentMaterials::animate()
 {
     user.update_position();
     repaint();
 }
 
-void TerrainScene::initializeGL()
+void TranslucentMaterials::initializeGL()
 {
     setup_gl();
     glClearColor( 0.7f, 0.7f, 0.7f, 0.0f );
     glEnable(GL_DEPTH_TEST);
 }
 
-void TerrainScene::mousePressEvent(QMouseEvent *m)
+void TranslucentMaterials::mousePressEvent(QMouseEvent *m)
 {
     mouse_x0 = m->x();
     mouse_y0 = m->y();
 }
 
-void TerrainScene::mouseReleaseEvent(QMouseEvent *m)
+void TranslucentMaterials::mouseReleaseEvent(QMouseEvent *m)
 {
     float delta_ang_x = 4*M_PI*(mouse_x0-m->x())/window_width;
     float delta_ang_y = M_PI*(mouse_y0-m->y())/window_height;
@@ -666,7 +707,7 @@ void TerrainScene::mouseReleaseEvent(QMouseEvent *m)
     ang_y += delta_ang_y;
 }
 
-void TerrainScene::mouseMoveEvent(QMouseEvent *m)
+void TranslucentMaterials::mouseMoveEvent(QMouseEvent *m)
 {
     float delta_ang_x = 4*M_PI*(mouse_x0-m->x())/window_width;
     float delta_ang_y = M_PI*(mouse_y0-m->y())/window_height;
@@ -677,7 +718,7 @@ void TerrainScene::mouseMoveEvent(QMouseEvent *m)
     QWidget::repaint();
 }
 
-void TerrainScene::keyPressEvent(QKeyEvent *e)
+void TranslucentMaterials::keyPressEvent(QKeyEvent *e)
 {
     static bool is_full_screen = false;
     switch(e->key())
@@ -708,7 +749,8 @@ void TerrainScene::keyPressEvent(QKeyEvent *e)
     case 'L':
     {
         Vec3f v = normalize(-user.get_dir() + Vec3f(0,0,1));
-        light_position = Vec4f(v[0], v[1], v[2], 0);
+        manager[0].position = Vec4f(v[0], v[1], v[2], 0);
+        manager.reloadLights();
     }
         break;
     case 'O':
@@ -721,7 +763,7 @@ void TerrainScene::keyPressEvent(QKeyEvent *e)
     QWidget::repaint();
 }
 
-void TerrainScene::keyReleaseEvent(QKeyEvent *)
+void TranslucentMaterials::keyReleaseEvent(QKeyEvent *)
 {
     user.stop();
 }
@@ -738,7 +780,7 @@ int main(int argc, char *argv[])
     QGLFormat glFormat;
     glFormat.setVersion( 4, 3 );
     glFormat.setProfile( QGLFormat::CoreProfile ); // Requires >=Qt-4.8.0
-    TerrainScene w( glFormat);
+    TranslucentMaterials w( glFormat);
     w.resize(WINDOW_WIDTH, WINDOW_HEIGHT);
     w.setFocusPolicy(Qt::ClickFocus);
     w.show();

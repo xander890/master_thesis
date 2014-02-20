@@ -12,7 +12,6 @@ out vec3 _position;
 out vec4 _color;
 
 uniform vec4 light_pos;
-uniform vec3 light_half_vec;
 uniform vec4 light_diff;
 uniform vec4 light_spec;
 uniform vec4 light_amb;
@@ -45,7 +44,7 @@ void main()
     vec3 refl_dir = reflect(normalize(position.xyz), norm);
     float r_dot_l = max(dot(refl_dir, light_dir), 0.0);
     _color += mat_spec*pow(r_dot_l, max(mat_spec_exp, 1.0))*light_spec;
-
+    _color = vec4(light_pos.xyz);
 #endif
     _texcoord = texcoord;
     gl_Position = PVM * vec4(vertex,1);

@@ -6,7 +6,7 @@
 #include <GLGraphics/ShaderProgram.h>
 #include "GBuffer.h"
 
-class TerrainScene : public QGLWidget
+class TranslucentMaterials : public QGLWidget
 {
     Q_OBJECT
 
@@ -24,7 +24,7 @@ class TerrainScene : public QGLWidget
     GLuint m_vertexBuffer;
 
 public:
-    TerrainScene( const QGLFormat& format, QWidget* parent = 0);
+    TranslucentMaterials( const QGLFormat& format, QWidget* parent = 0);
 
 public slots:
     void animate();

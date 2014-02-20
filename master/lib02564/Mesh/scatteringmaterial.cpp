@@ -31,9 +31,9 @@ namespace Mesh{
         computeCoefficients();
     }
 
-    ScatteringMaterial::computeCoefficients()
+    void ScatteringMaterial::computeCoefficients()
     {
-        this->reducedScatteringCoefficient = scattering * (1 - meancosine);
+        this->reducedScatteringCoefficient = scattering * (Vec3f(1.0f) - meancosine);
         this->reducedExtinctionCoefficent = reducedScatteringCoefficient * absorption;
         this->D = Vec3f(1.0f) / (3.f * reducedExtinctionCoefficent);
         this->transmissionCoefficient = Vec3f(

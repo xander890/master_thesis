@@ -279,18 +279,13 @@ void TriangleMesh::build_vertex_array_object(GLGraphics::ShaderProgram *shader){
             }
         }
     }
-#ifndef QT_OPENGL_ES_2
-    glGenVertexArrays(1, &vertexArrayObject);
-    glBindVertexArray(vertexArrayObject);
-#endif
+
     glGenBuffers(1, &vertexBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
     // upload to vertex buffer
     glBufferData(GL_ARRAY_BUFFER, stride * vertexCount, &(interleavedData[0]), GL_STATIC_DRAW);
 
-#ifndef QT_OPENGL_ES_2
-    map_data_to_shader_vertex_attributes(shader);
-#endif
+
     // concatenate all indices
     std::vector<GLuint> elementArrayBuffer;
     for (std::vector<DrawCall>::iterator iter = drawCalls.begin();iter != drawCalls.end(); iter++){

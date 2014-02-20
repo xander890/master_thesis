@@ -12,19 +12,19 @@ public:
     ScatteringMaterial(Mesh::Material m, float indexOfRefraction, CGLA::Vec3f absorption, CGLA::Vec3f scattering, CGLA:: Vec3f meancosine);
 
     // base parameters
-    const float indexOfRefraction;
-    const CGLA::Vec3f absorption;
-    const CGLA::Vec3f scattering;
-    const CGLA::Vec3f meancosine;
+     float indexOfRefraction;
+     CGLA::Vec3f absorption;
+     CGLA::Vec3f scattering;
+     CGLA::Vec3f meancosine;
 
     // derived parameters
-    const CGLA::Vec3f D;
-    const CGLA::Vec3f reducedExtinctionCoefficent;
-    const CGLA::Vec3f transmissionCoefficient;
-    const CGLA::Vec3f reducedScatteringCoefficient;
+     CGLA::Vec3f D;
+     CGLA::Vec3f reducedExtinctionCoefficent;
+     CGLA::Vec3f transmissionCoefficient;
+     CGLA::Vec3f reducedScatteringCoefficient;
 
 private:
-    computeCoefficients();
+    void computeCoefficients();
 };
 
 }

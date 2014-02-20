@@ -40,6 +40,7 @@ void main()
 
     // texturing
     fragColor = color*texture(tex, _texcoord.xy);
+   // fragColor = vec4(1,0,0,0);
  #else
     fragColor = _color * texture(tex, _texcoord.xy);
 #endif

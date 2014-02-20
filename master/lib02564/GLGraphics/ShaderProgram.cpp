@@ -36,11 +36,8 @@ namespace GLGraphics {
         vs = load_a_shader(GL_VERTEX_SHADER, shader_path,vs_file_name);
 
         if(gs_file_name != "")
-#ifdef GL_ES_VERSION_2_0
-            qDebug() << "Geometry shader is not available in OpenGL ES 2.0";
-#else
             gs = load_a_shader(GL_GEOMETRY_SHADER, shader_path, gs_file_name);
-#endif
+
         fs = load_a_shader(GL_FRAGMENT_SHADER, shader_path, fs_file_name );
 
         if(vs) glAttachShader(prog, vs);
@@ -117,6 +114,52 @@ namespace GLGraphics {
         }
     }
 
+
+    void ShaderProgram::set_uniform(const char* name, vector<float> value, unsigned int size){
+        GLint location = get_uniform_location(name);
+        if (location != -1){
+            glUniform1fv(location, size, value.data());
+        }
+    }
+
+    void ShaderProgram::set_uniform(const char* name, const vector<CGLA::Vec2f> &value, unsigned int size){
+        GLint location = get_uniform_location(name);
+        if (location != -1){
+            glUniform2fv(location, size, (const GLfloat *)&value[0]);
+        }
+    }
+    void ShaderProgram::set_uniform(const char* name, const vector<CGLA::Vec3f> &value, unsigned int size){
+        GLint location = get_uniform_location(name);
+        if (location != -1){
+            glUniform3fv(location, size, (const GLfloat *)&value[0]);
+
+        }
+    }
+    void ShaderProgram::set_uniform(const char* name, const vector<CGLA::Vec4f> &value, unsigned int size){
+        GLint location = get_uniform_location(name);
+        if (location != -1){
+            glUniform4fv(location, size, (const GLfloat *)&value[0]);
+
+        }
+    }
+
+    void ShaderProgram::set_uniform(const char* name, const vector<CGLA::Mat3x3f> &value, unsigned int size){
+        GLint location = get_uniform_location(name);
+
+        if (location != -1){
+            glUniformMatrix3fv(location, size, GL_TRUE, (const GLfloat *)&value[0]);
+
+        }
+    }
+
+
+    void ShaderProgram::set_uniform(const char* name, const vector<CGLA::Mat4x4f> &value, unsigned int size){
+        GLint location = get_uniform_location(name);
+
+        if (location != -1){
+            glUniformMatrix4fv(location, size, GL_TRUE, (const GLfloat *)&value[0]);
+        }
+    }
 
     void ShaderProgram::reload()
     {
@@ -209,7 +252,7 @@ namespace GLGraphics {
         glBindAttribLocation(prog, 2, "texcoord");
         link();
     }
-
+/*
     void ShaderProgramDraw::set_light_position(const CGLA::Vec4f& _light_position)
     {
         light_pos = V*(M*_light_position);
@@ -228,7 +271,7 @@ namespace GLGraphics {
         set_uniform("light_spec", light_spec);
         set_uniform("light_amb", light_amb);
     }
-    
+  */
     void ShaderProgramDraw::set_derived_matrices()
     {
         Mat4x4f VM = V*M;

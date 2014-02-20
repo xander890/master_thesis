@@ -1,7 +1,7 @@
 QT += core gui widgets opengl
 
 CONFIG += c++11
-TARGET = TerrainScene
+TARGET = TranslucentMaterials
 TEMPLATE = app
 
 win32 {
@@ -26,17 +26,26 @@ INCLUDEPATH += lib02564
 
 QMAKE_CXXFLAGS += /wd4996
 
-HEADERS += exercises/TerrainScene/GBuffer.h\
-        exercises/TerrainScene/ShadowBuffer.h\
-        exercises/TerrainScene/Terrain.h\
-        exercises/TerrainScene/TerrainScene.h \
-    lib02564/Mesh/scatteringmaterial.h
+HEADERS += exercises/TranslucentMaterials/GBuffer.h\
+        exercises/TranslucentMaterials/ShadowBuffer.h\
+        exercises/TranslucentMaterials/Terrain.h\
+        exercises/TranslucentMaterials/TranslucentMaterials.h \
+    lib02564/Mesh/scatteringmaterial.h \
+    lib02564/GLGraphics/light.h \
+    lib02564/GLGraphics/lightmanager.h \
+    lib02564/Mesh/proceduralsphere.h \
+    lib02564/GLGraphics/jensendipolecpu.h
 
-SOURCES += exercises/TerrainScene/GBuffer.cpp\
-        exercises/TerrainScene/ShadowBuffer.cpp\
-        exercises/TerrainScene/Terrain.cpp\
-    exercises/TerrainScene/TerrainScene.cpp \
-    lib02564/Mesh/scatteringmaterial.cpp
+SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
+        exercises/TranslucentMaterials/ShadowBuffer.cpp\
+        exercises/TranslucentMaterials/Terrain.cpp\
+    exercises/TranslucentMaterials/TranslucentMaterials.cpp \
+    lib02564/Mesh/scatteringmaterial.cpp \
+    lib02564/GLGraphics/light.cpp \
+    lib02564/GLGraphics/lightmanager.cpp \
+    lib02564/Mesh/proceduralsphere.cpp \
+    lib02564/GLGraphics/jensendipolecpu.cpp
+
 
 HEADERS += lib02564/CGLA/ArithMatFloat.h\
 lib02564/CGLA/ArithQuat.h\
@@ -94,8 +103,6 @@ lib02564/Mesh/Material.h\
 lib02564/Mesh/Texmap.h\
 lib02564/Mesh/ObjLoader.h\
 lib02564/Mesh/TriangleMesh.h\
-lib02564/Util/ArgExtracter.h\
-lib02564/Util/Grid2D.h\
 
 SOURCES += lib02564/CGLA/ArithSqMat3x3Float.cpp\
 lib02564/CGLA/ArithSqMat4x4Float.cpp\
@@ -122,6 +129,6 @@ lib02564/Mesh/ObjLoader.cpp\
 lib02564/Mesh/TriangleMesh.cpp
 
 RESOURCES += \
-    TerrainScene.qrc
+    TranslucentMaterials.qrc
 
-OTHER_FILES += shaders/TerrainScene/*
+OTHER_FILES += shaders/TranslucentMaterials/*
