@@ -37,6 +37,7 @@ protected:
     void render_to_gbuffer(GBuffer& gbuffer, bool reload);
     void render_deferred_toon(bool reload);
     void render_deferred_ssao(bool reload);
+    void draw_sphere(GLGraphics::ShaderProgramDraw& shader_prog, CGLA::Vec3f position, Mesh::Material m, float radius, int LOD);
 #ifdef SOLUTION_CODE
     void render_indirect();
 #endif

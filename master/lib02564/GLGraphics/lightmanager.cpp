@@ -33,11 +33,7 @@ namespace GLGraphics
         for(int i = 0; i < positions.size(); i++)
         {
             Vec4f nepos = lights[i].position;
-            float z = nepos[2];
-            float y = nepos[1];
-            nepos[2] = y;
-            nepos[1] = -z;
-            positions[i] = shader.get_view_matrix() * (shader.get_model_matrix() * (nepos));
+            positions[i] = shader.get_view_matrix() * (nepos);
         }
 
         shader.set_uniform(LIGHT_POS_UNIFORM, positions, size);

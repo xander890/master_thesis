@@ -101,7 +101,7 @@ static vector<ThreeDObject> objects;
         objects[i].display(shader_prog);
 }
 
-void draw_sphere(ShaderProgramDraw& shader_prog, Vec3f position, Mesh::Material m, float radius, int LOD)
+void TranslucentMaterials::draw_sphere(ShaderProgramDraw& shader_prog, Vec3f position, Mesh::Material m, float radius, int LOD)
 {
     static bool was_here = false;
     static Mesh::TriangleMesh me;
@@ -117,7 +117,7 @@ void draw_sphere(ShaderProgramDraw& shader_prog, Vec3f position, Mesh::Material 
         was_here =true;
     }
     shader_prog.set_model_matrix(translation_Mat4x4f(position) * scaling_Mat4x4f(Vec3f(radius)));
-
+    set_light_and_camera(shader_prog);
     me.render(shader_prog);
     check_gl_error();
 
@@ -238,7 +238,7 @@ void TranslucentMaterials::render_direct(bool reload)
     draw_objects(object_shader);
 
     Mesh::Material m;
-    draw_sphere(object_shader, Vec3f(5.0f, 0.0f, 30.0f), m, 2.0f, 300);
+    draw_sphere(object_shader, Vec3f(0.0f, 20.0f, 30.0f), m, 2.0f, 300);
 
     t_shader.use();
     set_light_and_camera(t_shader);
@@ -637,7 +637,7 @@ TranslucentMaterials::TranslucentMaterials( const QGLFormat& format, QWidget* pa
     static const Vec4f light_specular(0.6f,0.6f,0.3f,0.6f);
     static const Vec4f light_diffuse(0.6f,0.6f,0.3f,0.6f);
 
-    Vec4f light_position(0.f,-5.5f,30.0f,1);
+    Vec4f light_position(10.f,10.f,30.0f,1);
 
     Light mainLight (light_position, light_diffuse, light_specular, false);
     manager.addLight(mainLight);
