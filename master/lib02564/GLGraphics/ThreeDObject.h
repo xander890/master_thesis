@@ -21,7 +21,7 @@ namespace GLGraphics
 
 class ThreeDObject
 {
-    Mesh::TriangleMesh mesh;
+
 
     CGLA::Vec3f translation_vector;
     CGLA::Vec3f rotation_axis;
@@ -31,7 +31,7 @@ class ThreeDObject
 public:
 
     ThreeDObject();
-
+    Mesh::TriangleMesh mesh;
     bool init(std::string filename);
 
     void rotate(const CGLA::Vec3f& axis, float angle)

@@ -101,26 +101,29 @@ static vector<ThreeDObject> objects;
         objects[i].display(shader_prog);
 }
 
-void draw_spheres(ShaderProgramDraw& shader_prog)
+void draw_sphere(ShaderProgramDraw& shader_prog, Vec3f position, Mesh::Material m, float radius, int LOD)
 {
 
-    static GLuint vao;
-    static int count;
     static bool was_here = false;
+    static Mesh::TriangleMesh me;
     if(!was_here)
     {
-        vector<Vec3f> strip(0);
-        sphere(2.0f, 30,30,strip);
-        vao = create_sphere_vertex_array_object(strip);
-        count = strip.size();
+        vector<Vec3f> vertices;
+        vector<Vec3f> normals;
+        vector<Vec2f> texcoord;
+
+        sphere(radius, LOD,LOD,vertices,normals,texcoord);
+
+
+        me.load_external(vertices,normals, texcoord, m ,GL_TRIANGLE_STRIP);
+
         was_here =true;
     }
-    shader_prog.set_model_matrix(translation_Mat4x4f(Vec3f(5,0,terra.height(5,0)+1.0f) ));
-    glBindVertexArray(vao);
-    glDrawArrays(GL_TRIANGLE_STRIP,0, count);
+    shader_prog.set_model_matrix(translation_Mat4x4f(position));
 
-    shader_prog.set_model_matrix(translation_Mat4x4f(Vec3f(5,5,terra.height(5,5)+1.0f) ));
-    glDrawArrays(GL_TRIANGLE_STRIP,0, count);
+    me.render(shader_prog);
+    check_gl_error();
+
 }
 
 void TranslucentMaterials::set_light_and_camera(ShaderProgramDraw& shader_prog)
@@ -214,25 +217,34 @@ void TranslucentMaterials::render_direct(bool reload)
 
     static ShaderProgramDraw object_shader(shader_path, "object.vert", "", "object.frag");
 
+    static ShaderProgramDraw t_shader(shader_path, "translucent.vert", "", "translucent.frag");
 
     if(reload)
     {
         terrain_shader.reload();
         object_shader.reload();
+        t_shader.reload();
     }
 
     glClearColor(0.4f,0.35f,0.95f,0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
-    //terrain_shader.use();
-    //set_light_and_camera(terrain_shader);
+    terrain_shader.use();
+    set_light_and_camera(terrain_shader);
 
-    //terra.draw(terrain_shader);
+    terra.draw(terrain_shader);
 
     object_shader.use();
     set_light_and_camera(object_shader);
     draw_objects(object_shader);
-    draw_spheres(object_shader);
+
+    Mesh::Material m;
+    draw_sphere(object_shader, Vec3f(5.0f, 0.0f, 5.0f), m, 2.0f, 300);
+
+    t_shader.use();
+    set_light_and_camera(t_shader);
+
+    draw_sphere(t_shader, Vec3f(0.0f, 0.0f, 5.0f), m, 2.0f, 300);
 
 #ifdef SOLUTION_CODE
     //instanced_object_shader.use();
@@ -269,6 +281,13 @@ void TranslucentMaterials::render_direct_wireframe(bool reload)
 
     terra.draw(wire_shader);
     draw_objects(wire_shader);
+    Mesh::Material m;
+    draw_sphere(wire_shader, Vec3f(5.0f, 0.0f, 5.0f), m, 2.0f, 300);
+
+
+
+
+    draw_sphere(wire_shader, Vec3f(0.0f, 0.0f, 5.0f), m, 2.0f, 300);
     //draw_trees(wire_shader);
 }
 

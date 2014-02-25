@@ -41,5 +41,7 @@
         <file>shaders/TranslucentMaterials/wire.frag</file>
         <file>shaders/TranslucentMaterials/wire.geom</file>
         <file>shaders/TranslucentMaterials/wire.vert</file>
+        <file>shaders/TranslucentMaterials/translucent.frag</file>
+        <file>shaders/TranslucentMaterials/translucent.vert</file>
     </qresource>
 </RCC>

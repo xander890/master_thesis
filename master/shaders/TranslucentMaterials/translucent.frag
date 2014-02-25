@@ -39,7 +39,7 @@ void main()
     color += mat_spec*pow(r_dot_l, max(mat_spec_exp, 1.0))*light_spec;
 
     // texturing
-    fragColor = color;
+    fragColor = vec4(_texcoord.x,_texcoord.y,_texcoord.z, 1.0f);
 
  #else
     fragColor = _color * texture(tex, _texcoord.xy);

@@ -45,7 +45,6 @@
 namespace Mesh {
 
 struct DrawCall {
-    std::vector<GLuint> indices;
     Mesh::Material material;
     GLenum renderMode;
     int count;
@@ -81,7 +80,7 @@ public:
 
     /// add_draw_call should be used for a single TriangleMesh
     /// renderMode must be: GL_TRIANGLES, GL_TRIANGLE_STRIP, etc
-    void add_draw_call(std::vector<GLuint> &indices, Mesh::Material &material, GLenum renderMode);
+    void add_draw_call(int count, Mesh::Material &material, GLenum renderMode);
 
     /// Build the vertex array object
     /// A shader program needs only to be used in case of none generic attribute locations
@@ -91,27 +90,25 @@ public:
     /// Note that the shader must be bound prior to the rendering
     void render(GLGraphics::ShaderProgramDraw &shader);
 
-    /// Render without setting any material properties
-    void renderDirect(GLGraphics::ShaderProgram &shader);
-
     void set_debug(bool enable){ debug = enable; }
 
     bool load(const std::string &filename, bool recomputeNormals = true);
+    bool load_external(std::vector<CGLA::Vec3f>& outPositions, std::vector<CGLA::Vec3f>& outNormal, std::vector<CGLA::Vec2f>& outUv, Material& outMaterial, GLenum type);
 
     // Calculate normals using angle weighted pseudo-normals
-    void recompute_normals(const char* positionName = "vertex", const char *normalName = "normal");
+   // void recompute_normals(const char* positionName = "vertex", const char *normalName = "normal");
 private:
     /// Make sure that all vertex attribute vectors has the same size
     void check_vertex_size(int vertexAttributeSize);
     // maps shader to vertex attribute location
     // shader is optional - if defined the attribute locations are taken from the shader, otherwise generic locations are used
     void map_data_to_shader_vertex_attributes(GLGraphics::ShaderProgram *shader = NULL);
-    std::vector<GLuint> convert_sub_meshes_to_triangle_indices(DrawCall &drawCall, bool removeDegenerate = true);
+    //std::vector<GLuint> convert_sub_meshes_to_triangle_indices(DrawCall &drawCall, bool removeDegenerate = true);
     std::map<std::string, DataVector> vertexAttributes;
     std::vector<DrawCall> drawCalls;
     GLuint vertexArrayObject;
     GLuint  vertexBuffer;
-    GLuint  vertexElementArrayBuffer;
+    //GLuint  vertexElementArrayBuffer;
     int vertexCount;
     bool debug;
     bool initialized;
