@@ -235,7 +235,6 @@ void TranslucentMaterials::render_direct(bool reload)
 
     object_shader.use();
     set_light_and_camera(object_shader);
-    draw_objects(object_shader);
 
     Mesh::Material m;
     draw_sphere(object_shader, Vec3f(0.0f, 20.0f, 30.0f), m, 2.0f, 300);
@@ -244,6 +243,7 @@ void TranslucentMaterials::render_direct(bool reload)
     set_light_and_camera(t_shader);
 
     draw_sphere(t_shader, Vec3f(0.0f, 0.0f, 30.0f), m, 2.0f, 300);
+    draw_objects(t_shader);
 
     red_shader.use();
     set_light_and_camera(red_shader);
