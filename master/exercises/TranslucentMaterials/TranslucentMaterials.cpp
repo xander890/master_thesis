@@ -103,7 +103,6 @@ static vector<ThreeDObject> objects;
 
 void draw_sphere(ShaderProgramDraw& shader_prog, Vec3f position, Mesh::Material m, float radius, int LOD)
 {
-
     static bool was_here = false;
     static Mesh::TriangleMesh me;
     if(!was_here)
@@ -112,14 +111,12 @@ void draw_sphere(ShaderProgramDraw& shader_prog, Vec3f position, Mesh::Material 
         vector<Vec3f> normals;
         vector<Vec2f> texcoord;
 
-        sphere(radius, LOD,LOD,vertices,normals,texcoord);
-
-
+        sphere(1.0f, LOD,LOD,vertices,normals,texcoord);
         me.load_external(vertices,normals, texcoord, m ,GL_TRIANGLE_STRIP);
 
         was_here =true;
     }
-    shader_prog.set_model_matrix(translation_Mat4x4f(position));
+    shader_prog.set_model_matrix(translation_Mat4x4f(position) * scaling_Mat4x4f(Vec3f(radius)));
 
     me.render(shader_prog);
     check_gl_error();
@@ -219,6 +216,8 @@ void TranslucentMaterials::render_direct(bool reload)
 
     static ShaderProgramDraw t_shader(shader_path, "translucent.vert", "", "translucent.frag");
 
+    static ShaderProgramDraw red_shader(shader_path, "red.vert", "", "red.frag");
+
     if(reload)
     {
         terrain_shader.reload();
@@ -232,19 +231,24 @@ void TranslucentMaterials::render_direct(bool reload)
     terrain_shader.use();
     set_light_and_camera(terrain_shader);
 
-    terra.draw(terrain_shader);
+    //terra.draw(terrain_shader);
 
     object_shader.use();
     set_light_and_camera(object_shader);
     draw_objects(object_shader);
 
     Mesh::Material m;
-    draw_sphere(object_shader, Vec3f(5.0f, 0.0f, 5.0f), m, 2.0f, 300);
+    draw_sphere(object_shader, Vec3f(5.0f, 0.0f, 30.0f), m, 2.0f, 300);
 
     t_shader.use();
     set_light_and_camera(t_shader);
 
-    draw_sphere(t_shader, Vec3f(0.0f, 0.0f, 5.0f), m, 2.0f, 300);
+    draw_sphere(t_shader, Vec3f(0.0f, 0.0f, 30.0f), m, 2.0f, 300);
+
+    red_shader.use();
+    set_light_and_camera(red_shader);
+
+    draw_sphere(red_shader, Vec3f(manager[0].position), m , 0.3f, 10);
 
 #ifdef SOLUTION_CODE
     //instanced_object_shader.use();
@@ -279,15 +283,15 @@ void TranslucentMaterials::render_direct_wireframe(bool reload)
                        (const GLfloat*) &ident);
 #endif
 
-    terra.draw(wire_shader);
+    //terra.draw(wire_shader);
     draw_objects(wire_shader);
     Mesh::Material m;
-    draw_sphere(wire_shader, Vec3f(5.0f, 0.0f, 5.0f), m, 2.0f, 300);
+    draw_sphere(wire_shader, Vec3f(5.0f, 0.0f, 30.0f), m, 2.0f, 300);
 
 
 
 
-    draw_sphere(wire_shader, Vec3f(0.0f, 0.0f, 5.0f), m, 2.0f, 300);
+    draw_sphere(wire_shader, Vec3f(0.0f, 0.0f, 30.0f), m, 2.0f, 300);
     //draw_trees(wire_shader);
 }
 
@@ -633,9 +637,9 @@ TranslucentMaterials::TranslucentMaterials( const QGLFormat& format, QWidget* pa
     static const Vec4f light_specular(0.6f,0.6f,0.3f,0.6f);
     static const Vec4f light_diffuse(0.6f,0.6f,0.3f,0.6f);
 
-    Vec4f light_position(.3f,.3f,1,0);
+    Vec4f light_position(0.f,-5.5f,30.0f,1);
 
-    Light mainLight (light_position, light_diffuse, light_specular, true);
+    Light mainLight (light_position, light_diffuse, light_specular, false);
     manager.addLight(mainLight);
 
     timer = new QTimer(this);

@@ -1,4 +1,4 @@
-#version 150
+#version 430
 
 uniform sampler2D tex;  // Uniform specifying the texture unit
 
@@ -13,6 +13,8 @@ uniform vec4 light_diff;
 uniform vec4 light_spec;
 uniform vec4 light_amb;
 
+
+
 uniform vec4 mat_diff;
 uniform vec4 mat_spec;
 uniform float mat_spec_exp;
@@ -25,23 +27,19 @@ out vec4 fragColor;
 
 void main()
 {
-#ifdef SOLUTION_CODE
+
     vec3 norm = normalize(_normal);
     vec3 light_dir = normalize(light_pos.a > 0.0 ? light_pos.xyz - _position.xyz : light_pos.xyz);
     float cos_theta = max(dot(norm, light_dir), 0.0);
 
     // ambient and diffuse part
-    vec4 color = mat_diff*(light_amb + cos_theta*light_diff);
+    vec4 color = mat_diff*(cos_theta*light_diff);
 
-    // specular part
-    vec3 refl_dir = reflect(normalize(_position.xyz), norm);
-    float r_dot_l = max(dot(refl_dir, light_dir), 0.0);
-    color += mat_spec*pow(r_dot_l, max(mat_spec_exp, 1.0))*light_spec;
+// specular part
+//    vec3 refl_dir = reflect(normalize(_position.xyz), norm);
+//    float r_dot_l = max(dot(refl_dir, light_dir), 0.0);
+//    color += mat_spec*pow(r_dot_l, max(mat_spec_exp, 1.0))*light_spec;
 
-    // texturing
-    fragColor = vec4(_texcoord.x,_texcoord.y,_texcoord.z, 1.0f);
+    fragColor = color;
 
- #else
-    fragColor = _color * texture(tex, _texcoord.xy);
-#endif
 }

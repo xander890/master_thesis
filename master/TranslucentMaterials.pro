@@ -131,4 +131,6 @@ lib02564/Mesh/TriangleMesh.cpp
 RESOURCES += \
     TranslucentMaterials.qrc
 
-OTHER_FILES += shaders/TranslucentMaterials/*
+OTHER_FILES += shaders/TranslucentMaterials/* \
+    shaders/TranslucentMaterials/red.frag \
+    shaders/TranslucentMaterials/red.vert

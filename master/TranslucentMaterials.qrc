@@ -43,5 +43,7 @@
         <file>shaders/TranslucentMaterials/wire.vert</file>
         <file>shaders/TranslucentMaterials/translucent.frag</file>
         <file>shaders/TranslucentMaterials/translucent.vert</file>
+        <file>shaders/TranslucentMaterials/red.frag</file>
+        <file>shaders/TranslucentMaterials/red.vert</file>
     </qresource>
 </RCC>

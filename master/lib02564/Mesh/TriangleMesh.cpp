@@ -245,6 +245,10 @@ void TriangleMesh::map_data_to_shader_vertex_attributes(GLGraphics::ShaderProgra
         GLint location;
         if (shader != NULL){
             location = shader->get_attrib_location(names[i].c_str());
+            if(location == -1)
+            {
+                location = ShaderProgramDraw::get_generic_attrib_location(names[i].c_str());
+            }
         } else {
             location = ShaderProgramDraw::get_generic_attrib_location(names[i].c_str());
         }

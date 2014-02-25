@@ -17,6 +17,7 @@ namespace GLGraphics
         {}
 
         void addLight(Light& l);
+        void clearLights();
         static const int MAX_LIGHTS = 50;
         void loadLights(ShaderProgramDraw & shader);
         void reloadLights();
