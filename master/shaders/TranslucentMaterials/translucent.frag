@@ -5,6 +5,7 @@ uniform sampler2D tex;  // Uniform specifying the texture unit
 in vec3 _normal;
 in vec3 _texcoord;
 in vec3 _light_pos;
+in vec4 _transl;
 
 uniform vec4 light_pos[50];
 uniform vec4 light_diff[50];
@@ -32,4 +33,5 @@ void main()
 
     // specular part
     fragColor = color;
+    fragColor = 10.0*(_transl);
 }

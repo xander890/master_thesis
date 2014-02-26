@@ -22,9 +22,16 @@ public:
      CGLA::Vec3f reducedExtinctionCoefficent;
      CGLA::Vec3f transmissionCoefficient;
      CGLA::Vec3f reducedScatteringCoefficient;
+     float T12;
+     float T21;
+     float C_s;
+     float C_s_inv;
+     float C_E;
 
 private:
     void computeCoefficients();
+    float C_Sigma(float ni);
+    float C_e(float ni);
 };
 
 }

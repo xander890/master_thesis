@@ -32,7 +32,7 @@
 #include <GLGraphics/light.h>
 
 #include "Mesh/proceduralsphere.h"
-
+#include "GLGraphics/dipolecpu.h"
 using namespace std;
 using namespace CGLA;
 using namespace GLGraphics;
@@ -101,6 +101,35 @@ static vector<ThreeDObject> objects;
         objects[i].display(shader_prog);
 }
 
+void TranslucentMaterials::draw_sphere_translucent(ShaderProgramDraw& shader_prog, Vec3f position, Mesh::Material m, float radius, int LOD)
+{
+    static bool was_here = false;
+    static Mesh::TriangleMesh me;
+    if(!was_here)
+    {
+        vector<Vec3f> vertices;
+        vector<Vec3f> normals;
+        vector<Vec2f> texcoord;
+
+        sphere(1.0f, LOD,LOD,vertices,normals,texcoord);
+        me.load_external(vertices,normals, texcoord, m ,GL_TRIANGLE_STRIP);
+        vector<Vec4f> colors(vertices.size());
+        DipoleCPU dip;
+        dip.light = manager[0];
+        dip.material = Mesh::ScatteringMaterial(m,1.0f,Vec3f(0.1),Vec3f(1.0),Vec3f(0.0f));
+        cout << "Calculating translucency!" << endl;
+        dip.calculate(vertices,normals,colors);
+        me.add("translucent", colors);
+        me.build_vertex_array_object();
+        was_here =true;
+    }
+    shader_prog.set_model_matrix(translation_Mat4x4f(position) * scaling_Mat4x4f(Vec3f(radius)));
+    set_light_and_camera(shader_prog);
+    me.render(shader_prog);
+    check_gl_error();
+
+}
+
 void TranslucentMaterials::draw_sphere(ShaderProgramDraw& shader_prog, Vec3f position, Mesh::Material m, float radius, int LOD)
 {
     static bool was_here = false;
@@ -113,7 +142,6 @@ void TranslucentMaterials::draw_sphere(ShaderProgramDraw& shader_prog, Vec3f pos
 
         sphere(1.0f, LOD,LOD,vertices,normals,texcoord);
         me.load_external(vertices,normals, texcoord, m ,GL_TRIANGLE_STRIP);
-
         was_here =true;
     }
     shader_prog.set_model_matrix(translation_Mat4x4f(position) * scaling_Mat4x4f(Vec3f(radius)));
@@ -237,13 +265,13 @@ void TranslucentMaterials::render_direct(bool reload)
     set_light_and_camera(object_shader);
 
     Mesh::Material m;
-    draw_sphere(object_shader, Vec3f(0.0f, 20.0f, 30.0f), m, 2.0f, 300);
+    draw_sphere(object_shader, Vec3f(0.0f, 20.0f, 30.0f), m, 2.0f,20);
+    draw_objects(object_shader);
 
     t_shader.use();
     set_light_and_camera(t_shader);
 
-    draw_sphere(t_shader, Vec3f(0.0f, 0.0f, 30.0f), m, 2.0f, 300);
-    draw_objects(t_shader);
+    draw_sphere_translucent(t_shader, Vec3f(0.0f, 0.0f, 30.0f), m, 2.0f, 20);
 
     red_shader.use();
     set_light_and_camera(red_shader);
@@ -286,12 +314,12 @@ void TranslucentMaterials::render_direct_wireframe(bool reload)
     //terra.draw(wire_shader);
     draw_objects(wire_shader);
     Mesh::Material m;
-    draw_sphere(wire_shader, Vec3f(5.0f, 0.0f, 30.0f), m, 2.0f, 300);
+    draw_sphere(wire_shader, Vec3f(5.0f, 0.0f, 30.0f), m, 2.0f, 100);
 
 
 
 
-    draw_sphere(wire_shader, Vec3f(0.0f, 0.0f, 30.0f), m, 2.0f, 300);
+    draw_sphere(wire_shader, Vec3f(0.0f, 0.0f, 30.0f), m, 2.0f, 100);
     //draw_trees(wire_shader);
 }
 
@@ -637,7 +665,7 @@ TranslucentMaterials::TranslucentMaterials( const QGLFormat& format, QWidget* pa
     static const Vec4f light_specular(0.6f,0.6f,0.3f,0.6f);
     static const Vec4f light_diffuse(0.6f,0.6f,0.3f,0.6f);
 
-    Vec4f light_position(10.f,10.f,30.0f,1);
+    Vec4f light_position(0.f,0.f,35.0f,1);
 
     Light mainLight (light_position, light_diffuse, light_specular, false);
     manager.addLight(mainLight);
