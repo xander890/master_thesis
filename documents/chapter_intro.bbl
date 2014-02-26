@@ -1,0 +1,67 @@
+\begin{thebibliography}{7}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Donner and Jensen(2005)]{Donner:2005:LDM:1186822.1073308}
+Craig Donner and Henrik~Wann Jensen.
+\newblock Light diffusion in multi-layered translucent materials.
+\newblock In \emph{ACM SIGGRAPH 2005 Papers}, SIGGRAPH '05, pages 1032--1039,
+  New York, NY, USA, 2005. ACM.
+\newblock URL \url{http://doi.acm.org/10.1145/1186822.1073308}.
+
+\bibitem[Frisvad et~al.(2013)Frisvad, Hachisuka, and Kjeldsen]{IMM2013-06646}
+J.~R. Frisvad, T.~Hachisuka, and T.~K. Kjeldsen.
+\newblock Directional dipole for subsurface scattering in translucent
+  materials.
+\newblock Technical report, DTU Compute, 2013.
+\newblock URL \url{http://www2.imm.dtu.dk/pubdb/p.php?6646}.
+\newblock Unpublished manuscript.
+
+\bibitem[Habel et~al.(2013)Habel, Christensen, and Jarosz]{CGF:CGF12148}
+Ralf Habel, Per~H. Christensen, and Wojciech Jarosz.
+\newblock Photon beam diffusion: A hybrid monte carlo method for subsurface
+  scattering.
+\newblock \emph{Computer Graphics Forum}, 32\penalty0 (4):\penalty0 27--37,
+  2013.
+\newblock URL \url{http://dx.doi.org/10.1111/cgf.12148}.
+
+\bibitem[Jensen and Buhler(2002)]{Jensen:2002:RHR:566654.566619}
+Henrik~Wann Jensen and Juan Buhler.
+\newblock A rapid hierarchical rendering technique for translucent materials.
+\newblock \emph{ACM Trans. Graph.}, 21\penalty0 (3):\penalty0 576--581, July
+  2002.
+\newblock URL \url{http://doi.acm.org/10.1145/566654.566619}.
+
+\bibitem[Jensen et~al.(2001)Jensen, Marschner, Levoy, and
+  Hanrahan]{Jensen:2001:PMS:383259.383319}
+Henrik~Wann Jensen, Stephen~R. Marschner, Marc Levoy, and Pat Hanrahan.
+\newblock A practical model for subsurface light transport.
+\newblock In \emph{Proceedings of the 28th Annual Conference on Computer
+  Graphics and Interactive Techniques}, SIGGRAPH '01, pages 511--518, New York,
+  NY, USA, 2001. ACM.
+\newblock URL \url{http://doi.acm.org/10.1145/383259.383319}.
+
+\bibitem[Pharr and Hanrahan(2000)]{Pharr:2000:MCE:344779.344824}
+Matt Pharr and Pat Hanrahan.
+\newblock Monte carlo evaluation of non-linear scattering equations for
+  subsurface reflection.
+\newblock In \emph{Proceedings of the 27th Annual Conference on Computer
+  Graphics and Interactive Techniques}, SIGGRAPH '00, pages 75--84, New York,
+  NY, USA, 2000. ACM Press/Addison-Wesley Publishing Co.
+\newblock URL \url{http://dx.doi.org/10.1145/344779.344824}.
+
+\bibitem[Wang et~al.(2010)Wang, Wang, Holzschuch, Subr, Yong, and
+  Guo]{journals/cgf/WangWHSYG10}
+Yajun Wang, Jiaping Wang, Nicolas Holzschuch, Kartic Subr, Jun-Hai Yong, and
+  Baining Guo.
+\newblock Real-time rendering of heterogeneous translucent objects with
+  arbitrary shapes.
+\newblock \emph{Comput. Graph. Forum}, 29\penalty0 (2):\penalty0 497--506,
+  2010.
+\newblock URL
+  \url{http://dblp.uni-trier.de/db/journals/cgf/cgf29.html#WangWHSYG10}.
+
+\end{thebibliography}

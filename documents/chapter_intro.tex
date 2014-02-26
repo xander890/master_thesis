@@ -7,11 +7,11 @@
 %\usepackage[utf8]{inputenc}
 %\usepackage[T1]{fontenc}
 %\usepackage{url}
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref}
 \usepackage{pdfpages}
 \usepackage{placeins}
 \usepackage{graphicx}
-\usepackage{caption}
+\usepackage[font=small,labelfont=bf]{caption}
 \usepackage{subfig}
 
 %\usepackage{subcaption}
@@ -25,8 +25,9 @@
 \usepackage{titlesec}	
 \usepackage{amsfonts}
 \usepackage{amssymb}
-
+\usepackage[comma,authoryear]{natbib}
 \usepackage{epstopdf}
+
 
 %\titlespacing*{\chapter}{0pt}{-10pt}{20pt}
 %\titleformat{\chapter}[display]{\normalfont\huge\bfseries}{}{35pt}{}
@@ -41,31 +42,42 @@
 \author{Alessandro Dal Corso}
 \maketitle
 \section{Introduction (draft)}
-\emph{Subsurface scattering} (SS) is a physical phenomenon that naturally occurs in a wide range of natural materials. Some of the materials that exhibit a strong SS effect in everyday life are milk, human skin and marble. Subsurface scattering is that phenomenon that occurs when light is partially absorbed by an object, bounces inside ("scatters") and finally exits the surface on another point of the material. The phenomenon that results is generally known as \emph{translucency}. We can see some examples of translucency in Figure \ref{fig:ex1}
+\emph{Subsurface scattering} (SS) is a physical phenomenon that naturally occurs in a wide range of natural materials. Some of the materials that exhibit a strong SS effect in everyday life are milk, human skin and marble. Subsurface scattering is that phenomenon that occurs when light is partially absorbed by an object, bounces inside ("scatters") and finally exits the surface on another point of the material (see Figure \ref{fig:ssdiagram}). The phenomenon that results is generally known as \emph{translucency}. We can see some examples of translucency in Figure \ref{fig:ex1}
 
-Since the beginning of computer graphics, various attempts have been performed in order to physically model subsurface scattering. Some of these models involve physical simulations of the light entering the medium, other focus on approximating the diffusion of light within the material using an analytical approach.
+\begin{figure}[here]
+\centering
+\includegraphics[width=0.8\textwidth]{images/diagram}
+\caption{Diagram of subsurface scattering. Most of the incoming light gets reflected, but some of it enters the material and leaves it at a different point.}
+\label{fig:ssdiagram}
+\end{figure}
+
+Since the beginning of computer graphics, various attempts have been performed in order to physically model subsurface scattering. Some of these models involve physical simulations of the light entering the medium \citep{Pharr:2000:MCE:344779.344824,CGF:CGF12148}, other focus on approximating the diffusion of light within the material using an analytical approach \citep{Jensen:2001:PMS:383259.383319}.
  
+The first model that did not involved a physical simulation was proposed by \cite{Jensen:2001:PMS:383259.383319}, as an approximation of the radiative transfer equation. This approximation has then been exploited by different authors, in order to account for multi-layered materials \citep{Donner:2005:LDM:1186822.1073308}, heterogeneous materials \citep{journals/cgf/WangWHSYG10} and thin surfaces\citep{journals/cgf/WangWHSYG10}. A recent analytical approximation, proposed by \cite{IMM2013-06646}, extends the approximation in order to account for the directionality of the incoming light. 
 
-The first model that did not involved a physical simulation was proposed by Jensen, as an approximation of the radiative diffusion equation. A radiative diffusion equation analytical approximation has then been exploited by different authors, in order to account for multi-layered materials, highly absorbing materials and thin surfaces. A recent analytical approximation, proposed by Frisvad, extends the approximation in order to account for the directionality of the incoming light. 
+In recent years, with the advent of programmable graphics cards (GPU), it has become possible to exploit these algorithms and bring them to interactive frame rates, and in some cases even to real time rendering. \cite{Jensen:2002:RHR:566654.566619} were the first to propose an interactive technique for rendering subsurface scattering using an octree. More recently, several methods have been proposed, including image-based splats, sum-of-Gaussians filtering, and grid-propagation based methods.
 
-
-In recent years, with the advent of programmable graphics cards (GPU), it has become possible to exploit these algorithms and bring them to interactive frame rates, and in some cases even to real time rendering. Jensen and Buhler were the first to propose an interactive technique for rendering subsurface scattering using an octree. More recently, several methods have been proposed, including image-based splats, sum-of-Gaussians filtering, and grid-propagation based methods.
-
-In this thesis we want to employ some cutting edge GPU techniques, with the aid of the programmable pipeline, to implement Frisvad directional model in a real-time fashion. This method should achieve real time results (i.e. in the range of 30 to 60 frames per second) for a wide range of natural materials.
+In this thesis we want to employ some cutting edge GPU techniques, with the aid of the programmable pipeline, to implement \citeauthor{IMM2013-06646} directional model in a real-time fashion. This method should achieve real time results (i.e. in the range of 30 to 60 frames per second) for a wide range of natural materials.
 
 \begin{figure}
 \centering
 \subfloat{
   \includegraphics[width=0.3 \linewidth]{images/milk}
-  \label{fig:or}
+  \label{fig:ss1}
 }
 \subfloat{
   \includegraphics[width=0.3 \linewidth]{images/leaves}
-  \label{fig:ex}
+  \label{fig:ss2}
 } 
-\caption{Some examples of translucent materials: milk and leaves.}
+\subfloat{
+  \includegraphics[width=0.3 \linewidth]{images/candle}
+  \label{fig:ss3}
+} 
+\caption{Some examples of translucent materials: milk, leaves and a candle. Images courtesy of Wikimedia Commons.}
 \label{fig:ex1}
 \end{figure}
 \FloatBarrier
 
+\bibliographystyle{alexnat}
+\bibliography{thesis}
 \end{document}

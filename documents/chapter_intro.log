@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.10.2)  19 FEB 2014 21:28
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.10.2)  26 FEB 2014 15:56
 entering extended mode
 **chapter_intro.tex
 (C:\Users\xander890\Documents\GitHub\master_thesis\documents\chapter_intro.tex
@@ -378,8 +378,13 @@ LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\amssymb.sty"
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
-)
-("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\epstopdf.sty"
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\natbib\natbib.sty"
+Package: natbib 2010/09/13 8.31b (PWD, AO)
+\bibhang=\skip58
+\bibsep=\skip59
+LaTeX Info: Redefining \cite on input line 694.
+\c@NAT@ctr=\count133
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\epstopdf.sty"
 Package: epstopdf 2010/02/09 v2.5 Conversion with epstopdf on the fly (HO)
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\epstopdf-base.sty"
@@ -393,48 +398,48 @@ Package grfext Info: Graphics extension search list:
 (grfext)             \AppendGraphicsExtensions on input line 452.
 ))
 (C:\Users\xander890\Documents\GitHub\master_thesis\documents\chapter_intro.aux)
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
 
 ("C:\Program Files\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count133
+\scratchcounter=\count134
 \scratchdimen=\dimen139
 \scratchbox=\box36
-\nofMPsegments=\count134
-\nofMParguments=\count135
+\nofMPsegments=\count135
+\nofMParguments=\count136
 \everyMPshowfont=\toks27
-\MPscratchCnt=\count136
+\MPscratchCnt=\count137
 \MPscratchDim=\dimen140
-\MPnumerator=\count137
-\makeMPintoPDFobject=\count138
+\MPnumerator=\count138
+\makeMPintoPDFobject=\count139
 \everyMPtoPDFconversion=\toks28
 )
 \AtBeginShipoutBox=\box37
-Package hyperref Info: Link coloring OFF on input line 37.
+Package hyperref Info: Link coloring OFF on input line 38.
  ("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 
 ("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\gettitlestring.sty"
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count139
+\c@section@level=\count140
 )
-LaTeX Info: Redefining \ref on input line 37.
-LaTeX Info: Redefining \pageref on input line 37.
-LaTeX Info: Redefining \nameref on input line 37.
+LaTeX Info: Redefining \ref on input line 38.
+LaTeX Info: Redefining \pageref on input line 38.
+LaTeX Info: Redefining \nameref on input line 38.
 
 (C:\Users\xander890\Documents\GitHub\master_thesis\documents\chapter_intro.out)
 (C:\Users\xander890\Documents\GitHub\master_thesis\documents\chapter_intro.out)
@@ -445,55 +450,72 @@ Package caption Info: float package is loaded.
 Package caption Info: listings package is loaded.
 Package caption Info: wrapfig package is loaded.
 Package caption Info: End \AtBeginDocument code.
-\c@lstlisting=\count140
-LaTeX Font Info:    Try loading font information for U+msa on input line 43.
+\c@lstlisting=\count141
+LaTeX Font Info:    Try loading font information for U+msa on input line 44.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 43.
+LaTeX Font Info:    Try loading font information for U+msb on input line 44.
  ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-<images/milk.jpg, id=8, 602.25pt x 803.0pt>
+<images/diagram.pdf, id=9, 536.18213pt x 281.24902pt>
+File: images/diagram.pdf Graphic file (type pdf)
+ <use images/diagram.pdf>
+Package pdftex.def Info: images/diagram.pdf used on input line 49.
+(pdftex.def)             Requested size: 362.37569pt x 190.08809pt.
+ [1
+
+{C:/Users/xander890/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map} <C:/Users/xander890/Documents/GitHub/master_thesi
+s/documents/images/diagram.pdf>]
+<images/milk.jpg, id=50, 602.25pt x 803.0pt>
 File: images/milk.jpg Graphic file (type jpg)
  <use images/milk.jpg>
-Package pdftex.def Info: images/milk.jpg used on input line 61.
+Package pdftex.def Info: images/milk.jpg used on input line 67.
 (pdftex.def)             Requested size: 135.89174pt x 181.18182pt.
- <images/leaves.jpg, id=9, 334.24875pt x 501.875pt>
+ <images/leaves.jpg, id=51, 334.24875pt x 445.665pt>
 File: images/leaves.jpg Graphic file (type jpg)
 
 <use images/leaves.jpg>
-Package pdftex.def Info: images/leaves.jpg used on input line 65.
-(pdftex.def)             Requested size: 135.89174pt x 204.04703pt.
- [1
+Package pdftex.def Info: images/leaves.jpg used on input line 71.
+(pdftex.def)             Requested size: 135.89174pt x 181.19376pt.
+ <images/candle.jpg, id=52, 722.7pt x 963.6pt>
+File: images/candle.jpg Graphic file (type jpg)
+ <use images/candle.jpg>
+Package pdftex.def Info: images/candle.jpg used on input line 75.
+(pdftex.def)             Requested size: 135.89174pt x 181.18916pt.
 
-{C:/Users/xander890/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 71.
- [2 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/milk.jpg> <C:/Users/xander890/Documents/GitHub/m
-aster_thesis/documents/images/leaves.jpg>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 71.
- (C:\Users\xander890\Documents\GitHub\master_thesis\documents\chapter_intro.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 71.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 71.
+(C:\Users\xander890\Documents\GitHub\master_thesis\documents\chapter_intro.bbl [2 <C:/Users/xander890/Documents/GitHub/m
+aster_thesis/documents/images/milk.jpg> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/leaves.jpg> 
+<C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/candle.jpg>])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 83.
+ [3]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 83.
+
+(C:\Users\xander890\Documents\GitHub\master_thesis\documents\chapter_intro.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 83.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 83.
 Package rerunfilecheck Info: File `chapter_intro.out' has not changed.
 (rerunfilecheck)             Checksum: 26B3B91100839AB9B1ADBB30FC6A9398;58.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 71.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 83.
  ) 
 Here is how much of TeX's memory you used:
- 10052 strings out of 493921
- 148228 string characters out of 3147270
- 332313 words of memory out of 3000000
- 13210 multiletter control sequences out of 15000+200000
- 10550 words of font info for 39 fonts, out of 3000000 for 9000
+ 10460 strings out of 493921
+ 153726 string characters out of 3147270
+ 339727 words of memory out of 3000000
+ 13585 multiletter control sequences out of 15000+200000
+ 18443 words of font info for 68 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 37i,7n,39p,589b,374s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public
-/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Program Files/MiKTeX 2.
-9/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on chapter_intro.pdf (2 pages, 155719 bytes).
+ 37i,7n,39p,646b,439s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public
+/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2
+.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Pr
+ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfont
+s/cm/cmtt12.pfb>
+Output written on chapter_intro.pdf (3 pages, 402825 bytes).
 PDF statistics:
- 44 PDF objects out of 1000 (max. 8388607)
- 7 named destinations out of 1000 (max. 500000)
- 19 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 108 PDF objects out of 1000 (max. 8388607)
+ 17 named destinations out of 1000 (max. 500000)
+ 29 words of extra memory for PDF output out of 10000 (max. 10000000)
 
