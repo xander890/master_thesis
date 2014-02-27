@@ -34,7 +34,8 @@ HEADERS += exercises/TranslucentMaterials/GBuffer.h\
     lib02564/GLGraphics/light.h \
     lib02564/GLGraphics/lightmanager.h \
     lib02564/Mesh/proceduralsphere.h \
-    lib02564/GLGraphics/dipolecpu.h
+    lib02564/GLGraphics/dipolecpu.h \
+    lib02564/Objects/threedplane.h
 
 SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
         exercises/TranslucentMaterials/ShadowBuffer.cpp\
@@ -44,7 +45,8 @@ SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
     lib02564/GLGraphics/light.cpp \
     lib02564/GLGraphics/lightmanager.cpp \
     lib02564/Mesh/proceduralsphere.cpp \
-    lib02564/GLGraphics/dipolecpu.cpp
+    lib02564/GLGraphics/dipolecpu.cpp \
+    lib02564/Objects/threedplane.cpp
 
 
 HEADERS += lib02564/CGLA/ArithMatFloat.h\
@@ -133,4 +135,6 @@ RESOURCES += \
 
 OTHER_FILES += shaders/TranslucentMaterials/* \
     shaders/TranslucentMaterials/red.frag \
-    shaders/TranslucentMaterials/red.vert
+    shaders/TranslucentMaterials/red.vert \
+    shaders/TranslucentMaterials/plane.vert \
+    shaders/TranslucentMaterials/plane.frag

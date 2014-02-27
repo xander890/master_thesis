@@ -2,7 +2,7 @@
 #include <algorithm>
 
 using namespace CGLA;
-
+using namespace std;
 
 void DipoleCPU::calculate(std::vector<CGLA::Vec3f> &vertices, std::vector<CGLA::Vec3f> &normals, std::vector<CGLA::Vec4f> &resultColors)
 {
@@ -30,7 +30,7 @@ void DipoleCPU::calculate(std::vector<CGLA::Vec3f> &vertices, std::vector<CGLA::
             Vec3f ni = normalize(normals[j]);
             Vec3f wi = normalize(Vec3f(light.position) - xi);
             Vec3f S = S_finite(xi,wi,xo,ni,no);
-            Vec3f Phi = light.diffuseIntensity;
+            Vec3f Phi = Vec3f(light.diffuseIntensity[0]) * dot(wi, ni);
             Vec3f L = 4 * material.C_s_inv * S * Phi;
             resultColors[i] += Vec4f(L,1.0f);
         }
@@ -68,6 +68,28 @@ Vec3f DipoleCPU::S_infinite(Vec3f _x, Vec3f _w, float r, Vec3f _no)
     Vec3f _intermediate = (3 * _oneplus / pow(r,2) + material.transmissionCoefficient) * 3 * _D * dot_x_w;
     Vec3f _secondTerm = -C_E  * (3 * _D * _oneplus * dot_w_n - (_oneplus + _intermediate) * dot_x_n);
     return _initial_coefficients * (_firstTerm + _secondTerm);
+}
+
+void DipoleCPU::calculate2x2Texture(float inclinationDegreesFromNormal, std::vector<float> &texture, int textureSize)
+{
+
+    for(int i = 0; i < textureSize; i++)
+    {
+        float xincm = (((float)i) / textureSize - 0.5) * 4.0; //2cm
+        for(int j = 0; j < textureSize; j++)
+        {
+            float yincm = (((float)j) / textureSize - 0.5) * 4.0; //2cm
+            Vec3f xo = Vec3f(xincm, yincm,0.0f);
+            Vec3f xi = Vec3f(0.0f);
+            Vec3f ni = Vec3f(0.0f,0.0f,1.0f);
+            Vec3f no = Vec3f(0.0f,0.0f,1.0f);
+            float rad = inclinationDegreesFromNormal * M_PI / 180.0f;
+            Vec3f wi = Vec3f(sin(rad),0.0f,cos(rad));
+            float r = S_finite(xi,wi,xo,ni,no)[0];
+            texture[i * textureSize + j] = r;
+            cout << "" << r << endl;
+        }
+    }
 }
 
 Vec3f DipoleCPU::S_finite(Vec3f _xi,Vec3f _wi,Vec3f _xo, Vec3f _nin, Vec3f _no)

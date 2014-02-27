@@ -45,5 +45,7 @@
         <file>shaders/TranslucentMaterials/translucent.vert</file>
         <file>shaders/TranslucentMaterials/red.frag</file>
         <file>shaders/TranslucentMaterials/red.vert</file>
+        <file>shaders/TranslucentMaterials/plane.frag</file>
+        <file>shaders/TranslucentMaterials/plane.vert</file>
     </qresource>
 </RCC>

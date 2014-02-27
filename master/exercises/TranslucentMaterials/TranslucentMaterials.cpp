@@ -30,6 +30,7 @@
 #include <GLGraphics/ShaderProgram.h>
 #include <GLGraphics/lightmanager.h>
 #include <GLGraphics/light.h>
+#include <Objects/threedplane.h>
 
 #include "Mesh/proceduralsphere.h"
 #include "GLGraphics/dipolecpu.h"
@@ -76,7 +77,7 @@ void draw_screen_aligned_quad(ShaderProgram& shader_prog)
 void draw_objects(ShaderProgramDraw& shader_prog)
 {
 
-static vector<ThreeDObject> objects;
+static vector<ThreeDObject*> objects;
     if(objects.empty())
     {
         //objects.push_back(ThreeDObject());
@@ -84,11 +85,18 @@ static vector<ThreeDObject> objects;
         //objects.back().scale(Vec3f(1));
         //objects.back().translate(Vec3f(-14.8718f,-7.91218f,terra.height(-14.8718f,-7.91218f)));
 
-        objects.push_back(ThreeDObject());
-        objects[objects.size()-1].init(objects_path+"cow.obj");
-        objects.back().scale(Vec3f(.5f));
-        objects.back().rotate(Vec3f(1,0,0), 90);
-        objects.back().translate(Vec3f(5,7,terra.height(5,7)+1.6f));
+        ThreeDObject * t = new ThreeDObject();
+        objects.push_back(t);
+        t->init(objects_path+"cow.obj", "cow");
+        t->scale(Vec3f(.5f));
+        t->rotate(Vec3f(1,0,0), 90);
+        t->translate(Vec3f(5,7,terra.height(5,7)+1.6f));
+
+        ThreeDPlane *pl = new ThreeDPlane(manager[0]);
+        objects.push_back(pl);
+        pl->init(" ", "plane");
+        pl->scale(Vec3f(3.0f));
+        pl->translate(Vec3f(0.0f,0.0f,30.5f));
 
         //objects.push_back(ThreeDObject());
         //objects[objects.size()-1].init(objects_path+"portal.obj");
@@ -98,9 +106,54 @@ static vector<ThreeDObject> objects;
 
 
     for(unsigned int i=0;i < objects.size();++i)
-        objects[i].display(shader_prog);
+    {
+        ThreeDObject * d = objects[i];
+        d->display(shader_prog);
+    }
 }
+/*
+void TranslucentMaterials::draw_plane(ShaderProgramDraw& shader_prog, Vec3f position, float size, vector<float> texture, int textureSize)
+{
+    static bool was_here = false;
+    static Mesh::TriangleMesh me;
+    static GLuint tex = 0;
 
+    if(!was_here)
+    {
+        vector<Vec3f> vertices;
+        vector<Vec3f> normals;
+        vector<Vec2f> texcoord;
+
+        vertices.push_back(Vec3f(-1.f,1.f,0.0f));
+        vertices.push_back(Vec3f(-1.f,-1.f,0.0f));
+        vertices.push_back(Vec3f(1.f,1.f,0.0f));
+        vertices.push_back(Vec3f(1.f,-1.f,0.0f));
+
+        for(int i = 0; i < 4; i++) normals.push_back(Vec3f(0.0f,0.0f,1.0f));
+        for(int i = 0; i < 4; i++) texcoord.push_back(Vec2f((vertices[i][0] + 1.0f)*0.5f,(vertices[i][1] + 1.0f)*0.5f));
+
+        me.load_external(vertices,normals,texcoord,Mesh::Material(),GL_TRIANGLE_STRIP);
+
+        int MMW = textureSize;
+        int MMH = textureSize;
+        glGenTextures(1, &tex);
+        glBindTexture(GL_TEXTURE_2D, tex);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, MMW, MMH, 0, GL_RED, GL_FLOAT, &texture[0]);
+        glGenerateMipmap(GL_TEXTURE_2D);
+
+        was_here = true;
+    }
+    shader_prog.use_texture(GL_TEXTURE_2D, "maintexture", tex);
+    shader_prog.set_model_matrix(translation_Mat4x4f(position) * scaling_Mat4x4f(Vec3f(size)));
+    set_light_and_camera(shader_prog);
+    me.render(shader_prog);
+    check_gl_error();
+}
+*/
 void TranslucentMaterials::draw_sphere_translucent(ShaderProgramDraw& shader_prog, Vec3f position, Mesh::Material m, float radius, int LOD)
 {
     static bool was_here = false;
@@ -111,7 +164,7 @@ void TranslucentMaterials::draw_sphere_translucent(ShaderProgramDraw& shader_pro
         vector<Vec3f> normals;
         vector<Vec2f> texcoord;
 
-        sphere(1.0f, LOD,LOD,vertices,normals,texcoord);
+        sphere(1.0f, LOD/2,LOD,vertices,normals,texcoord);
         me.load_external(vertices,normals, texcoord, m ,GL_TRIANGLE_STRIP);
         vector<Vec4f> colors(vertices.size());
         DipoleCPU dip;
@@ -246,6 +299,8 @@ void TranslucentMaterials::render_direct(bool reload)
 
     static ShaderProgramDraw red_shader(shader_path, "red.vert", "", "red.frag");
 
+    static ShaderProgramDraw plane_shader(shader_path, "plane.vert", "", "plane.frag");
+
     if(reload)
     {
         terrain_shader.reload();
@@ -259,33 +314,28 @@ void TranslucentMaterials::render_direct(bool reload)
     terrain_shader.use();
     set_light_and_camera(terrain_shader);
 
-    //terra.draw(terrain_shader);
+    terra.draw(terrain_shader);
 
     object_shader.use();
     set_light_and_camera(object_shader);
 
     Mesh::Material m;
-    draw_sphere(object_shader, Vec3f(0.0f, 20.0f, 30.0f), m, 2.0f,20);
-    draw_objects(object_shader);
+    //draw_sphere(object_shader, Vec3f(0.0f, 20.0f, 30.0f), m, 2.0f,20);
+    //draw_objects(object_shader);
 
-    t_shader.use();
-    set_light_and_camera(t_shader);
+//    t_shader.use();
+//    set_light_and_camera(t_shader);
 
-    draw_sphere_translucent(t_shader, Vec3f(0.0f, 0.0f, 30.0f), m, 2.0f, 20);
+    //draw_sphere_translucent(t_shader, Vec3f(0.0f, 0.0f, 30.0f), m, 2.0f, 20);
 
     red_shader.use();
     set_light_and_camera(red_shader);
 
-    draw_sphere(red_shader, Vec3f(manager[0].position), m , 0.3f, 10);
+    //draw_sphere(red_shader, Vec3f(manager[0].position), m , 0.3f, 10);
 
-#ifdef SOLUTION_CODE
-    //instanced_object_shader.use();
-    //set_light_and_camera(instanced_object_shader);
-    //draw_trees(instanced_object_shader);
-#else
-    //draw_trees(object_shader);
-#endif
-    check_gl_error();
+    plane_shader.use();
+    set_light_and_camera(plane_shader);
+    draw_objects(plane_shader);
 }
 
 void TranslucentMaterials::render_direct_wireframe(bool reload)

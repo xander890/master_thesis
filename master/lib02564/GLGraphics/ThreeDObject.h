@@ -15,24 +15,25 @@
 #include "ShaderProgram.h"
 #include <Mesh/TriangleMesh.h>
 #include <string>
-
 namespace GLGraphics
 {
 
 class ThreeDObject
 {
 
-
+protected:
     CGLA::Vec3f translation_vector;
     CGLA::Vec3f rotation_axis;
     float rotation_angle;
     CGLA::Vec3f scaling_factors;
+    std::string name;
 
 public:
+    Mesh::TriangleMesh mesh;
 
     ThreeDObject();
-    Mesh::TriangleMesh mesh;
-    bool init(std::string filename);
+    virtual bool init(std::string filename, std::string name);
+    virtual void display(ShaderProgramDraw& shader);
 
     void rotate(const CGLA::Vec3f& axis, float angle)
     {
@@ -50,7 +51,6 @@ public:
         scaling_factors  = scale;
     }
 
-    void display(ShaderProgramDraw&);
 
 
 };

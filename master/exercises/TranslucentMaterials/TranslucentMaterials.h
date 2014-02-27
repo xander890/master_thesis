@@ -39,6 +39,7 @@ protected:
     void render_deferred_ssao(bool reload);
     void draw_sphere(GLGraphics::ShaderProgramDraw& shader_prog, CGLA::Vec3f position, Mesh::Material m, float radius, int LOD);
     void draw_sphere_translucent(GLGraphics::ShaderProgramDraw& shader_prog, CGLA::Vec3f position, Mesh::Material m, float radius, int LOD);
+    void draw_plane(GLGraphics::ShaderProgramDraw& shader_prog, CGLA::Vec3f position, float size, std::vector<float> texture, int textureSize);
 
 #ifdef SOLUTION_CODE
     void render_indirect();

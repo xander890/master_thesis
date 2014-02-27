@@ -17,19 +17,20 @@ using namespace std;
 
 namespace GLGraphics
 {	
-	
+
     ThreeDObject::ThreeDObject():
     translation_vector(0), rotation_axis(1,0,0),
-	rotation_angle(0), scaling_factors(1,1,1)
+    rotation_angle(0), scaling_factors(1,1,1), mesh(Mesh::TriangleMesh())
     {
 	}
 
-    bool ThreeDObject::init(std::string filename){
+    bool ThreeDObject::init(std::string filename, std::string name){
+        this->name = name;
         return mesh.load(filename, true);
     }
 
-	
-	void ThreeDObject::display(ShaderProgramDraw& shader_prog)
+
+    void ThreeDObject::display(ShaderProgramDraw& shader_prog)
 	{
         Quatf q;
         q.make_rot(rotation_angle*M_PI/180.0, rotation_axis);
@@ -39,7 +40,7 @@ namespace GLGraphics
         *q.get_Mat4x4f()
         *scaling_Mat4x4f(scaling_factors);
         shader_prog.set_model_matrix(M);
-        mesh.render(shader_prog);
+        this->mesh.render(shader_prog);
 	}
 	
 
