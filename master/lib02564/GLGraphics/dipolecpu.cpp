@@ -44,7 +44,7 @@ void DipoleCPU::calculate(std::vector<CGLA::Vec3f> &vertices, std::vector<CGLA::
 Vec3f DipoleCPU::S_infinite(Vec3f _x, Vec3f _w, float r, Vec3f _no)
 {
 
-    if( r == 0 || r > 2.0f)
+    if( r == 0)
     {
         return Vec3f(0.0f);
     }
@@ -102,7 +102,7 @@ Vec3f DipoleCPU::S_finite(Vec3f _xi,Vec3f _wi,Vec3f _xo, Vec3f _nin, Vec3f _no)
 
     Vec3f _x = _xo - _xi;
     float r = length(_x);
-    if(r == 0.0 || r > 2.0f)
+    if(r == 0.0)
     {
         return Vec3f(0.0);
     }

@@ -25,7 +25,43 @@ float Terrain::height(float _x, float _y) const
 {
     float x = delta*_x+x0;
     float y = delta*_y+y0;
-    return A;
+    return A * turbulence(x,y);
+}
+
+float Terrain::turbulence(float x, float y) const
+{
+    float scale=1.0;
+    float t=0;
+    for(int i=0;i<10;++i,scale *= 2.0)
+        t+=abs(noise(x*scale,y*scale))/scale;
+    return t;
+}
+
+float Terrain::noise(float x, float y) const
+{
+    static const int NSINES = 40;
+    static vector<Vec2f> freqs(NSINES);
+    static bool was_here = false;
+    if(!was_here)
+    {
+        gel_srand(0);
+        was_here = true;
+        for(int i=0;i<NSINES;++i)
+        {
+            Vec2f v(0);
+            float l;
+            do {
+                v = 2.0*Vec2f(gel_rand(), gel_rand())/GEL_RAND_MAX-Vec2f(1);
+                l = length(v);
+            }
+            while(l<0.5 || l>1.0);
+            freqs[i] = v;
+        }
+    }
+    float h=0;
+    for(int i=0;i<NSINES;++i)
+        h += sin(dot(Vec2f(x,y), freqs[i]));
+    return (1.0/NSINES)*h;
 }
 
 Vec3f Terrain::normal(float x, float y) const 

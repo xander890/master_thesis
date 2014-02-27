@@ -36,6 +36,8 @@ public:
 	
 	/// Draw using OpenGL: Assumes a reasonable shading program is used.
 	void draw(GLGraphics::ShaderProgramDraw&);
+    float noise(float x, float y) const;
+    float turbulence(float x, float y) const;
 };
 
 #endif

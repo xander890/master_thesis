@@ -96,7 +96,7 @@ static vector<ThreeDObject*> objects;
         objects.push_back(pl);
         pl->init(" ", "plane");
         pl->scale(Vec3f(3.0f));
-        pl->translate(Vec3f(0.0f,0.0f,30.5f));
+        pl->translate(Vec3f(0.0f,0.0f,terra.height(0,0)+2.6f));
 
         //objects.push_back(ThreeDObject());
         //objects[objects.size()-1].init(objects_path+"portal.obj");

@@ -9,7 +9,7 @@ using namespace GLGraphics;
 
 void ThreeDPlane::display(ShaderProgramDraw & shader)
 {
-    shader.use_texture(GL_TEXTURE_2D, "maintexture", tex);
+    shader.use_texture(GL_TEXTURE_2D, "maintexture", tex, tex);
     ThreeDObject::display(shader);
 }
 
@@ -42,8 +42,8 @@ bool ThreeDPlane::init(std::string filename, std::string name)
     DipoleCPU dip;
     dip.light = light;
     dip.material = Mesh::ScatteringMaterial();
-    //dip.calculate2x2Texture(0.0f,texarray,256);
-    for(int i = 0; i < 256*256; i++) texarray[i] = 0.0f;
+    dip.calculate2x2Texture(0.0f,texarray,256);
+//    for(int i = 0; i < 256*256; i++) texarray[i] = (i*1.0)/(256*256);
 
     glGenTextures(1, &tex);
     glBindTexture(GL_TEXTURE_2D, tex);
