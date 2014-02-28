@@ -1,7 +1,0 @@
-Stuff to do
-
-OpenGL HUD
-Implement Jeppe Dipole (CPU)
-	-How does if work with spectral different input (dr)?
-	- Same point?
-	- Deal with sampling?
