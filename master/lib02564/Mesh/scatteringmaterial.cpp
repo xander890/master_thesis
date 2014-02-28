@@ -5,7 +5,7 @@ namespace Mesh{
     ScatteringMaterial::ScatteringMaterial() : Material()
     {
         this->indexOfRefraction = 1.0f;
-        this->absorption = Vec3f(0.1f);
+        this->absorption = Vec3f(0.01f);
         this->scattering = Vec3f(1.0f);
         this->meancosine = Vec3f(0.0f);
         computeCoefficients();
@@ -34,7 +34,7 @@ namespace Mesh{
     void ScatteringMaterial::computeCoefficients()
     {
         this->reducedScatteringCoefficient = scattering * (Vec3f(1.0f) - meancosine);
-        this->reducedExtinctionCoefficent = reducedScatteringCoefficient * absorption;
+        this->reducedExtinctionCoefficent = reducedScatteringCoefficient + absorption;
         this->D = Vec3f(1.0f) / (3.f * reducedExtinctionCoefficent);
         this->transmissionCoefficient = Vec3f(
                     (float)sqrt(3*absorption[0]*reducedExtinctionCoefficent[0]),

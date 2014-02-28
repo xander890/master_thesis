@@ -6,7 +6,7 @@ from matplotlib.widgets import Slider, Button, RadioButtons
 
 # Parameter declaration, assuming not separated light on wavelength.
 ni = 1.0
-sigma_a =  0.01
+sigma_a =  0.1
 sigma_s = 1.0
 g = 0.0
 l = None
@@ -98,7 +98,17 @@ def S_finite(xi, wi, xo, nin, no):
 	xv = xi + 2 * A * de * nistar
 	dv = norm(xo - xv)
 	wv = w12 - 2 * dot(w12,nistar) * nistar
-	return max(S_infinite(xo - xi, w12, dr, no) - S_infinite(xo - xv, wv, dv, no),0.0)
+
+	print("dr",dr)
+	print("dv",dv)
+	print("reduced",reduced_albedo)
+	print("sigma tr", sigma_tr)
+	print("de",de)
+	s1 = S_infinite(xo - xi, w12, dr, no)
+	s2 = S_infinite(xo - xv, wv, dv, no)
+	print("S1",s1)
+	print("S2",s2)
+	return max(s1-s2,0.0)
 
 def update_sa(val):	
 	global sigma_a
@@ -134,7 +144,8 @@ if __name__ == '__main__':
 	wi = array([cos(angle_rad),sin(angle_rad),0])
 	n = array([0,1,0])
 	plt.subplots_adjust(bottom=0.25)
-	
+	print("BSSRDF: ", S_finite(xi,wi,array([1,0,0]),n,n))
+"""	
 	input = [r/10.0 for r in range(-120,120)]
 	output = [S_finite(xi,wi,array([r,0,0]),n,n) for r in input]
 	plt.yscale('log')
@@ -159,4 +170,4 @@ if __name__ == '__main__':
 
 	
 	plt.show()
-	
+"""

@@ -22,15 +22,10 @@ void DipoleCPU::calculate(std::vector<CGLA::Vec3f> &vertices, std::vector<CGLA::
                 break;
             }
             Vec3f xi = vertices[j];
-            float r = length(xo-xi);
-            if( r == 0 || r > 2.0f)
-            {
-                break;
-            }
             Vec3f ni = normalize(normals[j]);
             Vec3f wi = normalize(Vec3f(light.position) - xi);
             Vec3f S = S_finite(xi,wi,xo,ni,no);
-            Vec3f Phi = Vec3f(light.diffuseIntensity[0]) * dot(wi, ni);
+            Vec3f Phi = Vec3f(light.diffuseIntensity[0]);
             Vec3f L = 4 * material.C_s_inv * S * Phi;
             resultColors[i] += Vec4f(L,1.0f);
         }
@@ -86,7 +81,9 @@ void DipoleCPU::calculate2x2Texture(float inclinationDegreesFromNormal, std::vec
             float rad = inclinationDegreesFromNormal * M_PI / 180.0f;
             Vec3f wi = Vec3f(sin(rad),0.0f,cos(rad));
             float r = S_finite(xi,wi,xo,ni,no)[0];
-            texture[i * textureSize + j] = r;
+            float minR = -6.0f;
+            float maxR =  0.0f;
+            texture[i * textureSize + j] = (-minR+log10(r))/abs(maxR-minR);
             cout << "" << r << endl;
         }
     }
@@ -141,7 +138,9 @@ Vec3f DipoleCPU::S_finite(Vec3f _xi,Vec3f _wi,Vec3f _xo, Vec3f _nin, Vec3f _no)
     Vec3f _xv = _xi + 2 * A * _de * _nistar;
     float dv = length(_xo - _xv);
     Vec3f _wv = _w12 - 2 * dot(_w12,_nistar) * _nistar;
-    Vec3f _S = S_infinite(_xo - _xi, _w12, dr, _no) - S_infinite(_xo - _xv, _wv, dv, _no);
+    Vec3f s1 = S_infinite(_xo - _xi, _w12, dr, _no);
+    Vec3f s2 = S_infinite(_xo - _xv, _wv, dv, _no);
+    Vec3f _S = s1-s2;
     for(int i = 0; i < 3; i++)
         _S[i] = std::max(_S[i], 0.0f);
     return _S;
