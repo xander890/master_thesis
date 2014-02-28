@@ -37,12 +37,12 @@ bool ThreeDPlane::init(std::string filename, std::string name)
     int MMW = TEXTURE_SIZE;
     int MMH = TEXTURE_SIZE;
 
-    vector<float> texarray(256*256);
+    vector<Vec3f> texarray(TEXTURE_SIZE*TEXTURE_SIZE);
 
     DipoleCPU dip;
     dip.light = light;
     dip.material = Mesh::ScatteringMaterial();
-    dip.calculate2x2Texture(80.0f,texarray,256);
+    dip.calculate2x2Texture(0.0f,texarray,TEXTURE_SIZE);
 //    for(int i = 0; i < 256*256; i++) texarray[i] = (i*1.0)/(256*256);
 
     glGenTextures(1, &tex);
@@ -51,7 +51,7 @@ bool ThreeDPlane::init(std::string filename, std::string name)
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, MMW, MMH, 0, GL_RED, GL_FLOAT, &texarray[0]);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, MMW, MMH, 0, GL_BGR, GL_FLOAT, &texarray[0]);
    // glGenerateMipmap(GL_TEXTURE_2D);
     return true;
 }

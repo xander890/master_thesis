@@ -314,7 +314,7 @@ void TranslucentMaterials::render_direct(bool reload)
     terrain_shader.use();
     set_light_and_camera(terrain_shader);
 
-    terra.draw(terrain_shader);
+    //terra.draw(terrain_shader);
 
     object_shader.use();
     set_light_and_camera(object_shader);

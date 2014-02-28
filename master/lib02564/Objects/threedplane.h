@@ -3,7 +3,7 @@
 #include "GLGraphics/ThreeDObject.h"
 #include "GLGraphics/light.h"
 
-const int TEXTURE_SIZE = 256;
+const int TEXTURE_SIZE = 512;
 
 namespace GLGraphics
 {

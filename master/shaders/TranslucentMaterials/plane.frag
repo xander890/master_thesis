@@ -14,9 +14,9 @@ vec3 hsv2rgb(vec3 c)
 
 void main(void)
 {
-    float val = texture(maintexture,_tex.xy).r;
-    vec3 col = hsv2rgb(vec3(val,1.0,1.0));
-    fragColor = vec4(val,0.0,0.0,1.0);
-    //fragColor = vec4(_tex.xy,0.0,1.0);
+    vec3 val = texture(maintexture,_tex.xy).rgb;
+    //vec3 col = hsv2rgb(vec3(val,1.0,1.0));
+    //fragColor = vec4(col,1.0);
+    fragColor = vec4(val,1.0);
 
 }
