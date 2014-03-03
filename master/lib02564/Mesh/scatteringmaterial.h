@@ -27,6 +27,10 @@ public:
      float C_s;
      float C_s_inv;
      float C_E;
+     float A;
+     CGLA::Vec3f de;
+     CGLA::Vec3f reducedAlbedo;
+     CGLA::Vec3f extinctionCoefficient;
 
 private:
     void computeCoefficients();

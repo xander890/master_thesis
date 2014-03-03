@@ -45,6 +45,12 @@ namespace Mesh{
         this->C_s = C_Sigma(indexOfRefraction);
         this->C_s_inv = C_Sigma(1.0f/indexOfRefraction);
         this->C_E = C_e(indexOfRefraction);
+        this->reducedAlbedo = reducedScatteringCoefficient / reducedExtinctionCoefficent;
+        this->de = 2.131 * D / Vec3f(
+                    (float)sqrt(reducedAlbedo[0]),
+                    (float)sqrt(reducedAlbedo[1]),
+                    (float)sqrt(reducedAlbedo[2]));
+        this->A = (1.0 - C_E) / (2.0 * C_s);
     }
 
     float ScatteringMaterial::C_Sigma(float ni)

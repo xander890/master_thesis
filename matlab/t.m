@@ -1,7 +1,7 @@
 clear all
 
 
-f = 'abs001deg45_dir';
+f = 'abs001deg00_dir';
 file=fopen(strcat(f,'.txt'));
 s = textscan(file,'%s','Delimiter',' ');
 t1=s{1,1};
