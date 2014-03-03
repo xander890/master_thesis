@@ -5,7 +5,7 @@ namespace Mesh{
     ScatteringMaterial::ScatteringMaterial() : Material()
     {
         this->indexOfRefraction = 1.0f;
-        this->absorption = Vec3f(0.01f);
+        this->absorption = Vec3f(0.1f);
         this->scattering = Vec3f(1.0f);
         this->meancosine = Vec3f(0.0f);
         computeCoefficients();
@@ -49,16 +49,55 @@ namespace Mesh{
 
     float ScatteringMaterial::C_Sigma(float ni)
     {
-        float res = 0.919317 - 3.4793 * ni + 6.75355 * pow(ni,2) - 7.80989 * pow(ni,3);
-        res += 4.98554 * pow(ni,4) - 1.36881 * pow(ni,5);
-        return 0.25 * (1 - res);
+        float c;
+        if(ni < 1.0f)
+        {
+            c = + 0.919317
+                - 3.4793  * ni
+                + 6.75355 * pow(ni,2)
+                - 7.80989 * pow(ni,3)
+                + 4.98554 * pow(ni,4)
+                - 1.36881 * pow(ni,5);
+        }
+        else
+        {
+            c = - 9.23372
+                + 22.2272  * ni
+                - 20.9292  * pow(ni,2)
+                + 10.2291  * pow(ni,3)
+                - 2.54396  * pow(ni,4)
+                + 0.254913 * pow(ni,5);
+        }
+        return 0.25 * (1 - c);
     }
+
+
 
     float ScatteringMaterial::C_e(float ni)
     {
-        float res = 0.828421 - 2.62051 * ni + 3.362316 * pow(ni , 2) - 1.95284 * pow(ni , 3);
-        res += 0.236494 * pow(ni , 4) + 0.145787 * pow(ni,5);
-        return 0.5 * (1 - res);
+        float c;
+        if(ni < 1.0f)
+        {
+            c = + 0.828421
+                - 2.62051  * ni
+                + 3.36231  * pow(ni , 2)
+                - 1.95284  * pow(ni , 3)
+                + 0.236494 * pow(ni , 4)
+                + 0.145787 * pow(ni,5);
+        }
+        else
+        {
+            c = - 1641.1
+                + 135.926 / pow(ni,3)
+                - 656.175 / pow(ni,2)
+                + 1376.53 / ni
+                + 1213.67 * ni
+                - 568.556 * pow(ni,2)
+                + 164.798 * pow(ni,3)
+                - 27.0181 * pow(ni,4)
+                + 1.91826 * pow(ni,5);
+        }
+        return 0.5 * (1 - c);
     }
 
 }
