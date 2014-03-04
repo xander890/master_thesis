@@ -5,7 +5,7 @@ namespace Mesh{
     ScatteringMaterial::ScatteringMaterial() : Material()
     {
         this->indexOfRefraction = 1.0f;
-        this->absorption = Vec3f(0.1f);
+        this->absorption = Vec3f(0.01f);
         this->scattering = Vec3f(1.0f);
         this->meancosine = Vec3f(0.0f);
         computeCoefficients();
@@ -54,7 +54,7 @@ namespace Mesh{
         {
             c = + 0.919317
                 - 3.4793  * ni
-                + 6.75355 * pow(ni,2)
+                + 6.75335 * pow(ni,2)
                 - 7.80989 * pow(ni,3)
                 + 4.98554 * pow(ni,4)
                 - 1.36881 * pow(ni,5);

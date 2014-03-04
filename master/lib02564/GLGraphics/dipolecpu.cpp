@@ -81,33 +81,32 @@ Vec3f DipoleCPU::S_infinite(Vec3f _x, Vec3f _w12, Vec3f _r, Vec3f _no)
 void DipoleCPU::calculate2x2Texture(float inclinationDegreesFromNormal, std::vector<Vec3f> &texture, int textureSize)
 {
 
+
+    float rad = inclinationDegreesFromNormal * M_PI / 180.0f;
+    Vec3f wi = Vec3f(sin(rad),cos(rad),0.0f);
+    Vec3f xi = Vec3f(0.0f);
+    Vec3f ni = Vec3f(0.0f,1.0f,0.0f);
+    Vec3f no = Vec3f(0.0f,1.0f,0.0f);
+
     cout << endl;
     for(int i = 0; i < textureSize; i++)
     {
-        float xincm = (((float)i) / (textureSize-1) - 0.5) * 2 * 16.0; //2cm
-    //    for(int j = 0; j < textureSize; j++)
-    //    {
-            //float yincm = (((float)j) / textureSize - 0.5) * 4.0; //2cm
-            float yincm = 0.0f;
-            Vec3f xo = Vec3f(xincm, yincm,0.0f);
-            Vec3f xi = Vec3f(0.0f);
-            Vec3f ni = Vec3f(0.0f,0.0f,1.0f);
-            Vec3f no = Vec3f(0.0f,0.0f,1.0f);
+        float xincm = (((float)i) / (textureSize-1) - 0.5) * 2 * 2.0; //2cm
 
-            float rad = inclinationDegreesFromNormal * M_PI / 180.0f;
-            Vec3f wi = Vec3f(sin(rad),0.0f,cos(rad));
-            wi.normalize();
-            if(i == 256)
-            {
-                cout <<"";
-            }
+        for(int j = 0; j < textureSize; j++)
+        {
+            float yincm = (((float)j) / textureSize - 0.5) * 2 *  2.0; //2cm
+
+            Vec3f xo = Vec3f(xincm, 0.0f, yincm);
             Vec3f r = S_finite(xi,wi,xo,ni,no);
-            float minR = -6.0f;
-            float maxR =  0.0f;
-            texture[i * textureSize] = r;//(-minR+log10(r))/abs(maxR-minR);
+
+           // Vec3f test = M_PI * S_finite(xi,wi,Vec3f(-15.995693f,0.0f,0.0038236063f),ni,no);
+            Vec3f minR = Vec3f(-3.0f);
+            Vec3f maxR =  Vec3f(0.0f);
+            texture[i * textureSize + j] = (-minR + Vec3f(log10(r[0]/M_PI),log10(r[1]/M_PI),log10(r[2]/M_PI)))/(maxR-minR);
             //cout << "[" << xincm << "," << yincm  << "] " << r[0] << endl;
-            cout << r[0] * material.T12 * material.T21 << endl;
-     //   }
+            cout << r[0] << endl;
+        }
     }
 }
 
@@ -120,7 +119,8 @@ Vec3f DipoleCPU::S_finite(Vec3f _xi,Vec3f _wi,Vec3f _xo, Vec3f _nin, Vec3f _no)
     float C_E = material.C_E;
 
     Vec3f _x = _xo - _xi;
-    float r = length(_x);
+    float r_sqr = dot(_x,_x);
+    float r = sqrt(r_sqr);
 
     float ni = material.indexOfRefraction;
     Vec3f _D = material.D;
@@ -130,15 +130,26 @@ Vec3f DipoleCPU::S_finite(Vec3f _xi,Vec3f _wi,Vec3f _xo, Vec3f _nin, Vec3f _no)
 #ifdef NEWATTEMPT
     float mu = - dot(_no, _w12);
     float dot_x_w12 = dot(_x,_w12);
+    float dot_x_no = dot(_x,_no);
 
-    Vec3f _r_sqr = Vec3f(r*r);
-    Vec3f _dr_sqr = Vec3f(r * r);
+    Vec3f _reduced_mean_free = Vec3f(1.0f) / material.reducedExtinctionCoefficent;
+
+    Vec3f _r_sqr = Vec3f(r_sqr);
+    Vec3f _dr_sqr = Vec3f(r_sqr);
     Vec3f _reduced_albedo = material.reducedScatteringCoefficient / material.reducedExtinctionCoefficent;
+
+    Vec3f _real_source = _reduced_mean_free * 0.7104 / _reduced_albedo;
+    _real_source *= _real_source;
+
     Vec3f _de = 2.131 * _D / sqrtVec3f(_reduced_albedo);
+
+
     if(mu > 0)
     {
-        Vec3f _cosbeta = -sqrtVec3f(Vec3f(r * r - dot_x_w12 * dot_x_w12) / (_r_sqr + _de*_de));
-        _dr_sqr += _D * mu * (_D * mu - 2 * _de * _cosbeta);
+        Vec3f z0 = _real_source;
+        Vec3f _xx = sqrtVec3f(_r_sqr + z0*z0);
+//        Vec3f _cosbeta = -sqrtVec3f(Vec3f(r_sqr - dot_x_w12 * dot_x_w12) / (_r_sqr + _de*_de));
+        _dr_sqr += _D * mu * (_D * mu + 2.0f * r * z0 / _xx);
     }
     else
     {
@@ -149,8 +160,18 @@ Vec3f DipoleCPU::S_finite(Vec3f _xi,Vec3f _wi,Vec3f _xo, Vec3f _nin, Vec3f _no)
 
     float A = (1.0 - C_E) / (2.0 * C_s);
 
-    Vec3f _t = normalize(cross(_nin,_x));
-    Vec3f _nistar = cross(normalize(_x),_t);
+    Vec3f _nistar;
+
+    if(dot_x_no < 0.0001f)
+    {
+        _nistar = _nin;
+    }
+    else
+    {
+        Vec3f _t = normalize(cross(_nin,_x));
+        _nistar = cross(normalize(_x),_t);
+    }
+
     Vec3f _xv = _xi + 2 * A * _de * _nistar;
     Vec3f _dv = Vec3f(length(_xo - _xv));
     Vec3f _wv = _w12 - 2 * dot(_w12,_nistar) * _nistar;
