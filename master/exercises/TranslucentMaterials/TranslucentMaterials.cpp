@@ -31,6 +31,7 @@
 #include <GLGraphics/lightmanager.h>
 #include <GLGraphics/light.h>
 #include <Objects/threedplane.h>
+#include <Objects/threedsphere.h>
 
 #include "Mesh/proceduralsphere.h"
 #include "GLGraphics/dipolecpu.h"
@@ -51,6 +52,7 @@ bool reload_shaders = true;
 enum RenderMode {DRAW_NORMAL=0, DRAW_WIRE=1, DRAW_DEFERRED_TOON=2, DRAW_SSAO=3, DRAW_FUR=4};
 RenderMode render_mode = DRAW_NORMAL;
 
+vector<ThreeDObject*> objects;
 LightManager manager;
 
 void draw_screen_aligned_quad(ShaderProgram& shader_prog)
@@ -74,10 +76,15 @@ void draw_screen_aligned_quad(ShaderProgram& shader_prog)
     glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 }
 
-void draw_objects(ShaderProgramDraw& shader_prog)
+void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog)
+{
+    vector<string> objs;
+    objs.push_back("");
+    draw_objects(shader_prog,objs);
+}
+void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<string>& objectsToDraw)
 {
 
-static vector<ThreeDObject*> objects;
     if(objects.empty())
     {
         //objects.push_back(ThreeDObject());
@@ -92,11 +99,44 @@ static vector<ThreeDObject*> objects;
         t->rotate(Vec3f(1,0,0), 90);
         t->translate(Vec3f(5,7,terra.height(5,7)+1.6f));
 
-        ThreeDPlane *pl = new ThreeDPlane(manager[0]);
-        objects.push_back(pl);
-        pl->init(" ", "plane");
-        pl->scale(Vec3f(3.0f));
-        pl->translate(Vec3f(1.0f,0.0f,terra.height(1,0)+0.6f));
+        const int TEXTURE_SIZE = 512;
+        vector<Vec3f> texarray(TEXTURE_SIZE*TEXTURE_SIZE);
+
+        DipoleCPU dip;
+        dip.light = manager[0];
+        dip.material = Mesh::ScatteringMaterial();
+        //dip.calculate2x2Texture(80.0f,texarray,TEXTURE_SIZE);
+
+        ThreeDPlane *plane = new ThreeDPlane();
+        objects.push_back(plane);
+        plane->init(" ", "plane");
+        plane->setTexture(texarray,TEXTURE_SIZE);
+        plane->scale(Vec3f(3.0f));
+        plane->translate(Vec3f(1.0f,0.0f,terra.height(1,0)+0.6f));
+
+        ThreeDSphere *sphere = new ThreeDSphere(Mesh::Material(),40);
+        objects.push_back(sphere);
+        sphere->init(" ", "sphere");
+        sphere->scale(Vec3f(2.0f));
+        sphere->translate(Vec3f(-5.0f,7.0f,terra.height(-5,7)+2.5f));
+
+        ThreeDSphere *sphere_light = new ThreeDSphere(Mesh::Material(),20);
+        objects.push_back(sphere_light);
+        sphere_light->init(" ", "light_sphere");
+        sphere_light->scale(Vec3f(1.0f));
+        sphere_light->translate(Vec3f(manager[0].position));
+
+
+        DipoleCPU dip;
+        dip.light = manager[0];
+        dip.material = Mesh::ScatteringMaterial(Mesh::Material(),1.0f,Vec3f(0.1),Vec3f(1.0),Vec3f(0.0f));
+        cout << "Calculating translucency!" << endl;
+        //dip.calculate(vertices,normals,colors);
+        ThreeDSphere *translucent_sphere = new ThreeDSphere(dip.material,30);
+        translucent_sphere->init(" ","translucent_sphere");
+        translucent_sphere->scale(Vec3f(2.0f));
+        translucent_sphere->translate(Vec3f(-10.0f,7.0f,terra.height(-10,7)+2.5f));
+
 
         //objects.push_back(ThreeDObject());
         //objects[objects.size()-1].init(objects_path+"portal.obj");
@@ -105,55 +145,16 @@ static vector<ThreeDObject*> objects;
     }
 
 
-    for(unsigned int i=0;i < objects.size();++i)
+    for(unsigned int i=0;i < objectsToDraw.size();++i)
     {
-        ThreeDObject * d = objects[i];
-        d->display(shader_prog);
+        string s = objectsToDraw[i];
+        vector<ThreeDObject*>::iterator it;
+        it = std::find_if(objects.begin(),objects.end(), CompareThreeD(s));
+        if(it != objects.end())
+            (*it)->display(shader_prog);
     }
 }
-/*
-void TranslucentMaterials::draw_plane(ShaderProgramDraw& shader_prog, Vec3f position, float size, vector<float> texture, int textureSize)
-{
-    static bool was_here = false;
-    static Mesh::TriangleMesh me;
-    static GLuint tex = 0;
 
-    if(!was_here)
-    {
-        vector<Vec3f> vertices;
-        vector<Vec3f> normals;
-        vector<Vec2f> texcoord;
-
-        vertices.push_back(Vec3f(-1.f,1.f,0.0f));
-        vertices.push_back(Vec3f(-1.f,-1.f,0.0f));
-        vertices.push_back(Vec3f(1.f,1.f,0.0f));
-        vertices.push_back(Vec3f(1.f,-1.f,0.0f));
-
-        for(int i = 0; i < 4; i++) normals.push_back(Vec3f(0.0f,0.0f,1.0f));
-        for(int i = 0; i < 4; i++) texcoord.push_back(Vec2f((vertices[i][0] + 1.0f)*0.5f,(vertices[i][1] + 1.0f)*0.5f));
-
-        me.load_external(vertices,normals,texcoord,Mesh::Material(),GL_TRIANGLE_STRIP);
-
-        int MMW = textureSize;
-        int MMH = textureSize;
-        glGenTextures(1, &tex);
-        glBindTexture(GL_TEXTURE_2D, tex);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, MMW, MMH, 0, GL_RED, GL_FLOAT, &texture[0]);
-        glGenerateMipmap(GL_TEXTURE_2D);
-
-        was_here = true;
-    }
-    shader_prog.use_texture(GL_TEXTURE_2D, "maintexture", tex);
-    shader_prog.set_model_matrix(translation_Mat4x4f(position) * scaling_Mat4x4f(Vec3f(size)));
-    set_light_and_camera(shader_prog);
-    me.render(shader_prog);
-    check_gl_error();
-}
-*/
 void TranslucentMaterials::draw_sphere_translucent(ShaderProgramDraw& shader_prog, Vec3f position, Mesh::Material m, float radius, int LOD)
 {
     static bool was_here = false;
@@ -183,26 +184,6 @@ void TranslucentMaterials::draw_sphere_translucent(ShaderProgramDraw& shader_pro
 
 }
 
-void TranslucentMaterials::draw_sphere(ShaderProgramDraw& shader_prog, Vec3f position, Mesh::Material m, float radius, int LOD)
-{
-    static bool was_here = false;
-    static Mesh::TriangleMesh me;
-    if(!was_here)
-    {
-        vector<Vec3f> vertices;
-        vector<Vec3f> normals;
-        vector<Vec2f> texcoord;
-
-        sphere(1.0f, LOD,LOD,vertices,normals,texcoord);
-        me.load_external(vertices,normals, texcoord, m ,GL_TRIANGLE_STRIP);
-        was_here =true;
-    }
-    shader_prog.set_model_matrix(translation_Mat4x4f(position) * scaling_Mat4x4f(Vec3f(radius)));
-    set_light_and_camera(shader_prog);
-    me.render(shader_prog);
-    check_gl_error();
-
-}
 
 void TranslucentMaterials::set_light_and_camera(ShaderProgramDraw& shader_prog)
 {
@@ -213,8 +194,6 @@ void TranslucentMaterials::set_light_and_camera(ShaderProgramDraw& shader_prog)
     check_gl_error();
     manager.loadLights(shader_prog);
     check_gl_error();
-    //shader_prog.set_light_position(light_position);
-    //shader_prog.set_light_intensities(light_diffuse, light_specular, light_ambient);
 }
 
 /*
@@ -314,28 +293,31 @@ void TranslucentMaterials::render_direct(bool reload)
     terrain_shader.use();
     set_light_and_camera(terrain_shader);
 
-    //terra.draw(terrain_shader);
+    terra.draw(terrain_shader);
 
     object_shader.use();
     set_light_and_camera(object_shader);
+    vector<string> objs;
+    objs.push_back("cow");
+    objs.push_back("sphere");
 
-    Mesh::Material m;
-    //draw_sphere(object_shader, Vec3f(0.0f, 20.0f, 30.0f), m, 2.0f,20);
-    //draw_objects(object_shader);
+    draw_objects(object_shader,objs);
 
 //    t_shader.use();
 //    set_light_and_camera(t_shader);
-
-    //draw_sphere_translucent(t_shader, Vec3f(0.0f, 0.0f, 30.0f), m, 2.0f, 20);
+//    draw_sphere_translucent(t_shader, Vec3f(0.0f, 0.0f, 30.0f), m, 2.0f, 20);
 
     red_shader.use();
     set_light_and_camera(red_shader);
-
-    //draw_sphere(red_shader, Vec3f(manager[0].position), m , 0.3f, 10);
+    objs.clear();
+    objs.push_back("light_sphere");
+    draw_objects(red_shader,objs);
 
     plane_shader.use();
     set_light_and_camera(plane_shader);
-    draw_objects(plane_shader);
+    objs.clear();
+    objs.push_back("plane");
+    draw_objects(plane_shader,objs);
 }
 
 void TranslucentMaterials::render_direct_wireframe(bool reload)
@@ -361,16 +343,14 @@ void TranslucentMaterials::render_direct_wireframe(bool reload)
                        (const GLfloat*) &ident);
 #endif
 
-    //terra.draw(wire_shader);
-    draw_objects(wire_shader);
-    Mesh::Material m;
-    draw_sphere(wire_shader, Vec3f(5.0f, 0.0f, 30.0f), m, 2.0f, 100);
+    terra.draw(wire_shader);
+    vector<string> objs;
+    objs.push_back("cow");
+    objs.push_back("sphere");
+    objs.push_back("sphere_light");
+    objs.push_back("plane");
 
-
-
-
-    draw_sphere(wire_shader, Vec3f(0.0f, 0.0f, 30.0f), m, 2.0f, 100);
-    //draw_trees(wire_shader);
+    draw_objects(wire_shader, objs);
 }
 
 void TranslucentMaterials::render_direct_fur(bool reload)
@@ -715,7 +695,7 @@ TranslucentMaterials::TranslucentMaterials( const QGLFormat& format, QWidget* pa
     static const Vec4f light_specular(0.6f,0.6f,0.3f,0.6f);
     static const Vec4f light_diffuse(0.6f,0.6f,0.3f,0.6f);
 
-    Vec4f light_position(0.f,0.f,35.0f,1);
+    Vec4f light_position(0.f,0.f,10.0f,1);
 
     Light mainLight (light_position, light_diffuse, light_specular, false);
     manager.addLight(mainLight);

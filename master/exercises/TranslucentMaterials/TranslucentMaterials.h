@@ -37,9 +37,9 @@ protected:
     void render_to_gbuffer(GBuffer& gbuffer, bool reload);
     void render_deferred_toon(bool reload);
     void render_deferred_ssao(bool reload);
-    void draw_sphere(GLGraphics::ShaderProgramDraw& shader_prog, CGLA::Vec3f position, Mesh::Material m, float radius, int LOD);
     void draw_sphere_translucent(GLGraphics::ShaderProgramDraw& shader_prog, CGLA::Vec3f position, Mesh::Material m, float radius, int LOD);
-    void draw_plane(GLGraphics::ShaderProgramDraw& shader_prog, CGLA::Vec3f position, float size, std::vector<float> texture, int textureSize);
+    void draw_objects(GLGraphics::ShaderProgramDraw& shader_prog);
+    void draw_objects(GLGraphics::ShaderProgramDraw& shader_prog,std::vector<std::string> & str);
 
 #ifdef SOLUTION_CODE
     void render_indirect();
@@ -54,5 +54,13 @@ protected:
      void keyReleaseEvent(QKeyEvent *);
 };
 
+struct CompareThreeD {
+    CompareThreeD( std::string s ) : toFind(s) { }
+
+    bool operator() (GLGraphics::ThreeDObject *n)
+        { return n->name == toFind; }
+
+    std::string toFind;
+};
 
 #endif // INTROSCENE_H

@@ -43,5 +43,10 @@ namespace GLGraphics
         this->mesh.render(shader_prog);
 	}
 	
+    void ThreeDObject::addAttribute(string name, std::vector<Vec4f> &data)
+    {
+        this->mesh.add(name, data);
+        this->mesh.build_vertex_array_object();
+    }
 
 }

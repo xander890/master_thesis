@@ -52,7 +52,7 @@ namespace GLGraphics
         }
     }
 
-
+/*
     GLuint create_sphere_vertex_array_object(std::vector<Vec3f> &vertex, std::vector<Vec3f> &normal, std::vector<Vec2f> &texcoord)
     {
         vector<Vec3f> strip;
@@ -85,7 +85,7 @@ namespace GLGraphics
         return VAO;
     }
 
-
+*/
 
 
 }

@@ -15,6 +15,7 @@
 #include "ShaderProgram.h"
 #include <Mesh/TriangleMesh.h>
 #include <string>
+
 namespace GLGraphics
 {
 
@@ -26,14 +27,26 @@ protected:
     CGLA::Vec3f rotation_axis;
     float rotation_angle;
     CGLA::Vec3f scaling_factors;
-    std::string name;
 
 public:
     Mesh::TriangleMesh mesh;
+    std::string name;
 
     ThreeDObject();
     virtual bool init(std::string filename, std::string name);
     virtual void display(ShaderProgramDraw& shader);
+
+    void addAttribute(std::string name, std::vector<CGLA::Vec4f>& data);
+
+    bool operator == (const ThreeDObject &b) const
+    {
+        return strcmp(name.c_str(),b.name.c_str()) == 0;
+    }
+
+    bool operator == (const std::string &b) const
+    {
+        return strcmp(name.c_str(),b.c_str()) == 0;
+    }
 
     void rotate(const CGLA::Vec3f& axis, float angle)
     {

@@ -77,14 +77,15 @@ void DipoleCPU::calculate2x2Texture(float inclinationDegreesFromNormal, std::vec
 
             Vec3f xo = Vec3f(xincm, 0.0f, yincm);
             Vec3f r = S_finite(xi,wi,xo,ni,no);
-            //Vec3f test = S_finite(xi,wi,Vec3f(-15.958655f,0.0f,-0.0058893040f),ni,no);
+            Vec3f test = S_finite(xi,wi,Vec3f(0.001,0.0f,0.0f),ni,no);
 
            // Vec3f test = M_PI * S_finite(xi,wi,Vec3f(-15.995693f,0.0f,0.0038236063f),ni,no);
             Vec3f minR = Vec3f(-3.0f);
             Vec3f maxR =  Vec3f(0.0f);
             texture[i * textureSize + j] = (-minR + Vec3f(log10(r[0]/M_PI),log10(r[1]/M_PI),log10(r[2]/M_PI)))/(maxR-minR);
             //cout << "[" << xincm << "," << yincm  << "] " << r[0] << endl;
-            cout << r[0] << endl;
+            //if(yincm == 0.0f)
+            //    cout << r[0] << endl;
         }
     }
 }
@@ -123,9 +124,9 @@ Vec3f DipoleCPU::S_finite(Vec3f _xi,Vec3f _wi,Vec3f _xo, Vec3f _nin, Vec3f _no)
     Vec3f _dr = sqrtVec3f(_dr_sqr);
     Vec3f _nistar;
 
-    if(dot_x_no < 0.0001f)
+    if(dot_x_no == 0.0f)
     {
-        _nistar = _nin;
+        _nistar = normalize(_nin);
     }
     else
     {

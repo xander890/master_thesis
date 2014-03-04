@@ -127,8 +127,6 @@ bool TriangleMesh::load(const string &filename, bool do_recompute_normals){
     }
 
     return load_external(outPositions,outNormal,outUv,outMaterials[0], GL_TRIANGLES);
-
-
 }
 
 bool TriangleMesh::load_external(vector<Vec3f>& outPositions, vector<Vec3f>& outNormal, vector<Vec2f>& outUv, Material& outMaterial, GLenum type)
@@ -140,11 +138,7 @@ bool TriangleMesh::load_external(vector<Vec3f>& outPositions, vector<Vec3f>& out
     if (outUv.size()>0){
         add("texcoord", outUv);
     }
-
     add_draw_call(outPositions.size(), outMaterial, type);
-
-
-
     build_vertex_array_object();
     return true;
 }

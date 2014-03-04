@@ -3,23 +3,21 @@
 #include "GLGraphics/ThreeDObject.h"
 #include "GLGraphics/light.h"
 
-const int TEXTURE_SIZE = 512;
-
 namespace GLGraphics
 {
 class ThreeDPlane : public ThreeDObject
 {
 
 public:
-    ThreeDPlane(Light l) : tex(0), light(l), ThreeDObject()
+    ThreeDPlane() : tex(0), ThreeDObject()
     {
     }
     virtual void display(ShaderProgramDraw& shader) override;
     virtual bool init(std::string filename, std::string name) override;
+    void setTexture(const std::vector<CGLA::Vec3f> & data, const int size);
 
 private:
     GLuint tex;
-    Light light;
 };
 }
 #endif // THREEDPLANE_H
