@@ -30,8 +30,8 @@ namespace GLGraphics
     }
 
 
-    void ThreeDObject::display(ShaderProgramDraw& shader_prog)
-	{
+    Mat4x4f ThreeDObject::getModelMatrix()
+    {
         Quatf q;
         q.make_rot(rotation_angle*M_PI/180.0, rotation_axis);
 
@@ -39,14 +39,25 @@ namespace GLGraphics
         translation_Mat4x4f(translation_vector)
         *q.get_Mat4x4f()
         *scaling_Mat4x4f(scaling_factors);
+        return M;
+    }
+
+
+    void ThreeDObject::display(ShaderProgramDraw& shader_prog)
+	{
+        Mat4x4f M = getModelMatrix();
         shader_prog.set_model_matrix(M);
         this->mesh.render(shader_prog);
-	}
+    }
+
+    void ThreeDObject::getRawData(RawMeshData &data)
+    {
+        this->mesh.getRawData(data);
+    }
 	
     void ThreeDObject::addAttribute(string name, std::vector<Vec4f> &data)
     {
         this->mesh.add(name, data);
-        this->mesh.build_vertex_array_object();
     }
 
 }

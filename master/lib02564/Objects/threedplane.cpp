@@ -16,6 +16,7 @@ void ThreeDPlane::display(ShaderProgramDraw & shader)
 bool ThreeDPlane::init(std::string filename, std::string name)
 {
     this->name = name;
+    vector<GLuint> indices;
     vector<Vec3f> vertices;
     vector<Vec3f> normals;
     vector<Vec2f> texcoord;
@@ -26,12 +27,14 @@ bool ThreeDPlane::init(std::string filename, std::string name)
     vertices.push_back(Vec3f(1.f,-1.f,0.0f));
 
     for(int i = 0; i < 4; i++)
+        indices.push_back(i);
+    for(int i = 0; i < 4; i++)
         normals.push_back(Vec3f(0.0f,0.0f,1.0f));
     for(int i = 0; i < 4; i++)
         texcoord.push_back(Vec2f((vertices[i][0] + 1.0f)*0.5f,(vertices[i][1] + 1.0f)*0.5f));
 
 
-    this->mesh.load_external(vertices,normals,texcoord,Mesh::Material(),GL_TRIANGLE_STRIP);
+    this->mesh.load_external(indices, vertices,normals,texcoord,Mesh::Material(),GL_TRIANGLE_STRIP);
     //this->mesh.build_vertex_array_object();
 
     glGenTextures(1, &tex);

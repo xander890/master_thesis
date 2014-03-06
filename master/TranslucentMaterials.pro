@@ -36,7 +36,8 @@ HEADERS += exercises/TranslucentMaterials/GBuffer.h\
     lib02564/Mesh/proceduralsphere.h \
     lib02564/GLGraphics/dipolecpu.h \
     lib02564/Objects/threedplane.h \
-    lib02564/Objects/threedsphere.h
+    lib02564/Objects/threedsphere.h \
+    lib02564/Utils/areaestimator.h
 
 SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
         exercises/TranslucentMaterials/ShadowBuffer.cpp\
@@ -48,7 +49,8 @@ SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
     lib02564/Mesh/proceduralsphere.cpp \
     lib02564/GLGraphics/dipolecpu.cpp \
     lib02564/Objects/threedplane.cpp \
-    lib02564/Objects/threedsphere.cpp
+    lib02564/Objects/threedsphere.cpp \
+    lib02564/Utils/areaestimator.cpp
 
 
 HEADERS += lib02564/CGLA/ArithMatFloat.h\

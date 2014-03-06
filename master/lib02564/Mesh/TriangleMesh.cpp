@@ -126,10 +126,10 @@ bool TriangleMesh::load(const string &filename, bool do_recompute_normals){
         return false;
     }
 
-    return load_external(outPositions,outNormal,outUv,outMaterials[0], GL_TRIANGLES);
+    return load_external(outIndices[0], outPositions,outNormal,outUv,outMaterials[0], GL_TRIANGLES);
 }
 
-bool TriangleMesh::load_external(vector<Vec3f>& outPositions, vector<Vec3f>& outNormal, vector<Vec2f>& outUv, Material& outMaterial, GLenum type)
+bool TriangleMesh::load_external(vector<GLuint> & indices, vector<Vec3f>& outPositions, vector<Vec3f>& outNormal, vector<Vec2f>& outUv, Material& outMaterial, GLenum type)
 {
     add("vertex", outPositions);
     if (outNormal.size()>0){
@@ -138,9 +138,28 @@ bool TriangleMesh::load_external(vector<Vec3f>& outPositions, vector<Vec3f>& out
     if (outUv.size()>0){
         add("texcoord", outUv);
     }
-    add_draw_call(outPositions.size(), outMaterial, type);
-    build_vertex_array_object();
+    add_draw_call(indices, indices.size(), outMaterial, type);
+    rawData.vertices = outPositions;
+    rawData.normals = outNormal;
+    rawData.uvs = outUv;
+    rawData.indices = indices;
+
+    //build_vertex_array_object();
     return true;
+}
+
+void TriangleMesh::getRawData(RawMeshData & data)
+{
+    data.vertices = rawData.vertices;
+    data.normals = rawData.normals;
+    data.uvs = rawData.uvs;
+    data.indices = rawData.indices;
+}
+
+GLenum TriangleMesh::getMode()
+{
+    //support only to the first draw call
+    return drawCalls.at(0).renderMode;
 }
 
 void TriangleMesh::check_vertex_size(int vertexAttributeSize) {
@@ -211,12 +230,13 @@ void TriangleMesh::add(const string &name, vector<Vec4f> &vertexAttributesV4){
     vertexAttributes[name] = dataVector;
 }
 
-void TriangleMesh::add_draw_call(int count, Material &material, GLenum renderMode){
+void TriangleMesh::add_draw_call(vector<GLuint> indices, int count, Material &material, GLenum renderMode){
     int offset = 0;
     if (drawCalls.size()>0){
         offset = drawCalls[drawCalls.size()-1].offset + drawCalls[drawCalls.size()-1].count * sizeof(GLuint);
     }
     DrawCall c = {
+        indices,
         material,
         renderMode,
         count,
@@ -225,10 +245,10 @@ void TriangleMesh::add_draw_call(int count, Material &material, GLenum renderMod
     drawCalls.push_back(c);
 }
 
-void copy_to_interleaved_data(DataUnion& data, vector<unsigned char> &interleavedData, int bytes){
+void copy_to_interleaved_data(DataUnion& data, vector<float> &interleavedData, int bytes){
     assert(bytes<=16);
-    for (int i=0;i<bytes;i++){
-        interleavedData.push_back(data.raw[i]);
+    for (int i=0;i<bytes/4;i++){
+        interleavedData.push_back(data.vec[i]);
     }
 }
 
@@ -257,7 +277,7 @@ void TriangleMesh::map_data_to_shader_vertex_attributes(GLGraphics::ShaderProgra
 
 void TriangleMesh::build_vertex_array_object(GLGraphics::ShaderProgram *shader){
     // create interleaved data
-    vector<unsigned char> interleavedData;
+    vector<float> interleavedData;
     vector<int> sizeInBytes;
     offset.clear();
     componentType.clear();
@@ -270,6 +290,7 @@ void TriangleMesh::build_vertex_array_object(GLGraphics::ShaderProgram *shader){
             int numberOfComponents = it->second.components;
             int size = it->second.size;
             copy_to_interleaved_data(it->second.vector[i], interleavedData, size);
+
             if (i==0){
                 offset.push_back(stride);
                 stride += size;
@@ -289,7 +310,7 @@ void TriangleMesh::build_vertex_array_object(GLGraphics::ShaderProgram *shader){
     // upload to vertex buffer
     glBufferData(GL_ARRAY_BUFFER, stride * vertexCount, &(interleavedData[0]), GL_STATIC_DRAW);
 
-/*
+
     // concatenate all indices
     std::vector<GLuint> elementArrayBuffer;
     for (std::vector<DrawCall>::iterator iter = drawCalls.begin();iter != drawCalls.end(); iter++){
@@ -299,7 +320,7 @@ void TriangleMesh::build_vertex_array_object(GLGraphics::ShaderProgram *shader){
     glGenBuffers(1, &vertexElementArrayBuffer);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vertexElementArrayBuffer);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)*elementArrayBuffer.size(), &(elementArrayBuffer[0]), GL_STATIC_DRAW);
-*/
+
 
     for (std::vector<DrawCall>::iterator iter = drawCalls.begin();iter != drawCalls.end(); iter++){
         iter->material.tex_map.gl_init();
@@ -310,22 +331,23 @@ void TriangleMesh::build_vertex_array_object(GLGraphics::ShaderProgram *shader){
 
 void TriangleMesh::render(ShaderProgramDraw &shader){
     if (!initialized){
-        if (debug){
-            cout << "TriangleMesh::render(): Vertex array not built" << endl;
-        }
+        build_vertex_array_object();
         return;
     }
     check_gl_error();
 
     glBindVertexArray(vertexArrayObject);
     glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vertexElementArrayBuffer);
+
     map_data_to_shader_vertex_attributes(&shader);
 
     for (std::vector<DrawCall>::iterator iter = drawCalls.begin();iter != drawCalls.end(); iter++){
         shader.set_material(iter->material.diffuse, iter->material.specular, iter->material.shininess);
         shader.use_texture(GL_TEXTURE_2D, "tex", iter->material.tex_map.get_id(), 0);
         check_gl_error();
-        glDrawArrays(iter->renderMode, 0, iter->count);
+        glDrawElements(iter->renderMode, iter->count, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>( iter->offset));
+        //glDrawArrays(iter->renderMode, 0, iter->count);
         check_gl_error();
     }
 }

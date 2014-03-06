@@ -1,13 +1,13 @@
 #version 150
 in vec3 vertex;
 in vec3 normal;
-in vec3 texcoord;
-in vec4 translucent;
+in vec3 translucent;
+in vec2 texcoord;
 
 out vec3 _normal;
 out vec3 _texcoord;
 out vec3 _light_pos;
-out vec4 _transl;
+out vec3 _transl;
 
 uniform vec4 light_pos[50];
 
@@ -22,7 +22,7 @@ void main()
     _normal = normalize(N*normal);
     vec4 _position = VM * vec4(vertex,1);
     _light_pos = vec3(light - _position);
-    _transl = translucent;
-    _texcoord = texcoord;
+    _transl = vec3(translucent);
+
     gl_Position = PVM * vec4(vertex,1);
 }

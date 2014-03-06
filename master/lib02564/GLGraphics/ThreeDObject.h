@@ -35,6 +35,7 @@ public:
     ThreeDObject();
     virtual bool init(std::string filename, std::string name);
     virtual void display(ShaderProgramDraw& shader);
+    void getRawData(Mesh::RawMeshData & data);
 
     void addAttribute(std::string name, std::vector<CGLA::Vec4f>& data);
 
@@ -64,7 +65,7 @@ public:
         scaling_factors  = scale;
     }
 
-
+    CGLA::Mat4x4f ThreeDObject::getModelMatrix();
 
 };
 

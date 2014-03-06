@@ -300,10 +300,10 @@ bool ObjLoader::load_object(const char * filename,
         TriangleString triangleString = triangles[i];
         for (int j=0;j<3;j++){
             TriangleIndex index = triangleString.get(j);
-//            map<TriangleIndex,int>::iterator cachedIndex = cache.find(index);
-//            if (cachedIndex != cache.end()) {
-//                (*outIndices)[triangleString.materialIndex].push_back(cachedIndex->second);
-//            } else {
+            map<TriangleIndex,int>::iterator cachedIndex = cache.find(index);
+            if (cachedIndex != cache.end()) {
+                (*outIndices)[triangleString.materialIndex].push_back(cachedIndex->second);
+            } else {
                 int vertexIndex = (*outPositions).size();
                 (*outPositions).push_back(positions[index.position-1] * scale);
                 if (index.normal != -1 && outNormal != NULL){
@@ -316,9 +316,9 @@ bool ObjLoader::load_object(const char * filename,
                     (*outIndices).push_back(vector<GLuint>());
                 }
 
- //               (*outIndices)[triangleString.materialIndex].push_back(vertexIndex);
- //               cache[index] = vertexIndex;
- //           }
+                (*outIndices)[triangleString.materialIndex].push_back(vertexIndex);
+                cache[index] = vertexIndex;
+            }
         }
     }
 

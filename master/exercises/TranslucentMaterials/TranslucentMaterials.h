@@ -58,7 +58,7 @@ struct CompareThreeD {
     CompareThreeD( std::string s ) : toFind(s) { }
 
     bool operator() (GLGraphics::ThreeDObject *n)
-        { return n->name == toFind; }
+        { return strcmp(n->name.c_str(),toFind.c_str()) == 0; }
 
     std::string toFind;
 };

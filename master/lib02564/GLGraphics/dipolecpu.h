@@ -5,6 +5,8 @@
 #include <vector>
 #include <CGLA/Vec3f.h>
 #include <GLGraphics/light.h>
+#include <Mesh/TriangleMesh.h>
+#include <GLGraphics/ThreeDObject.h>
 
 class DipoleCPU
 {
@@ -13,7 +15,7 @@ public:
     GLGraphics::Light light;
 
 
-    void calculate(std::vector<CGLA::Vec3f>& vertices, std::vector<CGLA::Vec3f>& normals, std::vector<CGLA::Vec4f>& resultColors);
+    void calculate(GLGraphics::ThreeDObject & three, std::vector<CGLA::Vec3f>& outLuminance);
     CGLA::Vec3f S_finite(CGLA::Vec3f xi,CGLA::Vec3f wi,CGLA::Vec3f xo, CGLA::Vec3f nin, CGLA::Vec3f no);
     CGLA::Vec3f S_infinite(CGLA::Vec3f x, CGLA::Vec3f w, CGLA::Vec3f r, CGLA::Vec3f n_o);
     void calculate2x2Texture(float inclinationDegrees, std::vector<CGLA::Vec3f> & texture, int textureSize);

@@ -8,32 +8,36 @@ namespace GLGraphics
 {
 
 
-    void sphere(float r, int lat, int lon, std::vector<Vec3f> &vertex, std::vector<Vec3f> &normal, std::vector<Vec2f> &texcoord)
+    void sphere(float r, int lat, int lon, vector<GLuint>& indices, std::vector<Vec3f> &vertex, std::vector<Vec3f> &normal, std::vector<Vec2f> &texcoord)
     {
         float lat_rad = (M_PI) / lat;
         float lon_rad = (2 * M_PI) / lon;
 
-        for(int i = 1; i <= lat; i++)
+        for(int i = 0; i <= lat; i++)
         {
             float theta = i * lat_rad;
-            float theta1 = (i-1) * lat_rad;
+            //float theta1 = (i-1) * lat_rad;
 
             for(int j = 0; j <= lon; j++)
             {
 
                 float phi = j * lon_rad;
-                Vec3f p2 = r * Vec3f(sin(theta) * cos(phi), sin(theta) * sin(phi), cos(theta));
-                Vec3f p1 = r * Vec3f(sin(theta1) * cos(phi), sin(theta1) * sin(phi), cos(theta1));
-                Vec2f c2 = Vec2f(i / ((float)lat), j / ((float)lon));
-                Vec2f c1 = Vec2f((i-1) / ((float)lat), j / ((float)lon));
+                Vec3f p1 = r * Vec3f(sin(theta) * cos(phi), sin(theta) * sin(phi), cos(theta));
+                //Vec3f p1 = r * Vec3f(sin(theta1) * cos(phi), sin(theta1) * sin(phi), cos(theta1));
 
-                if(i == 0 && j == 0)
+                Vec2f c1 = Vec2f(i / ((float)lat), j / ((float)lon));
+                //Vec2f c1 = Vec2f((i-1) / ((float)lat), j / ((float)lon));
+
+                vertex.push_back(p1);
+                normal.push_back(p1);
+                texcoord.push_back(c1);
+
+                indices.push_back(i * lon + j);
+                if(i > 0)
                 {
-                    vertex.push_back(p1);
-                    normal.push_back(p1);
-                    texcoord.push_back(c1);
+                    indices.push_back((i-1) * lon + j);
                 }
-
+/*
                 vertex.push_back(p1);
                 normal.push_back(p1);
                 texcoord.push_back(c1);
@@ -41,13 +45,7 @@ namespace GLGraphics
                 vertex.push_back(p2);
                 normal.push_back(p2);
                 texcoord.push_back(c2);
-
-                if(i == lat && j == lon)
-                {
-                    vertex.push_back(p2);
-                    normal.push_back(p2);
-                    texcoord.push_back(c2);
-                }
+*/
             }
         }
     }

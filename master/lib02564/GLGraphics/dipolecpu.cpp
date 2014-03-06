@@ -1,40 +1,93 @@
 #include "dipolecpu.h"
 #include <algorithm>
+#include <Utils/areaestimator.h>
+#include <Mesh/TriangleMesh.h>
+#include <GLGraphics/ThreeDObject.h>
 
 using namespace CGLA;
 using namespace std;
+using namespace GLGraphics;
+
 #define NEWATTEMPT
 
-void DipoleCPU::calculate(std::vector<CGLA::Vec3f> &vertices, std::vector<CGLA::Vec3f> &normals, std::vector<CGLA::Vec4f> &resultColors)
+void convertMat4x4toMat3x3(const Mat4x4f & in, Mat3x3f & out)
 {
-    std::cout << "Started computation of dipole. "<< vertices.size() << " vertices found." << std::endl;
+    out[0][0] = in[0][0];
+    out[0][1] = in[0][1];
+    out[0][2] = in[0][2];
+    out[1][0] = in[1][0];
+    out[1][1] = in[1][1];
+    out[1][2] = in[1][2];
+    out[2][0] = in[2][0];
+    out[2][1] = in[2][1];
+    out[2][2] = in[2][2];
+}
 
-    // Assuming the points are equally distributed.
-    for(int i = 0; i < vertices.size(); i++)
+void DipoleCPU::calculate(ThreeDObject & three, std::vector<CGLA::Vec3f> &resultColors)
+{
+    Mesh::TriangleMesh mesh = three.mesh;
+    Mesh::RawMeshData data;
+    mesh.getRawData(data);
+
+    vector<Vec3f> vertices = data.vertices;
+    vector<GLuint> indices = data.indices;
+    vector<Vec3f> normals = data.normals;
+    cout << "Started computation of dipole. "<< vertices.size() << " vertices found." << std::endl;
+    GLenum mode = mesh.getMode();
+
+    //
+    // Area estimation step
+    //
+    AreaEstimator a;
+    float result;
+    Mat3x3f mat;
+    convertMat4x4toMat3x3(three.getModelMatrix(), mat);
+    a.totalArea(mesh,mode,mat, result);
+    cout << mat << "Area " << three.name << ": " << result << endl;
+    vector<float> areas;
+    a.perVertexArea(mesh,mode,mat,areas);
+
+    float total = 0.0f;
+    for(int i = 0; i < areas.size(); i++)
+        total += areas.at(i);
+    cout << "Sum of single areas : " << total <<endl;
+
+    //
+    // Calculating dipole with the directional approximation and the rendering equation
+    //
+    resultColors = vector<Vec3f>(vertices.size());
+    std::fill(resultColors.begin(),resultColors.end(),Vec3f(0.0f));
+
+    int limit = vertices.size();
+
+    for(int i = 0; i < limit; i++)
     {
-        Vec3f xo = vertices[i];
-        Vec3f no = normalize(normals[i]);
-        resultColors[i] = Vec4f(0.0f);
-        for(int j = 0; j < vertices.size(); j++)
+        Vec3f xo = mat * vertices[i];
+        Vec3f no = normalize(mat * normals[i]);
+
+        for(int j = 0; j < limit; j++)
         {
             //std::cout << "Calculating dipole..." << j << std::endl;
-            if(i == j)
+            if(i != j)
             {
-                break;
+                Vec3f xi = mat * vertices[j];
+                Vec3f ni = normalize(mat * normals[j]);
+                Vec3f wi = normalize(Vec3f(light.position) - mat * xi);
+                Vec3f S(0.0f);
+                float dot_n_w = dot(ni,wi);
+                Vec3f Li = light.diffuseIntensity * dot_n_w;
+
+                S = S_finite(xi,wi,xo,ni,no);
+
+                Vec3f Lo = areas[j] * S;
+                resultColors[i] += Lo;
             }
-            Vec3f xi = vertices[j];
-            Vec3f ni = normalize(normals[j]);
-            Vec3f wi = normalize(Vec3f(light.position) - xi);
-            Vec3f S = S_finite(xi,wi,xo,ni,no);
-            Vec3f Phi = Vec3f(light.diffuseIntensity[0]);
-            Vec3f R = S * M_PI;
-            resultColors[i] += Vec4f(R,0.0f);
         }
-        //if(resultColors[i][3] != 0.0f)
-        //    resultColors[i] /= resultColors[i][3];
-        resultColors[i][3] = 1.0f;
-        std::cout << "Calculating dipole... (" << (100*(float)i) / vertices.size() << "\%) " << resultColors[i] <<std::endl;
+
+        std::cout << "Calculating dipole... (" << (100*(float)i) / vertices.size() << "\%) " << resultColors[i] << xo << no <<std::endl;
     }
+    three.mesh.add("translucent", resultColors);
+    three.mesh.build_vertex_array_object();
 }
 
 Vec3f DipoleCPU::S_infinite(Vec3f _x, Vec3f _w12, Vec3f _r, Vec3f _no)
@@ -77,7 +130,6 @@ void DipoleCPU::calculate2x2Texture(float inclinationDegreesFromNormal, std::vec
 
             Vec3f xo = Vec3f(xincm, 0.0f, yincm);
             Vec3f r = S_finite(xi,wi,xo,ni,no);
-            Vec3f test = S_finite(xi,wi,Vec3f(0.001,0.0f,0.0f),ni,no);
 
            // Vec3f test = M_PI * S_finite(xi,wi,Vec3f(-15.995693f,0.0f,0.0038236063f),ni,no);
             Vec3f minR = Vec3f(-3.0f);

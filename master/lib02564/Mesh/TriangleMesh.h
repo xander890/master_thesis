@@ -44,7 +44,17 @@
 /// }
 namespace Mesh {
 
+struct RawMeshData
+{
+    std::vector<GLuint> indices;
+    std::vector<CGLA::Vec3f> vertices;
+    std::vector<CGLA::Vec3f> normals;
+    std::vector<CGLA::Vec2f> uvs;
+
+};
+
 struct DrawCall {
+    std::vector<GLuint> indices;
     Mesh::Material material;
     GLenum renderMode;
     int count;
@@ -80,7 +90,7 @@ public:
 
     /// add_draw_call should be used for a single TriangleMesh
     /// renderMode must be: GL_TRIANGLES, GL_TRIANGLE_STRIP, etc
-    void add_draw_call(int count, Mesh::Material &material, GLenum renderMode);
+    void add_draw_call(std::vector<GLuint> indices, int count, Mesh::Material &material, GLenum renderMode);
 
     /// Build the vertex array object
     /// A shader program needs only to be used in case of none generic attribute locations
@@ -93,8 +103,9 @@ public:
     void set_debug(bool enable){ debug = enable; }
 
     bool load(const std::string &filename, bool recomputeNormals = true);
-    bool load_external(std::vector<CGLA::Vec3f>& outPositions, std::vector<CGLA::Vec3f>& outNormal, std::vector<CGLA::Vec2f>& outUv, Material& outMaterial, GLenum type);
-
+    bool load_external(std::vector<GLuint> & indices, std::vector<CGLA::Vec3f>& outPositions, std::vector<CGLA::Vec3f>& outNormal, std::vector<CGLA::Vec2f>& outUv, Material& outMaterial, GLenum type);
+    void getRawData(RawMeshData & data);
+    GLenum getMode();
     // Calculate normals using angle weighted pseudo-normals
    // void recompute_normals(const char* positionName = "vertex", const char *normalName = "normal");
 private:
@@ -108,7 +119,7 @@ private:
     std::vector<DrawCall> drawCalls;
     GLuint vertexArrayObject;
     GLuint  vertexBuffer;
-    //GLuint  vertexElementArrayBuffer;
+    GLuint  vertexElementArrayBuffer;
     int vertexCount;
     bool debug;
     bool initialized;
@@ -117,6 +128,8 @@ private:
     std::vector<int> componentSize; // 1 for float, 2 for Vec2f, etc,
     std::vector<std::string> names;
     int stride;
+    RawMeshData rawData;
+
 };
 }
 #endif // TRIANGLEMESH_H
