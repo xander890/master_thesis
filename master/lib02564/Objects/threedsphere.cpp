@@ -18,7 +18,7 @@ bool ThreeDSphere::init(std::string filename, std::string name)
     vector<Vec2f> texcoord;
     vector<GLuint> indices;
 
-    sphere(1.0f, LOD,LOD/2,indices,vertices,normals,texcoord);
+    sphere(1.0f, LOD,LOD,indices,vertices,normals,texcoord);
     this->mesh.load_external(indices,vertices,normals,texcoord,material,GL_TRIANGLE_STRIP);
     return true;
 }

@@ -101,8 +101,6 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
         t->rotate(Vec3f(1,0,0), 90);
         t->translate(Vec3f(5,7,terra.height(5,7)+1.6f));
 
-        vector<Vec3f> luminance;
-        dip2.calculate(*t, luminance);
 
         const int TEXTURE_SIZE = 512;
         vector<Vec3f> texarray(TEXTURE_SIZE*TEXTURE_SIZE);
@@ -117,28 +115,30 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
         plane->init(" ", "plane");
         plane->setTexture(texarray,TEXTURE_SIZE);
         plane->scale(Vec3f(3.0f));
-        plane->translate(Vec3f(1.0f,0.0f,terra.height(1,0)+0.6f));
+        plane->translate(Vec3f(0.0f,0.0f,-2.0f));
 
         ThreeDSphere *sphere = new ThreeDSphere(Mesh::Material(),40);
         objects.push_back(sphere);
         sphere->init(" ", "sphere");
-        sphere->scale(Vec3f(1.5f));
+        sphere->scale(Vec3f(1.0f));
         sphere->translate(Vec3f(-5.0f,7.0f,terra.height(-5,7)+2.5f));
 
         ThreeDSphere *sphere_light = new ThreeDSphere(Mesh::Material(),20);
         objects.push_back(sphere_light);
         sphere_light->init(" ", "light_sphere");
-        sphere_light->scale(Vec3f(1.0f));
+        sphere_light->scale(Vec3f(.05f));
         sphere_light->translate(Vec3f(manager[0].position));
         
 
 
-        ThreeDSphere *translucent_sphere = new ThreeDSphere(dip2.material,40);
+        ThreeDSphere *translucent_sphere = new ThreeDSphere(Mesh::Material(),20);
         objects.push_back(translucent_sphere);
         translucent_sphere->init(" ","translucent");
-        translucent_sphere->scale(Vec3f(1.5f));
-        translucent_sphere->translate(Vec3f(0.0f,0.0f,terra.height(0,0)+2.5f));
+        translucent_sphere->scale(Vec3f(1.0f));
+        translucent_sphere->translate(Vec3f(0.0f,0.0f,0.0f));
 
+        vector<Vec3f> luminance;
+        dip2.calculate(*translucent_sphere, luminance);
 
 
         check_gl_error();
@@ -297,7 +297,7 @@ void TranslucentMaterials::render_direct(bool reload)
     terrain_shader.use();
     set_light_and_camera(terrain_shader);
 
-    terra.draw(terrain_shader);
+    //terra.draw(terrain_shader);
 
     object_shader.use();
     set_light_and_camera(object_shader);
@@ -323,7 +323,7 @@ void TranslucentMaterials::render_direct(bool reload)
     plane_shader.use();
     set_light_and_camera(plane_shader);
     objs.clear();
-    objs.push_back("plane");
+    //objs.push_back("plane");
     draw_objects(plane_shader,objs);
 }
 
@@ -354,8 +354,8 @@ void TranslucentMaterials::render_direct_wireframe(bool reload)
     vector<string> objs;
     objs.push_back("cow");
     objs.push_back("sphere");
-    objs.push_back("sphere_light");
-    objs.push_back("plane");
+    objs.push_back("light_sphere");
+    objs.push_back("translucent");
 
     draw_objects(wire_shader, objs);
 }
@@ -702,7 +702,7 @@ TranslucentMaterials::TranslucentMaterials( const QGLFormat& format, QWidget* pa
     static const Vec4f light_specular(0.6f,0.6f,0.3f,0.6f);
     static const Vec4f light_diffuse(1.0f,1.0f,1.0f,1.0f);
 
-    Vec4f light_position(0.f,0.f,10.0f,1);
+    Vec4f light_position(0.f,0.f,3.f,1);
 
     Light mainLight (light_position, light_diffuse, light_specular, false);
     manager.addLight(mainLight);
@@ -843,6 +843,12 @@ void TranslucentMaterials::keyPressEvent(QKeyEvent *e)
         break;
     case 'O':
         user.set(Vec3f(-7.60765f, 14.907f, 4.37377f), Vec3f(0.333226f, -0.925571f, 0.179661f));
+        break;
+    case '+':
+        user.set_height(0.2);
+        break;
+    case '-':
+        user.set_height(-0.2);
         break;
     default:
         QWidget::keyPressEvent(e);

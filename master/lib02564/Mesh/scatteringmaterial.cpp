@@ -4,8 +4,8 @@ using namespace CGLA;
 namespace Mesh{
     ScatteringMaterial::ScatteringMaterial() : Material()
     {
-        this->indexOfRefraction = 1.0f;
-        this->absorption = Vec3f(0.01f);
+        this->indexOfRefraction = 1.3f;
+        this->absorption = Vec3f(0.1f);
         this->scattering = Vec3f(1.0f);
         this->meancosine = Vec3f(0.0f);
         computeCoefficients();

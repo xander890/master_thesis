@@ -13,6 +13,7 @@ namespace GLGraphics
         float lat_rad = (M_PI) / lat;
         float lon_rad = (2 * M_PI) / lon;
 
+        int currentVertex = 0;
         for(int i = 0; i <= lat; i++)
         {
             float theta = i * lat_rad;
@@ -26,17 +27,70 @@ namespace GLGraphics
                 //Vec3f p1 = r * Vec3f(sin(theta1) * cos(phi), sin(theta1) * sin(phi), cos(theta1));
 
                 Vec2f c1 = Vec2f(i / ((float)lat), j / ((float)lon));
-                //Vec2f c1 = Vec2f((i-1) / ((float)lat), j / ((float)lon));
 
-                vertex.push_back(p1);
-                normal.push_back(p1);
-                texcoord.push_back(c1);
-
-                indices.push_back(i * lon + j);
-                if(i > 0)
+                if(i == 0 || i == lat)
                 {
-                    indices.push_back((i-1) * lon + j);
+                    if(j == 0)
+                    {
+                        vertex.push_back(p1);
+                        normal.push_back(p1);
+                        texcoord.push_back(c1);
+                        currentVertex++;
+                    }
                 }
+                else
+                {
+                    if(j < lon)
+                    {
+
+                        vertex.push_back(p1);
+                        normal.push_back(p1);
+                        texcoord.push_back(c1);
+
+                        if(i > 1 && i < lat - 1)
+                        {
+                            indices.push_back(currentVertex - (lon));
+                            indices.push_back(currentVertex);
+                        }
+                        else if(i == 1)
+                        {
+                            indices.push_back(0);
+                            indices.push_back(currentVertex);
+                        }
+                        else if (i == lat - 1)
+                        {
+                            indices.push_back(currentVertex - (lon));
+                            indices.push_back((lat) * (lon-1) + 1);
+                        }
+
+                        currentVertex ++;
+                    }
+                    else
+                    {
+                        if(i > 1 && i < lat - 1)
+                        {
+                            indices.push_back(currentVertex - 2*(lon));
+                            indices.push_back(currentVertex - lon);
+                            indices.push_back(currentVertex - lon);
+                        }
+                        else if (i == 1)
+                        {
+                            indices.push_back(0);
+                            indices.push_back(1);
+                            indices.push_back(1);
+                        } else if(i == lat-1)
+                        {
+                             indices.push_back(currentVertex - 2*(lon));
+                             indices.push_back(currentVertex - lon);
+                        }
+                    }
+                }
+
+
+
+
+
+
 /*
                 vertex.push_back(p1);
                 normal.push_back(p1);

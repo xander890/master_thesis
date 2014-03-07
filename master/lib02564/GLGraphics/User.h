@@ -46,9 +46,12 @@ namespace GLGraphics {
     public:
         /** Construct by passing a terrain. The user is always on the terrain, so he needs to 
          query the height function. */
+        float height;
+
         User(const HeightMap* _terra): pos(0,0,0), dir(normalize(CGLA::Vec3f(1,1,0))), speed(0,0), terra(_terra) 
         {
             pos = CGLA::Vec3f(0,0,terra->height(0,0));
+            height = -2.0f;
         }
         
         User(): pos(0,0,0), dir(normalize(CGLA::Vec3f(1,1,0))), speed(0,0), terra(0)
@@ -61,7 +64,7 @@ namespace GLGraphics {
         {
             pos += speed[0] * normalize(CGLA::Vec3f(dir[0],dir[1],0));
             pos += speed[1] * normalize(CGLA::Vec3f(-dir[1],dir[0],0));
-            pos[2] = std::max(1.0f,1.0f + terra->height(pos[0], pos[1]));
+            pos[2] = height;
         }
         
         /// Get position
@@ -96,6 +99,11 @@ namespace GLGraphics {
             dir.normalize();	
         }
         
+        void set_height(float height)
+        {
+            this->height += height;
+        }
+
         /// Set position (in 2D).
         void set(const CGLA::Vec3f& _pos, const CGLA::Vec3f& _dir)
         {

@@ -3,12 +3,14 @@
 #include <Utils/areaestimator.h>
 #include <Mesh/TriangleMesh.h>
 #include <GLGraphics/ThreeDObject.h>
+#include <iostream>
+#include <fstream>
 
 using namespace CGLA;
 using namespace std;
 using namespace GLGraphics;
 
-#define NEWATTEMPT
+#define EPSILON_MU 0.01f
 
 void convertMat4x4toMat3x3(const Mat4x4f & in, Mat3x3f & out)
 {
@@ -60,32 +62,44 @@ void DipoleCPU::calculate(ThreeDObject & three, std::vector<CGLA::Vec3f> &result
 
     int limit = vertices.size();
 
+    Vec3f min = Vec3f(1000000.0f);
+
     for(int i = 0; i < limit; i++)
     {
         Vec3f xo = mat * vertices[i];
         Vec3f no = normalize(mat * normals[i]);
+        Vec3f wo = normalize(Vec3f(light.position) - mat * xo);
 
-        for(int j = 0; j < limit; j++)
+       // Vec3f xo = Vec3f(0.939205f, -0.343331f, 0.00428914);
+       // Vec3f no = xo;
+
+        for(int j = 0; j < vertices.size(); j++)
         {
             //std::cout << "Calculating dipole..." << j << std::endl;
-            if(i != j)
-            {
+            //if(i != j)
+            //{
                 Vec3f xi = mat * vertices[j];
                 Vec3f ni = normalize(mat * normals[j]);
-                Vec3f wi = normalize(Vec3f(light.position) - mat * xi);
+                Vec3f wi = normalize(Vec3f(light.position));
                 Vec3f S(0.0f);
                 float dot_n_w = dot(ni,wi);
-                Vec3f Li = light.diffuseIntensity * dot_n_w;
+                Vec3f Li = light.diffuseIntensity ;
+                //S = S_finite(xi,wi,xo,ni,no);
+                Vec3f Lo = S * areas[j] * material.T12 * material.T21 * Li;
+                resultColors[j] += Lo ;
+                if(i != j && length(xo - xi) < 0.0001f)
+                {
+                    cout << "FO " << i << " " << j;
+                }
 
-                S = S_finite(xi,wi,xo,ni,no);
-
-                Vec3f Lo = areas[j] * S;
-                resultColors[i] += Lo;
-            }
+            //}
         }
-
-        std::cout << "Calculating dipole... (" << (100*(float)i) / vertices.size() << "\%) " << resultColors[i] << xo << no <<std::endl;
+        resultColors[i] = Vec3f(areas[i]);
+        if(resultColors[i][0] < min[0] && xo[2] > 0.5)
+            min = resultColors[i];
+        std::cout << "Calculating dipole... "<< i <<" (" << (100*(float)i) / vertices.size() << "\%) " << resultColors[i] << " " << xo <<dot(wo, no) << light.position <<std::endl;
     }
+    std::cout<< "Mi" << min <<endl;
     three.mesh.add("translucent", resultColors);
     three.mesh.build_vertex_array_object();
 }
@@ -144,16 +158,17 @@ void DipoleCPU::calculate2x2Texture(float inclinationDegreesFromNormal, std::vec
 
 Vec3f DipoleCPU::S_finite(Vec3f _xi,Vec3f _wi,Vec3f _xo, Vec3f _nin, Vec3f _no)
 {
+
     Vec3f _x = _xo - _xi;
     float r_sqr = dot(_x,_x);
 
-    float eta = material.indexOfRefraction;
+    float eta = 1.0f/material.indexOfRefraction;
     Vec3f _D = material.D;
 
-    float c = - dot(_nin, _wi);
-    Vec3f _w12 = eta * _wi + (eta * c - sqrt(1 - eta * eta * (1 - c * c))) * _nin;
+    float c = dot(_wi, _nin);
+    Vec3f _w12 = (eta * (c * _nin - _wi) - _nin * sqrt(1 - eta * eta * (1 - c * c)));
 
-    float mu = - dot(_no, _w12);
+    float mu = -dot(_no, _w12);
     float dot_x_w12 = dot(_x,_w12);
     float dot_x_no = dot(_x,_no);
 
@@ -161,7 +176,9 @@ Vec3f DipoleCPU::S_finite(Vec3f _xi,Vec3f _wi,Vec3f _xo, Vec3f _nin, Vec3f _no)
     Vec3f _dr_sqr = Vec3f(r_sqr);
     Vec3f _de = material.de;
 
-    if(mu > 0)
+    Vec3f ee = Vec3f(1.0f) / (3 * (material.absorption + material.scattering));
+
+    if(mu > EPSILON_MU)
     {
         Vec3f project = sqrtVec3f(Vec3f(r_sqr - dot_x_w12 * dot_x_w12)/sqrtVec3f(_r_sqr + _de*_de));
         Vec3f _D_prime = abs(mu) * _D;
@@ -176,7 +193,7 @@ Vec3f DipoleCPU::S_finite(Vec3f _xi,Vec3f _wi,Vec3f _xo, Vec3f _nin, Vec3f _no)
     Vec3f _dr = sqrtVec3f(_dr_sqr);
     Vec3f _nistar;
 
-    if(dot_x_no == 0.0f)
+    if(dot(_x, _nin) == 0.0f )
     {
         _nistar = normalize(_nin);
     }
@@ -190,15 +207,24 @@ Vec3f DipoleCPU::S_finite(Vec3f _xi,Vec3f _wi,Vec3f _xo, Vec3f _nin, Vec3f _no)
     Vec3f _dv = Vec3f(length(_xo - _xv));
     Vec3f _wv = _w12 - 2 * dot(_w12,_nistar) * _nistar;
 
+    //for(int i = 0; i < 3 ; i++)
+    //{
+    //    _dr[i] = std::max(0.1f,_dr[i]);
+    //}
+
     Vec3f _S_r = S_infinite(_xo - _xi, _w12, _dr, _no);
     Vec3f _S_v = S_infinite(_xo - _xv, _wv, _dv, _no);
     Vec3f _S = _S_r - _S_v;
+
+    //std::cout <<  "xdw: " << dot_x_w12 << " S:" << _S[0] << " w12: " << _w12 << endl;
     float ex = 1.0f/(4 * material.C_s_inv) * 1.0f/(4.0f * M_PI * M_PI);
     _S *= ex;
+
     for(int i = 0; i < 3 ; i++)
     {
         _S[i] = std::max(0.0f,_S[i]);
     }
+
     return _S;
 }
 
