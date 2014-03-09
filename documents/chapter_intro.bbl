@@ -1,4 +1,4 @@
-\begin{thebibliography}{7}
+\begin{thebibliography}{6}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -19,14 +19,6 @@ J.~R. Frisvad, T.~Hachisuka, and T.~K. Kjeldsen.
 \newblock Technical report, DTU Compute, 2013.
 \newblock URL \url{http://www2.imm.dtu.dk/pubdb/p.php?6646}.
 \newblock Unpublished manuscript.
-
-\bibitem[Habel et~al.(2013)Habel, Christensen, and Jarosz]{CGF:CGF12148}
-Ralf Habel, Per~H. Christensen, and Wojciech Jarosz.
-\newblock Photon beam diffusion: A hybrid monte carlo method for subsurface
-  scattering.
-\newblock \emph{Computer Graphics Forum}, 32\penalty0 (4):\penalty0 27--37,
-  2013.
-\newblock URL \url{http://dx.doi.org/10.1111/cgf.12148}.
 
 \bibitem[Jensen and Buhler(2002)]{Jensen:2002:RHR:566654.566619}
 Henrik~Wann Jensen and Juan Buhler.

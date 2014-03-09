@@ -1,5 +1,4 @@
 #include "threedplane.h"
-#include "GLGraphics/dipolecpu.h"
 #include "Mesh/scatteringmaterial.h"
 #include "Mesh/Material.h"
 

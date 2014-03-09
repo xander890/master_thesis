@@ -4,10 +4,6 @@ using namespace std;
 using namespace CGLA;
 using namespace Mesh;
 
-AreaEstimator::AreaEstimator()
-{
-}
-
 void computeLimits(int & stride, int & limit, GLenum & mode, int size)
 {
     if(mode == GL_TRIANGLES)
@@ -27,7 +23,7 @@ void computeLimits(int & stride, int & limit, GLenum & mode, int size)
     }
 }
 
-void AreaEstimator::totalArea(Mesh::TriangleMesh &mesh, GLenum mode, Mat3x3f modelmatrix, float &result)
+void totalArea(Mesh::TriangleMesh &mesh, GLenum mode, Mat3x3f modelmatrix, float &result)
 {
 
     RawMeshData data;
@@ -52,7 +48,7 @@ void AreaEstimator::totalArea(Mesh::TriangleMesh &mesh, GLenum mode, Mat3x3f mod
     }
 }
 
-void AreaEstimator::perVertexArea(TriangleMesh &mesh, GLenum mode, Mat3x3f modelmatrix, std::vector<float> &areas)
+void perVertexArea(TriangleMesh &mesh, GLenum mode, Mat3x3f modelmatrix, std::vector<float> &areas)
 {
     // Calculate area based on barycenter
 
@@ -89,7 +85,7 @@ void AreaEstimator::perVertexArea(TriangleMesh &mesh, GLenum mode, Mat3x3f model
     }
 }
 
-float AreaEstimator::area(Vec3f & v1, Vec3f & v2, Vec3f & v3)
+float area(Vec3f & v1, Vec3f & v2, Vec3f & v3)
 {
      return 0.5 * length(cross(v3-v1,v2-v1));
 }

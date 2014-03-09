@@ -144,7 +144,6 @@ bool TriangleMesh::load_external(vector<GLuint> & indices, vector<Vec3f>& outPos
     rawData.uvs = outUv;
     rawData.indices = indices;
 
-    //build_vertex_array_object();
     return true;
 }
 

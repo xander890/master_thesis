@@ -22,7 +22,7 @@ A = fread(fid,[1 512], 'float');
 
 x = linspace(-16,16,512);
 x = x';
-semilogy(x,jdata,'b',x,adata, 'r', x, A, 'g');
+semilogy(x,jdata,'b',x,adata, 'r');
 RMSE = sqrt(mean((adata - jdata).^2));
 RMSE2 = sqrt(mean((A - jdata).^2));
 RMSE3 = sqrt(mean((A - adata).^2));

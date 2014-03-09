@@ -4,14 +4,8 @@
 #include "CGLA/Vec3f.h"
 #include "CGLA/Mat3x3f.h"
 
-class AreaEstimator
-{
-public:
-    AreaEstimator();
-    void totalArea(Mesh::TriangleMesh & mesh, GLenum mode, CGLA::Mat3x3f modelMatrix, float & result);
-    void perVertexArea(Mesh::TriangleMesh & mesh, GLenum mode, CGLA::Mat3x3f modelMatrix, std::vector<float> & result);
-private:
-    float area(CGLA::Vec3f & v1, CGLA::Vec3f & v2, CGLA::Vec3f & v3);
-};
+void totalArea(Mesh::TriangleMesh & mesh, GLenum mode, CGLA::Mat3x3f modelMatrix, float & result);
+void perVertexArea(Mesh::TriangleMesh & mesh, GLenum mode, CGLA::Mat3x3f modelMatrix, std::vector<float> & result);
+float area(CGLA::Vec3f & v1, CGLA::Vec3f & v2, CGLA::Vec3f & v3);
 
 #endif // AREAESTIMATOR_H

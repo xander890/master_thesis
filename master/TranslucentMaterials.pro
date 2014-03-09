@@ -34,10 +34,15 @@ HEADERS += exercises/TranslucentMaterials/GBuffer.h\
     lib02564/GLGraphics/light.h \
     lib02564/GLGraphics/lightmanager.h \
     lib02564/Mesh/proceduralsphere.h \
-    lib02564/GLGraphics/dipolecpu.h \
     lib02564/Objects/threedplane.h \
     lib02564/Objects/threedsphere.h \
-    lib02564/Utils/areaestimator.h
+    lib02564/Utils/areaestimator.h \
+    lib02564/Objects/threedcube.h \
+    lib02564/Utils/miscellaneous.h \
+    lib02564/Dipoles/directionaldipole.h \
+    lib02564/Dipoles/dipolecpu.h \
+    lib02564/Utils/cglautils.h \
+    lib02564/Dipoles/bssrdf.h
 
 SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
         exercises/TranslucentMaterials/ShadowBuffer.cpp\
@@ -47,10 +52,14 @@ SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
     lib02564/GLGraphics/light.cpp \
     lib02564/GLGraphics/lightmanager.cpp \
     lib02564/Mesh/proceduralsphere.cpp \
-    lib02564/GLGraphics/dipolecpu.cpp \
     lib02564/Objects/threedplane.cpp \
     lib02564/Objects/threedsphere.cpp \
-    lib02564/Utils/areaestimator.cpp
+    lib02564/Utils/areaestimator.cpp \
+    lib02564/Objects/threedcube.cpp \
+    lib02564/Utils/miscellaneous.cpp \
+    lib02564/Dipoles/directionaldipole.cpp \
+    lib02564/Dipoles/dipolecpu.cpp \
+    lib02564/Utils/cglautils.cpp
 
 
 HEADERS += lib02564/CGLA/ArithMatFloat.h\

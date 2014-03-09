@@ -37,7 +37,6 @@ protected:
     void render_to_gbuffer(GBuffer& gbuffer, bool reload);
     void render_deferred_toon(bool reload);
     void render_deferred_ssao(bool reload);
-    void draw_sphere_translucent(GLGraphics::ShaderProgramDraw& shader_prog, CGLA::Vec3f position, Mesh::Material m, float radius, int LOD);
     void draw_objects(GLGraphics::ShaderProgramDraw& shader_prog);
     void draw_objects(GLGraphics::ShaderProgramDraw& shader_prog,std::vector<std::string> & str);
 
