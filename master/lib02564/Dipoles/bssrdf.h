@@ -10,10 +10,9 @@ class BSSRDF
 public:
     BSSRDF::BSSRDF(Mesh::ScatteringMaterial & m): material(m) {}
     virtual CGLA::Vec3f evaluate(const CGLA::Vec3f & xi, const CGLA::Vec3f & wi, const CGLA::Vec3f & ni,
-                                 const CGLA::Vec3f & xo, const CGLA::Vec3f & no)  {return CGLA::Vec3f(0.0f);}
-
-protected:
+                                 const CGLA::Vec3f & xo, const CGLA::Vec3f & wo, const CGLA::Vec3f & no)  {return CGLA::Vec3f(0.0f);}
     Mesh::ScatteringMaterial material;
+
 
 };
 

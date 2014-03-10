@@ -12,7 +12,7 @@ public:
     ScatteringMaterial(Mesh::Material m, float indexOfRefraction, CGLA::Vec3f absorption, CGLA::Vec3f scattering, CGLA:: Vec3f meancosine);
 
     // base parameters
-     float indexOfRefraction;
+     float indexOfRefraction; //The usual assumption is that this can be intercheangeably the material ior or the ratio between it and air (ior = 1)
      CGLA::Vec3f absorption;
      CGLA::Vec3f scattering;
      CGLA::Vec3f meancosine;

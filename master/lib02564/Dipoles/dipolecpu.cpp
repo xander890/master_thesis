@@ -50,44 +50,56 @@ void DipoleCPU::calculate(ThreeDObject &three, std::vector<Vec3f> &resultColors,
     int limit = vertices.size();
 
     Vec3f min = Vec3f(1000000.0f);
+    vector<Vec3f> reflective(limit);
 
     for(int i = 0; i < limit; i++)
     {
         Vec3f xo = mat * vertices[i];
         Vec3f no = normalize(mat * normals[i]);
-        Vec3f wo = normalize(Vec3f(light.position) - mat * xo);
+        Vec3f toEye = user.get_pos() - xo;
+        Vec3f wo = normalize(toEye);
 
+        Vec3f xoLight = normalize(Vec3f(light.position));
        // Vec3f xo = Vec3f(0.939205f, -0.343331f, 0.00428914);
        // Vec3f no = xo;
 
-        for(int j = 0; j < vertices.size(); j++)
+        for(int j = 0; j < limit; j++)
         {
             //std::cout << "Calculating dipole..." << j << std::endl;
             //if(i != j)
             //{
                 Vec3f xi = mat * vertices[j];
                 Vec3f ni = normalize(mat * normals[j]);
-                Vec3f toLight = Vec3f(light.position) - xi;
 
+                Vec3f toLight = Vec3f(light.position); // dir light
                 Vec3f wi = normalize(toLight);
+
                 float l = length(toLight);
 
-                Vec3f S(0.0f);
                 float dot_n_w = dot(ni,wi);
-                Vec3f Li = light.diffuseIntensity / (l*l);
-                if(dot_n_w > 0.0f)
+                Vec3f Lo(0.0f);
+
+                if(dot_n_w > 0.0f) //visibility term (for now)
                 {
-                    S = bssrdf.evaluate(xi,wi,ni,xo,no);
+                    if(i == 1000)
+                    {
+                        cout << "";
+                    }
+                    Vec3f Ei= Vec3f(light.diffuseIntensity);
+                    Ei *= (dot_n_w);
+                    Vec3f S = bssrdf.evaluate(xi,wi,ni,xo,wo,no);
+                    Lo = Ei * S * areas[j];
+
                 }
-                Vec3f Lo = Li * max(0.0f,dot_n_w) * S * areas[j] ;
                 resultColors[i] += Lo;
             //}
         }
-        std::cout << "Calculating dipole... "<< i <<" (" << (100*(float)i) / vertices.size() << "\%) " << resultColors[i][0] << " " << xo <<dot(wo, no) << light.position <<std::endl;
+        std::cout << "Calculating dipole... "<< i <<" (" << (100*(float)i) / vertices.size() << "\%) " << resultColors[i][0] << " " << xo << wo << light.position <<std::endl;
     }
 
     std::cout<< "Mi" << min <<endl;
     three.mesh.add("translucent", resultColors);
+    //three.mesh.add("reflective",reflective);
     three.mesh.build_vertex_array_object();
 }
 

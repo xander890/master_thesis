@@ -29,11 +29,11 @@ void main()
     float cos_theta = max(dot(norm, light), 0.0);
 
     // ambient and diffuse part
-    vec4 color = mat_diff * (light_amb + cos_theta*light_diff[0]);
+    vec4 color = (cos_theta*light_diff[0]);
 
     // specular part
     fragColor = color;
 
-    fragColor =  vec4(_transl,1.0);
+    fragColor = vec4(_transl,1.0);
 
 }

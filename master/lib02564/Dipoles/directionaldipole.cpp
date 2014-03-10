@@ -1,5 +1,6 @@
 #include "directionaldipole.h"
 #include "Utils/cglautils.h"
+#include "Utils/miscellaneous.h"
 
 #define EPSILON_MU 0.f
 #define X_NO_THRES 0.0001f
@@ -58,7 +59,7 @@ void DirectionalDipole::calculate2x2Texture(float inclinationDegreesFromNormal, 
     }
 }
 
-Vec3f DirectionalDipole::evaluate(const Vec3f &xi, const Vec3f &wi, const Vec3f &ni, const Vec3f &xo, const Vec3f &no)
+Vec3f DirectionalDipole::evaluate(const Vec3f &xi, const Vec3f &wi, const Vec3f &ni, const Vec3f &xo, const Vec3f & wo, const Vec3f &no)
 {
     return this->S_finite(xi,wi,xo,ni,no);
 }
@@ -69,11 +70,9 @@ Vec3f DirectionalDipole::S_finite(Vec3f _xi,Vec3f _wi,Vec3f _xo, Vec3f _nin, Vec
     Vec3f _x = _xo - _xi;
     float r_sqr = dot(_x,_x);
 
-    float eta = 1.0f/material.indexOfRefraction;
     Vec3f _D = material.D;
 
-    float c = dot(_wi, _nin);
-    Vec3f _w12 = normalize(eta * (c * _nin - _wi) - _nin * sqrt(1 - eta * eta * (1 - c * c)));
+    Vec3f _w12 = refract(_wi,_nin,1.0f,material.indexOfRefraction);
 
     float mu = -dot(_no, _w12);
     float dot_x_w12 = dot(_x,_w12);

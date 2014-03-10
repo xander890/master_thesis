@@ -8,6 +8,8 @@ out vec3 _normal;
 out vec3 _texcoord;
 out vec3 _light_pos;
 out vec3 _transl;
+out vec3 _refl;
+
 
 uniform vec4 light_pos[50];
 
@@ -18,11 +20,10 @@ uniform mat3 N;
 
 void main()
 {
-
     vec4 light = light_pos[0];
-    _normal = (vertex * mat3(M));
+    _normal = (N * normal);
     vec4 _position = VM * vec4(vertex,1);
-    _light_pos = vec3(light - _position);
+    _light_pos = vec3(light);
     _transl = vec3(translucent);
 
     gl_Position = PVM * vec4(vertex,1);

@@ -30,3 +30,9 @@ Vec3f powVec3f(const Vec3f vector, const float exp)
 {
     return Vec3f(pow(vector[0],exp),pow(vector[1],exp),pow(vector[2],exp));
 }
+
+
+Vec3f expVec3f(const Vec3f vector)
+{
+    return Vec3f(expf(vector[0]),expf(vector[1]),expf(vector[2]));
+}

@@ -35,6 +35,8 @@
 #include <Objects/threedcube.h>
 #include <Dipoles/bssrdf.h>
 #include <Dipoles/directionaldipole.h>
+#include <Dipoles/jensendipole.h>
+#include <Utils/miscellaneous.h>
 
 #include "Dipoles/dipolecpu.h"
 using namespace std;
@@ -55,6 +57,10 @@ RenderMode render_mode = DRAW_NORMAL;
 
 vector<ThreeDObject*> objects;
 LightManager manager;
+
+const Vec4f light_specular(0.6f,0.6f,0.3f,0.6f);
+const Vec4f light_diffuse(2.f,2.f,2.f,1.0f);
+const Vec4f light_position(0.f,0.f,3.f,1);
 
 void draw_screen_aligned_quad(ShaderProgram& shader_prog)
 {
@@ -88,6 +94,10 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
 
     if(objects.empty())
     {
+        Vec3f userpos = Vec3f(6.41374, -3.92248, 2.5);
+        Vec3f userdir = Vec3f(-0.631755,0.591157,-0.501416);
+        user.set(userpos,userdir);
+
         //objects.push_back(ThreeDObject());
         //objects[objects.size()-1].init(objects_path+"cottage_obj/cottage.obj");
         //objects.back().scale(Vec3f(1));
@@ -95,16 +105,19 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
 
         DipoleCPU dipoleCalculator;
         dipoleCalculator.light = manager[0];
+        dipoleCalculator.user = user;
 
-        Mesh::ScatteringMaterial mat = Mesh::ScatteringMaterial(Mesh::Material(),1.0f,Vec3f(0.1),Vec3f(1.0),Vec3f(0.0f));
-        DirectionalDipole dipoleModel(mat);
+        Mesh::ScatteringMaterial marble_mat = Mesh::ScatteringMaterial(Mesh::Material(), 1.3f, Vec3f(0.0021f,0.0041f,0.0071f), Vec3f(2.19f,2.62f,3.0f), Vec3f(0.0f));
+        marble_mat.diffuse = Vec4f(0.83f, 0.79f, 0.75f,1.0f);
+        JensenDipole dipoleModel(marble_mat);
+
 
         ThreeDObject * t = new ThreeDObject();
         objects.push_back(t);
         t->init(objects_path+"cow.obj", "cow");
-        t->scale(Vec3f(.5f));
+        t->scale(Vec3f(.3f));
         t->rotate(Vec3f(1,0,0), 90);
-        t->translate(Vec3f(5,7,terra.height(5,7)+1.6f));
+        t->translate(Vec3f(0,0,-1.5f));
 
         const int TEXTURE_SIZE = 512;
         vector<Vec3f> texarray(TEXTURE_SIZE*TEXTURE_SIZE);
@@ -125,24 +138,24 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
         ThreeDSphere *sphere_light = new ThreeDSphere(Mesh::Material(),20);
         objects.push_back(sphere_light);
         sphere_light->init(" ", "light_sphere");
-        sphere_light->scale(Vec3f(.05f));
+        sphere_light->scale(Vec3f(.3f));
         sphere_light->translate(Vec3f(manager[0].position));
         
         ThreeDSphere *translucent_sphere = new ThreeDSphere(Mesh::Material(),20);
         objects.push_back(translucent_sphere);
         translucent_sphere->init(" ","translucent");
-        translucent_sphere->scale(Vec3f(3.0f));
-        translucent_sphere->translate(Vec3f(5.0f,0.0f,0.0f));
+        translucent_sphere->scale(Vec3f(1.5f));
+        translucent_sphere->translate(Vec3f(0.0f,0.0f,-1.5f));
 
         vector<Vec3f> luminance;
-        dipoleCalculator.calculate(*translucent_sphere, luminance, dipoleModel);
+        dipoleCalculator.calculate(*t, luminance, dipoleModel);
 
-        ThreeDCube *cube = new ThreeDCube(Mesh::Material(),20);
+        ThreeDCube *cube = new ThreeDCube(Mesh::Material(),10);
         objects.push_back(cube);
         cube->init(" ","cube");
         cube->scale(Vec3f(4.0f));
-        cube->translate(Vec3f(0.0f,0.0f,0.0f));
-
+        cube->translate(Vec3f(0.0f,10.0f,-2.f));
+        //dipoleCalculator.calculate(*cube, luminance, dipoleModel);
 
         check_gl_error();
         //objects.push_back(ThreeDObject());
@@ -276,9 +289,9 @@ void TranslucentMaterials::render_direct(bool reload)
     object_shader.use();
     set_light_and_camera(object_shader);
     vector<string> objs;
-    objs.push_back("cow");
+    //objs.push_back("cow");
     objs.push_back("sphere");
-    objs.push_back("cube");
+
 
 
     draw_objects(object_shader,objs);
@@ -286,7 +299,8 @@ void TranslucentMaterials::render_direct(bool reload)
     t_shader.use();
     set_light_and_camera(t_shader);
     objs.clear();
-    objs.push_back("translucent");
+    objs.push_back("cow");
+    //objs.push_back("cube");
     draw_objects(t_shader,objs);
 //    draw_sphere_translucent(t_shader, Vec3f(0.0f, 0.0f, 30.0f), m, 2.0f, 20);
 
@@ -677,11 +691,6 @@ TranslucentMaterials::TranslucentMaterials( const QGLFormat& format, QWidget* pa
     : QGLWidget( new Core3_2_context(format), (QWidget*) parent),
       ax(0), ay(0), dist(12),ang_x(0),ang_y(0),mouse_x0(0),mouse_y0(0)
 {
-    static const Vec4f light_specular(0.6f,0.6f,0.3f,0.6f);
-    static const Vec4f light_diffuse(.5f,.5f,.5f,1.0f);
-
-    Vec4f light_position(0.f,0.f,15.f,1);
-
     Light mainLight (light_position, light_diffuse, light_specular, false);
     manager.addLight(mainLight);
 
@@ -820,7 +829,7 @@ void TranslucentMaterials::keyPressEvent(QKeyEvent *e)
     }
         break;
     case 'O':
-        user.set(Vec3f(-7.60765f, 14.907f, 4.37377f), Vec3f(0.333226f, -0.925571f, 0.179661f));
+        //user.set(Vec3f(-7.60765f, 14.907f, 4.37377f), Vec3f(0.333226f, -0.925571f, 0.179661f));
         break;
     case '+':
         user.set_height(0.2);
@@ -828,6 +837,8 @@ void TranslucentMaterials::keyPressEvent(QKeyEvent *e)
     case '-':
         user.set_height(-0.2);
         break;
+    case 'I':
+        cout << user.get_pos() << " " << user.get_dir() << endl;
     default:
         QWidget::keyPressEvent(e);
         break;

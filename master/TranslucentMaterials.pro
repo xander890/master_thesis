@@ -42,7 +42,8 @@ HEADERS += exercises/TranslucentMaterials/GBuffer.h\
     lib02564/Dipoles/directionaldipole.h \
     lib02564/Dipoles/dipolecpu.h \
     lib02564/Utils/cglautils.h \
-    lib02564/Dipoles/bssrdf.h
+    lib02564/Dipoles/bssrdf.h \
+    lib02564/Dipoles/jensendipole.h
 
 SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
         exercises/TranslucentMaterials/ShadowBuffer.cpp\
@@ -59,7 +60,8 @@ SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
     lib02564/Utils/miscellaneous.cpp \
     lib02564/Dipoles/directionaldipole.cpp \
     lib02564/Dipoles/dipolecpu.cpp \
-    lib02564/Utils/cglautils.cpp
+    lib02564/Utils/cglautils.cpp \
+    lib02564/Dipoles/jensendipole.cpp
 
 
 HEADERS += lib02564/CGLA/ArithMatFloat.h\
@@ -143,8 +145,7 @@ lib02564/Mesh/Texmap.cpp\
 lib02564/Mesh/ObjLoader.cpp\
 lib02564/Mesh/TriangleMesh.cpp
 
-RESOURCES += \
-    TranslucentMaterials.qrc
+RESOURCES +=
 
 OTHER_FILES += shaders/TranslucentMaterials/* \
     shaders/TranslucentMaterials/red.frag \

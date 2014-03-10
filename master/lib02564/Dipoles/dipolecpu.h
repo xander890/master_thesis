@@ -8,11 +8,13 @@
 #include <Mesh/TriangleMesh.h>
 #include <GLGraphics/ThreeDObject.h>
 #include "Dipoles/bssrdf.h"
+#include "GLGraphics/User.h"
 
 class DipoleCPU
 {
 public:
     GLGraphics::Light light;
+    GLGraphics::User user;
     void calculate(GLGraphics::ThreeDObject & three, std::vector<CGLA::Vec3f>& outLuminance, BSSRDF & bssrf);
 };
 

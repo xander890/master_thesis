@@ -94,5 +94,4 @@ void ThreeDCube::generateFace(vector<Vec3f> & vertices, vector<Vec3f> & normals,
             currentVertex++;
         }
     }
-    indices.push_back(currentVertex);
 }
