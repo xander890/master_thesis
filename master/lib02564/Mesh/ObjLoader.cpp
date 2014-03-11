@@ -151,7 +151,7 @@ vector<Material> load_material(const string& path, const string& filename){
                     break;
                 case 'i':
                     if (material_file.good()){
-                        material_file >> materials[nummaterials].ior;
+                        //material_file >> materials[nummaterials].ior;
                     }
                     break;
                 }
@@ -174,13 +174,13 @@ vector<Material> load_material(const string& path, const string& filename){
                 switch(token[1])
                 {
                 case 'f':
-                    materials[nummaterials].transmission = Vec4f(to_vec3(material_file));
+                    //materials[nummaterials].transmission = Vec4f(to_vec3(material_file));
                     break;
                 }
                 break;
             case 'i':
                 if (material_file.good()){
-                    material_file >> materials[nummaterials].illum;
+                    //material_file >> materials[nummaterials].illum;
                 }
                 break;
             case 'm': // Map ... all maps are treated equally.

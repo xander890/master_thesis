@@ -18,8 +18,6 @@ CGLA::Vec3f JensenDipole::evaluate(const CGLA::Vec3f &xi, const CGLA::Vec3f &wi,
     float Fdr = -1.440 / eta_sqr + 0.71 / eta + 0.668 + 0.0636 * eta;
     float A = (1 + Fdr) / (1 - Fdr);
 
-    Vec3f ext = material.reducedExtinctionCoefficent;
-    //Vec3f r = Vec3f(l);
     Vec3f zr = invertVec3f(material.reducedExtinctionCoefficent);
     Vec3f zv = zr  + 4.0f * A * material.D;
 
@@ -42,7 +40,7 @@ CGLA::Vec3f JensenDipole::evaluate(const CGLA::Vec3f &xi, const CGLA::Vec3f &wi,
     float Ti = fresnel_T(wi,ni,nin,ntr);
     float To = fresnel_T(wo,no,nin,ntr);
 
-    S *= (1.0f/M_PI)* Ti * To;
+    S *= (1.0f/M_PI)* Ti;// * To;
 
     for(int i = 0; i < 3 ; i++)
     {

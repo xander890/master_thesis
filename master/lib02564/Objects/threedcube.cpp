@@ -11,7 +11,7 @@ void ThreeDCube::display(GLGraphics::ShaderProgramDraw &shader)
     ThreeDObject::display(shader);
 }
 
-bool ThreeDCube::init(std::string filename, std::string name)
+bool ThreeDCube::init(std::string filename, std::string name, Mesh::Material & material)
 {
     this->name = name;
     vector<Vec3f> vertices;

@@ -13,7 +13,7 @@ public:
     {
     }
     virtual void display(ShaderProgramDraw& shader) override;
-    virtual bool init(std::string filename, std::string name) override;
+    virtual bool init(std::string filename, std::string name, Mesh::Material & material) override;
     void setTexture(const std::vector<CGLA::Vec3f> & data, const int size);
 
 private:

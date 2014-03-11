@@ -10,7 +10,7 @@ void ThreeDSphere::display(GLGraphics::ShaderProgramDraw &shader)
     ThreeDObject::display(shader);
 }
 
-bool ThreeDSphere::init(std::string filename, std::string name)
+bool ThreeDSphere::init(std::string filename, std::string name, Mesh::Material & material)
 {
     this->name = name;
     vector<Vec3f> vertices;

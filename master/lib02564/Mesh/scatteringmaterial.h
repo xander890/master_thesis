@@ -8,8 +8,17 @@ namespace Mesh{
 class ScatteringMaterial : public Mesh::Material
 {
 public:
-    ScatteringMaterial();
-    ScatteringMaterial(Mesh::Material m, float indexOfRefraction, CGLA::Vec3f absorption, CGLA::Vec3f scattering, CGLA:: Vec3f meancosine);
+
+    ScatteringMaterial(float indexOfRefraction, CGLA::Vec3f absorption, CGLA::Vec3f scattering, CGLA:: Vec3f meancosine) :
+        indexOfRefraction(indexOfRefraction),
+        scattering(scattering),
+        absorption(absorption),
+        meancosine(meancosine)
+    {
+         computeCoefficients();
+    }
+
+    virtual void loadUniforms(GLGraphics::ShaderProgramDraw & shader) override;
 
     // base parameters
      float indexOfRefraction; //The usual assumption is that this can be intercheangeably the material ior or the ratio between it and air (ior = 1)
@@ -22,8 +31,6 @@ public:
      CGLA::Vec3f reducedExtinctionCoefficent;
      CGLA::Vec3f transmissionCoefficient;
      CGLA::Vec3f reducedScatteringCoefficient;
-     float T12;
-     float T21;
      float C_s;
      float C_s_inv;
      float C_E;
@@ -32,10 +39,26 @@ public:
      CGLA::Vec3f reducedAlbedo;
      CGLA::Vec3f extinctionCoefficient;
 
+     static const std::string IOR;
+     static const std::string ABSORPTION;
+     static const std::string SCATTERING;
+     static const std::string MEAN_COSINE;
+     static const std::string D_COEFF;
+     static const std::string EXTINCTION;
+     static const std::string REDUCED_EXTINCTION;
+     static const std::string REDUCED_SCATTERING;
+     static const std::string TRANSMISSION;
+     static const std::string FRESNEL_INTEGRAL_SIGMA;
+     static const std::string FRESNEL_INTEGRAL_E;
+     static const std::string FRESNEL_INTEGRAL_SIGMA_INV;
+     static const std::string A_COEFF;
+     static const std::string DE_COEFF;
+     static const std::string REDUCED_ALBEDO;
+
+
+
 private:
     void computeCoefficients();
-    float C_Sigma(float ni);
-    float C_e(float ni);
 };
 
 }

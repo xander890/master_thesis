@@ -342,12 +342,12 @@ void TriangleMesh::render(ShaderProgramDraw &shader){
     map_data_to_shader_vertex_attributes(&shader);
 
     for (std::vector<DrawCall>::iterator iter = drawCalls.begin();iter != drawCalls.end(); iter++){
-        shader.set_material(iter->material.diffuse, iter->material.specular, iter->material.shininess);
-        shader.use_texture(GL_TEXTURE_2D, "tex", iter->material.tex_map.get_id(), 0);
-        check_gl_error();
+        Material & mat = iter->material;
+        mat.loadUniforms(shader);
+//        shader.set_material(iter->material.diffuse, iter->material.specular, iter->material.shininess);
+//        shader.use_texture(GL_TEXTURE_2D, "tex", iter->material.tex_map.get_id(), 0);
+
         glDrawElements(iter->renderMode, iter->count, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>( iter->offset));
-        //glDrawArrays(iter->renderMode, 0, iter->count);
-        check_gl_error();
     }
 }
 

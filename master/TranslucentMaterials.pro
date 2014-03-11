@@ -43,7 +43,8 @@ HEADERS += exercises/TranslucentMaterials/GBuffer.h\
     lib02564/Dipoles/dipolecpu.h \
     lib02564/Utils/cglautils.h \
     lib02564/Dipoles/bssrdf.h \
-    lib02564/Dipoles/jensendipole.h
+    lib02564/Dipoles/jensendipole.h \
+    lib02564/Mesh/material.h
 
 SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
         exercises/TranslucentMaterials/ShadowBuffer.cpp\
@@ -61,7 +62,8 @@ SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
     lib02564/Dipoles/directionaldipole.cpp \
     lib02564/Dipoles/dipolecpu.cpp \
     lib02564/Utils/cglautils.cpp \
-    lib02564/Dipoles/jensendipole.cpp
+    lib02564/Dipoles/jensendipole.cpp \
+    lib02564/Mesh/material.cpp
 
 
 HEADERS += lib02564/CGLA/ArithMatFloat.h\
@@ -116,7 +118,6 @@ lib02564/GLGraphics/ShaderProgram.h\
 lib02564/GLGraphics/ThreeDObject.h\
 lib02564/GLGraphics/ResourceLoader.h\
 lib02564/GLGraphics/User.h\
-lib02564/Mesh/Material.h\
 lib02564/Mesh/Texmap.h\
 lib02564/Mesh/ObjLoader.h\
 lib02564/Mesh/TriangleMesh.h\

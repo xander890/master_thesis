@@ -33,7 +33,7 @@ public:
     std::string name;
 
     ThreeDObject();
-    virtual bool init(std::string filename, std::string name);
+    virtual bool init(std::string filename, std::string name, Mesh::Material & material);
     virtual void display(ShaderProgramDraw& shader);
     void getRawData(Mesh::RawMeshData & data);
 

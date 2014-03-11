@@ -34,5 +34,7 @@ inline float fresnel_T(const CGLA::Vec3f & in, const CGLA::Vec3f & n, float n1, 
 }
 
 void debugFresnelTerms();
+float C_Sigma(float ni);
+float C_e(float ni);
 
 #endif // MISCELLANEOUS_H

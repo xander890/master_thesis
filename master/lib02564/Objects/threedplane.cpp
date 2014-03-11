@@ -12,7 +12,7 @@ void ThreeDPlane::display(ShaderProgramDraw & shader)
     ThreeDObject::display(shader);
 }
 
-bool ThreeDPlane::init(std::string filename, std::string name)
+bool ThreeDPlane::init(std::string filename, std::string name, Mesh::Material & material)
 {
     this->name = name;
     vector<GLuint> indices;

@@ -13,3 +13,4 @@
 *.a
 build*/
 master/TranslucentMaterials.pro.user
+master/debug/

@@ -9,22 +9,27 @@
 
 namespace Mesh
 {
+
     /// A simple struct containing material properties.
     class Material
 	{
     public:
-		std::string name;			   
+        static const std::string AMBIENT_KEY;
+        static const std::string DIFFUSE_KEY;
+        static const std::string SPECULAR_KEY;
+        static const std::string SHININESS_KEY;
+        static const std::string TEXTURE_KEY;
+
+        std::string name;
+        CGLA::Vec4f ambient;
         CGLA::Vec4f diffuse;
 		CGLA::Vec4f specular;
+
         float shininess;
         Texmap tex_map;
         bool has_texture;
-        CGLA::Vec4f ambient;
-        CGLA::Vec4f transmission;
-        float illum;
-        float ior;
 
-
+        virtual void loadUniforms(GLGraphics::ShaderProgramDraw & shader);
 
         Material()
             :name("default"),
@@ -32,10 +37,7 @@ namespace Mesh
               specular(0.0f,0.0f,0.0f,1.f),
               shininess(0),
               has_texture(false),
-              ambient(0.0f,0.0f,0.0f,1.0f),
-              transmission(0.0f,0.0f,0.0f,1.0f),
-              illum(0),
-              ior(0)
+              ambient(0.0f,0.0f,0.0f,1.0f)
 		{
         }
 	};

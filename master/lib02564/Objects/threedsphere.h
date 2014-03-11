@@ -10,14 +10,13 @@ namespace GLGraphics
     {
     public:
 
-        ThreeDSphere(Mesh::Material mat, int LOD) : material(mat), LOD(LOD), ThreeDObject()
+        ThreeDSphere(int LOD) : LOD(LOD), ThreeDObject()
         {
         }
         virtual void display(ShaderProgramDraw& shader) override;
-        virtual bool init(std::string filename, std::string name) override;
+        virtual bool init(std::string filename, std::string name, Mesh::Material & material) override;
 
     private:
-        Mesh::Material material;
         int LOD;
     };
 

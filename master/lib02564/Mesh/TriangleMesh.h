@@ -55,7 +55,7 @@ struct RawMeshData
 
 struct DrawCall {
     std::vector<GLuint> indices;
-    Mesh::Material material;
+    Mesh::Material & material;
     GLenum renderMode;
     int count;
     int offset;

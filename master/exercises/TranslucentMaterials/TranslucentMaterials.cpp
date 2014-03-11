@@ -55,7 +55,7 @@ bool reload_shaders = true;
 enum RenderMode {DRAW_NORMAL=0, DRAW_WIRE=1, DRAW_DEFERRED_TOON=2, DRAW_SSAO=3, DRAW_FUR=4};
 RenderMode render_mode = DRAW_NORMAL;
 
-vector<ThreeDObject*> objects;
+
 LightManager manager;
 
 const Vec4f light_specular(0.6f,0.6f,0.3f,0.6f);
@@ -94,8 +94,9 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
 
     if(objects.empty())
     {
-        Vec3f userpos = Vec3f(6.41374, -3.92248, 2.5);
-        Vec3f userdir = Vec3f(-0.631755,0.591157,-0.501416);
+        vector<ThreeDObject * > tt;
+        Vec3f userpos = Vec3f(6.41374f, -3.92248f, 2.5f);
+        Vec3f userdir = Vec3f(-0.631755f,0.591157f,-0.501416f);
         user.set(userpos,userdir);
 
         //objects.push_back(ThreeDObject());
@@ -107,14 +108,19 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
         dipoleCalculator.light = manager[0];
         dipoleCalculator.user = user;
 
-        Mesh::ScatteringMaterial marble_mat = Mesh::ScatteringMaterial(Mesh::Material(), 1.3f, Vec3f(0.0021f,0.0041f,0.0071f), Vec3f(2.19f,2.62f,3.0f), Vec3f(0.0f));
+        Mesh::ScatteringMaterial & marble_mat = Mesh::ScatteringMaterial(1.3f, Vec3f(0.0021f,0.0041f,0.0071f), Vec3f(2.19f,2.62f,3.0f), Vec3f(0.0f));
+        Mesh::Material & test = marble_mat;
         marble_mat.diffuse = Vec4f(0.83f, 0.79f, 0.75f,1.0f);
-        JensenDipole dipoleModel(marble_mat);
+        marble_mat.name = "marble";
 
+
+        Mesh::Material default_mat;
+
+        //JensenDipole dipoleModel(test);
 
         ThreeDObject * t = new ThreeDObject();
         objects.push_back(t);
-        t->init(objects_path+"cow.obj", "cow");
+        t->init(objects_path+"cow.obj", "cow", default_mat);
         t->scale(Vec3f(.3f));
         t->rotate(Vec3f(1,0,0), 90);
         t->translate(Vec3f(0,0,-1.5f));
@@ -124,38 +130,38 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
 
         ThreeDPlane *plane = new ThreeDPlane();
         objects.push_back(plane);
-        plane->init(" ", "plane");
+        plane->init(" ", "plane", default_mat);
         plane->setTexture(texarray,TEXTURE_SIZE);
         plane->scale(Vec3f(3.0f));
         plane->translate(Vec3f(0.0f,0.0f,-2.0f));
 
-        ThreeDSphere *sphere = new ThreeDSphere(Mesh::Material(),40);
+        ThreeDSphere *sphere = new ThreeDSphere(40);
         objects.push_back(sphere);
-        sphere->init(" ", "sphere");
+        sphere->init(" ", "sphere", default_mat);
         sphere->scale(Vec3f(1.0f));
         sphere->translate(Vec3f(-5.0f,7.0f,terra.height(-5,7)+2.5f));
 
-        ThreeDSphere *sphere_light = new ThreeDSphere(Mesh::Material(),20);
+        ThreeDSphere *sphere_light = new ThreeDSphere(20);
         objects.push_back(sphere_light);
-        sphere_light->init(" ", "light_sphere");
+        sphere_light->init(" ", "light_sphere", default_mat);
         sphere_light->scale(Vec3f(.3f));
         sphere_light->translate(Vec3f(manager[0].position));
         
-        ThreeDSphere *translucent_sphere = new ThreeDSphere(Mesh::Material(),20);
+        ThreeDSphere *translucent_sphere = new ThreeDSphere(20);
         objects.push_back(translucent_sphere);
-        translucent_sphere->init(" ","translucent");
+        translucent_sphere->init(" ","translucent", default_mat);
         translucent_sphere->scale(Vec3f(1.5f));
         translucent_sphere->translate(Vec3f(0.0f,10.0f,-1.5f));
 
         vector<Vec3f> luminance;
         //dipoleCalculator.calculate(*t, luminance, dipoleModel);
 
-        ThreeDCube *cube = new ThreeDCube(Mesh::Material(),20);
+        ThreeDCube *cube = new ThreeDCube(10);
         objects.push_back(cube);
-        cube->init(" ","cube");
+        cube->init(" ","cube",test);
         cube->scale(Vec3f(4.0f));
         cube->translate(Vec3f(0.0f,0.0f,-2.f));
-        dipoleCalculator.calculate(*cube, luminance, dipoleModel);
+        //dipoleCalculator.calculate(*cube, luminance, dipoleModel);
 
         check_gl_error();
         //objects.push_back(ThreeDObject());
@@ -182,6 +188,8 @@ void TranslucentMaterials::set_light_and_camera(ShaderProgramDraw& shader_prog)
     shader_prog.set_projection_matrix(perspective_Mat4x4f(55, float(window_width)/window_height, 0.01f, 100));
     shader_prog.set_view_matrix(user.get_view_matrix());
     shader_prog.set_uniform("light_amb", light_ambient);
+    shader_prog.set_uniform("user_pos",user.get_pos());
+
     check_gl_error();
     manager.loadLights(shader_prog);
     check_gl_error();
@@ -290,7 +298,7 @@ void TranslucentMaterials::render_direct(bool reload)
     set_light_and_camera(object_shader);
     vector<string> objs;
     //objs.push_back("cow");
-    objs.push_back("sphere");
+    //objs.push_back("sphere");
 
 
 
@@ -307,7 +315,7 @@ void TranslucentMaterials::render_direct(bool reload)
     red_shader.use();
     set_light_and_camera(red_shader);
     objs.clear();
-    objs.push_back("light_sphere");
+    //objs.push_back("light_sphere");
     draw_objects(red_shader,objs);
 
     plane_shader.use();
@@ -832,10 +840,10 @@ void TranslucentMaterials::keyPressEvent(QKeyEvent *e)
         //user.set(Vec3f(-7.60765f, 14.907f, 4.37377f), Vec3f(0.333226f, -0.925571f, 0.179661f));
         break;
     case '+':
-        user.set_height(0.2);
+        user.set_height(0.2f);
         break;
     case '-':
-        user.set_height(-0.2);
+        user.set_height(-0.2f);
         break;
     case 'I':
         cout << user.get_pos() << " " << user.get_dir() << endl;

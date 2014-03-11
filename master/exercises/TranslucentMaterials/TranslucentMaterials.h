@@ -51,6 +51,7 @@ protected:
      void mouseMoveEvent(QMouseEvent *);
      void keyPressEvent(QKeyEvent *);
      void keyReleaseEvent(QKeyEvent *);
+     std::vector<GLGraphics::ThreeDObject*> objects;
 };
 
 struct CompareThreeD {
