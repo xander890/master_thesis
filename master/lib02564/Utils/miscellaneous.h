@@ -23,13 +23,14 @@ inline float fresnel_R(const CGLA::Vec3f & in, const CGLA::Vec3f & n, float n1, 
 {
     CGLA::Vec2f R = fresnelPowerReflectance(in,n,n1,n2);
     float RR = 0.5f * (R[0] + R[1]);
-    return std::min(std::max(RR,0.0f),1.0f);
+    return RR;
 }
+
 inline float fresnel_T(const CGLA::Vec3f & in, const CGLA::Vec3f & n, float n1, float n2)
 {
     CGLA::Vec2f T = fresnelPowerTransmittance(in,n,n1,n2);
     float TT = 0.5f * (T[0] + T[1]);
-    return std::min(std::max(TT,0.0f),1.0f);
+    return TT;
 }
 
 void debugFresnelTerms();

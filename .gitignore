@@ -12,3 +12,4 @@
 *.la
 *.a
 build*/
+master/TranslucentMaterials.pro.user

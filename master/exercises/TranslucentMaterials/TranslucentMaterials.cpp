@@ -59,7 +59,7 @@ vector<ThreeDObject*> objects;
 LightManager manager;
 
 const Vec4f light_specular(0.6f,0.6f,0.3f,0.6f);
-const Vec4f light_diffuse(2.f,2.f,2.f,1.0f);
+const Vec4f light_diffuse(.5f,.5f,.5f,1.0f);
 const Vec4f light_position(0.f,0.f,3.f,1);
 
 void draw_screen_aligned_quad(ShaderProgram& shader_prog)
@@ -145,17 +145,17 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
         objects.push_back(translucent_sphere);
         translucent_sphere->init(" ","translucent");
         translucent_sphere->scale(Vec3f(1.5f));
-        translucent_sphere->translate(Vec3f(0.0f,0.0f,-1.5f));
+        translucent_sphere->translate(Vec3f(0.0f,10.0f,-1.5f));
 
         vector<Vec3f> luminance;
-        dipoleCalculator.calculate(*t, luminance, dipoleModel);
+        //dipoleCalculator.calculate(*t, luminance, dipoleModel);
 
-        ThreeDCube *cube = new ThreeDCube(Mesh::Material(),10);
+        ThreeDCube *cube = new ThreeDCube(Mesh::Material(),20);
         objects.push_back(cube);
         cube->init(" ","cube");
         cube->scale(Vec3f(4.0f));
-        cube->translate(Vec3f(0.0f,10.0f,-2.f));
-        //dipoleCalculator.calculate(*cube, luminance, dipoleModel);
+        cube->translate(Vec3f(0.0f,0.0f,-2.f));
+        dipoleCalculator.calculate(*cube, luminance, dipoleModel);
 
         check_gl_error();
         //objects.push_back(ThreeDObject());
@@ -278,7 +278,7 @@ void TranslucentMaterials::render_direct(bool reload)
         t_shader.reload();
     }
 
-    glClearColor(0.4f,0.35f,0.95f,0);
+    glClearColor(0.f,0.f,0.f,0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
     terrain_shader.use();
@@ -299,8 +299,8 @@ void TranslucentMaterials::render_direct(bool reload)
     t_shader.use();
     set_light_and_camera(t_shader);
     objs.clear();
-    objs.push_back("cow");
-    //objs.push_back("cube");
+    //objs.push_back("cow");
+    objs.push_back("cube");
     draw_objects(t_shader,objs);
 //    draw_sphere_translucent(t_shader, Vec3f(0.0f, 0.0f, 30.0f), m, 2.0f, 20);
 

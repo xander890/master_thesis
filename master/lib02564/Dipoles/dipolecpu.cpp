@@ -66,7 +66,7 @@ void DipoleCPU::calculate(ThreeDObject &three, std::vector<Vec3f> &resultColors,
         for(int j = 0; j < limit; j++)
         {
             //std::cout << "Calculating dipole..." << j << std::endl;
-            //if(i != j)
+            //if(i == j)
             //{
                 Vec3f xi = mat * vertices[j];
                 Vec3f ni = normalize(mat * normals[j]);
@@ -81,15 +81,10 @@ void DipoleCPU::calculate(ThreeDObject &three, std::vector<Vec3f> &resultColors,
 
                 if(dot_n_w > 0.0f) //visibility term (for now)
                 {
-                    if(i == 1000)
-                    {
-                        cout << "";
-                    }
                     Vec3f Ei= Vec3f(light.diffuseIntensity);
                     Ei *= (dot_n_w);
                     Vec3f S = bssrdf.evaluate(xi,wi,ni,xo,wo,no);
                     Lo = Ei * S * areas[j];
-
                 }
                 resultColors[i] += Lo;
             //}

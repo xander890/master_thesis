@@ -34,6 +34,6 @@ void main()
     // specular part
     fragColor = color;
 
-    fragColor = vec4(_transl,1.0);
+    fragColor = 30 * vec4(_transl,1.0);
 
 }
