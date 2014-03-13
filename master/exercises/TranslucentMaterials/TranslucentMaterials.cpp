@@ -108,19 +108,18 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
         dipoleCalculator.light = manager[0];
         dipoleCalculator.user = user;
 
-        Mesh::ScatteringMaterial & marble_mat = Mesh::ScatteringMaterial(1.3f, Vec3f(0.0021f,0.0041f,0.0071f), Vec3f(2.19f,2.62f,3.0f), Vec3f(0.0f));
-        Mesh::Material & test = marble_mat;
-        marble_mat.diffuse = Vec4f(0.83f, 0.79f, 0.75f,1.0f);
-        marble_mat.name = "marble";
+        Mesh::ScatteringMaterial * marble_mat = new Mesh::ScatteringMaterial(1.3f, Vec3f(0.0021f,0.0041f,0.0071f), Vec3f(2.19f,2.62f,3.0f), Vec3f(0.0f));
+        marble_mat->diffuse = Vec4f(0.83f, 0.79f, 0.75f,1.0f);
+        marble_mat->name = "marble";
 
 
-        Mesh::Material default_mat;
+        Mesh::Material * default_mat = new Mesh::Material();
 
-        //JensenDipole dipoleModel(test);
+        JensenDipole dipoleModel(*marble_mat);
 
         ThreeDObject * t = new ThreeDObject();
         objects.push_back(t);
-        t->init(objects_path+"cow.obj", "cow", default_mat);
+        t->init(objects_path+"cow.obj", "cow", *default_mat);
         t->scale(Vec3f(.3f));
         t->rotate(Vec3f(1,0,0), 90);
         t->translate(Vec3f(0,0,-1.5f));
@@ -130,26 +129,26 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
 
         ThreeDPlane *plane = new ThreeDPlane();
         objects.push_back(plane);
-        plane->init(" ", "plane", default_mat);
+        plane->init(" ", "plane", *default_mat);
         plane->setTexture(texarray,TEXTURE_SIZE);
         plane->scale(Vec3f(3.0f));
         plane->translate(Vec3f(0.0f,0.0f,-2.0f));
 
         ThreeDSphere *sphere = new ThreeDSphere(40);
         objects.push_back(sphere);
-        sphere->init(" ", "sphere", default_mat);
+        sphere->init(" ", "sphere", *default_mat);
         sphere->scale(Vec3f(1.0f));
         sphere->translate(Vec3f(-5.0f,7.0f,terra.height(-5,7)+2.5f));
 
         ThreeDSphere *sphere_light = new ThreeDSphere(20);
         objects.push_back(sphere_light);
-        sphere_light->init(" ", "light_sphere", default_mat);
+        sphere_light->init(" ", "light_sphere", *default_mat);
         sphere_light->scale(Vec3f(.3f));
         sphere_light->translate(Vec3f(manager[0].position));
         
         ThreeDSphere *translucent_sphere = new ThreeDSphere(20);
         objects.push_back(translucent_sphere);
-        translucent_sphere->init(" ","translucent", default_mat);
+        translucent_sphere->init(" ","translucent", *default_mat);
         translucent_sphere->scale(Vec3f(1.5f));
         translucent_sphere->translate(Vec3f(0.0f,10.0f,-1.5f));
 
@@ -158,10 +157,10 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
 
         ThreeDCube *cube = new ThreeDCube(10);
         objects.push_back(cube);
-        cube->init(" ","cube",test);
+        cube->init(" ","cube",*marble_mat);
         cube->scale(Vec3f(4.0f));
         cube->translate(Vec3f(0.0f,0.0f,-2.f));
-        //dipoleCalculator.calculate(*cube, luminance, dipoleModel);
+        dipoleCalculator.calculate(*cube, luminance, dipoleModel);
 
         check_gl_error();
         //objects.push_back(ThreeDObject());
@@ -315,7 +314,7 @@ void TranslucentMaterials::render_direct(bool reload)
     red_shader.use();
     set_light_and_camera(red_shader);
     objs.clear();
-    //objs.push_back("light_sphere");
+    objs.push_back("light_sphere");
     draw_objects(red_shader,objs);
 
     plane_shader.use();

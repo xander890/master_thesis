@@ -1,4 +1,4 @@
-#version 150
+#version 430
 in vec3 vertex;
 in vec3 normal;
 in vec3 translucent;
@@ -18,7 +18,7 @@ uniform mat3 N;
 
 void main()
 {
-    _normal = (N * normal);
+    _normal = normalize(mat3(M) *normal);
     _pos = vertex;
     _transl = vec3(translucent);
     _texcoord = texcoord;
