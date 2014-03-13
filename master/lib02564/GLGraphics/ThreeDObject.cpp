@@ -19,8 +19,7 @@ namespace GLGraphics
 {	
 
     ThreeDObject::ThreeDObject():
-    translation_vector(0), rotation_axis(1,0,0),
-    rotation_angle(0), scaling_factors(1,1,1), mesh(Mesh::TriangleMesh())
+    translation_vector(0), rotation_matrix(identity_Mat4x4f()), scaling_factors(1,1,1), mesh(Mesh::TriangleMesh())
     {
 	}
 
@@ -32,12 +31,9 @@ namespace GLGraphics
 
     Mat4x4f ThreeDObject::getModelMatrix()
     {
-        Quatf q;
-        q.make_rot(rotation_angle*M_PI/180.0, rotation_axis);
-
         Mat4x4f M =
         translation_Mat4x4f(translation_vector)
-        *q.get_Mat4x4f()
+        *rotation_matrix
         *scaling_Mat4x4f(scaling_factors);
         return M;
     }

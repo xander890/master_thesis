@@ -36,6 +36,7 @@
 #include <Dipoles/bssrdf.h>
 #include <Dipoles/directionaldipole.h>
 #include <Dipoles/jensendipole.h>
+#include <Dipoles/betterdipole.h>
 #include <Utils/miscellaneous.h>
 
 #include "Dipoles/dipolecpu.h"
@@ -60,7 +61,7 @@ LightManager manager;
 
 const Vec4f light_specular(0.6f,0.6f,0.3f,0.6f);
 const Vec4f light_diffuse(.5f,.5f,.5f,1.0f);
-const Vec4f light_position(0.f,0.f,3.f,1);
+const Vec4f light_position(0.f,0.f,1.f,1);
 
 void draw_screen_aligned_quad(ShaderProgram& shader_prog)
 {
@@ -115,7 +116,9 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
 
         Mesh::Material * default_mat = new Mesh::Material();
 
-        JensenDipole dipoleModel(*marble_mat);
+        JensenDipole jensenDipoleModel(*marble_mat);
+        BetterDipole deonDipoleModel(*marble_mat);
+        DirectionalDipole jeppeDipole(*marble_mat);
 
         ThreeDObject * t = new ThreeDObject();
         objects.push_back(t);
@@ -140,12 +143,13 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
         sphere->scale(Vec3f(1.0f));
         sphere->translate(Vec3f(-5.0f,7.0f,terra.height(-5,7)+2.5f));
 
-        ThreeDSphere *sphere_light = new ThreeDSphere(20);
-        objects.push_back(sphere_light);
-        sphere_light->init(" ", "light_sphere", *default_mat);
-        sphere_light->scale(Vec3f(.3f));
-        sphere_light->translate(Vec3f(manager[0].position));
-        
+        ThreeDCube *cube_light = new ThreeDCube(10);
+        objects.push_back(cube_light);
+        cube_light->init(" ", "light_sphere", *default_mat);
+        cube_light->scale(Vec3f(.3f));
+        cube_light->translate(Vec3f(manager[0].position));
+
+
         ThreeDSphere *translucent_sphere = new ThreeDSphere(20);
         objects.push_back(translucent_sphere);
         translucent_sphere->init(" ","translucent", *default_mat);
@@ -160,7 +164,21 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
         cube->init(" ","cube",*marble_mat);
         cube->scale(Vec3f(4.0f));
         cube->translate(Vec3f(0.0f,0.0f,-2.f));
-        dipoleCalculator.calculate(*cube, luminance, dipoleModel);
+        dipoleCalculator.calculate(*cube, luminance, jensenDipoleModel);
+
+        ThreeDCube *cube2 = new ThreeDCube(10);
+        objects.push_back(cube2);
+        cube2->init(" ","cube2",*marble_mat);
+        cube2->scale(Vec3f(4.0f));
+        cube2->translate(Vec3f(7.5f,0.0f,-2.f));
+        dipoleCalculator.calculate(*cube2, luminance, deonDipoleModel);
+
+        ThreeDCube *cube3 = new ThreeDCube(10);
+        objects.push_back(cube3);
+        cube3->init(" ","cube3",*marble_mat);
+        cube3->scale(Vec3f(4.0f));
+        cube3->translate(Vec3f(15.0f,0.0f,-2.f));
+        dipoleCalculator.calculate(*cube3, luminance, jeppeDipole);
 
         check_gl_error();
         //objects.push_back(ThreeDObject());
@@ -298,18 +316,17 @@ void TranslucentMaterials::render_direct(bool reload)
     vector<string> objs;
     //objs.push_back("cow");
     //objs.push_back("sphere");
-
-
-
+    //objs.push_back("cube");
     draw_objects(object_shader,objs);
 
     t_shader.use();
     set_light_and_camera(t_shader);
     objs.clear();
-    //objs.push_back("cow");
+
     objs.push_back("cube");
+    objs.push_back("cube2");
+    objs.push_back("cube3");
     draw_objects(t_shader,objs);
-//    draw_sphere_translucent(t_shader, Vec3f(0.0f, 0.0f, 30.0f), m, 2.0f, 20);
 
     red_shader.use();
     set_light_and_camera(red_shader);
@@ -698,7 +715,7 @@ TranslucentMaterials::TranslucentMaterials( const QGLFormat& format, QWidget* pa
     : QGLWidget( new Core3_2_context(format), (QWidget*) parent),
       ax(0), ay(0), dist(12),ang_x(0),ang_y(0),mouse_x0(0),mouse_y0(0)
 {
-    Light mainLight (light_position, light_diffuse, light_specular, false);
+    Light mainLight (light_position, 12 * light_diffuse, light_specular, false);
     manager.addLight(mainLight);
 
     timer = new QTimer(this);

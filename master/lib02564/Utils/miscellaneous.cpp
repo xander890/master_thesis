@@ -70,8 +70,7 @@ Vec2f fresnelPowerTransmittance(const Vec3f &in, const Vec3f &n, float n1, float
     return ((n2 * costr) / (n1 * cosin)) * (t * t);
 }
 
-
-float C_Sigma(float ni)
+float C_1(float ni)
 {
     float c;
     if(ni < 1.0f)
@@ -92,12 +91,17 @@ float C_Sigma(float ni)
             - 2.54396  * pow(ni,4)
             + 0.254913 * pow(ni,5);
     }
-    return 0.25 * (1 - c);
+    return c * 0.5f;
+}
+
+float C_Sigma(float ni)
+{
+
+    return 0.25 * (1 - 2 * C_1(ni));
 }
 
 
-
-float C_e(float ni)
+float C_2(float ni)
 {
     float c;
     if(ni < 1.0f)
@@ -121,7 +125,12 @@ float C_e(float ni)
             - 27.0181 * pow(ni,4)
             + 1.91826 * pow(ni,5);
     }
-    return 0.5 * (1 - c);
+    return c * (1.0f/3.0f);
+}
+
+float C_e(float ni)
+{
+    return 0.5 * (1 - 3 * C_2(ni));
 }
 
 
@@ -146,29 +155,5 @@ void debugFresnelTerms()
         std::cout << "*Fresnel test: n1 = " << n1 << ", n2 = " << n2 << ", dot = " << dot(incident,normal) << " (t,T,r,R) = " << c << ", R+T = " << (T+R) << std::endl;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

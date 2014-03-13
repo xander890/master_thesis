@@ -44,7 +44,8 @@ HEADERS += exercises/TranslucentMaterials/GBuffer.h\
     lib02564/Utils/cglautils.h \
     lib02564/Dipoles/bssrdf.h \
     lib02564/Dipoles/jensendipole.h \
-    lib02564/Mesh/material.h
+    lib02564/Mesh/material.h \
+    lib02564/Dipoles/betterdipole.h
 
 SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
         exercises/TranslucentMaterials/ShadowBuffer.cpp\
@@ -63,7 +64,8 @@ SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
     lib02564/Dipoles/dipolecpu.cpp \
     lib02564/Utils/cglautils.cpp \
     lib02564/Dipoles/jensendipole.cpp \
-    lib02564/Mesh/material.cpp
+    lib02564/Mesh/material.cpp \
+    lib02564/Dipoles/betterdipole.cpp
 
 
 HEADERS += lib02564/CGLA/ArithMatFloat.h\

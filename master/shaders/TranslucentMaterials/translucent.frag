@@ -22,13 +22,13 @@ uniform vec3 user_pos;
 
 out vec4 fragColor;
 
-#define FRESNEL
+//#define FRESNEL
 
 vec3 refract2(vec3 inv, vec3 n, float n1, float n2)
 {
     float eta = n1/n2;
     float c = dot(inv, n);
-    return eta * (c * n - inv) - n * sqrt(1 - eta * eta * (1 - c * c));
+    return eta * (c * n - inv) - n * sqrt(max(0.0f,1 - eta * eta * (1 - c * c)));
 }
 
 vec2 fresnelAmplitudeTransmittance(vec3 inv, vec3 n, float n1, float n2)
@@ -52,7 +52,7 @@ vec2 fresnelPowerTransmittance(vec3 inv, vec3 n, float n1, float n2)
 
     vec2 t = fresnelAmplitudeTransmittance(inv,n,n1,n2);
 
-    return ((n2 * costr) / (n1 * cosin)) * (t * t);
+    return (n2 * costr) * ((t * t)/ (n1 * cosin));
 }
 
 float fresnel_T(vec3 inv, vec3 n, float n1, float n2)
@@ -66,11 +66,12 @@ void main()
 {
     vec3 norm = normalize(_normal);
 
-    fragColor = 12 * vec4(_transl,1.0);
+    fragColor = vec4(_transl,1.0);
 #ifdef FRESNEL
     fragColor *= fresnel_T(normalize(user_pos - _pos), norm, 1.0f, ior);
 #endif
-    //fragColor = vec4(length(user_pos - _pos))/25.0; //vec4(fresnel_T(user_pos - _pos, norm, 1.0f, ior));
+
+
 }
 
 

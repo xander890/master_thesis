@@ -2,8 +2,6 @@
 #include "Utils/cglautils.h"
 #include "Utils/miscellaneous.h"
 
-#define CORRECTED_DISTANCE
-
 using namespace std;
 using namespace CGLA;
 

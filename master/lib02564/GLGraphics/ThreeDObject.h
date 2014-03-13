@@ -12,6 +12,7 @@
 
 #include "GLHeader.h"
 #include <CGLA/Vec3f.h>
+#include <CGLA/Quatf.h>
 #include "ShaderProgram.h"
 #include <Mesh/TriangleMesh.h>
 #include <string>
@@ -24,8 +25,9 @@ class ThreeDObject
 
 protected:
     CGLA::Vec3f translation_vector;
-    CGLA::Vec3f rotation_axis;
-    float rotation_angle;
+    //CGLA::Vec3f rotation_axis;
+    //float rotation_angle;
+    CGLA::Mat4x4f rotation_matrix;
     CGLA::Vec3f scaling_factors;
 
 public:
@@ -51,8 +53,32 @@ public:
 
     void rotate(const CGLA::Vec3f& axis, float angle)
     {
-        rotation_axis = axis;
-        rotation_angle = angle;
+
+        CGLA::Quatf q;
+        q.make_rot(angle*M_PI/180.0, axis);
+        rotation_matrix *= q.get_Mat4x4f();
+    }
+
+    void rotate(const CGLA::Mat4x4f & rotation)
+    {
+
+        rotation_matrix *= rotation;
+        rotation_matrix[0][3] = 0.0f;
+        rotation_matrix[1][3] = 0.0f;
+        rotation_matrix[2][3] = 0.0f;
+    }
+
+
+    void set_rotation(const CGLA::Mat4x4f & rotation)
+    {
+
+
+
+        rotation_matrix = rotation;
+        rotation_matrix[0][3] = 0.0f;
+        rotation_matrix[1][3] = 0.0f;
+        rotation_matrix[2][3] = 0.0f;
+
     }
 
     void translate(const CGLA::Vec3f& pos)

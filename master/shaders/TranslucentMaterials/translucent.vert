@@ -19,7 +19,8 @@ uniform mat3 N;
 void main()
 {
     _normal = normalize(mat3(M) *normal);
-    _pos = vertex;
+    vec4 p = (M * vec4(vertex,1.0f));
+    _pos = p.xyz;
     _transl = vec3(translucent);
     _texcoord = texcoord;
     gl_Position = PVM * vec4(vertex,1);
