@@ -17,6 +17,6 @@ namespace Mesh
         shader.set_uniform(DIFFUSE_KEY.c_str(), diffuse);
         shader.set_uniform(SPECULAR_KEY.c_str(), specular);
         shader.set_uniform(SHININESS_KEY.c_str(), shininess);
-        shader.use_texture(GL_TEXTURE_2D, TEXTURE_KEY.c_str(), tex_map.get_id(), 0);
+        //shader.use_texture(GL_TEXTURE_2D, TEXTURE_KEY.c_str(), tex_map.get_id(), 0);
     }
 }

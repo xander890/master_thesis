@@ -16,9 +16,9 @@ namespace Mesh
 	bool Texmap::load(const std::string& _name)
 	{
         name = _name;
-        QImage image;
-        if(image.load(QString(name.c_str()))) {
-            qgl_data = QGLWidget::convertToGLFormat(image);
+        QImage * image = new QImage();
+        if(image->load(QString(name.c_str()))) {
+            qgl_data = QGLWidget::convertToGLFormat(*image);
             return true;
         }
         return false;

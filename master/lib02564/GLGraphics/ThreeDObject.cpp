@@ -25,7 +25,7 @@ namespace GLGraphics
 
     bool ThreeDObject::init(std::string filename, std::string name, Mesh::Material & material){
         this->name = name;
-        return mesh.load(filename, true);
+        return mesh.load(filename, material);
     }
 
 

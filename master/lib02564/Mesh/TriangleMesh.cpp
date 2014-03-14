@@ -107,7 +107,7 @@ void TriangleMesh::recompute_normals(const char* positionName, const char *norma
     add(normalName, normals);
 }
 */
-bool TriangleMesh::load(const string &filename, bool do_recompute_normals){
+bool TriangleMesh::load(const string &filename, Material & material){
     vector<Vec3f> outPositions;
     vector<Vec3f> outNormal;
     vector<Vec2f> outUv;
@@ -126,7 +126,7 @@ bool TriangleMesh::load(const string &filename, bool do_recompute_normals){
         return false;
     }
 
-    return load_external(outIndices[0], outPositions,outNormal,outUv,outMaterials[0], GL_TRIANGLES);
+    return load_external(outIndices[0], outPositions,outNormal,outUv,material, GL_TRIANGLES);
 }
 
 bool TriangleMesh::load_external(vector<GLuint> & indices, vector<Vec3f>& outPositions, vector<Vec3f>& outNormal, vector<Vec2f>& outUv, Material& outMaterial, GLenum type)
@@ -322,7 +322,7 @@ void TriangleMesh::build_vertex_array_object(GLGraphics::ShaderProgram *shader){
 
 
     for (std::vector<DrawCall>::iterator iter = drawCalls.begin();iter != drawCalls.end(); iter++){
-        iter->material.tex_map.gl_init();
+        //iter->material.tex_map.gl_init();
     }
 
     initialized = true;

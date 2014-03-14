@@ -102,7 +102,7 @@ public:
 
     void set_debug(bool enable){ debug = enable; }
 
-    bool load(const std::string &filename, bool recomputeNormals = true);
+    bool load(const std::string &filename, Material & material);
     bool load_external(std::vector<GLuint> & indices, std::vector<CGLA::Vec3f>& outPositions, std::vector<CGLA::Vec3f>& outNormal, std::vector<CGLA::Vec2f>& outUv, Material& outMaterial, GLenum type);
     void getRawData(RawMeshData & data);
     GLenum getMode();

@@ -22,7 +22,7 @@ uniform vec3 user_pos;
 
 out vec4 fragColor;
 
-//#define FRESNEL
+#define FRESNEL
 
 vec3 refract2(vec3 inv, vec3 n, float n1, float n2)
 {
@@ -66,7 +66,7 @@ void main()
 {
     vec3 norm = normalize(_normal);
 
-    fragColor = vec4(_transl,1.0);
+    fragColor = 2.0* vec4(_transl,1.0);
 #ifdef FRESNEL
     fragColor *= fresnel_T(normalize(user_pos - _pos), norm, 1.0f, ior);
 #endif
