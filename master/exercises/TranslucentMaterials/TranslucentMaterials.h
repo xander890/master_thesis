@@ -5,6 +5,7 @@
 #include <GLGraphics/ThreeDObject.h>
 #include <GLGraphics/ShaderProgram.h>
 #include "GBuffer.h"
+#include <QGLFormat>
 
 class TranslucentMaterials : public QGLWidget
 {
@@ -24,7 +25,7 @@ class TranslucentMaterials : public QGLWidget
     GLuint m_vertexBuffer;
 
 public:
-    TranslucentMaterials( const QGLFormat& format, QWidget* parent = 0);
+    TranslucentMaterials(QWidget* parent = 0);
 
 public slots:
     void animate();

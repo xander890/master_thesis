@@ -26,7 +26,7 @@
 
 #include "ShadowBuffer.h"
 #include "Terrain.h"
-#include "TranslucentMaterials.h"
+#include "translucentmaterials.h"
 #include <GLGraphics/ShaderProgram.h>
 #include <GLGraphics/lightmanager.h>
 #include <GLGraphics/light.h>
@@ -449,7 +449,7 @@ void TranslucentMaterials::render_direct(bool reload)
     jensen_shader.use();
     set_light_and_camera(jensen_shader);
     objs.clear();
-    objs.push_back("cube2");
+    //objs.push_back("cube2");
     draw_objects(jensen_shader,objs);
 
     red_shader.use();
@@ -840,13 +840,13 @@ void TranslucentMaterials::render_indirect()
 #endif
 
 
-TranslucentMaterials::TranslucentMaterials( const QGLFormat& format, QWidget* parent)
-    : QGLWidget( new Core3_2_context(format), (QWidget*) parent),
+TranslucentMaterials::TranslucentMaterials( QWidget* parent)
+    : QGLWidget( new Core4_3_context(), (QWidget*) parent),
       ax(0), ay(0), dist(12),ang_x(0),ang_y(0),mouse_x0(0),mouse_y0(0)
 {
     Light mainLight (light_position, 12 * light_diffuse, light_specular, true);
     manager.addLight(mainLight);
-
+    setFocusPolicy(Qt::ClickFocus);
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(animate()));
     timer->start(16);
@@ -1002,24 +1002,4 @@ void TranslucentMaterials::keyPressEvent(QKeyEvent *e)
 void TranslucentMaterials::keyReleaseEvent(QKeyEvent *)
 {
     user.stop();
-}
-
-int main(int argc, char *argv[])
-{
-
-    const int WINDOW_WIDTH = 1136;
-    const int WINDOW_HEIGHT = 640;
-
-    qDebug() << argv[0] << " - " << argv[1] << endl;
-    QApplication a( argc, argv );
-
-    QGLFormat glFormat;
-    glFormat.setVersion( 4, 3 );
-    glFormat.setProfile( QGLFormat::CoreProfile ); // Requires >=Qt-4.8.0
-    TranslucentMaterials w( glFormat);
-    w.resize(WINDOW_WIDTH, WINDOW_HEIGHT);
-    w.setFocusPolicy(Qt::ClickFocus);
-    w.show();
-
-    return a.exec();
 }

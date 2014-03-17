@@ -23,13 +23,13 @@ mac{
 }
 
 INCLUDEPATH += lib02564
+INCLUDEPATH += exercises/TranslucentMaterials
 
 QMAKE_CXXFLAGS += /wd4996
 
 HEADERS += exercises/TranslucentMaterials/GBuffer.h\
         exercises/TranslucentMaterials/ShadowBuffer.h\
         exercises/TranslucentMaterials/Terrain.h\
-        exercises/TranslucentMaterials/TranslucentMaterials.h \
     lib02564/Mesh/scatteringmaterial.h \
     lib02564/GLGraphics/light.h \
     lib02564/GLGraphics/lightmanager.h \
@@ -48,12 +48,13 @@ HEADERS += exercises/TranslucentMaterials/GBuffer.h\
     lib02564/Dipoles/betterdipole.h \
     lib02564/Dipoles/singlescattering.h \
     lib02564/Mesh/texture.h \
-    lib02564/Dipoles/dipolegpu.h
+    lib02564/Dipoles/dipolegpu.h \
+    exercises/TranslucentMaterials/translucentmaterials.h \
+    exercises/TranslucentMaterials/GUI/mainwindow.h
 
 SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
         exercises/TranslucentMaterials/ShadowBuffer.cpp\
         exercises/TranslucentMaterials/Terrain.cpp\
-    exercises/TranslucentMaterials/TranslucentMaterials.cpp \
     lib02564/Mesh/scatteringmaterial.cpp \
     lib02564/GLGraphics/light.cpp \
     lib02564/GLGraphics/lightmanager.cpp \
@@ -71,7 +72,9 @@ SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
     lib02564/Dipoles/betterdipole.cpp \
     lib02564/Dipoles/singlescattering.cpp \
     lib02564/Mesh/texture.cpp \
-    lib02564/Dipoles/dipolegpu.cpp
+    lib02564/Dipoles/dipolegpu.cpp \
+    exercises/TranslucentMaterials/translucentmaterials.cpp \
+    exercises/TranslucentMaterials/GUI/mainwindow.cpp
 
 
 HEADERS += lib02564/CGLA/ArithMatFloat.h\
@@ -163,3 +166,6 @@ OTHER_FILES += shaders/TranslucentMaterials/* \
     shaders/TranslucentMaterials/plane.frag \
     shaders/TranslucentMaterials/jensen_dipole_gpu.vert \
     shaders/TranslucentMaterials/jensen_dipole_gpu.frag
+
+FORMS += \
+    exercises/TranslucentMaterials/mainwindow.ui
