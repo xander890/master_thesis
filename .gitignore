@@ -12,5 +12,6 @@
 *.la
 *.a
 build*/
-master/TranslucentMaterials.pro.user
+*.pro.user
 master/debug/
+master/release/
