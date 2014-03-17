@@ -105,16 +105,17 @@ public:
     bool load(const std::string &filename, Material & material);
     bool load_external(std::vector<GLuint> & indices, std::vector<CGLA::Vec3f>& outPositions, std::vector<CGLA::Vec3f>& outNormal, std::vector<CGLA::Vec2f>& outUv, Material& outMaterial, GLenum type);
     void getRawData(RawMeshData & data);
+    Mesh::Material * getMaterial();
     GLenum getMode();
     // Calculate normals using angle weighted pseudo-normals
-   // void recompute_normals(const char* positionName = "vertex", const char *normalName = "normal");
+    void recompute_normals(const char* positionName = "vertex", const char *normalName = "normal");
 private:
     /// Make sure that all vertex attribute vectors has the same size
     void check_vertex_size(int vertexAttributeSize);
     // maps shader to vertex attribute location
     // shader is optional - if defined the attribute locations are taken from the shader, otherwise generic locations are used
     void map_data_to_shader_vertex_attributes(GLGraphics::ShaderProgram *shader = NULL);
-    //std::vector<GLuint> convert_sub_meshes_to_triangle_indices(DrawCall &drawCall, bool removeDegenerate = true);
+    std::vector<GLuint> convert_sub_meshes_to_triangle_indices(DrawCall &drawCall, bool removeDegenerate = true);
     std::map<std::string, DataVector> vertexAttributes;
     std::vector<DrawCall> drawCalls;
     GLuint vertexArrayObject;

@@ -15,7 +15,7 @@ TriangleMesh::TriangleMesh()
 {
 }
 
-/*
+
 vector<GLuint> TriangleMesh::convert_sub_meshes_to_triangle_indices(DrawCall &drawCall, bool removeDegenerate){
     vector<GLuint> indices = drawCall.indices;
     vector<GLuint> trianleIndices;
@@ -55,9 +55,9 @@ vector<GLuint> TriangleMesh::convert_sub_meshes_to_triangle_indices(DrawCall &dr
 
 
 void TriangleMesh::recompute_normals(const char* positionName, const char *normalName){
-    vector<Vec3f> normals;
+    vector<Vec3f> * normals = new vector<Vec3f>(); //need it to stay in memory
     for (int i=0;i<vertexCount;i++) {
-        normals.push_back(Vec3f(0.0, 0.0, 0.0));
+        normals->push_back(Vec3f(0.0, 0.0, 0.0));
     }
 
     vector<Vec3f> vertex;
@@ -94,19 +94,20 @@ void TriangleMesh::recompute_normals(const char* positionName, const char *norma
             float weight1 = acos(max(-1.0f, min(1.0f, dot(v1v2, v1v3))));
             float weight2 = M_PI - acos(max(-1.0f, min(1.0f, dot(v1v2, v2v3))));
 
-            normals[i1] += normal * weight1;
-            normals[i2] += normal * weight2;
-            normals[i3] += normal * (M_PI - weight1 - weight2);
+            (*normals)[i1] += normal * weight1;
+            (*normals)[i2] += normal * weight2;
+            (*normals)[i3] += normal * (M_PI - weight1 - weight2);
         }
     }
 
     for (int i=0;i<vertexCount;i++) {
-        normals[i] = normalize(normals[i]);
+        (*normals)[i] = normalize((*normals)[i]);
     }
 
-    add(normalName, normals);
+    rawData.normals = *normals;
+    add(normalName, *normals);
 }
-*/
+
 bool TriangleMesh::load(const string &filename, Material & material){
     vector<Vec3f> outPositions;
     vector<Vec3f> outNormal;
@@ -126,21 +127,27 @@ bool TriangleMesh::load(const string &filename, Material & material){
         return false;
     }
 
+
     return load_external(outIndices[0], outPositions,outNormal,outUv,material, GL_TRIANGLES);
 }
 
 bool TriangleMesh::load_external(vector<GLuint> & indices, vector<Vec3f>& outPositions, vector<Vec3f>& outNormal, vector<Vec2f>& outUv, Material& outMaterial, GLenum type)
 {
     add("vertex", outPositions);
+    add_draw_call(indices, indices.size(), outMaterial, type);
+
     if (outNormal.size()>0){
         add("normal", outNormal);
+        rawData.normals = outNormal;
+    }
+    else
+    {
+        recompute_normals();
     }
     if (outUv.size()>0){
         add("texcoord", outUv);
     }
-    add_draw_call(indices, indices.size(), outMaterial, type);
     rawData.vertices = outPositions;
-    rawData.normals = outNormal;
     rawData.uvs = outUv;
     rawData.indices = indices;
 
@@ -153,6 +160,11 @@ void TriangleMesh::getRawData(RawMeshData & data)
     data.normals = rawData.normals;
     data.uvs = rawData.uvs;
     data.indices = rawData.indices;
+}
+
+Material * TriangleMesh::getMaterial()
+{
+    return &(this->drawCalls.at(0).material);
 }
 
 GLenum TriangleMesh::getMode()
@@ -322,7 +334,7 @@ void TriangleMesh::build_vertex_array_object(GLGraphics::ShaderProgram *shader){
 
 
     for (std::vector<DrawCall>::iterator iter = drawCalls.begin();iter != drawCalls.end(); iter++){
-        //iter->material.tex_map.gl_init();
+        iter->material.initTextures();
     }
 
     initialized = true;

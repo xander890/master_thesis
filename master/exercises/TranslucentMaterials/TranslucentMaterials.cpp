@@ -38,8 +38,11 @@
 #include <Dipoles/jensendipole.h>
 #include <Dipoles/betterdipole.h>
 #include <Utils/miscellaneous.h>
-
 #include "Dipoles/dipolecpu.h"
+#include <Dipoles/singlescattering.h>
+#include <Dipoles/dipolegpu.h>
+
+#define CUBES
 using namespace std;
 using namespace CGLA;
 using namespace GLGraphics;
@@ -61,7 +64,7 @@ LightManager manager;
 
 const Vec4f light_specular(0.6f,0.6f,0.3f,0.6f);
 const Vec4f light_diffuse(.5f,.5f,.5f,1.0f);
-const Vec4f light_position(0.f,0.f,1.f,1);
+const Vec4f light_position(0.f,0.f,6.f,1);
 
 void draw_screen_aligned_quad(ShaderProgram& shader_prog)
 {
@@ -97,6 +100,9 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
     {
         Vec3f userpos = Vec3f(7.5, -12, 2.5f);
         Vec3f userdir = Vec3f(0,0.95,-0.3);
+        int LODSpheres = 20;
+        int LODCubes = 10;
+
         user.set(userpos,userdir);
         //objects.push_back(ThreeDObject());
         //objects[objects.size()-1].init(objects_path+"cottage_obj/cottage.obj");
@@ -115,6 +121,8 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
 
 
         Mesh::Material * default_mat = new Mesh::Material();
+
+//      SingleScattering * s = new SingleScattering(*scattering_mat);
 
         JensenDipole jensenDipoleModel(*scattering_mat);
         BetterDipole deonDipoleModel(*scattering_mat);
@@ -157,52 +165,48 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
         translucent_sphere->translate(Vec3f(0.0f,10.0f,-1.5f));
 
         vector<Vec3f> luminance;
-        //dipoleCalculator.calculate(*t, luminance, dipoleModel);
 
-        int LODCubes = 20;
+
+
         ThreeDCube *cube = new ThreeDCube(LODCubes);
         objects.push_back(cube);
         cube->init(" ","cube",*scattering_mat);
         cube->scale(Vec3f(4.0f));
         cube->translate(Vec3f(0.0f,0.0f,-2.f));
-        //dipoleCalculator.calculate(*cube, luminance, jensenDipoleModel);
 
         ThreeDCube *cube2 = new ThreeDCube(LODCubes);
         objects.push_back(cube2);
         cube2->init(" ","cube2",*scattering_mat);
         cube2->scale(Vec3f(4.0f));
         cube2->translate(Vec3f(7.5f,0.0f,-2.f));
-        //dipoleCalculator.calculate(*cube2, luminance, deonDipoleModel);
+
 
         ThreeDCube *cube3 = new ThreeDCube(LODCubes);
         objects.push_back(cube3);
         cube3->init(" ","cube3",*scattering_mat);
         cube3->scale(Vec3f(4.0f));
         cube3->translate(Vec3f(15.0f,0.0f,-2.f));
-        //dipoleCalculator.calculate(*cube3, luminance, jeppeDipole);
 
-        int LODSpheres = 20;
+
         ThreeDSphere *sphere1 = new ThreeDSphere(LODSpheres);
         objects.push_back(sphere1);
         sphere1->init(" ","sphere1",*scattering_mat);
         sphere1->scale(Vec3f(2.0f));
         sphere1->translate(Vec3f(0.0f,0.0f,-2.f));
-        //dipoleCalculator.calculate(*sphere1, luminance, jensenDipoleModel);
+
 
         ThreeDSphere *sphere2 = new ThreeDSphere(LODSpheres);
         objects.push_back(sphere2);
         sphere2->init(" ","sphere2",*scattering_mat);
         sphere2->scale(Vec3f(2.0f));
         sphere2->translate(Vec3f(7.5f,0.0f,-2.f));
-        //dipoleCalculator.calculate(*sphere2, luminance, deonDipoleModel);
+
 
         ThreeDSphere *sphere3 = new ThreeDSphere(LODSpheres);
         objects.push_back(sphere3);
         sphere3->init(" ","sphere3",*scattering_mat);
         sphere3->scale(Vec3f(2.0f));
         sphere3->translate(Vec3f(15.0f,0.0f,-2.f));
-        //dipoleCalculator.calculate(*sphere3, luminance, jeppeDipole);
-
 
         ThreeDObject * cow1 = new ThreeDObject();
         objects.push_back(cow1);
@@ -210,7 +214,6 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
         cow1->scale(Vec3f(.5f));
         cow1->rotate(Vec3f(1,0,0), 90);
         cow1->translate(Vec3f(0,0,-1.5f));
-        dipoleCalculator.calculate(*cow1,luminance,jensenDipoleModel);
 
         ThreeDObject * cow2 = new ThreeDObject();
         objects.push_back(cow2);
@@ -218,7 +221,6 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
         cow2->scale(Vec3f(.5f));
         cow2->rotate(Vec3f(1,0,0), 90);
         cow2->translate(Vec3f(7.5,0,-1.5f));
-        dipoleCalculator.calculate(*cow2,luminance,deonDipoleModel);
 
         ThreeDObject * cow3 = new ThreeDObject();
         objects.push_back(cow3);
@@ -226,13 +228,57 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
         cow3->scale(Vec3f(.5f));
         cow3->rotate(Vec3f(1,0,0), 90);
         cow3->translate(Vec3f(15.0,0,-1.5f));
-        dipoleCalculator.calculate(*cow3,luminance,jeppeDipole);
+
+        ThreeDObject * bunny1 = new ThreeDObject();
+        objects.push_back(bunny1);
+        bunny1->init(objects_path+"bunny-simplified.obj", "bunny1", *scattering_mat);
+        bunny1->scale(Vec3f(30.f));
+        bunny1->rotate(Vec3f(1,0,0), 90);
+        bunny1->translate(Vec3f(0,0,-4.5f));
+
+        ThreeDObject * bunny2 = new ThreeDObject();
+        objects.push_back(bunny2);
+        bunny2->init(objects_path+"bunny-simplified.obj", "bunny2", *scattering_mat);
+        bunny2->scale(Vec3f(30.f));
+        bunny2->rotate(Vec3f(1,0,0), 90);
+        bunny2->translate(Vec3f(7.5,0,-4.5f));
+
+        ThreeDObject * bunny3 = new ThreeDObject();
+        objects.push_back(bunny3);
+        bunny3->init(objects_path+"bunny-simplified.obj", "bunny3", *scattering_mat);
+        bunny3->scale(Vec3f(30.f));
+        bunny3->rotate(Vec3f(1,0,0), 90);
+        bunny3->translate(Vec3f(15.0,0,-4.5f));
 
         check_gl_error();
         //objects.push_back(ThreeDObject());
         //objects[objects.size()-1].init(objects_path+"portal.obj");
         //objects.back().scale(Vec3f(2));
         //objects.back().translate(Vec3f(0,0,terra.height(0,0)+1.0));
+
+#ifdef CUBES
+        dipoleCalculator.calculate(*cube, luminance, jensenDipoleModel);
+        //dipoleCalculator.calculate(*cube2, luminance, deonDipoleModel);
+        //dipoleCalculator.calculate(*cube3, luminance, jeppeDipole);
+#endif
+#ifdef SPHERES
+        dipoleCalculator.calculate(*sphere1, luminance, jensenDipoleModel);
+        dipoleCalculator.calculate(*sphere2, luminance, deonDipoleModel);
+        dipoleCalculator.calculate(*sphere3, luminance, jeppeDipole);
+#endif
+#ifdef COWS
+        dipoleCalculator.calculate(*cow1,luminance,jensenDipoleModel);
+        dipoleCalculator.calculate(*cow2,luminance,deonDipoleModel);
+        dipoleCalculator.calculate(*cow3,luminance,jeppeDipole);
+
+#endif
+#ifdef BUNNIES
+        dipoleCalculator.calculate(*bunny1,luminance,jensenDipoleModel);
+        dipoleCalculator.calculate(*bunny2,luminance,deonDipoleModel);
+        dipoleCalculator.calculate(*bunny3,luminance,jeppeDipole);
+#endif
+        DipoleGPU gip;
+        gip.prepare(*cube2);
     }
 
 
@@ -344,11 +390,14 @@ void TranslucentMaterials::render_direct(bool reload)
 
     static ShaderProgramDraw plane_shader(shader_path, "plane.vert", "", "plane.frag");
 
+    static ShaderProgramDraw jensen_shader(shader_path, "jensen_dipole_gpu.vert", "", "jensen_dipole_gpu.frag");
+
     if(reload)
     {
         terrain_shader.reload();
         object_shader.reload();
         t_shader.reload();
+        jensen_shader.reload();
     }
 
     glClearColor(0.f,0.f,0.f,0);
@@ -362,27 +411,46 @@ void TranslucentMaterials::render_direct(bool reload)
     object_shader.use();
     set_light_and_camera(object_shader);
     vector<string> objs;
-    //objs.push_back("cow");
+    //objs.push_back("bunny1");
+    //objs.push_back("sphere2");
     //objs.push_back("sphere");
     //objs.push_back("cube");
+
     draw_objects(object_shader,objs);
 
     t_shader.use();
     set_light_and_camera(t_shader);
     objs.clear();
 
-    //objs.push_back("cube");
+#ifdef CUBES
+    objs.push_back("cube");
     //objs.push_back("cube2");
     //objs.push_back("cube3");
-
+#endif
+#ifdef SPHERES
+    objs.push_back("sphere1");
+    objs.push_back("sphere2");
+    objs.push_back("sphere3");
+#endif
+#ifdef COWS
     objs.push_back("cow1");
     objs.push_back("cow2");
     objs.push_back("cow3");
+#endif
+#ifdef BUNNIES
+    objs.push_back("bunny1");
+    objs.push_back("bunny2");
+    objs.push_back("bunny3");
+#endif
 
-    //objs.push_back("sphere1");
-   //objs.push_back("sphere2");
-    //objs.push_back("sphere3");
+
     draw_objects(t_shader,objs);
+
+    jensen_shader.use();
+    set_light_and_camera(jensen_shader);
+    objs.clear();
+    objs.push_back("cube2");
+    draw_objects(jensen_shader,objs);
 
     red_shader.use();
     set_light_and_camera(red_shader);
@@ -776,7 +844,7 @@ TranslucentMaterials::TranslucentMaterials( const QGLFormat& format, QWidget* pa
     : QGLWidget( new Core3_2_context(format), (QWidget*) parent),
       ax(0), ay(0), dist(12),ang_x(0),ang_y(0),mouse_x0(0),mouse_y0(0)
 {
-    Light mainLight (light_position, 12 * light_diffuse, light_specular, false);
+    Light mainLight (light_position, 12 * light_diffuse, light_specular, true);
     manager.addLight(mainLight);
 
     timer = new QTimer(this);

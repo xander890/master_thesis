@@ -45,7 +45,10 @@ HEADERS += exercises/TranslucentMaterials/GBuffer.h\
     lib02564/Dipoles/bssrdf.h \
     lib02564/Dipoles/jensendipole.h \
     lib02564/Mesh/material.h \
-    lib02564/Dipoles/betterdipole.h
+    lib02564/Dipoles/betterdipole.h \
+    lib02564/Dipoles/singlescattering.h \
+    lib02564/Mesh/texture.h \
+    lib02564/Dipoles/dipolegpu.h
 
 SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
         exercises/TranslucentMaterials/ShadowBuffer.cpp\
@@ -65,7 +68,10 @@ SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
     lib02564/Utils/cglautils.cpp \
     lib02564/Dipoles/jensendipole.cpp \
     lib02564/Mesh/material.cpp \
-    lib02564/Dipoles/betterdipole.cpp
+    lib02564/Dipoles/betterdipole.cpp \
+    lib02564/Dipoles/singlescattering.cpp \
+    lib02564/Mesh/texture.cpp \
+    lib02564/Dipoles/dipolegpu.cpp
 
 
 HEADERS += lib02564/CGLA/ArithMatFloat.h\
@@ -154,4 +160,6 @@ OTHER_FILES += shaders/TranslucentMaterials/* \
     shaders/TranslucentMaterials/red.frag \
     shaders/TranslucentMaterials/red.vert \
     shaders/TranslucentMaterials/plane.vert \
-    shaders/TranslucentMaterials/plane.frag
+    shaders/TranslucentMaterials/plane.frag \
+    shaders/TranslucentMaterials/jensen_dipole_gpu.vert \
+    shaders/TranslucentMaterials/jensen_dipole_gpu.frag

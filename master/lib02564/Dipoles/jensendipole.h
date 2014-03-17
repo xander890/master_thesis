@@ -12,7 +12,8 @@
 class JensenDipole : public BSSRDF
 {
 public:
-    JensenDipole::JensenDipole(Mesh::ScatteringMaterial mat) : BSSRDF(mat) {}
+    JensenDipole::JensenDipole(Mesh::ScatteringMaterial & m): BSSRDF(m) {}
+    JensenDipole::JensenDipole(Mesh::ScatteringMaterial & m, SingleScattering & s): BSSRDF(m,s) {}
 
     virtual CGLA::Vec3f evaluate(const CGLA::Vec3f & xi, const CGLA::Vec3f & wi, const CGLA::Vec3f & ni,
                                  const CGLA::Vec3f & xo, const CGLA::Vec3f & wo, const CGLA::Vec3f & no);

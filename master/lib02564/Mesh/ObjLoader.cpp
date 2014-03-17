@@ -188,8 +188,9 @@ vector<Material> load_material(const string& path, const string& filename){
                     string name;
                     material_file >> name;
                     string texname = GLGraphics::ResourceLoader::compute_resource_path(path + name);
-                    materials[nummaterials].tex_map.load(texname);
-                    materials[nummaterials].has_texture = true;
+                    // TODO REINPUT TEXTURES
+                    //materials[nummaterials].tex_map.load(texname);
+                    //materials[nummaterials].has_texture = true;
                 }
                 break;
             case '#':

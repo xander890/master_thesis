@@ -13,6 +13,7 @@ uniform vec4 light_amb;
 
 uniform mat4 M;
 uniform mat4 VM;
+uniform mat4 V;
 uniform vec4 mat_diff;
 uniform vec4 mat_spec;
 uniform float mat_spec_exp;
@@ -24,12 +25,12 @@ void main()
 {
     vec3 norm = normalize(_normal);
     vec3 light = normalize(_light_pos);
-
     float cos_theta = max(dot(norm, light), 0.0);
 
     // ambient and diffuse part
     vec4 color = mat_diff * (light_amb + cos_theta*light_diff[0]);
 
 
-    fragColor = color;
+    fragColor = vec4(cos_theta);//color;
+
 }

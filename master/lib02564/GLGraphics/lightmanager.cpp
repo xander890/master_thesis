@@ -30,12 +30,13 @@ namespace GLGraphics
 
         }
 
+        /*
         for(int i = 0; i < positions.size(); i++)
         {
             Vec4f nepos = lights[i].position;
             positions[i] = shader.get_view_matrix() * (nepos);
         }
-
+        */
         shader.set_uniform(LIGHT_POS_UNIFORM, positions, size);
         shader.set_uniform(LIGHT_DIFFUSE_COLOR_UNIFORM, diffuse, size);
         shader.set_uniform(LIGHT_SPEC_COLOR_UNIFORM, specular, size);

@@ -12,7 +12,7 @@
 class DirectionalDipole : public BSSRDF
 {
 public:
-    DirectionalDipole::DirectionalDipole(Mesh::ScatteringMaterial mat) : BSSRDF(mat) {}
+    DirectionalDipole::DirectionalDipole(Mesh::ScatteringMaterial & m): BSSRDF(m) {}
 
     virtual CGLA::Vec3f evaluate(const CGLA::Vec3f & xi, const CGLA::Vec3f & wi, const CGLA::Vec3f & ni,
                                  const CGLA::Vec3f & xo, const CGLA::Vec3f & wo, const CGLA::Vec3f & no);

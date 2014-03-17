@@ -24,7 +24,7 @@ namespace Mesh{
 
     void ScatteringMaterial::loadUniforms(GLGraphics::ShaderProgramDraw &shader)
     {
-        //Material::loadUniforms(shader);
+        Material::loadUniforms(shader);
         shader.set_uniform(IOR.c_str(),indexOfRefraction);
         shader.set_uniform(ABSORPTION.c_str(),absorption);
         shader.set_uniform(SCATTERING.c_str(),scattering);
@@ -60,5 +60,6 @@ namespace Mesh{
                     (float)sqrt(reducedAlbedo[1]),
                     (float)sqrt(reducedAlbedo[2]));
         this->A = (1.0 - C_E) / (2.0 * C_s);
+        this->extinctionCoefficient = scattering + absorption;
     }
 }

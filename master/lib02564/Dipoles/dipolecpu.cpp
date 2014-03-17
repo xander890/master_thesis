@@ -82,14 +82,13 @@ void DipoleCPU::calculate(ThreeDObject &three, std::vector<Vec3f> &resultColors,
 
                 if(dot_n_w > 0.0f) //visibility term (for now)
                 {
-                    if(i == 24 && j == 24)
-                    {
-                        cout << j << " " << endl;
-                    }
-                    Vec3f Ei= Vec3f(light.diffuseIntensity);
-                    Ei *= (dot_n_w);
+                    Vec3f Li= Vec3f(light.diffuseIntensity);
                     Vec3f S = bssrdf.evaluate(xi,wi,ni,xo,wo,no);
-                    Lo = Ei * S * areas[j];
+                    Lo = Li * dot_n_w * S * areas[j];
+                    if(bssrdf.has_single_scattering)
+                    {
+                        Lo += Li * bssrdf.single_scattering.evaluate(xi,wi,ni,xo,wo,no);
+                    }
 
                 }
                 resultColors[i] += Lo;

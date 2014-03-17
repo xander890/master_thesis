@@ -9,6 +9,13 @@ class ScatteringMaterial : public Mesh::Material
 {
 public:
 
+    ScatteringMaterial() :
+        indexOfRefraction(1.0f),
+        scattering(1.0f),
+        absorption(1.0f),
+        meancosine(0.0f)
+    {}
+
     ScatteringMaterial(float indexOfRefraction, CGLA::Vec3f absorption, CGLA::Vec3f scattering, CGLA:: Vec3f meancosine) :
         indexOfRefraction(indexOfRefraction),
         scattering(scattering),
