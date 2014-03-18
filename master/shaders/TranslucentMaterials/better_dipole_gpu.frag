@@ -27,13 +27,82 @@ uniform vec3 user_pos;
 out vec4 fragColor;
 
 uniform float ior;
+uniform vec3 absorption;
+uniform vec3 scattering;
+uniform vec3 mean_cosine;
+
+uniform vec3 extinction;
 uniform vec3 red_extinction;
-uniform vec3 D;
+uniform vec3 red_scattering;
 uniform vec3 transmission;
 uniform vec3 reduced_albedo;
 
+
 #define FRESNEL
 const float M_PI = 3.141592654;
+
+float C_1(float ni)
+{
+    float c;
+    if(ni < 1.0f)
+    {
+        c = + 0.919317
+            - 3.4793  * ni
+            + 6.75335 * pow(ni,2)
+            - 7.80989 * pow(ni,3)
+            + 4.98554 * pow(ni,4)
+            - 1.36881 * pow(ni,5);
+    }
+    else
+    {
+        c = - 9.23372
+            + 22.2272  * ni
+            - 20.9292  * pow(ni,2)
+            + 10.2291  * pow(ni,3)
+            - 2.54396  * pow(ni,4)
+            + 0.254913 * pow(ni,5);
+    }
+    return c * 0.5f;
+}
+
+float C_Sigma(float ni)
+{
+
+    return 0.25 * (1 - 2 * C_1(ni));
+}
+
+
+float C_2(float ni)
+{
+    float c;
+    if(ni < 1.0f)
+    {
+        c = + 0.828421
+            - 2.62051  * ni
+            + 3.36231  * pow(ni , 2)
+            - 1.95284  * pow(ni , 3)
+            + 0.236494 * pow(ni , 4)
+            + 0.145787 * pow(ni,5);
+    }
+    else
+    {
+        c = - 1641.1
+            + 135.926 / pow(ni,3)
+            - 656.175 / pow(ni,2)
+            + 1376.53 / ni
+            + 1213.67 * ni
+            - 568.556 * pow(ni,2)
+            + 164.798 * pow(ni,3)
+            - 27.0181 * pow(ni,4)
+            + 1.91826 * pow(ni,5);
+    }
+    return c * (1.0f/3.0f);
+}
+
+float C_e(float ni)
+{
+    return 0.5 * (1 - 3 * C_2(ni));
+}
 
 vec3 refract2(vec3 inv, vec3 n, float n1, float n2)
 {
@@ -80,26 +149,33 @@ vec3 bssrdf(const vec3 xi, const vec3 wi, const vec3 ni, const vec3 xo, const ve
     float ntr = ior;
     float nin = 1.0f; //air
     float eta = ntr / nin;
-    float eta_sqr = eta * eta;
-    float Fdr = -1.440 / eta_sqr + 0.71 / eta + 0.668 + 0.0636 * eta;
-    float A = (1 + Fdr) / (1 - Fdr);
 
-    vec3 zr = vec3(1.0f) / red_extinction;
-    vec3 zv = zr + 4.0f * A * D;
+
+    vec3 D = (2 * absorption + red_scattering) / (3 * red_extinction * red_extinction);
+    float A = (1 + 3 * C_2(eta)) / (1 - 2 * C_1(eta));
+
+    vec3 zr = vec3(1.0f)/vec3(red_extinction);
+    vec3 zv = - zr - 4.0f * A * D;
+
+    vec3 dr;
+    vec3 dv;
 
     vec3 r = vec3(l);
-    vec3 dr = sqrt(r * r + zr * zr);
-    vec3 dv = sqrt(r * r + zv * zv);
+    dr = sqrt(r * r + zr * zr);
+    dv = sqrt(r * r + zv * zv);
 
-    vec3 tr = transmission;
-    vec3 C1 = zr * (tr + vec3(1.0f)/vec3(dr));
-    vec3 C2 = zv * (tr + vec3(1.0f)/vec3(dv));
+    vec3 tr = sqrt(absorption / D);
 
-    vec3 coeff = reduced_albedo / (4.0f * M_PI);
-    vec3 real = (C1 / (dr * dr)) * exp(- tr * dr);
-    vec3 virt = (C2 / (dv * dv)) * exp(- tr * dv);
+    vec3 C1 = (zr / (dr * dr)) * (tr * dr + vec3(1.0f));
+    vec3 C2 = (zv / (dv * dv)) * (tr * dv + vec3(1.0f));
 
-    vec3 S = coeff * (real + virt);
+    float CE = C_e(eta);
+    vec3 reducedCSigma = vec3(C_Sigma(eta)) / D;
+    vec3 coeff = (reduced_albedo * reduced_albedo) / (4.0f * M_PI);
+    vec3 real = (CE * C1 + reducedCSigma) * (exp(- tr * dr)/dr);
+    vec3 virt = (CE * C2 + reducedCSigma) * (exp(- tr * dv)/dv);
+
+    vec3 S = coeff * (real - virt);
     float Ti = fresnel_T(wi,ni,nin,ntr);
     float To = fresnel_T(wo,no,nin,ntr);
 
@@ -122,7 +198,7 @@ void main()
 
     float s = 1.0f / vertex_tex_size;
     vec3 Li_base = vec3(light_diff[0]);
-    vec3 wi = normalize(vec3(M * vec4(light_pos[0].xyz, 0.0f)));
+    vec3 wi = normalize(vec3(M * vec4(light_pos[0].xyz, 0.0f))); //directional lights only
 
     for(int i = 0; i < vertex_tex_size; i++)
     {

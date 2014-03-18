@@ -60,7 +60,7 @@ void DipoleGPU::prepare(ThreeDObject &three)
     Texture * v_tex = new Texture("vertices",textureSize,textureSize,vertices);
     Texture * n_tex = new Texture("normals",textureSize,textureSize,normals);
     Texture * area_tex = new Texture("areas",textureSize,textureSize,areasEnlarged);
-    for(int i = 0; i < normals.size(); i++) cout << normals[i] <<endl;
+
     mat->addTexture(*v_tex);
     mat->addTexture(*n_tex);
     mat->addTexture(*area_tex);

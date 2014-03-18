@@ -26,6 +26,7 @@ class TranslucentMaterials : public QGLWidget
 
 public:
     TranslucentMaterials(QWidget* parent = 0);
+    QImage* takeScreenshot();
 
 public slots:
     void animate();

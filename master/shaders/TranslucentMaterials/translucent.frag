@@ -22,7 +22,7 @@ uniform vec3 user_pos;
 
 out vec4 fragColor;
 
-//#define FRESNEL
+#define FRESNEL
 
 vec3 refract2(vec3 inv, vec3 n, float n1, float n2)
 {

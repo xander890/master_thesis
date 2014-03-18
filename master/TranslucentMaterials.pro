@@ -165,7 +165,11 @@ OTHER_FILES += shaders/TranslucentMaterials/* \
     shaders/TranslucentMaterials/plane.vert \
     shaders/TranslucentMaterials/plane.frag \
     shaders/TranslucentMaterials/jensen_dipole_gpu.vert \
-    shaders/TranslucentMaterials/jensen_dipole_gpu.frag
+    shaders/TranslucentMaterials/jensen_dipole_gpu.frag \
+    shaders/TranslucentMaterials/better_dipole_gpu.vert \
+    shaders/TranslucentMaterials/better_dipole_gpu.frag \
+    shaders/TranslucentMaterials/directional_dipole_gpu.vert \
+    shaders/TranslucentMaterials/directional_dipole_gpu.frag
 
 FORMS += \
     exercises/TranslucentMaterials/mainwindow.ui

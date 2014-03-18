@@ -101,7 +101,7 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
         Vec3f userpos = Vec3f(7.5, -12, 2.5f);
         Vec3f userdir = Vec3f(0,0.95,-0.3);
         int LODSpheres = 20;
-        int LODCubes = 10;
+        int LODCubes = 20;
 
         user.set(userpos,userdir);
         //objects.push_back(ThreeDObject());
@@ -114,8 +114,8 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
         dipoleCalculator.user = user;
 
         Mesh::ScatteringMaterial * scattering_mat =
-                new Mesh::ScatteringMaterial(1.3f,Vec3f(0.032,0.17,0.48),Vec3f(0.74,0.88,1.01), Vec3f(0.0f));
-//                new Mesh::ScatteringMaterial(1.3f, Vec3f(0.0021f,0.0041f,0.0071f), Vec3f(2.19f,2.62f,3.0f), Vec3f(0.0f));
+//                new Mesh::ScatteringMaterial(1.3f,Vec3f(0.032,0.17,0.48),Vec3f(0.74,0.88,1.01), Vec3f(0.0f));
+                new Mesh::ScatteringMaterial(1.3f, Vec3f(0.0021f,0.0041f,0.0071f), Vec3f(2.19f,2.62f,3.0f), Vec3f(0.0f));
         scattering_mat->diffuse = Vec4f(0.83f, 0.79f, 0.75f,1.0f);
         scattering_mat->name = "marble";
 
@@ -187,6 +187,23 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
         cube3->scale(Vec3f(4.0f));
         cube3->translate(Vec3f(15.0f,0.0f,-2.f));
 
+        ThreeDCube *cube4 = new ThreeDCube(LODCubes);
+        objects.push_back(cube4);
+        cube4->init(" ","cube4",*scattering_mat);
+        cube4->scale(Vec3f(4.0f));
+        cube4->translate(Vec3f(22.5f,0.0f,-2.f));
+
+        ThreeDCube *cube5 = new ThreeDCube(LODCubes);
+        objects.push_back(cube5);
+        cube5->init(" ","cube5",*scattering_mat);
+        cube5->scale(Vec3f(4.0f));
+        cube5->translate(Vec3f(30.f,0.0f,-2.f));
+
+        ThreeDCube *cube6 = new ThreeDCube(LODCubes);
+        objects.push_back(cube6);
+        cube6->init(" ","cube6",*scattering_mat);
+        cube6->scale(Vec3f(4.0f));
+        cube6->translate(Vec3f(37.5f,0.0f,-2.f));
 
         ThreeDSphere *sphere1 = new ThreeDSphere(LODSpheres);
         objects.push_back(sphere1);
@@ -257,9 +274,10 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
         //objects.back().translate(Vec3f(0,0,terra.height(0,0)+1.0));
 
 #ifdef CUBES
-        dipoleCalculator.calculate(*cube, luminance, jensenDipoleModel);
-        //dipoleCalculator.calculate(*cube2, luminance, deonDipoleModel);
-        //dipoleCalculator.calculate(*cube3, luminance, jeppeDipole);
+        //dipoleCalculator.calculate(*cube, luminance, jensenDipoleModel);
+        //dipoleCalculator.calculate(*cube3, luminance, deonDipoleModel);
+        //dipoleCalculator.calculate(*cube5, luminance, jeppeDipole);
+
 #endif
 #ifdef SPHERES
         dipoleCalculator.calculate(*sphere1, luminance, jensenDipoleModel);
@@ -279,6 +297,8 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
 #endif
         DipoleGPU gip;
         gip.prepare(*cube2);
+        gip.prepare(*cube4);
+        gip.prepare(*cube6);
     }
 
 
@@ -391,6 +411,9 @@ void TranslucentMaterials::render_direct(bool reload)
     static ShaderProgramDraw plane_shader(shader_path, "plane.vert", "", "plane.frag");
 
     static ShaderProgramDraw jensen_shader(shader_path, "jensen_dipole_gpu.vert", "", "jensen_dipole_gpu.frag");
+    static ShaderProgramDraw better_dipole_shader(shader_path, "better_dipole_gpu.vert", "", "better_dipole_gpu.frag");
+
+    static ShaderProgramDraw directional_dipole_shader(shader_path, "directional_dipole_gpu.vert", "", "directional_dipole_gpu.frag");
 
     if(reload)
     {
@@ -425,7 +448,8 @@ void TranslucentMaterials::render_direct(bool reload)
 #ifdef CUBES
     objs.push_back("cube");
     //objs.push_back("cube2");
-    //objs.push_back("cube3");
+    objs.push_back("cube3");
+    objs.push_back("cube5");
 #endif
 #ifdef SPHERES
     objs.push_back("sphere1");
@@ -449,8 +473,20 @@ void TranslucentMaterials::render_direct(bool reload)
     jensen_shader.use();
     set_light_and_camera(jensen_shader);
     objs.clear();
-    //objs.push_back("cube2");
+    objs.push_back("cube2");
     draw_objects(jensen_shader,objs);
+
+    better_dipole_shader.use();
+    set_light_and_camera(better_dipole_shader);
+    objs.clear();
+    objs.push_back("cube4");
+    draw_objects(better_dipole_shader,objs);
+
+    directional_dipole_shader.use();
+    set_light_and_camera(directional_dipole_shader);
+    objs.clear();
+    objs.push_back("cube6");
+    draw_objects(directional_dipole_shader,objs);
 
     red_shader.use();
     set_light_and_camera(red_shader);
@@ -493,14 +529,14 @@ void TranslucentMaterials::render_direct_wireframe(bool reload)
                        (const GLfloat*) &ident);
 #endif
 
-    terra.draw(wire_shader);
+    //terra.draw(wire_shader);
     vector<string> objs;
-    objs.push_back("cow");
     objs.push_back("cube");
-
-    objs.push_back("sphere");
-    objs.push_back("light_sphere");
-    objs.push_back("translucent");
+    objs.push_back("cube2");
+    objs.push_back("cube3");
+    objs.push_back("cube4");
+    objs.push_back("cube5");
+    objs.push_back("cube6");
 
     draw_objects(wire_shader, objs);
 }
@@ -850,6 +886,42 @@ TranslucentMaterials::TranslucentMaterials( QWidget* parent)
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(animate()));
     timer->start(16);
+}
+
+QImage* TranslucentMaterials::takeScreenshot()
+{
+    float *pixels;
+    // the thingy we use to write files
+
+    // we get the width/height of the screen into this array
+    int screenStats[4];
+
+    // get the width/height of the window
+    glGetIntegerv(GL_VIEWPORT, screenStats);
+
+    // generate an array large enough to hold the pixel data
+    // (width*height*bytesPerPixel)
+    uint w = screenStats[2];
+    uint h = screenStats[3];
+    pixels = new float[w*h*3]; //3 floats = RGB
+    // read in the pixel data, TGA's pixels are BGR aligned
+    glReadPixels(0, 0, w, h, GL_RGB, GL_FLOAT, pixels);
+
+    QImage * res = new QImage(w,h,QImage::Format_RGB32);
+
+    for(uint i = 0; i < w; i++)
+    {
+        for(uint j = 0; j < h; j++)
+        {
+            int index = (i * h + j) * 3;
+            int red = (int)(pixels[index] * 255.0f);
+            int green = (int)(pixels[index + 1] * 255.0f);
+            int blue = (int)(pixels[index + 2] * 255.0f);
+            QRgb color = qRgb(red,green,blue);
+            res->setPixel(j,w-i,color);
+        }
+    }
+    return res;
 }
 
 void TranslucentMaterials::paintGL()
