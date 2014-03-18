@@ -30,6 +30,7 @@ public:
 
 public slots:
     void animate();
+    void setClearColor(CGLA::Vec4f color);
 
 protected:
     void set_light_and_camera(GLGraphics::ShaderProgramDraw& shader_prog);

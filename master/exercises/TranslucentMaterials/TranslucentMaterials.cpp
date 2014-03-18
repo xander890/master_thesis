@@ -101,7 +101,7 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
         Vec3f userpos = Vec3f(7.5, -12, 2.5f);
         Vec3f userdir = Vec3f(0,0.95,-0.3);
         int LODSpheres = 20;
-        int LODCubes = 20;
+        int LODCubes = 5;
 
         user.set(userpos,userdir);
         //objects.push_back(ThreeDObject());
@@ -274,7 +274,7 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
         //objects.back().translate(Vec3f(0,0,terra.height(0,0)+1.0));
 
 #ifdef CUBES
-        //dipoleCalculator.calculate(*cube, luminance, jensenDipoleModel);
+        dipoleCalculator.calculate(*cube, luminance, jensenDipoleModel);
         //dipoleCalculator.calculate(*cube3, luminance, deonDipoleModel);
         //dipoleCalculator.calculate(*cube5, luminance, jeppeDipole);
 
@@ -473,19 +473,19 @@ void TranslucentMaterials::render_direct(bool reload)
     jensen_shader.use();
     set_light_and_camera(jensen_shader);
     objs.clear();
-    objs.push_back("cube2");
+   // objs.push_back("cube2");
     draw_objects(jensen_shader,objs);
 
     better_dipole_shader.use();
     set_light_and_camera(better_dipole_shader);
     objs.clear();
-    objs.push_back("cube4");
+   // objs.push_back("cube4");
     draw_objects(better_dipole_shader,objs);
 
     directional_dipole_shader.use();
     set_light_and_camera(directional_dipole_shader);
     objs.clear();
-    objs.push_back("cube6");
+   // objs.push_back("cube6");
     draw_objects(directional_dipole_shader,objs);
 
     red_shader.use();
@@ -984,6 +984,11 @@ void TranslucentMaterials::animate()
 {
     user.update_position();
     repaint();
+}
+
+void TranslucentMaterials::setClearColor(Vec4f color)
+{
+
 }
 
 void TranslucentMaterials::initializeGL()

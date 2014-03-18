@@ -50,7 +50,8 @@ HEADERS += exercises/TranslucentMaterials/GBuffer.h\
     lib02564/Mesh/texture.h \
     lib02564/Dipoles/dipolegpu.h \
     exercises/TranslucentMaterials/translucentmaterials.h \
-    exercises/TranslucentMaterials/GUI/mainwindow.h
+    exercises/TranslucentMaterials/GUI/mainwindow.h \
+    exercises/TranslucentMaterials/GUI/vectorform.h
 
 SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
         exercises/TranslucentMaterials/ShadowBuffer.cpp\
@@ -74,7 +75,8 @@ SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
     lib02564/Mesh/texture.cpp \
     lib02564/Dipoles/dipolegpu.cpp \
     exercises/TranslucentMaterials/translucentmaterials.cpp \
-    exercises/TranslucentMaterials/GUI/mainwindow.cpp
+    exercises/TranslucentMaterials/GUI/mainwindow.cpp \
+    exercises/TranslucentMaterials/GUI/vectorform.cpp
 
 
 HEADERS += lib02564/CGLA/ArithMatFloat.h\
@@ -172,4 +174,5 @@ OTHER_FILES += shaders/TranslucentMaterials/* \
     shaders/TranslucentMaterials/directional_dipole_gpu.frag
 
 FORMS += \
-    exercises/TranslucentMaterials/mainwindow.ui
+    exercises/TranslucentMaterials/mainwindow.ui \
+    exercises/TranslucentMaterials/GUI/vectorform.ui
