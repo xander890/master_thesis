@@ -21,7 +21,12 @@ public:
     void init(const char * name, CGLA::Vec2f & vec);
     void init(const char * name, CGLA::Vec3f & vec);
     void init(const char * name, CGLA::Vec4f & vec);
+
     ~VectorForm();
+public slots:
+    void setValue(CGLA::Vec2f & vec);
+    void setValue(CGLA::Vec3f & vec);
+    void setValue(CGLA::Vec4f &vec);
 
 signals:
     void vectorChanged(CGLA::Vec2f & vector);
@@ -29,17 +34,10 @@ signals:
     void vectorChanged(CGLA::Vec4f & vector);
 
 private slots:
-    void on_x_textChanged();
-
-    void on_y_textChanged();
-
-    void on_z_textChanged();
-
-    void on_a_textChanged();
-
+    void vchange();
 private:
     Ui::VectorForm *ui;
-    void vchange();
+
 };
 
 #endif // VECTORFORM_H

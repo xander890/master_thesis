@@ -423,7 +423,7 @@ void TranslucentMaterials::render_direct(bool reload)
         jensen_shader.reload();
     }
 
-    glClearColor(0.f,0.f,0.f,0);
+    glClearColor(clearColor[0],clearColor[1],clearColor[2],clearColor[3]);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
     terrain_shader.use();
@@ -879,6 +879,7 @@ void TranslucentMaterials::render_indirect()
 TranslucentMaterials::TranslucentMaterials( QWidget* parent)
     : QGLWidget( new Core4_3_context(), (QWidget*) parent),
       ax(0), ay(0), dist(12),ang_x(0),ang_y(0),mouse_x0(0),mouse_y0(0)
+    , clearColor(Vec4f(1.0f,0.0f,0.0f,1.0f))
 {
     Light mainLight (light_position, 12 * light_diffuse, light_specular, true);
     manager.addLight(mainLight);
@@ -922,6 +923,11 @@ QImage* TranslucentMaterials::takeScreenshot()
         }
     }
     return res;
+}
+
+Vec4f TranslucentMaterials::getClearColor() const
+{
+    return clearColor;
 }
 
 void TranslucentMaterials::paintGL()
@@ -986,9 +992,15 @@ void TranslucentMaterials::animate()
     repaint();
 }
 
-void TranslucentMaterials::setClearColor(Vec4f color)
+void TranslucentMaterials::setClearColor(Vec4f & color)
 {
+    this->clearColor = color;
+}
 
+void TranslucentMaterials::setUserPosition(Vec3f &position)
+{
+    user.stop();
+    user.set(position,user.get_dir());
 }
 
 void TranslucentMaterials::initializeGL()
@@ -1033,10 +1045,33 @@ void TranslucentMaterials::keyPressEvent(QKeyEvent *e)
         render_mode = static_cast<RenderMode>((static_cast<int>(render_mode)+1)%5);
         reload_shaders = true;
         break;
-    case 'W': user.forward();  break;
-    case 'S': user.back();break;
-    case 'A': user.strafe_left();break;
-    case 'D': user.strafe_right();break;
+    case 'W':
+    {
+        user.forward();
+        emit userPosition(user.getPos());
+    }
+        break;
+    case 'S':
+    {
+        user.back();
+        emit userPosition(user.getPos());
+
+    }
+        break;
+    case 'A':
+    {
+        user.strafe_left();
+        emit userPosition(user.getPos());
+
+    }
+        break;
+    case 'D':
+    {
+        user.strafe_right();
+        emit userPosition(user.getPos());
+
+    }
+        break;
     case 'F':
         if(is_full_screen) {
             showNormal();
@@ -1063,9 +1098,13 @@ void TranslucentMaterials::keyPressEvent(QKeyEvent *e)
         break;
     case '+':
         user.set_height(0.2f);
+        emit userPosition(user.getPos());
+
         break;
     case '-':
         user.set_height(-0.2f);
+        emit userPosition(user.getPos());
+
         break;
     case 'I':
         cout << user.get_pos() << " " << user.get_dir() << endl;

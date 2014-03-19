@@ -1,43 +1,25 @@
 #include "vectorform.h"
 #include "ui_vectorform.h"
 
+using namespace CGLA;
+
 VectorForm::VectorForm(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::VectorForm)
 {
     ui->setupUi(this);
-
-    ui->x->setTabChangesFocus(true);
-    ui->x->setWordWrapMode(QTextOption::NoWrap);
-    ui->x->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    ui->x->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    ui->x->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-
-    ui->y->setTabChangesFocus(true);
-    ui->y->setWordWrapMode(QTextOption::NoWrap);
-    ui->y->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    ui->y->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    ui->y->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-
-    ui->z->setTabChangesFocus(true);
-    ui->z->setWordWrapMode(QTextOption::NoWrap);
-    ui->z->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    ui->z->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    ui->z->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-
-    ui->a->setTabChangesFocus(true);
-    ui->a->setWordWrapMode(QTextOption::NoWrap);
-    ui->a->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    ui->a->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    ui->a->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    connect(ui->x,SIGNAL(onTextChanged()),this,SLOT(vchange()));
+    connect(ui->y,SIGNAL(onTextChanged()),this,SLOT(vchange()));
+    connect(ui->z,SIGNAL(onTextChanged()),this,SLOT(vchange()));
+    connect(ui->a,SIGNAL(onTextChanged()),this,SLOT(vchange()));
 
 }
 
-void VectorForm::init(const char *name, CGLA::Vec2f &vec)
+void VectorForm::init(const char *name, Vec2f &vec)
 {
     ui->name->setText(name);
-    ui->x->setPlainText(QString::number(vec[0], 'g', 5));
-    ui->y->setPlainText(QString::number(vec[1], 'g', 5));
+    ui->x->setPlainText(QString::number(vec[0], 'f', 3));
+    ui->y->setPlainText(QString::number(vec[1], 'f', 3));
     ui->zLabel->setVisible(false);
     ui->z->setVisible(false);
     ui->aLabel->setVisible(false);
@@ -45,26 +27,26 @@ void VectorForm::init(const char *name, CGLA::Vec2f &vec)
     type = VecType::V2;
 }
 
-void VectorForm::init(const char *name, CGLA::Vec3f &vec)
+void VectorForm::init(const char *name, Vec3f &vec)
 {
     ui->name->setText(name);
-    ui->x->setPlainText(QString::number(vec[0], 'g', 5));
-    ui->y->setPlainText(QString::number(vec[1], 'g', 5));
-    ui->z->setPlainText(QString::number(vec[2], 'g', 5));
+    ui->x->setPlainText(QString::number(vec[0], 'f', 3));
+    ui->y->setPlainText(QString::number(vec[1], 'f', 3));
+    ui->z->setPlainText(QString::number(vec[2], 'f', 3));
     ui->aLabel->setVisible(false);
     ui->a->setVisible(false);
     type = VecType::V3;
 
 }
 
-void VectorForm::init(const char *name, CGLA::Vec4f &vec)
+void VectorForm::init(const char *name, Vec4f &vec)
 {
     ui->name->setText(name);
-    ui->x->setPlainText(QString::number(vec[0], 'g', 5));
-    ui->y->setPlainText(QString::number(vec[1], 'g', 5));
-    ui->z->setPlainText(QString::number(vec[2], 'g', 5));
-    ui->a->setPlainText(QString::number(vec[3], 'g', 5));
-    type = VecType::V2;
+    ui->x->setPlainText(QString::number(vec[0], 'f', 3));
+    ui->y->setPlainText(QString::number(vec[1], 'f', 3));
+    ui->z->setPlainText(QString::number(vec[2], 'f', 3));
+    ui->a->setPlainText(QString::number(vec[3], 'f', 3));
+    type = VecType::V4;
 
 }
 
@@ -72,49 +54,60 @@ VectorForm::~VectorForm()
 {
     delete ui;
 }
+void VectorForm::setValue(Vec2f &vec)
+{
+    ui->x->setPlainText(QString::number(vec[0], 'f', 3));
+    ui->y->setPlainText(QString::number(vec[1], 'f', 3));
+
+}
+void VectorForm::setValue(Vec3f &vec)
+{
+    ui->x->setPlainText(QString::number(vec[0], 'f', 3));
+    ui->y->setPlainText(QString::number(vec[1], 'f', 3));
+    ui->z->setPlainText(QString::number(vec[2], 'f', 3));
+
+}
+
+void VectorForm::setValue(Vec4f &vec)
+{
+    ui->x->setPlainText(QString::number(vec[0], 'f', 3));
+    ui->y->setPlainText(QString::number(vec[1], 'f', 3));
+    ui->z->setPlainText(QString::number(vec[2], 'f', 3));
+    ui->a->setPlainText(QString::number(vec[3], 'f', 3));
+}
 
 void VectorForm::vchange()
 {
     float x = ui->x->toPlainText().toFloat();
     float y = ui->y->toPlainText().toFloat();
+    float z = ui->z->toPlainText().toFloat();
+    float a = ui->a->toPlainText().toFloat();
+
+
     switch(type)
     {
-        case VecType::V2 :
-            emit vectorChanged(CGLA::Vec2f(x,y));
-        break;
-        case VecType::V3 :
+        case VectorForm::VecType::V2 :
         {
-            float z = ui->z->toPlainText().toFloat();
-            emit vectorChanged(CGLA::Vec3f(x,y,z));
+            Vec2f vec = Vec2f(x,y);
+            setValue(vec);
+            emit vectorChanged(vec);
         }
         break;
-        case VecType::V4 :
+        case VectorForm::VecType::V3 :
         {
-            float z = ui->z->toPlainText().toFloat();
-            float a = ui->z->toPlainText().toFloat();
-            emit vectorChanged(CGLA::Vec4f(x,y,z,a));
+            Vec3f vec = Vec3f(x,y,z);
+            setValue(vec);
+            emit vectorChanged(vec);
+        }
+        break;
+        case VectorForm::VecType::V4 :
+        {
+            Vec4f vec = Vec4f(x,y,z,a);
+            setValue(vec);
+            emit vectorChanged(vec);
         }
         break;
     }
 }
 
 
-void VectorForm::on_x_textChanged()
-{
-    vchange();
-}
-
-void VectorForm::on_y_textChanged()
-{
-    vchange();
-}
-
-void VectorForm::on_z_textChanged()
-{
-    vchange();
-}
-
-void VectorForm::on_a_textChanged()
-{
-    vchange();
-}

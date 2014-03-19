@@ -39,4 +39,6 @@ float C_e(float ni);
 float C_1(float ni);
 float C_2(float ni);
 
+float clamp01(float x);
+float clamp(float x, float min, float max);
 #endif // MISCELLANEOUS_H

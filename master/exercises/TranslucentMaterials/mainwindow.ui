@@ -19,15 +19,15 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>1201</width>
-      <height>702</height>
+      <width>1416</width>
+      <height>782</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="mainLayout">
      <property name="spacing">
       <number>6</number>
      </property>
-     <item>
+     <item alignment="Qt::AlignLeft|Qt::AlignTop">
       <widget class="TranslucentMaterials" name="translucentMaterials" native="true">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
@@ -41,25 +41,25 @@
          <height>700</height>
         </size>
        </property>
+       <zorder></zorder>
       </widget>
      </item>
      <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
       <layout class="QVBoxLayout" name="rightLayout">
+       <property name="spacing">
+        <number>6</number>
+       </property>
+       <property name="sizeConstraint">
+        <enum>QLayout::SetDefaultConstraint</enum>
+       </property>
        <item>
-        <widget class="VectorForm" name="vector" native="true">
+        <widget class="VectorForm" name="userPosition" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="minimumSize">
           <size>
            <width>400</width>
@@ -72,6 +72,29 @@
            <height>30</height>
           </size>
          </property>
+        </widget>
+       </item>
+       <item alignment="Qt::AlignLeft">
+        <widget class="ColorForm" name="clearColor" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>400</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>400</width>
+           <height>30</height>
+          </size>
+         </property>
+         <zorder>horizontalSpacer</zorder>
         </widget>
        </item>
        <item>
@@ -140,6 +163,12 @@
    <class>VectorForm</class>
    <extends>QWidget</extends>
    <header>vectorform.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ColorForm</class>
+   <extends>QWidget</extends>
+   <header>colorform.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

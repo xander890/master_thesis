@@ -23,14 +23,20 @@ class TranslucentMaterials : public QGLWidget
     GLGraphics::ShaderProgramDraw shader;
     GLGraphics::ThreeDObject cow;
     GLuint m_vertexBuffer;
-
+    CGLA::Vec4f clearColor;
 public:
+
     TranslucentMaterials(QWidget* parent = 0);
     QImage* takeScreenshot();
+    CGLA::Vec4f getClearColor() const;
 
 public slots:
     void animate();
-    void setClearColor(CGLA::Vec4f color);
+    void setClearColor(CGLA::Vec4f & color);
+    void setUserPosition(CGLA::Vec3f & position);
+
+signals:
+    void userPosition(CGLA::Vec3f & newPosition);
 
 protected:
     void set_light_and_camera(GLGraphics::ShaderProgramDraw& shader_prog);

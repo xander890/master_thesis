@@ -157,3 +157,15 @@ void debugFresnelTerms()
 }
 
 
+
+
+float clamp01(float x)
+{
+    return clamp(x,0.0f,1.0f);
+}
+
+
+float clamp(float x, float min_f, float max_f)
+{
+    return std::max(std::min(x,max_f),min_f);
+}
