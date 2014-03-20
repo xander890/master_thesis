@@ -1,30 +1,24 @@
 #version 430
-
-uniform sampler2D tex;  // Uniform specifying the texture unit
 uniform sampler2D vertices;
 uniform sampler2D normals;
 uniform sampler2D areas;
 uniform int vertex_size;
 uniform int vertex_tex_size;
 
-in vec3 _normal;
-in vec3 _texcoord;
-in vec3 _pos;
+in vec3 vertex;
+in vec3 normal;
+in vec2 texcoord;
+
+out vec4 _color;
 
 uniform vec4 light_pos[50];
 uniform vec4 light_diff[50];
-uniform vec4 light_spec[50];
-uniform vec4 light_amb;
 
-uniform mat4 M;
+
+uniform mat4 PVM;
 uniform mat4 VM;
-uniform vec4 mat_diff;
-uniform vec4 mat_spec;
-uniform float mat_spec_exp;
-
-uniform vec3 user_pos;
-
-out vec4 fragColor;
+uniform mat4 M;
+uniform mat3 N;
 
 uniform float ior;
 uniform vec3 absorption;
@@ -37,6 +31,7 @@ uniform vec3 red_scattering;
 uniform vec3 transmission;
 uniform vec3 reduced_albedo;
 
+uniform vec3 user_pos;
 
 #define FRESNEL
 const float M_PI = 3.141592654;
@@ -179,7 +174,7 @@ vec3 bssrdf(const vec3 xi, const vec3 wi, const vec3 ni, const vec3 xo, const ve
     float Ti = fresnel_T(wi,ni,nin,ntr);
     float To = fresnel_T(wo,no,nin,ntr);
 
-    S *= (1.0f/M_PI)* Ti;// * To;
+    S *= (1.0f/M_PI)* Ti; //* To;
 
     S = max(vec3(0.0f),S);
 
@@ -190,13 +185,15 @@ vec3 bssrdf(const vec3 xi, const vec3 wi, const vec3 ni, const vec3 xo, const ve
 
 void main()
 {
-    vec3 no = normalize(_normal);
-    vec3 wo = normalize(user_pos - _pos);
-    vec3 xo = _pos;
+    vec3 no = normalize(vec3(M * vec4(normal,0.0f)));
+    vec4 p = (M * vec4(vertex,1.0f));
+
+    vec3 wo = normalize(user_pos - p.xyz);
+    vec3 xo = p.xyz;
 
     vec3 Lo = vec3(0.0f);
 
-    float s = 1.0f / vertex_tex_size;
+    float s = 1.0f / (vertex_tex_size-1);
     vec3 Li_base = vec3(light_diff[0]);
     vec3 wi = normalize(light_pos[0].xyz);
 
@@ -205,17 +202,17 @@ void main()
 
         for(int j = 0; j < vertex_tex_size; j++)
         {
-            if(j * vertex_tex_size + i >= vertex_size)
-            {
-                continue;
-            }
+            //if(j * vertex_tex_size + i >= vertex_size)
+            //{
+            //    continue;
+            //}
 
             vec2 coord = vec2(j * s, i * s);
-            vec3 ni = texture(normals, coord).xyz;
+            vec3 ni = texelFetch(normals,ivec2(i,j),0).xyz;
             ni = normalize(vec3(M * vec4(ni,0.0f)));
-            vec3 xi = texture(vertices,coord).xyz;
+            vec3 xi = texelFetch(vertices,ivec2(i,j),0).xyz;
             xi = vec3(M * vec4(xi,1.0f));
-            float area = texture(areas, coord).x;
+            float area =  texelFetch(areas,ivec2(i,j),0).x;
 
             float dot_n_w = dot(ni,wi);
 
@@ -223,15 +220,12 @@ void main()
             {
                 vec3 BSSRDF = bssrdf(xi,wi,ni,xo,wo,no);
                 Lo += Li_base * dot_n_w * BSSRDF * area;
+
             }
         }
     }
 
-    fragColor = vec4(Lo,1.0f);
-    //vec3 nx = texture(normals, _pos.xy).xyz;
-    //vec3 nx1 = vec3(M * vec4(nx,0.0f));
-    //fragColor = vec4(abs(nx1),1.0f);
+    _color = vec4(Lo,1.0f);
+
+    gl_Position = PVM * vec4(vertex,1);
 }
-
-
-

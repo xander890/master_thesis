@@ -24,6 +24,7 @@ class TranslucentMaterials : public QGLWidget
     GLGraphics::ThreeDObject cow;
     GLuint m_vertexBuffer;
     CGLA::Vec4f clearColor;
+
 public:
 
     TranslucentMaterials(QWidget* parent = 0);
@@ -34,9 +35,12 @@ public slots:
     void animate();
     void setClearColor(CGLA::Vec4f & color);
     void setUserPosition(CGLA::Vec3f & position);
+    void setUserDirection(CGLA::Vec3f & direction);
+    void setLightIntensity(float intensity);
 
 signals:
-    void userPosition(CGLA::Vec3f & newPosition);
+    void userPositionChanged(CGLA::Vec3f & newPosition);
+    void userDirectionChanged(CGLA::Vec3f & newDirection);
 
 protected:
     void set_light_and_camera(GLGraphics::ShaderProgramDraw& shader_prog);

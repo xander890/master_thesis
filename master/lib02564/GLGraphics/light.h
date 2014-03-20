@@ -16,13 +16,14 @@ const static char* LIGHT_POS_UNIFORM = "light_pos";
 class Light
 {
 public:
-    Light() : position(CGLA::Vec4f(0.0f)), isDirectional(true), diffuseIntensity(CGLA::Vec4f(1.0f)), specularIntensity(CGLA::Vec4f(1.0f)) {}
-    Light(CGLA::Vec4f pos, CGLA::Vec4f diffuse, CGLA::Vec4f spec, bool isDirectional) :
-        position(pos), isDirectional(isDirectional), diffuseIntensity(diffuse), specularIntensity(spec) { std::cout << pos;}
+    Light() : position(CGLA::Vec4f(0.0f)), isDirectional(true), diffuseColor(CGLA::Vec4f(1.0f)), intensity(1.0f), specularIntensity(CGLA::Vec4f(1.0f)) {}
+    Light(CGLA::Vec4f pos, CGLA::Vec4f diffuse, float intensity, CGLA::Vec4f spec, bool isDirectional) :
+        position(pos), isDirectional(isDirectional), diffuseColor(diffuse), specularIntensity(spec), intensity(intensity) {}
 
     CGLA::Vec4f position;
     bool isDirectional;
-    CGLA::Vec4f diffuseIntensity;
+    CGLA::Vec4f diffuseColor;
+    float intensity;
     CGLA::Vec4f specularIntensity;
 
 };

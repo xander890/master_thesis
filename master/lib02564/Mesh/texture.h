@@ -13,7 +13,7 @@ namespace Mesh
     {
         std::vector<CGLA::Vec3f> data;
         GLuint id;
-        std::string name;
+
         unsigned int width;
         unsigned int height;
 
@@ -28,7 +28,7 @@ namespace Mesh
             width(width),
             height(height)
         {}
-
+        std::string name;
         ~Texture()
         {}
 

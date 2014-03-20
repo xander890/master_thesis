@@ -30,6 +30,7 @@ void DipoleCPU::calculate(ThreeDObject &three, std::vector<Vec3f> &resultColors,
     float result;
     Mat3x3f mat;
     convertMat4x4toMat3x3(three.getModelMatrix(), mat);
+    Mat4x4f model = three.getModelMatrix();
     totalArea(mesh,mode,mat, result);
     cout << mat << "Area " << three.name << ": " << result << endl;
 
@@ -54,14 +55,16 @@ void DipoleCPU::calculate(ThreeDObject &three, std::vector<Vec3f> &resultColors,
 
     for(int i = 0; i < limit; i++)
     {
-        Vec3f xo = mat * vertices[i];
-        Vec3f no = normalize(mat * normals[i]);
+        Vec3f xo = Vec3f(model * Vec4f(vertices[i],1.0f));
+        Vec3f no = normalize( Vec3f(model * Vec4f(normals[i],0.0f)));
         Vec3f toEye = user.get_pos() - xo;
         Vec3f wo = normalize(toEye);
 
         Vec3f xoLight = normalize(Vec3f(light.position));
        // Vec3f xo = Vec3f(0.939205f, -0.343331f, 0.00428914);
        // Vec3f no = xo;
+        Vec3f toLight = Vec3f(light.position); // dir light
+        Vec3f wi = normalize(toLight);
 
         for(int j = 0; j < limit; j++)
         {
@@ -69,11 +72,10 @@ void DipoleCPU::calculate(ThreeDObject &three, std::vector<Vec3f> &resultColors,
             //if(i == j)
             //{
 
-                Vec3f xi = mat * vertices[j];
-                Vec3f ni = normalize(mat * normals[j]);
+                Vec3f xi = Vec3f(model * Vec4f(vertices[j],1.0f));
+                Vec3f ni = normalize( Vec3f(model * Vec4f(normals[j],0.0f)));
 
-                Vec3f toLight = Vec3f(light.position); // dir light
-                Vec3f wi = normalize(toLight);
+
 
                 float l = length(toLight);
 
@@ -82,18 +84,21 @@ void DipoleCPU::calculate(ThreeDObject &three, std::vector<Vec3f> &resultColors,
 
                 if(dot_n_w > 0.0f) //visibility term (for now)
                 {
-                    Vec3f Li= Vec3f(light.diffuseIntensity);
+                    Vec3f Li= Vec3f(light.diffuseColor * light.intensity);
                     Vec3f S = bssrdf.evaluate(xi,wi,ni,xo,wo,no);
                     Lo = Li * dot_n_w * S * areas[j];
+
                     if(bssrdf.has_single_scattering)
                     {
-                        Lo += Li * bssrdf.single_scattering.evaluate(xi,wi,ni,xo,wo,no);
+                        //Lo += Li * bssrdf.single_scattering.evaluate(xi,wi,ni,xo,wo,no);
                     }
 
                 }
                 resultColors[i] += Lo;
             //}
         }
+        //resultColors[i] = Vec4f(xo,1.0f);
+        //resultColors[i] = Vec4f(bssrdf.evaluate(Vec3f(0.0,2.0,0.0),wi,Vec3f(0.0,1.0,0.0),xo,wo,no),1.0f);
         std::cout << "Calculating dipole... "<< i <<" (" << (100*(float)i) / vertices.size() << "\%) \t" << resultColors[i] << "\t" << xo <<endl; // << " " << xo << wo << light.position <<std::endl;
     }
 

@@ -20,6 +20,8 @@ private slots:
 
     void on_actionQuit_triggered();
 
+    void on_intensity_valueChanged(int value);
+
 private:
     Ui::MainWindow *ui;
 };

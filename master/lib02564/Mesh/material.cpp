@@ -30,7 +30,15 @@ namespace Mesh
 
     void Material::addTexture(Texture & texture)
     {
+        for(int i = 0; i < textures.size(); i++)
+        {
+            if(texture.name.compare(textures[i].name) == 0)
+            {
+                return;
+            }
+        }
         textures.push_back(texture);
+
     }
 
     void Material::initTextures()

@@ -53,7 +53,7 @@ namespace GLGraphics
         for(vector<Light>::const_iterator i = lights.begin(); i != lights.end(); ++i) {
             Light l = *i;
 
-            diffuse.push_back(l.diffuseIntensity);
+            diffuse.push_back(l.diffuseColor * l.intensity);
             specular.push_back(l.specularIntensity);
             Vec4f pos(l.position[0], l.position[1], l.position[2], l.isDirectional? 0.0f : 1.0f);
             positions.push_back(pos);

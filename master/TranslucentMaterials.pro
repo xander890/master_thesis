@@ -175,7 +175,13 @@ OTHER_FILES += shaders/TranslucentMaterials/* \
     shaders/TranslucentMaterials/better_dipole_gpu.vert \
     shaders/TranslucentMaterials/better_dipole_gpu.frag \
     shaders/TranslucentMaterials/directional_dipole_gpu.vert \
-    shaders/TranslucentMaterials/directional_dipole_gpu.frag
+    shaders/TranslucentMaterials/directional_dipole_gpu.frag \
+    shaders/TranslucentMaterials/jensen_dipole_gpu_vertex.vert \
+    shaders/TranslucentMaterials/jensen_dipole_gpu_vertex.frag \
+    shaders/TranslucentMaterials/better_dipole_gpu_vertex.frag \
+    shaders/TranslucentMaterials/better_dipole_gpu_vertex.vert \
+    shaders/TranslucentMaterials/directional_dipole_gpu_vertex.vert \
+    shaders/TranslucentMaterials/directional_dipole_gpu_vertex.frag
 
 FORMS += \
     exercises/TranslucentMaterials/mainwindow.ui \

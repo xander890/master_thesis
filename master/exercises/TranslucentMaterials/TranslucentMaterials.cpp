@@ -42,7 +42,7 @@
 #include <Dipoles/singlescattering.h>
 #include <Dipoles/dipolegpu.h>
 
-#define CUBES
+#define BUNNIES
 using namespace std;
 using namespace CGLA;
 using namespace GLGraphics;
@@ -98,12 +98,10 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
 
     if(objects.empty())
     {
-        Vec3f userpos = Vec3f(7.5, -12, 2.5f);
-        Vec3f userdir = Vec3f(0,0.95,-0.3);
-        int LODSpheres = 20;
-        int LODCubes = 5;
 
-        user.set(userpos,userdir);
+        int LODSpheres = 20;
+        int LODCubes = 10;
+
         //objects.push_back(ThreeDObject());
         //objects[objects.size()-1].init(objects_path+"cottage_obj/cottage.obj");
         //objects.back().scale(Vec3f(1));
@@ -171,39 +169,58 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
         ThreeDCube *cube = new ThreeDCube(LODCubes);
         objects.push_back(cube);
         cube->init(" ","cube",*scattering_mat);
-        cube->scale(Vec3f(4.0f));
+        cube->scale(Vec3f(2.0f));
         cube->translate(Vec3f(0.0f,0.0f,-2.f));
 
         ThreeDCube *cube2 = new ThreeDCube(LODCubes);
         objects.push_back(cube2);
         cube2->init(" ","cube2",*scattering_mat);
-        cube2->scale(Vec3f(4.0f));
+        cube2->scale(Vec3f(2.0f));
         cube2->translate(Vec3f(7.5f,0.0f,-2.f));
 
 
         ThreeDCube *cube3 = new ThreeDCube(LODCubes);
         objects.push_back(cube3);
         cube3->init(" ","cube3",*scattering_mat);
-        cube3->scale(Vec3f(4.0f));
+        cube3->scale(Vec3f(2.0f));
         cube3->translate(Vec3f(15.0f,0.0f,-2.f));
 
         ThreeDCube *cube4 = new ThreeDCube(LODCubes);
         objects.push_back(cube4);
         cube4->init(" ","cube4",*scattering_mat);
-        cube4->scale(Vec3f(4.0f));
-        cube4->translate(Vec3f(22.5f,0.0f,-2.f));
+        cube4->scale(Vec3f(2.0f));
+        cube4->translate(Vec3f(0.f,7.5f,-2.f));
 
         ThreeDCube *cube5 = new ThreeDCube(LODCubes);
         objects.push_back(cube5);
         cube5->init(" ","cube5",*scattering_mat);
-        cube5->scale(Vec3f(4.0f));
-        cube5->translate(Vec3f(30.f,0.0f,-2.f));
+        cube5->scale(Vec3f(2.0f));
+        cube5->translate(Vec3f(7.5f,7.5f,-2.f));
 
         ThreeDCube *cube6 = new ThreeDCube(LODCubes);
         objects.push_back(cube6);
         cube6->init(" ","cube6",*scattering_mat);
-        cube6->scale(Vec3f(4.0f));
-        cube6->translate(Vec3f(37.5f,0.0f,-2.f));
+        cube6->scale(Vec3f(2.0f));
+        cube6->translate(Vec3f(15.f,7.5f,-2.f));
+
+        ThreeDCube *cube7 = new ThreeDCube(LODCubes);
+        objects.push_back(cube7);
+        cube7->init(" ","cube7",*scattering_mat);
+        cube7->scale(Vec3f(2.0f));
+        cube7->translate(Vec3f(0.f,15.0f,-2.f));
+
+        ThreeDCube *cube8 = new ThreeDCube(LODCubes);
+        objects.push_back(cube8);
+        cube8->init(" ","cube8",*scattering_mat);
+        cube8->scale(Vec3f(2.0f));
+        cube8->translate(Vec3f(7.5f,15.0f,-2.f));
+
+        ThreeDCube *cube9 = new ThreeDCube(LODCubes);
+        objects.push_back(cube9);
+        cube9->init(" ","cube9",*scattering_mat);
+        cube9->scale(Vec3f(2.0f));
+        cube9->translate(Vec3f(15.f,15.0f,-2.f));
+
 
         ThreeDSphere *sphere1 = new ThreeDSphere(LODSpheres);
         objects.push_back(sphere1);
@@ -275,30 +292,28 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
 
 #ifdef CUBES
         dipoleCalculator.calculate(*cube, luminance, jensenDipoleModel);
-        //dipoleCalculator.calculate(*cube3, luminance, deonDipoleModel);
-        //dipoleCalculator.calculate(*cube5, luminance, jeppeDipole);
-
-#endif
-#ifdef SPHERES
-        dipoleCalculator.calculate(*sphere1, luminance, jensenDipoleModel);
-        dipoleCalculator.calculate(*sphere2, luminance, deonDipoleModel);
-        dipoleCalculator.calculate(*sphere3, luminance, jeppeDipole);
-#endif
-#ifdef COWS
-        dipoleCalculator.calculate(*cow1,luminance,jensenDipoleModel);
-        dipoleCalculator.calculate(*cow2,luminance,deonDipoleModel);
-        dipoleCalculator.calculate(*cow3,luminance,jeppeDipole);
-
-#endif
-#ifdef BUNNIES
-        dipoleCalculator.calculate(*bunny1,luminance,jensenDipoleModel);
-        dipoleCalculator.calculate(*bunny2,luminance,deonDipoleModel);
-        dipoleCalculator.calculate(*bunny3,luminance,jeppeDipole);
-#endif
+        dipoleCalculator.calculate(*cube4, luminance, deonDipoleModel);
+        dipoleCalculator.calculate(*cube7, luminance, jeppeDipole);
         DipoleGPU gip;
         gip.prepare(*cube2);
-        gip.prepare(*cube4);
+        gip.prepare(*cube3);
+        gip.prepare(*cube5);
         gip.prepare(*cube6);
+        gip.prepare(*cube8);
+        gip.prepare(*cube9);
+#endif
+
+#ifdef BUNNIES
+        //dipoleCalculator.calculate(*bunny1,luminance,jensenDipoleModel);
+        //dipoleCalculator.calculate(*bunny2,luminance,deonDipoleModel);
+        //dipoleCalculator.calculate(*bunny3,luminance,jeppeDipole);
+        DipoleGPU gip;
+        gip.prepare(*bunny1);
+        gip.prepare(*bunny2);
+        gip.prepare(*bunny3);
+#endif
+
+//        gip.prepare(*cube6);
     }
 
 
@@ -411,9 +426,13 @@ void TranslucentMaterials::render_direct(bool reload)
     static ShaderProgramDraw plane_shader(shader_path, "plane.vert", "", "plane.frag");
 
     static ShaderProgramDraw jensen_shader(shader_path, "jensen_dipole_gpu.vert", "", "jensen_dipole_gpu.frag");
+    static ShaderProgramDraw jensen_shader_vertex(shader_path, "jensen_dipole_gpu_vertex.vert", "", "jensen_dipole_gpu_vertex.frag");
+
     static ShaderProgramDraw better_dipole_shader(shader_path, "better_dipole_gpu.vert", "", "better_dipole_gpu.frag");
+    static ShaderProgramDraw better_dipole_shader_vertex(shader_path, "better_dipole_gpu_vertex.vert", "", "better_dipole_gpu_vertex.frag");
 
     static ShaderProgramDraw directional_dipole_shader(shader_path, "directional_dipole_gpu.vert", "", "directional_dipole_gpu.frag");
+    static ShaderProgramDraw directional_dipole_shader_vertex(shader_path, "directional_dipole_gpu_vertex.vert", "", "directional_dipole_gpu_vertex.frag");
 
     if(reload)
     {
@@ -421,6 +440,11 @@ void TranslucentMaterials::render_direct(bool reload)
         object_shader.reload();
         t_shader.reload();
         jensen_shader.reload();
+        jensen_shader_vertex.reload();
+        better_dipole_shader.reload();
+        better_dipole_shader_vertex.reload();
+        directional_dipole_shader.reload();
+        directional_dipole_shader_vertex.reload();
     }
 
     glClearColor(clearColor[0],clearColor[1],clearColor[2],clearColor[3]);
@@ -447,24 +471,13 @@ void TranslucentMaterials::render_direct(bool reload)
 
 #ifdef CUBES
     objs.push_back("cube");
-    //objs.push_back("cube2");
-    objs.push_back("cube3");
-    objs.push_back("cube5");
+    objs.push_back("cube4");
+    objs.push_back("cube7");
+    //objs.push_back("cube5");
 #endif
-#ifdef SPHERES
-    objs.push_back("sphere1");
-    objs.push_back("sphere2");
-    objs.push_back("sphere3");
-#endif
-#ifdef COWS
-    objs.push_back("cow1");
-    objs.push_back("cow2");
-    objs.push_back("cow3");
-#endif
+
 #ifdef BUNNIES
-    objs.push_back("bunny1");
-    objs.push_back("bunny2");
-    objs.push_back("bunny3");
+    //objs.push_back("bunny1");
 #endif
 
 
@@ -473,20 +486,62 @@ void TranslucentMaterials::render_direct(bool reload)
     jensen_shader.use();
     set_light_and_camera(jensen_shader);
     objs.clear();
-   // objs.push_back("cube2");
+#ifdef CUBES
+    objs.push_back("cube3");
+#endif
     draw_objects(jensen_shader,objs);
+
+    jensen_shader_vertex.use();
+    set_light_and_camera(jensen_shader_vertex);
+    objs.clear();
+#ifdef CUBES
+    objs.push_back("cube2");
+#endif
+
+#ifdef BUNNIES
+    objs.push_back("bunny1");
+#endif
+    draw_objects(jensen_shader_vertex,objs);
+
 
     better_dipole_shader.use();
     set_light_and_camera(better_dipole_shader);
     objs.clear();
-   // objs.push_back("cube4");
+    #ifdef CUBES
+    objs.push_back("cube6");
+    #endif
     draw_objects(better_dipole_shader,objs);
+
+    better_dipole_shader_vertex.use();
+    set_light_and_camera(better_dipole_shader_vertex);
+    objs.clear();
+    #ifdef CUBES
+    objs.push_back("cube5");
+    #endif
+#ifdef BUNNIES
+    objs.push_back("bunny2");
+#endif
+    draw_objects(better_dipole_shader_vertex,objs);
 
     directional_dipole_shader.use();
     set_light_and_camera(directional_dipole_shader);
     objs.clear();
-   // objs.push_back("cube6");
+    #ifdef CUBES
+    objs.push_back("cube9");
+    #endif
     draw_objects(directional_dipole_shader,objs);
+
+    directional_dipole_shader_vertex.use();
+    set_light_and_camera(directional_dipole_shader_vertex);
+    objs.clear();
+    #ifdef CUBES
+    objs.push_back("cube8");
+    #endif
+#ifdef BUNNIES
+    objs.push_back("bunny3");
+#endif
+    draw_objects(directional_dipole_shader_vertex,objs);
+
 
     red_shader.use();
     set_light_and_camera(red_shader);
@@ -531,12 +586,12 @@ void TranslucentMaterials::render_direct_wireframe(bool reload)
 
     //terra.draw(wire_shader);
     vector<string> objs;
-    objs.push_back("cube");
-    objs.push_back("cube2");
-    objs.push_back("cube3");
-    objs.push_back("cube4");
-    objs.push_back("cube5");
-    objs.push_back("cube6");
+    objs.push_back("bunny1");
+    objs.push_back("bunny2");
+    objs.push_back("bunny3");
+//    objs.push_back("cube4");
+//    objs.push_back("cube5");
+//    objs.push_back("cube6");
 
     draw_objects(wire_shader, objs);
 }
@@ -879,9 +934,9 @@ void TranslucentMaterials::render_indirect()
 TranslucentMaterials::TranslucentMaterials( QWidget* parent)
     : QGLWidget( new Core4_3_context(), (QWidget*) parent),
       ax(0), ay(0), dist(12),ang_x(0),ang_y(0),mouse_x0(0),mouse_y0(0)
-    , clearColor(Vec4f(1.0f,0.0f,0.0f,1.0f))
+    , clearColor(Vec4f(0.0f,0.0f,0.0f,1.0f))
 {
-    Light mainLight (light_position, 12 * light_diffuse, light_specular, true);
+    Light mainLight (light_position, light_diffuse, 1.0f, light_specular, true);
     manager.addLight(mainLight);
     setFocusPolicy(Qt::ClickFocus);
     timer = new QTimer(this);
@@ -894,16 +949,8 @@ QImage* TranslucentMaterials::takeScreenshot()
     float *pixels;
     // the thingy we use to write files
 
-    // we get the width/height of the screen into this array
-    int screenStats[4];
-
-    // get the width/height of the window
-    glGetIntegerv(GL_VIEWPORT, screenStats);
-
-    // generate an array large enough to hold the pixel data
-    // (width*height*bytesPerPixel)
-    uint w = screenStats[2];
-    uint h = screenStats[3];
+    uint w = window_width;
+    uint h = window_height;
     pixels = new float[w*h*3]; //3 floats = RGB
     // read in the pixel data, TGA's pixels are BGR aligned
     glReadPixels(0, 0, w, h, GL_RGB, GL_FLOAT, pixels);
@@ -1003,6 +1050,18 @@ void TranslucentMaterials::setUserPosition(Vec3f &position)
     user.set(position,user.get_dir());
 }
 
+void TranslucentMaterials::setUserDirection(Vec3f &direction)
+{
+    user.stop();
+    user.set(user.getPos(),direction);
+}
+
+void TranslucentMaterials::setLightIntensity(float intensity)
+{
+    manager[0].intensity = intensity;
+    manager.reloadLights();
+}
+
 void TranslucentMaterials::initializeGL()
 {
     setup_gl();
@@ -1030,8 +1089,10 @@ void TranslucentMaterials::mouseMoveEvent(QMouseEvent *m)
     float delta_ang_y = M_PI*(mouse_y0-m->y())/window_height;
     ax = ang_x + delta_ang_x;
     ay = ang_y + delta_ang_y;
+
     Vec3f dir(cos(ax)*cos(ay),sin(ax)*cos(ay),sin(ay));
     user.set_dir(dir);
+    emit userDirectionChanged(dir);
     QWidget::repaint();
 }
 
@@ -1048,27 +1109,27 @@ void TranslucentMaterials::keyPressEvent(QKeyEvent *e)
     case 'W':
     {
         user.forward();
-        emit userPosition(user.getPos());
+        emit userPositionChanged(user.getPos());
     }
         break;
     case 'S':
     {
         user.back();
-        emit userPosition(user.getPos());
+        emit userPositionChanged(user.getPos());
 
     }
         break;
     case 'A':
     {
         user.strafe_left();
-        emit userPosition(user.getPos());
+        emit userPositionChanged(user.getPos());
 
     }
         break;
     case 'D':
     {
         user.strafe_right();
-        emit userPosition(user.getPos());
+        emit userPositionChanged(user.getPos());
 
     }
         break;
@@ -1098,12 +1159,12 @@ void TranslucentMaterials::keyPressEvent(QKeyEvent *e)
         break;
     case '+':
         user.set_height(0.2f);
-        emit userPosition(user.getPos());
+        emit userPositionChanged(user.getPos());
 
         break;
     case '-':
         user.set_height(-0.2f);
-        emit userPosition(user.getPos());
+        emit userPositionChanged(user.getPos());
 
         break;
     case 'I':

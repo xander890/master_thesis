@@ -3,7 +3,7 @@
 #include "Utils/miscellaneous.h"
 
 #define EPSILON_MU 0.0f
-#define X_NO_THRES 0.0001f
+#define X_NO_THRES 0.00001f
 
 using namespace CGLA;
 using namespace std;

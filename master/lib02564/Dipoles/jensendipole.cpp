@@ -36,7 +36,7 @@ CGLA::Vec3f JensenDipole::evaluate(const CGLA::Vec3f &xi, const CGLA::Vec3f &wi,
 
     Vec3f S = coeff * (real + virt);
     float Ti = fresnel_T(wi,ni,nin,ntr);
-    float To = fresnel_T(wo,no,nin,ntr);
+    //float To = fresnel_T(wo,no,nin,ntr);
 
     S *= (1.0f/M_PI)* Ti;// * To;
 
