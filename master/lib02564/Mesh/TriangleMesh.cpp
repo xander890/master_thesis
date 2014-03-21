@@ -332,11 +332,11 @@ void TriangleMesh::build_vertex_array_object(GLGraphics::ShaderProgram *shader){
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vertexElementArrayBuffer);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)*elementArrayBuffer.size(), &(elementArrayBuffer[0]), GL_STATIC_DRAW);
 
-
+check_gl_error();
     for (std::vector<DrawCall>::iterator iter = drawCalls.begin();iter != drawCalls.end(); iter++){
         iter->material.initTextures();
     }
-
+check_gl_error();
     initialized = true;
 }
 

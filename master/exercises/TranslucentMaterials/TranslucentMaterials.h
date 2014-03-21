@@ -52,6 +52,7 @@ protected:
     void render_deferred_ssao(bool reload);
     void draw_objects(GLGraphics::ShaderProgramDraw& shader_prog);
     void draw_objects(GLGraphics::ShaderProgramDraw& shader_prog,std::vector<std::string> & str);
+    void draw_with_shadow(GLGraphics::ShaderProgramDraw& shader_prog, std::vector<std::string> toRender, bool reload);
 
 #ifdef SOLUTION_CODE
     void render_indirect();

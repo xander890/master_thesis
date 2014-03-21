@@ -8,7 +8,7 @@ using namespace GLGraphics;
 
 void ThreeDPlane::display(ShaderProgramDraw & shader)
 {
-    shader.use_texture(GL_TEXTURE_2D, "maintexture", tex, tex);
+    shader.use_texture(GL_TEXTURE_2D, "maintexture", tex, 0);
     ThreeDObject::display(shader);
 }
 
@@ -33,7 +33,7 @@ bool ThreeDPlane::init(std::string filename, std::string name, Mesh::Material & 
         texcoord.push_back(Vec2f((vertices[i][0] + 1.0f)*0.5f,(vertices[i][1] + 1.0f)*0.5f));
 
 
-    this->mesh.load_external(indices, vertices,normals,texcoord,Mesh::Material(),GL_TRIANGLE_STRIP);
+    this->mesh.load_external(indices, vertices,normals,texcoord,material,GL_TRIANGLE_STRIP);
     //this->mesh.build_vertex_array_object();
 
     glGenTextures(1, &tex);

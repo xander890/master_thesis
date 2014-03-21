@@ -139,9 +139,9 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
         ThreeDPlane *plane = new ThreeDPlane();
         objects.push_back(plane);
         plane->init(" ", "plane", *default_mat);
-        plane->setTexture(texarray,TEXTURE_SIZE);
-        plane->scale(Vec3f(3.0f));
-        plane->translate(Vec3f(0.0f,0.0f,-2.0f));
+        //plane->setTexture(texarray,TEXTURE_SIZE);
+        plane->scale(Vec3f(20.0f));
+        plane->translate(Vec3f(0.0f,0.0f,-6.0f));
 
         ThreeDSphere *sphere = new ThreeDSphere(40);
         objects.push_back(sphere);
@@ -328,6 +328,7 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
 }
 
 
+
 void TranslucentMaterials::set_light_and_camera(ShaderProgramDraw& shader_prog)
 {
 
@@ -437,6 +438,7 @@ void TranslucentMaterials::render_direct(bool reload)
     if(reload)
     {
         terrain_shader.reload();
+        plane_shader.reload();
         object_shader.reload();
         t_shader.reload();
         jensen_shader.reload();
@@ -503,6 +505,7 @@ void TranslucentMaterials::render_direct(bool reload)
 #endif
     draw_objects(jensen_shader_vertex,objs);
 
+    draw_with_shadow(plane_shader,objs,reload);
 
     better_dipole_shader.use();
     set_light_and_camera(better_dipole_shader);
@@ -559,6 +562,72 @@ void TranslucentMaterials::render_direct(bool reload)
     objs.clear();
     //objs.push_back("plane");
     draw_objects(plane_shader,objs);
+}
+
+
+void TranslucentMaterials::draw_with_shadow(ShaderProgramDraw &shader_prog, vector<string> toRender, bool reload)
+{
+    const int SHADOW_SIZE = 4096;
+    static ShadowBuffer shadow_buffer(SHADOW_SIZE);
+    static ShaderProgramDraw render_to_shadow_map(shader_path, "shadow.vert", "", "shadow.frag");
+
+    if(reload)
+    {
+        shadow_buffer.initialize();
+        render_to_shadow_map.reload();
+    }
+
+    render_to_shadow_map.use();
+    shadow_buffer.enable();
+
+
+    // Set up a modelview matrix suitable for shadow: Maps from world coords to
+    // shadow buffer coords.
+    Vec3f v = Vec3f(manager[0].position);
+
+
+    render_to_shadow_map.set_view_matrix(lookat_Mat4x4f(v,-v,Vec3f(0,1,0))); //PARALLEL!
+    render_to_shadow_map.set_model_matrix(identity_Mat4x4f());
+    render_to_shadow_map.set_projection_matrix(ortho_Mat4x4f(Vec3f(-10,-10,1),Vec3f(10,10,10)));
+
+    // Switch viewport size to that of shadow buffer.
+
+    //glViewport(0, 0, SHADOW_SIZE, SHADOW_SIZE);
+
+    glClearColor(0,1,0,0);
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+
+    // Draw to shadow buffer.
+
+    draw_objects(render_to_shadow_map, toRender);
+
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+    glDrawBuffer(GL_BACK);
+
+    // We need to reset the viewport, since the shadow buffer does not have
+    // the same size as the screen window.
+    glViewport(0, 0, window_width, window_height);
+
+    Mat4x4f mat = translation_Mat4x4f(Vec3f(0.5));
+    mat *= scaling_Mat4x4f(Vec3f(0.5));
+    mat *= render_to_shadow_map.get_projection_matrix();
+    mat *= render_to_shadow_map.get_view_matrix();
+//    mat *= invert(user.get_view_matrix());
+
+
+    shader_prog.use();
+    set_light_and_camera(shader_prog);
+
+
+    shadow_buffer.bind_textures(1);
+    shader_prog.set_uniform("shadow", 1);
+    shader_prog.set_uniform("Mat", mat);
+
+    vector<string> r;
+    r.push_back("plane");
+    draw_objects(shader_prog,r);
+
+
 }
 
 void TranslucentMaterials::render_direct_wireframe(bool reload)
@@ -719,7 +788,6 @@ void TranslucentMaterials::render_deferred_ssao(bool reload)
 {
     const int NO_DISC_POINTS = 32;
     const int SHADOW_SIZE = 4096;
-    
     // Create all resources.
     static GLuint  ssao_tex, fbo;
     static vector<Vec3f> disc_points;
