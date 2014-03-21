@@ -503,7 +503,7 @@ void TranslucentMaterials::render_direct(bool reload)
 #ifdef BUNNIES
     objs.push_back("bunny1");
 #endif
-    draw_objects(jensen_shader_vertex,objs);
+    //draw_objects(jensen_shader_vertex,objs);
 
     draw_with_shadow(plane_shader,objs,reload);
 
@@ -592,9 +592,9 @@ void TranslucentMaterials::draw_with_shadow(ShaderProgramDraw &shader_prog, vect
 
     // Switch viewport size to that of shadow buffer.
 
-    //glViewport(0, 0, SHADOW_SIZE, SHADOW_SIZE);
+    glViewport(0, 0, SHADOW_SIZE, SHADOW_SIZE);
 
-    glClearColor(0,1,0,0);
+
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
     // Draw to shadow buffer.
@@ -618,14 +618,14 @@ void TranslucentMaterials::draw_with_shadow(ShaderProgramDraw &shader_prog, vect
     shader_prog.use();
     set_light_and_camera(shader_prog);
 
-
     shadow_buffer.bind_textures(1);
     shader_prog.set_uniform("shadow", 1);
     shader_prog.set_uniform("Mat", mat);
 
-    vector<string> r;
-    r.push_back("plane");
-    draw_objects(shader_prog,r);
+    //vector<string> r;
+    //r.push_back("plane");
+
+    draw_objects(shader_prog,toRender);
 
 
 }

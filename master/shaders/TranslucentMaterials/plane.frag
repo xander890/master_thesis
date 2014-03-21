@@ -1,6 +1,6 @@
 #version 430
 uniform sampler2D maintexture;
-uniform sampler2DShadow shadow;
+uniform sampler2D shadow;
 uniform mat4 Mat;
 
 in vec3 _tex;
@@ -16,14 +16,14 @@ vec3 hsv2rgb(vec3 c)
 }
 
 
-float sample_shadow_map(vec3 eye_pos)
+float sample_shadow_map(vec3 pos)
 {
     vec4 light_pos = Mat * vec4(pos,1.0f);
-    //light_pos.z -= 0.0015;
+    light_pos.z -= 0.0015;
     if(light_pos.x < 0.0 || light_pos.x > 1.0) return 1.0;
     if(light_pos.y < 0.0 || light_pos.y > 1.0) return 1.0;
-
-    return texture(shadow, light_pos.xyz);
+    //return light_pos.z - 1;
+    return texture(shadow,light_pos.xy);
 
 }
 
@@ -31,7 +31,7 @@ void main(void)
 {
 
     float val = sample_shadow_map(pos);
-    fragColor = vec4(val);
+    fragColor = vec4(0.5);
 
 
 }
