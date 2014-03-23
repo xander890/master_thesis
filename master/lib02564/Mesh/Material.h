@@ -47,7 +47,7 @@ namespace Mesh
               shininess(0),
               has_texture(false),
               ambient(0.0f,0.0f,0.0f,1.0f),
-              textures(std::vector<Texture>(1))
+              textures(std::vector<Texture>())
 		{
 
         }

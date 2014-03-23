@@ -41,6 +41,7 @@
 #include "Dipoles/dipolecpu.h"
 #include <Dipoles/singlescattering.h>
 #include <Dipoles/dipolegpu.h>
+#include <Utils/defaultmaterials.h>
 
 #define BUNNIES
 using namespace std;
@@ -111,10 +112,8 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
         dipoleCalculator.light = manager[0];
         dipoleCalculator.user = user;
 
-        Mesh::ScatteringMaterial * scattering_mat =
-//                new Mesh::ScatteringMaterial(1.3f,Vec3f(0.032,0.17,0.48),Vec3f(0.74,0.88,1.01), Vec3f(0.0f));
-                new Mesh::ScatteringMaterial(1.3f, Vec3f(0.0021f,0.0041f,0.0071f), Vec3f(2.19f,2.62f,3.0f), Vec3f(0.0f));
-        scattering_mat->diffuse = Vec4f(0.83f, 0.79f, 0.75f,1.0f);
+        Mesh::ScatteringMaterial * scattering_mat = getDefaultMaterial(S_Soy_Milk_regular);
+//        scattering_mat->diffuse = Vec4f(0.83f, 0.79f, 0.75f,1.0f);
         scattering_mat->name = "marble";
 
 
@@ -143,11 +142,11 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
         plane->scale(Vec3f(20.0f));
         plane->translate(Vec3f(0.0f,0.0f,-6.0f));
 
-        ThreeDSphere *sphere = new ThreeDSphere(40);
+        ThreeDSphere *sphere = new ThreeDSphere(60);
         objects.push_back(sphere);
         sphere->init(" ", "sphere", *default_mat);
         sphere->scale(Vec3f(1.0f));
-        sphere->translate(Vec3f(-5.0f,7.0f,terra.height(-5,7)+2.5f));
+//        sphere->translate();
 
         ThreeDCube *cube_light = new ThreeDCube(10);
         objects.push_back(cube_light);
@@ -168,7 +167,7 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
 
         ThreeDCube *cube = new ThreeDCube(LODCubes);
         objects.push_back(cube);
-        cube->init(" ","cube",*scattering_mat);
+        cube->init(" ","cube",*default_mat);
         cube->scale(Vec3f(2.0f));
         cube->translate(Vec3f(0.0f,0.0f,-2.f));
 
@@ -309,8 +308,8 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
         //dipoleCalculator.calculate(*bunny3,luminance,jeppeDipole);
         DipoleGPU gip;
         gip.prepare(*bunny1);
-        gip.prepare(*bunny2);
-        gip.prepare(*bunny3);
+        //gip.prepare(*bunny2);
+        //gip.prepare(*bunny3);
 #endif
 
 //        gip.prepare(*cube6);
@@ -502,11 +501,18 @@ void TranslucentMaterials::render_direct(bool reload)
 
 #ifdef BUNNIES
     objs.push_back("bunny1");
+    objs.push_back("plane");
 #endif
+
+    jensen_shader_vertex.use();
+    set_light_and_camera(jensen_shader_vertex);
     //draw_objects(jensen_shader_vertex,objs);
+    vector<string> test;
+//    test.push_back("plane");
+    test.push_back("bunny1");
+    draw_with_shadow(jensen_shader_vertex,test,test,reload);
 
-    draw_with_shadow(plane_shader,objs,reload);
-
+/*
     better_dipole_shader.use();
     set_light_and_camera(better_dipole_shader);
     objs.clear();
@@ -522,7 +528,7 @@ void TranslucentMaterials::render_direct(bool reload)
     objs.push_back("cube5");
     #endif
 #ifdef BUNNIES
-    objs.push_back("bunny2");
+    //objs.push_back("bunny2");
 #endif
     draw_objects(better_dipole_shader_vertex,objs);
 
@@ -541,10 +547,10 @@ void TranslucentMaterials::render_direct(bool reload)
     objs.push_back("cube8");
     #endif
 #ifdef BUNNIES
-    objs.push_back("bunny3");
+    //objs.push_back("bunny3");
 #endif
     draw_objects(directional_dipole_shader_vertex,objs);
-
+*/
 
     red_shader.use();
     set_light_and_camera(red_shader);
@@ -565,7 +571,7 @@ void TranslucentMaterials::render_direct(bool reload)
 }
 
 
-void TranslucentMaterials::draw_with_shadow(ShaderProgramDraw &shader_prog, vector<string> toRender, bool reload)
+void TranslucentMaterials::draw_with_shadow(ShaderProgramDraw &shader_prog, vector<string> toRender,vector<string> toRenderOn , bool reload)
 {
     const int SHADOW_SIZE = 4096;
     static ShadowBuffer shadow_buffer(SHADOW_SIZE);
@@ -591,18 +597,18 @@ void TranslucentMaterials::draw_with_shadow(ShaderProgramDraw &shader_prog, vect
     render_to_shadow_map.set_projection_matrix(ortho_Mat4x4f(Vec3f(-10,-10,1),Vec3f(10,10,10)));
 
     // Switch viewport size to that of shadow buffer.
-
+//
     glViewport(0, 0, SHADOW_SIZE, SHADOW_SIZE);
-
-
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
     // Draw to shadow buffer.
 
     draw_objects(render_to_shadow_map, toRender);
 
+
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
     glDrawBuffer(GL_BACK);
+    check_gl_error();
 
     // We need to reset the viewport, since the shadow buffer does not have
     // the same size as the screen window.
@@ -612,20 +618,21 @@ void TranslucentMaterials::draw_with_shadow(ShaderProgramDraw &shader_prog, vect
     mat *= scaling_Mat4x4f(Vec3f(0.5));
     mat *= render_to_shadow_map.get_projection_matrix();
     mat *= render_to_shadow_map.get_view_matrix();
-//    mat *= invert(user.get_view_matrix());
-
 
     shader_prog.use();
     set_light_and_camera(shader_prog);
 
-    shadow_buffer.bind_textures(1);
-    shader_prog.set_uniform("shadow", 1);
-    shader_prog.set_uniform("Mat", mat);
+    GLint shadowloc = shader_prog.get_uniform_location("shadow");
 
-    //vector<string> r;
-    //r.push_back("plane");
+    if(shadowloc != -1)
+    {
+        shadow_buffer.bind_textures(shadowloc);
+        shader_prog.set_uniform("shadow", shadowloc);
+        shader_prog.set_uniform("Mat", mat);
+    }
+    check_gl_error();
 
-    draw_objects(shader_prog,toRender);
+    draw_objects(shader_prog,toRenderOn);
 
 
 }

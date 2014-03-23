@@ -25,6 +25,7 @@ public:
          computeCoefficients();
     }
 
+
     virtual void loadUniforms(GLGraphics::ShaderProgramDraw & shader) override;
 
     // base parameters

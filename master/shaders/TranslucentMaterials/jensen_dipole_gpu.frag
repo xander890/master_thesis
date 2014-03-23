@@ -4,6 +4,7 @@ uniform sampler2D tex;  // Uniform specifying the texture unit
 uniform sampler2D vertices;
 uniform sampler2D normals;
 uniform sampler2D areas;
+uniform sampler2DShadow shadow;
 uniform int vertex_size;
 uniform int vertex_tex_size;
 
@@ -21,6 +22,7 @@ uniform mat4 VM;
 uniform vec4 mat_diff;
 uniform vec4 mat_spec;
 uniform float mat_spec_exp;
+uniform mat4 Mat;
 
 uniform vec3 user_pos;
 
@@ -34,6 +36,16 @@ uniform vec3 reduced_albedo;
 
 #define FRESNEL
 const float M_PI = 3.141592654;
+
+
+float sample_shadow_map(vec3 pos)
+{
+    vec4 light_pos = Mat * vec4(pos,1.0f);
+    light_pos.z -= 0.004;
+    if(light_pos.x < 0.0 || light_pos.x > 1.0) return 1.0;
+    if(light_pos.y < 0.0 || light_pos.y > 1.0) return 1.0;
+    return texture(shadow,light_pos.xyz).r;
+}
 
 vec3 refract2(vec3 inv, vec3 n, float n1, float n2)
 {
@@ -154,6 +166,7 @@ void main()
     }
 
     fragColor = vec4(Lo,1.0f);
+    fragColor = vec4(sample_shadow_map(_pos));
     //vec3 nx = texture(normals, _pos.xy).xyz;
     //vec3 nx1 = vec3(M * vec4(nx,0.0f));
     //fragColor = vec4(abs(nx1),1.0f);

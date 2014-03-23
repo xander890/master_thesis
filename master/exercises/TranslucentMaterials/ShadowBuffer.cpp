@@ -29,14 +29,13 @@ void ShadowBuffer::initialize()
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
-    //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LESS);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LESS);
 	
     glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32F, dim, dim, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
 	
     glGenFramebuffers(1,&fbo);
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);
-	
 	
     glGenRenderbuffers(1,&rb);
     glBindRenderbuffer(GL_RENDERBUFFER, rb);
@@ -55,12 +54,18 @@ void ShadowBuffer::initialize()
 ShadowBuffer::ShadowBuffer(int _dim): dim(_dim), fbo(0), rb(0), dtex(0)
 {
 	initialize();
-};
+}
 
 void ShadowBuffer::bind_textures(int dtex_unit)
 {
+    check_gl_error();
+
 	glActiveTexture(GL_TEXTURE0+dtex_unit);
-	glBindTexture(GL_TEXTURE_2D, dtex);
+    check_gl_error();
+
+    glBindTexture(GL_TEXTURE_2D, dtex);
+    check_gl_error();
+
 }
 
 GLint ShadowBuffer::enable()
@@ -70,6 +75,7 @@ GLint ShadowBuffer::enable()
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);
 	
     glDrawBuffer(GL_COLOR_ATTACHMENT0);
+
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 	return old_draw_buffer;
 }

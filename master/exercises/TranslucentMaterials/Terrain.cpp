@@ -51,7 +51,7 @@ float Terrain::noise(float x, float y) const
             Vec2f v(0);
             float l;
             do {
-                v = 2.0*Vec2f(gel_rand(), gel_rand())/GEL_RAND_MAX-Vec2f(1);
+                v = 2.0f*Vec2f(gel_rand(), gel_rand())/GEL_RAND_MAX-Vec2f(1);
                 l = length(v);
             }
             while(l<0.5 || l>1.0);

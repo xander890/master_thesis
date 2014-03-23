@@ -22,13 +22,14 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->userPosition,SIGNAL(vectorChanged(CGLA::Vec3f&)),ui->translucentMaterials,SLOT(setUserPosition(CGLA::Vec3f&)));
     connect(ui->translucentMaterials,SIGNAL(userPositionChanged(CGLA::Vec3f&)),ui->userPosition,SLOT(setValue(CGLA::Vec3f&)));
 
-    Vec3f userdir = Vec3f(0,1.0,-0.3);
+    Vec3f userdir = Vec3f(0,1,-0.3f);
     ui->userDirection->init("User direction: ", userdir);
     ui->translucentMaterials->setUserDirection(userdir);
     connect(ui->userDirection, SIGNAL(vectorChanged(CGLA::Vec3f&)),ui->translucentMaterials,SLOT(setUserDirection(CGLA::Vec3f&)));
     connect(ui->translucentMaterials,SIGNAL(userDirectionChanged(CGLA::Vec3f&)),ui->userDirection,SLOT(setValue(CGLA::Vec3f&)));
 
     ui->translucentMaterials->setLightIntensity(12.0f);
+    ui->intensity->setValue(12);
 }
 
 MainWindow::~MainWindow()

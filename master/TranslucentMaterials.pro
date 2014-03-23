@@ -53,7 +53,8 @@ HEADERS += exercises/TranslucentMaterials/GBuffer.h\
     exercises/TranslucentMaterials/GUI/mainwindow.h \
     exercises/TranslucentMaterials/GUI/vectorform.h \
     exercises/TranslucentMaterials/GUI/onelinetextedit.h \
-    exercises/TranslucentMaterials/GUI/colorform.h
+    exercises/TranslucentMaterials/GUI/colorform.h \
+    lib02564/Utils/defaultmaterials.h
 
 SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
         exercises/TranslucentMaterials/ShadowBuffer.cpp\
@@ -80,7 +81,8 @@ SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
     exercises/TranslucentMaterials/GUI/mainwindow.cpp \
     exercises/TranslucentMaterials/GUI/vectorform.cpp \
     exercises/TranslucentMaterials/GUI/onelinetextedit.cpp \
-    exercises/TranslucentMaterials/GUI/colorform.cpp
+    exercises/TranslucentMaterials/GUI/colorform.cpp \
+    lib02564/Utils/defaultmaterials.cpp
 
 
 HEADERS += lib02564/CGLA/ArithMatFloat.h\

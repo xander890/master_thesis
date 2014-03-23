@@ -252,26 +252,7 @@ namespace GLGraphics {
         glBindAttribLocation(prog, 2, "texcoord");
         link();
     }
-/*
-    void ShaderProgramDraw::set_light_position(const CGLA::Vec4f& _light_position)
-    {
-        light_pos = V*(M*_light_position);
-        Vec3f half_vec = normalize(Vec3f(light_pos) + Vec3f(0,0,1));
-        set_uniform("light_pos", light_pos);
-        set_uniform("light_half_vec", half_vec);
 
-    }
-    
-    void ShaderProgramDraw::set_light_intensities(const CGLA::Vec4f& diff, const CGLA::Vec4f& spec, const CGLA::Vec4f& amb)
-    {
-        light_diff = diff;
-        light_spec = spec;
-        light_amb = amb;
-        set_uniform("light_diff", light_diff);
-        set_uniform("light_spec", light_spec);
-        set_uniform("light_amb", light_amb);
-    }
-  */
     void ShaderProgramDraw::set_derived_matrices()
     {
         Mat4x4f VM = V*M;
