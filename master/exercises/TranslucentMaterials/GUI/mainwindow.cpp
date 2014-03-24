@@ -30,6 +30,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->translucentMaterials->setLightIntensity(12.0f);
     ui->intensity->setValue(12);
+
+    connect(ui->vertexpixel, SIGNAL(toggled(bool)), ui->translucentMaterials, SLOT(setVertexPixelMode(bool)));
 }
 
 MainWindow::~MainWindow()
@@ -76,3 +78,16 @@ void MainWindow::on_intensity_valueChanged(int value)
     ui->intensitylabel->setText(QString::number(intensity,'f',1));
     ui->translucentMaterials->setLightIntensity(intensity);
 }
+
+void MainWindow::keyPressEvent(QKeyEvent * e)
+{
+    ui->translucentMaterials->keyPressEvent(e);
+    QMainWindow::keyPressEvent(e);
+}
+
+void MainWindow::keyReleaseEvent(QKeyEvent * e)
+{
+    ui->translucentMaterials->keyReleaseEvent(e);
+    QMainWindow::keyReleaseEvent(e);
+}
+

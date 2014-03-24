@@ -22,8 +22,11 @@ private slots:
 
     void on_intensity_valueChanged(int value);
 
+
 private:
     Ui::MainWindow *ui;
+    void keyPressEvent(QKeyEvent *);
+    void keyReleaseEvent(QKeyEvent *);
 };
 
 #endif // MAINWINDOW_H

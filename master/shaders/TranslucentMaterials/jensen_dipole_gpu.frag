@@ -4,9 +4,15 @@ uniform sampler2D tex;  // Uniform specifying the texture unit
 uniform sampler2D vertices;
 uniform sampler2D normals;
 uniform sampler2D areas;
+
+
 uniform sampler2DShadow shadow;
+uniform int shadowEnabled;
+uniform mat4 Mat;
+
 uniform int vertex_size;
 uniform int vertex_tex_size;
+
 
 in vec3 _normal;
 in vec3 _texcoord;
@@ -22,7 +28,7 @@ uniform mat4 VM;
 uniform vec4 mat_diff;
 uniform vec4 mat_spec;
 uniform float mat_spec_exp;
-uniform mat4 Mat;
+
 
 uniform vec3 user_pos;
 
@@ -34,9 +40,7 @@ uniform vec3 D;
 uniform vec3 transmission;
 uniform vec3 reduced_albedo;
 
-#define FRESNEL
 const float M_PI = 3.141592654;
-
 
 float sample_shadow_map(vec3 pos)
 {
@@ -46,6 +50,7 @@ float sample_shadow_map(vec3 pos)
     if(light_pos.y < 0.0 || light_pos.y > 1.0) return 1.0;
     return texture(shadow,light_pos.xyz).r;
 }
+
 
 vec3 refract2(vec3 inv, vec3 n, float n1, float n2)
 {
@@ -157,7 +162,14 @@ void main()
 
             float dot_n_w = dot(ni,wi);
 
-            if(dot_n_w > 0.0f) //visibility term (for now)
+            float visibility = dot_n_w;
+
+            if(shadowEnabled > 0)
+            {
+                visibility = sample_shadow_map(xi);
+            }
+
+            if(visibility > 0.0f)
             {
                 vec3 BSSRDF = bssrdf(xi,wi,ni,xo,wo,no);
                 Lo += Li_base * dot_n_w * BSSRDF * area;
@@ -166,10 +178,7 @@ void main()
     }
 
     fragColor = vec4(Lo,1.0f);
-    fragColor = vec4(sample_shadow_map(_pos));
-    //vec3 nx = texture(normals, _pos.xy).xyz;
-    //vec3 nx1 = vec3(M * vec4(nx,0.0f));
-    //fragColor = vec4(abs(nx1),1.0f);
+
 }
 
 

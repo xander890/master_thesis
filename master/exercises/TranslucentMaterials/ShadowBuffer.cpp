@@ -44,7 +44,6 @@ void ShadowBuffer::initialize()
     glFramebufferRenderbuffer(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, rb);
     glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, dtex, 0);
 	
-	
     if(glCheckFramebufferStatus(GL_DRAW_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		cout << "Something wrong with FBO" << endl;
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
@@ -53,7 +52,8 @@ void ShadowBuffer::initialize()
 
 ShadowBuffer::ShadowBuffer(int _dim): dim(_dim), fbo(0), rb(0), dtex(0)
 {
-	initialize();
+    if(dim != 0)
+        initialize();
 }
 
 void ShadowBuffer::bind_textures(int dtex_unit)
@@ -66,6 +66,16 @@ void ShadowBuffer::bind_textures(int dtex_unit)
     glBindTexture(GL_TEXTURE_2D, dtex);
     check_gl_error();
 
+}
+
+CGLA::Mat4x4f ShadowBuffer::getLightWorldTransformationMatrix()
+{
+    return mat;
+}
+
+void ShadowBuffer::setLightWorldTransformationMatrix(CGLA::Mat4x4f &matrix)
+{
+    mat = matrix;
 }
 
 GLint ShadowBuffer::enable()

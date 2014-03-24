@@ -7,6 +7,12 @@ uniform sampler2D areas;
 uniform int vertex_size;
 uniform int vertex_tex_size;
 
+// Shadows
+uniform sampler2DShadow shadow;
+uniform int shadowEnabled;
+uniform mat4 Mat;
+
+
 in vec3 _normal;
 in vec3 _texcoord;
 in vec3 _pos;
@@ -45,6 +51,15 @@ uniform vec3 reduced_albedo;
 
 const float EPSILON_MU = 0.0f;
 const float M_PI = 3.141592654;
+
+float sample_shadow_map(vec3 pos)
+{
+    vec4 light_pos = Mat * vec4(pos,1.0f);
+    light_pos.z -= 0.0015; //bias to avoid shadow acne
+    if(light_pos.x < 0.0 || light_pos.x > 1.0) return 1.0;
+    if(light_pos.y < 0.0 || light_pos.y > 1.0) return 1.0;
+    return texture(shadow,light_pos.xyz).r;
+}
 
 vec3 refract2(vec3 inv, vec3 n, float n1, float n2)
 {
@@ -198,8 +213,14 @@ void main()
             float area = texture(areas, coord).x;
 
             float dot_n_w = dot(ni,wi);
+            float visibility = dot_n_w;
 
-            if(dot_n_w > 0.0f) //visibility term (for now)
+            if(shadowEnabled > 0)
+            {
+                visibility = sample_shadow_map(xi);
+            }
+
+            if(visibility > 0.0f)
             {
                 vec3 BSSRDF = S_finite(xi,ni,wi,xo,no,wo);
                 Lo += Li_base * dot_n_w * BSSRDF * area;
@@ -208,6 +229,7 @@ void main()
     }
 
     fragColor = vec4(Lo,1.0f);
+    //fragColor = vec4(sample_shadow_map(xo));
     //vec3 nx = texture(normals, _pos.xy).xyz;
     //vec3 nx1 = vec3(M * vec4(nx,0.0f));
     //fragColor = vec4(abs(nx1),1.0f);

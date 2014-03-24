@@ -20,6 +20,9 @@ class TranslucentMaterials : public QGLWidget
     int window_width;
     int window_height;
 
+    bool isVertexMode;
+    bool isShadow;
+
     GLGraphics::ShaderProgramDraw shader;
     GLGraphics::ThreeDObject cow;
     GLuint m_vertexBuffer;
@@ -30,6 +33,9 @@ public:
     TranslucentMaterials(QWidget* parent = 0);
     QImage* takeScreenshot();
     CGLA::Vec4f getClearColor() const;
+    void keyPressEvent(QKeyEvent *);
+    void keyReleaseEvent(QKeyEvent *);
+
 
 public slots:
     void animate();
@@ -37,6 +43,8 @@ public slots:
     void setUserPosition(CGLA::Vec3f & position);
     void setUserDirection(CGLA::Vec3f & direction);
     void setLightIntensity(float intensity);
+    void setShadows(bool shadows);
+    void setVertexPixelMode(bool isVertex);
 
 signals:
     void userPositionChanged(CGLA::Vec3f & newPosition);
@@ -44,15 +52,15 @@ signals:
 
 protected:
     void set_light_and_camera(GLGraphics::ShaderProgramDraw& shader_prog);
-    void render_direct(bool reload);
-    void render_direct_wireframe(bool reload);
+    void render_jensen(bool reload);
+    void render_better_dipole(bool reload);
     void render_direct_fur(bool reload);
     void render_to_gbuffer(GBuffer& gbuffer, bool reload);
-    void render_deferred_toon(bool reload);
+    void render_directional_dipole(bool reload);
     void render_deferred_ssao(bool reload);
     void draw_objects(GLGraphics::ShaderProgramDraw& shader_prog);
     void draw_objects(GLGraphics::ShaderProgramDraw& shader_prog,std::vector<std::string> & str);
-    void draw_with_shadow(GLGraphics::ShaderProgramDraw& shader_prog, std::vector<std::string> toRender,std::vector<std::string> toRenderOn, bool reload);
+    void setup_shadow(bool reload);
 
 #ifdef SOLUTION_CODE
     void render_indirect();
@@ -63,8 +71,7 @@ protected:
      void mousePressEvent(QMouseEvent *);
      void mouseReleaseEvent(QMouseEvent *);
      void mouseMoveEvent(QMouseEvent *);
-     void keyPressEvent(QKeyEvent *);
-     void keyReleaseEvent(QKeyEvent *);
+
      std::vector<GLGraphics::ThreeDObject*> objects;
 };
 

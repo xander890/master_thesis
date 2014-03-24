@@ -12,6 +12,11 @@
 
 #include <GLGraphics/GLHeader.h>
 #include <GLGraphics/ShaderProgram.h>
+#include <CGLA/Mat4x4f.h>
+
+const static char * SHADOW_TEX_ID = "shadow";
+const static char * SHADOW_MATRIX_ID = "Mat";
+const static char * SHADOW_ENABLED = "shadowEnabled";
 
 /** This class represents a shadow buffer. Essentially, this is just a texture
  and a framebuffer object wrapped in a class. Note that the shadow is a depth 
@@ -21,6 +26,7 @@ class ShadowBuffer
 	const int dim; // Size
 	GLuint fbo, rb; // The framebuffer object and the render buffer
 	GLuint dtex; // The depth texture 
+    CGLA::Mat4x4f mat; //The space conversion matrix
 	
 	/// Let go of resources 
 	void relinquish();
@@ -42,6 +48,9 @@ public:
 		
 	/// Bind the depth map texture to specified tex unit.
 	void bind_textures(int dtex_unit);
+
+    CGLA::Mat4x4f getLightWorldTransformationMatrix();
+    void setLightWorldTransformationMatrix(CGLA::Mat4x4f & matrix);
 };
 
 #endif

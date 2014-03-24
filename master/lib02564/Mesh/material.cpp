@@ -26,6 +26,24 @@ namespace Mesh
             count++;
         }
         loadExtraUniforms(shader);
+
+        //uniforms
+        if(receives_shadows)
+        {
+            GLint shadowloc = shader.get_uniform_location(SHADOW_TEX_ID);
+            if(shadowloc != -1)
+            {
+                shadowbuffer->bind_textures(shadowloc);
+                shader.set_uniform(SHADOW_TEX_ID, shadowloc);
+                shader.set_uniform(SHADOW_ENABLED, 1);
+                shader.set_uniform(SHADOW_MATRIX_ID, shadowbuffer->getLightWorldTransformationMatrix());
+            }
+        }
+        else
+        {
+            shader.set_uniform(SHADOW_ENABLED, 0);
+        }
+
     }
 
     void Material::addTexture(Texture & texture)
@@ -74,6 +92,11 @@ namespace Mesh
     void Material::addUniform(const char *name, Vec4f value)
     {
         vec4Uniforms[name] = value;
+    }
+
+    void Material::setShadowBuffer(ShadowBuffer * buffer)
+    {
+        shadowbuffer = buffer;
     }
 
 

@@ -33,6 +33,7 @@ protected:
 public:
     Mesh::TriangleMesh mesh;
     std::string name;
+    bool enabled;
 
     ThreeDObject();
     virtual bool init(std::string filename, std::string name, Mesh::Material & material);

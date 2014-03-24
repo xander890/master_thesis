@@ -51,14 +51,15 @@ using namespace GLGraphics;
 
 const string shader_path = "./shaders/TranslucentMaterials/";
 const string objects_path = "./data/";
+const string default_obj = "bunny1";
 static const Vec4f light_ambient(0.3f,0.4f,0.6f,0.4f);
 
 Terrain terra(30,0.025f);
 
 User user (&terra);
 bool reload_shaders = true;
-enum RenderMode {DRAW_NORMAL=0, DRAW_WIRE=1, DRAW_DEFERRED_TOON=2, DRAW_SSAO=3, DRAW_FUR=4};
-RenderMode render_mode = DRAW_NORMAL;
+enum RenderMode {DRAW_JENSEN=0, DRAW_BETTER=1, DRAW_DIRECTIONAL=2, DRAW_SSAO=3, DRAW_FUR=4};
+RenderMode render_mode = DRAW_JENSEN;
 
 
 LightManager manager;
@@ -91,9 +92,10 @@ void draw_screen_aligned_quad(ShaderProgram& shader_prog)
 void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog)
 {
     vector<string> objs;
-    objs.push_back("");
+    objs.push_back(default_obj);
     draw_objects(shader_prog,objs);
 }
+
 void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<string>& objectsToDraw)
 {
 
@@ -112,7 +114,10 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
         dipoleCalculator.light = manager[0];
         dipoleCalculator.user = user;
 
-        Mesh::ScatteringMaterial * scattering_mat = getDefaultMaterial(S_Soy_Milk_regular);
+        Mesh::ScatteringMaterial * scattering_mat = getDefaultMaterial(S_Marble);
+        Mesh::ScatteringMaterial * scattering_mat2 = getDefaultMaterial(S_Marble);
+        Mesh::ScatteringMaterial * scattering_mat3 = getDefaultMaterial(S_Marble);
+
 //        scattering_mat->diffuse = Vec4f(0.83f, 0.79f, 0.75f,1.0f);
         scattering_mat->name = "marble";
 
@@ -142,9 +147,9 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
         plane->scale(Vec3f(20.0f));
         plane->translate(Vec3f(0.0f,0.0f,-6.0f));
 
-        ThreeDSphere *sphere = new ThreeDSphere(60);
+        ThreeDSphere *sphere = new ThreeDSphere(20);
         objects.push_back(sphere);
-        sphere->init(" ", "sphere", *default_mat);
+        sphere->init(" ", "sphere", *scattering_mat3);
         sphere->scale(Vec3f(1.0f));
 //        sphere->translate();
 
@@ -167,7 +172,7 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
 
         ThreeDCube *cube = new ThreeDCube(LODCubes);
         objects.push_back(cube);
-        cube->init(" ","cube",*default_mat);
+        cube->init(" ","cube",*scattering_mat2);
         cube->scale(Vec3f(2.0f));
         cube->translate(Vec3f(0.0f,0.0f,-2.f));
 
@@ -307,22 +312,22 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
         //dipoleCalculator.calculate(*bunny2,luminance,deonDipoleModel);
         //dipoleCalculator.calculate(*bunny3,luminance,jeppeDipole);
         DipoleGPU gip;
+        gip.prepare(*cube);
         gip.prepare(*bunny1);
+        gip.prepare(*sphere);
         //gip.prepare(*bunny2);
         //gip.prepare(*bunny3);
 #endif
 
 //        gip.prepare(*cube6);
+        bunny1->enabled = true;
     }
 
-
-    for(unsigned int i=0;i < objectsToDraw.size();++i)
+    for(unsigned int i=0; i<objects.size();++i)
     {
-        string s = objectsToDraw[i];
-        vector<ThreeDObject*>::iterator it;
-        it = std::find_if(objects.begin(),objects.end(), CompareThreeD(s));
-        if(it != objects.end())
-            (*it)->display(shader_prog);
+        ThreeDObject * obj = objects[i];
+        if(obj->enabled)
+            obj->display(shader_prog);
     }
 }
 
@@ -331,7 +336,7 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
 void TranslucentMaterials::set_light_and_camera(ShaderProgramDraw& shader_prog)
 {
 
-    shader_prog.set_projection_matrix(perspective_Mat4x4f(55, float(window_width)/window_height, 0.01f, 100));
+    shader_prog.set_projection_matrix(perspective_Mat4x4f(55, float(window_width)/window_height, 1.0f, 100));
     shader_prog.set_view_matrix(user.get_view_matrix());
     shader_prog.set_uniform("light_amb", light_ambient);
     shader_prog.set_uniform("user_pos",user.get_pos());
@@ -410,7 +415,7 @@ void draw_trees(ShaderProgramDraw& shader_prog)
 #endif
 */
 
-void TranslucentMaterials::render_direct(bool reload)
+void TranslucentMaterials::render_jensen(bool reload)
 {
     // Load shaders for terrain and general objects. The terrain color is computed
     // procedurally, so we need a different shader.
@@ -451,6 +456,7 @@ void TranslucentMaterials::render_direct(bool reload)
     glClearColor(clearColor[0],clearColor[1],clearColor[2],clearColor[3]);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
+/*
     terrain_shader.use();
     set_light_and_camera(terrain_shader);
 
@@ -483,35 +489,22 @@ void TranslucentMaterials::render_direct(bool reload)
 
 
     draw_objects(t_shader,objs);
+*/
 
-    jensen_shader.use();
-    set_light_and_camera(jensen_shader);
-    objs.clear();
-#ifdef CUBES
-    objs.push_back("cube3");
-#endif
-    draw_objects(jensen_shader,objs);
+    if(isVertexMode)
+    {
+        jensen_shader_vertex.use();
+        set_light_and_camera(jensen_shader_vertex);
+        draw_objects(jensen_shader_vertex);
 
-    jensen_shader_vertex.use();
-    set_light_and_camera(jensen_shader_vertex);
-    objs.clear();
-#ifdef CUBES
-    objs.push_back("cube2");
-#endif
+    }
+    else
+    {
+        jensen_shader.use();
+        set_light_and_camera(jensen_shader);
+        draw_objects(jensen_shader);
 
-#ifdef BUNNIES
-    objs.push_back("bunny1");
-    objs.push_back("plane");
-#endif
-
-    jensen_shader_vertex.use();
-    set_light_and_camera(jensen_shader_vertex);
-    //draw_objects(jensen_shader_vertex,objs);
-    vector<string> test;
-//    test.push_back("plane");
-    test.push_back("bunny1");
-    draw_with_shadow(jensen_shader_vertex,test,test,reload);
-
+    }
 /*
     better_dipole_shader.use();
     set_light_and_camera(better_dipole_shader);
@@ -550,7 +543,7 @@ void TranslucentMaterials::render_direct(bool reload)
     //objs.push_back("bunny3");
 #endif
     draw_objects(directional_dipole_shader_vertex,objs);
-*/
+
 
     red_shader.use();
     set_light_and_camera(red_shader);
@@ -568,10 +561,11 @@ void TranslucentMaterials::render_direct(bool reload)
     objs.clear();
     //objs.push_back("plane");
     draw_objects(plane_shader,objs);
+    */
 }
 
 
-void TranslucentMaterials::draw_with_shadow(ShaderProgramDraw &shader_prog, vector<string> toRender,vector<string> toRenderOn , bool reload)
+void TranslucentMaterials::setup_shadow(bool reload)
 {
     const int SHADOW_SIZE = 4096;
     static ShadowBuffer shadow_buffer(SHADOW_SIZE);
@@ -586,25 +580,27 @@ void TranslucentMaterials::draw_with_shadow(ShaderProgramDraw &shader_prog, vect
     render_to_shadow_map.use();
     shadow_buffer.enable();
 
-
     // Set up a modelview matrix suitable for shadow: Maps from world coords to
     // shadow buffer coords.
     Vec3f v = Vec3f(manager[0].position);
-
-
     render_to_shadow_map.set_view_matrix(lookat_Mat4x4f(v,-v,Vec3f(0,1,0))); //PARALLEL!
     render_to_shadow_map.set_model_matrix(identity_Mat4x4f());
     render_to_shadow_map.set_projection_matrix(ortho_Mat4x4f(Vec3f(-10,-10,1),Vec3f(10,10,10)));
 
     // Switch viewport size to that of shadow buffer.
-//
+
     glViewport(0, 0, SHADOW_SIZE, SHADOW_SIZE);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
     // Draw to shadow buffer.
-
-    draw_objects(render_to_shadow_map, toRender);
-
+    for(uint i = 0; i < objects.size(); i++)
+    {
+        ThreeDObject * o = objects[i];
+        if(o->enabled && o->mesh.getMaterial()->cast_shadows)
+        {
+            o->display(render_to_shadow_map);
+        }
+    }
 
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
     glDrawBuffer(GL_BACK);
@@ -619,26 +615,53 @@ void TranslucentMaterials::draw_with_shadow(ShaderProgramDraw &shader_prog, vect
     mat *= render_to_shadow_map.get_projection_matrix();
     mat *= render_to_shadow_map.get_view_matrix();
 
-    shader_prog.use();
-    set_light_and_camera(shader_prog);
+    shadow_buffer.setLightWorldTransformationMatrix(mat);
 
-    GLint shadowloc = shader_prog.get_uniform_location("shadow");
-
-    if(shadowloc != -1)
+    for(uint i = 0; i < objects.size(); i++)
     {
-        shadow_buffer.bind_textures(shadowloc);
-        shader_prog.set_uniform("shadow", shadowloc);
-        shader_prog.set_uniform("Mat", mat);
+        ThreeDObject * o = objects[i];
+        Mesh::Material * mat = o->mesh.getMaterial();
+        if(o->enabled && mat->receives_shadows)
+        {
+            mat->setShadowBuffer(&shadow_buffer);
+        }
     }
-    check_gl_error();
-
-    draw_objects(shader_prog,toRenderOn);
-
-
 }
 
-void TranslucentMaterials::render_direct_wireframe(bool reload)
+void TranslucentMaterials::render_better_dipole(bool reload)
 {
+    static ShaderProgramDraw better_dipole_shader(shader_path, "better_dipole_gpu.vert", "", "better_dipole_gpu.frag");
+    static ShaderProgramDraw better_dipole_shader_vertex(shader_path, "better_dipole_gpu_vertex.vert", "", "better_dipole_gpu_vertex.frag");
+
+
+    if(reload)
+    {
+
+        better_dipole_shader.reload();
+        better_dipole_shader_vertex.reload();
+    }
+
+    glClearColor(clearColor[0],clearColor[1],clearColor[2],clearColor[3]);
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+
+    if(isVertexMode)
+    {
+        better_dipole_shader_vertex.use();
+        set_light_and_camera(better_dipole_shader_vertex);
+
+        draw_objects(better_dipole_shader_vertex);
+
+    }
+    else
+    {
+        better_dipole_shader.use();
+        set_light_and_camera(better_dipole_shader);
+
+        draw_objects(better_dipole_shader);
+
+    }
+
+    /*
     // Create shader program. Note that this is the only program which has
     // a geometry shader. Also there is only one shader in this function since
     // all geometry is treated in the same way.
@@ -670,6 +693,7 @@ void TranslucentMaterials::render_direct_wireframe(bool reload)
 //    objs.push_back("cube6");
 
     draw_objects(wire_shader, objs);
+    */
 }
 
 void TranslucentMaterials::render_direct_fur(bool reload)
@@ -756,8 +780,41 @@ void TranslucentMaterials::render_to_gbuffer(GBuffer& gbuffer, bool reload)
 #endif
 }
 
-void TranslucentMaterials::render_deferred_toon(bool reload)
+void TranslucentMaterials::render_directional_dipole(bool reload)
 {
+
+
+    static ShaderProgramDraw directional_dipole_shader(shader_path, "directional_dipole_gpu.vert", "", "directional_dipole_gpu.frag");
+    static ShaderProgramDraw directional_dipole_shader_vertex(shader_path, "directional_dipole_gpu_vertex.vert", "", "directional_dipole_gpu_vertex.frag");
+
+    if(reload)
+    {
+
+        directional_dipole_shader.reload();
+        directional_dipole_shader_vertex.reload();
+    }
+
+    glClearColor(clearColor[0],clearColor[1],clearColor[2],clearColor[3]);
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+
+    if(isVertexMode)
+    {
+        directional_dipole_shader_vertex.use();
+        set_light_and_camera(directional_dipole_shader_vertex);
+
+        draw_objects(directional_dipole_shader_vertex);
+
+    }
+    else
+    {
+        directional_dipole_shader.use();
+        set_light_and_camera(directional_dipole_shader);
+
+        draw_objects(directional_dipole_shader);
+
+    }
+
+    /*
     // Initialize resources. Note that we have a G-Buffer here. This buffer captures eye
     // space position, normal, and color for each pixel. We then do deferred shading based
     // on that.
@@ -789,6 +846,7 @@ void TranslucentMaterials::render_deferred_toon(bool reload)
     deferred_shading.set_uniform("ctex", 2);
     draw_screen_aligned_quad(deferred_shading);
     glEnable(GL_DEPTH_TEST);
+    */
 }
 
 void TranslucentMaterials::render_deferred_ssao(bool reload)
@@ -991,7 +1049,7 @@ void TranslucentMaterials::render_indirect()
     glDrawBuffer(GL_COLOR_ATTACHMENT0);
     glClearColor(0,0,0,0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-    render_direct(reload_shaders);
+    render_jensen(reload_shaders);
     
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
     glDrawBuffer(GL_BACK);
@@ -1009,7 +1067,7 @@ void TranslucentMaterials::render_indirect()
 TranslucentMaterials::TranslucentMaterials( QWidget* parent)
     : QGLWidget( new Core4_3_context(), (QWidget*) parent),
       ax(0), ay(0), dist(12),ang_x(0),ang_y(0),mouse_x0(0),mouse_y0(0)
-    , clearColor(Vec4f(0.0f,0.0f,0.0f,1.0f))
+    , clearColor(Vec4f(0.0f,0.0f,0.0f,1.0f)), isVertexMode(true), isShadow(true)
 {
     Light mainLight (light_position, light_diffuse, 1.0f, light_specular, true);
     manager.addLight(mainLight);
@@ -1041,7 +1099,7 @@ QImage* TranslucentMaterials::takeScreenshot()
             int green = (int)(pixels[index + 1] * 255.0f);
             int blue = (int)(pixels[index + 2] * 255.0f);
             QRgb color = qRgb(red,green,blue);
-            res->setPixel(j,w-i,color);
+            res->setPixel(j,w-i-1,color);
         }
     }
     return res;
@@ -1062,23 +1120,20 @@ void TranslucentMaterials::paintGL()
     stopwatch.start();
 #endif
 
+    setup_shadow(reload_shaders);
     switch(render_mode)
     {
-    case DRAW_NORMAL:
-#ifdef SOLUTION_CODE
-        //render_indirect();
-#endif
-
-        render_direct(reload_shaders);
+    case DRAW_JENSEN:
+        render_jensen(reload_shaders);
         break;
     case DRAW_FUR:
         render_direct_fur(reload_shaders);
         break;
-    case DRAW_WIRE:
-        render_direct_wireframe(reload_shaders);
+    case DRAW_BETTER:
+        render_better_dipole(reload_shaders);
         break;
-    case DRAW_DEFERRED_TOON:
-        render_deferred_toon(reload_shaders);
+    case DRAW_DIRECTIONAL:
+        render_directional_dipole(reload_shaders);
         break;
     case DRAW_SSAO:
         render_deferred_ssao(reload_shaders);
@@ -1137,6 +1192,16 @@ void TranslucentMaterials::setLightIntensity(float intensity)
     manager.reloadLights();
 }
 
+void TranslucentMaterials::setShadows(bool shadows)
+{
+    isShadow = shadows;
+}
+
+void TranslucentMaterials::setVertexPixelMode(bool isVertex)
+{
+    isVertexMode = isVertex;
+}
+
 void TranslucentMaterials::initializeGL()
 {
     setup_gl();
@@ -1178,7 +1243,7 @@ void TranslucentMaterials::keyPressEvent(QKeyEvent *e)
     {
     case Qt::Key_Escape: exit(0);
     case ' ':
-        render_mode = static_cast<RenderMode>((static_cast<int>(render_mode)+1)%5);
+        render_mode = static_cast<RenderMode>((static_cast<int>(render_mode)+1)%3);
         reload_shaders = true;
         break;
     case 'W':

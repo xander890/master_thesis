@@ -49,7 +49,6 @@ namespace GLGraphics
         diffuse.clear();
         specular.clear();
         positions.clear();
-        cout << "dirty";
         for(vector<Light>::const_iterator i = lights.begin(); i != lights.end(); ++i) {
             Light l = *i;
 

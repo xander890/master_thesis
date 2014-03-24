@@ -6,6 +6,7 @@
 #include <CGLA/Vec4f.h>
 #include "texture.h"
 #include <GLGraphics/ShaderProgram.h>
+#include <ShadowBuffer.h>
 
 namespace Mesh
 {
@@ -28,6 +29,8 @@ namespace Mesh
         float shininess;
 
         bool has_texture;
+        bool cast_shadows;
+        bool receives_shadows;
 
         virtual void loadUniforms(GLGraphics::ShaderProgramDraw & shader);
 
@@ -40,6 +43,8 @@ namespace Mesh
         virtual void addUniform(const char* name, CGLA::Vec3f value);
         virtual void addUniform(const char* name, CGLA::Vec4f value);
 
+        virtual void setShadowBuffer(ShadowBuffer * buffer);
+
         Material()
             :name("default"),
               diffuse(0.8f,0.8f,0.8f,1.0f),
@@ -47,12 +52,16 @@ namespace Mesh
               shininess(0),
               has_texture(false),
               ambient(0.0f,0.0f,0.0f,1.0f),
-              textures(std::vector<Texture>())
+              textures(std::vector<Texture>()),
+              cast_shadows(true),
+              receives_shadows(true),
+              shadowbuffer(new ShadowBuffer(0))
 		{
 
         }
 
     private:
+        ShadowBuffer * shadowbuffer;
         void loadExtraUniforms(GLGraphics::ShaderProgramDraw &shader);
         std::vector<Texture> textures;
         std::map<std::string, int> intUniforms;

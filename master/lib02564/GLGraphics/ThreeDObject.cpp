@@ -19,7 +19,7 @@ namespace GLGraphics
 {	
 
     ThreeDObject::ThreeDObject():
-    translation_vector(0), rotation_matrix(identity_Mat4x4f()), scaling_factors(1,1,1), mesh(Mesh::TriangleMesh())
+    translation_vector(0), rotation_matrix(identity_Mat4x4f()), scaling_factors(1,1,1), mesh(Mesh::TriangleMesh()), enabled(false)
     {
 	}
 
