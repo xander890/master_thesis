@@ -22,6 +22,8 @@ class TranslucentMaterials : public QGLWidget
 
     bool isVertexMode;
     bool isShadow;
+    bool isGridVisible;
+    bool areAxesVisible;
 
     GLGraphics::ShaderProgramDraw shader;
     GLGraphics::ThreeDObject cow;
@@ -45,10 +47,13 @@ public slots:
     void setLightIntensity(float intensity);
     void setShadows(bool shadows);
     void setVertexPixelMode(bool isVertex);
+    void setGridVisible(bool isVisible);
+    void setAxesVisible(bool areVisible);
 
 signals:
     void userPositionChanged(CGLA::Vec3f & newPosition);
     void userDirectionChanged(CGLA::Vec3f & newDirection);
+    void timeMeasurement(int millis);
 
 protected:
     void set_light_and_camera(GLGraphics::ShaderProgramDraw& shader_prog);
@@ -61,6 +66,8 @@ protected:
     void draw_objects(GLGraphics::ShaderProgramDraw& shader_prog);
     void draw_objects(GLGraphics::ShaderProgramDraw& shader_prog,std::vector<std::string> & str);
     void setup_shadow(bool reload);
+    void draw_axes(bool reload);
+    void draw_grid(bool reload);
 
 #ifdef SOLUTION_CODE
     void render_indirect();

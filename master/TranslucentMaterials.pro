@@ -54,7 +54,9 @@ HEADERS += exercises/TranslucentMaterials/GBuffer.h\
     exercises/TranslucentMaterials/GUI/vectorform.h \
     exercises/TranslucentMaterials/GUI/onelinetextedit.h \
     exercises/TranslucentMaterials/GUI/colorform.h \
-    lib02564/Utils/defaultmaterials.h
+    lib02564/Utils/defaultmaterials.h \
+    lib02564/Objects/threedline.h \
+    lib02564/Objects/threedgrid.h
 
 SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
         exercises/TranslucentMaterials/ShadowBuffer.cpp\
@@ -82,7 +84,9 @@ SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
     exercises/TranslucentMaterials/GUI/vectorform.cpp \
     exercises/TranslucentMaterials/GUI/onelinetextedit.cpp \
     exercises/TranslucentMaterials/GUI/colorform.cpp \
-    lib02564/Utils/defaultmaterials.cpp
+    lib02564/Utils/defaultmaterials.cpp \
+    lib02564/Objects/threedline.cpp \
+    lib02564/Objects/threedgrid.cpp
 
 
 HEADERS += lib02564/CGLA/ArithMatFloat.h\
@@ -183,7 +187,9 @@ OTHER_FILES += shaders/TranslucentMaterials/* \
     shaders/TranslucentMaterials/better_dipole_gpu_vertex.frag \
     shaders/TranslucentMaterials/better_dipole_gpu_vertex.vert \
     shaders/TranslucentMaterials/directional_dipole_gpu_vertex.vert \
-    shaders/TranslucentMaterials/directional_dipole_gpu_vertex.frag
+    shaders/TranslucentMaterials/directional_dipole_gpu_vertex.frag \
+    shaders/TranslucentMaterials/color.vert \
+    shaders/TranslucentMaterials/color.frag
 
 FORMS += \
     exercises/TranslucentMaterials/mainwindow.ui \

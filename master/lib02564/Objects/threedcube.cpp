@@ -8,11 +8,6 @@ using namespace std;
 
 void ThreeDCube::display(GLGraphics::ShaderProgramDraw &shader)
 {
-    Mesh::RawMeshData data;
-    mesh.getRawData(data);
-    vector<Vec3f> & v = data.vertices;
-    shader.set_uniform("d",v,1000);
-
     ThreeDObject::display(shader);
 }
 

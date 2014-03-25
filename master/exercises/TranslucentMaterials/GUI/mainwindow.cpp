@@ -32,6 +32,16 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->intensity->setValue(12);
 
     connect(ui->vertexpixel, SIGNAL(toggled(bool)), ui->translucentMaterials, SLOT(setVertexPixelMode(bool)));
+    ui->vertexpixel->setChecked(true);
+
+    connect(ui->showgrid, SIGNAL(toggled(bool)), ui->translucentMaterials, SLOT(setGridVisible(bool)));
+    ui->showgrid->setChecked(true);
+
+    connect(ui->showaxes, SIGNAL(toggled(bool)), ui->translucentMaterials, SLOT(setAxesVisible(bool)));
+    ui->showaxes->setChecked(true);
+
+    connect(ui->translucentMaterials, SIGNAL(timeMeasurement(int)), this, SLOT(timeMeasurement(int)));
+
 }
 
 MainWindow::~MainWindow()
@@ -77,6 +87,11 @@ void MainWindow::on_intensity_valueChanged(int value)
     float intensity = (float)(value);
     ui->intensitylabel->setText(QString::number(intensity,'f',1));
     ui->translucentMaterials->setLightIntensity(intensity);
+}
+
+void MainWindow::timeMeasurement(int millis)
+{
+   ui->fpslabel->setText(QString("Median time frame (ms): ").append(QString::number(millis)));
 }
 
 void MainWindow::keyPressEvent(QKeyEvent * e)

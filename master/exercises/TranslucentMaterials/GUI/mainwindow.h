@@ -22,6 +22,7 @@ private slots:
 
     void on_intensity_valueChanged(int value);
 
+    void timeMeasurement(int millis);
 
 private:
     Ui::MainWindow *ui;

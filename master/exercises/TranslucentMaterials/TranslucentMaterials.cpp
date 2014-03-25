@@ -42,6 +42,8 @@
 #include <Dipoles/singlescattering.h>
 #include <Dipoles/dipolegpu.h>
 #include <Utils/defaultmaterials.h>
+#include <Objects/threedline.h>
+#include <Objects/threedgrid.h>
 
 #define BUNNIES
 using namespace std;
@@ -453,9 +455,6 @@ void TranslucentMaterials::render_jensen(bool reload)
         directional_dipole_shader_vertex.reload();
     }
 
-    glClearColor(clearColor[0],clearColor[1],clearColor[2],clearColor[3]);
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-
 /*
     terrain_shader.use();
     set_light_and_camera(terrain_shader);
@@ -628,6 +627,73 @@ void TranslucentMaterials::setup_shadow(bool reload)
     }
 }
 
+void TranslucentMaterials::draw_axes(bool reload)
+{
+    static ShaderProgramDraw color_shader(shader_path, "color.vert", "", "color.frag");
+    if(reload)
+    {
+        color_shader.reload();
+    }
+
+    static bool was_here = false;
+    static vector<ThreeDObject*> axes = *(new vector<ThreeDObject*>());
+    if(!was_here)
+    {
+        was_here = true;
+        Mesh::Material * m = new Mesh::Material();
+        ThreeDLine * x = new ThreeDLine();
+        x->init("","x",*m);
+        axes.push_back(x);
+        x->setColor(Vec4f(1.0f,0.0f,0.0f,1.0f));
+        x->scale(Vec3f(1000.0f));
+        x->rotate(Vec3f(0.0,1.0,0.0), 90.0f);
+
+        ThreeDLine * y = new ThreeDLine();
+        y->init("","y",*m);
+        axes.push_back(y);
+        y->setColor(Vec4f(0.0f,1.0f,0.0f,1.0f));
+        y->scale(Vec3f(1000.0f));
+        y->rotate(Vec3f(1.0,0.0,0.0), 90.0f);
+
+        ThreeDLine * z = new ThreeDLine();
+        z->init("","z",*m);
+        axes.push_back(z);
+        z->scale(Vec3f(1000.0f));
+
+        z->setColor(Vec4f(0.0f,0.0f,1.0f,1.0f));
+
+    }
+    color_shader.use();
+    set_light_and_camera(color_shader);
+
+    for(int i = 0; i < 3; i++)
+    {
+        axes[i]->display(color_shader);
+    }
+}
+
+void TranslucentMaterials::draw_grid(bool reload)
+{
+    static ShaderProgramDraw color_shader(shader_path, "color.vert", "", "color.frag");
+    if(reload)
+    {
+        color_shader.reload();
+    }
+
+    static ThreeDGrid * grid = new ThreeDGrid(1.0f,50);
+    static bool was_here = false;
+    if(!was_here)
+    {
+        was_here = true;
+        grid->init("","grid",*(new Mesh::Material()));
+        grid->setColor(Vec4f(0.5f));
+
+    }
+    color_shader.use();
+    set_light_and_camera(color_shader);
+    grid->display(color_shader);
+}
+
 void TranslucentMaterials::render_better_dipole(bool reload)
 {
     static ShaderProgramDraw better_dipole_shader(shader_path, "better_dipole_gpu.vert", "", "better_dipole_gpu.frag");
@@ -640,9 +706,6 @@ void TranslucentMaterials::render_better_dipole(bool reload)
         better_dipole_shader.reload();
         better_dipole_shader_vertex.reload();
     }
-
-    glClearColor(clearColor[0],clearColor[1],clearColor[2],clearColor[3]);
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
     if(isVertexMode)
     {
@@ -794,8 +857,6 @@ void TranslucentMaterials::render_directional_dipole(bool reload)
         directional_dipole_shader_vertex.reload();
     }
 
-    glClearColor(clearColor[0],clearColor[1],clearColor[2],clearColor[3]);
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
     if(isVertexMode)
     {
@@ -1067,7 +1128,7 @@ void TranslucentMaterials::render_indirect()
 TranslucentMaterials::TranslucentMaterials( QWidget* parent)
     : QGLWidget( new Core4_3_context(), (QWidget*) parent),
       ax(0), ay(0), dist(12),ang_x(0),ang_y(0),mouse_x0(0),mouse_y0(0)
-    , clearColor(Vec4f(0.0f,0.0f,0.0f,1.0f)), isVertexMode(true), isShadow(true)
+    , clearColor(Vec4f(0.0f,0.0f,0.0f,1.0f)), isVertexMode(true), isShadow(true), isGridVisible(true), areAxesVisible(true)
 {
     Light mainLight (light_position, light_diffuse, 1.0f, light_specular, true);
     manager.addLight(mainLight);
@@ -1121,6 +1182,14 @@ void TranslucentMaterials::paintGL()
 #endif
 
     setup_shadow(reload_shaders);
+
+    glClearColor(clearColor[0],clearColor[1],clearColor[2],clearColor[3]);
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+
+
+    if(isGridVisible) draw_grid(reload_shaders);
+    if(areAxesVisible) draw_axes(reload_shaders);
+
     switch(render_mode)
     {
     case DRAW_JENSEN:
@@ -1150,6 +1219,7 @@ void TranslucentMaterials::paintGL()
         nth_element(msecs_total.begin(), msecs_total.begin()+50, msecs_total.end());
         qDebug() << "median frame time (msecs)" << msecs_total[50];
         frames = 0;
+        emit timeMeasurement(msecs_total[50]);
     }
 #endif
 }
@@ -1200,6 +1270,16 @@ void TranslucentMaterials::setShadows(bool shadows)
 void TranslucentMaterials::setVertexPixelMode(bool isVertex)
 {
     isVertexMode = isVertex;
+}
+
+void TranslucentMaterials::setGridVisible(bool isVisible)
+{
+    isGridVisible = isVisible;
+}
+
+void TranslucentMaterials::setAxesVisible(bool areVisible)
+{
+    areAxesVisible = areVisible;
 }
 
 void TranslucentMaterials::initializeGL()
