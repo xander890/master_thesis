@@ -25,6 +25,7 @@ QSize OneLineTextEdit::sizeHint () const
 void OneLineTextEdit::focusOutEvent(QFocusEvent *event)
 {
     emit onTextChanged();
+    emit onTextChanged(this->toPlainText());
     QPlainTextEdit::focusOutEvent(event);
 }
 
@@ -32,6 +33,7 @@ void OneLineTextEdit::keyPressEvent (QKeyEvent *e)
 {
     if ((e->key () == Qt::Key_Enter) || (e->key () == Qt::Key_Return)){
         emit onTextChanged();
+        emit onTextChanged(this->toPlainText());
         e->ignore ();
     }else{
         QPlainTextEdit::keyPressEvent (e);

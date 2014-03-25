@@ -7,6 +7,12 @@ uniform sampler2D areas;
 uniform int vertex_size;
 uniform int vertex_tex_size;
 
+// Shadows
+uniform sampler2DShadow shadow;
+uniform int shadowEnabled;
+uniform mat4 Mat;
+
+
 in vec3 _normal;
 in vec3 _texcoord;
 in vec3 _pos;
@@ -40,6 +46,16 @@ uniform vec3 reduced_albedo;
 
 #define FRESNEL
 const float M_PI = 3.141592654;
+
+
+float sample_shadow_map(vec3 pos)
+{
+    vec4 light_pos = Mat * vec4(pos,1.0f);
+    light_pos.z -= 0.0015; //bias to avoid shadow acne
+    if(light_pos.x < 0.0 || light_pos.x > 1.0) return 1.0;
+    if(light_pos.y < 0.0 || light_pos.y > 1.0) return 1.0;
+    return texture(shadow,light_pos.xyz).r;
+}
 
 float C_1(float ni)
 {
@@ -219,7 +235,14 @@ void main()
 
             float dot_n_w = dot(ni,wi);
 
-            if(dot_n_w > 0.0f) //visibility term (for now)
+            float visibility = dot_n_w;
+
+            if(shadowEnabled > 0)
+            {
+                visibility = sample_shadow_map(xi);
+            }
+
+            if(visibility > 0.0f)
             {
                 vec3 BSSRDF = bssrdf(xi,wi,ni,xo,wo,no);
                 Lo += Li_base * dot_n_w * BSSRDF * area;

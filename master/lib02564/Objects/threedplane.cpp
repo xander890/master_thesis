@@ -14,6 +14,7 @@ void ThreeDPlane::display(ShaderProgramDraw & shader)
 
 bool ThreeDPlane::init(std::string filename, std::string name, Mesh::Material & material)
 {
+    this->firstTime = true;
     this->name = name;
     vector<GLuint> indices;
     vector<Vec3f> vertices;

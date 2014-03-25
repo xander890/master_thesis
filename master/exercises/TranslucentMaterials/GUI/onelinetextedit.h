@@ -12,6 +12,7 @@ public:
 
 signals:
     void onTextChanged();
+    void onTextChanged(QString & text);
 
 protected:
     virtual void keyPressEvent(QKeyEvent *e);

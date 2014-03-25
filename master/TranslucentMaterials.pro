@@ -56,7 +56,8 @@ HEADERS += exercises/TranslucentMaterials/GBuffer.h\
     exercises/TranslucentMaterials/GUI/colorform.h \
     lib02564/Utils/defaultmaterials.h \
     lib02564/Objects/threedline.h \
-    lib02564/Objects/threedgrid.h
+    lib02564/Objects/threedgrid.h \
+    exercises/TranslucentMaterials/GUI/threedobjectgui.h
 
 SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
         exercises/TranslucentMaterials/ShadowBuffer.cpp\
@@ -86,7 +87,8 @@ SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
     exercises/TranslucentMaterials/GUI/colorform.cpp \
     lib02564/Utils/defaultmaterials.cpp \
     lib02564/Objects/threedline.cpp \
-    lib02564/Objects/threedgrid.cpp
+    lib02564/Objects/threedgrid.cpp \
+    exercises/TranslucentMaterials/GUI/threedobjectgui.cpp
 
 
 HEADERS += lib02564/CGLA/ArithMatFloat.h\
@@ -194,4 +196,5 @@ OTHER_FILES += shaders/TranslucentMaterials/* \
 FORMS += \
     exercises/TranslucentMaterials/mainwindow.ui \
     exercises/TranslucentMaterials/GUI/vectorform.ui \
-    exercises/TranslucentMaterials/GUI/colorform.ui
+    exercises/TranslucentMaterials/GUI/colorform.ui \
+    exercises/TranslucentMaterials/GUI/threedobject.ui

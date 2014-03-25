@@ -37,7 +37,7 @@ public:
     CGLA::Vec4f getClearColor() const;
     void keyPressEvent(QKeyEvent *);
     void keyReleaseEvent(QKeyEvent *);
-
+    GLGraphics::ThreeDObject * getDefaultObject();
 
 public slots:
     void animate();
@@ -49,6 +49,7 @@ public slots:
     void setVertexPixelMode(bool isVertex);
     void setGridVisible(bool isVisible);
     void setAxesVisible(bool areVisible);
+    void addObject(GLGraphics::ThreeDObject * obj);
 
 signals:
     void userPositionChanged(CGLA::Vec3f & newPosition);

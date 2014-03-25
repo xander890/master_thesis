@@ -27,8 +27,10 @@ protected:
     CGLA::Vec3f translation_vector;
     //CGLA::Vec3f rotation_axis;
     //float rotation_angle;
-    CGLA::Mat4x4f rotation_matrix;
+    CGLA::Mat4x4f rotation_matrix; //optimization.
+    CGLA::Vec3f eulerAngles;
     CGLA::Vec3f scaling_factors;
+    bool firstTime;
 
 public:
     Mesh::TriangleMesh mesh;
@@ -38,7 +40,13 @@ public:
     ThreeDObject();
     virtual bool init(std::string filename, std::string name, Mesh::Material & material);
     virtual void display(ShaderProgramDraw& shader);
+
     void getRawData(Mesh::RawMeshData & data);
+    CGLA::Mat4x4f ThreeDObject::getModelMatrix();
+    CGLA::Vec3f ThreeDObject::getEulerAngles() {return eulerAngles;}
+    CGLA::Vec3f ThreeDObject::getPosition() {return translation_vector;}
+    CGLA::Vec3f ThreeDObject::getScale() {return scaling_factors;}
+
 
     void addAttribute(std::string name, std::vector<CGLA::Vec4f>& data);
 
@@ -57,29 +65,32 @@ public:
 
         CGLA::Quatf q;
         q.make_rot(angle*M_PI/180.0, axis);
-        rotation_matrix *= q.get_Mat4x4f();
+        rotation_matrix = q.get_Mat4x4f();
+        this->eulerAngles = axis * angle;
     }
 
-    void rotate(const CGLA::Mat4x4f & rotation)
+    void setEulerAngles(CGLA::Vec3f & eulerAngles)
     {
-
-        rotation_matrix *= rotation;
-        rotation_matrix[0][3] = 0.0f;
-        rotation_matrix[1][3] = 0.0f;
-        rotation_matrix[2][3] = 0.0f;
-    }
-
-
-    void set_rotation(const CGLA::Mat4x4f & rotation)
-    {
+        //avoiding singular matrix
+        if(eulerAngles == CGLA::Vec3f(0.0f))
+        {
+            this->rotation_matrix = CGLA::identity_Mat4x4f();
+            this->eulerAngles = eulerAngles;
+            return;
+        }
 
 
+        //precomputing the rotation matrix, so we do not have to do quaternion stuff every frame unless we are forced to.
+        CGLA::Quatf qx;
+        CGLA::Quatf qy;
+        CGLA::Quatf qz;
+        qx.make_rot(eulerAngles[0] * M_PI / 180.0f, CGLA::Vec3f(1.0f,0.0f,0.0f));
+        qy.make_rot(eulerAngles[1] * M_PI / 180.0f, CGLA::Vec3f(0.0f,1.0f,0.0f));
+        qz.make_rot(eulerAngles[2] * M_PI / 180.0f, CGLA::Vec3f(0.0f,0.0f,1.0f));
+        CGLA::Quatf q = qx * (qy * qz);
 
-        rotation_matrix = rotation;
-        rotation_matrix[0][3] = 0.0f;
-        rotation_matrix[1][3] = 0.0f;
-        rotation_matrix[2][3] = 0.0f;
-
+        this->eulerAngles = eulerAngles;
+        rotation_matrix = q.get_Mat4x4f();
     }
 
     void translate(const CGLA::Vec3f& pos)
@@ -91,8 +102,6 @@ public:
     {
         scaling_factors  = scale;
     }
-
-    CGLA::Mat4x4f ThreeDObject::getModelMatrix();
 
 };
 

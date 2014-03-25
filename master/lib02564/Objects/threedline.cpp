@@ -12,6 +12,7 @@ void ThreeDLine::display(ShaderProgramDraw &shader)
 
 bool ThreeDLine::init(std::string filename, std::string name, Mesh::Material &material)
 {
+    this->firstTime = true;
     vector<Vec3f> verts;
     vector<Vec3f> normals;
     vector<Vec2f> uvs;

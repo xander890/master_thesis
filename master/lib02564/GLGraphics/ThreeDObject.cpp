@@ -10,6 +10,7 @@
 #include <CGLA/Quatf.h>
 #include <CGLA/Mat4x4f.h>
 #include "ThreeDObject.h"
+#include "Dipoles/dipolegpu.h"
 
 using namespace CGLA;
 using namespace Mesh;
@@ -24,8 +25,8 @@ namespace GLGraphics
 	}
 
     bool ThreeDObject::init(std::string filename, std::string name, Mesh::Material & material){
+        this->firstTime = true;
         this->name = name;
-//        Material * m = new Material(material);
         return mesh.load(filename, material);
     }
 
@@ -42,6 +43,12 @@ namespace GLGraphics
 
     void ThreeDObject::display(ShaderProgramDraw& shader_prog)
 	{
+        if(firstTime)
+        {
+            DipoleGPU gip;
+            gip.prepare(*this);
+            firstTime = false;
+        }
         Mat4x4f M = getModelMatrix();
         shader_prog.set_model_matrix(M);
         this->mesh.render(shader_prog);

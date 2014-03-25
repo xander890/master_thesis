@@ -269,13 +269,6 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
         cow3->rotate(Vec3f(1,0,0), 90);
         cow3->translate(Vec3f(15.0,0,-1.5f));
 
-        ThreeDObject * bunny1 = new ThreeDObject();
-        objects.push_back(bunny1);
-        bunny1->init(objects_path+"bunny-simplified.obj", "bunny1", *scattering_mat);
-        bunny1->scale(Vec3f(30.f));
-        bunny1->rotate(Vec3f(1,0,0), 90);
-        bunny1->translate(Vec3f(0,0,-4.5f));
-
         ThreeDObject * bunny2 = new ThreeDObject();
         objects.push_back(bunny2);
         bunny2->init(objects_path+"bunny-simplified.obj", "bunny2", *scattering_mat);
@@ -315,14 +308,14 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
         //dipoleCalculator.calculate(*bunny3,luminance,jeppeDipole);
         DipoleGPU gip;
         gip.prepare(*cube);
-        gip.prepare(*bunny1);
+
         gip.prepare(*sphere);
         //gip.prepare(*bunny2);
         //gip.prepare(*bunny3);
 #endif
 
 //        gip.prepare(*cube6);
-        bunny1->enabled = true;
+
     }
 
     for(unsigned int i=0; i<objects.size();++i)
@@ -342,80 +335,9 @@ void TranslucentMaterials::set_light_and_camera(ShaderProgramDraw& shader_prog)
     shader_prog.set_view_matrix(user.get_view_matrix());
     shader_prog.set_uniform("light_amb", light_ambient);
     shader_prog.set_uniform("user_pos",user.get_pos());
-
-    check_gl_error();
     manager.loadLights(shader_prog);
-    check_gl_error();
 }
 
-/*
-#ifdef SOLUTION_CODE
-void draw_trees(ShaderProgramDraw& shader_prog)
-{
-    static GLint count;
-    static GLuint vao = make_tree(count);
-
-    const int N = 100; // number of trees
-
-    static Mat4x4f M[N];
-    static Vec4f mat_diff[N];
-    static bool was_here = false;
-    if(!was_here)
-    {
-        gel_srand(0);
-        was_here = true;
-        for(int i=0;i<N;++i)
-        {
-
-            float x = 60*(gel_rand()/float(GEL_RAND_MAX)-0.5f);
-            float y = 60*(gel_rand()/float(GEL_RAND_MAX)-0.5f);
-            Vec3f p(x,y,terra.height(x,y));
-            M[i] = transpose(translation_Mat4x4f(p)*scaling_Mat4x4f(Vec3f(0.01+0.013*gel_rand()/float(GEL_RAND_MAX)))
-                             *rotation_Mat4x4f(ZAXIS, 2*M_PI*gel_rand()/float(GEL_RAND_MAX)));
-            mat_diff[i] = Vec4f(0.4f,0.3f,0.2f,0.2f) + 0.2f * Vec4f(gel_rand(),gel_rand(),gel_rand(),0)/float(GEL_RAND_MAX);
-        }
-
-    }
-
-    bool useInstancing = true;
-    if (useInstancing)
-    {
-        shader_prog.set_model_matrix(identity_Mat4x4f());
-        glUniformMatrix4fv(shader_prog.get_uniform_location("InstanceMatrix"),N,GL_FALSE,
-                           (const GLfloat*) &M[0]);
-        glUniform4fv(shader_prog.get_uniform_location("mat_diff"),N,
-                     (const GLfloat*) &mat_diff[0]);
-        shader_prog.set_model_matrix(identity_Mat4x4f());
-        glBindVertexArray(vao);
-        glDrawArraysInstanced(GL_TRIANGLE_STRIP,0, count, N);
-    }
-    else
-    {
-        shader_prog.set_model_matrix(identity_Mat4x4f());
-        glBindVertexArray(vao);
-        for(int i=0;i<N;++i)
-        {
-            glUniformMatrix4fv(shader_prog.get_uniform_location("InstanceMatrix"),1,GL_FALSE,
-                               (const GLfloat*) &M[i]);
-            glUniform4fv(shader_prog.get_uniform_location("mat_diff"),1,
-                         (const GLfloat*) &mat_diff[i]);
-            glDrawArrays(GL_TRIANGLE_STRIP,0, count);
-        }
-    }
-}
-#else
-    void draw_trees(ShaderProgramDraw& shader_prog)
-    {
-        static GLint count;
-        static GLuint vao = make_tree(count);
-        shader_prog.set_model_matrix(translation_Mat4x4f(Vec3f(10,10,terra.height(10,10)+0.0))
-                                     *scaling_Mat4x4f(Vec3f(0.01)));
-        glBindVertexArray(vao);
-        glDrawArrays(GL_TRIANGLES,0, count);
-        glBindVertexArray(0);
-    }
-#endif
-*/
 
 void TranslucentMaterials::render_jensen(bool reload)
 {
@@ -603,7 +525,6 @@ void TranslucentMaterials::setup_shadow(bool reload)
 
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
     glDrawBuffer(GL_BACK);
-    check_gl_error();
 
     // We need to reset the viewport, since the shadow buffer does not have
     // the same size as the screen window.
@@ -646,14 +567,14 @@ void TranslucentMaterials::draw_axes(bool reload)
         axes.push_back(x);
         x->setColor(Vec4f(1.0f,0.0f,0.0f,1.0f));
         x->scale(Vec3f(1000.0f));
-        x->rotate(Vec3f(0.0,1.0,0.0), 90.0f);
+        x->setEulerAngles(Vec3f(0.0f,90.0f,0.0f));
 
         ThreeDLine * y = new ThreeDLine();
         y->init("","y",*m);
         axes.push_back(y);
         y->setColor(Vec4f(0.0f,1.0f,0.0f,1.0f));
         y->scale(Vec3f(1000.0f));
-        y->rotate(Vec3f(1.0,0.0,0.0), 90.0f);
+        y->setEulerAngles(Vec3f(90.0f,0.0f,0.0f));
 
         ThreeDLine * z = new ThreeDLine();
         z->init("","z",*m);
@@ -1282,6 +1203,11 @@ void TranslucentMaterials::setAxesVisible(bool areVisible)
     areAxesVisible = areVisible;
 }
 
+void TranslucentMaterials::addObject(ThreeDObject *obj)
+{
+    objects.push_back(obj);
+}
+
 void TranslucentMaterials::initializeGL()
 {
     setup_gl();
@@ -1399,4 +1325,17 @@ void TranslucentMaterials::keyPressEvent(QKeyEvent *e)
 void TranslucentMaterials::keyReleaseEvent(QKeyEvent *)
 {
     user.stop();
+}
+
+ThreeDObject *TranslucentMaterials::getDefaultObject()
+{
+    Mesh::ScatteringMaterial * scattering_mat = getDefaultMaterial(S_Marble);
+    ThreeDObject * bunny1 = new ThreeDObject();
+    objects.push_back(bunny1);
+    bunny1->init(objects_path+"bunny-simplified.obj", "bunny1", *scattering_mat);
+    bunny1->scale(Vec3f(30.f));
+    bunny1->rotate(Vec3f(1,0,0), 90);
+    bunny1->translate(Vec3f(0,0,-1.0f));
+    bunny1->enabled = true;
+    return bunny1;
 }

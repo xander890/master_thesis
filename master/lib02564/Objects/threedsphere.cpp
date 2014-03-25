@@ -12,6 +12,7 @@ void ThreeDSphere::display(GLGraphics::ShaderProgramDraw &shader)
 
 bool ThreeDSphere::init(std::string filename, std::string name, Mesh::Material & material)
 {
+    this->firstTime = true;
     this->name = name;
     vector<Vec3f> vertices;
     vector<Vec3f> normals;

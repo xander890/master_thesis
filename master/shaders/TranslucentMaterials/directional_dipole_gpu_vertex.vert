@@ -212,7 +212,7 @@ void main()
 
             if(shadowEnabled > 0)
             {
-                visibility = sample_shadow_map(xi);
+                //visibility = sample_shadow_map(xi);
             }
 
             if(visibility > 0.0f)
@@ -225,5 +225,6 @@ void main()
     }
 
     _color = vec4(Lo,1.0f);
+    //_color = vec4(sample_shadow_map(xo));
     gl_Position = PVM * vec4(vertex,1);
 }

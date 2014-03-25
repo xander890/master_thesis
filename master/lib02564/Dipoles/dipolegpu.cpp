@@ -22,15 +22,17 @@ void DipoleGPU::prepare(ThreeDObject &three)
 
     vector<Vec3f> vertices = data.vertices;
     vector<Vec3f> normals = data.normals;
-    cout << "Started computation of dipole. "<< vertices.size() << " vertices found." << std::endl;
     GLenum mode = mesh.getMode();
 
+    if(mode != GL_TRIANGLE_STRIP && mode != GL_TRIANGLES)
+    {
+        return;
+    }
     //
     // Area estimation step
     //
     float result;
-    Mat3x3f mx;
-    convertMat4x4toMat3x3(three.getModelMatrix(), mx);
+    Mat3x3f mx = Mat3x3f(three.getModelMatrix());
     totalArea(mesh,mode,mx, result);
     cout << mx << "Area " << three.name << ": " << result << endl;
 

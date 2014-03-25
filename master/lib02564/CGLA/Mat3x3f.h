@@ -4,6 +4,7 @@
 #include "CGLA.h"
 #include "Vec3f.h"
 #include "ArithSqMat3x3Float.h"
+#include "Mat4x4f.h"
 
 namespace CGLA 
 {
@@ -25,6 +26,7 @@ namespace CGLA
 
       /// Construct a matrix from a single scalar value.
       explicit Mat3x3f(float a): ArithSqMat3x3Float<Vec3f, Mat3x3f>(a) {}
+      explicit Mat3x3f(Mat4x4f m) : ArithSqMat3x3Float<Vec3f, Mat3x3f>(Vec3f(m[0]), Vec3f(m[1]),Vec3f(m[2])) {}
 
     };
 

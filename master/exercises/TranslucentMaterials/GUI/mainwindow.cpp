@@ -41,6 +41,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->showaxes->setChecked(true);
 
     connect(ui->translucentMaterials, SIGNAL(timeMeasurement(int)), this, SLOT(timeMeasurement(int)));
+    ui->fpslabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
+
+    GLGraphics::ThreeDObject * bunny = ui->translucentMaterials->getDefaultObject();
+    ui->objTest->setObject(bunny);
+    ui->translucentMaterials->addObject(bunny);
 
 }
 

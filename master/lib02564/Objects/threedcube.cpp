@@ -13,6 +13,7 @@ void ThreeDCube::display(GLGraphics::ShaderProgramDraw &shader)
 
 bool ThreeDCube::init(std::string filename, std::string name, Mesh::Material & material)
 {
+    this->firstTime = true;
     this->name = name;
     vector<Vec3f> vertices;
     vector<Vec3f> normals;
