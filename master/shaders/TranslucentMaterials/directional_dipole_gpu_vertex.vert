@@ -212,7 +212,7 @@ void main()
 
             if(shadowEnabled > 0)
             {
-                //visibility = sample_shadow_map(xi);
+                visibility = sample_shadow_map(xi);
             }
 
             if(visibility > 0.0f)
