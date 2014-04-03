@@ -74,6 +74,18 @@ struct DataVector {
     std::vector<DataUnion> vector;
 };
 
+class BoundingBox {
+
+public:
+    BoundingBox::BoundingBox() : xlow(FLT_MAX), xhigh(-FLT_MAX), ylow(FLT_MAX), yhigh(-FLT_MAX), zlow(FLT_MAX), zhigh(-FLT_MAX) {}
+    float xlow;
+    float xhigh;
+    float ylow;
+    float yhigh;
+    float zlow;
+    float zhigh;
+};
+
 class TriangleMesh
 {
 public:
@@ -107,15 +119,19 @@ public:
     void getRawData(RawMeshData & data);
     Mesh::Material * getMaterial();
     GLenum getMode();
+    Mesh::BoundingBox * getBoundingBox();
     // Calculate normals using angle weighted pseudo-normals
     void recompute_normals(const char* positionName = "vertex", const char *normalName = "normal");
 private:
+
     /// Make sure that all vertex attribute vectors has the same size
     void check_vertex_size(int vertexAttributeSize);
     // maps shader to vertex attribute location
     // shader is optional - if defined the attribute locations are taken from the shader, otherwise generic locations are used
     void map_data_to_shader_vertex_attributes(GLGraphics::ShaderProgram *shader = NULL);
     std::vector<GLuint> convert_sub_meshes_to_triangle_indices(DrawCall &drawCall, bool removeDegenerate = true);
+    void generateBoundingBox();
+
     std::map<std::string, DataVector> vertexAttributes;
     std::vector<DrawCall> drawCalls;
     GLuint vertexArrayObject;
@@ -130,6 +146,7 @@ private:
     std::vector<std::string> names;
     int stride;
     RawMeshData rawData;
+    BoundingBox * boundingBox;
 
 };
 }

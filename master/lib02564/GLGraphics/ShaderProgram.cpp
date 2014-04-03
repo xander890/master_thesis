@@ -88,6 +88,7 @@ namespace GLGraphics {
             glUniform3fv(location, 1, value.get());
         }
     }
+
     void ShaderProgram::set_uniform(const char* name, const CGLA::Vec4f &value){
         GLint location = get_uniform_location(name);
         if (location != -1){

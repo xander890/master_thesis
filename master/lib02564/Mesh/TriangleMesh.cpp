@@ -11,102 +11,10 @@ namespace Mesh {
 
 TriangleMesh::TriangleMesh()
     : vertexArrayObject(0), vertexBuffer(0), vertexCount(0), debug(true), initialized(false),
-      offset(), componentType(), componentSize(), names(), stride(0)
+      offset(), componentType(), componentSize(), names(), stride(0), boundingBox(new BoundingBox())
 {
 }
 
-
-vector<GLuint> TriangleMesh::convert_sub_meshes_to_triangle_indices(DrawCall &drawCall, bool removeDegenerate){
-    vector<GLuint> indices = drawCall.indices;
-    vector<GLuint> trianleIndices;
-    if (drawCall.renderMode == GL_TRIANGLES){
-        return indices;
-    } else if (drawCall.renderMode != GL_TRIANGLE_STRIP){
-        cerr << "Unsupported rendermode for recompute_normals. Only GL_TRIANGLES and GL_TRIANGLE_STRIP supported." << endl;
-        return trianleIndices;
-    }
-    int even = 1;
-
-
-    trianleIndices.push_back(indices[0]);
-    trianleIndices.push_back(indices[1]);
-    trianleIndices.push_back(indices[2]);
-
-    for (unsigned int i=3;i<indices.size();i++){
-        if (removeDegenerate){
-            if (indices[i-1] == indices[i] ||
-                indices[i-2] == indices[i] ||
-                indices[i-1] == indices[i-2]){
-                continue;
-            }
-        }
-        if (i % 2 == even) {
-            trianleIndices.push_back(indices[i-1]);
-            trianleIndices.push_back(indices[i-2]);
-            trianleIndices.push_back(indices[i]);
-        } else {
-            trianleIndices.push_back(indices[i-2]);
-            trianleIndices.push_back(indices[i-1]);
-            trianleIndices.push_back(indices[i]);
-        }
-    }
-    return trianleIndices;
-}
-
-
-void TriangleMesh::recompute_normals(const char* positionName, const char *normalName){
-    vector<Vec3f> * normals = new vector<Vec3f>(); //need it to stay in memory
-    for (int i=0;i<vertexCount;i++) {
-        normals->push_back(Vec3f(0.0, 0.0, 0.0));
-    }
-
-    vector<Vec3f> vertex;
-    DataVector vertexRaw = vertexAttributes[positionName];
-    for (int i=0;i< vertexCount;i++){
-        DataUnion data = vertexRaw.vector[i];
-        vertex.push_back(Vec3f(data.vec[0], data.vec[1], data.vec[2]));
-    }
-
-    if (drawCalls.size()==0 && debug){
-        cout << "warn - no draw calls "<< endl;
-    }
-
-    for (std::vector<DrawCall>::iterator iter = drawCalls.begin(); iter != drawCalls.end(); iter++){
-        DrawCall &drawCall = *iter;
-        vector<GLuint> triangles = convert_sub_meshes_to_triangle_indices(drawCall);
-
-        int triangleCount = triangles.size()/3;
-
-        for (int a = 0; a < triangleCount; a++) {
-            GLuint i1 = triangles[a * 3];
-            GLuint i2 = triangles[a * 3 + 1];
-            GLuint i3 = triangles[a * 3 + 2];
-
-            Vec3f v1 = vertex[i1];
-            Vec3f v2 = vertex[i2];
-            Vec3f v3 = vertex[i3];
-
-            Vec3f v1v2 = normalize(v2 - v1);
-            Vec3f v1v3 = normalize(v3 - v1);
-            Vec3f v2v3 = normalize(v3 - v2);
-            Vec3f normal = normalize(cross(v1v2, v1v3));
-
-            float weight1 = acos(max(-1.0f, min(1.0f, dot(v1v2, v1v3))));
-            float weight2 = M_PI - acos(max(-1.0f, min(1.0f, dot(v1v2, v2v3))));
-
-            (*normals)[i1] += normal * weight1;
-            (*normals)[i2] += normal * weight2;
-            (*normals)[i3] += normal * (M_PI - weight1 - weight2);
-        }
-    }
-
-    for (int i=0;i<vertexCount;i++) {
-        (*normals)[i] = normalize((*normals)[i]);
-    }
-
-    rawData.normals = *normals;
-    add(normalName, *normals);
-}
 
 bool TriangleMesh::load(const string &filename, Material & material){
     vector<Vec3f> outPositions;
@@ -151,6 +59,8 @@ bool TriangleMesh::load_external(vector<GLuint> & indices, vector<Vec3f>& outPos
     rawData.uvs = outUv;
     rawData.indices = indices;
 
+    this->generateBoundingBox();
+
     return true;
 }
 
@@ -171,6 +81,11 @@ GLenum TriangleMesh::getMode()
 {
     //support only to the first draw call
     return drawCalls.at(0).renderMode;
+}
+
+BoundingBox *TriangleMesh::getBoundingBox()
+{
+    return this->boundingBox;
 }
 
 void TriangleMesh::check_vertex_size(int vertexAttributeSize) {
@@ -265,7 +180,6 @@ void copy_to_interleaved_data(DataUnion& data, vector<float> &interleavedData, i
 
 void TriangleMesh::map_data_to_shader_vertex_attributes(GLGraphics::ShaderProgram *shader){
     // map data to shader vertex attributes
-
     for (unsigned int i=0;i<names.size();i++){
         GLint location;
         if (shader != NULL){
@@ -332,15 +246,15 @@ void TriangleMesh::build_vertex_array_object(GLGraphics::ShaderProgram *shader){
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vertexElementArrayBuffer);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)*elementArrayBuffer.size(), &(elementArrayBuffer[0]), GL_STATIC_DRAW);
 
-check_gl_error();
     for (std::vector<DrawCall>::iterator iter = drawCalls.begin();iter != drawCalls.end(); iter++){
         iter->material.initTextures();
     }
-check_gl_error();
     initialized = true;
 }
 
 void TriangleMesh::render(ShaderProgramDraw &shader){
+    check_gl_error();
+
     if (!initialized){
         build_vertex_array_object();
         return;
@@ -362,5 +276,115 @@ void TriangleMesh::render(ShaderProgramDraw &shader){
         glDrawElements(iter->renderMode, iter->count, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>( iter->offset));
     }
 }
+
+
+vector<GLuint> TriangleMesh::convert_sub_meshes_to_triangle_indices(DrawCall &drawCall, bool removeDegenerate){
+    vector<GLuint> indices = drawCall.indices;
+    vector<GLuint> trianleIndices;
+    if (drawCall.renderMode == GL_TRIANGLES){
+        return indices;
+    } else if (drawCall.renderMode != GL_TRIANGLE_STRIP){
+        cerr << "Unsupported rendermode for recompute_normals. Only GL_TRIANGLES and GL_TRIANGLE_STRIP supported." << endl;
+        return trianleIndices;
+    }
+    int even = 1;
+
+
+    trianleIndices.push_back(indices[0]);
+    trianleIndices.push_back(indices[1]);
+    trianleIndices.push_back(indices[2]);
+
+    for (unsigned int i=3;i<indices.size();i++){
+        if (removeDegenerate){
+            if (indices[i-1] == indices[i] ||
+                indices[i-2] == indices[i] ||
+                indices[i-1] == indices[i-2]){
+                continue;
+            }
+        }
+        if (i % 2 == even) {
+            trianleIndices.push_back(indices[i-1]);
+            trianleIndices.push_back(indices[i-2]);
+            trianleIndices.push_back(indices[i]);
+        } else {
+            trianleIndices.push_back(indices[i-2]);
+            trianleIndices.push_back(indices[i-1]);
+            trianleIndices.push_back(indices[i]);
+        }
+    }
+    return trianleIndices;
+}
+
+void TriangleMesh::generateBoundingBox()
+{
+    vector<Vec3f> vertices = rawData.vertices;
+
+    for(int i = 0; i < vertices.size(); i++)
+    {
+        Vec3f vertex = vertices[i];
+        boundingBox->xlow  = std::min(boundingBox->xlow , vertex[0]);
+        boundingBox->xhigh = std::max(boundingBox->xhigh, vertex[0]);
+        boundingBox->ylow  = std::min(boundingBox->ylow , vertex[1]);
+        boundingBox->yhigh = std::max(boundingBox->yhigh, vertex[1]);
+        boundingBox->zlow  = std::min(boundingBox->zlow , vertex[2]);
+        boundingBox->zhigh = std::max(boundingBox->zhigh, vertex[2]);
+    }
+}
+
+
+void TriangleMesh::recompute_normals(const char* positionName, const char *normalName){
+    vector<Vec3f> * normals = new vector<Vec3f>(); //need it to stay in memory
+    for (int i=0;i<vertexCount;i++) {
+        normals->push_back(Vec3f(0.0, 0.0, 0.0));
+    }
+
+    vector<Vec3f> vertex;
+    DataVector vertexRaw = vertexAttributes[positionName];
+    for (int i=0;i< vertexCount;i++){
+        DataUnion data = vertexRaw.vector[i];
+        vertex.push_back(Vec3f(data.vec[0], data.vec[1], data.vec[2]));
+    }
+
+    if (drawCalls.size()==0 && debug){
+        cout << "warn - no draw calls "<< endl;
+    }
+
+    for (std::vector<DrawCall>::iterator iter = drawCalls.begin(); iter != drawCalls.end(); iter++){
+        DrawCall &drawCall = *iter;
+        vector<GLuint> triangles = convert_sub_meshes_to_triangle_indices(drawCall);
+
+        int triangleCount = triangles.size()/3;
+
+        for (int a = 0; a < triangleCount; a++) {
+            GLuint i1 = triangles[a * 3];
+            GLuint i2 = triangles[a * 3 + 1];
+            GLuint i3 = triangles[a * 3 + 2];
+
+            Vec3f v1 = vertex[i1];
+            Vec3f v2 = vertex[i2];
+            Vec3f v3 = vertex[i3];
+
+            Vec3f v1v2 = normalize(v2 - v1);
+            Vec3f v1v3 = normalize(v3 - v1);
+            Vec3f v2v3 = normalize(v3 - v2);
+            Vec3f normal = normalize(cross(v1v2, v1v3));
+
+            float weight1 = acos(max(-1.0f, min(1.0f, dot(v1v2, v1v3))));
+            float weight2 = M_PI - acos(max(-1.0f, min(1.0f, dot(v1v2, v2v3))));
+
+            (*normals)[i1] += normal * weight1;
+            (*normals)[i2] += normal * weight2;
+            (*normals)[i3] += normal * (M_PI - weight1 - weight2);
+        }
+    }
+
+    for (int i=0;i<vertexCount;i++) {
+        (*normals)[i] = normalize((*normals)[i]);
+    }
+
+    rawData.normals = *normals;
+    add(normalName, *normals);
+}
+
 
 }

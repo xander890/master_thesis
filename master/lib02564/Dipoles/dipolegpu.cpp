@@ -59,9 +59,9 @@ void DipoleGPU::prepare(ThreeDObject &three)
         normals.push_back(zero);
         areasEnlarged.push_back(zero);
     }
-    Texture * v_tex = new Texture("vertices",textureSize,textureSize,vertices);
-    Texture * n_tex = new Texture("normals",textureSize,textureSize,normals);
-    Texture * area_tex = new Texture("areas",textureSize,textureSize,areasEnlarged);
+    Texture * v_tex = new Texture("vertices",GL_TEXTURE_2D,textureSize,textureSize,vertices);
+    Texture * n_tex = new Texture("normals",GL_TEXTURE_2D,textureSize,textureSize,normals);
+    Texture * area_tex = new Texture("areas",GL_TEXTURE_2D,textureSize,textureSize,areasEnlarged);
 
     mat->addTexture(*v_tex);
     mat->addTexture(*n_tex);

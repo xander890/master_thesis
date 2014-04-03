@@ -44,6 +44,9 @@
 #include <Utils/defaultmaterials.h>
 #include <Objects/threedline.h>
 #include <Objects/threedgrid.h>
+#include <Objects/threedwirecube.h>
+#include "vertexnormalbuffer.h"
+#include "cubemapbuffer.h"
 
 #define BUNNIES
 using namespace std;
@@ -60,8 +63,8 @@ Terrain terra(30,0.025f);
 
 User user (&terra);
 bool reload_shaders = true;
-enum RenderMode {DRAW_JENSEN=0, DRAW_BETTER=1, DRAW_DIRECTIONAL=2, DRAW_SSAO=3, DRAW_FUR=4};
-RenderMode render_mode = DRAW_JENSEN;
+enum RenderMode {DRAW_JENSEN=0, DRAW_BETTER=1, DRAW_DIRECTIONAL=2, DRAW_SSAO=3, DRAW_OBJ=4};
+RenderMode render_mode = DRAW_OBJ;
 
 
 LightManager manager;
@@ -172,11 +175,17 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
 
 
 
+
         ThreeDCube *cube = new ThreeDCube(LODCubes);
         objects.push_back(cube);
         cube->init(" ","cube",*scattering_mat2);
         cube->scale(Vec3f(2.0f));
         cube->translate(Vec3f(0.0f,0.0f,-2.f));
+
+        ThreeDCube *cubemap = new ThreeDCube(10);
+        objects.push_back(cubemap);
+        cubemap->init(" ","cubem",*default_mat);
+        cubemap->scale(Vec3f(4.0f));
 
         ThreeDCube *cube2 = new ThreeDCube(LODCubes);
         objects.push_back(cube2);
@@ -345,36 +354,17 @@ void TranslucentMaterials::render_jensen(bool reload)
     // procedurally, so we need a different shader.
 
     static ShaderProgramDraw terrain_shader(shader_path, "terrain.vert", "", "terrain.frag");
-
     static ShaderProgramDraw object_shader(shader_path, "object.vert", "", "object.frag");
-
-    static ShaderProgramDraw t_shader(shader_path, "translucent.vert", "", "translucent.frag");
-
-    static ShaderProgramDraw red_shader(shader_path, "red.vert", "", "red.frag");
-
     static ShaderProgramDraw plane_shader(shader_path, "plane.vert", "", "plane.frag");
 
     static ShaderProgramDraw jensen_shader(shader_path, "jensen_dipole_gpu.vert", "", "jensen_dipole_gpu.frag");
     static ShaderProgramDraw jensen_shader_vertex(shader_path, "jensen_dipole_gpu_vertex.vert", "", "jensen_dipole_gpu_vertex.frag");
 
-    static ShaderProgramDraw better_dipole_shader(shader_path, "better_dipole_gpu.vert", "", "better_dipole_gpu.frag");
-    static ShaderProgramDraw better_dipole_shader_vertex(shader_path, "better_dipole_gpu_vertex.vert", "", "better_dipole_gpu_vertex.frag");
-
-    static ShaderProgramDraw directional_dipole_shader(shader_path, "directional_dipole_gpu.vert", "", "directional_dipole_gpu.frag");
-    static ShaderProgramDraw directional_dipole_shader_vertex(shader_path, "directional_dipole_gpu_vertex.vert", "", "directional_dipole_gpu_vertex.frag");
 
     if(reload)
     {
-        terrain_shader.reload();
-        plane_shader.reload();
-        object_shader.reload();
-        t_shader.reload();
         jensen_shader.reload();
         jensen_shader_vertex.reload();
-        better_dipole_shader.reload();
-        better_dipole_shader_vertex.reload();
-        directional_dipole_shader.reload();
-        directional_dipole_shader_vertex.reload();
     }
 
 /*
@@ -615,6 +605,43 @@ void TranslucentMaterials::draw_grid(bool reload)
     grid->display(color_shader);
 }
 
+void TranslucentMaterials::draw_bounding_boxes(bool reload)
+{
+    static ShaderProgramDraw color_shader(shader_path, "color.vert", "", "color.frag");
+
+    if(reload)
+        color_shader.reload();
+
+    color_shader.use();
+    set_light_and_camera(color_shader);
+
+    const int bboxes = 10;
+    static vector<ThreeDWireCube*> boundingBoxCubes(bboxes);
+    static bool washere = false;
+    if(!washere)
+    {
+        Mesh::Material * m = new Mesh::Material();
+        for(int i = 0; i < bboxes; i++)
+        {
+            boundingBoxCubes[i] = new ThreeDWireCube();
+            boundingBoxCubes[i]->init("","",*m);
+        }
+        washere = true;
+    }
+
+    for(int i = 0; i < objects.size(); i++)
+    {
+        ThreeDObject * o = objects[i];
+        if(o->boundingBoxEnabled && o->enabled)
+        {
+            Mesh::BoundingBox * boundingBox = o->getBoundingBox();
+            boundingBoxCubes[i]->setBounds(*boundingBox);
+            boundingBoxCubes[i]->setColor(Vec4f(0.0,1.0,0.0,1.0));
+            boundingBoxCubes[i]->display(color_shader);
+        }
+    }
+}
+
 void TranslucentMaterials::render_better_dipole(bool reload)
 {
     static ShaderProgramDraw better_dipole_shader(shader_path, "better_dipole_gpu.vert", "", "better_dipole_gpu.frag");
@@ -642,7 +669,6 @@ void TranslucentMaterials::render_better_dipole(bool reload)
         set_light_and_camera(better_dipole_shader);
 
         draw_objects(better_dipole_shader);
-
     }
 
     /*
@@ -680,52 +706,208 @@ void TranslucentMaterials::render_better_dipole(bool reload)
     */
 }
 
-void TranslucentMaterials::render_direct_fur(bool reload)
+void TranslucentMaterials::render_direct_test(bool reload)
 {
-    static GLuint texname=0;
-    static bool was_here = false;
+    static ShaderProgramDraw obj_shader(shader_path,"object.vert","","object.frag");
+    static ShaderProgramDraw gbuff_shader(shader_path,"ss_cubemap_gbuffer.vert","","ss_cubemap_gbuffer.frag");
+    static ShaderProgramDraw gbuff_quad(shader_path,"ss_cubemap_test_gbuffer.vert","","ss_cubemap_test_gbuffer.frag");
+    static ShaderProgramDraw gbuff_wrap(shader_path,"ss_cubemap_test_wrap_gbuffer.vert","","ss_cubemap_test_wrap_gbuffer.frag");
+    static ShaderProgramDraw render_to_cubemap(shader_path,"ss_cubemap_render_to_cubemap.vert","","ss_cubemap_render_to_cubemap.frag");
+    static ShaderProgramDraw render_to_cubemap_test(shader_path,"ss_cubemap_test_render_to_cubemap_screen.vert","","ss_cubemap_test_render_to_cubemap_screen.frag");
+    static ShaderProgramDraw render_to_cubemap_test_cube(shader_path,"ss_cubemap_test_render_to_cubemap_cube.vert","","ss_cubemap_test_render_to_cubemap_cube.frag");
 
-     if(!was_here)
-     {
-         was_here = true;
-         int width = 32;
-         int height = 32;
-         int depth = 32;
-         vector<float> texels(width*height*depth*3);
-         for (int i = 0; i < width*height*depth*3; ++i)
-             texels[i] =float(gel_rand()) / GEL_RAND_MAX;
 
-         glGenTextures(1, &texname);
-         glBindTexture(GL_TEXTURE_3D, texname);
-         glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-         glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-         glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-         glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-         glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_REPEAT);
-         glTexImage3D(GL_TEXTURE_3D, 0, GL_RGB, width, height, depth, 0, GL_RGB, GL_FLOAT, &texels[0]);
-     }
+    const int GBUFFER_SIZE = 1024;
+    static VertexNormalBuffer buff(GBUFFER_SIZE);
 
-    // Create shader program. Note that this is the only program which has
-    // a geometry shader. Also there is only one shader in this function since
-    // all geometry is treated in the same way.
-    static ShaderProgramDraw fur_shader(shader_path, "fur.vert", "", "fur.frag");
+
+
     if(reload)
-        fur_shader.reload();
-
-    glClearColor(0.9f,0.9f,0.9f,0);
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    fur_shader.use();
-    set_light_and_camera(fur_shader);
-    fur_shader.use_texture(GL_TEXTURE_3D, "noisetex", texname, 0);
-    for(int i=0;i<30;++i)
     {
-        fur_shader.set_uniform("s", float(i/30.0));
-        terra.draw(fur_shader);
-        draw_objects(fur_shader);
+        obj_shader.reload();
+        gbuff_shader.reload();
+        gbuff_quad.reload();
+        gbuff_wrap.reload();
+        render_to_cubemap.reload();
+        render_to_cubemap_test.reload();
+        render_to_cubemap_test_cube.reload();
     }
-    glDisable(GL_BLEND);
+
+    gbuff_shader.use();
+
+    buff.enable();
+
+    // Set up a modelview matrix suitable for shadow: Maps from world coords to
+    // shadow buffer coords.
+    Vec3f v = Vec3f(manager[0].position);
+    gbuff_shader.set_view_matrix(lookat_Mat4x4f(v,-v,Vec3f(0,1,0))); //PARALLEL!
+    gbuff_shader.set_model_matrix(identity_Mat4x4f());
+    gbuff_shader.set_projection_matrix(ortho_Mat4x4f(Vec3f(-5,-5,1),Vec3f(5,5,10)));
+
+    // Switch viewport size to that of shadow buffer.
+
+    glViewport(0, 0, GBUFFER_SIZE, GBUFFER_SIZE);
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+
+    // Draw to shadow buffer.
+    for(uint i = 0; i < objects.size(); i++)
+    {
+        ThreeDObject * o = objects[i];
+        o->display(gbuff_shader);
+    }
+
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+    glDrawBuffer(GL_BACK);
+
+    // We need to reset the viewport, since the shadow buffer does not have
+    // the same size as the screen window.
+    glViewport(0, 0, window_width, window_height);
+
+    Mat4x4f mat = translation_Mat4x4f(Vec3f(0.5));
+    mat *= scaling_Mat4x4f(Vec3f(0.5));
+    mat *= gbuff_shader.get_projection_matrix();
+    mat *= gbuff_shader.get_view_matrix();
+
+    Mesh::Texture * vtex = buff.getVertexTexture();
+    Mesh::Texture * ntex = buff.getNormalTexture();
+
+#ifdef TEST_ONSCREEN_QUAD
+    Mesh::Material * material = new Mesh::Material();
+    material->addTexture(*vtex);
+    material->addTexture(*ntex);
+
+    gbuff_quad.use();
+    gbuff_quad.set_uniform("lightMatrix",mat);
+    set_light_and_camera(gbuff_quad);
+    material->loadUniforms(gbuff_quad);
+    draw_screen_aligned_quad(gbuff_quad);
+#endif
+
+#ifdef GBUFFER_USE_TEST
+    gbuff_wrap.use();
+    gbuff_wrap.set_uniform("lightMatrix",mat);
+    set_light_and_camera(gbuff_wrap);
+    for(uint i = 0; i < objects.size(); i++)
+    {
+        ThreeDObject * o = objects[i];
+        o->mesh.getMaterial()->addTexture(*vtex);
+        o->mesh.getMaterial()->addTexture(*ntex);
+        o->display(gbuff_wrap);
+    }
+#endif
+    check_gl_error();
+
+    const int CUBEMAP_SIDE_SIZE = 1024;
+    const float CAMERA_DISTANCE = 10.0f;
+    static CubemapBuffer cubemap(CUBEMAP_SIDE_SIZE);
+
+    render_to_cubemap.use();
+    check_gl_error();
+    //TODO more objs
+    ThreeDObject * obj = objects[0];
+    for(int i = 0; i < objects.size(); i++)
+    {
+        ThreeDObject * o = objects[i];
+        if(o->enabled)
+        {
+            obj = o;
+            break;
+        }
+    }
+
+    Vec3f center = obj->getCenter();
+    check_gl_error();
+    static Vec3f cameraPositions[6] = {
+        center + Vec3f(1,0,0) * CAMERA_DISTANCE, //+X
+        center - Vec3f(1,0,0) * CAMERA_DISTANCE, //-X
+        center + Vec3f(0,1,0) * CAMERA_DISTANCE, //+Y
+        center - Vec3f(0,1,0) * CAMERA_DISTANCE, //-Y
+        center + Vec3f(0,0,1) * CAMERA_DISTANCE, //+Z
+        center - Vec3f(0,0,1) * CAMERA_DISTANCE  //-Z
+    };
+
+    static Mat4x4f viewMatrices[6]  = {
+        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f(cameraPositions[0], -cameraPositions[0], Vec3f(0,1,0)), //+X
+        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f(cameraPositions[1], -cameraPositions[1], Vec3f(0,1,0)), //-X
+        scaling_Mat4x4f(Vec3f(-1,1,1)) * lookat_Mat4x4f(cameraPositions[2], -cameraPositions[2], Vec3f(0,0,1)), //+Y
+        scaling_Mat4x4f(Vec3f(-1,1,1)) * lookat_Mat4x4f(cameraPositions[3], -cameraPositions[3], Vec3f(0,0,-1)), //-Y
+        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f(cameraPositions[4], -cameraPositions[4], Vec3f(0,1,0)), //+Z
+        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f(cameraPositions[5], -cameraPositions[5], Vec3f(0,1,0))  //-Z
+    };
+
+    Mat4x4f model = identity_Mat4x4f();
+    Mat4x4f projection = ortho_Mat4x4f(Vec3f(-10,-10,1),Vec3f(10,10,20));
+
+    glViewport(0,0,CUBEMAP_SIDE_SIZE,CUBEMAP_SIDE_SIZE);
+    check_gl_error();
+
+    for(int i = 0; i < 6; i++)
+    {
+        render_to_cubemap.set_view_matrix(viewMatrices[i]);
+        render_to_cubemap.set_model_matrix(model);
+        render_to_cubemap.set_projection_matrix(projection);
+        cubemap.enable(i);
+        draw_objects(render_to_cubemap);
+    }
+
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER,0);
+    glViewport(0,0,window_width,window_height);
+
+    Mesh::Texture * cube = cubemap.getCubemapTexture();
+    Mesh::Texture * depth = cubemap.getCubemapDepthTexture();
+    obj->mesh.getMaterial()->addTexture(*cube);
+    obj->mesh.getMaterial()->addTexture(*depth);
+
+    Mesh::Material * material = new Mesh::Material();
+    material->addTexture(*cube);
+    material->addTexture(*depth);
+
+#define CUBEMAP_CUBE_TEST
+
+#ifdef CUBEMAP_TEST_SCREEN_2
+//    user.set(cameraPositions[0],-cameraPositions[0]);
+    obj_shader.use();
+    set_light_and_camera(obj_shader);
+    obj->display(obj_shader);
+    obj_shader.set_projection_matrix(projection);
+    obj_shader.set_view_matrix(viewMatrices[5]);
+    obj_shader.set_model_matrix(identity_Mat4x4f());
+    obj->display(obj_shader);
+#endif
+
+
+#ifdef CUBEMAP_TEST_SCREEN
+
+    render_to_cubemap_test.use();
+    set_light_and_camera(render_to_cubemap_test);
+    material->loadUniforms(render_to_cubemap_test);
+    draw_screen_aligned_quad(render_to_cubemap_test);
+#endif
+#ifdef CUBEMAP_CUBE_TEST
+    static ThreeDCube *cubemapplaceholder = new ThreeDCube(10);
+    static bool was_here = false;
+    if(!was_here)
+    {
+        was_here = true;
+        objects.push_back(cubemapplaceholder);
+        cubemapplaceholder->init(" ","cubem",*material);
+        cubemapplaceholder->scale(Vec3f(20.0f));
+        cubemapplaceholder->rotate(Vec3f(1,0,0), 90);
+        //cubemapplaceholder->translate(Vec3f(0,0,-1.0f));
+
+    }
+
+    render_to_cubemap_test_cube.use();
+    set_light_and_camera(render_to_cubemap_test_cube);
+    cubemapplaceholder->mesh.getMaterial()->addTexture(*cube);
+    cubemapplaceholder->mesh.getMaterial()->addTexture(*depth);
+    cubemapplaceholder->display(render_to_cubemap_test_cube);
+
+    obj_shader.use();
+    set_light_and_camera(obj_shader);
+    draw_objects(obj_shader);
+
+#endif
 }
 
 void TranslucentMaterials::render_to_gbuffer(GBuffer& gbuffer, bool reload)
@@ -1111,13 +1293,15 @@ void TranslucentMaterials::paintGL()
     if(isGridVisible) draw_grid(reload_shaders);
     if(areAxesVisible) draw_axes(reload_shaders);
 
+    draw_bounding_boxes(reload_shaders);
+
     switch(render_mode)
     {
     case DRAW_JENSEN:
         render_jensen(reload_shaders);
         break;
-    case DRAW_FUR:
-        render_direct_fur(reload_shaders);
+    case DRAW_OBJ:
+        render_direct_test(reload_shaders);
         break;
     case DRAW_BETTER:
         render_better_dipole(reload_shaders);
@@ -1249,7 +1433,7 @@ void TranslucentMaterials::keyPressEvent(QKeyEvent *e)
     {
     case Qt::Key_Escape: exit(0);
     case ' ':
-        render_mode = static_cast<RenderMode>((static_cast<int>(render_mode)+1)%3);
+        render_mode = static_cast<RenderMode>((static_cast<int>(render_mode)+1)%4);
         reload_shaders = true;
         break;
     case 'W':
@@ -1331,11 +1515,22 @@ ThreeDObject *TranslucentMaterials::getDefaultObject()
 {
     Mesh::ScatteringMaterial * scattering_mat = getDefaultMaterial(S_Marble);
     ThreeDObject * bunny1 = new ThreeDObject();
-    objects.push_back(bunny1);
     bunny1->init(objects_path+"bunny-simplified.obj", "bunny1", *scattering_mat);
     bunny1->scale(Vec3f(30.f));
     bunny1->rotate(Vec3f(1,0,0), 90);
     bunny1->translate(Vec3f(0,0,-1.0f));
     bunny1->enabled = true;
+    bunny1->boundingBoxEnabled = true;
     return bunny1;
+}
+
+ThreeDObject * TranslucentMaterials::getObject(string name)
+{
+    vector<ThreeDObject*>::iterator it;
+    it = std::find_if(objects.begin(),objects.end(), CompareThreeD(name));
+    if(it != objects.end())
+    {
+        return *it;
+    }
+    return nullptr;
 }

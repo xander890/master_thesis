@@ -31,22 +31,25 @@ protected:
     CGLA::Vec3f eulerAngles;
     CGLA::Vec3f scaling_factors;
     bool firstTime;
+    Mesh::BoundingBox * adjustedBox;
 
 public:
     Mesh::TriangleMesh mesh;
     std::string name;
     bool enabled;
+    bool boundingBoxEnabled;
 
     ThreeDObject();
     virtual bool init(std::string filename, std::string name, Mesh::Material & material);
     virtual void display(ShaderProgramDraw& shader);
 
+    Mesh::BoundingBox * getBoundingBox();
     void getRawData(Mesh::RawMeshData & data);
     CGLA::Mat4x4f ThreeDObject::getModelMatrix();
     CGLA::Vec3f ThreeDObject::getEulerAngles() {return eulerAngles;}
     CGLA::Vec3f ThreeDObject::getPosition() {return translation_vector;}
     CGLA::Vec3f ThreeDObject::getScale() {return scaling_factors;}
-
+    CGLA::Vec3f getCenter();
 
     void addAttribute(std::string name, std::vector<CGLA::Vec4f>& data);
 
@@ -80,7 +83,8 @@ public:
         }
 
 
-        //precomputing the rotation matrix, so we do not have to do quaternion stuff every frame unless we are forced to.
+        //precomputing the rotation matrix, so we do not have to do quaternion stuff
+        //every frame unless we are forced to.
         CGLA::Quatf qx;
         CGLA::Quatf qy;
         CGLA::Quatf qz;

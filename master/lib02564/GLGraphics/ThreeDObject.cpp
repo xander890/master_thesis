@@ -20,7 +20,13 @@ namespace GLGraphics
 {	
 
     ThreeDObject::ThreeDObject():
-    translation_vector(0), rotation_matrix(identity_Mat4x4f()), scaling_factors(1,1,1), mesh(Mesh::TriangleMesh()), enabled(false)
+        translation_vector(0),
+        rotation_matrix(identity_Mat4x4f()),
+        scaling_factors(1,1,1),
+        mesh(Mesh::TriangleMesh()),
+        enabled(false),
+        boundingBoxEnabled(false),
+        adjustedBox(new Mesh::BoundingBox())
     {
 	}
 
@@ -54,9 +60,32 @@ namespace GLGraphics
         this->mesh.render(shader_prog);
     }
 
+    BoundingBox * ThreeDObject::getBoundingBox()
+    {
+        BoundingBox * box = this->mesh.getBoundingBox();
+        Mat4x4f m = getModelMatrix();
+        Vec4f low = Vec4f(box->xlow,box->ylow,box->zlow,1.0f);
+        Vec4f high = Vec4f(box->xhigh,box->yhigh,box->zhigh,1.0f);
+        low = m * low;
+        high = m * high;
+        adjustedBox->xlow = low[0];
+        adjustedBox->ylow = low[1];
+        adjustedBox->zlow = low[2];
+        adjustedBox->xhigh = high[0];
+        adjustedBox->yhigh = high[1];
+        adjustedBox->zhigh = high[2];
+        return adjustedBox;
+    }
+
     void ThreeDObject::getRawData(RawMeshData &data)
     {
         this->mesh.getRawData(data);
+    }
+
+    Vec3f ThreeDObject::getCenter()
+    {
+        BoundingBox * b = getBoundingBox();
+        return 0.5f * Vec3f(b->xhigh + b->xlow, b->yhigh + b->ylow, b->zhigh + b->zlow);
     }
 	
     void ThreeDObject::addAttribute(string name, std::vector<Vec4f> &data)

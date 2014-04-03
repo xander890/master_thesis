@@ -11,31 +11,49 @@ namespace Mesh
     /// A simple texture map class.
     class Texture
     {
-        std::vector<CGLA::Vec3f> data;
-        GLuint id;
-
-        unsigned int width;
-        unsigned int height;
-
     public:
 
-        // Constuctor/destructor
-        Texture(): id(0), name("tex"), data(std::vector<CGLA::Vec3f>(1)), width(1), height(1) {}
-        Texture(const std::string& _name, unsigned int width, unsigned int height, const std::vector<CGLA::Vec3f> & data):
+        // Constuctors/destructor
+        Texture():
+            id(0),
+            target(GL_TEXTURE_2D),
+            name("tex"),
+            data(std::vector<CGLA::Vec3f>(1)),
+            width(1),
+            height(1)
+        {}
+
+        Texture(const std::string& _name, GLenum target, unsigned int width, unsigned int height, const std::vector<CGLA::Vec3f> & data):
             id(0),
             name(_name),
+            target(target),
             data(data),
             width(width),
             height(height)
         {}
-        std::string name;
+
+
+        /**
+         * Use this constructor for a texture generated via a buffer or a fbo, so no data needs to be loaded.
+         * So the texture wraps the data that can be sent to shader via a material.
+         */
+        Texture(const std::string& _name, GLint id, GLenum target):
+            id(id),
+            name(_name),
+            target(target),
+            data(std::vector<CGLA::Vec3f>(1)),
+            width(1),
+            height(1)
+        {}
+
+
         ~Texture()
         {}
 
-        /// get the texture name.
+        // get the texture name.
         const std::string& get_name() const {return name;}
 
-        /// Initializes the texture wrt OpenGL.
+        // Initializes the texture wrt OpenGL.
         void init();
 
         GLuint get_id()
@@ -46,6 +64,19 @@ namespace Mesh
             }
             return id;
         }
+
+        GLenum get_target()
+        {
+            return target;
+        }
+
+    private:
+        GLuint id;
+        GLenum target;
+        std::string name;
+        std::vector<CGLA::Vec3f> data;
+        unsigned int width;
+        unsigned int height;
     };
 
 }

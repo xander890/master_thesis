@@ -1,23 +1,6 @@
 #include "miscellaneous.h"
 using namespace CGLA;
 
-void duplicateMap(const std::vector<CGLA::Vec3f> &originalVector, std::map<GLuint, std::vector<GLuint> > &duplicates, float tolerance)
-{
-    for(int i = 0; i < originalVector.size(); i++)
-    {
-        for(int j = i + 1; j < originalVector.size(); j++)
-        {
-            if(i != j && length(originalVector[i] - originalVector[j]) < tolerance)
-            {
-                duplicates[i].push_back(j);
-                duplicates[j].push_back(i);
-            }
-        }
-    }
-}
-
-
-
 CGLA::Vec3f refract(const CGLA::Vec3f &in, const CGLA::Vec3f & n, float n1, float n2)
 {
     float eta = n1/n2;

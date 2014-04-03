@@ -21,8 +21,8 @@ namespace Mesh
         unsigned int count = 0;
         for(vector<Texture>::iterator it = textures.begin(); it != textures.end(); it++)
         {
-            Texture tex_map = *it;
-            shader.use_texture(GL_TEXTURE_2D, tex_map.get_name(), tex_map.get_id(), count);
+            Texture texture = *it;
+            shader.use_texture(texture.get_target(), texture.get_name(), texture.get_id(), count);
             count++;
         }
         loadExtraUniforms(shader);
@@ -50,7 +50,7 @@ namespace Mesh
     {
         for(int i = 0; i < textures.size(); i++)
         {
-            if(texture.name.compare(textures[i].name) == 0)
+            if(texture.get_name().compare(textures[i].get_name()) == 0)
             {
                 return;
             }

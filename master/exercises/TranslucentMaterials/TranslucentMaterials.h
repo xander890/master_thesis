@@ -38,6 +38,7 @@ public:
     void keyPressEvent(QKeyEvent *);
     void keyReleaseEvent(QKeyEvent *);
     GLGraphics::ThreeDObject * getDefaultObject();
+    GLGraphics::ThreeDObject * getObject(std::string name);
 
 public slots:
     void animate();
@@ -60,7 +61,7 @@ protected:
     void set_light_and_camera(GLGraphics::ShaderProgramDraw& shader_prog);
     void render_jensen(bool reload);
     void render_better_dipole(bool reload);
-    void render_direct_fur(bool reload);
+    void render_direct_test(bool reload);
     void render_to_gbuffer(GBuffer& gbuffer, bool reload);
     void render_directional_dipole(bool reload);
     void render_deferred_ssao(bool reload);
@@ -69,6 +70,7 @@ protected:
     void setup_shadow(bool reload);
     void draw_axes(bool reload);
     void draw_grid(bool reload);
+    void draw_bounding_boxes(bool reload);
 
 #ifdef SOLUTION_CODE
     void render_indirect();

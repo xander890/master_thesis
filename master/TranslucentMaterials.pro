@@ -57,7 +57,10 @@ HEADERS += exercises/TranslucentMaterials/GBuffer.h\
     lib02564/Utils/defaultmaterials.h \
     lib02564/Objects/threedline.h \
     lib02564/Objects/threedgrid.h \
-    exercises/TranslucentMaterials/GUI/threedobjectgui.h
+    exercises/TranslucentMaterials/GUI/threedobjectgui.h \
+    lib02564/Objects/threedwirecube.h \
+    exercises/TranslucentMaterials/vertexnormalbuffer.h \
+    exercises/TranslucentMaterials/cubemapbuffer.h
 
 SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
         exercises/TranslucentMaterials/ShadowBuffer.cpp\
@@ -88,7 +91,10 @@ SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
     lib02564/Utils/defaultmaterials.cpp \
     lib02564/Objects/threedline.cpp \
     lib02564/Objects/threedgrid.cpp \
-    exercises/TranslucentMaterials/GUI/threedobjectgui.cpp
+    exercises/TranslucentMaterials/GUI/threedobjectgui.cpp \
+    lib02564/Objects/threedwirecube.cpp \
+    exercises/TranslucentMaterials/vertexnormalbuffer.cpp \
+    exercises/TranslucentMaterials/cubemapbuffer.cpp
 
 
 HEADERS += lib02564/CGLA/ArithMatFloat.h\
@@ -191,7 +197,19 @@ OTHER_FILES += shaders/TranslucentMaterials/* \
     shaders/TranslucentMaterials/directional_dipole_gpu_vertex.vert \
     shaders/TranslucentMaterials/directional_dipole_gpu_vertex.frag \
     shaders/TranslucentMaterials/color.vert \
-    shaders/TranslucentMaterials/color.frag
+    shaders/TranslucentMaterials/color.frag \
+    shaders/TranslucentMaterials/ss_cubemap_gbuffer.vert \
+    shaders/TranslucentMaterials/ss_cubemap_gbuffer.frag \
+    shaders/TranslucentMaterials/ss_cubemap_test_gbuffer.vert \
+    shaders/TranslucentMaterials/ss_cubemap_test_gbuffer.frag \
+    shaders/TranslucentMaterials/ss_cubemap_test_wrap_gbuffer.vert \
+    shaders/TranslucentMaterials/ss_cubemap_test_wrap_gbuffer.frag \
+    shaders/TranslucentMaterials/ss_cubemap_render_to_cubemap.frag \
+    shaders/TranslucentMaterials/ss_cubemap_render_to_cubemap.vert \
+    shaders/TranslucentMaterials/ss_cubemap_test_render_to_cubemap_screen.vert \
+    shaders/TranslucentMaterials/ss_cubemap_test_render_to_cubemap_screen.frag \
+    shaders/TranslucentMaterials/ss_cubemap_test_render_to_cubemap_cube.vert \
+    shaders/TranslucentMaterials/ss_cubemap_test_render_to_cubemap_cube.frag
 
 FORMS += \
     exercises/TranslucentMaterials/mainwindow.ui \
