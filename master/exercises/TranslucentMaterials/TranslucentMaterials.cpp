@@ -798,8 +798,12 @@ void TranslucentMaterials::render_direct_test(bool reload)
 #endif
     check_gl_error();
 
-    const int CUBEMAP_SIDE_SIZE = 1024;
-    const float CAMERA_DISTANCE = 10.0f;
+    const int CUBEMAP_SIDE_SIZE =1024;
+    const float CAMERA_DISTANCE = 6.0f;
+    const float CAMERA_NEAR = 1.0f;
+    const float CAMERA_FAR = 21.0f;
+    const float CAMERA_SIZE = 6.0f;
+
     static CubemapBuffer cubemap(CUBEMAP_SIDE_SIZE);
 
     render_to_cubemap.use();
@@ -837,7 +841,7 @@ void TranslucentMaterials::render_direct_test(bool reload)
     };
 
     Mat4x4f model = identity_Mat4x4f();
-    Mat4x4f projection = ortho_Mat4x4f(Vec3f(-10,-10,1),Vec3f(10,10,20));
+    Mat4x4f projection = ortho_Mat4x4f(Vec3f(-CAMERA_SIZE,-CAMERA_SIZE,CAMERA_NEAR),Vec3f(CAMERA_SIZE,CAMERA_SIZE,CAMERA_FAR));
 
     glViewport(0,0,CUBEMAP_SIDE_SIZE,CUBEMAP_SIDE_SIZE);
     check_gl_error();
@@ -892,7 +896,7 @@ void TranslucentMaterials::render_direct_test(bool reload)
         was_here = true;
         objects.push_back(cubemapplaceholder);
         cubemapplaceholder->init(" ","cubem",*material);
-        cubemapplaceholder->scale(Vec3f(20.0f));
+        cubemapplaceholder->scale(Vec3f(CAMERA_SIZE * 2));
         cubemapplaceholder->rotate(Vec3f(1,0,0), 90);
 
 
@@ -900,13 +904,17 @@ void TranslucentMaterials::render_direct_test(bool reload)
 
     render_to_cubemap_test_cube.use();
     set_light_and_camera(render_to_cubemap_test_cube);
-    render_to_cubemap_test_cube.set_uniform("center",center);
+
     cubemapplaceholder->mesh.getMaterial()->addTexture(*cube);
     cubemapplaceholder->mesh.getMaterial()->addTexture(*depth);
     cubemapplaceholder->translate(center);
     cubemapplaceholder->display(render_to_cubemap_test_cube);
 
     render_combination.use();
+    render_combination.set_uniform("centerWorldCoordinates",center);
+    render_combination.set_uniform("cameraSize",CAMERA_SIZE);
+    render_combination.set_uniform("zFar",CAMERA_FAR);
+    render_combination.set_uniform("zNear",CAMERA_NEAR);
     set_light_and_camera(render_combination);
     obj->display(render_combination);
 
