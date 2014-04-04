@@ -66,6 +66,8 @@ namespace CGLA
   }
 
   Mat4x4f lookat_Mat4x4f(const CGLA::Vec3f& eye, const CGLA::Vec3f& dir, const CGLA::Vec3f& up);
+  Mat4x4f lookat_Mat4x4f_target(const CGLA::Vec3f& eye, const CGLA::Vec3f& dir, const CGLA::Vec3f& up);
+
 
   Mat4x4f perspective_Mat4x4f(float fovy, float aspect, float n, float f);
 

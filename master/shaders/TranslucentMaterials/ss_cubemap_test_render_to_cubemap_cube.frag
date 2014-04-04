@@ -1,5 +1,6 @@
 #version 430
 in vec3 _tex;
+in vec3 _center;
 
 uniform samplerCube colorCubemap;
 uniform samplerCube depthCubemap;

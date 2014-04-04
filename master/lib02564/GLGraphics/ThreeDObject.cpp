@@ -85,7 +85,7 @@ namespace GLGraphics
     Vec3f ThreeDObject::getCenter()
     {
         BoundingBox * b = getBoundingBox();
-        return 0.5f * Vec3f(b->xhigh + b->xlow, b->yhigh + b->ylow, b->zhigh + b->zlow);
+        return 0.5f *  Vec3f(b->xhigh + b->xlow, b->yhigh + b->ylow, b->zhigh + b->zlow);
     }
 	
     void ThreeDObject::addAttribute(string name, std::vector<Vec4f> &data)

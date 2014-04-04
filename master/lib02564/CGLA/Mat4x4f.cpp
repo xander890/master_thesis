@@ -83,6 +83,24 @@ namespace CGLA
         return M*T;
     }
 
+    Mat4x4f lookat_Mat4x4f_target(const CGLA::Vec3f& eye, const CGLA::Vec3f& target, const CGLA::Vec3f& up)
+    {
+        CGLA::Mat4x4f T = translation_Mat4x4f(-eye);
+
+        CGLA::Vec3f X,Y,Z;
+
+        Z = normalize(eye - target);
+        X = normalize(cross(up, Z));
+        Y = cross(Z,X);
+
+        CGLA::Mat4x4f M(CGLA::Vec4f(X,0),
+                        CGLA::Vec4f(Y,0),
+                        CGLA::Vec4f(Z,0),
+                        CGLA::Vec4f(0,0,0,1));
+
+        return M*T;
+    }
+
     Mat4x4f perspective_Mat4x4f(float fovy, float A, float glnear, float glfar)
     {
         Mat4x4f P(0.0);

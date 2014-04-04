@@ -715,7 +715,7 @@ void TranslucentMaterials::render_direct_test(bool reload)
     static ShaderProgramDraw render_to_cubemap(shader_path,"ss_cubemap_render_to_cubemap.vert","","ss_cubemap_render_to_cubemap.frag");
     static ShaderProgramDraw render_to_cubemap_test(shader_path,"ss_cubemap_test_render_to_cubemap_screen.vert","","ss_cubemap_test_render_to_cubemap_screen.frag");
     static ShaderProgramDraw render_to_cubemap_test_cube(shader_path,"ss_cubemap_test_render_to_cubemap_cube.vert","","ss_cubemap_test_render_to_cubemap_cube.frag");
-
+    static ShaderProgramDraw render_combination(shader_path,"ss_cubemap_combination.vert","","ss_cubemap_combination.frag");
 
     const int GBUFFER_SIZE = 1024;
     static VertexNormalBuffer buff(GBUFFER_SIZE);
@@ -731,6 +731,7 @@ void TranslucentMaterials::render_direct_test(bool reload)
         render_to_cubemap.reload();
         render_to_cubemap_test.reload();
         render_to_cubemap_test_cube.reload();
+        render_combination.reload();
     }
 
     gbuff_shader.use();
@@ -817,7 +818,7 @@ void TranslucentMaterials::render_direct_test(bool reload)
 
     Vec3f center = obj->getCenter();
     check_gl_error();
-    static Vec3f cameraPositions[6] = {
+    Vec3f cameraPositions[6] = {
         center + Vec3f(1,0,0) * CAMERA_DISTANCE, //+X
         center - Vec3f(1,0,0) * CAMERA_DISTANCE, //-X
         center + Vec3f(0,1,0) * CAMERA_DISTANCE, //+Y
@@ -826,13 +827,13 @@ void TranslucentMaterials::render_direct_test(bool reload)
         center - Vec3f(0,0,1) * CAMERA_DISTANCE  //-Z
     };
 
-    static Mat4x4f viewMatrices[6]  = {
-        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f(cameraPositions[0], -cameraPositions[0], Vec3f(0,1,0)), //+X
-        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f(cameraPositions[1], -cameraPositions[1], Vec3f(0,1,0)), //-X
-        scaling_Mat4x4f(Vec3f(-1,1,1)) * lookat_Mat4x4f(cameraPositions[2], -cameraPositions[2], Vec3f(0,0,1)), //+Y
-        scaling_Mat4x4f(Vec3f(-1,1,1)) * lookat_Mat4x4f(cameraPositions[3], -cameraPositions[3], Vec3f(0,0,-1)), //-Y
-        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f(cameraPositions[4], -cameraPositions[4], Vec3f(0,1,0)), //+Z
-        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f(cameraPositions[5], -cameraPositions[5], Vec3f(0,1,0))  //-Z
+    Mat4x4f viewMatrices[6]  = {
+        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[0], center, Vec3f(0,1,0)), //+X
+        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[1], center, Vec3f(0,1,0)), //-X
+        scaling_Mat4x4f(Vec3f(-1,1,1)) * lookat_Mat4x4f_target(cameraPositions[2], center, Vec3f(0,0,1)), //+Y
+        scaling_Mat4x4f(Vec3f(-1,1,1)) * lookat_Mat4x4f_target(cameraPositions[3], center, Vec3f(0,0,-1)), //-Y
+        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[4], center, Vec3f(0,1,0)), //+Z
+        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[5], center, Vec3f(0,1,0))  //-Z
     };
 
     Mat4x4f model = identity_Mat4x4f();
@@ -870,7 +871,7 @@ void TranslucentMaterials::render_direct_test(bool reload)
     set_light_and_camera(obj_shader);
     obj->display(obj_shader);
     obj_shader.set_projection_matrix(projection);
-    obj_shader.set_view_matrix(viewMatrices[5]);
+    obj_shader.set_view_matrix(viewMatrices[2]);
     obj_shader.set_model_matrix(identity_Mat4x4f());
     obj->display(obj_shader);
 #endif
@@ -893,19 +894,21 @@ void TranslucentMaterials::render_direct_test(bool reload)
         cubemapplaceholder->init(" ","cubem",*material);
         cubemapplaceholder->scale(Vec3f(20.0f));
         cubemapplaceholder->rotate(Vec3f(1,0,0), 90);
-        //cubemapplaceholder->translate(Vec3f(0,0,-1.0f));
+
 
     }
 
     render_to_cubemap_test_cube.use();
     set_light_and_camera(render_to_cubemap_test_cube);
+    render_to_cubemap_test_cube.set_uniform("center",center);
     cubemapplaceholder->mesh.getMaterial()->addTexture(*cube);
     cubemapplaceholder->mesh.getMaterial()->addTexture(*depth);
+    cubemapplaceholder->translate(center);
     cubemapplaceholder->display(render_to_cubemap_test_cube);
 
-    obj_shader.use();
-    set_light_and_camera(obj_shader);
-    draw_objects(obj_shader);
+    render_combination.use();
+    set_light_and_camera(render_combination);
+    obj->display(render_combination);
 
 #endif
 }

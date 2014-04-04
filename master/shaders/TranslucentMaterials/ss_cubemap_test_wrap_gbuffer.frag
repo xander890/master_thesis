@@ -29,6 +29,6 @@ void main(void)
 {
     float val = sample_shadow_map(pos);
     vec4 light_pos = lightMatrix * vec4(pos,1.0f);
-    fragColor = texture(vtex,light_pos.xy);
+    fragColor = texture(ntex,light_pos.xy);
 //    fragColor = vec4(val,0.0,0.0,1.0);
 }
