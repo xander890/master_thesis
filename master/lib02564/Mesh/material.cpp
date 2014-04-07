@@ -94,6 +94,21 @@ namespace Mesh
         vec4Uniforms[name] = value;
     }
 
+    void Material::addUniform(const char *name, Mat2x2f value)
+    {
+        mat2Uniforms[name] = value;
+    }
+
+    void Material::addUniform(const char *name, Mat3x3f value)
+    {
+        mat3Uniforms[name] = value;
+    }
+
+    void Material::addUniform(const char *name, Mat4x4f value)
+    {
+        mat4Uniforms[name] = value;
+    }
+
     void Material::setShadowBuffer(ShadowBuffer * buffer)
     {
         shadowbuffer = buffer;
@@ -119,6 +134,18 @@ namespace Mesh
             shader.set_uniform(it->first.c_str(),it->second);
         }
         for(map<string,Vec4f>::iterator it = vec4Uniforms.begin(); it != vec4Uniforms.end(); it++)
+        {
+            shader.set_uniform(it->first.c_str(),it->second);
+        }
+        for(map<string,Mat2x2f>::iterator it = mat2Uniforms.begin(); it != mat2Uniforms.end(); it++)
+        {
+            shader.set_uniform(it->first.c_str(),it->second);
+        }
+        for(map<string,Mat3x3f>::iterator it = mat3Uniforms.begin(); it != mat3Uniforms.end(); it++)
+        {
+            shader.set_uniform(it->first.c_str(),it->second);
+        }
+        for(map<string,Mat4x4f>::iterator it = mat4Uniforms.begin(); it != mat4Uniforms.end(); it++)
         {
             shader.set_uniform(it->first.c_str(),it->second);
         }

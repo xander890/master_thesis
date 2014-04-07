@@ -77,13 +77,9 @@ struct DataVector {
 class BoundingBox {
 
 public:
-    BoundingBox::BoundingBox() : xlow(FLT_MAX), xhigh(-FLT_MAX), ylow(FLT_MAX), yhigh(-FLT_MAX), zlow(FLT_MAX), zhigh(-FLT_MAX) {}
-    float xlow;
-    float xhigh;
-    float ylow;
-    float yhigh;
-    float zlow;
-    float zhigh;
+    BoundingBox::BoundingBox() : low(CGLA::Vec3f(FLT_MAX)), high(CGLA::Vec3f(-FLT_MAX)) {}
+    CGLA::Vec3f high;
+    CGLA::Vec3f low;
 };
 
 class TriangleMesh

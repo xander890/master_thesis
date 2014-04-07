@@ -211,7 +211,9 @@ OTHER_FILES += shaders/TranslucentMaterials/* \
     shaders/TranslucentMaterials/ss_cubemap_test_render_to_cubemap_cube.vert \
     shaders/TranslucentMaterials/ss_cubemap_test_render_to_cubemap_cube.frag \
     shaders/TranslucentMaterials/ss_cubemap_combination.vert \
-    shaders/TranslucentMaterials/ss_cubemap_combination.frag
+    shaders/TranslucentMaterials/ss_cubemap_combination.frag \
+    shaders/TranslucentMaterials/ss_cubemap_render_to_cubemap_jensen.vert \
+    shaders/TranslucentMaterials/ss_cubemap_render_to_cubemap_jensen.frag
 
 FORMS += \
     exercises/TranslucentMaterials/mainwindow.ui \

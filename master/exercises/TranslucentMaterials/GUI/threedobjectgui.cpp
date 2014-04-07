@@ -38,19 +38,19 @@ void ThreeDObjectGUI::nameChanged(QString &newName)
 void ThreeDObjectGUI::positionChanged(CGLA::Vec3f &vector)
 {
     if(obj)
-        obj->translate(vector);
+        obj->setTranslation(vector);
 }
 
 void ThreeDObjectGUI::rotationChanged(CGLA::Vec3f &vector)
 {
     if(obj)
-        obj->setEulerAngles(vector);
+        obj->setRotation(vector);
 }
 
 void ThreeDObjectGUI::scaleChanged(CGLA::Vec3f &vector)
 {
     if(obj)
-        obj->scale(vector);
+        obj->setScale(vector);
 }
 
 void ThreeDObjectGUI::on_groupBox_toggled(bool arg1)

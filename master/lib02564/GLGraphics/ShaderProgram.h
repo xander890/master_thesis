@@ -17,6 +17,7 @@
 #include <CGLA/Vec2f.h>
 #include <CGLA/Vec3f.h>
 #include <CGLA/Vec4f.h>
+#include <CGLA/Mat2x2f.h>
 
 namespace GLGraphics {
     
@@ -100,6 +101,7 @@ namespace GLGraphics {
         void set_uniform(const char* name, const CGLA::Vec4f &value);
         void set_uniform(const char* name, const CGLA::Mat4x4f &value);
         void set_uniform(const char* name, const CGLA::Mat3x3f &value);
+        void set_uniform(const char* name, const CGLA::Mat2x2f &value);
 
         void set_uniform(const char* name, std::vector<int> value, unsigned int size);
         void set_uniform(const char* name, std::vector<float> value, unsigned int size);

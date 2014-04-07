@@ -322,12 +322,13 @@ void TriangleMesh::generateBoundingBox()
     for(int i = 0; i < vertices.size(); i++)
     {
         Vec3f vertex = vertices[i];
-        boundingBox->xlow  = std::min(boundingBox->xlow , vertex[0]);
-        boundingBox->xhigh = std::max(boundingBox->xhigh, vertex[0]);
-        boundingBox->ylow  = std::min(boundingBox->ylow , vertex[1]);
-        boundingBox->yhigh = std::max(boundingBox->yhigh, vertex[1]);
-        boundingBox->zlow  = std::min(boundingBox->zlow , vertex[2]);
-        boundingBox->zhigh = std::max(boundingBox->zhigh, vertex[2]);
+        boundingBox->low[0] = std::min(boundingBox->low[0] , vertex[0]);
+        boundingBox->low[1] = std::min(boundingBox->low[1] , vertex[1]);
+        boundingBox->low[2] = std::min(boundingBox->low[2] , vertex[2]);
+
+        boundingBox->high[0] = std::max(boundingBox->high[0], vertex[0]);
+        boundingBox->high[1] = std::max(boundingBox->high[1], vertex[1]);
+        boundingBox->high[2] = std::max(boundingBox->high[2], vertex[2]);
     }
 }
 

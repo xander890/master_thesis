@@ -88,13 +88,13 @@ bool ThreeDWireCube::init(std::string filename, std::string name, Mesh::Material
 
 void ThreeDWireCube::setBounds(Mesh::BoundingBox &box)
 {
-    this->setBounds(box.xlow,box.xhigh,box.ylow,box.yhigh,box.zlow,box.zhigh);
+    this->setBounds(box.low, box.high);
 }
 
-void ThreeDWireCube::setBounds(float xlow, float xhigh, float ylow, float yhigh, float zlow, float zhigh)
+void ThreeDWireCube::setBounds(CGLA::Vec3f & low, CGLA::Vec3f & high)
 {
-    Vec3f pos = Vec3f(0.5f*(xlow + xhigh),0.5f*(ylow + yhigh),0.5f*(zlow + zhigh));
+    Vec3f pos = 0.5 * (low + high);
     this->translate(pos);
-    Vec3f scale = Vec3f(xhigh-xlow,yhigh-ylow,zhigh-zlow);
-    this->scale(scale);
+    Vec3f scale = high - low;
+    this->setScale(scale);
 }
