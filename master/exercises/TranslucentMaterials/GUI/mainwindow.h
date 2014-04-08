@@ -24,6 +24,10 @@ private slots:
 
     void timeMeasurement(int millis);
 
+    void on_horizontalSlider_valueChanged(int value);
+
+    void on_horizontalSlider_2_valueChanged(int value);
+
 private:
     Ui::MainWindow *ui;
     void keyPressEvent(QKeyEvent *);

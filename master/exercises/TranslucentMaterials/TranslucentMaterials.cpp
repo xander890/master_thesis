@@ -63,7 +63,8 @@ Terrain terra(30,0.025f);
 
 User user (&terra);
 bool reload_shaders = true;
-enum RenderMode {DRAW_JENSEN=0, DRAW_BETTER=1, DRAW_DIRECTIONAL=2, DRAW_SSAO=3, DRAW_OBJ=4};
+enum RenderMode {DRAW_JENSEN=0, DRAW_BETTER=3, DRAW_DIRECTIONAL=2, DRAW_SSAO=4, DRAW_OBJ=1};
+int rendermodes = 2;
 RenderMode render_mode = DRAW_OBJ;
 
 
@@ -760,7 +761,7 @@ void TranslucentMaterials::render_direct_test(bool reload)
     Vec3f v = Vec3f(manager[0].position);
     gbuff_shader.set_view_matrix(lookat_Mat4x4f(v,-v,Vec3f(0,1,0))); //PARALLEL!
     gbuff_shader.set_model_matrix(identity_Mat4x4f());
-    gbuff_shader.set_projection_matrix(ortho_Mat4x4f(Vec3f(-5,-5,1),Vec3f(5,5,10)));
+    gbuff_shader.set_projection_matrix(ortho_Mat4x4f(Vec3f(-3,-3,1),Vec3f(3,3,10)));
 
     // Switch viewport size to that of shadow buffer.
 
@@ -789,9 +790,18 @@ void TranslucentMaterials::render_direct_test(bool reload)
     obj->mesh.getMaterial()->addTexture(*vtex);
     obj->mesh.getMaterial()->addTexture(*ntex);
     obj->mesh.getMaterial()->addUniform("lightMatrix",mat);
+    Mesh::Material * material = new Mesh::Material();
 
 #ifdef TEST_ONSCREEN_QUAD
-    Mesh::Material * material = new Mesh::Material();
+
+    static vector<Vec2f> discpoints2;
+        static bool mark2 = false;
+        if(!mark2)
+        {
+            mark2 = true;
+            planeHammersley(discpoints2, 150);
+        }
+
     material->addTexture(*vtex);
     material->addTexture(*ntex);
 
@@ -799,7 +809,13 @@ void TranslucentMaterials::render_direct_test(bool reload)
     //gbuff_quad.set_uniform("lightMatrix",mat);
     set_light_and_camera(gbuff_quad);
     material->loadUniforms(gbuff_quad);
+
+    gbuff_quad.set_uniform("discpoints", discpoints2, 150);
+    gbuff_quad.set_uniform("samples",params->samples);
+    gbuff_quad.set_uniform("discradius",params->circleradius);
+
     draw_screen_aligned_quad(gbuff_quad);
+    return;
 #endif
 
 #ifdef GBUFFER_USE_TEST
@@ -814,7 +830,7 @@ void TranslucentMaterials::render_direct_test(bool reload)
 #endif
     check_gl_error();
 
-    const int CUBEMAP_SIDE_SIZE =1024;
+    const int CUBEMAP_SIDE_SIZE = 1024;
     const float CAMERA_DISTANCE = 6.0f;
     const float CAMERA_NEAR = 1.0f;
     const float CAMERA_FAR = 21.0f;
@@ -828,7 +844,7 @@ void TranslucentMaterials::render_direct_test(bool reload)
 
     Vec3f center = obj->getCenter();
     check_gl_error();
-    Vec3f cameraPositions[6] = {
+    static Vec3f cameraPositions[6] = {
         center + Vec3f(1,0,0) * CAMERA_DISTANCE, //+X
         center - Vec3f(1,0,0) * CAMERA_DISTANCE, //-X
         center + Vec3f(0,1,0) * CAMERA_DISTANCE, //+Y
@@ -837,7 +853,7 @@ void TranslucentMaterials::render_direct_test(bool reload)
         center - Vec3f(0,0,1) * CAMERA_DISTANCE  //-Z
     };
 
-    Mat4x4f viewMatrices[6]  = {
+    static Mat4x4f viewMatrices[6]  = {
         scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[0], center, Vec3f(0,1,0)), //+X
         scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[1], center, Vec3f(0,1,0)), //-X
         scaling_Mat4x4f(Vec3f(-1,1,1)) * lookat_Mat4x4f_target(cameraPositions[2], center, Vec3f(0,0,1)), //+Y
@@ -859,12 +875,14 @@ void TranslucentMaterials::render_direct_test(bool reload)
     {
         mark = true;
         planeHammersley(discpoints, DISC_POINTS);
-
-
     }
 
+    Vec3f radius = Vec3f(29.909f,23.316f, 18.906f); //radius for marble - red 29.909 green 23.316 blue 18.906
+    //float trueRadius = clamp01(length(mat * Vec4f(radius[0],0,0,0)));
+    float trueRadius = params->circleradius;
     render_to_cubemap.set_uniform("discpoints", discpoints, DISC_POINTS);
-    render_to_cubemap.set_uniform("discradius", 0.1f);
+    render_to_cubemap.set_uniform("samples",params->samples);
+    render_to_cubemap.set_uniform("discradius",trueRadius);
     set_light_and_camera(render_to_cubemap);
 
     for(int i = 0; i < 6; i++)
@@ -884,7 +902,7 @@ void TranslucentMaterials::render_direct_test(bool reload)
     obj->mesh.getMaterial()->addTexture(*cube);
     obj->mesh.getMaterial()->addTexture(*depth);
 
-    Mesh::Material * material = new Mesh::Material();
+    //Mesh::Material * material = new Mesh::Material();
     material->addTexture(*cube);
     material->addTexture(*depth);
 
@@ -925,13 +943,14 @@ void TranslucentMaterials::render_direct_test(bool reload)
     render_to_cubemap_test_cube.use();
     set_light_and_camera(render_to_cubemap_test_cube);
 
-
+    render_to_cubemap_test_cube.set_uniform("areacircle", (float)(trueRadius * trueRadius * M_PI));
     cubemapplaceholder->mesh.getMaterial()->addTexture(*cube);
     cubemapplaceholder->mesh.getMaterial()->addTexture(*depth);
     cubemapplaceholder->setTranslation(center);
     cubemapplaceholder->display(render_to_cubemap_test_cube);
 
     render_combination.use();
+    render_combination.set_uniform("areacircle", (float)(trueRadius * trueRadius * M_PI));
     render_combination.set_uniform("centerWorldCoordinates",center);
     render_combination.set_uniform("cameraSize",CAMERA_SIZE);
     render_combination.set_uniform("zFar",CAMERA_FAR);
@@ -1263,7 +1282,7 @@ void TranslucentMaterials::render_indirect()
 TranslucentMaterials::TranslucentMaterials( QWidget* parent)
     : QGLWidget( new Core4_3_context(), (QWidget*) parent),
       ax(0), ay(0), dist(12),ang_x(0),ang_y(0),mouse_x0(0),mouse_y0(0)
-    , clearColor(Vec4f(0.0f,0.0f,0.0f,1.0f)), isVertexMode(true), isShadow(true), isGridVisible(true), areAxesVisible(true)
+    , clearColor(Vec4f(0.0f,0.0f,0.0f,1.0f)), isVertexMode(true), isShadow(true), isGridVisible(true), areAxesVisible(true), params(new TranslucentParameters())
 {
     Light mainLight (light_position, light_diffuse, 1.0f, light_specular, true);
     manager.addLight(mainLight);
@@ -1465,7 +1484,7 @@ void TranslucentMaterials::keyPressEvent(QKeyEvent *e)
     {
     case Qt::Key_Escape: exit(0);
     case ' ':
-        render_mode = static_cast<RenderMode>((static_cast<int>(render_mode)+1)%4);
+        render_mode = static_cast<RenderMode>((static_cast<int>(render_mode)+1)%rendermodes);
         reload_shaders = true;
         break;
     case 'W':
@@ -1565,4 +1584,9 @@ ThreeDObject * TranslucentMaterials::getObject(string name)
         return *it;
     }
     return nullptr;
+}
+
+TranslucentParameters *TranslucentMaterials::getParameters()
+{
+    return params;
 }

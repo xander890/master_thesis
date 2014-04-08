@@ -47,6 +47,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->objTest->setObject(bunny);
     ui->translucentMaterials->addObject(bunny);
 
+    ui->horizontalSlider_2->setValue(ui->translucentMaterials->getParameters()->samples);
+    ui->horizontalSlider->setValue(ui->translucentMaterials->getParameters()->circleradius);
 }
 
 MainWindow::~MainWindow()
@@ -111,3 +113,17 @@ void MainWindow::keyReleaseEvent(QKeyEvent * e)
     QMainWindow::keyReleaseEvent(e);
 }
 
+
+void MainWindow::on_horizontalSlider_valueChanged(int value)
+{
+    float radius = (float)value;
+    radius *= 0.01;
+    ui->radiuslabel->setText(QString::number(radius,'f',2));
+    ui->translucentMaterials->getParameters()->circleradius = radius;
+}
+
+void MainWindow::on_horizontalSlider_2_valueChanged(int value)
+{
+    ui->samplelabel->setText(QString::number(value));
+    ui->translucentMaterials->getParameters()->samples = value;
+}

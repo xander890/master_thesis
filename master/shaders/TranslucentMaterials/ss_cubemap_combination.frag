@@ -12,6 +12,7 @@ in vec3 pos;
 uniform float zNear;
 uniform float zFar;
 uniform float cameraSize;
+uniform float areacircle;
 const float bias = 0.2;
 
 uniform vec3 centerWorldCoordinates;
@@ -47,16 +48,27 @@ void main(void)
 {
     vec3 plusx =  vec3( cameraSize,pos.y, pos.z);
     float visplusx = sample_cb_pos(depthCubemap,plusx, pos.x);
+    vec4 colorplusx = texture(colorCubemap, plusx);
+
     vec3 minusx = vec3(-cameraSize,pos.y, pos.z);
     float visminusx = sample_cb_neg(depthCubemap,minusx, pos.x);
+    vec4 colorminusx = texture(colorCubemap, minusx);
+
     vec3 plusy =  vec3(pos.x, cameraSize, pos.z);
     float visplusy = sample_cb_pos(depthCubemap,plusy, pos.y);
+    vec4 colorplusy = texture(colorCubemap, plusy);
+
     vec3 minusy = vec3(pos.x,-cameraSize, pos.z);
     float visminusy = sample_cb_neg(depthCubemap,minusy, pos.y);
+    vec4 colorminusy = texture(colorCubemap, minusy);
+
     vec3 plusz =  vec3(pos.x,pos.y,  cameraSize);
     float visplusz = sample_cb_pos(depthCubemap,plusz, pos.z);
+    vec4 colorplusz = texture(colorCubemap, plusz);
+
     vec3 minusz = vec3(pos.x,pos.y, -cameraSize);
     float visminusz = sample_cb_neg(depthCubemap,minusz, pos.z);
+    vec4 colorminusz = texture(colorCubemap, minusz);
 
 #ifdef COLORS
     fragColor = //vec4(pos,1.0)
@@ -96,6 +108,7 @@ void main(void)
 
                 ;
         fragColor = (fragColor / 2);
+        fragColor = vec4(max(max(visplusz + visminusz, visplusx + visminusx),visplusy + visminusy)) / 2;
        // fragColor = vec4(visplusx + visminusx + visplusy + visminusy + visplusz + visminusz) / 6;
 
 #else
@@ -104,14 +117,17 @@ void main(void)
 
 
         fragColor =
-                    visplusx  * texture(colorCubemap, plusx).rgba +
-                    visminusx * texture(colorCubemap, minusx).rgba +
-                    visplusy  * texture(colorCubemap, plusy).rgba +
-                    visminusy * texture(colorCubemap, minusy).rgba +
-                    visplusz  * texture(colorCubemap, plusz).rgba +
-                    visminusz * texture(colorCubemap, minusz).rgba
+                    visplusx  * colorplusx.rgba +
+                    visminusx * colorminusx.rgba +
+                    visplusy  * colorplusy.rgba +
+                    visminusy * colorminusy.rgba +
+                    visplusz  * colorplusz.rgba +
+                    visminusz * colorminusz.rgba
                     ;
 
-        fragColor /= (visplusx + visminusx + visplusy + visminusy + visplusz + visminusz) ;
+         //fragColor /= (visplusx + visminusx + visplusy);
+        fragColor.rgb /= (visplusx + visminusx + visplusy + visminusy + visplusz + visminusz) ;
+        fragColor *= areacircle;
+//        fragColor = vec4(colorplusx.a / 10);
 #endif
 }

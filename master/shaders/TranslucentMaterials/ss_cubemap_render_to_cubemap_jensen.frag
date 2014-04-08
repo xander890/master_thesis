@@ -12,7 +12,8 @@ uniform mat4 lightMatrix;
 
 const int DISC_POINTS = 150;
 uniform vec2 discpoints[DISC_POINTS];
-const float discradius = 0.2;
+uniform float discradius;
+uniform int samples;
 
 uniform float ior;
 uniform vec3 red_extinction;
@@ -61,7 +62,7 @@ float fresnel_T(vec3 inv, vec3 n, float n1, float n2)
 }
 
 
-vec3 bssrdf(const vec3 xi, const vec3 wi, const vec3 ni, const vec3 xo, const vec3 no)
+vec3 bssrdf(in vec3 xi, in vec3 wi, in vec3 ni, in vec3 xo, in vec3 no)
 {
     float l = length(xo - xi);
 
@@ -124,7 +125,7 @@ void main(void)
     vec3 xo = position;
     vec3 no = normalize(norm);
     vec4 light_pos = lightMatrix * vec4(position,1.0f);
-    vec2 circle_center = light_pos.xy;
+    vec2 circle_center = clamp(light_pos.xy, vec2(0.0f), vec2(1.0f));
 
     vec3 color = vec3(0.0f);
 
@@ -137,7 +138,7 @@ void main(void)
 
     vec3 accumulate = vec3(0.0f);
     int i, count = 0;
-    for(i = 0; i < DISC_POINTS; i++)
+    for(i = 0; i < samples; i++)
     {
         vec2 uvin = circle_center + discradius * (discpoints[i]);
         if(uvin.x >= 0.0f && uvin.x <= 1.0f && uvin.y >= 0.0f && uvin.y <= 1.0f)
@@ -154,5 +155,5 @@ void main(void)
     }
 
     fragColor = vec4(accumulate,count);
-    //fragColor =vec4( noise(xo * 100));
+    //fragColor = vec4(count-149,0.0,0.0,1.0);
 }
