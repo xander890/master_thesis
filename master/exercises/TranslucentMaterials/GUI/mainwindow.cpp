@@ -4,6 +4,7 @@
 #include <QFileDialog>
 #include "vectorform.h"
 #include "colorform.h"
+#include "sliderlabel.h"
 
 using namespace std;
 using namespace CGLA;
@@ -47,8 +48,20 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->objTest->setObject(bunny);
     ui->translucentMaterials->addObject(bunny);
 
-    ui->horizontalSlider_2->setValue(ui->translucentMaterials->getParameters()->samples);
-    ui->horizontalSlider->setValue(ui->translucentMaterials->getParameters()->circleradius);
+    ui->radius->init("Radius: ", ui->translucentMaterials->getParameters()->circleradius, 0.001, 0.5, false);
+    connect(ui->radius, SIGNAL(valueChanged(float)), this, SLOT(radiusChanged(float)));
+
+    ui->samples->init("Samples: ",ui->translucentMaterials->getParameters()->samples,1,300, true);
+    connect(ui->samples, SIGNAL(valueChanged(float)), this, SLOT(samplesChanged(float)));
+
+    ui->epsilon_combination->init("Comb. offset: ", ui->translucentMaterials->getParameters()->epsilon_combination, 0.0, 0.1, false);
+    connect(ui->epsilon_combination,SIGNAL(valueChanged(float)), this, SLOT(epsilonCombinationChanged(float)));
+
+    ui->epsilon_gbuffer->init("Gbuffer samp. offset: ", ui->translucentMaterials->getParameters()->epsilon_gbuffer, 0.0, 0.1, false);
+    connect(ui->epsilon_gbuffer,SIGNAL(valueChanged(float)), this, SLOT(epsilonGBufferChanged(float)));
+
+    ui->shadow_bias->init("Shadow bias: ", ui->translucentMaterials->getParameters()->shadow_bias, 0.0, 1.0, false);
+    connect(ui->shadow_bias, SIGNAL(valueChanged(float)), this, SLOT(shadowBiasChanged(float)));
 }
 
 MainWindow::~MainWindow()
@@ -113,17 +126,29 @@ void MainWindow::keyReleaseEvent(QKeyEvent * e)
     QMainWindow::keyReleaseEvent(e);
 }
 
-
-void MainWindow::on_horizontalSlider_valueChanged(int value)
+void MainWindow::radiusChanged(float value)
 {
-    float radius = (float)value;
-    radius *= 0.01;
-    ui->radiuslabel->setText(QString::number(radius,'f',2));
-    ui->translucentMaterials->getParameters()->circleradius = radius;
+
+    ui->translucentMaterials->getParameters()->circleradius = value;
 }
 
-void MainWindow::on_horizontalSlider_2_valueChanged(int value)
+void MainWindow::samplesChanged(float value)
 {
-    ui->samplelabel->setText(QString::number(value));
-    ui->translucentMaterials->getParameters()->samples = value;
+
+    ui->translucentMaterials->getParameters()->samples = (int) value;
+}
+
+void MainWindow::epsilonGBufferChanged(float value)
+{
+    ui->translucentMaterials->getParameters()->epsilon_gbuffer = value;
+}
+
+void MainWindow::epsilonCombinationChanged(float value)
+{
+    ui->translucentMaterials->getParameters()->epsilon_combination = value;
+}
+
+void MainWindow::shadowBiasChanged(float value)
+{
+    ui->translucentMaterials->getParameters()->shadow_bias = value;
 }

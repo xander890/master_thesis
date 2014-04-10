@@ -16,7 +16,7 @@ void main(void)
     fragColor = texture(ntex,_tex.xy);
 
     //if(length(texture(vtex,_tex.xy)) < discradius)
-        fragColor = vec4(length(texture(vtex,_tex.xy)) / 10);
+
 
     //    fragColor = vec4(_tex,1.0);
 }

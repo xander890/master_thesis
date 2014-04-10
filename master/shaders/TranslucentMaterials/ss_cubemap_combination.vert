@@ -6,13 +6,14 @@ in vec3 texcoord;
 uniform mat4 PVM;
 uniform mat4 M;
 
-out vec3 pos;
+out vec3 position;
+out vec3 norm;
 uniform vec3 centerWorldCoordinates;
 
 void main()
 {
-    pos = vec3(M * vec4(vertex,1)) - centerWorldCoordinates;
+    position = vec3(M * vec4(vertex,1)) - centerWorldCoordinates;
+    norm = vec3(M * vec4(normal,0));
 
-    //pos = vec3((M) * vec4(vertex,1));
     gl_Position = PVM * vec4(vertex,1);
 }

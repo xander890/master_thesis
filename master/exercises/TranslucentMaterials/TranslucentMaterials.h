@@ -11,8 +11,18 @@ class TranslucentParameters
 {
 
 public:
-    TranslucentParameters::TranslucentParameters() : circleradius(0.05f), samples(150) {}
+    TranslucentParameters::TranslucentParameters() :
+        circleradius(0.5f),
+        samples(150),
+        epsilon_gbuffer(0.003),
+        epsilon_combination(0.007),
+        shadow_bias(0.09)
+    {}
+
     float circleradius;
+    float epsilon_gbuffer; // avoids artifacts when sampling from gbuffer
+    float epsilon_combination; // avoids artifacts when sampling from cubebuffer
+    float shadow_bias; // avoids shadow acne
     int samples;
 };
 

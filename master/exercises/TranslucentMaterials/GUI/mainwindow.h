@@ -24,9 +24,11 @@ private slots:
 
     void timeMeasurement(int millis);
 
-    void on_horizontalSlider_valueChanged(int value);
-
-    void on_horizontalSlider_2_valueChanged(int value);
+    void radiusChanged(float value);
+    void samplesChanged(float value);
+    void epsilonGBufferChanged(float value);
+    void epsilonCombinationChanged(float value);
+    void shadowBiasChanged(float value);
 
 private:
     Ui::MainWindow *ui;

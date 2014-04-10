@@ -709,6 +709,8 @@ void TranslucentMaterials::render_better_dipole(bool reload)
     */
 }
 
+bool compareVec2fDistanceAscending (Vec2f i,Vec2f j) { return (i.length() < j.length()); }
+
 void TranslucentMaterials::render_direct_test(bool reload)
 {
     static ShaderProgramDraw obj_shader(shader_path,"object.vert","","object.frag");
@@ -792,6 +794,7 @@ void TranslucentMaterials::render_direct_test(bool reload)
     obj->mesh.getMaterial()->addUniform("lightMatrix",mat);
     Mesh::Material * material = new Mesh::Material();
 
+
 #ifdef TEST_ONSCREEN_QUAD
 
     static vector<Vec2f> discpoints2;
@@ -869,12 +872,16 @@ void TranslucentMaterials::render_direct_test(bool reload)
     check_gl_error();
 
     static vector<Vec2f> discpoints;
-    const int DISC_POINTS = 150;
+    const int DISC_POINTS = 300;
     static bool mark = false;
     if(!mark)
     {
         mark = true;
-        planeHammersley(discpoints, DISC_POINTS);
+        planeHammersleyCircle(discpoints, DISC_POINTS);
+        std::sort(discpoints.begin(),discpoints.end(),compareVec2fDistanceAscending);
+        for(int i = 0; i < discpoints.size(); i++)
+            cout <<discpoints[i][0] << " " << discpoints[i][1] << endl;
+
     }
 
     Vec3f radius = Vec3f(29.909f,23.316f, 18.906f); //radius for marble - red 29.909 green 23.316 blue 18.906
@@ -883,6 +890,7 @@ void TranslucentMaterials::render_direct_test(bool reload)
     render_to_cubemap.set_uniform("discpoints", discpoints, DISC_POINTS);
     render_to_cubemap.set_uniform("samples",params->samples);
     render_to_cubemap.set_uniform("discradius",trueRadius);
+    render_to_cubemap.set_uniform("epsilon_gbuffer", params->epsilon_gbuffer);
     set_light_and_camera(render_to_cubemap);
 
     for(int i = 0; i < 6; i++)
@@ -955,6 +963,8 @@ void TranslucentMaterials::render_direct_test(bool reload)
     render_combination.set_uniform("cameraSize",CAMERA_SIZE);
     render_combination.set_uniform("zFar",CAMERA_FAR);
     render_combination.set_uniform("zNear",CAMERA_NEAR);
+    render_combination.set_uniform("shadow_bias", params->shadow_bias);
+    render_combination.set_uniform("epsilon_combination", params->epsilon_combination);
     set_light_and_camera(render_combination);
     obj->display(render_combination);
 

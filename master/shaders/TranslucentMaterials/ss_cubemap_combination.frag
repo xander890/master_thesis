@@ -5,15 +5,20 @@
 uniform samplerCube colorCubemap;
 uniform samplerCube depthCubemap;
 
+uniform vec4 light_pos[50];
+
 out vec4 fragColor;
 
-in vec3 pos;
+in vec3 position;
+in vec3 norm;
 
 uniform float zNear;
 uniform float zFar;
 uniform float cameraSize;
 uniform float areacircle;
-const float bias = 0.2;
+//const float bias = 0.2;
+uniform float shadow_bias;
+uniform float epsilon_combination;
 
 uniform vec3 centerWorldCoordinates;
 
@@ -24,7 +29,7 @@ float sample_cb_pos(samplerCube cb, in vec3 position, float compare)
     float z = ((clipZ + (zFar + zNear)/(zFar - zNear)) * (zFar - zNear))/-2;
     float z_world = cameraSize + z;
 
-    if(z_world - bias < compare)
+    if(z_world - shadow_bias < compare)
         return 1.0;
     else
         return 0.0;
@@ -38,7 +43,7 @@ float sample_cb_neg(samplerCube cb, in vec3 position, float compare)
     float z = ((clipZ + (zFar + zNear)/(zFar - zNear)) * (zFar - zNear))/-2;
     float z_world = -(cameraSize + z);
     //return s;
-    if(z_world + bias < compare)
+    if(z_world + shadow_bias < compare)
         return 0.0;
     else
         return 1.0;
@@ -46,6 +51,13 @@ float sample_cb_neg(samplerCube cb, in vec3 position, float compare)
 
 void main(void)
 {
+    float epsilon = 0.01;
+    vec3 no = normalize(norm);
+    vec3 wi = vec3(light_pos[0]);
+    wi = normalize(wi);
+    //vec3 offset = epsilon * (no - wi * dot(no,wi));
+    vec3 offset = epsilon_combination * no;
+    vec3 pos = position - offset;
     vec3 plusx =  vec3( cameraSize,pos.y, pos.z);
     float visplusx = sample_cb_pos(depthCubemap,plusx, pos.x);
     vec4 colorplusx = texture(colorCubemap, plusx);
@@ -116,18 +128,21 @@ void main(void)
 
 
 
-        fragColor =
-                    visplusx  * colorplusx.rgba +
-                    visminusx * colorminusx.rgba +
-                    visplusy  * colorplusy.rgba +
-                    visminusy * colorminusy.rgba +
-                    visplusz  * colorplusz.rgba +
-                    visminusz * colorminusz.rgba
+        vec3 color = vec3(0.0f)
+                +   visplusx  * colorplusx.rgb / colorplusx.a
+                +   visminusx * colorminusx.rgb / colorminusx.a
+                +   visplusy  * colorplusy.rgb / colorplusy.a
+                +   visminusy * colorminusy.rgb / colorminusy.a
+                +   visplusz  * colorplusz.rgb / colorplusz.a
+                +   visminusz * colorminusz.rgb / colorminusz.a
                     ;
 
-         //fragColor /= (visplusx + visminusx + visplusy);
-        fragColor.rgb /= (visplusx + visminusx + visplusy + visminusy + visplusz + visminusz) ;
+        fragColor = vec4(color,1.0f);
+        // fragColor /= (visplusx + visminusx);
+        fragColor.rgb /= visplusx + visminusx + visplusy + visminusy+ visplusz + visminusz;
         fragColor *= areacircle;
+        fragColor = fragColor * 51.7333;
+ //       fragColor = vec4(10 * offset, 1.0);
 //        fragColor = vec4(colorplusx.a / 10);
 #endif
 }

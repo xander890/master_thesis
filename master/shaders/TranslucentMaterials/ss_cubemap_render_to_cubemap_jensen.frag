@@ -10,10 +10,11 @@ uniform vec4 light_pos[50];
 uniform vec4 light_diff[50];
 uniform mat4 lightMatrix;
 
-const int DISC_POINTS = 150;
+const int DISC_POINTS = 300;
 uniform vec2 discpoints[DISC_POINTS];
 uniform float discradius;
 uniform int samples;
+uniform float epsilon_gbuffer;
 
 uniform float ior;
 uniform vec3 red_extinction;
@@ -124,17 +125,19 @@ void main(void)
 {
     vec3 xo = position;
     vec3 no = normalize(norm);
-    vec4 light_pos = lightMatrix * vec4(position,1.0f);
-    vec2 circle_center = clamp(light_pos.xy, vec2(0.0f), vec2(1.0f));
+    vec3 wi = vec3(light_pos[0]);
+    wi = normalize(wi);
+
+    vec3 offset = epsilon_gbuffer * (no - wi * dot(no,wi));
+    vec3 position_mod = xo - offset;
+    //vec3 position_mod = xo - epsilon * (1 - dot(no,wi)) * no;
+
+    vec4 light_pos = lightMatrix * vec4(position_mod,1.0f);
+    vec2 circle_center = light_pos.xy;
 
     vec3 color = vec3(0.0f);
 
     vec3 Li = light_diff[0].xyz;
-    vec3 wi = vec3(light_pos[0]);
-    wi = normalize(wi);
-
-    float r_angle = noise(xo * 1500) * 2 * M_PI;
-    mat2 rot = mat2(cos(r_angle),sin(r_angle), -sin(r_angle), cos(r_angle));
 
     vec3 accumulate = vec3(0.0f);
     int i, count = 0;
@@ -155,5 +158,11 @@ void main(void)
     }
 
     fragColor = vec4(accumulate,count);
+    //fragColor = vec4(circle_center.x,circle_center.y,0,1.0f);
+
+
+    //fragColor = texture(ntex, circle_center.xy);
     //fragColor = vec4(count-149,0.0,0.0,1.0);
+    //fragColor = vec4(100 *abs(offset),1.0f);
+   //fragColor = vec4(0,0,abs(dot(no,wi)),1.0f);
 }

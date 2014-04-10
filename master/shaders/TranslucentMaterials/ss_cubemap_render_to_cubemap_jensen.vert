@@ -13,6 +13,6 @@ out vec3 norm;
 void main()
 {
     position = vec3(M * vec4(vertex,1));
-    norm = normalize(normal);
+    norm = normalize(vec3(M * vec4(normal,0)));
     gl_Position = PVM * vec4(vertex,1);
 }
