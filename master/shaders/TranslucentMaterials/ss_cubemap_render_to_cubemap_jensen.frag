@@ -138,6 +138,8 @@ void main(void)
     vec3 color = vec3(0.0f);
 
     vec3 Li = light_diff[0].xyz;
+    float r_angle = noise(xo * 1500) * 2 * M_PI;
+    mat2 rot = mat2(cos(r_angle),sin(r_angle), -sin(r_angle), cos(r_angle));
 
     vec3 accumulate = vec3(0.0f);
     int i, count = 0;
@@ -157,7 +159,7 @@ void main(void)
         }
     }
 
-    fragColor = vec4(accumulate,count);
+    fragColor = vec4(accumulate,1.0f);
     //fragColor = vec4(circle_center.x,circle_center.y,0,1.0f);
 
 

@@ -33,7 +33,7 @@ void DipoleGPU::prepare(ThreeDObject &three)
     //
     float result;
     Mat3x3f mx = Mat3x3f(three.getModelMatrix());
-    totalArea(mesh,mode,mx, result);
+    totalArea(three, result);
     cout << mx << "Area " << three.name << ": " << result << endl;
 
     vector<float> areas;

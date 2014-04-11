@@ -47,6 +47,7 @@
 #include <Objects/threedwirecube.h>
 #include "vertexnormalbuffer.h"
 #include "cubemapbuffer.h"
+#include "Utils/areaestimator.h"
 
 #define BUNNIES
 using namespace std;
@@ -869,9 +870,10 @@ void TranslucentMaterials::render_direct_test(bool reload)
     Mat4x4f projection = ortho_Mat4x4f(Vec3f(-CAMERA_SIZE,-CAMERA_SIZE,CAMERA_NEAR),Vec3f(CAMERA_SIZE,CAMERA_SIZE,CAMERA_FAR));
 
     glViewport(0,0,CUBEMAP_SIDE_SIZE,CUBEMAP_SIDE_SIZE);
-    check_gl_error();
+
 
     static vector<Vec2f> discpoints;
+    static float area;
     const int DISC_POINTS = 300;
     static bool mark = false;
     if(!mark)
@@ -879,13 +881,14 @@ void TranslucentMaterials::render_direct_test(bool reload)
         mark = true;
         planeHammersleyCircle(discpoints, DISC_POINTS);
         std::sort(discpoints.begin(),discpoints.end(),compareVec2fDistanceAscending);
-        for(int i = 0; i < discpoints.size(); i++)
-            cout <<discpoints[i][0] << " " << discpoints[i][1] << endl;
-
+//        for(int i = 0; i < discpoints.size(); i++)
+//            cout <<discpoints[i][0] << " " << discpoints[i][1] << endl;
+        totalArea(*obj,area);
     }
 
     Vec3f radius = Vec3f(29.909f,23.316f, 18.906f); //radius for marble - red 29.909 green 23.316 blue 18.906
     //float trueRadius = clamp01(length(mat * Vec4f(radius[0],0,0,0)));
+
     float trueRadius = params->circleradius;
     render_to_cubemap.set_uniform("discpoints", discpoints, DISC_POINTS);
     render_to_cubemap.set_uniform("samples",params->samples);
@@ -914,7 +917,7 @@ void TranslucentMaterials::render_direct_test(bool reload)
     material->addTexture(*cube);
     material->addTexture(*depth);
 
-#define CUBEMAP_CUBE_TEST
+//#define CUBEMAP_CUBE_TEST
 
 #ifdef CUBEMAP_TEST_SCREEN_2
 //    user.set(cameraPositions[0],-cameraPositions[0]);
@@ -956,19 +959,20 @@ void TranslucentMaterials::render_direct_test(bool reload)
     cubemapplaceholder->mesh.getMaterial()->addTexture(*depth);
     cubemapplaceholder->setTranslation(center);
     cubemapplaceholder->display(render_to_cubemap_test_cube);
-
+#endif
     render_combination.use();
-    render_combination.set_uniform("areacircle", (float)(trueRadius * trueRadius * M_PI));
     render_combination.set_uniform("centerWorldCoordinates",center);
     render_combination.set_uniform("cameraSize",CAMERA_SIZE);
     render_combination.set_uniform("zFar",CAMERA_FAR);
     render_combination.set_uniform("zNear",CAMERA_NEAR);
     render_combination.set_uniform("shadow_bias", params->shadow_bias);
     render_combination.set_uniform("epsilon_combination", params->epsilon_combination);
+    render_combination.set_uniform("one_over_max_samples", 1.0f/DISC_POINTS);
+    render_combination.set_uniform("total_area", area);
     set_light_and_camera(render_combination);
     obj->display(render_combination);
 
-#endif
+
 }
 
 void TranslucentMaterials::render_to_gbuffer(GBuffer& gbuffer, bool reload)

@@ -1,7 +1,6 @@
 #version 430
 
 //#define COLORS
-
 uniform samplerCube colorCubemap;
 uniform samplerCube depthCubemap;
 
@@ -12,15 +11,18 @@ out vec4 fragColor;
 in vec3 position;
 in vec3 norm;
 
+// camera parameters (in order to reconstruct depth information)
 uniform float zNear;
 uniform float zFar;
 uniform float cameraSize;
-uniform float areacircle;
-//const float bias = 0.2;
+
+// epsilons (error control)
 uniform float shadow_bias;
 uniform float epsilon_combination;
 
-uniform vec3 centerWorldCoordinates;
+uniform float one_over_max_samples;
+uniform float total_area;
+
 
 float sample_cb_pos(samplerCube cb, in vec3 position, float compare)
 {
@@ -128,20 +130,18 @@ void main(void)
 
 
 
-        vec3 color = vec3(0.0f)
-                +   visplusx  * colorplusx.rgb / colorplusx.a
-                +   visminusx * colorminusx.rgb / colorminusx.a
-                +   visplusy  * colorplusy.rgb / colorplusy.a
-                +   visminusy * colorminusy.rgb / colorminusy.a
-                +   visplusz  * colorplusz.rgb / colorplusz.a
-                +   visminusz * colorminusz.rgb / colorminusz.a
-                    ;
+        vec3 color =
+                    visplusx  * colorplusx.rgb
+                +   visminusx * colorminusx.rgb
+                +   visplusy  * colorplusy.rgb
+                +   visminusy * colorminusy.rgb
+                +   visplusz  * colorplusz.rgb
+                +   visminusz * colorminusz.rgb
+                   ;
 
         fragColor = vec4(color,1.0f);
-        // fragColor /= (visplusx + visminusx);
         fragColor.rgb /= visplusx + visminusx + visplusy + visminusy+ visplusz + visminusz;
-        fragColor *= areacircle;
-        fragColor = fragColor * 51.7333;
+        fragColor = fragColor * total_area * one_over_max_samples;
  //       fragColor = vec4(10 * offset, 1.0);
 //        fragColor = vec4(colorplusx.a / 10);
 #endif

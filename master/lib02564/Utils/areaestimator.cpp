@@ -91,3 +91,18 @@ float area(Vec3f & v1, Vec3f & v2, Vec3f & v3)
 }
 
 
+
+
+void totalArea(GLGraphics::ThreeDObject &three, float &result)
+{
+    TriangleMesh * mesh = &three.mesh;
+    GLenum mode = mesh->getMode();
+
+    if(mode != GL_TRIANGLE_STRIP && mode != GL_TRIANGLES)
+    {
+        return;
+    }
+
+    Mat3x3f mx = Mat3x3f(three.getModelMatrix());
+    totalArea(*mesh,mode,mx, result);
+}
