@@ -793,7 +793,7 @@ void TranslucentMaterials::render_direct_test(bool reload)
     obj->mesh.getMaterial()->addTexture(*vtex);
     obj->mesh.getMaterial()->addTexture(*ntex);
     obj->mesh.getMaterial()->addUniform("lightMatrix",mat);
-    Mesh::Material * material = new Mesh::Material();
+    Mesh::Material * testmaterial = new Mesh::Material();
 
 
 #ifdef TEST_ONSCREEN_QUAD
@@ -872,17 +872,32 @@ void TranslucentMaterials::render_direct_test(bool reload)
     glViewport(0,0,CUBEMAP_SIDE_SIZE,CUBEMAP_SIDE_SIZE);
 
 
-    static vector<Vec2f> discpoints;
     static float area;
     const int DISC_POINTS = 300;
+    const int DISCS = 6;
+
     static bool mark = false;
     if(!mark)
     {
+        vector<Vec3f> * discpoint_data = new vector<Vec3f>();
         mark = true;
-        planeHammersleyCircle(discpoints, DISC_POINTS);
-        std::sort(discpoints.begin(),discpoints.end(),compareVec2fDistanceAscending);
-//        for(int i = 0; i < discpoints.size(); i++)
-//            cout <<discpoints[i][0] << " " << discpoints[i][1] << endl;
+
+        vector<vector<Vec2f> > texture;
+        planeHammersleyCircleMulti(texture, DISC_POINTS, DISCS);
+
+        for(int k = 0; k < DISCS; k++)
+        {
+            cout << "Vector " << k <<endl;
+            vector<Vec2f> discpoints = texture[k];
+            std::sort(discpoints.begin(),discpoints.end(),compareVec2fDistanceAscending);
+            for(int i = 0; i < discpoints.size(); i++)
+            {
+                //cout <<discpoints[i][0] << " " << discpoints[i][1] << endl;
+                discpoint_data->push_back(Vec3f(discpoints[i][0],discpoints[i][1],0.0f));
+            }
+        }
+        Mesh::Texture * tex = new Mesh::Texture("discpoints",GL_TEXTURE_2D, DISC_POINTS, DISCS, *discpoint_data);
+        obj->mesh.getMaterial()->addTexture(*tex);
         totalArea(*obj,area);
     }
 
@@ -890,7 +905,9 @@ void TranslucentMaterials::render_direct_test(bool reload)
     //float trueRadius = clamp01(length(mat * Vec4f(radius[0],0,0,0)));
 
     float trueRadius = params->circleradius;
-    render_to_cubemap.set_uniform("discpoints", discpoints, DISC_POINTS);
+    //render_to_cubemap.set_uniform("discpoints", discpoints, DISC_POINTS);
+    render_to_cubemap.set_uniform("one_over_max_samples",1.0f/DISC_POINTS);
+    render_to_cubemap.set_uniform("one_over_discs",1.0f/DISCS);
     render_to_cubemap.set_uniform("samples",params->samples);
     render_to_cubemap.set_uniform("discradius",trueRadius);
     render_to_cubemap.set_uniform("epsilon_gbuffer", params->epsilon_gbuffer);
@@ -898,6 +915,7 @@ void TranslucentMaterials::render_direct_test(bool reload)
 
     for(int i = 0; i < 6; i++)
     {
+        render_to_cubemap.set_uniform("currentDisc",i);
         render_to_cubemap.set_view_matrix(viewMatrices[i]);
         render_to_cubemap.set_model_matrix(model);
         render_to_cubemap.set_projection_matrix(projection);
@@ -913,9 +931,8 @@ void TranslucentMaterials::render_direct_test(bool reload)
     obj->mesh.getMaterial()->addTexture(*cube);
     obj->mesh.getMaterial()->addTexture(*depth);
 
-    //Mesh::Material * material = new Mesh::Material();
-    material->addTexture(*cube);
-    material->addTexture(*depth);
+    testmaterial->addTexture(*cube);
+    testmaterial->addTexture(*depth);
 
 //#define CUBEMAP_CUBE_TEST
 

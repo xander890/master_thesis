@@ -1,4 +1,5 @@
 #include "miscellaneous.h"
+#include "CGLA/Mat2x2f.h"
 using namespace CGLA;
 using namespace std;
 
@@ -163,8 +164,8 @@ void planeHammersley(std::vector<Vec2f> &result, int n)
     {
         u = 0;
         for (p=0.5, kk=k ; kk ; p*=0.5, kk>>=1)
-        if (kk & 1) // kk mod 2 == 1
-        u += p;
+            if (kk & 1) // kk mod 2 == 1
+                u += p;
         v = (k + 0.5) / n;
         result.push_back(Vec2f(u,v));
     }
@@ -181,4 +182,24 @@ void planeHammersleyCircle(std::vector<Vec2f> &result, int n)
        Vec2f t = Vec2f(tmp[0] * sqrt(1 - 0.5 * tmp[1]*tmp[1]), tmp[1] * sqrt(1 - 0.5 * tmp[0]*tmp[0]));
        result.push_back(t);
    }
+}
+
+
+void planeHammersleyCircleMulti(vector<vector<Vec2f> > &result, int n, int cols)
+{
+    gel_srand(0);
+    vector<Vec2f> intermediate;
+    planeHammersleyCircle(intermediate,n);
+    for(int k = 0; k < cols; k++)
+    {
+        float angle = ((float)gel_rand()) / GEL_RAND_MAX * 2 * M_PI;
+        Mat2x2f rot = Mat2x2f(cos(angle),sin(angle), -sin(angle), cos(angle));
+
+        vector<Vec2f> * vec = new vector<Vec2f>(n);
+        for(int i = 0; i < n; i++)
+        {
+            (*vec)[i] = rot * intermediate[i];
+        }
+        result.push_back(*vec);
+    }
 }

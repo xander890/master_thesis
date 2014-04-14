@@ -1,6 +1,7 @@
 #version 430
 
 //#define COLORS
+//#define XONLY
 uniform samplerCube colorCubemap;
 uniform samplerCube depthCubemap;
 
@@ -128,8 +129,16 @@ void main(void)
 #else
 
 
+#ifdef XONLY
+    vec3 color =
+                visplusx  * colorplusx.rgb
+               ;
 
+    fragColor = vec4(color,1.0f);
+    fragColor.rgb /= visplusx;
+    fragColor = fragColor * total_area * one_over_max_samples;
 
+#else
         vec3 color =
                     visplusx  * colorplusx.rgb
                 +   visminusx * colorminusx.rgb
@@ -142,6 +151,8 @@ void main(void)
         fragColor = vec4(color,1.0f);
         fragColor.rgb /= visplusx + visminusx + visplusy + visminusy+ visplusz + visminusz;
         fragColor = fragColor * total_area * one_over_max_samples;
+
+ #endif
  //       fragColor = vec4(10 * offset, 1.0);
 //        fragColor = vec4(colorplusx.a / 10);
 #endif
