@@ -19,10 +19,10 @@ namespace Mesh
         shader.set_uniform(SHININESS_KEY.c_str(), shininess);
 
         unsigned int count = 0;
-        for(vector<Texture>::iterator it = textures.begin(); it != textures.end(); it++)
+        for(vector<Texture*>::iterator it = textures.begin(); it != textures.end(); it++)
         {
-            Texture texture = *it;
-            shader.use_texture(texture.get_target(), texture.get_name(), texture.get_id(), count);
+            Texture * texture = *it;
+            shader.use_texture(texture->get_target(), texture->get_name(), texture->get_id(), count);
             count++;
         }
         loadExtraUniforms(shader);
@@ -46,11 +46,11 @@ namespace Mesh
 
     }
 
-    void Material::addTexture(Texture & texture)
+    void Material::addTexture(Texture * texture)
     {
         for(int i = 0; i < textures.size(); i++)
         {
-            if(texture.get_name().compare(textures[i].get_name()) == 0)
+            if(texture->get_name().compare(textures[i]->get_name()) == 0)
             {
                 return;
             }
@@ -61,9 +61,9 @@ namespace Mesh
 
     void Material::initTextures()
     {
-        for(std::vector<Texture>::iterator it = textures.begin(); it != textures.end(); it++)
+        for(std::vector<Texture*>::iterator it = textures.begin(); it != textures.end(); it++)
         {
-            it->init();
+            (*it)->init();
         }
     }
 

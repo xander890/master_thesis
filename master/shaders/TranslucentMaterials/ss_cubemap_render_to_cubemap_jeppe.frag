@@ -20,23 +20,37 @@ uniform float one_over_discs;
 uniform int currentDisc;
 
 
-uniform float discradius; 
+uniform float discradius;
 uniform int samples;
 uniform float epsilon_gbuffer;
 
+
+
 uniform float ior;
-uniform vec3 red_extinction;
+uniform vec3 absorption;
+uniform vec3 scattering;
+uniform vec3 mean_cosine;
 uniform vec3 D;
+uniform float A;
+uniform float C_s;
+uniform float C_s_inv;
+uniform float C_e;
+uniform vec3 de;
+uniform vec3 extinction;
+uniform vec3 red_extinction;
+uniform vec3 red_scattering;
 uniform vec3 transmission;
 uniform vec3 reduced_albedo;
 
+
+const float EPSILON_MU = 0.0f;
 const float M_PI = 3.141592654;
 
 vec3 refract2(vec3 inv, vec3 n, float n1, float n2)
 {
     float eta = n1/n2;
     float c = dot(inv, n);
-    return eta * (c * n - inv) - n * sqrt(max(0.0f,1 - eta * eta * (1 - c * c)));
+    return eta * (c * n - inv) - n * sqrt(1 - eta * eta * (1 - c * c));
 }
 
 vec2 fresnelAmplitudeTransmittance(vec3 inv, vec3 n, float n1, float n2)
@@ -70,63 +84,89 @@ float fresnel_T(vec3 inv, vec3 n, float n1, float n2)
 }
 
 
-vec3 bssrdf(in vec3 xi, in vec3 wi, in vec3 ni, in vec3 xo, in vec3 no)
+vec3 S_infinite(vec3 _x, vec3 _w12, vec3 _r, vec3 _no)
 {
-    float l = length(xo - xi);
+    vec3 _r_tr = transmission * _r;
+    vec3 _r_tr_p1 = _r_tr + vec3(1.0f);
+    float x_dot_w12 = dot(_x,_w12);
+    float no_dot_w12 = dot(_no,_w12);
+    float x_dot_no = dot(_x,_no);
+    vec3 _D = D;
+    vec3 _T = exp(-_r_tr);
+    vec3 coeff = _T / pow(_r,vec3(3.0f));
+    vec3 first = C_s * ( (_r * _r) / _D + 3 * _r_tr_p1 * x_dot_w12);
+    vec3 second = C_e * ( 3 * _D * _r_tr_p1 * no_dot_w12 - (_r_tr_p1 + 3 * _D * (3 *_r_tr_p1 + _r_tr * _r_tr) / (_r * _r) * x_dot_w12) * x_dot_no);
+    vec3 _S = coeff * (first - second);
+    return _S;
 
-    float ntr = ior;
-    float nin = 1.0f; //air
-    float eta = ntr / nin;
-    float eta_sqr = eta * eta;
-    float Fdr = -1.440 / eta_sqr + 0.71 / eta + 0.668 + 0.0636 * eta;
-    float A = (1 + Fdr) / (1 - Fdr);
-
-    vec3 zr = vec3(1.0f) / red_extinction;
-    vec3 zv = zr + 4.0f * A * D;
-
-    vec3 r = vec3(l);
-    vec3 dr = sqrt(r * r + zr * zr);
-    vec3 dv = sqrt(r * r + zv * zv);
-
-    vec3 tr = transmission;
-    vec3 C1 = zr * (tr + vec3(1.0f)/vec3(dr));
-    vec3 C2 = zv * (tr + vec3(1.0f)/vec3(dv));
-
-    vec3 coeff = reduced_albedo / (4.0f * M_PI);
-    vec3 real = (C1 / (dr * dr)) * exp(- tr * dr);
-    vec3 virt = (C2 / (dv * dv)) * exp(- tr * dv);
-
-    vec3 S = coeff * (real + virt);
-
-    float Ti = fresnel_T(wi,ni,nin,ntr);
-    //float To = fresnel_T(wo,no,nin,ntr);
-
-    S = S *(1.0f/M_PI)* Ti;// * To;
-
-    S = max(vec3(0.0f),S);
-    //S = vec3(length(xo-xi));
-
-
-    return S;
 }
 
-float hash( float n )
+
+vec3 bssrdf(vec3 _xi,vec3 _nin,vec3 _wi,vec3 _xo, vec3 _no)
 {
-    return fract(sin(n)*43758.5453);
+
+    vec3 _x = _xo - _xi;
+    float r_sqr = dot(_x,_x);
+
+    vec3 _D = D;
+
+    vec3 _w12 = refract2(_wi,_nin,1.0f,ior);
+
+    float mu = -dot(_no, _w12);
+    float dot_x_w12 = dot(_x,_w12);
+    float dot_x_no = dot(_x,_no);
+
+    vec3 _r_sqr = vec3(r_sqr);
+    vec3 _dr_sqr = vec3(r_sqr);
+    vec3 _de = de;
+
+
+    if(mu > EPSILON_MU)
+    {
+        vec3 project = sqrt(vec3(r_sqr - dot_x_w12 * dot_x_w12)/sqrt(_r_sqr + _de*_de));
+        vec3 _D_prime = abs(mu) * _D;
+        _dr_sqr += _D_prime * (_D_prime + 2.0f * _de * project);
+    }
+    else
+    {
+        vec3 _D_prime = vec3(1.0f) / (3 * (extinction));
+        _dr_sqr += _D_prime * _D_prime;
+    }
+
+    vec3 _dr = sqrt(_dr_sqr);
+    vec3 _nistar;
+
+    if(dot_x_no < 0.0001f )
+    {
+        _nistar = normalize(_nin);
+    }
+    else
+    {
+        vec3 _t = normalize(cross(_nin,_x));
+        _nistar = cross(normalize(_x),_t);
+    }
+
+    vec3 _xv = _xi + 2 * A * de * _nistar;
+    vec3 _dv = vec3(length(_xo - _xv));
+    vec3 _wv = _w12 - 2 * dot(_w12,_nistar) * _nistar;
+
+    vec3 _S_r = S_infinite(_xo - _xi, _w12, _dr, _no);
+    vec3 _S_v = S_infinite(_xo - _xv, _wv, _dv, _no);
+    vec3 _S = _S_r - _S_v;
+
+    float ex = 1.0f/(4 * C_s_inv) * 1.0f/(4.0f * M_PI * M_PI);
+    _S *= ex;
+
+    float Ti = fresnel_T(_wi,_nin,1.0f,ior);
+    //float To = fresnel_T(_wo,_no,1.0f,ior);
+
+
+    _S *= Ti;// * To;
+    _S = max(vec3(0.0f),_S);
+
+    return _S;
 }
 
-float noise( in vec3 x )
-{
-    vec3 p = floor(x);
-    vec3 f = fract(x);
-
-    f = f*f*(3.0-2.0*f);
-    float n = p.x + p.y*57.0 + 113.0*p.z;
-    return mix(mix(mix( hash(n+  0.0), hash(n+  1.0),f.x),
-                   mix( hash(n+ 57.0), hash(n+ 58.0),f.x),f.y),
-               mix(mix( hash(n+113.0), hash(n+114.0),f.x),
-                   mix( hash(n+170.0), hash(n+171.0),f.x),f.y),f.z);
-}
 
 void main(void)
 {
@@ -150,7 +190,7 @@ void main(void)
     int i, count = 0;
 
 
-    for(i = 7; i < samples; i++)
+    for(i = 0; i < samples; i++)
     {
 
         vec2 discoffset = discradius * texture(discpoints,vec2(i * one_over_max_samples, currentDisc * one_over_discs)).xy;
@@ -170,11 +210,4 @@ void main(void)
 
     fragColor = vec4(accumulate,1.0f);
 
-    //fragColor = vec4(1.0f);
-
-
-    //fragColor = texture(ntex, circle_center.xy);
-    //fragColor = vec4(count-149,0.0,0.0,1.0);
-    //fragColor = vec4(100 *abs(offset),1.0f);
-   //fragColor = vec4(0,0,abs(dot(no,wi)),1.0f);
 }

@@ -6,11 +6,14 @@ uniform samplerCube colorCubemap;
 uniform samplerCube depthCubemap;
 uniform float areacircle;
 
+uniform float one_over_max_samples;
+uniform float total_area;
+
 out vec4 fragColor;
 
 void main(void)
 {
     vec4 smp = texture(colorCubemap, vec3(_tex.x,_tex.y,_tex.z));
-    fragColor = 1/300.0f * vec4(smp.xyz/smp.a,1.0);
+    fragColor = one_over_max_samples * total_area * smp;
     //fragColor = vec4(smp.xyz,1.0);
 }

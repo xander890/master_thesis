@@ -48,10 +48,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->objTest->setObject(bunny);
     ui->translucentMaterials->addObject(bunny);
 
-    ui->radius->init("Radius: ", ui->translucentMaterials->getParameters()->circleradius, 0.001, 0.5, false);
+    ui->radius->init("Radius: ", ui->translucentMaterials->getParameters()->circleradius, 0.001, 1.0, false);
     connect(ui->radius, SIGNAL(valueChanged(float)), this, SLOT(radiusChanged(float)));
 
-    ui->samples->init("Samples: ",ui->translucentMaterials->getParameters()->samples,1,300, true);
+    ui->samples->init("Samples: ",ui->translucentMaterials->getParameters()->samples,1,1000, true);
     connect(ui->samples, SIGNAL(valueChanged(float)), this, SLOT(samplesChanged(float)));
 
     ui->epsilon_combination->init("Comb. offset: ", ui->translucentMaterials->getParameters()->epsilon_combination, 0.0, 0.1, false);

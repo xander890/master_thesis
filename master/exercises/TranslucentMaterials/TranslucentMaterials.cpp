@@ -64,7 +64,7 @@ Terrain terra(30,0.025f);
 
 User user (&terra);
 bool reload_shaders = true;
-enum RenderMode {DRAW_JENSEN=0, DRAW_BETTER=3, DRAW_DIRECTIONAL=2, DRAW_SSAO=4, DRAW_OBJ=1};
+enum RenderMode {DRAW_JENSEN=2, DRAW_BETTER=3, DRAW_DIRECTIONAL=0, DRAW_SSAO=4, DRAW_OBJ=1};
 int rendermodes = 2;
 RenderMode render_mode = DRAW_OBJ;
 
@@ -719,7 +719,8 @@ void TranslucentMaterials::render_direct_test(bool reload)
     static ShaderProgramDraw gbuff_quad(shader_path,"ss_cubemap_test_gbuffer.vert","","ss_cubemap_test_gbuffer.frag");
     static ShaderProgramDraw gbuff_wrap(shader_path,"ss_cubemap_test_wrap_gbuffer.vert","","ss_cubemap_test_wrap_gbuffer.frag");
 
-    static ShaderProgramDraw render_to_cubemap(shader_path,"ss_cubemap_render_to_cubemap_jensen.vert","","ss_cubemap_render_to_cubemap_jensen.frag");
+    static ShaderProgramDraw render_to_cubemap_jensen(shader_path,"ss_cubemap_render_to_cubemap_jensen.vert","","ss_cubemap_render_to_cubemap_jensen.frag");
+    static ShaderProgramDraw render_to_cubemap(shader_path,"ss_cubemap_render_to_cubemap_jeppe.vert","","ss_cubemap_render_to_cubemap_jeppe.frag");
 
     static ShaderProgramDraw render_to_cubemap_test(shader_path,"ss_cubemap_render_to_cubemap.vert","","ss_cubemap_render_to_cubemap.frag");
     static ShaderProgramDraw render_to_cubemap_test_screen(shader_path,"ss_cubemap_test_render_to_cubemap_screen.vert","","ss_cubemap_test_render_to_cubemap_screen.frag");
@@ -790,12 +791,11 @@ void TranslucentMaterials::render_direct_test(bool reload)
     Mesh::Texture * vtex = buff.getVertexTexture();
     Mesh::Texture * ntex = buff.getNormalTexture();
 
-    obj->mesh.getMaterial()->addTexture(*vtex);
-    obj->mesh.getMaterial()->addTexture(*ntex);
+    obj->mesh.getMaterial()->addTexture(vtex);
+    obj->mesh.getMaterial()->addTexture(ntex);
     obj->mesh.getMaterial()->addUniform("lightMatrix",mat);
-    Mesh::Material * testmaterial = new Mesh::Material();
 
-
+//#define TEST_ONSCREEN_QUAD_2
 #ifdef TEST_ONSCREEN_QUAD
 
     static vector<Vec2f> discpoints2;
@@ -873,7 +873,7 @@ void TranslucentMaterials::render_direct_test(bool reload)
 
 
     static float area;
-    const int DISC_POINTS = 300;
+    const int DISC_POINTS = 1000;
     const int DISCS = 6;
 
     static bool mark = false;
@@ -894,10 +894,12 @@ void TranslucentMaterials::render_direct_test(bool reload)
             {
                 //cout <<discpoints[i][0] << " " << discpoints[i][1] << endl;
                 discpoint_data->push_back(Vec3f(discpoints[i][0],discpoints[i][1],0.0f));
+
             }
         }
         Mesh::Texture * tex = new Mesh::Texture("discpoints",GL_TEXTURE_2D, DISC_POINTS, DISCS, *discpoint_data);
-        obj->mesh.getMaterial()->addTexture(*tex);
+        tex->init();
+        obj->mesh.getMaterial()->addTexture(tex);
         totalArea(*obj,area);
     }
 
@@ -912,6 +914,19 @@ void TranslucentMaterials::render_direct_test(bool reload)
     render_to_cubemap.set_uniform("discradius",trueRadius);
     render_to_cubemap.set_uniform("epsilon_gbuffer", params->epsilon_gbuffer);
     set_light_and_camera(render_to_cubemap);
+
+#ifdef TEST_ONSCREEN_QUAD_2
+
+    //testmaterial->addTexture(*vtex);
+    //testmaterial->addTexture(*ntex);
+
+    gbuff_quad.use();
+    //gbuff_quad.set_uniform("lightMatrix",mat);
+    set_light_and_camera(gbuff_quad);
+    obj->mesh.getMaterial()->loadUniforms(gbuff_quad);
+    draw_screen_aligned_quad(gbuff_quad);
+    return;
+#endif
 
     for(int i = 0; i < 6; i++)
     {
@@ -928,11 +943,9 @@ void TranslucentMaterials::render_direct_test(bool reload)
 
     Mesh::Texture * cube = cubemap.getCubemapTexture();
     Mesh::Texture * depth = cubemap.getCubemapDepthTexture();
-    obj->mesh.getMaterial()->addTexture(*cube);
-    obj->mesh.getMaterial()->addTexture(*depth);
+    obj->mesh.getMaterial()->addTexture(cube);
+    obj->mesh.getMaterial()->addTexture(depth);
 
-    testmaterial->addTexture(*cube);
-    testmaterial->addTexture(*depth);
 
 //#define CUBEMAP_CUBE_TEST
 
@@ -956,6 +969,7 @@ void TranslucentMaterials::render_direct_test(bool reload)
     draw_screen_aligned_quad(render_to_cubemap_test);
 #endif
 
+#define CUBEMAP_CUBE_TEST
 #ifdef CUBEMAP_CUBE_TEST
     static ThreeDCube *cubemapplaceholder = new ThreeDCube(10);
     static bool was_here = false;
@@ -963,7 +977,7 @@ void TranslucentMaterials::render_direct_test(bool reload)
     {
         was_here = true;
         objects.push_back(cubemapplaceholder);
-        cubemapplaceholder->init(" ","cubem",*material);
+        cubemapplaceholder->init(" ","cubem",*(obj->mesh.getMaterial()));
         cubemapplaceholder->setScale(Vec3f(CAMERA_SIZE * 2));
         cubemapplaceholder->setRotation(Vec3f(1,0,0), 90);
     }
@@ -972,11 +986,13 @@ void TranslucentMaterials::render_direct_test(bool reload)
     set_light_and_camera(render_to_cubemap_test_cube);
 
     render_to_cubemap_test_cube.set_uniform("areacircle", (float)(trueRadius * trueRadius * M_PI));
-    cubemapplaceholder->mesh.getMaterial()->addTexture(*cube);
-    cubemapplaceholder->mesh.getMaterial()->addTexture(*depth);
+    render_to_cubemap_test_cube.set_uniform("one_over_max_samples", 1.0f/DISC_POINTS);
+    render_to_cubemap_test_cube.set_uniform("total_area", CAMERA_SIZE * CAMERA_SIZE);
+
     cubemapplaceholder->setTranslation(center);
     cubemapplaceholder->display(render_to_cubemap_test_cube);
 #endif
+
     render_combination.use();
     render_combination.set_uniform("centerWorldCoordinates",center);
     render_combination.set_uniform("cameraSize",CAMERA_SIZE);
@@ -985,7 +1001,7 @@ void TranslucentMaterials::render_direct_test(bool reload)
     render_combination.set_uniform("shadow_bias", params->shadow_bias);
     render_combination.set_uniform("epsilon_combination", params->epsilon_combination);
     render_combination.set_uniform("one_over_max_samples", 1.0f/DISC_POINTS);
-    render_combination.set_uniform("total_area", area);
+    render_combination.set_uniform("total_area", CAMERA_SIZE * CAMERA_SIZE);
     set_light_and_camera(render_combination);
     obj->display(render_combination);
 

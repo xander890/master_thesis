@@ -130,13 +130,11 @@ void main(void)
 
 
 #ifdef XONLY
-    vec3 color =
-                visplusx  * colorplusx.rgb
-               ;
+    vec3 color = visminusy * colorminusy.rgb;
 
     fragColor = vec4(color,1.0f);
-    fragColor.rgb /= visplusx;
-    fragColor = fragColor * total_area * one_over_max_samples;
+
+    //fragColor = fragColor * total_area * one_over_max_samples;
 
 #else
         vec3 color =

@@ -190,9 +190,10 @@ void planeHammersleyCircleMulti(vector<vector<Vec2f> > &result, int n, int cols)
     gel_srand(0);
     vector<Vec2f> intermediate;
     planeHammersleyCircle(intermediate,n);
+    gel_rand();
     for(int k = 0; k < cols; k++)
     {
-        float angle = ((float)gel_rand()) / GEL_RAND_MAX * 2 * M_PI;
+        float angle = ((float)k) / cols * 2 * M_PI;
         Mat2x2f rot = Mat2x2f(cos(angle),sin(angle), -sin(angle), cos(angle));
 
         vector<Vec2f> * vec = new vector<Vec2f>(n);
