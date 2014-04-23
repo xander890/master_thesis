@@ -1,5 +1,7 @@
 #include "miscellaneous.h"
+#include "CGLA/Mat2x2f.h"
 using namespace CGLA;
+using namespace std;
 
 CGLA::Vec3f refract(const CGLA::Vec3f &in, const CGLA::Vec3f & n, float n1, float n2)
 {
@@ -151,4 +153,54 @@ float clamp01(float x)
 float clamp(float x, float min_f, float max_f)
 {
     return std::max(std::min(x,max_f),min_f);
+}
+
+
+void planeHammersley(std::vector<Vec2f> &result, int n)
+{
+    float p, u, v;
+    int k, kk;
+    for (k=0; k<n; k++)
+    {
+        u = 0;
+        for (p=0.5, kk=k ; kk ; p*=0.5, kk>>=1)
+            if (kk & 1) // kk mod 2 == 1
+                u += p;
+        v = (k + 0.5) / n;
+        result.push_back(Vec2f(u,v));
+    }
+}
+
+
+void planeHammersleyCircle(std::vector<Vec2f> &result, int n)
+{
+   vector<Vec2f> intermediate;
+   planeHammersley(intermediate,n);
+   for(int i = 0; i < intermediate.size(); i++)
+   {
+       Vec2f tmp = 2*intermediate[i] - Vec2f(1.0f); //map from [0,1]x[0,1] to [-1,1]x[-1,1]
+       Vec2f t = Vec2f(tmp[0] * sqrt(1 - 0.5 * tmp[1]*tmp[1]), tmp[1] * sqrt(1 - 0.5 * tmp[0]*tmp[0]));
+       result.push_back(t);
+   }
+}
+
+
+void planeHammersleyCircleMulti(vector<vector<Vec2f> > &result, int n, int cols)
+{
+    gel_srand(0);
+    vector<Vec2f> intermediate;
+    planeHammersleyCircle(intermediate,n);
+    gel_rand();
+    for(int k = 0; k < cols; k++)
+    {
+        float angle = ((float)k) / cols * 2 * M_PI;
+        Mat2x2f rot = Mat2x2f(cos(angle),sin(angle), -sin(angle), cos(angle));
+
+        vector<Vec2f> * vec = new vector<Vec2f>(n);
+        for(int i = 0; i < n; i++)
+        {
+            (*vec)[i] = rot * intermediate[i];
+        }
+        result.push_back(*vec);
+    }
 }

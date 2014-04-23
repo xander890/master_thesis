@@ -47,6 +47,7 @@
 #include <Objects/threedwirecube.h>
 #include "vertexnormalbuffer.h"
 #include "cubemapbuffer.h"
+#include "Utils/areaestimator.h"
 
 #define BUNNIES
 using namespace std;
@@ -63,7 +64,8 @@ Terrain terra(30,0.025f);
 
 User user (&terra);
 bool reload_shaders = true;
-enum RenderMode {DRAW_JENSEN=0, DRAW_BETTER=1, DRAW_DIRECTIONAL=2, DRAW_SSAO=3, DRAW_OBJ=4};
+enum RenderMode {DRAW_JENSEN=2, DRAW_BETTER=3, DRAW_DIRECTIONAL=0, DRAW_SSAO=4, DRAW_OBJ=1};
+int rendermodes = 2;
 RenderMode render_mode = DRAW_OBJ;
 
 
@@ -138,9 +140,9 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
         ThreeDObject * t = new ThreeDObject();
         objects.push_back(t);
         t->init(objects_path+"cow.obj", "cow", *scattering_mat);
-        t->scale(Vec3f(.3f));
-        t->rotate(Vec3f(1,0,0), 90);
-        t->translate(Vec3f(0,0,-1.5f));
+        t->setScale(Vec3f(.3f));
+        t->setRotation(Vec3f(1,0,0), 90);
+        t->setTranslation(Vec3f(0,0,-1.5f));
 
         const int TEXTURE_SIZE = 512;
         vector<Vec3f> texarray(TEXTURE_SIZE*TEXTURE_SIZE);
@@ -149,27 +151,27 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
         objects.push_back(plane);
         plane->init(" ", "plane", *default_mat);
         //plane->setTexture(texarray,TEXTURE_SIZE);
-        plane->scale(Vec3f(20.0f));
-        plane->translate(Vec3f(0.0f,0.0f,-6.0f));
+        plane->setScale(Vec3f(20.0f));
+        plane->setTranslation(Vec3f(0.0f,0.0f,-6.0f));
 
         ThreeDSphere *sphere = new ThreeDSphere(20);
         objects.push_back(sphere);
         sphere->init(" ", "sphere", *scattering_mat3);
-        sphere->scale(Vec3f(1.0f));
+        sphere->setScale(Vec3f(1.0f));
 //        sphere->translate();
 
         ThreeDCube *cube_light = new ThreeDCube(10);
         objects.push_back(cube_light);
         cube_light->init(" ", "light_sphere", *default_mat);
-        cube_light->scale(Vec3f(.3f));
-        cube_light->translate(Vec3f(manager[0].position));
+        cube_light->setScale(Vec3f(.3f));
+        cube_light->setTranslation(Vec3f(manager[0].position));
 
 
         ThreeDSphere *translucent_sphere = new ThreeDSphere(20);
         objects.push_back(translucent_sphere);
         translucent_sphere->init(" ","translucent", *default_mat);
-        translucent_sphere->scale(Vec3f(1.5f));
-        translucent_sphere->translate(Vec3f(0.0f,10.0f,-1.5f));
+        translucent_sphere->setScale(Vec3f(1.5f));
+        translucent_sphere->setTranslation(Vec3f(0.0f,10.0f,-1.5f));
 
         vector<Vec3f> luminance;
 
@@ -179,118 +181,118 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
         ThreeDCube *cube = new ThreeDCube(LODCubes);
         objects.push_back(cube);
         cube->init(" ","cube",*scattering_mat2);
-        cube->scale(Vec3f(2.0f));
-        cube->translate(Vec3f(0.0f,0.0f,-2.f));
+        cube->setScale(Vec3f(2.0f));
+        cube->setTranslation(Vec3f(0.0f,0.0f,-2.f));
 
         ThreeDCube *cubemap = new ThreeDCube(10);
         objects.push_back(cubemap);
         cubemap->init(" ","cubem",*default_mat);
-        cubemap->scale(Vec3f(4.0f));
+        cubemap->setScale(Vec3f(4.0f));
 
         ThreeDCube *cube2 = new ThreeDCube(LODCubes);
         objects.push_back(cube2);
         cube2->init(" ","cube2",*scattering_mat);
-        cube2->scale(Vec3f(2.0f));
-        cube2->translate(Vec3f(7.5f,0.0f,-2.f));
+        cube2->setScale(Vec3f(2.0f));
+        cube2->setTranslation(Vec3f(7.5f,0.0f,-2.f));
 
 
         ThreeDCube *cube3 = new ThreeDCube(LODCubes);
         objects.push_back(cube3);
         cube3->init(" ","cube3",*scattering_mat);
-        cube3->scale(Vec3f(2.0f));
-        cube3->translate(Vec3f(15.0f,0.0f,-2.f));
+        cube3->setScale(Vec3f(2.0f));
+        cube3->setTranslation(Vec3f(15.0f,0.0f,-2.f));
 
         ThreeDCube *cube4 = new ThreeDCube(LODCubes);
         objects.push_back(cube4);
         cube4->init(" ","cube4",*scattering_mat);
-        cube4->scale(Vec3f(2.0f));
-        cube4->translate(Vec3f(0.f,7.5f,-2.f));
+        cube4->setScale(Vec3f(2.0f));
+        cube4->setTranslation(Vec3f(0.f,7.5f,-2.f));
 
         ThreeDCube *cube5 = new ThreeDCube(LODCubes);
         objects.push_back(cube5);
         cube5->init(" ","cube5",*scattering_mat);
-        cube5->scale(Vec3f(2.0f));
-        cube5->translate(Vec3f(7.5f,7.5f,-2.f));
+        cube5->setScale(Vec3f(2.0f));
+        cube5->setTranslation(Vec3f(7.5f,7.5f,-2.f));
 
         ThreeDCube *cube6 = new ThreeDCube(LODCubes);
         objects.push_back(cube6);
         cube6->init(" ","cube6",*scattering_mat);
-        cube6->scale(Vec3f(2.0f));
-        cube6->translate(Vec3f(15.f,7.5f,-2.f));
+        cube6->setScale(Vec3f(2.0f));
+        cube6->setTranslation(Vec3f(15.f,7.5f,-2.f));
 
         ThreeDCube *cube7 = new ThreeDCube(LODCubes);
         objects.push_back(cube7);
         cube7->init(" ","cube7",*scattering_mat);
-        cube7->scale(Vec3f(2.0f));
-        cube7->translate(Vec3f(0.f,15.0f,-2.f));
+        cube7->setScale(Vec3f(2.0f));
+        cube7->setTranslation(Vec3f(0.f,15.0f,-2.f));
 
         ThreeDCube *cube8 = new ThreeDCube(LODCubes);
         objects.push_back(cube8);
         cube8->init(" ","cube8",*scattering_mat);
-        cube8->scale(Vec3f(2.0f));
-        cube8->translate(Vec3f(7.5f,15.0f,-2.f));
+        cube8->setScale(Vec3f(2.0f));
+        cube8->setTranslation(Vec3f(7.5f,15.0f,-2.f));
 
         ThreeDCube *cube9 = new ThreeDCube(LODCubes);
         objects.push_back(cube9);
         cube9->init(" ","cube9",*scattering_mat);
-        cube9->scale(Vec3f(2.0f));
-        cube9->translate(Vec3f(15.f,15.0f,-2.f));
+        cube9->setScale(Vec3f(2.0f));
+        cube9->setTranslation(Vec3f(15.f,15.0f,-2.f));
 
 
         ThreeDSphere *sphere1 = new ThreeDSphere(LODSpheres);
         objects.push_back(sphere1);
         sphere1->init(" ","sphere1",*scattering_mat);
-        sphere1->scale(Vec3f(2.0f));
-        sphere1->translate(Vec3f(0.0f,0.0f,-2.f));
+        sphere1->setScale(Vec3f(2.0f));
+        sphere1->setTranslation(Vec3f(0.0f,0.0f,-2.f));
 
 
         ThreeDSphere *sphere2 = new ThreeDSphere(LODSpheres);
         objects.push_back(sphere2);
         sphere2->init(" ","sphere2",*scattering_mat);
-        sphere2->scale(Vec3f(2.0f));
-        sphere2->translate(Vec3f(7.5f,0.0f,-2.f));
+        sphere2->setScale(Vec3f(2.0f));
+        sphere2->setTranslation(Vec3f(7.5f,0.0f,-2.f));
 
 
         ThreeDSphere *sphere3 = new ThreeDSphere(LODSpheres);
         objects.push_back(sphere3);
         sphere3->init(" ","sphere3",*scattering_mat);
-        sphere3->scale(Vec3f(2.0f));
-        sphere3->translate(Vec3f(15.0f,0.0f,-2.f));
+        sphere3->setScale(Vec3f(2.0f));
+        sphere3->setTranslation(Vec3f(15.0f,0.0f,-2.f));
 
         ThreeDObject * cow1 = new ThreeDObject();
         objects.push_back(cow1);
         cow1->init(objects_path+"cow.obj", "cow1", *scattering_mat);
-        cow1->scale(Vec3f(.5f));
-        cow1->rotate(Vec3f(1,0,0), 90);
-        cow1->translate(Vec3f(0,0,-1.5f));
+        cow1->setScale(Vec3f(.5f));
+        cow1->setRotation(Vec3f(1,0,0), 90);
+        cow1->setTranslation(Vec3f(0,0,-1.5f));
 
         ThreeDObject * cow2 = new ThreeDObject();
         objects.push_back(cow2);
         cow2->init(objects_path+"cow.obj", "cow2", *scattering_mat);
-        cow2->scale(Vec3f(.5f));
-        cow2->rotate(Vec3f(1,0,0), 90);
-        cow2->translate(Vec3f(7.5,0,-1.5f));
+        cow2->setScale(Vec3f(.5f));
+        cow2->setRotation(Vec3f(1,0,0), 90);
+        cow2->setTranslation(Vec3f(7.5,0,-1.5f));
 
         ThreeDObject * cow3 = new ThreeDObject();
         objects.push_back(cow3);
         cow3->init(objects_path+"cow.obj", "cow3", *scattering_mat);
-        cow3->scale(Vec3f(.5f));
-        cow3->rotate(Vec3f(1,0,0), 90);
-        cow3->translate(Vec3f(15.0,0,-1.5f));
+        cow3->setScale(Vec3f(.5f));
+        cow3->setRotation(Vec3f(1,0,0), 90);
+        cow3->setTranslation(Vec3f(15.0,0,-1.5f));
 
         ThreeDObject * bunny2 = new ThreeDObject();
         objects.push_back(bunny2);
         bunny2->init(objects_path+"bunny-simplified.obj", "bunny2", *scattering_mat);
-        bunny2->scale(Vec3f(30.f));
-        bunny2->rotate(Vec3f(1,0,0), 90);
-        bunny2->translate(Vec3f(7.5,0,-4.5f));
+        bunny2->setScale(Vec3f(30.f));
+        bunny2->setRotation(Vec3f(1,0,0), 90);
+        bunny2->setTranslation(Vec3f(7.5,0,-4.5f));
 
         ThreeDObject * bunny3 = new ThreeDObject();
         objects.push_back(bunny3);
         bunny3->init(objects_path+"bunny-simplified.obj", "bunny3", *scattering_mat);
-        bunny3->scale(Vec3f(30.f));
-        bunny3->rotate(Vec3f(1,0,0), 90);
-        bunny3->translate(Vec3f(15.0,0,-4.5f));
+        bunny3->setScale(Vec3f(30.f));
+        bunny3->setRotation(Vec3f(1,0,0), 90);
+        bunny3->setTranslation(Vec3f(15.0,0,-4.5f));
 
         check_gl_error();
         //objects.push_back(ThreeDObject());
@@ -556,20 +558,20 @@ void TranslucentMaterials::draw_axes(bool reload)
         x->init("","x",*m);
         axes.push_back(x);
         x->setColor(Vec4f(1.0f,0.0f,0.0f,1.0f));
-        x->scale(Vec3f(1000.0f));
-        x->setEulerAngles(Vec3f(0.0f,90.0f,0.0f));
+        x->setScale(Vec3f(1000.0f));
+        x->setRotation(Vec3f(0.0f,90.0f,0.0f));
 
         ThreeDLine * y = new ThreeDLine();
         y->init("","y",*m);
         axes.push_back(y);
         y->setColor(Vec4f(0.0f,1.0f,0.0f,1.0f));
-        y->scale(Vec3f(1000.0f));
-        y->setEulerAngles(Vec3f(90.0f,0.0f,0.0f));
+        y->setScale(Vec3f(1000.0f));
+        y->setRotation(Vec3f(90.0f,0.0f,0.0f));
 
         ThreeDLine * z = new ThreeDLine();
         z->init("","z",*m);
         axes.push_back(z);
-        z->scale(Vec3f(1000.0f));
+        z->setScale(Vec3f(1000.0f));
 
         z->setColor(Vec4f(0.0f,0.0f,1.0f,1.0f));
 
@@ -635,9 +637,11 @@ void TranslucentMaterials::draw_bounding_boxes(bool reload)
         if(o->boundingBoxEnabled && o->enabled)
         {
             Mesh::BoundingBox * boundingBox = o->getBoundingBox();
-            boundingBoxCubes[i]->setBounds(*boundingBox);
+            boundingBoxCubes[i]->setModelView(o->getPosition(),o->getRotation(),o->getScale());
+
             boundingBoxCubes[i]->setColor(Vec4f(0.0,1.0,0.0,1.0));
             boundingBoxCubes[i]->display(color_shader);
+            delete boundingBox;
         }
     }
 }
@@ -706,14 +710,20 @@ void TranslucentMaterials::render_better_dipole(bool reload)
     */
 }
 
+bool compareVec2fDistanceAscending (Vec2f i,Vec2f j) { return (i.length() < j.length()); }
+
 void TranslucentMaterials::render_direct_test(bool reload)
 {
     static ShaderProgramDraw obj_shader(shader_path,"object.vert","","object.frag");
     static ShaderProgramDraw gbuff_shader(shader_path,"ss_cubemap_gbuffer.vert","","ss_cubemap_gbuffer.frag");
     static ShaderProgramDraw gbuff_quad(shader_path,"ss_cubemap_test_gbuffer.vert","","ss_cubemap_test_gbuffer.frag");
     static ShaderProgramDraw gbuff_wrap(shader_path,"ss_cubemap_test_wrap_gbuffer.vert","","ss_cubemap_test_wrap_gbuffer.frag");
-    static ShaderProgramDraw render_to_cubemap(shader_path,"ss_cubemap_render_to_cubemap.vert","","ss_cubemap_render_to_cubemap.frag");
-    static ShaderProgramDraw render_to_cubemap_test(shader_path,"ss_cubemap_test_render_to_cubemap_screen.vert","","ss_cubemap_test_render_to_cubemap_screen.frag");
+
+    static ShaderProgramDraw render_to_cubemap_jensen(shader_path,"ss_cubemap_render_to_cubemap_jensen.vert","","ss_cubemap_render_to_cubemap_jensen.frag");
+    static ShaderProgramDraw render_to_cubemap(shader_path,"ss_cubemap_render_to_cubemap_jeppe.vert","","ss_cubemap_render_to_cubemap_jeppe.frag");
+
+    static ShaderProgramDraw render_to_cubemap_test(shader_path,"ss_cubemap_render_to_cubemap.vert","","ss_cubemap_render_to_cubemap.frag");
+    static ShaderProgramDraw render_to_cubemap_test_screen(shader_path,"ss_cubemap_test_render_to_cubemap_screen.vert","","ss_cubemap_test_render_to_cubemap_screen.frag");
     static ShaderProgramDraw render_to_cubemap_test_cube(shader_path,"ss_cubemap_test_render_to_cubemap_cube.vert","","ss_cubemap_test_render_to_cubemap_cube.frag");
     static ShaderProgramDraw render_combination(shader_path,"ss_cubemap_combination.vert","","ss_cubemap_combination.frag");
 
@@ -729,9 +739,21 @@ void TranslucentMaterials::render_direct_test(bool reload)
         gbuff_quad.reload();
         gbuff_wrap.reload();
         render_to_cubemap.reload();
-        render_to_cubemap_test.reload();
+        render_to_cubemap_test_screen.reload();
         render_to_cubemap_test_cube.reload();
         render_combination.reload();
+    }
+
+    //TODO more objs
+    ThreeDObject * obj = objects[0];
+    for(int i = 0; i < objects.size(); i++)
+    {
+        ThreeDObject * o = objects[i];
+        if(o->enabled)
+        {
+            obj = o;
+            break;
+        }
     }
 
     gbuff_shader.use();
@@ -743,7 +765,7 @@ void TranslucentMaterials::render_direct_test(bool reload)
     Vec3f v = Vec3f(manager[0].position);
     gbuff_shader.set_view_matrix(lookat_Mat4x4f(v,-v,Vec3f(0,1,0))); //PARALLEL!
     gbuff_shader.set_model_matrix(identity_Mat4x4f());
-    gbuff_shader.set_projection_matrix(ortho_Mat4x4f(Vec3f(-5,-5,1),Vec3f(5,5,10)));
+    gbuff_shader.set_projection_matrix(ortho_Mat4x4f(Vec3f(-3,-3,1),Vec3f(3,3,10)));
 
     // Switch viewport size to that of shadow buffer.
 
@@ -751,11 +773,8 @@ void TranslucentMaterials::render_direct_test(bool reload)
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
     // Draw to shadow buffer.
-    for(uint i = 0; i < objects.size(); i++)
-    {
-        ThreeDObject * o = objects[i];
-        o->display(gbuff_shader);
-    }
+    obj->display(gbuff_shader);
+
 
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
     glDrawBuffer(GL_BACK);
@@ -772,53 +791,64 @@ void TranslucentMaterials::render_direct_test(bool reload)
     Mesh::Texture * vtex = buff.getVertexTexture();
     Mesh::Texture * ntex = buff.getNormalTexture();
 
+    obj->mesh.getMaterial()->addTexture(vtex);
+    obj->mesh.getMaterial()->addTexture(ntex);
+    obj->mesh.getMaterial()->addUniform("lightMatrix",mat);
+
+//#define TEST_ONSCREEN_QUAD_2
 #ifdef TEST_ONSCREEN_QUAD
-    Mesh::Material * material = new Mesh::Material();
+
+    static vector<Vec2f> discpoints2;
+        static bool mark2 = false;
+        if(!mark2)
+        {
+            mark2 = true;
+            planeHammersley(discpoints2, 150);
+        }
+
     material->addTexture(*vtex);
     material->addTexture(*ntex);
 
     gbuff_quad.use();
-    gbuff_quad.set_uniform("lightMatrix",mat);
+    //gbuff_quad.set_uniform("lightMatrix",mat);
     set_light_and_camera(gbuff_quad);
     material->loadUniforms(gbuff_quad);
+
+    gbuff_quad.set_uniform("discpoints", discpoints2, 150);
+    gbuff_quad.set_uniform("samples",params->samples);
+    gbuff_quad.set_uniform("discradius",params->circleradius);
+
     draw_screen_aligned_quad(gbuff_quad);
+    return;
 #endif
 
 #ifdef GBUFFER_USE_TEST
     gbuff_wrap.use();
-    gbuff_wrap.set_uniform("lightMatrix",mat);
+    //gbuff_wrap.set_uniform("lightMatrix",mat);
     set_light_and_camera(gbuff_wrap);
-    for(uint i = 0; i < objects.size(); i++)
-    {
-        ThreeDObject * o = objects[i];
-        o->mesh.getMaterial()->addTexture(*vtex);
-        o->mesh.getMaterial()->addTexture(*ntex);
-        o->display(gbuff_wrap);
-    }
+
+    obj->mesh.getMaterial()->addTexture(*vtex);
+    obj->mesh.getMaterial()->addTexture(*ntex);
+    obj->display(gbuff_wrap);
+
 #endif
     check_gl_error();
 
     const int CUBEMAP_SIDE_SIZE = 1024;
-    const float CAMERA_DISTANCE = 10.0f;
+    const float CAMERA_DISTANCE = 6.0f;
+    const float CAMERA_NEAR = 1.0f;
+    const float CAMERA_FAR = 21.0f;
+    const float CAMERA_SIZE = 6.0f;
+
     static CubemapBuffer cubemap(CUBEMAP_SIDE_SIZE);
 
     render_to_cubemap.use();
     check_gl_error();
-    //TODO more objs
-    ThreeDObject * obj = objects[0];
-    for(int i = 0; i < objects.size(); i++)
-    {
-        ThreeDObject * o = objects[i];
-        if(o->enabled)
-        {
-            obj = o;
-            break;
-        }
-    }
+
 
     Vec3f center = obj->getCenter();
     check_gl_error();
-    Vec3f cameraPositions[6] = {
+    static Vec3f cameraPositions[6] = {
         center + Vec3f(1,0,0) * CAMERA_DISTANCE, //+X
         center - Vec3f(1,0,0) * CAMERA_DISTANCE, //-X
         center + Vec3f(0,1,0) * CAMERA_DISTANCE, //+Y
@@ -827,7 +857,7 @@ void TranslucentMaterials::render_direct_test(bool reload)
         center - Vec3f(0,0,1) * CAMERA_DISTANCE  //-Z
     };
 
-    Mat4x4f viewMatrices[6]  = {
+    static Mat4x4f viewMatrices[6]  = {
         scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[0], center, Vec3f(0,1,0)), //+X
         scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[1], center, Vec3f(0,1,0)), //-X
         scaling_Mat4x4f(Vec3f(-1,1,1)) * lookat_Mat4x4f_target(cameraPositions[2], center, Vec3f(0,0,1)), //+Y
@@ -837,18 +867,75 @@ void TranslucentMaterials::render_direct_test(bool reload)
     };
 
     Mat4x4f model = identity_Mat4x4f();
-    Mat4x4f projection = ortho_Mat4x4f(Vec3f(-10,-10,1),Vec3f(10,10,20));
+    Mat4x4f projection = ortho_Mat4x4f(Vec3f(-CAMERA_SIZE,-CAMERA_SIZE,CAMERA_NEAR),Vec3f(CAMERA_SIZE,CAMERA_SIZE,CAMERA_FAR));
 
     glViewport(0,0,CUBEMAP_SIDE_SIZE,CUBEMAP_SIDE_SIZE);
-    check_gl_error();
+
+
+    static float area;
+    const int DISC_POINTS = 1000;
+    const int DISCS = 6;
+
+    static bool mark = false;
+    if(!mark)
+    {
+        vector<Vec3f> * discpoint_data = new vector<Vec3f>();
+        mark = true;
+
+        vector<vector<Vec2f> > texture;
+        planeHammersleyCircleMulti(texture, DISC_POINTS, DISCS);
+
+        for(int k = 0; k < DISCS; k++)
+        {
+            cout << "Vector " << k <<endl;
+            vector<Vec2f> discpoints = texture[k];
+            std::sort(discpoints.begin(),discpoints.end(),compareVec2fDistanceAscending);
+            for(int i = 0; i < discpoints.size(); i++)
+            {
+                //cout <<discpoints[i][0] << " " << discpoints[i][1] << endl;
+                discpoint_data->push_back(Vec3f(discpoints[i][0],discpoints[i][1],0.0f));
+
+            }
+        }
+        Mesh::Texture * tex = new Mesh::Texture("discpoints",GL_TEXTURE_2D, DISC_POINTS, DISCS, *discpoint_data);
+        tex->init();
+        obj->mesh.getMaterial()->addTexture(tex);
+        totalArea(*obj,area);
+    }
+
+    Vec3f radius = Vec3f(29.909f,23.316f, 18.906f); //radius for marble - red 29.909 green 23.316 blue 18.906
+    //float trueRadius = clamp01(length(mat * Vec4f(radius[0],0,0,0)));
+
+    float trueRadius = params->circleradius;
+    //render_to_cubemap.set_uniform("discpoints", discpoints, DISC_POINTS);
+    render_to_cubemap.set_uniform("one_over_max_samples",1.0f/DISC_POINTS);
+    render_to_cubemap.set_uniform("one_over_discs",1.0f/DISCS);
+    render_to_cubemap.set_uniform("samples",params->samples);
+    render_to_cubemap.set_uniform("discradius",trueRadius);
+    render_to_cubemap.set_uniform("epsilon_gbuffer", params->epsilon_gbuffer);
+    set_light_and_camera(render_to_cubemap);
+
+#ifdef TEST_ONSCREEN_QUAD_2
+
+    //testmaterial->addTexture(*vtex);
+    //testmaterial->addTexture(*ntex);
+
+    gbuff_quad.use();
+    //gbuff_quad.set_uniform("lightMatrix",mat);
+    set_light_and_camera(gbuff_quad);
+    obj->mesh.getMaterial()->loadUniforms(gbuff_quad);
+    draw_screen_aligned_quad(gbuff_quad);
+    return;
+#endif
 
     for(int i = 0; i < 6; i++)
     {
+        render_to_cubemap.set_uniform("currentDisc",i);
         render_to_cubemap.set_view_matrix(viewMatrices[i]);
         render_to_cubemap.set_model_matrix(model);
         render_to_cubemap.set_projection_matrix(projection);
         cubemap.enable(i);
-        draw_objects(render_to_cubemap);
+        obj->display(render_to_cubemap);
     }
 
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER,0);
@@ -856,14 +943,11 @@ void TranslucentMaterials::render_direct_test(bool reload)
 
     Mesh::Texture * cube = cubemap.getCubemapTexture();
     Mesh::Texture * depth = cubemap.getCubemapDepthTexture();
-    obj->mesh.getMaterial()->addTexture(*cube);
-    obj->mesh.getMaterial()->addTexture(*depth);
+    obj->mesh.getMaterial()->addTexture(cube);
+    obj->mesh.getMaterial()->addTexture(depth);
 
-    Mesh::Material * material = new Mesh::Material();
-    material->addTexture(*cube);
-    material->addTexture(*depth);
 
-#define CUBEMAP_CUBE_TEST
+//#define CUBEMAP_CUBE_TEST
 
 #ifdef CUBEMAP_TEST_SCREEN_2
 //    user.set(cameraPositions[0],-cameraPositions[0]);
@@ -884,6 +968,8 @@ void TranslucentMaterials::render_direct_test(bool reload)
     material->loadUniforms(render_to_cubemap_test);
     draw_screen_aligned_quad(render_to_cubemap_test);
 #endif
+
+#define CUBEMAP_CUBE_TEST
 #ifdef CUBEMAP_CUBE_TEST
     static ThreeDCube *cubemapplaceholder = new ThreeDCube(10);
     static bool was_here = false;
@@ -891,26 +977,35 @@ void TranslucentMaterials::render_direct_test(bool reload)
     {
         was_here = true;
         objects.push_back(cubemapplaceholder);
-        cubemapplaceholder->init(" ","cubem",*material);
-        cubemapplaceholder->scale(Vec3f(20.0f));
-        cubemapplaceholder->rotate(Vec3f(1,0,0), 90);
-
-
+        cubemapplaceholder->init(" ","cubem",*(obj->mesh.getMaterial()));
+        cubemapplaceholder->setScale(Vec3f(CAMERA_SIZE * 2));
+        cubemapplaceholder->setRotation(Vec3f(1,0,0), 90);
     }
 
     render_to_cubemap_test_cube.use();
     set_light_and_camera(render_to_cubemap_test_cube);
-    render_to_cubemap_test_cube.set_uniform("center",center);
-    cubemapplaceholder->mesh.getMaterial()->addTexture(*cube);
-    cubemapplaceholder->mesh.getMaterial()->addTexture(*depth);
-    cubemapplaceholder->translate(center);
+
+    render_to_cubemap_test_cube.set_uniform("areacircle", (float)(trueRadius * trueRadius * M_PI));
+    render_to_cubemap_test_cube.set_uniform("one_over_max_samples", 1.0f/DISC_POINTS);
+    render_to_cubemap_test_cube.set_uniform("total_area", CAMERA_SIZE * CAMERA_SIZE);
+
+    cubemapplaceholder->setTranslation(center);
     cubemapplaceholder->display(render_to_cubemap_test_cube);
+#endif
 
     render_combination.use();
+    render_combination.set_uniform("centerWorldCoordinates",center);
+    render_combination.set_uniform("cameraSize",CAMERA_SIZE);
+    render_combination.set_uniform("zFar",CAMERA_FAR);
+    render_combination.set_uniform("zNear",CAMERA_NEAR);
+    render_combination.set_uniform("shadow_bias", params->shadow_bias);
+    render_combination.set_uniform("epsilon_combination", params->epsilon_combination);
+    render_combination.set_uniform("one_over_max_samples", 1.0f/DISC_POINTS);
+    render_combination.set_uniform("total_area", CAMERA_SIZE * CAMERA_SIZE);
     set_light_and_camera(render_combination);
     obj->display(render_combination);
 
-#endif
+
 }
 
 void TranslucentMaterials::render_to_gbuffer(GBuffer& gbuffer, bool reload)
@@ -1234,7 +1329,7 @@ void TranslucentMaterials::render_indirect()
 TranslucentMaterials::TranslucentMaterials( QWidget* parent)
     : QGLWidget( new Core4_3_context(), (QWidget*) parent),
       ax(0), ay(0), dist(12),ang_x(0),ang_y(0),mouse_x0(0),mouse_y0(0)
-    , clearColor(Vec4f(0.0f,0.0f,0.0f,1.0f)), isVertexMode(true), isShadow(true), isGridVisible(true), areAxesVisible(true)
+    , clearColor(Vec4f(0.0f,0.0f,0.0f,1.0f)), isVertexMode(true), isShadow(true), isGridVisible(true), areAxesVisible(true), params(new TranslucentParameters())
 {
     Light mainLight (light_position, light_diffuse, 1.0f, light_specular, true);
     manager.addLight(mainLight);
@@ -1296,7 +1391,7 @@ void TranslucentMaterials::paintGL()
     if(isGridVisible) draw_grid(reload_shaders);
     if(areAxesVisible) draw_axes(reload_shaders);
 
-    draw_bounding_boxes(reload_shaders);
+    //draw_bounding_boxes(reload_shaders);
 
     switch(render_mode)
     {
@@ -1436,7 +1531,7 @@ void TranslucentMaterials::keyPressEvent(QKeyEvent *e)
     {
     case Qt::Key_Escape: exit(0);
     case ' ':
-        render_mode = static_cast<RenderMode>((static_cast<int>(render_mode)+1)%4);
+        render_mode = static_cast<RenderMode>((static_cast<int>(render_mode)+1)%rendermodes);
         reload_shaders = true;
         break;
     case 'W':
@@ -1519,9 +1614,9 @@ ThreeDObject *TranslucentMaterials::getDefaultObject()
     Mesh::ScatteringMaterial * scattering_mat = getDefaultMaterial(S_Marble);
     ThreeDObject * bunny1 = new ThreeDObject();
     bunny1->init(objects_path+"bunny-simplified.obj", "bunny1", *scattering_mat);
-    bunny1->scale(Vec3f(30.f));
-    bunny1->rotate(Vec3f(1,0,0), 90);
-    bunny1->translate(Vec3f(0,0,-1.0f));
+    bunny1->setScale(Vec3f(30.f));
+    bunny1->setRotation(Vec3f(1,0,0), 90);
+    bunny1->setTranslation(Vec3f(0,0,-1.0f));
     bunny1->enabled = true;
     bunny1->boundingBoxEnabled = true;
     return bunny1;
@@ -1536,4 +1631,9 @@ ThreeDObject * TranslucentMaterials::getObject(string name)
         return *it;
     }
     return nullptr;
+}
+
+TranslucentParameters *TranslucentMaterials::getParameters()
+{
+    return params;
 }

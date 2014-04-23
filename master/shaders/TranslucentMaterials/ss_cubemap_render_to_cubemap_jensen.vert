@@ -8,12 +8,11 @@ uniform mat4 M;
 
 out vec3 position;
 out vec3 norm;
-uniform vec3 centerWorldCoordinates;
+
 
 void main()
 {
-    position = vec3(M * vec4(vertex,1)) - centerWorldCoordinates;
-    norm = vec3(M * vec4(normal,0));
-
+    position = vec3(M * vec4(vertex,1));
+    norm = normalize(vec3(M * vec4(normal,0)));
     gl_Position = PVM * vec4(vertex,1);
 }

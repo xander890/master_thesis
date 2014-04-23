@@ -27,11 +27,11 @@ protected:
     CGLA::Vec3f translation_vector;
     //CGLA::Vec3f rotation_axis;
     //float rotation_angle;
-    CGLA::Mat4x4f rotation_matrix; //optimization.
+    CGLA::Quatf rotation; //optimization.
     CGLA::Vec3f eulerAngles;
     CGLA::Vec3f scaling_factors;
     bool firstTime;
-    Mesh::BoundingBox * adjustedBox;
+
 
 public:
     Mesh::TriangleMesh mesh;
@@ -44,11 +44,15 @@ public:
     virtual void display(ShaderProgramDraw& shader);
 
     Mesh::BoundingBox * getBoundingBox();
+    Mesh::BoundingBox * getBoundingBoxAdjusted();
     void getRawData(Mesh::RawMeshData & data);
-    CGLA::Mat4x4f ThreeDObject::getModelMatrix();
-    CGLA::Vec3f ThreeDObject::getEulerAngles() {return eulerAngles;}
-    CGLA::Vec3f ThreeDObject::getPosition() {return translation_vector;}
-    CGLA::Vec3f ThreeDObject::getScale() {return scaling_factors;}
+    CGLA::Mat4x4f getModelMatrix();
+    CGLA::Vec3f getEulerAngles() {return eulerAngles;}
+
+    CGLA::Quatf getRotation() {return rotation;}
+    CGLA::Vec3f getPosition() {return translation_vector;}
+    CGLA::Vec3f getScale() {return scaling_factors;}
+
     CGLA::Vec3f getCenter();
 
     void addAttribute(std::string name, std::vector<CGLA::Vec4f>& data);
@@ -63,21 +67,36 @@ public:
         return strcmp(name.c_str(),b.c_str()) == 0;
     }
 
-    void rotate(const CGLA::Vec3f& axis, float angle)
+    void setTranslation(const CGLA::Vec3f& pos)
+    {
+        translation_vector = pos;
+    }
+
+    void setScale(const CGLA::Vec3f& scale)
+    {
+        scaling_factors  = scale;
+    }
+
+    void setRotation(const CGLA::Quatf & rotation)
+    {
+        this->rotation = rotation;
+    }
+
+    void setRotation(const CGLA::Vec3f& axis, float angle)
     {
 
         CGLA::Quatf q;
         q.make_rot(angle*M_PI/180.0, axis);
-        rotation_matrix = q.get_Mat4x4f();
+        rotation = q;
         this->eulerAngles = axis * angle;
     }
 
-    void setEulerAngles(CGLA::Vec3f & eulerAngles)
+    void setRotation(const CGLA::Vec3f & eulerAngles)
     {
         //avoiding singular matrix
         if(eulerAngles == CGLA::Vec3f(0.0f))
         {
-            this->rotation_matrix = CGLA::identity_Mat4x4f();
+            rotation = CGLA::Quatf(0,0,0,1);
             this->eulerAngles = eulerAngles;
             return;
         }
@@ -91,21 +110,35 @@ public:
         qx.make_rot(eulerAngles[0] * M_PI / 180.0f, CGLA::Vec3f(1.0f,0.0f,0.0f));
         qy.make_rot(eulerAngles[1] * M_PI / 180.0f, CGLA::Vec3f(0.0f,1.0f,0.0f));
         qz.make_rot(eulerAngles[2] * M_PI / 180.0f, CGLA::Vec3f(0.0f,0.0f,1.0f));
-        CGLA::Quatf q = qx * (qy * qz);
+        rotation = qx * (qy * qz);
 
         this->eulerAngles = eulerAngles;
-        rotation_matrix = q.get_Mat4x4f();
     }
 
-    void translate(const CGLA::Vec3f& pos)
+    void setModelView(const CGLA::Vec3f & position, const CGLA::Quatf & rotation, const CGLA::Vec3f & scale)
     {
-        translation_vector = pos;
+        this->setTranslation(position);
+        this->setRotation(rotation);
+        this->setScale(scale);
     }
 
     void scale(const CGLA::Vec3f& scale)
     {
-        scaling_factors  = scale;
+        setScale(this->scaling_factors * scale);
     }
+
+
+    void translate(const CGLA::Vec3f& translation)
+    {
+        setTranslation(this->translation_vector + translation);
+    }
+
+    void translateLocal(const CGLA::Vec3f& translation)
+    {
+        translate(CGLA::Vec3f(this->getModelMatrix() * CGLA::Vec4f(translation,1.0f)));
+    }
+
+
 
 };
 

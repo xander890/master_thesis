@@ -21,7 +21,7 @@ namespace GLGraphics
         void setColor(CGLA::Vec4f & color) {this->color = color;}
 
         void setBounds(Mesh::BoundingBox & box);
-        void setBounds(float xlow, float xhigh, float ylow, float yhigh, float zlow, float zhigh);
+        void setBounds(CGLA::Vec3f & low, CGLA::Vec3f & high);
 
     private:
         CGLA::Vec4f color;

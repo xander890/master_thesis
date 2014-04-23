@@ -12,9 +12,8 @@ out vec4 fragColor;
 float sample_shadow_map(vec3 pos)
 {
     vec4 light_pos = lightMatrix * vec4(pos,1.0f);
-    //light_pos.z -= 0.004;
-    //if(light_pos.x < 0.0 || light_pos.x > 1.0) return 1.0;
-    //if(light_pos.y < 0.0 || light_pos.y > 1.0) return 1.0;
+    if(light_pos.x < 0.0 || light_pos.x > 1.0) return 1.0;
+    if(light_pos.y < 0.0 || light_pos.y > 1.0) return 1.0;
     if(texture(vtex,light_pos.xy).z < light_pos.z)
     {
         return 1.0f;

@@ -33,7 +33,7 @@ void DipoleGPU::prepare(ThreeDObject &three)
     //
     float result;
     Mat3x3f mx = Mat3x3f(three.getModelMatrix());
-    totalArea(mesh,mode,mx, result);
+    totalArea(three, result);
     cout << mx << "Area " << three.name << ": " << result << endl;
 
     vector<float> areas;
@@ -63,9 +63,9 @@ void DipoleGPU::prepare(ThreeDObject &three)
     Texture * n_tex = new Texture("normals",GL_TEXTURE_2D,textureSize,textureSize,normals);
     Texture * area_tex = new Texture("areas",GL_TEXTURE_2D,textureSize,textureSize,areasEnlarged);
 
-    mat->addTexture(*v_tex);
-    mat->addTexture(*n_tex);
-    mat->addTexture(*area_tex);
+    mat->addTexture(v_tex);
+    mat->addTexture(n_tex);
+    mat->addTexture(area_tex);
     mat->addUniform("vertex_size",(int)vertices.size());
     mat->addUniform("vertex_tex_size",(int)textureSize);
 

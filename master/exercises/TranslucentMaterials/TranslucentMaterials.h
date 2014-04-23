@@ -7,6 +7,25 @@
 #include "GBuffer.h"
 #include <QGLFormat>
 
+class TranslucentParameters
+{
+
+public:
+    TranslucentParameters::TranslucentParameters() :
+        circleradius(0.5f),
+        samples(150),
+        epsilon_gbuffer(0.003),
+        epsilon_combination(0.007),
+        shadow_bias(0.09)
+    {}
+
+    float circleradius;
+    float epsilon_gbuffer; // avoids artifacts when sampling from gbuffer
+    float epsilon_combination; // avoids artifacts when sampling from cubebuffer
+    float shadow_bias; // avoids shadow acne
+    int samples;
+};
+
 class TranslucentMaterials : public QGLWidget
 {
     Q_OBJECT
@@ -29,6 +48,7 @@ class TranslucentMaterials : public QGLWidget
     GLGraphics::ThreeDObject cow;
     GLuint m_vertexBuffer;
     CGLA::Vec4f clearColor;
+    TranslucentParameters * params;
 
 public:
 
@@ -39,6 +59,7 @@ public:
     void keyReleaseEvent(QKeyEvent *);
     GLGraphics::ThreeDObject * getDefaultObject();
     GLGraphics::ThreeDObject * getObject(std::string name);
+    TranslucentParameters * getParameters();
 
 public slots:
     void animate();

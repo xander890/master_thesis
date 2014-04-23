@@ -19,10 +19,10 @@ namespace Mesh
         shader.set_uniform(SHININESS_KEY.c_str(), shininess);
 
         unsigned int count = 0;
-        for(vector<Texture>::iterator it = textures.begin(); it != textures.end(); it++)
+        for(vector<Texture*>::iterator it = textures.begin(); it != textures.end(); it++)
         {
-            Texture texture = *it;
-            shader.use_texture(texture.get_target(), texture.get_name(), texture.get_id(), count);
+            Texture * texture = *it;
+            shader.use_texture(texture->get_target(), texture->get_name(), texture->get_id(), count);
             count++;
         }
         loadExtraUniforms(shader);
@@ -46,11 +46,11 @@ namespace Mesh
 
     }
 
-    void Material::addTexture(Texture & texture)
+    void Material::addTexture(Texture * texture)
     {
         for(int i = 0; i < textures.size(); i++)
         {
-            if(texture.get_name().compare(textures[i].get_name()) == 0)
+            if(texture->get_name().compare(textures[i]->get_name()) == 0)
             {
                 return;
             }
@@ -61,9 +61,9 @@ namespace Mesh
 
     void Material::initTextures()
     {
-        for(std::vector<Texture>::iterator it = textures.begin(); it != textures.end(); it++)
+        for(std::vector<Texture*>::iterator it = textures.begin(); it != textures.end(); it++)
         {
-            it->init();
+            (*it)->init();
         }
     }
 
@@ -94,6 +94,21 @@ namespace Mesh
         vec4Uniforms[name] = value;
     }
 
+    void Material::addUniform(const char *name, Mat2x2f value)
+    {
+        mat2Uniforms[name] = value;
+    }
+
+    void Material::addUniform(const char *name, Mat3x3f value)
+    {
+        mat3Uniforms[name] = value;
+    }
+
+    void Material::addUniform(const char *name, Mat4x4f value)
+    {
+        mat4Uniforms[name] = value;
+    }
+
     void Material::setShadowBuffer(ShadowBuffer * buffer)
     {
         shadowbuffer = buffer;
@@ -119,6 +134,18 @@ namespace Mesh
             shader.set_uniform(it->first.c_str(),it->second);
         }
         for(map<string,Vec4f>::iterator it = vec4Uniforms.begin(); it != vec4Uniforms.end(); it++)
+        {
+            shader.set_uniform(it->first.c_str(),it->second);
+        }
+        for(map<string,Mat2x2f>::iterator it = mat2Uniforms.begin(); it != mat2Uniforms.end(); it++)
+        {
+            shader.set_uniform(it->first.c_str(),it->second);
+        }
+        for(map<string,Mat3x3f>::iterator it = mat3Uniforms.begin(); it != mat3Uniforms.end(); it++)
+        {
+            shader.set_uniform(it->first.c_str(),it->second);
+        }
+        for(map<string,Mat4x4f>::iterator it = mat4Uniforms.begin(); it != mat4Uniforms.end(); it++)
         {
             shader.set_uniform(it->first.c_str(),it->second);
         }

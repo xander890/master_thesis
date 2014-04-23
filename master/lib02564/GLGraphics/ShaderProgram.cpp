@@ -105,6 +105,16 @@ namespace GLGraphics {
         }
     }
 
+    void ShaderProgram::set_uniform(const char *name, const Mat2x2f &value)
+    {
+        GLint location = get_uniform_location(name);
+        if (location != -1){
+            CGLA::Mat2x2f transposed;
+            transpose(value, transposed);
+            glUniformMatrix2fv(location, 1, GL_FALSE, transposed.get());
+        }
+    }
+
 
     void ShaderProgram::set_uniform(const char* name, const CGLA::Mat4x4f &value){
         GLint location = get_uniform_location(name);
