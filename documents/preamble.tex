@@ -1,0 +1,73 @@
+%==================================================================================================
+%   LUKES THESIS TEMPLATE 1.2
+%   -------------------------
+%   This template is based upon the offcial IMM PhD Thesis template, it is enhanced with a number
+%   of new features and a number of errors have fixed. This template is intended to be complied to
+%   PDF using PDFLATEX and is tested using the MiKTeX 2.9 LaTeX distribution.
+%   It is based on the official DTU-IMM Thesis template by Finn Kuno Christensen in 2009.
+%   Small bugfixes by Kasper Laursen in 2012 and 2013.
+%   -------------------------
+%   Last Updated: 2012-09-19
+%   Contact: lthhe@imm.dtu.dk
+%==================================================================================================
+%
+%==================================================================================================
+% DOCUMENT SETUP
+%==================================================================================================
+\documentclass[10pt,twoside]{book}                  %Official DTU-IMM Thesis document setup
+%
+%Set to 'print' for printed version, use 'net' for online version
+\def\thesisversion{print}
+%
+%==================================================================================================
+% PACKAGES
+%==================================================================================================
+\usepackage{LukeThesis}                             %Import Thesis base style
+\usepackage{graphicx}
+%\usepackage[utf8]{inputenc}
+%\usepackage[T1]{fontenc}
+%\usepackage{url}
+\usepackage{hyperref}
+\usepackage{pdfpages}
+\usepackage{placeins}
+\usepackage{graphicx}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage{subfig}
+
+%\usepackage{subcaption}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{listings} %for showing program code
+\usepackage{bm}
+\usepackage{wrapfig}
+\usepackage{lipsum}
+\usepackage{float}
+\usepackage{titlesec}	
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[square,authoryear]{natbib}
+\usepackage{epstopdf}
+
+\bibpunct{[}{]}{,}{a}{,}{,}
+
+
+%input{PhDMacros}                                   %Thesis specific macros
+%
+%==================================================================================================
+% THESIS PROPERTIES (Modifiy these fields with your details)
+%==================================================================================================
+\def\thesisauthor{Alessandro Dal Corso}                     %Author
+\def\thesistitle{Real-Time Rendering of Translucent Materials with Directional Subsurface Scattering}               %Title
+\def\thesishandin{03-July}                       %Submission date (Day-Month}
+\def\thesisdegree{M.Sc.}                              %Degree ('B.Eng', 'B.Sc.', 'M.Sc.' or 'PhD')
+\def\thesisyear{2014}                               %Submission year
+\def\thesisnumber{????}                             %DTU-IMM Serial number (do not include year)
+\def\thesisISSN{0000-0000}                          %ISSN number
+\def\thesiskeywords{subsurface,scattering,realtime,directional,dipole}  %PDF keywords
+\derivethesisprops                                  %Derive dependent properties
+%
+%==================================================================================================
+% SECTION NUMBERING SETUP
+%==================================================================================================
+\setcounter{tocdepth}{2}                            %2 adds sections up to subsections
+\setcounter{secnumdepth}{3}                         %Subsubsections get a number when this is 3

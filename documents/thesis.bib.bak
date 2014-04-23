@@ -1,23 +1,27 @@
 % This file was created with JabRef 2.9.2.
 % Encoding: Cp1252
 
-@TECHREPORT{IMM2013-06646,
-  author = {J. R. Frisvad and T. Hachisuka and T. K. Kjeldsen},
-  title = {Directional Dipole for Subsurface Scattering in Translucent Materials},
-  institution = {DTU Compute},
-  year = {2013},
-  note = {Unpublished manuscript.},
-  crossref = {IMM2013-06646},
-  keywords = {{BSSRDF,} radiative transfer, subsurface scattering, translucent materials},
-  owner = {xander890},
-  timestamp = {2014.02.26},
-  url = {http://www2.imm.dtu.dk/pubdb/p.php?6646}
+@INPROCEEDINGS{d'Eon:2007:ERH:2383847.2383869,
+  author = {d'Eon, Eugene and Luebke, David and Enderton, Eric},
+  title = {Efficient Rendering of Human Skin},
+  booktitle = {Proceedings of the 18th Eurographics Conference on Rendering Techniques},
+  year = {2007},
+  series = {EGSR'07},
+  pages = {147--157},
+  address = {Aire-la-Ville, Switzerland, Switzerland},
+  publisher = {Eurographics Association},
+  acmid = {2383869},
+  doi = {10.2312/EGWR/EGSR07/147-157},
+  isbn = {978-3-905673-52-4},
+  location = {Grenoble, France},
+  numpages = {11},
+  url = {http://dx.doi.org/10.2312/EGWR/EGSR07/147-157}
 }
 
 @INPROCEEDINGS{Borlum:2011:SSL:2018323.2018325,
   author = {B{\o}rlum, Jesper and Christensen, Brian Bunch and Kjeldsen, Thomas
-	Kim and Mikkelsen, Peter Trier and Noe, Karsten \Ostergaard and Rimestad,
-	Jens and Mosegaard, Jesper},
+	Kim and Mikkelsen, Peter Trier and Noe, Karsten {\O}stergaard and
+	Rimestad, Jens and Mosegaard, Jesper},
   title = {SSLPV: Subsurface Light Propagation Volumes},
   booktitle = {Proceedings of the ACM SIGGRAPH Symposium on High Performance Graphics},
   year = {2011},
@@ -48,6 +52,16 @@
   date = {2012-07-01},
   name = {Octree-Based Sparse Voxelization Using The GPU Hardware Rasterizer},
   url = {http://www.seas.upenn.edu/~pcozzi/OpenGLInsights/OpenGLInsights-SparseVoxelization.pdf, Chapter PDF}
+}
+
+@TECHREPORT{deondeon,
+  author = {D'Eon, Eugene},
+  title = {A better dipole (a publicly available manuscript)},
+  institution = {-},
+  year = {2012},
+  owner = {xander890},
+  timestamp = {2014.04.21},
+  url = {. http://www.eugenedeon.com/papers/betterdipole.pdf.}
 }
 
 @INPROCEEDINGS{D'Eon:2011:QMR:1964921.1964951,
@@ -128,6 +142,27 @@
   url = {http://doi.acm.org/10.1145/1186822.1073308}
 }
 
+@ARTICLE{Donner:2009:EBM:1531326.1531336,
+  author = {Donner, Craig and Lawrence, Jason and Ramamoorthi, Ravi and Hachisuka,
+	Toshiya and Jensen, Henrik Wann and Nayar, Shree},
+  title = {An Empirical BSSRDF Model},
+  journal = {ACM Trans. Graph.},
+  year = {2009},
+  volume = {28},
+  pages = {30:1--30:10},
+  number = {3},
+  month = jul,
+  acmid = {1531336},
+  address = {New York, NY, USA},
+  articleno = {30},
+  doi = {10.1145/1531326.1531336},
+  issn = {0730-0301},
+  issue_date = {August 2009},
+  numpages = {10},
+  publisher = {ACM},
+  url = {http://doi.acm.org/10.1145/1531326.1531336}
+}
+
 @PHDTHESIS{Donner:2006:TRI:1236937,
   author = {Donner, Craig Steven},
   title = {Towards Realistic Image Synthesis of Scattering Materials},
@@ -140,6 +175,26 @@
   owner = {xander890},
   publisher = {University of California at San Diego},
   timestamp = {2014.02.26}
+}
+
+@INPROCEEDINGS{Dorsey:1999:MRW:311535.311560,
+  author = {Dorsey, Julie and Edelman, Alan and Jensen, Henrik Wann and Legakis,
+	Justin and Pedersen, Hans K{\o}hling},
+  title = {Modeling and Rendering of Weathered Stone},
+  booktitle = {Proceedings of the 26th Annual Conference on Computer Graphics and
+	Interactive Techniques},
+  year = {1999},
+  series = {SIGGRAPH '99},
+  pages = {225--234},
+  address = {New York, NY, USA},
+  publisher = {ACM Press/Addison-Wesley Publishing Co.},
+  acmid = {311560},
+  doi = {10.1145/311535.311560},
+  isbn = {0-201-48560-5},
+  keywords = {erosion, material models, natural phenomena, physical simulation,
+	ray tracing, subsurface scattering, texturing, volume modeling, weathering},
+  numpages = {10},
+  url = {http://dx.doi.org/10.1145/311535.311560}
 }
 
 @ARTICLE{Fattal:2009:PMI:1477926.1477933,
@@ -162,6 +217,18 @@
   numpages = {11},
   publisher = {ACM},
   url = {http://doi.acm.org/10.1145/1477926.1477933}
+}
+
+@TECHREPORT{IMM2013-06646,
+  author = {J. R. Frisvad and T. Hachisuka and T. K. Kjeldsen},
+  title = {Directional Dipole for Subsurface Scattering in Translucent Materials},
+  institution = {DTU Compute},
+  year = {2013},
+  note = {Unpublished manuscript.},
+  keywords = {{BSSRDF,} radiative transfer, subsurface scattering, translucent materials},
+  owner = {xander890},
+  timestamp = {2014.02.26},
+  url = {http://www2.imm.dtu.dk/pubdb/p.php?6646}
 }
 
 @INPROCEEDINGS{Gautron:2005:RCS:1187112.1187154,
@@ -251,6 +318,27 @@
   url = {http://doi.acm.org/10.1145/566654.566619}
 }
 
+@INPROCEEDINGS{Jensen:1998:ESL:280814.280925,
+  author = {Jensen, Henrik Wann and Christensen, Per H.},
+  title = {Efficient Simulation of Light Transport in Scenes with Participating
+	Media Using Photon Maps},
+  booktitle = {Proceedings of the 25th Annual Conference on Computer Graphics and
+	Interactive Techniques},
+  year = {1998},
+  series = {SIGGRAPH '98},
+  pages = {311--320},
+  address = {New York, NY, USA},
+  publisher = {ACM},
+  acmid = {280925},
+  doi = {10.1145/280814.280925},
+  isbn = {0-89791-999-8},
+  keywords = {anisotropic scattering, global illumination, light transport, multiple
+	scattering, nonhomogeneous media, participating media, photo-realism,
+	photon map, photon tracing, ray marching, rendering, volume caustics},
+  numpages = {10},
+  url = {http://doi.acm.org/10.1145/280814.280925}
+}
+
 @INPROCEEDINGS{Jensen:2001:PMS:383259.383319,
   author = {Jensen, Henrik Wann and Marschner, Stephen R. and Levoy, Marc and
 	Hanrahan, Pat},
@@ -293,16 +381,6 @@
   url = {http://doi.acm.org/10.1145/1609967.1609970}
 }
 
-@ARTICLE{JIMENEZ2009_TAP,
-  author = {Jorge Jimenez and Veronica Sundstedt and Diego Gutierrez},
-  title = {Screen-space perceptual rendering of human skin},
-  journal = {ACM Transactions on Applied Perception},
-  year = {2009},
-  volume = {6},
-  pages = {23:1--23:15},
-  number = {4}
-}
-
 @INPROCEEDINGS{Kaplanyan:2010:CLP:1730804.1730821,
   author = {Kaplanyan, Anton and Dachsbacher, Carsten},
   title = {Cascaded Light Propagation Volumes for Real-time Indirect Illumination},
@@ -340,6 +418,23 @@
   publisher = {SP Science China Press},
   timestamp = {2014.02.26},
   url = {http://dx.doi.org/10.1007/s11432-010-0068-y}
+}
+
+@INPROCEEDINGS{Lensch:2002:IRT:826030.826632,
+  author = {Lensch, Hendrik P. A. and Goesele, Michael and Bekaert, Philippe
+	and Kautz, Jan and Magnor, Marcus A. and Lang, Jochen and Seidel,
+	Hans-Peter},
+  title = {Interactive Rendering of Translucent Objects},
+  booktitle = {Proceedings of the 10th Pacific Conference on Computer Graphics and
+	Applications},
+  year = {2002},
+  series = {PG '02},
+  pages = {214--},
+  address = {Washington, DC, USA},
+  publisher = {IEEE Computer Society},
+  acmid = {826632},
+  isbn = {0-7695-1784-6},
+  url = {http://dl.acm.org/citation.cfm?id=826030.826632}
 }
 
 @INPROCEEDINGS{5228341,
@@ -537,7 +632,7 @@
 @INCOLLECTION{raey,
   author = {Stam, Jos},
   title = {Multiple scattering as a diffusion process},
-  booktitle = {Rendering Techniques ’95},
+  booktitle = {Rendering Techniques 1995},
   publisher = {Springer Vienna},
   year = {1995},
   editor = {Hanrahan, PatrickM. and Purgathofer, Werner},

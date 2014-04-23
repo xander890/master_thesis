@@ -11,6 +11,6 @@ out vec3 pos;
 void main()
 {
     pos = vertex;
-    pos = mat3(M) * vertex;
+    pos = vec3(M * vec4(vertex,1));
     gl_Position = PVM * vec4(vertex,1);
 }

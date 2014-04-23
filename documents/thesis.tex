@@ -1,0 +1,53 @@
+\input{preamble.tex}
+
+\begin{document}
+%------------------------
+%Pre-frontmatter material
+%------------------------
+\prefrontmatter
+%-------------------- 
+%Frontmatter material
+%--------------------
+%\frontmatter
+%\pagenumbering{roman}                               %Set frontmatter numbering style
+%\input{tex/summaryUK.tex}                                   %English summary of Thesis
+%\markboth{}{}                                       %Set headings (left)(right)
+%\input{tex/summaryDK.tex}                                   %Danish summary of Thesis
+%\markboth{}{}                                       %Set headings (left)(right)
+%\input{tex/preface.tex}                                     %Preface
+%\markboth{}{}                                       %Set headings (left)(right)
+%\input{tex/acknowledgements.tex}                            %Acknowledgements
+%\markboth{}{}                                       %Set headings (left)(right)
+%------------------
+% Table of contents
+%------------------
+\newpage\mbox{}\newpage
+\chaptermark{Contents}
+\pdfbookmark{\contentsname}{toc}
+\renewcommand{\sectionmark}[1]{\markright{#1}}
+\sectionmark{Contents}
+\addtolength{\parskip}{-\baselineskip}
+\tableofcontents
+\addtolength{\parskip}{\baselineskip}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+%-------------
+% Main content
+%------------- 
+\mainmatter
+\input{tex/intro.tex}
+\clearpage
+\input{tex/previous.tex}
+
+\appendix
+\include{tex/appendix.tex}                                 %Appendix A
+%-----------
+% Backmatter
+%-----------
+\backmatter
+\chaptermark{Bibliography}
+\renewcommand{\sectionmark}[1]{\markright{#1}}
+\sectionmark{Bibliography}
+\addcontentsline{toc}{chapter}{Bibliography}        %Force addition of Bibliography to TOC
+\bibliographystyle{alexnat}                           %Use alpha codes for references
+\bibliography{thesis}                           %Bibliography file called
+\end{document}
