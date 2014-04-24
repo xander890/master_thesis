@@ -43,4 +43,6 @@ float clamp(float x, float min, float max);
 void planeHammersley(std::vector<CGLA::Vec2f> & result, int n);
 void planeHammersleyCircle(std::vector<CGLA::Vec2f> & result, int n);
 void planeHammersleyCircleMulti(std::vector<std::vector<CGLA::Vec2f> > & result, int n, int cols);
+void planeHammersleyCircleMultiExp(std::vector<std::vector<CGLA::Vec2f> > & result, int n, int cols, float sigma);
+void circleUniformPoints(std::vector<std::vector<CGLA::Vec2f> > &result, int n, int cols, int m);
 #endif // MISCELLANEOUS_H

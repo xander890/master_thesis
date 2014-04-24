@@ -150,7 +150,7 @@ void main(void)
     int i, count = 0;
 
 
-    for(i = 7; i < samples; i++)
+    for(i = 0; i < samples; i++)
     {
 
         vec2 discoffset = discradius * texture(discpoints,vec2(i * one_over_max_samples, currentDisc * one_over_discs)).xy;
@@ -162,13 +162,13 @@ void main(void)
             {
                 vec3 ni = texture(ntex, uvin).rgb;
                 vec3 S = bssrdf(xi,wi,ni,xo,no);
-                accumulate += Li * S;
+                accumulate += Li * S * dot(ni,wi);
                 count++;
             }
         }
     }
 
-    fragColor = vec4(accumulate,1.0f);
+    fragColor = vec4(accumulate,float(count)/samples);
 
     //fragColor = vec4(1.0f);
 

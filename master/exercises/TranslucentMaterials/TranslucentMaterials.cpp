@@ -64,7 +64,7 @@ Terrain terra(30,0.025f);
 
 User user (&terra);
 bool reload_shaders = true;
-enum RenderMode {DRAW_JENSEN=2, DRAW_BETTER=3, DRAW_DIRECTIONAL=0, DRAW_SSAO=4, DRAW_OBJ=1};
+enum RenderMode {DRAW_JENSEN=0, DRAW_BETTER=3, DRAW_DIRECTIONAL=2, DRAW_SSAO=4, DRAW_OBJ=1};
 int rendermodes = 2;
 RenderMode render_mode = DRAW_OBJ;
 
@@ -719,8 +719,8 @@ void TranslucentMaterials::render_direct_test(bool reload)
     static ShaderProgramDraw gbuff_quad(shader_path,"ss_cubemap_test_gbuffer.vert","","ss_cubemap_test_gbuffer.frag");
     static ShaderProgramDraw gbuff_wrap(shader_path,"ss_cubemap_test_wrap_gbuffer.vert","","ss_cubemap_test_wrap_gbuffer.frag");
 
-    static ShaderProgramDraw render_to_cubemap_jensen(shader_path,"ss_cubemap_render_to_cubemap_jensen.vert","","ss_cubemap_render_to_cubemap_jensen.frag");
-    static ShaderProgramDraw render_to_cubemap(shader_path,"ss_cubemap_render_to_cubemap_jeppe.vert","","ss_cubemap_render_to_cubemap_jeppe.frag");
+    static ShaderProgramDraw render_to_cubemap(shader_path,"ss_cubemap_render_to_cubemap_jensen.vert","","ss_cubemap_render_to_cubemap_jensen.frag");
+    static ShaderProgramDraw render_to_cubemap_jeppe(shader_path,"ss_cubemap_render_to_cubemap_jeppe.vert","","ss_cubemap_render_to_cubemap_jeppe.frag");
 
     static ShaderProgramDraw render_to_cubemap_test(shader_path,"ss_cubemap_render_to_cubemap.vert","","ss_cubemap_render_to_cubemap.frag");
     static ShaderProgramDraw render_to_cubemap_test_screen(shader_path,"ss_cubemap_test_render_to_cubemap_screen.vert","","ss_cubemap_test_render_to_cubemap_screen.frag");
@@ -760,12 +760,14 @@ void TranslucentMaterials::render_direct_test(bool reload)
 
     buff.enable();
 
+    const float LIGHT_CAMERA_SIZE = 3.0f;
+
     // Set up a modelview matrix suitable for shadow: Maps from world coords to
     // shadow buffer coords.
     Vec3f v = Vec3f(manager[0].position);
     gbuff_shader.set_view_matrix(lookat_Mat4x4f(v,-v,Vec3f(0,1,0))); //PARALLEL!
     gbuff_shader.set_model_matrix(identity_Mat4x4f());
-    gbuff_shader.set_projection_matrix(ortho_Mat4x4f(Vec3f(-3,-3,1),Vec3f(3,3,10)));
+    gbuff_shader.set_projection_matrix(ortho_Mat4x4f(Vec3f(-LIGHT_CAMERA_SIZE,-LIGHT_CAMERA_SIZE,1),Vec3f(LIGHT_CAMERA_SIZE,LIGHT_CAMERA_SIZE,10)));
 
     // Switch viewport size to that of shadow buffer.
 
@@ -787,6 +789,9 @@ void TranslucentMaterials::render_direct_test(bool reload)
     mat *= scaling_Mat4x4f(Vec3f(0.5));
     mat *= gbuff_shader.get_projection_matrix();
     mat *= gbuff_shader.get_view_matrix();
+
+    Mat4x4f inv = invert(mat);
+    cout << length(inv * Vec4f(0,0.5,0,0)) << endl;
 
     Mesh::Texture * vtex = buff.getVertexTexture();
     Mesh::Texture * ntex = buff.getNormalTexture();
@@ -873,7 +878,7 @@ void TranslucentMaterials::render_direct_test(bool reload)
 
 
     static float area;
-    const int DISC_POINTS = 1000;
+    int DISC_POINTS = 1000;
     const int DISCS = 6;
 
     static bool mark = false;
@@ -883,7 +888,9 @@ void TranslucentMaterials::render_direct_test(bool reload)
         mark = true;
 
         vector<vector<Vec2f> > texture;
-        planeHammersleyCircleMulti(texture, DISC_POINTS, DISCS);
+        //planeHammersleyCircleMulti(texture, DISC_POINTS, DISCS);
+        planeHammersleyCircleMultiExp(texture, DISC_POINTS, DISCS,3.0f);
+        //circleUniformPoints(texture, DISC_POINTS / 50, DISCS, 50);
 
         for(int k = 0; k < DISCS; k++)
         {
@@ -892,7 +899,8 @@ void TranslucentMaterials::render_direct_test(bool reload)
             std::sort(discpoints.begin(),discpoints.end(),compareVec2fDistanceAscending);
             for(int i = 0; i < discpoints.size(); i++)
             {
-                //cout <<discpoints[i][0] << " " << discpoints[i][1] << endl;
+                if (k == 0)
+                    cout <<discpoints[i][0] << " " << discpoints[i][1] << endl;
                 discpoint_data->push_back(Vec3f(discpoints[i][0],discpoints[i][1],0.0f));
 
             }
@@ -908,7 +916,7 @@ void TranslucentMaterials::render_direct_test(bool reload)
 
     float trueRadius = params->circleradius;
     //render_to_cubemap.set_uniform("discpoints", discpoints, DISC_POINTS);
-    render_to_cubemap.set_uniform("one_over_max_samples",1.0f/DISC_POINTS);
+    render_to_cubemap.set_uniform("one_over_max_samples",1.0f/params->samples);
     render_to_cubemap.set_uniform("one_over_discs",1.0f/DISCS);
     render_to_cubemap.set_uniform("samples",params->samples);
     render_to_cubemap.set_uniform("discradius",trueRadius);
@@ -986,7 +994,7 @@ void TranslucentMaterials::render_direct_test(bool reload)
     set_light_and_camera(render_to_cubemap_test_cube);
 
     render_to_cubemap_test_cube.set_uniform("areacircle", (float)(trueRadius * trueRadius * M_PI));
-    render_to_cubemap_test_cube.set_uniform("one_over_max_samples", 1.0f/DISC_POINTS);
+    render_to_cubemap_test_cube.set_uniform("one_over_max_samples", 1.0f/params->samples);
     render_to_cubemap_test_cube.set_uniform("total_area", CAMERA_SIZE * CAMERA_SIZE);
 
     cubemapplaceholder->setTranslation(center);
@@ -1000,8 +1008,10 @@ void TranslucentMaterials::render_direct_test(bool reload)
     render_combination.set_uniform("zNear",CAMERA_NEAR);
     render_combination.set_uniform("shadow_bias", params->shadow_bias);
     render_combination.set_uniform("epsilon_combination", params->epsilon_combination);
-    render_combination.set_uniform("one_over_max_samples", 1.0f/DISC_POINTS);
+    render_combination.set_uniform("one_over_max_samples", 1.0f/params->samples);
     render_combination.set_uniform("total_area", CAMERA_SIZE * CAMERA_SIZE);
+    float worldCircleRadius = params->circleradius * LIGHT_CAMERA_SIZE * 2;
+    render_combination.set_uniform("disc_area", (float)(worldCircleRadius * worldCircleRadius * M_PI));
     set_light_and_camera(render_combination);
     obj->display(render_combination);
 

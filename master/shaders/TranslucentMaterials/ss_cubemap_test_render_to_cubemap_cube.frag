@@ -14,6 +14,6 @@ out vec4 fragColor;
 void main(void)
 {
     vec4 smp = texture(colorCubemap, vec3(_tex.x,_tex.y,_tex.z));
-    fragColor = one_over_max_samples * total_area * smp;
+    fragColor = vec4(smp.a);
     //fragColor = vec4(smp.xyz,1.0);
 }

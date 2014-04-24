@@ -4,7 +4,7 @@
 %------------------------
 %Pre-frontmatter material
 %------------------------
-\prefrontmatter
+%\prefrontmatter
 %-------------------- 
 %Frontmatter material
 %--------------------
@@ -21,7 +21,7 @@
 %------------------
 % Table of contents
 %------------------
-\newpage\mbox{}\newpage
+%\newpage\mbox{}\newpage
 \chaptermark{Contents}
 \pdfbookmark{\contentsname}{toc}
 \renewcommand{\sectionmark}[1]{\markright{#1}}
@@ -35,9 +35,10 @@
 %------------- 
 \mainmatter
 \input{tex/intro.tex}
-\clearpage
 \input{tex/previous.tex}
-
+\input{tex/theory.tex}
+\input{tex/implementation.tex}
+\input{tex/results.tex}
 \appendix
 \include{tex/appendix.tex}                                 %Appendix A
 %-----------

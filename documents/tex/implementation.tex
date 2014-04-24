@@ -1,0 +1,140 @@
+\chapter{Implementation}
+
+In this chapter, we describe the implementation details of our technique, using the approximation of the rendering equation introduced in the previous chapter. We start by giving a rather generic introduction of our algorithm, introducing then all the implementation details of the implementation. We will also dewscribe which artifacts we identified and how we deal with them.
+
+\section{Algorithm overview}
+
+Our algorithm, in order to be generic, must meet some requirements. Our first requirement is that our algorithm must be as generic as possible, relying on the fact that only the geometry of the object will be provided. This means we cannot rely on a UV mapping on the object, but only on the positions and the normals. Secondly, our algorithm must deal in real time with dynamic lighting and object deformations. So no baking of lighting or geometry form factors is possible. Finally, we wanted to create an algorithm that progressively improves, converging to a finer and finer result while there are no changes in the scene.
+
+By keeping this limitations in mind, we introduce our three pass algorithm.
+
+\textbf{Step 1 - Light buffer} \\
+In the first step, positions and normals of the object are rendered into a texture from the light point of view. In addition, for each light a conversion matrix is computed and stored, in order to convert the position from world space to texture space. 
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.5 \linewidth]{images/method/method_step1}
+\caption{Render to G-buffer. The appearance of the G-buffers is shown below.}
+\label{fig:step1}
+\end{figure} 
+
+
+\textbf{Step 2 - Render to cubemap} \\
+In the second step, we render the object on a cubemap. The center of the cubemap is places on the center of the object bounding box. Since the model we are using is view-independent (apart from a Fresnel term) we can combine the results of the cubemap in a final combination step.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.5 \linewidth]{images/method/method_step2}
+\caption{Render to cubemap.}
+\label{fig:step2}
+\end{figure} 
+
+When we are rendering a point from the orthographic camera that represents a side of the cubemap, we do as illustrated in Figure \ref{fig:stepfrustum}. For each fragment, we calculate the closest point to the light, sampling the texture calculated in the previous step. In Figure  \ref{fig:stepfrustum} we have two examples, of when the two points coincide (directly lit) and when the two points does not (light passing through the object). 
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\linewidth]{images/method/method_frustumside}
+\caption{Render to cubemap, side view. Note that the fragment $\mathbf{x}^T_o$ is not rendered in this step, but only the point $\mathbf{x}_o$ is.}
+\label{fig:stepfrustum}
+\end{figure} 
+
+
+Then, we place a disk in the texture and accumulate the BSSRDF from the neighboring points, as shown in Figure \ref{fig:stepgbuffer}. The points are chosen on the disk according to a pre-determined sampling scheme (discussed later). In order to accumulate the points and perform the right area integral, we need to assume that all the points on the disk cover the same area. So, we accumulate the point according to this formula:
+
+
+\[
+C^f(\mathbf{x}_o) = \sum_{i = 1}^{k} L_i(\mathbf{x}_i,\vec{\mathbf{\omega}}_i) S_i(\mathbf{x}_i,\mathbf{x}_o,\vec{\mathbf{\omega}}_i, \vec{\mathbf{\omega}}_o) \; (\vec{n_i}\cdot \vec{\mathbf{\omega}}_i) \; F_t(\vec{n_i},\vec{\mathbf{\omega}}_i) 
+\]
+
+where $\mathbf{x}_o$ is the exiting point $C^f$ is the cubemap on face $f$, $L_i$ is the incoming radiance, $S_i$ is the BSSRDF, $\mathbf{x}_i$ and $\vec{n_i}$ are the position and the normal sampled from a point of the disc, $k$ is the number of samples, and $F_t$ is the incoming Fresnel term.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.5 \linewidth]{images/method/method_gbuffer}
+\caption{Render to cubemap, gbuffer view.}
+\label{fig:stepgbuffer}
+\end{figure} 
+
+\FloatBarrier
+\textbf{Step 3 - Combination} \\
+In this step, for each fragment on the surface we sample all the six cubemap sides as illustrated in Figure \ref{fig:step3}. In order to do this, we need a depth cubemap that inform us if the fragment was visible when we rendered the cubemap face. Then, each point is divided by the number of visible faces to average it. In formulas, to get the final luminance:
+
+$$
+L(\mathbf{x}) = \frac{\sum_{i = 1}^{6}V_{i}C(\mathbf{x}_{proj}^i)}{\sum_{i = 1}^{6}V_{i}}
+$$
+
+where $V_{i}$ is a visibility function that is zero if the point is not visible on the face $i$ and 1 if it is visible. $C(\mathbf{x})$ is the sample from the cubamap obtained in the previous step, and $\mathbf{x}_{proj}^i$ is the point $\mathbf{x}$ projected on the $i$-th cubemap face.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.5 \linewidth]{images/method/method_step3}
+\caption{Final combination step. Note that the point is generally not visible from all the cubemap faces.}
+\label{fig:step3}
+\end{figure} 
+
+\clearpage
+\section{Implementation details}
+
+\section{Artifacts}
+A simple implementation of the method described until now is not completely correct. In fact, since we are discretizing the surface on a texture, some sampling artifacts are inevitable. During our implementation we identified three different types of artifacts:
+
+\begin{itemize}
+	\item Incorrect sampling of the G-buffer
+	\item Incorrect sampling of the cubemap
+	\item Shadow bias (when sampling the depth of the texture).
+\end{itemize}
+
+That are described in detail in the following sections.
+
+\subsection{Incorrect sampling of the G-buffer}
+
+In order to sample the G-buffer correctly, we need to modify the world coordinate of the point $\mathbf{x}_o$ with normal $\vec{n}_o$ in order to "shrink" a little bit towards the inside of the object according to the light direction $\vec{\omega}_l$:
+
+$$
+\mathbf{x}_o' = \mathbf{x}_o - \epsilon_g (\vec{n}_o - \vec{\omega}_l ( \vec{\omega}_l \cdot  \vec{n}_o))
+$$
+
+\subsection{Incorrect sampling of the cubemap}
+
+Since we are sampling a cubemap, we do not need to account for the light direction in this case. In addition, the cubemap needs a 3D vector to be sampled with. So, instead of using $\mathbf{x}_o$, we use a point slightly intruded (i.e. displaced along the normal) in the calculations, according to:
+
+$$
+\mathbf{x}_o' = \mathbf{x}_o - \epsilon_c \vec{n}_o
+$$
+
+\subsection{Shadow bias}
+
+In order to avoid artifacts such as shadows acne, we use a bias when comparing the z values of a point to determine if the point is in shadow or not. This implies that we need to convert the depth value from texture space ($\mathbf{z}_{tex}$) to world space again ($\mathbf{z}_{world}$). Since we are using an orthographics camera, the z value is the same in clip coordinates and in normalized device coordinates. Then, we simply use the camera projection properties ($\mathbf{z}_{far}$, $\mathbf{z}_{near}$) to convert the depth into the camera local space, in order to finally add the camera position transformed z value ($\mathbf{z}_{camera}$) and reconstruct the depth in world space:
+
+$$
+\mathbf{z}_{world} = \mathbf{z}_{camera} - \frac{\mathbf{z}_{far} - \mathbf{z}_{near}}{2} \left( 2 \mathbf{z}_{tex} - 1 + \frac{\mathbf{z}_{far} + \mathbf{z}_{near}}{\mathbf{z}_{far} - \mathbf{z}_{near}}\right)
+$$
+		
+And finally compare the obtained z with the z position in world space of the point ($\mathbf{z}$) using the bias $\epsilon_b$, so a point is lit iff:
+
+$$
+\mathbf{z}_{world} - \epsilon_b < \mathbf{z}
+$$		
+
+\begin{figure}
+\centering
+\subfloat[Without shadow bias and sampling fixes]{
+  \includegraphics[width=0.45 \linewidth]{images/artifacts/all}
+  \label{fig:art_ss1}
+} 
+\subfloat[With shadow bias and without sampling fixes]{
+  \includegraphics[width=0.45 \linewidth]{images/artifacts/nobias}
+  \label{fig:art_ss2}
+} 
+\\
+\subfloat[With both shadow bias and sampling fixes]{
+  \includegraphics[width=0.45 \linewidth]{images/artifacts/cmboffset}
+  \label{fig:art_ss3}
+}
+\subfloat[Reference]{
+  \includegraphics[width=0.45 \linewidth]{images/artifacts/reference}
+  \label{fig:art_ss4}
+}
+\caption{Progressively removing artifacts to get to the final image. }
+\label{fig:artifacts}
+\end{figure} 

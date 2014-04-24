@@ -23,6 +23,7 @@ uniform float epsilon_combination;
 
 uniform float one_over_max_samples;
 uniform float total_area;
+uniform float disc_area;
 
 
 float sample_cb_pos(samplerCube cb, in vec3 position, float compare)
@@ -148,7 +149,7 @@ void main(void)
 
         fragColor = vec4(color,1.0f);
         fragColor.rgb /= visplusx + visminusx + visplusy + visminusy+ visplusz + visminusz;
-        fragColor = fragColor * total_area * one_over_max_samples;
+        fragColor = fragColor * disc_area * one_over_max_samples;
 
  #endif
  //       fragColor = vec4(10 * offset, 1.0);

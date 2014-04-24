@@ -136,7 +136,7 @@ vec3 bssrdf(vec3 _xi,vec3 _nin,vec3 _wi,vec3 _xo, vec3 _no)
     vec3 _dr = sqrt(_dr_sqr);
     vec3 _nistar;
 
-    if(dot_x_no < 0.0001f )
+    if(dot_x_no < 0.01f )
     {
         _nistar = normalize(_nin);
     }
@@ -202,7 +202,7 @@ void main(void)
             {
                 vec3 ni = texture(ntex, uvin).rgb;
                 vec3 S = bssrdf(xi,wi,ni,xo,no);
-                accumulate += Li * S;
+                accumulate += Li * S * dot(ni,wi);
                 count++;
             }
         }

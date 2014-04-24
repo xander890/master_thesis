@@ -204,3 +204,54 @@ void planeHammersleyCircleMulti(vector<vector<Vec2f> > &result, int n, int cols)
         result.push_back(*vec);
     }
 }
+
+void circleUniformPoints(vector<vector<Vec2f> > &result, int n, int cols, int m)
+{
+    for(int k = 0; k < cols; k++)
+    {
+        //float angle = ((float)k) / cols * 2 * M_PI;
+        //Mat2x2f rot = Mat2x2f(cos(angle),sin(angle), -sin(angle), cos(angle));
+
+        vector<Vec2f> * vec = new vector<Vec2f>(n*m);
+        for(int i = 0; i < n; i++)
+        {
+            for(int j = 0; j < m; j++)
+            {
+                float angle = ((float)j) / m * 2 * M_PI;
+                float radius = ((float)(i + 1)) / (n);
+                (*vec)[i * m + j] = Vec2f(radius * cos(angle), radius * sin(angle));
+            }
+        }
+        result.push_back(*vec);
+    }
+}
+
+
+void planeHammersleyCircleMultiExp(std::vector<std::vector<Vec2f> > &result, int n, int cols, float sigma)
+{
+    vector<Vec2f> intermediate;
+    planeHammersleyCircle(intermediate,n);
+    gel_rand();
+    for(int k = 0; k < cols; k++)
+    {
+        float angle = ((float)k) / cols * 2 * M_PI;
+        Mat2x2f rot = Mat2x2f(cos(angle),sin(angle), -sin(angle), cos(angle));
+
+        vector<Vec2f> * vec = new vector<Vec2f>(n);
+        for(int i = 0; i < n; i++)
+        {
+            Vec2f uv = intermediate[i];
+            float polar_r = sqrt(uv[0]*uv[0] + uv[1]*uv[1]);
+            float polar_theta = atan2(uv[1],uv[0]);
+
+
+            polar_r = (exp(sigma * polar_r) - 1)/(exp(sigma) - 1);
+
+            uv[0] = polar_r * cos(polar_theta);
+            uv[1] = polar_r * sin(polar_theta);
+
+            (*vec)[i] = rot * uv;
+        }
+        result.push_back(*vec);
+    }
+}

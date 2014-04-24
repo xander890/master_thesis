@@ -4,5 +4,14 @@
 \contentsline {section}{\numberline {2.1}Analytical techniques}{5}{section.2.1}
 \contentsline {subsection}{\numberline {2.1.1}Models}{6}{subsection.2.1.1}
 \contentsline {subsection}{\numberline {2.1.2}Implementations}{6}{subsection.2.1.2}
-\contentsline {section}{\numberline {2.2}Numerical techniques}{7}{section.2.2}
-\contentsline {chapter}{Bibliography}{9}{section.2.2}
+\contentsline {section}{\numberline {2.2}Numerical techniques}{8}{section.2.2}
+\contentsline {chapter}{\numberline {3}Theory}{9}{chapter.3}
+\contentsline {chapter}{\numberline {4}Implementation}{11}{chapter.4}
+\contentsline {section}{\numberline {4.1}Algorithm overview}{11}{section.4.1}
+\contentsline {section}{\numberline {4.2}Implementation details}{16}{section.4.2}
+\contentsline {section}{\numberline {4.3}Artifacts}{16}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}Incorrect sampling of the G-buffer}{16}{subsection.4.3.1}
+\contentsline {subsection}{\numberline {4.3.2}Incorrect sampling of the cubemap}{16}{subsection.4.3.2}
+\contentsline {subsection}{\numberline {4.3.3}Shadow bias}{17}{subsection.4.3.3}
+\contentsline {chapter}{\numberline {5}Results}{19}{chapter.5}
+\contentsline {chapter}{Bibliography}{21}{chapter.5}
