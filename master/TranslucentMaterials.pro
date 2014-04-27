@@ -61,7 +61,8 @@ HEADERS += exercises/TranslucentMaterials/GBuffer.h\
     lib02564/Objects/threedwirecube.h \
     exercises/TranslucentMaterials/vertexnormalbuffer.h \
     exercises/TranslucentMaterials/cubemapbuffer.h \
-    exercises/TranslucentMaterials/GUI/sliderlabel.h
+    exercises/TranslucentMaterials/GUI/sliderlabel.h \
+    exercises/TranslucentMaterials/GUI/scatteringmaterialgui.h
 
 SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
         exercises/TranslucentMaterials/ShadowBuffer.cpp\
@@ -96,7 +97,8 @@ SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
     lib02564/Objects/threedwirecube.cpp \
     exercises/TranslucentMaterials/vertexnormalbuffer.cpp \
     exercises/TranslucentMaterials/cubemapbuffer.cpp \
-    exercises/TranslucentMaterials/GUI/sliderlabel.cpp
+    exercises/TranslucentMaterials/GUI/sliderlabel.cpp \
+    exercises/TranslucentMaterials/GUI/scatteringmaterialgui.cpp
 
 
 HEADERS += lib02564/CGLA/ArithMatFloat.h\
@@ -224,4 +226,5 @@ FORMS += \
     exercises/TranslucentMaterials/GUI/vectorform.ui \
     exercises/TranslucentMaterials/GUI/colorform.ui \
     exercises/TranslucentMaterials/GUI/threedobject.ui \
-    exercises/TranslucentMaterials/GUI/sliderlabel.ui
+    exercises/TranslucentMaterials/GUI/sliderlabel.ui \
+    exercises/TranslucentMaterials/GUI/scatteringmaterialgui.ui

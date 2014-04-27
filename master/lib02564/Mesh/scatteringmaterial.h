@@ -1,3 +1,4 @@
+
 #ifndef SCATTERINGMATERIAL_H
 #define SCATTERINGMATERIAL_H
 
@@ -63,9 +64,6 @@ public:
      static const std::string DE_COEFF;
      static const std::string REDUCED_ALBEDO;
 
-
-
-private:
     void computeCoefficients();
 };
 

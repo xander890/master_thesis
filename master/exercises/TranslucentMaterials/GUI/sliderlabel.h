@@ -18,6 +18,7 @@ public:
     ~SliderLabel();
 
     void init(const char *name, float initialValue, float minimum, float maximum, bool integerLabel);
+    void setValue(float value);
 
 signals:
     void valueChanged(float newValue);

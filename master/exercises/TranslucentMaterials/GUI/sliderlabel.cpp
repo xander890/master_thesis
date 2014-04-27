@@ -24,18 +24,22 @@ void SliderLabel::init(const char *name, float initialValue, float minimum, floa
     this->minimum = minimum;
     this->integerMode = integerMode;
 
-    ui->slider->setMinimum(0);
+    ui->slider->setMinimum(1);
     ui->slider->setMaximum(100);
     scale = maximum - minimum;
 
-    int val = (int)((initialValue - minimum) / scale * 100);
+    setValue(initialValue);
+}
+
+void SliderLabel::setValue(float value)
+{
+    int val = (int)((value - minimum) / scale * 100);
     if(integerMode)
-        ui->valueLabel->setText(QString::number(initialValue,'f',4));
+        ui->valueLabel->setText(QString::number(value,'f',4));
     else
-        ui->valueLabel->setText(QString::number(initialValue));
+        ui->valueLabel->setText(QString::number(value));
 
     ui->slider->setValue(val);
-
 }
 
 void SliderLabel::on_slider_valueChanged(int value)

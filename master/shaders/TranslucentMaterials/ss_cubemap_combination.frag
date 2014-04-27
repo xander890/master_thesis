@@ -151,8 +151,8 @@ void main(void)
         fragColor.rgb /= visplusx + visminusx + visplusy + visminusy+ visplusz + visminusz;
         fragColor = fragColor * disc_area * one_over_max_samples;
 
- #endif
- //       fragColor = vec4(10 * offset, 1.0);
-//        fragColor = vec4(colorplusx.a / 10);
+#endif
+//      fragColor = vec4(10 * offset, 1.0);
+//      fragColor = vec4(colorplusx.a / 10);
 #endif
 }

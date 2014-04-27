@@ -13,7 +13,7 @@ class TranslucentParameters
 public:
     TranslucentParameters::TranslucentParameters() :
         circleradius(0.5f),
-        samples(150),
+        samples(1),
         epsilon_gbuffer(0.003),
         epsilon_combination(0.007),
         shadow_bias(0.09)

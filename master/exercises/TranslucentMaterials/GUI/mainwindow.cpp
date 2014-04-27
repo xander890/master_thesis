@@ -5,7 +5,7 @@
 #include "vectorform.h"
 #include "colorform.h"
 #include "sliderlabel.h"
-
+#include "scatteringmaterialgui.h"
 using namespace std;
 using namespace CGLA;
 
@@ -17,13 +17,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->clearColor->init("Clear color: ", ui->translucentMaterials->getClearColor());
     connect(ui->clearColor,SIGNAL(vectorChanged(CGLA::Vec4f&)),ui->translucentMaterials,SLOT(setClearColor(CGLA::Vec4f&)));
 
-    Vec3f userpos = Vec3f(0, -12, 2.5f);
+    Vec3f userpos = Vec3f(-3, -6, 2.5f);
     ui->userPosition->init("User position: ", userpos);
     ui->translucentMaterials->setUserPosition(userpos);
     connect(ui->userPosition,SIGNAL(vectorChanged(CGLA::Vec3f&)),ui->translucentMaterials,SLOT(setUserPosition(CGLA::Vec3f&)));
     connect(ui->translucentMaterials,SIGNAL(userPositionChanged(CGLA::Vec3f&)),ui->userPosition,SLOT(setValue(CGLA::Vec3f&)));
 
-    Vec3f userdir = Vec3f(0,1,-0.3f);
+    Vec3f userdir = Vec3f(0.387,0.905,-0.174f);
     ui->userDirection->init("User direction: ", userdir);
     ui->translucentMaterials->setUserDirection(userdir);
     connect(ui->userDirection, SIGNAL(vectorChanged(CGLA::Vec3f&)),ui->translucentMaterials,SLOT(setUserDirection(CGLA::Vec3f&)));
@@ -62,6 +62,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->shadow_bias->init("Shadow bias: ", ui->translucentMaterials->getParameters()->shadow_bias, 0.0, 1.0, false);
     connect(ui->shadow_bias, SIGNAL(valueChanged(float)), this, SLOT(shadowBiasChanged(float)));
+
+    ui->materialTest->setObject(bunny);
 }
 
 MainWindow::~MainWindow()

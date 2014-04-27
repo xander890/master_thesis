@@ -66,7 +66,7 @@
           </size>
          </property>
          <property name="currentIndex">
-          <number>2</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="General">
           <attribute name="title">
@@ -358,6 +358,16 @@
              </widget>
             </item>
             <item>
+             <widget class="ScatteringMaterialGUI" name="materialTest" native="true">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>150</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item>
              <spacer name="verticalSpacer_3">
               <property name="orientation">
                <enum>Qt::Vertical</enum>
@@ -404,8 +414,6 @@
                 <height>30</height>
                </size>
               </property>
-              <zorder>verticalSpacer_4</zorder>
-              <zorder>verticalSpacer_4</zorder>
              </widget>
             </item>
             <item>
@@ -564,6 +572,12 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>SliderLabel</class>
+   <extends>QWidget</extends>
+   <header>sliderlabel.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
    <class>VectorForm</class>
    <extends>QWidget</extends>
    <header>vectorform.h</header>
@@ -588,9 +602,9 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>SliderLabel</class>
+   <class>ScatteringMaterialGUI</class>
    <extends>QWidget</extends>
-   <header>sliderlabel.h</header>
+   <header>scatteringmaterialgui.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

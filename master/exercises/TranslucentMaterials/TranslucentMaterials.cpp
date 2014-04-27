@@ -790,9 +790,6 @@ void TranslucentMaterials::render_direct_test(bool reload)
     mat *= gbuff_shader.get_projection_matrix();
     mat *= gbuff_shader.get_view_matrix();
 
-    Mat4x4f inv = invert(mat);
-    cout << length(inv * Vec4f(0,0.5,0,0)) << endl;
-
     Mesh::Texture * vtex = buff.getVertexTexture();
     Mesh::Texture * ntex = buff.getNormalTexture();
 
@@ -888,8 +885,8 @@ void TranslucentMaterials::render_direct_test(bool reload)
         mark = true;
 
         vector<vector<Vec2f> > texture;
-        //planeHammersleyCircleMulti(texture, DISC_POINTS, DISCS);
-        planeHammersleyCircleMultiExp(texture, DISC_POINTS, DISCS,3.0f);
+        planeHammersleyCircleMulti(texture, DISC_POINTS, DISCS);
+        //planeHammersleyCircleMultiExp(texture, DISC_POINTS, DISCS,3.0f);
         //circleUniformPoints(texture, DISC_POINTS / 50, DISCS, 50);
 
         for(int k = 0; k < DISCS; k++)
@@ -977,7 +974,7 @@ void TranslucentMaterials::render_direct_test(bool reload)
     draw_screen_aligned_quad(render_to_cubemap_test);
 #endif
 
-#define CUBEMAP_CUBE_TEST
+//#define CUBEMAP_CUBE_TEST
 #ifdef CUBEMAP_CUBE_TEST
     static ThreeDCube *cubemapplaceholder = new ThreeDCube(10);
     static bool was_here = false;
@@ -1010,12 +1007,10 @@ void TranslucentMaterials::render_direct_test(bool reload)
     render_combination.set_uniform("epsilon_combination", params->epsilon_combination);
     render_combination.set_uniform("one_over_max_samples", 1.0f/params->samples);
     render_combination.set_uniform("total_area", CAMERA_SIZE * CAMERA_SIZE);
-    float worldCircleRadius = params->circleradius * LIGHT_CAMERA_SIZE * 2;
+    float worldCircleRadius = params->circleradius * 2 * LIGHT_CAMERA_SIZE;
     render_combination.set_uniform("disc_area", (float)(worldCircleRadius * worldCircleRadius * M_PI));
     set_light_and_camera(render_combination);
     obj->display(render_combination);
-
-
 }
 
 void TranslucentMaterials::render_to_gbuffer(GBuffer& gbuffer, bool reload)
