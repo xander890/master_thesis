@@ -11,6 +11,7 @@ uniform vec4 light_pos[50];
 uniform vec4 light_diff[50];
 uniform mat4 lightMatrix;
 
+#define RANDOM
 
 //const int DISC_POINTS = 300;
 //uniform vec2 discpoints[DISC_POINTS];
@@ -149,11 +150,18 @@ void main(void)
     vec3 accumulate = vec3(0.0f);
     int i, count = 0;
 
+#ifdef RANDOM
+    float r_angle = noise(xo * 100) * 2 * M_PI;
+    mat2 rot = mat2(cos(r_angle),sin(r_angle), -sin(r_angle), cos(r_angle));
+#endif
 
     for(i = 0; i < samples; i++)
     {
-
+#ifdef RANDOM
+        vec2 discoffset = discradius * rot * texture(discpoints,vec2(i * one_over_max_samples, currentDisc * one_over_discs)).xy;
+#else
         vec2 discoffset = discradius * texture(discpoints,vec2(i * one_over_max_samples, currentDisc * one_over_discs)).xy;
+#endif
         vec2 uvin = circle_center + discoffset;
         if(uvin.x >= 0.0f && uvin.x <= 1.0f && uvin.y >= 0.0f && uvin.y <= 1.0f)
         {
@@ -162,16 +170,16 @@ void main(void)
             {
                 vec3 ni = texture(ntex, uvin).rgb;
                 vec3 S = bssrdf(xi,wi,ni,xo,no);
-                accumulate += Li * S * dot(ni,wi);
+                accumulate += Li * S;
                 count++;
             }
         }
     }
 
-    fragColor = vec4(accumulate,float(count)/samples);
+    fragColor = vec4(accumulate,1.0);
 
     //fragColor = vec4(1.0f);
-
+    //fragColor = vec4(noise(xo * 15));
 
     //fragColor = texture(ntex, circle_center.xy);
     //fragColor = vec4(count-149,0.0,0.0,1.0);

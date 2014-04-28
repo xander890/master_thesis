@@ -24,7 +24,7 @@ void SliderLabel::init(const char *name, float initialValue, float minimum, floa
     this->minimum = minimum;
     this->integerMode = integerMode;
 
-    ui->slider->setMinimum(1);
+    ui->slider->setMinimum(0);
     ui->slider->setMaximum(100);
     scale = maximum - minimum;
 

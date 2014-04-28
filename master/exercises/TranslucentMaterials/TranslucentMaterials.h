@@ -7,6 +7,9 @@
 #include "GBuffer.h"
 #include <QGLFormat>
 
+const int RENDER_MODES = 4;
+const int RENDER_METHODS = 2;
+
 class TranslucentParameters
 {
 
@@ -16,7 +19,9 @@ public:
         samples(1),
         epsilon_gbuffer(0.003),
         epsilon_combination(0.007),
-        shadow_bias(0.09)
+        shadow_bias(0.09),
+        plusX(true), minusX(true),plusY(true),minusY(true),plusZ(true),minusZ(true),
+        cubemapVisible(false), LOD(0.0f)
     {}
 
     float circleradius;
@@ -24,6 +29,19 @@ public:
     float epsilon_combination; // avoids artifacts when sampling from cubebuffer
     float shadow_bias; // avoids shadow acne
     int samples;
+
+
+    bool plusX;
+    bool plusY;
+    bool plusZ;
+    bool minusX;
+    bool minusY;
+    bool minusZ;
+
+    bool cubemapVisible;
+
+    float LOD;
+
 };
 
 class TranslucentMaterials : public QGLWidget
@@ -60,6 +78,10 @@ public:
     GLGraphics::ThreeDObject * getDefaultObject();
     GLGraphics::ThreeDObject * getObject(std::string name);
     TranslucentParameters * getParameters();
+    enum RenderMode {DRAW_JENSEN=0, DRAW_BETTER=1, DRAW_DIRECTIONAL=2};
+    enum RenderMethod {BRUTE_FORCE = 0, CUBEMAP_BASE = 1};
+
+    void setRenderMode(RenderMode mode);
 
 public slots:
     void animate();
@@ -82,7 +104,7 @@ protected:
     void set_light_and_camera(GLGraphics::ShaderProgramDraw& shader_prog);
     void render_jensen(bool reload);
     void render_better_dipole(bool reload);
-    void render_direct_test(bool reload);
+    void render_direct_test(bool reload, GLGraphics::ShaderProgramDraw & render_to_cubemap);
     void render_to_gbuffer(GBuffer& gbuffer, bool reload);
     void render_directional_dipole(bool reload);
     void render_deferred_ssao(bool reload);
@@ -102,7 +124,8 @@ protected:
      void mousePressEvent(QMouseEvent *);
      void mouseReleaseEvent(QMouseEvent *);
      void mouseMoveEvent(QMouseEvent *);
-
+     RenderMode render_mode;
+     RenderMethod render_method;
      std::vector<GLGraphics::ThreeDObject*> objects;
 };
 

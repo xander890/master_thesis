@@ -163,7 +163,7 @@ void main()
                visibility = sample_shadow_map(xi);
             }
 
-            if(visibility > 0.0f) //visibility term (for now)
+            if(visibility > 0.0f) //visibility term
             {
                 vec3 BSSRDF = bssrdf(xi,wi,ni,xo,wo,no);
                 Lo += Li_base * dot_n_w * BSSRDF * area;
@@ -173,5 +173,6 @@ void main()
     }
 
     _color = vec4(Lo,1.0f);
+
     gl_Position = PVM * vec4(vertex,1);
 }

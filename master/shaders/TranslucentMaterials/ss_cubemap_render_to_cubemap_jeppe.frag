@@ -11,7 +11,7 @@ uniform vec4 light_pos[50];
 uniform vec4 light_diff[50];
 uniform mat4 lightMatrix;
 
-
+#define RANDOM
 //const int DISC_POINTS = 300;
 //uniform vec2 discpoints[DISC_POINTS];
 
@@ -157,7 +157,7 @@ vec3 bssrdf(vec3 _xi,vec3 _nin,vec3 _wi,vec3 _xo, vec3 _no)
     float ex = 1.0f/(4 * C_s_inv) * 1.0f/(4.0f * M_PI * M_PI);
     _S *= ex;
 
-    float Ti = fresnel_T(_wi,_nin,1.0f,ior);
+    float Ti = clamp(fresnel_T(_wi,_nin,1.0f,ior),0.0f,1.0f);
     //float To = fresnel_T(_wo,_no,1.0f,ior);
 
 
@@ -167,6 +167,24 @@ vec3 bssrdf(vec3 _xi,vec3 _nin,vec3 _wi,vec3 _xo, vec3 _no)
     return _S;
 }
 
+
+float hash( float n )
+{
+    return fract(sin(n)*43758.5453);
+}
+
+float noise( in vec3 x )
+{
+    vec3 p = floor(x);
+    vec3 f = fract(x);
+
+    f = f*f*(3.0-2.0*f);
+    float n = p.x + p.y*57.0 + 113.0*p.z;
+    return mix(mix(mix( hash(n+  0.0), hash(n+  1.0),f.x),
+                   mix( hash(n+ 57.0), hash(n+ 58.0),f.x),f.y),
+               mix(mix( hash(n+113.0), hash(n+114.0),f.x),
+                   mix( hash(n+170.0), hash(n+171.0),f.x),f.y),f.z);
+}
 
 void main(void)
 {
@@ -189,16 +207,23 @@ void main(void)
     vec3 accumulate = vec3(0.0f);
     int i, count = 0;
 
+#ifdef RANDOM
+    float r_angle = noise(xo * 1500) * 2 * M_PI;
+    mat2 rot = mat2(cos(r_angle),sin(r_angle), -sin(r_angle), cos(r_angle));
+#endif
 
     for(i = 0; i < samples; i++)
     {
-
+#ifdef RANDOM
+        vec2 discoffset = discradius * rot * texture(discpoints,vec2(i * one_over_max_samples, currentDisc * one_over_discs)).xy;
+#else
         vec2 discoffset = discradius * texture(discpoints,vec2(i * one_over_max_samples, currentDisc * one_over_discs)).xy;
+#endif
         vec2 uvin = circle_center + discoffset;
         if(uvin.x >= 0.0f && uvin.x <= 1.0f && uvin.y >= 0.0f && uvin.y <= 1.0f)
         {
             vec3 xi = texture(vtex, uvin).rgb;
-            if(xi.z > -990.0f)
+            if(xi.z > -1000.0f)
             {
                 vec3 ni = texture(ntex, uvin).rgb;
                 vec3 S = bssrdf(xi,wi,ni,xo,no);

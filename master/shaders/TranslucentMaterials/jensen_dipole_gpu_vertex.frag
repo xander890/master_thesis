@@ -7,7 +7,8 @@ out vec4 fragColor;
 
 void main()
 {
-    fragColor = _color;
+    fragColor = pow(_color, vec4(1/2.2f));
+
 }
 
 

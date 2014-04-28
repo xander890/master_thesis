@@ -50,6 +50,7 @@
 #include "Utils/areaestimator.h"
 
 #define BUNNIES
+#define POINT_DIST 0 // 0 random, 1 exponential, 2 uniform
 using namespace std;
 using namespace CGLA;
 using namespace GLGraphics;
@@ -64,10 +65,6 @@ Terrain terra(30,0.025f);
 
 User user (&terra);
 bool reload_shaders = true;
-enum RenderMode {DRAW_JENSEN=0, DRAW_BETTER=3, DRAW_DIRECTIONAL=2, DRAW_SSAO=4, DRAW_OBJ=1};
-int rendermodes = 2;
-RenderMode render_mode = DRAW_OBJ;
-
 
 LightManager manager;
 
@@ -712,15 +709,13 @@ void TranslucentMaterials::render_better_dipole(bool reload)
 
 bool compareVec2fDistanceAscending (Vec2f i,Vec2f j) { return (i.length() < j.length()); }
 
-void TranslucentMaterials::render_direct_test(bool reload)
+void TranslucentMaterials::render_direct_test(bool reload, ShaderProgramDraw & render_to_cubemap)
 {
     static ShaderProgramDraw obj_shader(shader_path,"object.vert","","object.frag");
     static ShaderProgramDraw gbuff_shader(shader_path,"ss_cubemap_gbuffer.vert","","ss_cubemap_gbuffer.frag");
     static ShaderProgramDraw gbuff_quad(shader_path,"ss_cubemap_test_gbuffer.vert","","ss_cubemap_test_gbuffer.frag");
     static ShaderProgramDraw gbuff_wrap(shader_path,"ss_cubemap_test_wrap_gbuffer.vert","","ss_cubemap_test_wrap_gbuffer.frag");
 
-    static ShaderProgramDraw render_to_cubemap(shader_path,"ss_cubemap_render_to_cubemap_jensen.vert","","ss_cubemap_render_to_cubemap_jensen.frag");
-    static ShaderProgramDraw render_to_cubemap_jeppe(shader_path,"ss_cubemap_render_to_cubemap_jeppe.vert","","ss_cubemap_render_to_cubemap_jeppe.frag");
 
     static ShaderProgramDraw render_to_cubemap_test(shader_path,"ss_cubemap_render_to_cubemap.vert","","ss_cubemap_render_to_cubemap.frag");
     static ShaderProgramDraw render_to_cubemap_test_screen(shader_path,"ss_cubemap_test_render_to_cubemap_screen.vert","","ss_cubemap_test_render_to_cubemap_screen.frag");
@@ -885,10 +880,14 @@ void TranslucentMaterials::render_direct_test(bool reload)
         mark = true;
 
         vector<vector<Vec2f> > texture;
-        planeHammersleyCircleMulti(texture, DISC_POINTS, DISCS);
-        //planeHammersleyCircleMultiExp(texture, DISC_POINTS, DISCS,3.0f);
-        //circleUniformPoints(texture, DISC_POINTS / 50, DISCS, 50);
 
+#if POINT_DIST == 0
+        planeHammersleyCircleMulti(texture, DISC_POINTS, DISCS);
+#elif POINT_DIST == 1
+        planeHammersleyCircleMultiExp(texture, DISC_POINTS, DISCS,3.0f);
+#else
+        circleUniformPoints(texture, DISC_POINTS / 50, DISCS, 50);
+#endif
         for(int k = 0; k < DISCS; k++)
         {
             cout << "Vector " << k <<endl;
@@ -896,8 +895,8 @@ void TranslucentMaterials::render_direct_test(bool reload)
             std::sort(discpoints.begin(),discpoints.end(),compareVec2fDistanceAscending);
             for(int i = 0; i < discpoints.size(); i++)
             {
-                if (k == 0)
-                    cout <<discpoints[i][0] << " " << discpoints[i][1] << endl;
+                //if (k == 0)
+                //    cout <<discpoints[i][0] << " " << discpoints[i][1] << endl;
                 discpoint_data->push_back(Vec3f(discpoints[i][0],discpoints[i][1],0.0f));
 
             }
@@ -943,6 +942,7 @@ void TranslucentMaterials::render_direct_test(bool reload)
         obj->display(render_to_cubemap);
     }
 
+    cubemap.generateMipMaps();
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER,0);
     glViewport(0,0,window_width,window_height);
 
@@ -975,7 +975,8 @@ void TranslucentMaterials::render_direct_test(bool reload)
 #endif
 
 //#define CUBEMAP_CUBE_TEST
-#ifdef CUBEMAP_CUBE_TEST
+if(params->cubemapVisible)
+{
     static ThreeDCube *cubemapplaceholder = new ThreeDCube(10);
     static bool was_here = false;
     if(!was_here)
@@ -993,10 +994,10 @@ void TranslucentMaterials::render_direct_test(bool reload)
     render_to_cubemap_test_cube.set_uniform("areacircle", (float)(trueRadius * trueRadius * M_PI));
     render_to_cubemap_test_cube.set_uniform("one_over_max_samples", 1.0f/params->samples);
     render_to_cubemap_test_cube.set_uniform("total_area", CAMERA_SIZE * CAMERA_SIZE);
-
+    render_to_cubemap_test_cube.set_uniform("mipmap_LOD",params->LOD);
     cubemapplaceholder->setTranslation(center);
     cubemapplaceholder->display(render_to_cubemap_test_cube);
-#endif
+}
 
     render_combination.use();
     render_combination.set_uniform("centerWorldCoordinates",center);
@@ -1007,8 +1008,19 @@ void TranslucentMaterials::render_direct_test(bool reload)
     render_combination.set_uniform("epsilon_combination", params->epsilon_combination);
     render_combination.set_uniform("one_over_max_samples", 1.0f/params->samples);
     render_combination.set_uniform("total_area", CAMERA_SIZE * CAMERA_SIZE);
+    render_combination.set_uniform("mipmap_LOD",params->LOD);
     float worldCircleRadius = params->circleradius * 2 * LIGHT_CAMERA_SIZE;
+
     render_combination.set_uniform("disc_area", (float)(worldCircleRadius * worldCircleRadius * M_PI));
+
+
+    render_combination.set_uniform("face_plus_x",params->plusX);
+    render_combination.set_uniform("face_minus_x", params->minusX);
+    render_combination.set_uniform("face_plus_y", params->plusY);
+    render_combination.set_uniform("face_minus_y", params->minusY);
+    render_combination.set_uniform("face_plus_z", params->plusZ);
+    render_combination.set_uniform("face_minus_z", params->minusZ);
+    render_combination.set_uniform("step_tex", 1.0f/CUBEMAP_SIDE_SIZE);
     set_light_and_camera(render_combination);
     obj->display(render_combination);
 }
@@ -1335,6 +1347,7 @@ TranslucentMaterials::TranslucentMaterials( QWidget* parent)
     : QGLWidget( new Core4_3_context(), (QWidget*) parent),
       ax(0), ay(0), dist(12),ang_x(0),ang_y(0),mouse_x0(0),mouse_y0(0)
     , clearColor(Vec4f(0.0f,0.0f,0.0f,1.0f)), isVertexMode(true), isShadow(true), isGridVisible(true), areAxesVisible(true), params(new TranslucentParameters())
+    , render_mode(DRAW_JENSEN), render_method(CUBEMAP_BASE)
 {
     Light mainLight (light_position, light_diffuse, 1.0f, light_specular, true);
     manager.addLight(mainLight);
@@ -1398,23 +1411,39 @@ void TranslucentMaterials::paintGL()
 
     //draw_bounding_boxes(reload_shaders);
 
-    switch(render_mode)
+    static ShaderProgramDraw render_to_cubemap_jensen(shader_path,"ss_cubemap_render_to_cubemap_jensen.vert","","ss_cubemap_render_to_cubemap_jensen.frag");
+    static ShaderProgramDraw render_to_cubemap_jeppe(shader_path,"ss_cubemap_render_to_cubemap_jeppe.vert","","ss_cubemap_render_to_cubemap_jeppe.frag");
+
+    if(render_method == RenderMethod::BRUTE_FORCE)
     {
-    case DRAW_JENSEN:
-        render_jensen(reload_shaders);
-        break;
-    case DRAW_OBJ:
-        render_direct_test(reload_shaders);
-        break;
-    case DRAW_BETTER:
-        render_better_dipole(reload_shaders);
-        break;
-    case DRAW_DIRECTIONAL:
-        render_directional_dipole(reload_shaders);
-        break;
-    case DRAW_SSAO:
-        render_deferred_ssao(reload_shaders);
-        break;
+        switch(render_mode)
+        {
+        case DRAW_JENSEN:
+            render_jensen(reload_shaders);
+            break;
+        case DRAW_BETTER:
+            render_better_dipole(reload_shaders);
+            break;
+        case DRAW_DIRECTIONAL:
+            render_directional_dipole(reload_shaders);
+            break;
+        }
+    }
+    else
+    {
+        switch(render_mode)
+        {
+        case DRAW_JENSEN:
+            render_direct_test(reload_shaders,render_to_cubemap_jensen);
+            break;
+        case DRAW_BETTER:
+            render_direct_test(reload_shaders, render_to_cubemap_jensen);
+            break;
+        case DRAW_DIRECTIONAL:
+            render_direct_test(reload_shaders, render_to_cubemap_jeppe);
+            break;
+        }
+
     }
     reload_shaders = false;
     check_gl_error();
@@ -1536,7 +1565,7 @@ void TranslucentMaterials::keyPressEvent(QKeyEvent *e)
     {
     case Qt::Key_Escape: exit(0);
     case ' ':
-        render_mode = static_cast<RenderMode>((static_cast<int>(render_mode)+1)%rendermodes);
+        render_method = static_cast<RenderMethod>((static_cast<int>(render_method)+1) % RENDER_METHODS);
         reload_shaders = true;
         break;
     case 'W':
@@ -1641,4 +1670,9 @@ ThreeDObject * TranslucentMaterials::getObject(string name)
 TranslucentParameters *TranslucentMaterials::getParameters()
 {
     return params;
+}
+
+void TranslucentMaterials::setRenderMode(RenderMode mode)
+{
+    this->render_mode = mode;
 }

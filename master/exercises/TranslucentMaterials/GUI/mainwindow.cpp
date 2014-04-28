@@ -63,7 +63,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->shadow_bias->init("Shadow bias: ", ui->translucentMaterials->getParameters()->shadow_bias, 0.0, 1.0, false);
     connect(ui->shadow_bias, SIGNAL(valueChanged(float)), this, SLOT(shadowBiasChanged(float)));
 
+    ui->lod->init("Lod: ", ui->translucentMaterials->getParameters()->LOD, 0.0, 3.0, false);
+    connect(ui->lod, SIGNAL(valueChanged(float)), this, SLOT(LODChanged(float)));
+
     ui->materialTest->setObject(bunny);
+
+    QButtonGroup * group = new QButtonGroup();
+    group->addButton(ui->jensenbutton,0);
+    group->addButton(ui->directionalbutton,1);
 }
 
 MainWindow::~MainWindow()
@@ -153,4 +160,54 @@ void MainWindow::epsilonCombinationChanged(float value)
 void MainWindow::shadowBiasChanged(float value)
 {
     ui->translucentMaterials->getParameters()->shadow_bias = value;
+}
+
+void MainWindow::LODChanged(float value)
+{
+    ui->translucentMaterials->getParameters()->LOD = value;
+}
+
+void MainWindow::on_plusXcheck_toggled(bool checked)
+{
+    ui->translucentMaterials->getParameters()->plusX = checked;
+}
+
+void MainWindow::on_minusXcheck_toggled(bool checked)
+{
+    ui->translucentMaterials->getParameters()->minusX = checked;
+}
+
+void MainWindow::on_plusYcheck_toggled(bool checked)
+{
+    ui->translucentMaterials->getParameters()->plusY = checked;
+}
+
+void MainWindow::on_minusYcheck_toggled(bool checked)
+{
+    ui->translucentMaterials->getParameters()->minusY = checked;
+}
+
+void MainWindow::on_plusZcheck_toggled(bool checked)
+{
+    ui->translucentMaterials->getParameters()->plusZ = checked;
+}
+
+void MainWindow::on_minusZcheck_toggled(bool checked)
+{
+    ui->translucentMaterials->getParameters()->minusZ = checked;
+}
+
+void MainWindow::on_cubemapVisible_toggled(bool checked)
+{
+    ui->translucentMaterials->getParameters()->cubemapVisible = checked;
+}
+
+void MainWindow::on_jensenbutton_clicked()
+{
+    ui->translucentMaterials->setRenderMode(TranslucentMaterials::RenderMode::DRAW_JENSEN);
+}
+
+void MainWindow::on_directionalbutton_clicked()
+{
+     ui->translucentMaterials->setRenderMode(TranslucentMaterials::RenderMode::DRAW_DIRECTIONAL);
 }

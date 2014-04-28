@@ -69,6 +69,5 @@ void DipoleGPU::prepare(ThreeDObject &three)
     mat->addUniform("vertex_size",(int)vertices.size());
     mat->addUniform("vertex_tex_size",(int)textureSize);
 
-    //three.mesh.add("reflective",reflective);
     three.mesh.build_vertex_array_object();
 }

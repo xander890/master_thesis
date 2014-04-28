@@ -8,12 +8,13 @@ uniform float areacircle;
 
 uniform float one_over_max_samples;
 uniform float total_area;
+uniform float mipmap_LOD;
 
 out vec4 fragColor;
 
 void main(void)
 {
-    vec4 smp = texture(colorCubemap, vec3(_tex.x,_tex.y,_tex.z));
-    fragColor = vec4(smp.a);
+    vec4 smp = textureLod(colorCubemap, vec3(_tex.x,_tex.y,_tex.z),mipmap_LOD);
+    fragColor = vec4(smp);
     //fragColor = vec4(smp.xyz,1.0);
 }

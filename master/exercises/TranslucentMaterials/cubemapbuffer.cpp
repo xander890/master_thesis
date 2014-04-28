@@ -19,8 +19,8 @@ void CubemapBuffer::initialize()
 
     glGenTextures(1, &cubetex);
     glBindTexture(GL_TEXTURE_CUBE_MAP, cubetex);
-    glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
@@ -28,6 +28,8 @@ void CubemapBuffer::initialize()
     {
         glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA16F, size, size, 0, GL_RGBA, GL_FLOAT, 0);
     }
+
+    glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
 
     glGenTextures(1, &depthtex);
     glBindTexture(GL_TEXTURE_CUBE_MAP, depthtex);
@@ -40,7 +42,6 @@ void CubemapBuffer::initialize()
     {
         glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_DEPTH_COMPONENT32, size, size, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
     }
-
     glGenFramebuffers(1,&fbo);
 //    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);
 //    glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, vtex, 0);
@@ -82,4 +83,10 @@ Mesh::Texture * CubemapBuffer::getCubemapTexture()
 Mesh::Texture * CubemapBuffer::getCubemapDepthTexture()
 {
     return new Mesh::Texture("depthCubemap",depthtex, GL_TEXTURE_CUBE_MAP);
+}
+
+void CubemapBuffer::generateMipMaps()
+{
+    glBindTexture(GL_TEXTURE_CUBE_MAP, cubetex);
+    glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
 }

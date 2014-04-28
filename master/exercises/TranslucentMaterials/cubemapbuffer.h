@@ -28,6 +28,8 @@ public:
 
     Mesh::Texture * getCubemapTexture();
     Mesh::Texture * getCubemapDepthTexture();
+    void generateMipMaps();
+
 };
 
 #endif // CUBEMAPBUFFER_H
