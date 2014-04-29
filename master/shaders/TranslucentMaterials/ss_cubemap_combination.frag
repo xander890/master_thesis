@@ -35,17 +35,6 @@ uniform int face_minus_z;
 uniform float step_tex;
 uniform float mipmap_LOD;
 
-const float[9] gaussian_kernel = {
-    0.14676266317374237, 0.24197072451914536, 0.14676266317374237,
-    0.24197072451914536, 0.3989422804014327, 0.24197072451914536,
-    0.14676266317374237, 0.24197072451914536, 0.14676266317374237
-};
-
-const vec2[9] gaussian_offsets = {
-    vec2(-1.0f,1.0f),vec2(0.0f,1.0f),vec2(1.0f,1.0f),
-    vec2(-1.0f,0.0f),vec2(0.0f,0.0f),vec2(1.0f,0.0f),
-    vec2(-1.0f,-1.0f),vec2(0.0f,-1.0f),vec2(1.0f,-1.0f)
-};
 
 float sample_cubemap(samplerCube cb, in vec3 position, float compare)
 {
@@ -69,31 +58,31 @@ void main(void)
     //vec3 offset = epsilon * (no - wi * dot(no,wi));
     vec3 offset = epsilon_combination * no;
     vec3 pos = position - offset;
+
+    float threshold = 1.0f;
     vec3 plusx =  vec3( cameraSize,pos.y, pos.z);
-
-    float visplusx = sample_cubemap(depthCubemap,plusx, pos.x);
-
-
     vec4 colorplusx = textureLod(colorCubemap,plusx,mipmap_LOD);
+    float visplusx = sample_cubemap(depthCubemap,plusx, pos.x) * step(threshold,colorplusx.a);
+
     vec3 minusx = vec3(-cameraSize,pos.y, pos.z);
-    float visminusx = sample_cubemap(depthCubemap,minusx, -pos.x);
     vec4 colorminusx = textureLod(colorCubemap, minusx,mipmap_LOD);
+    float visminusx = sample_cubemap(depthCubemap,minusx, -pos.x) * step(threshold,colorminusx.a);
 
     vec3 plusy =  vec3(pos.x, cameraSize, pos.z);
-    float visplusy = sample_cubemap(depthCubemap,plusy, pos.y);
     vec4 colorplusy = textureLod(colorCubemap, plusy,mipmap_LOD);
+    float visplusy = sample_cubemap(depthCubemap,plusy, pos.y)* step(threshold,colorplusy.a);
 
     vec3 minusy = vec3(pos.x,-cameraSize, pos.z);
-    float visminusy = sample_cubemap(depthCubemap,minusy, -pos.y);
     vec4 colorminusy = textureLod(colorCubemap, minusy,mipmap_LOD);
+    float visminusy = sample_cubemap(depthCubemap,minusy, -pos.y)* step(threshold,colorminusy.a);
 
     vec3 plusz =  vec3(pos.x,pos.y,  cameraSize);
-    float visplusz = sample_cubemap(depthCubemap,plusz, pos.z);
     vec4 colorplusz = textureLod(colorCubemap, plusz,mipmap_LOD);
+    float visplusz = sample_cubemap(depthCubemap,plusz, pos.z)* step(threshold,colorplusz.a);
 
     vec3 minusz = vec3(pos.x,pos.y, -cameraSize);
-    float visminusz = sample_cubemap(depthCubemap,minusz, -pos.z);
     vec4 colorminusz = textureLod(colorCubemap, minusz,mipmap_LOD);
+    float visminusz = sample_cubemap(depthCubemap,minusz, -pos.z)* step(threshold,colorminusz.a);
 
 #ifdef COLORS
     fragColor = //vec4(pos,1.0)
@@ -190,6 +179,8 @@ void main(void)
 
         fragColor = fragColor * disc_area * one_over_max_samples;
         fragColor = pow(fragColor, vec4(1/2.2f));
+
+       // fragColor = vec4(step(1.0f,colorplusx.a) * colorplusx.xyz * visplusx,1.0f);
 #endif
 //      fragColor = vec4(10 * offset, 1.0);
 //      fragColor = vec4(colorplusx.a / 10);

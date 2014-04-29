@@ -1647,10 +1647,10 @@ ThreeDObject *TranslucentMaterials::getDefaultObject()
 {
     Mesh::ScatteringMaterial * scattering_mat = getDefaultMaterial(S_Marble);
     ThreeDObject * bunny1 = new ThreeDObject();
-    bunny1->init(objects_path+"bunny-simplified.obj", "bunny1", *scattering_mat);
-    bunny1->setScale(Vec3f(30.f));
-    bunny1->setRotation(Vec3f(1,0,0), 90);
-    bunny1->setTranslation(Vec3f(0,0,-1.0f));
+    bunny1->init(objects_path+"dragon.obj", "bunny1", *scattering_mat);
+    bunny1->setScale(Vec3f(2.f));
+    //bunny1->setRotation(Vec3f(1,0,0), 90);
+    bunny1->setTranslation(Vec3f(0,0,2.0f));
     bunny1->enabled = true;
     bunny1->boundingBoxEnabled = true;
     return bunny1;
