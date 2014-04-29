@@ -151,7 +151,7 @@ void main(void)
     int i, count = 0;
 
 #ifdef RANDOM
-    float r_angle = noise(xo * 100) * 2 * M_PI;
+    float r_angle = noise(xo * currentDisc * 100) * 2 * M_PI;
     mat2 rot = mat2(cos(r_angle),sin(r_angle), -sin(r_angle), cos(r_angle));
 #endif
 

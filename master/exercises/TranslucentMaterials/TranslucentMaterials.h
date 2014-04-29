@@ -104,6 +104,7 @@ protected:
     void set_light_and_camera(GLGraphics::ShaderProgramDraw& shader_prog);
     void render_jensen(bool reload);
     void render_better_dipole(bool reload);
+    void render_direct_array(bool reload, GLGraphics::ShaderProgramDraw & render_to_cubemap);
     void render_direct_test(bool reload, GLGraphics::ShaderProgramDraw & render_to_cubemap);
     void render_to_gbuffer(GBuffer& gbuffer, bool reload);
     void render_directional_dipole(bool reload);
