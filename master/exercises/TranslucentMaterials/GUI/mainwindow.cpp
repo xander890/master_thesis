@@ -66,6 +66,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->lod->init("Lod: ", ui->translucentMaterials->getParameters()->LOD, 0.0, 3.0, false);
     connect(ui->lod, SIGNAL(valueChanged(float)), this, SLOT(LODChanged(float)));
 
+    ui->gamma->init("Gamma: ", ui->translucentMaterials->getParameters()->gamma, 0.1, 3.5, false);
+    connect(ui->gamma, SIGNAL(valueChanged(float)), this, SLOT(gammaChanged(float)));
+
     ui->materialTest->setObject(bunny);
 
     QButtonGroup * group = new QButtonGroup();
@@ -143,8 +146,11 @@ void MainWindow::radiusChanged(float value)
 
 void MainWindow::samplesChanged(float value)
 {
-
-    ui->translucentMaterials->getParameters()->samples = (int) value;
+    if(value != ui->translucentMaterials->getParameters()->samples)
+    {
+        ui->translucentMaterials->getParameters()->samples = (int) value;
+        ui->translucentMaterials->getParameters()->currentFlags |= TranslucentParameters::SAMPLES_CHANGED;
+    }
 }
 
 void MainWindow::epsilonGBufferChanged(float value)
@@ -165,6 +171,11 @@ void MainWindow::shadowBiasChanged(float value)
 void MainWindow::LODChanged(float value)
 {
     ui->translucentMaterials->getParameters()->LOD = value;
+}
+
+void MainWindow::gammaChanged(float value)
+{
+    ui->translucentMaterials->getParameters()->gamma = value;
 }
 
 void MainWindow::on_plusXcheck_toggled(bool checked)

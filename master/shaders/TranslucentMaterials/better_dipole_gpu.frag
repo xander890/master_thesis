@@ -43,6 +43,7 @@ uniform vec3 red_scattering;
 uniform vec3 transmission;
 uniform vec3 reduced_albedo;
 
+uniform float gamma;
 
 #define FRESNEL
 const float M_PI = 3.141592654;
@@ -251,6 +252,8 @@ void main()
     }
 
     fragColor = vec4(Lo,1.0f);
+
+    fragColor = pow(fragColor, 1.0f/gamma);
     //vec3 nx = texture(normals, _pos.xy).xyz;
     //vec3 nx1 = vec3(M * vec4(nx,0.0f));
     //fragColor = vec4(abs(nx1),1.0f);

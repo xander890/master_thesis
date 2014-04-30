@@ -66,7 +66,7 @@
           </size>
          </property>
          <property name="currentIndex">
-          <number>2</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="General">
           <attribute name="title">
@@ -96,7 +96,7 @@
               <property name="minimumSize">
                <size>
                 <width>400</width>
-                <height>200</height>
+                <height>250</height>
                </size>
               </property>
               <property name="title">
@@ -190,7 +190,7 @@
                <property name="geometry">
                 <rect>
                  <x>10</x>
-                 <y>110</y>
+                 <y>170</y>
                  <width>381</width>
                  <height>29</height>
                 </rect>
@@ -256,6 +256,16 @@
                  </widget>
                 </item>
                </layout>
+              </widget>
+              <widget class="SliderLabel" name="gamma" native="true">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>110</y>
+                 <width>401</width>
+                 <height>31</height>
+                </rect>
+               </property>
               </widget>
              </widget>
             </item>

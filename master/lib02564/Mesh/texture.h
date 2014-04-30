@@ -23,7 +23,7 @@ namespace Mesh
             height(1)
         {}
 
-        Texture(const std::string& _name, GLenum target, unsigned int width, unsigned int height, const std::vector<CGLA::Vec3f> & data):
+        Texture(const std::string& _name, GLenum target, unsigned int width, unsigned int height, std::vector<CGLA::Vec3f> & data):
             id(0),
             name(_name),
             target(target),
@@ -56,6 +56,10 @@ namespace Mesh
         // Initializes the texture wrt OpenGL.
         void init();
 
+        // Reloads data into GPU memory with the new data provided.
+        void reloadData(std::vector<CGLA::Vec3f> & data, int newWidth, int newHeight);
+        std::vector<CGLA::Vec3f> getData();
+
         GLuint get_id()
         {
             if(id == 0)
@@ -71,6 +75,7 @@ namespace Mesh
         }
 
     private:
+        void load();
         GLuint id;
         GLenum target;
         std::string name;

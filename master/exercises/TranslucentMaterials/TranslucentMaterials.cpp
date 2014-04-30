@@ -344,6 +344,7 @@ void TranslucentMaterials::set_light_and_camera(ShaderProgramDraw& shader_prog)
     shader_prog.set_view_matrix(user.get_view_matrix());
     shader_prog.set_uniform("light_amb", light_ambient);
     shader_prog.set_uniform("user_pos",user.get_pos());
+    shader_prog.set_uniform("gamma",params->gamma);
     manager.loadLights(shader_prog);
 }
 
@@ -710,6 +711,38 @@ void TranslucentMaterials::render_better_dipole(bool reload)
 
 bool compareVec2fDistanceAscending (Vec2f i,Vec2f j) { return (i.length() < j.length()); }
 
+void TranslucentMaterials::getDiscPoints(vector<Vec3f> * points, const int n, const int m)
+{
+    vector<vector<Vec2f> > texture;
+
+//#if POINT_DIST == 0
+    planeHammersleyCircleMulti(texture, n, m);
+//#elif POINT_DIST == 1
+//    planeHammersleyCircleMultiExp(texture, n, m,3.0f);
+//#else
+//    circleUniformPoints(texture, n / 50, m, 50);
+//#endif
+    for(int k = 0; k < m; k++)
+    {
+        //cout << "Vector " << k <<endl;
+        if( k == 0)
+        {
+            cout << "Vector, " << n << " points" << endl;
+        }
+
+        vector<Vec2f> discpoints = texture[k];
+        std::sort(discpoints.begin(),discpoints.end(),compareVec2fDistanceAscending);
+        for(int i = 0; i < discpoints.size(); i++)
+        {
+            if (k == 0)
+            {
+                cout <<discpoints[i][0] << " " << discpoints[i][1] << endl;
+            }
+            points->push_back(Vec3f(discpoints[i][0],discpoints[i][1],0.0f));
+
+        }
+    }
+}
 
 
 void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & render_to_array)
@@ -726,8 +759,33 @@ void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & 
     static ShaderProgramDraw render_combination(shader_path,"ss_array_combination.vert","","ss_array_combination.frag");
 
     const int GBUFFER_SIZE = 1024;
-    static VertexNormalBuffer buff(GBUFFER_SIZE);
+    const float LIGHT_CAMERA_SIZE = 3.0f;
+    static VertexNormalBuffer light_buffer(GBUFFER_SIZE);
 
+    const int ARRAY_TEXTURE_SIZE = 1024;
+    const int DIRECTIONS = 10;
+    static ArrayTextureBuffer arraytexmap(ARRAY_TEXTURE_SIZE,DIRECTIONS,1);
+
+    const float CAMERA_DISTANCE = 6.0f; //This should not matter (can be DIST = max bounding box + camera near + epsilon
+    const float CAMERA_NEAR = 1.0f;
+    const float CAMERA_FAR = 21.0f;
+    const float CAMERA_SIZE = 6.0f;
+
+    int discPoints = params->samples;
+    const int DISCS = DIRECTIONS;
+
+    //TODO more objs
+    ThreeDObject * obj = objects[0];
+    for(int i = 0; i < objects.size(); i++)
+    {
+        ThreeDObject * o = objects[i];
+        if(o->enabled)
+        {
+            obj = o;
+            break;
+        }
+    }
+    Mesh::Material * scattering_material = obj->mesh.getMaterial();
 
 
     if(reload)
@@ -742,23 +800,31 @@ void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & 
         render_combination.reload();
     }
 
-    //TODO more objs
-    ThreeDObject * obj = objects[0];
-    for(int i = 0; i < objects.size(); i++)
+    static bool initialized = false;
+
+    if(!initialized)
     {
-        ThreeDObject * o = objects[i];
-        if(o->enabled)
-        {
-            obj = o;
-            break;
-        }
+        initialized = true;
+        vector<Vec3f> * discpoint_data = new vector<Vec3f>();
+        getDiscPoints(discpoint_data,discPoints,DISCS);
+
+        Mesh::Texture * tex = new Mesh::Texture("discpoints",GL_TEXTURE_2D, discPoints, DISCS, *discpoint_data);
+        tex->init();
+        scattering_material->addTexture(tex);
+    }
+
+    if(params->currentFlags & TranslucentParameters::SAMPLES_CHANGED)
+    {
+        vector<Vec3f> * discpoint_data = new vector<Vec3f>();
+        getDiscPoints(discpoint_data,discPoints,DISCS);
+        Mesh::Texture * tex = scattering_material->getTexture(string("discpoints"));
+        tex->reloadData(*discpoint_data,discPoints,DISCS);
+        params->currentFlags &= ~(TranslucentParameters::SAMPLES_CHANGED);
     }
 
     gbuff_shader.use();
+    light_buffer.enable();
 
-    buff.enable();
-
-    const float LIGHT_CAMERA_SIZE = 3.0f;
 
     // Set up a modelview matrix suitable for shadow: Maps from world coords to
     // shadow buffer coords.
@@ -775,7 +841,6 @@ void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & 
     // Draw to shadow buffer.
     obj->display(gbuff_shader);
 
-
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
     glDrawBuffer(GL_BACK);
 
@@ -788,31 +853,16 @@ void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & 
     mat *= gbuff_shader.get_projection_matrix();
     mat *= gbuff_shader.get_view_matrix();
 
-    Mesh::Texture * vtex = buff.getVertexTexture();
-    Mesh::Texture * ntex = buff.getNormalTexture();
+    Mesh::Texture * vtex = light_buffer.getVertexTexture();
+    Mesh::Texture * ntex = light_buffer.getNormalTexture();
 
-    obj->mesh.getMaterial()->addTexture(vtex);
-    obj->mesh.getMaterial()->addTexture(ntex);
-    obj->mesh.getMaterial()->addUniform("lightMatrix",mat);
-
-    check_gl_error();
-
-    const int ARRAY_SIZE = 1024;
-    const float CAMERA_DISTANCE = 6.0f;
-    const float CAMERA_NEAR = 1.0f;
-    const float CAMERA_FAR = 21.0f;
-    const float CAMERA_SIZE = 6.0f;
-
-
-    const int DIRECTIONS = 10;
-    static ArrayTextureBuffer arraytexmap(ARRAY_SIZE,DIRECTIONS,1);
+    scattering_material->addTexture(vtex);
+    scattering_material->addTexture(ntex);
+    scattering_material->addUniform("lightMatrix",mat);
 
     render_to_array.use();
-    check_gl_error();
-
 
     Vec3f center = obj->getCenter();
-    check_gl_error();
 
     static Vec3f cameraPositions[DIRECTIONS] = {
         center + Vec3f(1,0,0) * CAMERA_DISTANCE, //+X
@@ -855,46 +905,10 @@ void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & 
     }
 
 
-    glViewport(0,0,ARRAY_SIZE,ARRAY_SIZE);
+    glViewport(0,0,ARRAY_TEXTURE_SIZE,ARRAY_TEXTURE_SIZE);
 
 
-    static float area;
-    int DISC_POINTS = 1000;
-    const int DISCS = DIRECTIONS;
 
-    static bool mark = false;
-    if(!mark)
-    {
-        vector<Vec3f> * discpoint_data = new vector<Vec3f>();
-        mark = true;
-
-        vector<vector<Vec2f> > texture;
-
-#if POINT_DIST == 0
-        planeHammersleyCircleMulti(texture, DISC_POINTS, DISCS);
-#elif POINT_DIST == 1
-        planeHammersleyCircleMultiExp(texture, DISC_POINTS, DISCS,3.0f);
-#else
-        circleUniformPoints(texture, DISC_POINTS / 50, DISCS, 50);
-#endif
-        for(int k = 0; k < DISCS; k++)
-        {
-            cout << "Vector " << k <<endl;
-            vector<Vec2f> discpoints = texture[k];
-            std::sort(discpoints.begin(),discpoints.end(),compareVec2fDistanceAscending);
-            for(int i = 0; i < discpoints.size(); i++)
-            {
-                //if (k == 0)
-                //    cout <<discpoints[i][0] << " " << discpoints[i][1] << endl;
-                discpoint_data->push_back(Vec3f(discpoints[i][0],discpoints[i][1],0.0f));
-
-            }
-        }
-        Mesh::Texture * tex = new Mesh::Texture("discpoints",GL_TEXTURE_2D, DISC_POINTS, DISCS, *discpoint_data);
-        tex->init();
-        obj->mesh.getMaterial()->addTexture(tex);
-        totalArea(*obj,area);
-    }
 
     Vec3f radius = Vec3f(29.909f,23.316f, 18.906f); //radius for marble - red 29.909 green 23.316 blue 18.906
     //float trueRadius = clamp01(length(mat * Vec4f(radius[0],0,0,0)));
@@ -916,7 +930,7 @@ void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & 
     gbuff_quad.use();
     //gbuff_quad.set_uniform("lightMatrix",mat);
     set_light_and_camera(gbuff_quad);
-    obj->mesh.getMaterial()->loadUniforms(gbuff_quad);
+    scattering_material->loadUniforms(gbuff_quad);
     draw_screen_aligned_quad(gbuff_quad);
     return;
 #endif
@@ -937,82 +951,19 @@ void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & 
 
     Mesh::Texture * color = arraytexmap.getColorTexture();
     Mesh::Texture * depth = arraytexmap.getDepthTexture();
-    obj->mesh.getMaterial()->addTexture(color);
-    obj->mesh.getMaterial()->addTexture(depth);
-
-
-//#define CUBEMAP_CUBE_TEST
-
-#ifdef CUBEMAP_TEST_SCREEN_2
-//    user.set(cameraPositions[0],-cameraPositions[0]);
-    obj_shader.use();
-    set_light_and_camera(obj_shader);
-    obj->display(obj_shader);
-    obj_shader.set_projection_matrix(projection);
-    obj_shader.set_view_matrix(viewMatrices[2]);
-    obj_shader.set_model_matrix(identity_Mat4x4f());
-    obj->display(obj_shader);
-#endif
-
-
-#ifdef CUBEMAP_TEST_SCREEN
-
-    render_to_cubemap_test.use();
-    set_light_and_camera(render_to_cubemap_test);
-    material->loadUniforms(render_to_cubemap_test);
-    draw_screen_aligned_quad(render_to_cubemap_test);
-    return;
-#endif
-
-//#define CUBEMAP_CUBE_TEST
-if(params->cubemapVisible)
-{
-    static ThreeDCube *cubemapplaceholder = new ThreeDCube(10);
-    static bool was_here = false;
-    if(!was_here)
-    {
-        was_here = true;
-        objects.push_back(cubemapplaceholder);
-        cubemapplaceholder->init(" ","cubem",*(obj->mesh.getMaterial()));
-        cubemapplaceholder->setScale(Vec3f(CAMERA_SIZE * 2));
-        cubemapplaceholder->setRotation(Vec3f(1,0,0), 90);
-    }
-
-    render_to_cubemap_test_cube.use();
-    set_light_and_camera(render_to_cubemap_test_cube);
-
-    render_to_cubemap_test_cube.set_uniform("areacircle", (float)(trueRadius * trueRadius * M_PI));
-    render_to_cubemap_test_cube.set_uniform("one_over_max_samples", 1.0f/params->samples);
-    render_to_cubemap_test_cube.set_uniform("total_area", CAMERA_SIZE * CAMERA_SIZE);
-    render_to_cubemap_test_cube.set_uniform("mipmap_LOD",params->LOD);
-    cubemapplaceholder->setTranslation(center);
-    cubemapplaceholder->display(render_to_cubemap_test_cube);
-}
+    scattering_material->addTexture(color);
+    scattering_material->addTexture(depth);
 
     render_combination.use();
-    render_combination.set_uniform("centerWorldCoordinates",center);
-    render_combination.set_uniform("cameraSize",CAMERA_SIZE);
-    render_combination.set_uniform("zFar",CAMERA_FAR);
-    render_combination.set_uniform("zNear",CAMERA_NEAR);
     render_combination.set_uniform("shadow_bias", params->shadow_bias);
     render_combination.set_uniform("epsilon_combination", params->epsilon_combination);
     render_combination.set_uniform("one_over_max_samples", 1.0f/params->samples);
-    render_combination.set_uniform("total_area", CAMERA_SIZE * CAMERA_SIZE);
     render_combination.set_uniform("mipmap_LOD",params->LOD);
 
     render_combination.set_uniform("cameraMatrices", planeTransformMatrices,DIRECTIONS);
     float worldCircleRadius = params->circleradius * 2 * LIGHT_CAMERA_SIZE;
-
     render_combination.set_uniform("disc_area", (float)(worldCircleRadius * worldCircleRadius * M_PI));
-
-
-    render_combination.set_uniform("face_plus_x",params->plusX);
-    render_combination.set_uniform("face_minus_x", params->minusX);
-    render_combination.set_uniform("face_plus_y", params->plusY);
-    render_combination.set_uniform("face_minus_y", params->minusY);
-    render_combination.set_uniform("face_plus_z", params->plusZ);
-    render_combination.set_uniform("face_minus_z", params->minusZ);
-    render_combination.set_uniform("step_tex", 1.0f/ARRAY_SIZE);
+    render_combination.set_uniform("step_tex", 1.0f/ARRAY_TEXTURE_SIZE);
     set_light_and_camera(render_combination);
     obj->display(render_combination);
 }
@@ -1600,56 +1551,6 @@ void TranslucentMaterials::render_deferred_ssao(bool reload)
     // Reenable depth test
     glEnable(GL_DEPTH_TEST);
 }
-
-#ifdef SOLUTION_CODE
-void TranslucentMaterials::render_indirect()
-{
-    static GLuint fbo=0, rb=0, tex=0;
-    static ShaderProgram prog("", "$void main(){gl_Position = gl_Vertex;}", "",
-                              "$uniform sampler2DRect tex; void main()"
-                              "{gl_FragColor = vec4(0.5,0.5,0.9,0)*texture2DRect(tex, gl_FragCoord.xy);}");
-    if(!fbo || reload_shaders)
-    {
-        prog.reload();
-        glDeleteTextures(1,&tex);
-        glDeleteFramebuffers(1,&fbo);
-        glDeleteRenderbuffers(1,&rb);
-        
-        glGenTextures(1,&tex);
-        glBindTexture(GL_TEXTURE_RECTANGLE, tex);
-        glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_RGBA, window_width, window_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
-
-        glGenFramebuffers(1,&fbo);
-        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);
-        glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_RECTANGLE, tex, 0);
-        
-        glGenRenderbuffers(1,&rb);
-        glBindRenderbuffer(GL_RENDERBUFFER, rb);
-        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, window_width, window_height);
-        glFramebufferRenderbuffer(GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rb);
-    }
-    
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);
-    glDrawBuffer(GL_COLOR_ATTACHMENT0);
-    glClearColor(0,0,0,0);
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-    render_jensen(reload_shaders);
-    
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-    glDrawBuffer(GL_BACK);
-
-    glClearColor(0.4f,0.35f,0.95f,0);
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-
-    prog.use();
-    prog.use_texture(GL_TEXTURE_RECTANGLE, "tex", tex);
-    draw_screen_aligned_quad(prog);
-}
-#endif
 
 
 TranslucentMaterials::TranslucentMaterials( QWidget* parent)

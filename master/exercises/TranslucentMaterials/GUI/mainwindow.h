@@ -30,6 +30,7 @@ private slots:
     void epsilonCombinationChanged(float value);
     void shadowBiasChanged(float value);
     void LODChanged(float value);
+    void gammaChanged(float value);
 
     void on_plusXcheck_toggled(bool checked);
 

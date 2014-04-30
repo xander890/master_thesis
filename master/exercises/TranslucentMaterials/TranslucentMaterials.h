@@ -16,13 +16,21 @@ class TranslucentParameters
 public:
     TranslucentParameters::TranslucentParameters() :
         circleradius(0.5f),
-        samples(1),
+        samples(100),
         epsilon_gbuffer(0.003),
         epsilon_combination(0.007),
         shadow_bias(0.09),
         plusX(true), minusX(true),plusY(true),minusY(true),plusZ(true),minusZ(true),
-        cubemapVisible(false), LOD(0.0f)
+        cubemapVisible(false), LOD(0.0f),  currentFlags(0), gamma(2.2f)
     {}
+
+    enum
+    {
+        SAMPLES_CHANGED = 0x01,
+        INITIALIZATION = 0x02
+    };
+
+    int currentFlags;
 
     float circleradius;
     float epsilon_gbuffer; // avoids artifacts when sampling from gbuffer
@@ -41,6 +49,7 @@ public:
     bool cubemapVisible;
 
     float LOD;
+    float gamma;
 
 };
 
@@ -115,10 +124,8 @@ protected:
     void draw_axes(bool reload);
     void draw_grid(bool reload);
     void draw_bounding_boxes(bool reload);
+    void getDiscPoints(std::vector<CGLA::Vec3f> * points, const int n, const int m);
 
-#ifdef SOLUTION_CODE
-    void render_indirect();
-#endif
      void initializeGL();
      void resizeGL( int w, int h );
      void paintGL();

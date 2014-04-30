@@ -37,6 +37,8 @@ namespace Mesh
         virtual void loadUniforms(GLGraphics::ShaderProgramDraw & shader);
 
         virtual void addTexture(Texture * texture);
+        virtual Texture *getTexture(std::string &name);
+
         virtual void initTextures();
 
         virtual void addUniform(const char* name, int value);

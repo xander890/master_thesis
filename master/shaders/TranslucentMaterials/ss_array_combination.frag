@@ -12,11 +12,6 @@ out vec4 fragColor;
 in vec3 position;
 in vec3 norm;
 
-// camera parameters (in order to reconstruct depth information)
-uniform float zNear;
-uniform float zFar;
-uniform float cameraSize;
-
 // epsilons (error control)
 uniform float shadow_bias;
 uniform float epsilon_combination;
@@ -25,19 +20,14 @@ uniform float one_over_max_samples;
 uniform float total_area;
 uniform float disc_area;
 
-uniform int face_plus_x;
-uniform int face_minus_x;
-uniform int face_plus_y;
-uniform int face_minus_y;
-uniform int face_plus_z;
-uniform int face_minus_z;
-
 uniform float step_tex;
 uniform float mipmap_LOD;
 
 const int DIRECTIONS = 10;
 
 uniform mat4 cameraMatrices[DIRECTIONS];
+
+uniform float gamma;
 
 float sample_shadow_map(vec3 light_pos, float layer)
 {
@@ -72,7 +62,7 @@ void main(void)
 
     fragColor /= div;
     fragColor *= disc_area * one_over_max_samples;
-    fragColor = pow(fragColor, vec4(1/2.2f));
+    fragColor = pow(fragColor, vec4(1/gamma));
 
 /*    int i = 0;
     vec4 l = cameraMatrices[i] * vec4(pos,1.0f);

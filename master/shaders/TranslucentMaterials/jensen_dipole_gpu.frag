@@ -40,6 +40,8 @@ uniform vec3 D;
 uniform vec3 transmission;
 uniform vec3 reduced_albedo;
 
+uniform float gamma;
+
 const float M_PI = 3.141592654;
 
 float sample_shadow_map(vec3 pos)
@@ -178,6 +180,7 @@ void main()
     }
 
     fragColor = vec4(Lo,1.0f);
+    fragColor = pow(fragColor, 1.0f/gamma);
 
 }
 

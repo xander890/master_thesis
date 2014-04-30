@@ -59,6 +59,19 @@ namespace Mesh
 
     }
 
+    Mesh::Texture * Material::getTexture(string& name)
+    {
+        for(int i = 0; i < textures.size(); i++)
+        {
+            if(name.compare(textures[i]->get_name()) == 0)
+            {
+                return textures[i];
+            }
+        }
+        return nullptr;
+    }
+
+
     void Material::initTextures()
     {
         for(std::vector<Texture*>::iterator it = textures.begin(); it != textures.end(); it++)

@@ -20,8 +20,8 @@ void DipoleGPU::prepare(ThreeDObject &three)
     RawMeshData data;
     mesh.getRawData(data);
 
-    vector<Vec3f> vertices = data.vertices;
-    vector<Vec3f> normals = data.normals;
+    vector<Vec3f> * vertices = new vector<Vec3f>(data.vertices);
+    vector<Vec3f> * normals = new vector<Vec3f>(data.normals);
     GLenum mode = mesh.getMode();
 
     if(mode != GL_TRIANGLE_STRIP && mode != GL_TRIANGLES)
@@ -41,32 +41,32 @@ void DipoleGPU::prepare(ThreeDObject &three)
 
     float total = 0.0f;
 
-    vector<Vec3f> areasEnlarged(areas.size());
+    vector<Vec3f> * areasEnlarged = new vector<Vec3f>();
     for(int i = 0; i < areas.size(); i++)
     {
         total += areas.at(i);
-        areasEnlarged[i] = Vec3f(areas[i]);
+        areasEnlarged->push_back(Vec3f(areas[i]));
     }
     cout << "Sum of single areas : " << total <<endl;
 
     Material * mat = mesh.getMaterial();
-    float size = sqrt((float)vertices.size());
+    float size = sqrt((float)vertices->size());
     int textureSize = (int)pow(2,ceil(log(size)/log(2.0f)));
     static Vec3f zero = Vec3f(0.0f);
-    while(vertices.size() < textureSize * textureSize)
+    while(vertices->size() < textureSize * textureSize)
     {
-        vertices.push_back(zero);
-        normals.push_back(zero);
-        areasEnlarged.push_back(zero);
+        vertices->push_back(zero);
+        normals->push_back(zero);
+        areasEnlarged->push_back(zero);
     }
-    Texture * v_tex = new Texture("vertices",GL_TEXTURE_2D,textureSize,textureSize,vertices);
-    Texture * n_tex = new Texture("normals",GL_TEXTURE_2D,textureSize,textureSize,normals);
-    Texture * area_tex = new Texture("areas",GL_TEXTURE_2D,textureSize,textureSize,areasEnlarged);
+    Texture * v_tex = new Texture("vertices",GL_TEXTURE_2D,textureSize,textureSize,*vertices);
+    Texture * n_tex = new Texture("normals",GL_TEXTURE_2D,textureSize,textureSize,*normals);
+    Texture * area_tex = new Texture("areas",GL_TEXTURE_2D,textureSize,textureSize,*areasEnlarged);
 
     mat->addTexture(v_tex);
     mat->addTexture(n_tex);
     mat->addTexture(area_tex);
-    mat->addUniform("vertex_size",(int)vertices.size());
+    mat->addUniform("vertex_size",(int)vertices->size());
     mat->addUniform("vertex_tex_size",(int)textureSize);
 
     three.mesh.build_vertex_array_object();
