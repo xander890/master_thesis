@@ -16,10 +16,10 @@ class TranslucentParameters
 public:
     TranslucentParameters::TranslucentParameters() :
         circleradius(0.5f),
-        samples(100),
+        samples(120),
         epsilon_gbuffer(0.003),
-        epsilon_combination(0.007),
-        shadow_bias(0.09),
+        epsilon_combination(0.015),
+        shadow_bias(0.01),
         plusX(true), minusX(true),plusY(true),minusY(true),plusZ(true),minusZ(true),
         cubemapVisible(false), LOD(0.0f),  currentFlags(0), gamma(2.2f)
     {}
@@ -114,6 +114,7 @@ protected:
     void render_jensen(bool reload);
     void render_better_dipole(bool reload);
     void render_direct_array(bool reload, GLGraphics::ShaderProgramDraw & render_to_cubemap);
+    void render_direct_array_time(bool reload, GLGraphics::ShaderProgramDraw & render_to_cubemap);
     void render_direct_test(bool reload, GLGraphics::ShaderProgramDraw & render_to_cubemap);
     void render_to_gbuffer(GBuffer& gbuffer, bool reload);
     void render_directional_dipole(bool reload);
@@ -135,6 +136,8 @@ protected:
      RenderMode render_mode;
      RenderMethod render_method;
      std::vector<GLGraphics::ThreeDObject*> objects;
+
+     int currentFrame;
 };
 
 struct CompareThreeD {

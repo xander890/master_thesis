@@ -34,7 +34,8 @@ public:
     Mesh::Texture * getDepthTexture();
     void generateMipMaps();
 
-
+    Mesh::Texture * colorTex;
+    Mesh::Texture * depthTex;
 };
 
 #endif // ARRAYTEXTUREBUFFER_H

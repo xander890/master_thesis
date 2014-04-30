@@ -69,7 +69,8 @@ void ArrayTextureBuffer::initialize()
 //    if(glCheckFramebufferStatus(GL_DRAW_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 //        cout << "Something wrong with FBO" << endl;
 //    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-
+    colorTex = new Mesh::Texture("colorMap", arraytex, GL_TEXTURE_2D_ARRAY);
+    depthTex = new Mesh::Texture("depthMap",depthtex, GL_TEXTURE_2D_ARRAY);
 }
 
 int ArrayTextureBuffer::enable(int layer)
@@ -96,12 +97,12 @@ int ArrayTextureBuffer::enable(int layer)
 
 Mesh::Texture * ArrayTextureBuffer::getColorTexture()
 {
-    return new Mesh::Texture("colorMap", arraytex, GL_TEXTURE_2D_ARRAY);
+    return colorTex;
 }
 
 Mesh::Texture * ArrayTextureBuffer::getDepthTexture()
 {
-    return new Mesh::Texture("depthMap",depthtex, GL_TEXTURE_2D_ARRAY);
+    return depthTex;
 }
 
 void ArrayTextureBuffer::generateMipMaps()

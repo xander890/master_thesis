@@ -727,7 +727,7 @@ void TranslucentMaterials::getDiscPoints(vector<Vec3f> * points, const int n, co
         //cout << "Vector " << k <<endl;
         if( k == 0)
         {
-            cout << "Vector, " << n << " points" << endl;
+            //cout << "Vector, " << n << " points" << endl;
         }
 
         vector<Vec2f> discpoints = texture[k];
@@ -736,7 +736,7 @@ void TranslucentMaterials::getDiscPoints(vector<Vec3f> * points, const int n, co
         {
             if (k == 0)
             {
-                cout <<discpoints[i][0] << " " << discpoints[i][1] << endl;
+                //cout <<discpoints[i][0] << " " << discpoints[i][1] << endl;
             }
             points->push_back(Vec3f(discpoints[i][0],discpoints[i][1],0.0f));
 
@@ -787,7 +787,7 @@ void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & 
     }
     Mesh::Material * scattering_material = obj->mesh.getMaterial();
 
-
+check_gl_error();
     if(reload)
     {
         obj_shader.reload();
@@ -859,6 +859,7 @@ void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & 
     scattering_material->addTexture(vtex);
     scattering_material->addTexture(ntex);
     scattering_material->addUniform("lightMatrix",mat);
+    check_gl_error();
 
     render_to_array.use();
 
@@ -921,6 +922,7 @@ void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & 
     render_to_array.set_uniform("discradius",trueRadius);
     render_to_array.set_uniform("epsilon_gbuffer", params->epsilon_gbuffer);
     set_light_and_camera(render_to_array);
+    check_gl_error();
 
 #ifdef TEST_ONSCREEN_QUAD_2
 
@@ -945,7 +947,7 @@ void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & 
         obj->display(render_to_array);
     }
 
-    arraytexmap.generateMipMaps();
+    //arraytexmap.generateMipMaps();
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER,0);
     glViewport(0,0,window_width,window_height);
 
@@ -953,6 +955,7 @@ void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & 
     Mesh::Texture * depth = arraytexmap.getDepthTexture();
     scattering_material->addTexture(color);
     scattering_material->addTexture(depth);
+    check_gl_error();
 
     render_combination.use();
     render_combination.set_uniform("shadow_bias", params->shadow_bias);
@@ -968,6 +971,270 @@ void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & 
     obj->display(render_combination);
 }
 
+void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDraw & render_to_array)
+{
+    static ShaderProgramDraw obj_shader(shader_path,"object.vert","","object.frag");
+    static ShaderProgramDraw gbuff_shader(shader_path,"ss_cubemap_gbuffer.vert","","ss_cubemap_gbuffer.frag");
+    static ShaderProgramDraw gbuff_quad(shader_path,"ss_cubemap_test_gbuffer.vert","","ss_cubemap_test_gbuffer.frag");
+    static ShaderProgramDraw gbuff_wrap(shader_path,"ss_cubemap_test_wrap_gbuffer.vert","","ss_cubemap_test_wrap_gbuffer.frag");
+
+
+    static ShaderProgramDraw render_to_cubemap_test(shader_path,"ss_cubemap_render_to_cubemap.vert","","ss_cubemap_render_to_cubemap.frag");
+    static ShaderProgramDraw render_to_cubemap_test_screen(shader_path,"ss_cubemap_test_render_to_cubemap_screen.vert","","ss_cubemap_test_render_to_cubemap_screen.frag");
+    static ShaderProgramDraw render_to_cubemap_test_cube(shader_path,"ss_cubemap_test_render_to_cubemap_cube.vert","","ss_cubemap_test_render_to_cubemap_cube.frag");
+    static ShaderProgramDraw render_combination(shader_path,"ss_array_combination.vert","","ss_array_combination.frag");
+
+    static ShaderProgramDraw test(shader_path,"display_tex.vert","","display_tex.frag");
+
+    const int GBUFFER_SIZE = 1024;
+    const float LIGHT_CAMERA_SIZE = 3.0f;
+    static VertexNormalBuffer light_buffer(GBUFFER_SIZE);
+
+    const int ARRAY_TEXTURE_SIZE = 1024;
+    const int DIRECTIONS = 10;
+    static ArrayTextureBuffer arraytexmap(ARRAY_TEXTURE_SIZE,DIRECTIONS,1);
+    static ArrayTextureBuffer arraytexmap_back(ARRAY_TEXTURE_SIZE,DIRECTIONS,1);
+
+    const float CAMERA_DISTANCE = 6.0f; //This should not matter (can be DIST = max bounding box + camera near + epsilon
+    const float CAMERA_NEAR = 1.0f;
+    const float CAMERA_FAR = 21.0f;
+    const float CAMERA_SIZE = 6.0f;
+    const int CONVERGENCE_FRAMES = 100;
+
+    int discPoints = params->samples;
+    const int DISCS = DIRECTIONS;
+
+    //TODO more objs
+    ThreeDObject * obj = objects[0];
+    for(int i = 0; i < objects.size(); i++)
+    {
+        ThreeDObject * o = objects[i];
+        if(o->enabled)
+        {
+            obj = o;
+            break;
+        }
+    }
+    Mesh::Material * scattering_material = obj->mesh.getMaterial();
+
+
+    if(reload)
+    {
+        test.reload();
+        obj_shader.reload();
+        gbuff_shader.reload();
+        gbuff_quad.reload();
+        gbuff_wrap.reload();
+        render_to_array.reload();
+        render_to_cubemap_test_screen.reload();
+        render_to_cubemap_test_cube.reload();
+        render_combination.reload();
+    }
+
+    Vec3f center = obj->getCenter();
+
+    static Vec3f cameraPositions[DIRECTIONS] = {
+        center + Vec3f(1,0,0) * CAMERA_DISTANCE, //+X
+        center - Vec3f(1,0,0) * CAMERA_DISTANCE, //-X
+        center + Vec3f(0,1,0) * CAMERA_DISTANCE, //+Y
+        center - Vec3f(0,1,0) * CAMERA_DISTANCE, //-Y
+        center + Vec3f(0,0,1) * CAMERA_DISTANCE, //+Z
+        center - Vec3f(0,0,1) * CAMERA_DISTANCE,  //-Z
+        center + Vec3f(1.0f/sqrt(2.0f),1.0f/sqrt(2.0f),0) * CAMERA_DISTANCE,
+        center + Vec3f(-1.0f/sqrt(2.0f),-1.0f/sqrt(2.0f),0) * CAMERA_DISTANCE,
+        center + Vec3f(-1.0f/sqrt(2.0f),1.0f/sqrt(2.0f),0) * CAMERA_DISTANCE,
+        center + Vec3f(1.0f/sqrt(2.0f),-1.0f/sqrt(2.0f),0) * CAMERA_DISTANCE
+    };
+
+    static Mat4x4f viewMatrices[DIRECTIONS]  = {
+        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[0], center, Vec3f(0,1,0)), //+X
+        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[1], center, Vec3f(0,1,0)), //-X
+        scaling_Mat4x4f(Vec3f(-1,1,1)) * lookat_Mat4x4f_target(cameraPositions[2], center, Vec3f(0,0,1)), //+Y
+        scaling_Mat4x4f(Vec3f(-1,1,1)) * lookat_Mat4x4f_target(cameraPositions[3], center, Vec3f(0,0,-1)), //-Y
+        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[4], center, Vec3f(0,1,0)), //+Z
+        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[5], center, Vec3f(0,1,0)),  //-Z
+        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[6], center, Vec3f(0,1,0)),
+        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[7], center, Vec3f(0,1,0)),
+        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[8], center, Vec3f(0,1,0)),
+        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[9], center, Vec3f(0,1,0))
+    };
+
+    vector<Mat4x4f> planeTransformMatrices(DIRECTIONS);
+
+    Mat4x4f model = identity_Mat4x4f();
+    Mat4x4f projection = ortho_Mat4x4f(Vec3f(-CAMERA_SIZE,-CAMERA_SIZE,CAMERA_NEAR),Vec3f(CAMERA_SIZE,CAMERA_SIZE,CAMERA_FAR));
+
+
+
+    Mat4x4f mat2 = translation_Mat4x4f(Vec3f(0.5));
+    mat2 *= scaling_Mat4x4f(Vec3f(0.5));
+    mat2 *= projection;
+
+    for(int i = 0; i < DIRECTIONS; i++)
+    {
+        planeTransformMatrices[i] = mat2 * viewMatrices[i];
+    }
+
+    if(currentFrame < CONVERGENCE_FRAMES)
+        {
+        static bool initialized = false;
+
+        if(!initialized)
+        {
+            initialized = true;
+            vector<Vec3f> * discpoint_data = new vector<Vec3f>();
+            getDiscPoints(discpoint_data,discPoints,DISCS);
+
+            Mesh::Texture * tex = new Mesh::Texture("discpoints",GL_TEXTURE_2D, discPoints, DISCS, *discpoint_data);
+            tex->init();
+            scattering_material->addTexture(tex);
+
+            //preparing first color buffer from which to read (just for avoiding errors,
+            // the shader already avoids that)
+            scattering_material->addTexture(arraytexmap_back.getColorTexture());
+        }
+
+        if(params->currentFlags & TranslucentParameters::SAMPLES_CHANGED)
+        {
+            vector<Vec3f> * discpoint_data = new vector<Vec3f>();
+            getDiscPoints(discpoint_data,discPoints,DISCS);
+            Mesh::Texture * tex = scattering_material->getTexture(string("discpoints"));
+            tex->reloadData(*discpoint_data,discPoints,DISCS);
+            params->currentFlags &= ~(TranslucentParameters::SAMPLES_CHANGED);
+        }
+
+        gbuff_shader.use();
+        light_buffer.enable();
+
+
+        // Set up a modelview matrix suitable for shadow: Maps from world coords to
+        // shadow buffer coords.
+        Vec3f v = Vec3f(manager[0].position);
+        gbuff_shader.set_view_matrix(lookat_Mat4x4f(v,-v,Vec3f(0,1,0))); //PARALLEL!
+        gbuff_shader.set_model_matrix(identity_Mat4x4f());
+        gbuff_shader.set_projection_matrix(ortho_Mat4x4f(Vec3f(-LIGHT_CAMERA_SIZE,-LIGHT_CAMERA_SIZE,1),Vec3f(LIGHT_CAMERA_SIZE,LIGHT_CAMERA_SIZE,10)));
+
+        // Switch viewport size to that of shadow buffer.
+
+        glViewport(0, 0, GBUFFER_SIZE, GBUFFER_SIZE);
+        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+
+        // Draw to shadow buffer.
+        obj->display(gbuff_shader);
+
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+        glDrawBuffer(GL_BACK);
+
+        // We need to reset the viewport, since the shadow buffer does not have
+        // the same size as the screen window.
+        glViewport(0, 0, window_width, window_height);
+
+        Mat4x4f mat = translation_Mat4x4f(Vec3f(0.5));
+        mat *= scaling_Mat4x4f(Vec3f(0.5));
+        mat *= gbuff_shader.get_projection_matrix();
+        mat *= gbuff_shader.get_view_matrix();
+
+        Mesh::Texture * vtex = light_buffer.getVertexTexture();
+        Mesh::Texture * ntex = light_buffer.getNormalTexture();
+
+        scattering_material->addTexture(vtex);
+        scattering_material->addTexture(ntex);
+        scattering_material->addUniform("lightMatrix",mat);
+
+        render_to_array.use();
+
+
+        glViewport(0,0,ARRAY_TEXTURE_SIZE,ARRAY_TEXTURE_SIZE);
+
+
+        Vec3f radius = Vec3f(29.909f,23.316f, 18.906f); //radius for marble - red 29.909 green 23.316 blue 18.906
+        //float trueRadius = clamp01(length(mat * Vec4f(radius[0],0,0,0)));
+
+        float trueRadius = params->circleradius;
+        //render_to_cubemap.set_uniform("discpoints", discpoints, DISC_POINTS);
+        render_to_array.set_uniform("one_over_max_samples",1.0f/params->samples);
+        render_to_array.set_uniform("one_over_discs",1.0f/DISCS);
+        render_to_array.set_uniform("samples",params->samples);
+        render_to_array.set_uniform("discradius",trueRadius);
+        render_to_array.set_uniform("epsilon_gbuffer", params->epsilon_gbuffer);
+
+        render_to_array.set_uniform("epsilon_combination", params->epsilon_combination);
+        render_to_array.set_uniform("cameraMatrices", planeTransformMatrices,DIRECTIONS);
+        render_to_array.set_uniform("current_frame", currentFrame);
+        render_to_array.set_uniform("convergence_frames", CONVERGENCE_FRAMES);
+
+        set_light_and_camera(render_to_array);
+
+        bool isFrontArrayMap = ((currentFrame % 2) == 0)? true : false;
+
+        // ping-pong between buffers
+        ArrayTextureBuffer * front;
+        ArrayTextureBuffer * back;
+        if(isFrontArrayMap)
+        {
+            front = &arraytexmap;
+            back = &arraytexmap_back;
+        }
+        else
+        {
+            front = &arraytexmap_back;
+            back = &arraytexmap;
+        }
+
+        //Render to front from back
+
+        for(int i = 0; i < DIRECTIONS; i++)
+        {
+            render_to_array.set_uniform("currentDisc",i);
+            render_to_array.set_view_matrix(viewMatrices[i]);
+            render_to_array.set_model_matrix(model);
+            render_to_array.set_projection_matrix(projection);
+
+            front->enable(i);
+
+            obj->display(render_to_array);
+        }
+
+        front->generateMipMaps();
+
+        // Adding the new calculated stuff.
+        Mesh::Texture * color = front->getColorTexture();
+        string colname = color->get_name();
+        scattering_material->removeTexture(colname); //switching the old color TODO : replace
+        scattering_material->addTexture(color);
+
+        Mesh::Texture * depth = front->getDepthTexture();
+        scattering_material->addTexture(depth);
+
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER,0);
+        glViewport(0,0,window_width,window_height);
+    }
+
+    render_combination.use();
+    render_combination.set_uniform("shadow_bias", params->shadow_bias);
+    render_combination.set_uniform("epsilon_combination", params->epsilon_combination);
+    render_combination.set_uniform("one_over_max_samples", 1.0f/params->samples);
+    render_combination.set_uniform("mipmap_LOD",params->LOD);
+    render_combination.set_uniform("current_frame_rev", 1.0f/min(currentFrame,CONVERGENCE_FRAMES));
+
+
+    render_combination.set_uniform("cameraMatrices", planeTransformMatrices,DIRECTIONS);
+    float worldCircleRadius = params->circleradius * 2 * LIGHT_CAMERA_SIZE;
+    render_combination.set_uniform("disc_area", (float)(worldCircleRadius * worldCircleRadius * M_PI));
+    render_combination.set_uniform("step_tex", 1.0f/ARRAY_TEXTURE_SIZE);
+    set_light_and_camera(render_combination);
+    obj->display(render_combination);
+
+    currentFrame++;
+
+    test.use();
+    scattering_material->loadUniforms(test);
+
+    if(params->cubemapVisible)
+        draw_screen_aligned_quad(test);
+
+
+}
 
 void TranslucentMaterials::render_direct_test(bool reload, ShaderProgramDraw & render_to_cubemap)
 {
@@ -1557,7 +1824,7 @@ TranslucentMaterials::TranslucentMaterials( QWidget* parent)
     : QGLWidget( new Core4_3_context(), (QWidget*) parent),
       ax(0), ay(0), dist(12),ang_x(0),ang_y(0),mouse_x0(0),mouse_y0(0)
     , clearColor(Vec4f(0.0f,0.0f,0.0f,1.0f)), isVertexMode(true), isShadow(true), isGridVisible(true), areAxesVisible(true), params(new TranslucentParameters())
-    , render_mode(DRAW_JENSEN), render_method(CUBEMAP_BASE)
+    , render_mode(DRAW_JENSEN), render_method(CUBEMAP_BASE), currentFrame(0)
 {
     Light mainLight (light_position, light_diffuse, 1.0f, light_specular, true);
     manager.addLight(mainLight);
@@ -1644,13 +1911,13 @@ void TranslucentMaterials::paintGL()
         switch(render_mode)
         {
         case DRAW_JENSEN:
-            render_direct_array(reload_shaders,render_to_cubemap_jensen);
+            render_direct_array_time(reload_shaders,render_to_cubemap_jensen);
             break;
         case DRAW_BETTER:
             render_direct_test(reload_shaders, render_to_cubemap_jensen);
             break;
         case DRAW_DIRECTIONAL:
-            render_direct_test(reload_shaders, render_to_cubemap_jeppe);
+            render_direct_array_time(reload_shaders, render_to_cubemap_jeppe);
             break;
         }
 
@@ -1818,6 +2085,7 @@ void TranslucentMaterials::keyPressEvent(QKeyEvent *e)
         break;
     case 'R':
         reload_shaders = true;
+        currentFrame = 0;
         break;
     case 'L':
     {
@@ -1858,7 +2126,7 @@ ThreeDObject *TranslucentMaterials::getDefaultObject()
     Mesh::ScatteringMaterial * scattering_mat = getDefaultMaterial(S_Marble);
     ThreeDObject * bunny1 = new ThreeDObject();
     bunny1->init(objects_path+"dragon.obj", "bunny1", *scattering_mat);
-    bunny1->setScale(Vec3f(2.f));
+    bunny1->setScale(Vec3f(1.5f));
     //bunny1->setRotation(Vec3f(1,0,0), 90);
     bunny1->setTranslation(Vec3f(0,0,2.0f));
     bunny1->enabled = true;

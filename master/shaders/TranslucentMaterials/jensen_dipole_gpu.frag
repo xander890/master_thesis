@@ -180,7 +180,7 @@ void main()
     }
 
     fragColor = vec4(Lo,1.0f);
-    fragColor = pow(fragColor, 1.0f/gamma);
+    fragColor = pow(fragColor, vec4(1.0f/gamma));
 
 }
 

@@ -1,7 +1,5 @@
 #version 430
-
-//#define COLORS
-//#define XONLY
+#define TIME
 uniform sampler2DArray colorMap;
 uniform sampler2DArrayShadow depthMap;
 
@@ -29,6 +27,8 @@ uniform mat4 cameraMatrices[DIRECTIONS];
 
 uniform float gamma;
 
+uniform float current_frame_rev;
+
 float sample_shadow_map(vec3 light_pos, float layer)
 {
     light_pos.z -= shadow_bias; //bias to avoid shadow acne
@@ -55,17 +55,24 @@ void main(void)
     {
         vec4 l = cameraMatrices[i] * vec4(pos,1.0f);
         vec4 color = textureLod(colorMap,vec3(l.xy,i),mipmap_LOD);
-        float vis = sample_shadow_map(l.xyz,i) * step(1.0,color.a);
+        float vis = sample_shadow_map(l.xyz,i) * step(1.0, color.a);
         fragColor += color * vis;
         div += vis;
     }
 
     fragColor /= div;
+
+
+   // int i = 1;
+   // vec4 l = cameraMatrices[i] * vec4(pos,1.0f);
+   // fragColor =  texture(colorMap,vec3(l.xy,i)) * vec4(sample_shadow_map(l.xyz,i));
+
     fragColor *= disc_area * one_over_max_samples;
+
+#ifdef TIME
+    fragColor *= current_frame_rev;
+#endif
     fragColor = pow(fragColor, vec4(1/gamma));
 
-/*    int i = 0;
-    vec4 l = cameraMatrices[i] * vec4(pos,1.0f);
-    fragColor = vec4(sample_shadow_map(l.xyz,i));
-*/
+
 }

@@ -71,6 +71,23 @@ namespace Mesh
         return nullptr;
     }
 
+    void Material::removeTexture(string& name)
+    {
+        int toRemove = -1;
+        for(int i = 0; i < textures.size(); i++)
+        {
+            if(name.compare(textures[i]->get_name()) == 0)
+            {
+                toRemove = i;
+                break;
+            }
+        }
+
+        if(toRemove != -1)
+        {
+            textures.erase(textures.begin() + toRemove);
+        }
+    }
 
     void Material::initTextures()
     {

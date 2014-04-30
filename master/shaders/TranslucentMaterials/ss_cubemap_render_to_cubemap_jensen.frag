@@ -1,8 +1,16 @@
 #version 430
+#define RANDOM
+#define TIME
+
 layout(location = 0) out vec4 fragColor;
+
+
 uniform sampler2D ntex;
 uniform sampler2D vtex;
 uniform sampler2D discpoints;
+#ifdef TIME
+uniform sampler2DArray colorMap;
+#endif
 
 in vec3 position;
 in vec3 norm;
@@ -11,15 +19,17 @@ uniform vec4 light_pos[50];
 uniform vec4 light_diff[50];
 uniform mat4 lightMatrix;
 
-#define RANDOM
-
-//const int DISC_POINTS = 300;
-//uniform vec2 discpoints[DISC_POINTS];
-
 uniform float one_over_max_samples;
 uniform float one_over_discs;
 uniform int currentDisc;
 
+#ifdef TIME
+uniform int convergence_frames;
+uniform int current_frame;
+const int DISCS = 10;
+uniform mat4 cameraMatrices[DISCS];
+uniform float epsilon_combination;
+#endif
 
 uniform float discradius; 
 uniform int samples;
@@ -31,7 +41,9 @@ uniform vec3 D;
 uniform vec3 transmission;
 uniform vec3 reduced_albedo;
 
+
 const float M_PI = 3.141592654;
+
 
 vec3 refract2(vec3 inv, vec3 n, float n1, float n2)
 {
@@ -143,6 +155,25 @@ void main(void)
     vec4 light_pos = lightMatrix * vec4(position_mod,1.0f);
     vec2 circle_center = light_pos.xy;
 
+#ifdef TIME
+    vec4 l = cameraMatrices[currentDisc] * vec4(position,1.0f);
+    vec4 oldColor = texture(colorMap,vec3(l.xy,currentDisc));
+
+    if(current_frame == 0)
+    {
+        oldColor = vec4(0.0f); //to avoid garbage on the first round
+    }
+
+    if(current_frame == convergence_frames)
+    {
+        fragColor = oldColor;
+        return;
+    }
+
+#else
+    vec4 oldColor = vec4(0.0f);
+#endif
+
     vec3 color = vec3(0.0f);
 
     vec3 Li = light_diff[0].xyz;
@@ -150,15 +181,28 @@ void main(void)
     vec3 accumulate = vec3(0.0f);
     int i, count = 0;
 
+#ifdef TIME
+    float time = float(current_frame) / float(convergence_frames);
+    int tt = current_frame;
+//    tt = 0;
+//    time = 0;
+#else
+    float time = 0;
+    int current_frame = 0;
+#endif
+
 #ifdef RANDOM
-    float r_angle = noise(xo * currentDisc * 100) * 2 * M_PI;
+    float noise1 = noise(xo * currentDisc * (197));
+    float noise2 = noise(xo * currentDisc * (677 + tt));
+    float r_angle = (noise1 + time) * 2 * M_PI;
+    float delta_rad = discradius / samples * (noise2 - 0.5f);
     mat2 rot = mat2(cos(r_angle),sin(r_angle), -sin(r_angle), cos(r_angle));
 #endif
 
     for(i = 0; i < samples; i++)
     {
 #ifdef RANDOM
-        vec2 discoffset = discradius * rot * texture(discpoints,vec2(i * one_over_max_samples, currentDisc * one_over_discs)).xy;
+        vec2 discoffset = (discradius + delta_rad) * rot * texture(discpoints,vec2(i * one_over_max_samples, currentDisc * one_over_discs)).xy;
 #else
         vec2 discoffset = discradius * texture(discpoints,vec2(i * one_over_max_samples, currentDisc * one_over_discs)).xy;
 #endif
@@ -176,9 +220,8 @@ void main(void)
         }
     }
 
-    fragColor = vec4(accumulate,1.0);
+    fragColor = oldColor + vec4(accumulate,1.0);
 
-    //fragColor = vec4(1.0f);
     //fragColor = vec4(noise(xo * 15));
 
     //fragColor = texture(ntex, circle_center.xy);

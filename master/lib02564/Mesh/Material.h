@@ -38,7 +38,7 @@ namespace Mesh
 
         virtual void addTexture(Texture * texture);
         virtual Texture *getTexture(std::string &name);
-
+        virtual void removeTexture(std::string &name);
         virtual void initTextures();
 
         virtual void addUniform(const char* name, int value);

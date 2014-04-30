@@ -253,7 +253,7 @@ void main()
 
     fragColor = vec4(Lo,1.0f);
 
-    fragColor = pow(fragColor, 1.0f/gamma);
+    fragColor = pow(fragColor, vec4(1.0f/gamma));
     //vec3 nx = texture(normals, _pos.xy).xyz;
     //vec3 nx1 = vec3(M * vec4(nx,0.0f));
     //fragColor = vec4(abs(nx1),1.0f);

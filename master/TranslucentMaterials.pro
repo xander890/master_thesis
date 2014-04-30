@@ -223,7 +223,9 @@ OTHER_FILES += shaders/TranslucentMaterials/* \
     shaders/TranslucentMaterials/ss_cubemap_render_to_cubemap_jeppe.vert \
     shaders/TranslucentMaterials/ss_cubemap_render_to_cubemap_jeppe.frag \
     shaders/TranslucentMaterials/ss_array_combination.vert \
-    shaders/TranslucentMaterials/ss_array_combination.frag
+    shaders/TranslucentMaterials/ss_array_combination.frag \
+    shaders/TranslucentMaterials/display_tex.vert \
+    shaders/TranslucentMaterials/display_tex.frag
 
 FORMS += \
     exercises/TranslucentMaterials/mainwindow.ui \
