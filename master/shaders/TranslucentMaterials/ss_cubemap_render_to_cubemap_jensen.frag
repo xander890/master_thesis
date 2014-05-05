@@ -1,6 +1,6 @@
 #version 430
 #define RANDOM
-#define TIME
+//#define TIME
 
 layout(location = 0) out vec4 fragColor;
 
@@ -12,8 +12,8 @@ uniform sampler2D discpoints;
 uniform sampler2DArray colorMap;
 #endif
 
-in vec3 position;
-in vec3 norm;
+smooth in vec3 position;
+smooth in vec3 norm;
 
 uniform vec4 light_pos[50];
 uniform vec4 light_diff[50];
@@ -21,7 +21,6 @@ uniform mat4 lightMatrix;
 
 uniform float one_over_max_samples;
 uniform float one_over_discs;
-uniform int currentDisc;
 
 #ifdef TIME
 uniform int convergence_frames;
@@ -143,6 +142,7 @@ float noise( in vec3 x )
 
 void main(void)
 {
+    int layer = gl_Layer;
     vec3 xo = position;
     vec3 no = normalize(norm);
     vec3 wi = vec3(light_pos[0]);
@@ -156,8 +156,8 @@ void main(void)
     vec2 circle_center = light_pos.xy;
 
 #ifdef TIME
-    vec4 l = cameraMatrices[currentDisc] * vec4(position,1.0f);
-    vec4 oldColor = texture(colorMap,vec3(l.xy,currentDisc));
+    vec4 l = cameraMatrices[layer] * vec4(position,1.0f);
+    vec4 oldColor = texture(colorMap,vec3(l.xy,layer));
 
     if(current_frame == 0)
     {
@@ -188,12 +188,12 @@ void main(void)
 //    time = 0;
 #else
     float time = 0;
-    int current_frame = 0;
+    int tt = 0;
 #endif
 
 #ifdef RANDOM
-    float noise1 = noise(xo * currentDisc * (197));
-    float noise2 = noise(xo * currentDisc * (677 + tt));
+    float noise1 = noise(xo * (layer+1) * (197));
+    float noise2 = noise(xo * (layer+1) * (677 + tt));
     float r_angle = (noise1 + time) * 2 * M_PI;
     float delta_rad = discradius / samples * (noise2 - 0.5f);
     mat2 rot = mat2(cos(r_angle),sin(r_angle), -sin(r_angle), cos(r_angle));
@@ -202,9 +202,9 @@ void main(void)
     for(i = 0; i < samples; i++)
     {
 #ifdef RANDOM
-        vec2 discoffset = (discradius + delta_rad) * rot * texture(discpoints,vec2(i * one_over_max_samples, currentDisc * one_over_discs)).xy;
+        vec2 discoffset = (discradius + delta_rad) * rot * texture(discpoints,vec2(i * one_over_max_samples, layer * one_over_discs)).xy;
 #else
-        vec2 discoffset = discradius * texture(discpoints,vec2(i * one_over_max_samples, currentDisc * one_over_discs)).xy;
+        vec2 discoffset = discradius * texture(discpoints,vec2(i * one_over_max_samples, layer * one_over_discs)).xy;
 #endif
         vec2 uvin = circle_center + discoffset;
         if(uvin.x >= 0.0f && uvin.x <= 1.0f && uvin.y >= 0.0f && uvin.y <= 1.0f)
@@ -221,9 +221,7 @@ void main(void)
     }
 
     fragColor = oldColor + vec4(accumulate,1.0);
-
-    //fragColor = vec4(noise(xo * 15));
-
+    //fragColor = vec4(noise1);
     //fragColor = texture(ntex, circle_center.xy);
     //fragColor = vec4(count-149,0.0,0.0,1.0);
     //fragColor = vec4(100 *abs(offset),1.0f);

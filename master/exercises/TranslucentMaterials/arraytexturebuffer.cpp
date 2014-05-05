@@ -7,7 +7,7 @@ void ArrayTextureBuffer::relinquish()
     glDeleteFramebuffers(1, &fbo);
 }
 
-ArrayTextureBuffer::ArrayTextureBuffer(int size, int layerCount, int mipmaps) : arraytex(0), depthtex(0), fbo(0), size(size), layers(layerCount), levels(mipmaps)
+ArrayTextureBuffer::ArrayTextureBuffer(int size, int layerCount, int mipmaps) : depth_rb(0),arraytex(0), depthtex(0), fbo(0), size(size), layers(layerCount), levels(mipmaps)
 {
 
     initialize();
@@ -41,7 +41,7 @@ void ArrayTextureBuffer::initialize()
     }
 
     glGenerateMipmap(GL_TEXTURE_2D_ARRAY);
-
+check_gl_error();
     glBindTexture(GL_TEXTURE_2D_ARRAY, depthtex);
     glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -61,7 +61,7 @@ void ArrayTextureBuffer::initialize()
         glTexImage3D(GL_TEXTURE_2D_ARRAY, i, GL_DEPTH_COMPONENT32, size, size, layers, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
     }
 
-
+check_gl_error();
 //    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);
 //    glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, vtex, 0);
 //    glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, ntex, 0);
@@ -69,8 +69,10 @@ void ArrayTextureBuffer::initialize()
 //    if(glCheckFramebufferStatus(GL_DRAW_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 //        cout << "Something wrong with FBO" << endl;
 //    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+    check_gl_error();
     colorTex = new Mesh::Texture("colorMap", arraytex, GL_TEXTURE_2D_ARRAY);
     depthTex = new Mesh::Texture("depthMap",depthtex, GL_TEXTURE_2D_ARRAY);
+    check_gl_error();
 }
 
 int ArrayTextureBuffer::enable(int layer)
@@ -92,6 +94,24 @@ int ArrayTextureBuffer::enable(int layer)
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     check_gl_error();
 
+    return 0;
+}
+
+int ArrayTextureBuffer::enableUniqueTarget()
+{
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);
+    glFramebufferTexture(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, arraytex, 0);
+    glFramebufferTexture(GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthtex, 0);
+    glDrawBuffer(GL_COLOR_ATTACHMENT0);
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+    return 0;
+}
+
+int ArrayTextureBuffer::enableUniqueColorTarget(int mipmapLevel)
+{
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);
+    glFramebufferTexture(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, arraytex, mipmapLevel);
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     return 0;
 }
 

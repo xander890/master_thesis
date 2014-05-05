@@ -1,15 +1,16 @@
 #version 430
-#define TIME
+#define TIME 0
+#define DEBUG 0
 uniform sampler2DArray colorMap;
 uniform sampler2DArrayShadow depthMap;
 
-uniform vec4 light_pos[50];
+smooth in vec3 position;
+smooth in vec3 norm;
 
 out vec4 fragColor;
 
-in vec3 position;
-in vec3 norm;
 
+uniform vec4 light_pos[50];
 // epsilons (error control)
 uniform float shadow_bias;
 uniform float epsilon_combination;
@@ -40,8 +41,6 @@ float sample_shadow_map(vec3 light_pos, float layer)
 
 void main(void)
 {
-
-
     vec3 no = normalize(norm);
     vec3 wi = vec3(light_pos[0]);
     wi = normalize(wi);
@@ -55,21 +54,22 @@ void main(void)
     {
         vec4 l = cameraMatrices[i] * vec4(pos,1.0f);
         vec4 color = textureLod(colorMap,vec3(l.xy,i),mipmap_LOD);
-        float vis = sample_shadow_map(l.xyz,i) * step(1.0, color.a);
+        float vis = sample_shadow_map(l.xyz,i) * step(1.0f, color.a);
         fragColor += color * vis;
         div += vis;
     }
 
     fragColor /= div;
 
-
-   // int i = 1;
-   // vec4 l = cameraMatrices[i] * vec4(pos,1.0f);
-   // fragColor =  texture(colorMap,vec3(l.xy,i)) * vec4(sample_shadow_map(l.xyz,i));
+#if DEBUG == 1
+    int i = 0;
+    vec4 l = cameraMatrices[i] * vec4(pos,1.0f);
+    fragColor =  texture(colorMap,vec3(l.xy,i)) * vec4(sample_shadow_map(l.xyz,i));
+#endif
 
     fragColor *= disc_area * one_over_max_samples;
 
-#ifdef TIME
+#if TIME == 1
     fragColor *= current_frame_rev;
 #endif
     fragColor = pow(fragColor, vec4(1/gamma));

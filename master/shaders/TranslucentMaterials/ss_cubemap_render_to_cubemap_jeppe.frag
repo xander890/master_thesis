@@ -21,7 +21,6 @@ uniform mat4 lightMatrix;
 
 uniform float one_over_max_samples;
 uniform float one_over_discs;
-uniform int currentDisc;
 
 #ifdef TIME
 uniform int convergence_frames;
@@ -210,8 +209,8 @@ void main(void)
     vec2 circle_center = light_pos.xy;
 
 #ifdef TIME
-    vec4 l = cameraMatrices[currentDisc] * vec4(position,1.0f);
-    vec4 oldColor = texture(colorMap,vec3(l.xy,currentDisc));
+    vec4 l = cameraMatrices[gl_Layer] * vec4(position,1.0f);
+    vec4 oldColor = texture(colorMap,vec3(l.xy,gl_Layer));
 
     if(current_frame == 0)
     {
@@ -246,8 +245,8 @@ void main(void)
 #endif
 
 #ifdef RANDOM
-    float noise1 = noise(xo * currentDisc * (197));
-    float noise2 = noise(xo * currentDisc * (677 + current_frame));
+    float noise1 = noise(xo * gl_Layer * (197));
+    float noise2 = noise(xo * gl_Layer * (677 + current_frame));
     float r_angle = (noise1 + time) * 2 * M_PI;
     float delta_rad = discradius / samples * (noise2 - 0.5f);
     mat2 rot = mat2(cos(r_angle),sin(r_angle), -sin(r_angle), cos(r_angle));
@@ -256,9 +255,9 @@ void main(void)
     for(i = 0; i < samples; i++)
     {
 #ifdef RANDOM
-        vec2 discoffset = (discradius + delta_rad) * rot * texture(discpoints,vec2(i * one_over_max_samples, currentDisc * one_over_discs)).xy;
+        vec2 discoffset = (discradius + delta_rad) * rot * texture(discpoints,vec2(i * one_over_max_samples, gl_Layer * one_over_discs)).xy;
 #else
-        vec2 discoffset = discradius * texture(discpoints,vec2(i * one_over_max_samples, currentDisc * one_over_discs)).xy;
+        vec2 discoffset = discradius * texture(discpoints,vec2(i * one_over_max_samples, gl_Layer * one_over_discs)).xy;
 #endif
         vec2 uvin = circle_center + discoffset;
         if(uvin.x >= 0.0f && uvin.x <= 1.0f && uvin.y >= 0.0f && uvin.y <= 1.0f)

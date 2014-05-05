@@ -3,16 +3,14 @@ in vec3 vertex;
 in vec3 normal;
 in vec3 texcoord;
 
-uniform mat4 PVM;
 uniform mat4 M;
 
-out vec3 position;
-out vec3 norm;
-
+smooth out vec3 v_position;
+smooth out vec3 v_norm;
 
 void main()
 {
-    position = vec3(M * vec4(vertex,1));
-    norm = normalize(vec3(M * vec4(normal,0)));
-    gl_Position = PVM * vec4(vertex,1);
+    v_position = vec3(M * vec4(vertex,1));
+    v_norm = normalize(vec3(M * vec4(normal,0)));
+    gl_Position = M * vec4(vertex,1);
 }

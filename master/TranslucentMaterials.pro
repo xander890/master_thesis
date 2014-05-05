@@ -63,7 +63,8 @@ HEADERS += exercises/TranslucentMaterials/GBuffer.h\
     exercises/TranslucentMaterials/cubemapbuffer.h \
     exercises/TranslucentMaterials/GUI/sliderlabel.h \
     exercises/TranslucentMaterials/GUI/scatteringmaterialgui.h \
-    exercises/TranslucentMaterials/arraytexturebuffer.h
+    exercises/TranslucentMaterials/arraytexturebuffer.h \
+    exercises/TranslucentMaterials/mipmapgenerator.h
 
 SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
         exercises/TranslucentMaterials/ShadowBuffer.cpp\
@@ -100,7 +101,8 @@ SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
     exercises/TranslucentMaterials/cubemapbuffer.cpp \
     exercises/TranslucentMaterials/GUI/sliderlabel.cpp \
     exercises/TranslucentMaterials/GUI/scatteringmaterialgui.cpp \
-    exercises/TranslucentMaterials/arraytexturebuffer.cpp
+    exercises/TranslucentMaterials/arraytexturebuffer.cpp \
+    exercises/TranslucentMaterials/mipmapgenerator.cpp
 
 
 HEADERS += lib02564/CGLA/ArithMatFloat.h\
@@ -225,7 +227,14 @@ OTHER_FILES += shaders/TranslucentMaterials/* \
     shaders/TranslucentMaterials/ss_array_combination.vert \
     shaders/TranslucentMaterials/ss_array_combination.frag \
     shaders/TranslucentMaterials/display_tex.vert \
-    shaders/TranslucentMaterials/display_tex.frag
+    shaders/TranslucentMaterials/display_tex.frag \
+    shaders/TranslucentMaterials/ss_cubemap_render_to_cubemap_array.geom \
+    shaders/TranslucentMaterials/ss_cubemap_render_to_mipmap.vert \
+    shaders/TranslucentMaterials/ss_cubemap_render_to_mipmap.frag \
+    shaders/TranslucentMaterials/ss_cubemap_render_to_mipmap.geom \
+    shaders/TranslucentMaterials/display_tex_2.frag \
+    shaders/TranslucentMaterials/display_tex_2.vert \
+    shaders/TranslucentMaterials/display_tex.geom
 
 FORMS += \
     exercises/TranslucentMaterials/mainwindow.ui \

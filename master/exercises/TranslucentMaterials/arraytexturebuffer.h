@@ -8,7 +8,7 @@
 class ArrayTextureBuffer
 {
 
-    GLuint fbo; // The framebuffer object and the render buffer
+    GLuint fbo,depth_rb; // The framebuffer object and the render buffer
     GLuint arraytex,depthtex;
     int size;
     int layers;
@@ -29,6 +29,8 @@ public:
     /** Enable rendering to the FBO that is associated with the GBuffer. No enable since we
      might not want to switch back to the previous framebuffer. */
     int enable(int level);
+    int enableUniqueTarget();
+    int enableUniqueColorTarget(int mipmapLevel);
 
     Mesh::Texture * getColorTexture();
     Mesh::Texture * getDepthTexture();
