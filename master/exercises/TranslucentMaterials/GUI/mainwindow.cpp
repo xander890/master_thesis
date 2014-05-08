@@ -63,7 +63,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->shadow_bias->init("Shadow bias: ", ui->translucentMaterials->getParameters()->shadow_bias, 0.0, 0.2, false);
     connect(ui->shadow_bias, SIGNAL(valueChanged(float)), this, SLOT(shadowBiasChanged(float)));
 
-    ui->lod->init("Lod: ", ui->translucentMaterials->getParameters()->LOD, 0.0, 3.0, false);
+    ui->lod->init("Lod: ", ui->translucentMaterials->getParameters()->LOD, 0, 3, true);
     connect(ui->lod, SIGNAL(valueChanged(float)), this, SLOT(LODChanged(float)));
 
     ui->gamma->init("Gamma: ", ui->translucentMaterials->getParameters()->gamma, 0.1, 3.5, false);

@@ -74,6 +74,11 @@ namespace Mesh
             return target;
         }
 
+        void set_name(std::string & name)
+        {
+            this->name = name;
+        }
+
     private:
         void load();
         GLuint id;

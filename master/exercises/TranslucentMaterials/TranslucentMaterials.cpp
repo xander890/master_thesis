@@ -753,7 +753,6 @@ void TranslucentMaterials::getDiscPoints(vector<Vec3f> * points, const int n, co
 void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & render_to_array)
 {
 
-    static ShaderProgramDraw render_mipmaps(shader_path,"ss_cubemap_render_to_mipmap.frag","","ss_cubemap_render_to_mipmap.frag");
 
     static ShaderProgramDraw obj_shader(shader_path,"object.vert","","object.frag");
     static ShaderProgramDraw gbuff_shader(shader_path,"ss_cubemap_gbuffer.vert","","ss_cubemap_gbuffer.frag");
@@ -764,7 +763,10 @@ void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & 
     static ShaderProgramDraw render_to_cubemap_test_screen(shader_path,"ss_cubemap_test_render_to_cubemap_screen.vert","","ss_cubemap_test_render_to_cubemap_screen.frag");
     static ShaderProgramDraw render_to_cubemap_test_cube(shader_path,"ss_cubemap_test_render_to_cubemap_cube.vert","","ss_cubemap_test_render_to_cubemap_cube.frag");
     static ShaderProgramDraw render_combination(shader_path,"ss_array_combination.vert","","ss_array_combination.frag");
-    static ShaderProgramDraw test(shader_path,"display_tex.vert","display_tex.geom","display_tex.frag");
+
+    static ShaderProgramDraw render_mipmaps(shader_path,"display_tex.vert","","display_tex.frag");
+    static ThreeDPlane * screen_quad = new ThreeDPlane();
+    static Mesh::Material * test_mat = new Mesh::Material();
     static ShaderProgramDraw test2(shader_path,"display_tex_2.vert","","display_tex_2.frag");
 
     const int GBUFFER_SIZE = 1024;
@@ -772,9 +774,14 @@ void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & 
     static VertexNormalBuffer light_buffer(GBUFFER_SIZE);
 
     const int ARRAY_TEXTURE_SIZE = 1024;
-    const int DIRECTIONS = 10;
+    const int LAYERS = 10;
 
-    static ArrayTextureBuffer arraytexmap(ARRAY_TEXTURE_SIZE,DIRECTIONS,1);
+    const int MIPMAPS = 3;
+    const int SCALING [MIPMAPS] = {2, 4, 8};
+    static ArrayTextureBuffer arraytexmap(ARRAY_TEXTURE_SIZE,LAYERS,1);
+    static MipMapGenerator mipmaps [MIPMAPS] = {MipMapGenerator(ARRAY_TEXTURE_SIZE/SCALING[0], LAYERS, 1), MipMapGenerator(ARRAY_TEXTURE_SIZE/SCALING[1], LAYERS, 1), MipMapGenerator(ARRAY_TEXTURE_SIZE/SCALING[2], LAYERS, 1)};
+
+    arraytexmap.disableMipMaps();
 
     const float CAMERA_DISTANCE = 6.0f; //This should not matter (can be DIST = max bounding box + camera near + epsilon
     const float CAMERA_NEAR = 1.0f;
@@ -782,7 +789,7 @@ void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & 
     const float CAMERA_SIZE = 6.0f;
 
     int discPoints = params->samples;
-    const int DISCS = DIRECTIONS;
+    const int DISCS = LAYERS;
 
     //TODO more objs
     ThreeDObject * obj = objects[0];
@@ -809,7 +816,7 @@ void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & 
         render_to_cubemap_test_cube.reload();
         render_combination.reload();
         test2.reload();
-        test.reload();
+        render_mipmaps.reload();
 
     }
 
@@ -817,6 +824,7 @@ void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & 
 
     if(!initialized)
     {
+        screen_quad->init("","plane",*test_mat);
         initialized = true;
         vector<Vec3f> * discpoint_data = new vector<Vec3f>();
         getDiscPoints(discpoint_data,discPoints,DISCS);
@@ -878,7 +886,7 @@ void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & 
 
     Vec3f center = obj->getCenter();
 
-    static Vec3f cameraPositions[DIRECTIONS] = {
+    static Vec3f cameraPositions[LAYERS] = {
         center + Vec3f(1,0,0) * CAMERA_DISTANCE, //+X
         center - Vec3f(1,0,0) * CAMERA_DISTANCE, //-X
         center + Vec3f(0,1,0) * CAMERA_DISTANCE, //+Y
@@ -891,7 +899,7 @@ void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & 
         center + Vec3f(1.0f/sqrt(2.0f),-1.0f/sqrt(2.0f),0) * CAMERA_DISTANCE
     };
 
-    static Mat4x4f viewMatrices[DIRECTIONS]  = {
+    static Mat4x4f viewMatrices[LAYERS]  = {
         scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[0], center, Vec3f(0,1,0)), //+X
         scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[1], center, Vec3f(0,1,0)), //-X
         scaling_Mat4x4f(Vec3f(-1,1,1)) * lookat_Mat4x4f_target(cameraPositions[2], center, Vec3f(0,0,1)), //+Y
@@ -904,8 +912,8 @@ void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & 
         scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[9], center, Vec3f(0,1,0))
     };
 
-    vector<Mat4x4f> planeTransformMatrices(DIRECTIONS);
-    vector<Mat4x4f> viewMatricesvector(DIRECTIONS);
+    vector<Mat4x4f> planeTransformMatrices(LAYERS);
+    vector<Mat4x4f> viewMatricesvector(LAYERS);
 
     Mat4x4f model = identity_Mat4x4f();
     Mat4x4f projection = ortho_Mat4x4f(Vec3f(-CAMERA_SIZE,-CAMERA_SIZE,CAMERA_NEAR),Vec3f(CAMERA_SIZE,CAMERA_SIZE,CAMERA_FAR));
@@ -914,7 +922,7 @@ void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & 
     mat2 *= scaling_Mat4x4f(Vec3f(0.5));
     mat2 *= projection;
 
-    for(int i = 0; i < DIRECTIONS; i++)
+    for(int i = 0; i < LAYERS; i++)
     {
         planeTransformMatrices[i] = mat2 * viewMatrices[i];
         viewMatricesvector[i] = viewMatrices[i];
@@ -952,8 +960,8 @@ void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & 
 #endif
 
 
-    render_to_array.set_uniform("viewMatrices", viewMatricesvector, DIRECTIONS);
-    render_to_array.set_uniform("layers", DIRECTIONS);
+    render_to_array.set_uniform("viewMatrices", viewMatricesvector, LAYERS);
+    render_to_array.set_uniform("layers", LAYERS);
     render_to_array.set_model_matrix(model);
     render_to_array.set_projection_matrix(projection);
     arraytexmap.enableUniqueTarget();
@@ -961,28 +969,89 @@ void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & 
 
     //arraytexmap.generateMipMaps();
 
-    static MipMapGenerator mip(ARRAY_TEXTURE_SIZE/2, DIRECTIONS);
-    glDisable(GL_DEPTH_TEST);
-    mip.enable(1);
-    test.use();
-    test.set_uniform("viewMatrices", viewMatricesvector, DIRECTIONS);
-    test.set_uniform("layers", DIRECTIONS);
+    //glDisable(GL_DEPTH_TEST);
+
+    render_mipmaps.use();
+    render_mipmaps.set_uniform("viewMatrices", viewMatricesvector, LAYERS);
+    render_mipmaps.set_uniform("layers", LAYERS);
 
 
+check_gl_error();
+    for(int level = 0; level < MIPMAPS; level++)
+    {
+        glViewport(0, 0, ARRAY_TEXTURE_SIZE / SCALING[level], ARRAY_TEXTURE_SIZE / SCALING[level]);
 
+        /* image processing of mipmaps */
+        screen_quad->mesh.getMaterial()->removeTexture(string("colorMap"));
+        GLuint sourceTex = 0;
+        if(level == 0)
+        {
+            sourceTex = arraytexmap.getColorTexture()->get_id();
+        }
+        else
+        {
+            sourceTex = mipmaps[level - 1].getColorTexture()->get_id();
+        }
+        screen_quad->mesh.getMaterial()->addTexture(new Mesh::Texture("colorMap", sourceTex, GL_TEXTURE_2D_ARRAY));
+
+        render_mipmaps.set_uniform("scaling", SCALING[level]);
+
+        render_mipmaps.set_uniform("texStep", 1.0f / ARRAY_TEXTURE_SIZE);
+
+        for(int i = 0; i < LAYERS; i++)
+        {
+            mipmaps[level].enable(i);
+            render_mipmaps.set_uniform("currentLayer", i);
+            screen_quad->display(render_mipmaps);
+        }
+        check_gl_error();
+    }
+check_gl_error();
+    glViewport(0, 0, ARRAY_TEXTURE_SIZE , ARRAY_TEXTURE_SIZE );
+    arraytexmap.enableMipMaps();
+
+    /* copying texture in mipmaps */
+    for(int level = 0; level < MIPMAPS; level++)
+    {
+        GLuint target = arraytexmap.getColorTexture()->get_id();
+        GLuint source = mipmaps[level].getColorTexture()->get_id();
+        GLuint source_d = mipmaps[level].getDepthTexture()->get_id();
+
+        glBindFramebuffer(GL_READ_FRAMEBUFFER, mipmaps[level].getFBO());
+        glBindTexture(GL_TEXTURE_2D_ARRAY, target);
+
+        for(int i = 0; i < LAYERS; i++)
+        {
+            glFramebufferTextureLayer(GL_READ_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, source, 0, i);
+            glFramebufferTextureLayer(GL_READ_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, source_d, 0, i);
+            glReadBuffer(GL_COLOR_ATTACHMENT0);
+            glCopyTexSubImage3D(GL_TEXTURE_2D_ARRAY, level + 1, 0, 0, i, 0, 0, ARRAY_TEXTURE_SIZE / SCALING[level], ARRAY_TEXTURE_SIZE / SCALING[level]);
+        }
+
+        glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
+        glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
+
+    }
     //glUniform1i(test.get_uniform_location("colorMap"), 0);
     //glActiveTexture(GL_TEXTURE0);
     //glBindTexture(GL_TEXTURE_2D_ARRAY, front->getColorTexture()->get_id());
-    draw_screen_aligned_quad(test);
-    glEnable(GL_DEPTH_TEST);
+
+    //draw_screen_aligned_quad(test);
+    //glEnable(GL_DEPTH_TEST);
     check_gl_error();
 
-    Mesh::Texture * color2 = mip.getColorTexture();
-    scattering_material->addTexture(color2);
-
+    test_mat->removeTexture(string("colorMap"));
+    test_mat->addTexture(arraytexmap.getColorTexture());
+    test_mat->addTexture(arraytexmap.getDepthTexture());
+    test_mat->addTexture(mipmaps[1].getColorTexture());
 
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER,0);
     glViewport(0,0,window_width,window_height);
+
+    test2.use();
+    test2.set_uniform("mipmap_LOD",params->LOD);
+    if(params->cubemapVisible)
+        screen_quad->display(test2);
 
     Mesh::Texture * color = arraytexmap.getColorTexture();
     Mesh::Texture * depth = arraytexmap.getDepthTexture();
@@ -998,7 +1067,7 @@ void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & 
     render_combination.set_uniform("one_over_max_samples", 1.0f/params->samples);
     render_combination.set_uniform("mipmap_LOD",params->LOD);
 
-    render_combination.set_uniform("cameraMatrices", planeTransformMatrices,DIRECTIONS);
+    render_combination.set_uniform("cameraMatrices", planeTransformMatrices,LAYERS);
     float worldCircleRadius = params->circleradius * 2 * LIGHT_CAMERA_SIZE;
     render_combination.set_uniform("disc_area", (float)(worldCircleRadius * worldCircleRadius * M_PI));
     render_combination.set_uniform("step_tex", 1.0f/ARRAY_TEXTURE_SIZE);
@@ -1006,11 +1075,8 @@ void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & 
     obj->display(render_combination);
 
 
-    test2.use();
-    scattering_material->loadUniforms(test2);
+    //scattering_material->loadUniforms(test2);
 
-    if(params->cubemapVisible)
-        draw_screen_aligned_quad(test2);
 
 
 }

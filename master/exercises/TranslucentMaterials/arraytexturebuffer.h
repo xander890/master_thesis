@@ -8,6 +8,7 @@
 class ArrayTextureBuffer
 {
 
+public:
     GLuint fbo,depth_rb; // The framebuffer object and the render buffer
     GLuint arraytex,depthtex;
     int size;
@@ -16,7 +17,6 @@ class ArrayTextureBuffer
     /// Get rid of resources.
     void relinquish();
 
-public:
 
     /// Construct with given size
     ArrayTextureBuffer(int size, int layerCount = 6, int mipmaps = 1);
@@ -35,6 +35,8 @@ public:
     Mesh::Texture * getColorTexture();
     Mesh::Texture * getDepthTexture();
     void generateMipMaps();
+    void enableMipMaps();
+    void disableMipMaps();
 
     Mesh::Texture * colorTex;
     Mesh::Texture * depthTex;

@@ -25,8 +25,8 @@ void ArrayTextureBuffer::initialize()
     glBindTexture(GL_TEXTURE_2D_ARRAY, arraytex);
     glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
     //glTexStorage3D(GL_TEXTURE_2D_ARRAY, levels, GL_RGBA16F, size, size, layers);
     //Upload pixel data.
@@ -37,11 +37,11 @@ void ArrayTextureBuffer::initialize()
 
     for(int i = 0; i < levels; i++)
     {
-        glTexImage3D(GL_TEXTURE_2D_ARRAY, i, GL_RGBA16F, size, size, layers, 0, GL_RGBA, GL_FLOAT, 0);
+        glTexImage3D(GL_TEXTURE_2D_ARRAY, i, GL_RGBA32F, size, size, layers, 0, GL_RGBA, GL_FLOAT, 0);
     }
 
     glGenerateMipmap(GL_TEXTURE_2D_ARRAY);
-check_gl_error();
+
     glBindTexture(GL_TEXTURE_2D_ARRAY, depthtex);
     glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -129,4 +129,21 @@ void ArrayTextureBuffer::generateMipMaps()
 {
     glBindTexture(GL_TEXTURE_2D_ARRAY, arraytex);
     glGenerateMipmap(GL_TEXTURE_2D_ARRAY);
+    glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
+}
+
+void ArrayTextureBuffer::enableMipMaps()
+{
+    glBindTexture(GL_TEXTURE_2D_ARRAY, arraytex);
+    glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
+}
+
+void ArrayTextureBuffer::disableMipMaps()
+{
+    glBindTexture(GL_TEXTURE_2D_ARRAY, arraytex);
+    glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
 }

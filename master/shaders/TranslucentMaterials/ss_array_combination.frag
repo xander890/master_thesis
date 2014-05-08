@@ -74,5 +74,7 @@ void main(void)
 #endif
     fragColor = pow(fragColor, vec4(1/gamma));
 
-
+    //fragColor = vec4(0.0f);
+    //if(div < 0.01)
+    //    fragColor = vec4(1.0f);
 }
