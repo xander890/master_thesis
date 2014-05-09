@@ -27,6 +27,7 @@ void ArrayTextureBuffer::initialize()
     glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D_ARRAY,GL_TEXTURE_MAX_LEVEL, 3);
 
     //glTexStorage3D(GL_TEXTURE_2D_ARRAY, levels, GL_RGBA16F, size, size, layers);
     //Upload pixel data.
@@ -35,11 +36,8 @@ void ArrayTextureBuffer::initialize()
     //The final 0 refers to the layer index offset (we start from index 0 and have 2 levels).
     //Altogether you can specify a 3D box subset of the overall texture, but only one mip level at a time.
 
-    for(int i = 0; i < levels; i++)
-    {
-        glTexImage3D(GL_TEXTURE_2D_ARRAY, i, GL_RGBA32F, size, size, layers, 0, GL_RGBA, GL_FLOAT, 0);
-    }
 
+    glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_RGBA32F, size, size, layers, 0, GL_RGBA, GL_FLOAT, 0);
     glGenerateMipmap(GL_TEXTURE_2D_ARRAY);
 
     glBindTexture(GL_TEXTURE_2D_ARRAY, depthtex);
@@ -56,10 +54,8 @@ void ArrayTextureBuffer::initialize()
     //The following 2 zeroes refers to the x and y offsets in case you only want to specify a subrectangle.
     //The final 0 refers to the layer index offset (we start from index 0 and have 2 levels).
     //Altogether you can specify a 3D box subset of the overall texture, but only one mip level at a time.
-    for(int i = 0; i < levels; i++)
-    {
-        glTexImage3D(GL_TEXTURE_2D_ARRAY, i, GL_DEPTH_COMPONENT32, size, size, layers, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
-    }
+    glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_DEPTH_COMPONENT32, size, size, layers, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
+
 
 check_gl_error();
 //    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);

@@ -1,6 +1,6 @@
 #version 430
 #define RANDOM
-//#define TIME
+#define TIME
 
 layout(location = 0) out vec4 fragColor;
 

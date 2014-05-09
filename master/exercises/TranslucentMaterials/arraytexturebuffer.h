@@ -38,6 +38,7 @@ public:
     void enableMipMaps();
     void disableMipMaps();
 
+
     Mesh::Texture * colorTex;
     Mesh::Texture * depthTex;
 };
