@@ -93,7 +93,7 @@ int ArrayTextureBuffer::enable(int layer)
     return 0;
 }
 
-int ArrayTextureBuffer::enableUniqueTarget()
+int ArrayTextureBuffer::enable()
 {
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);
     glFramebufferTexture(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, arraytex, 0);

@@ -14,7 +14,7 @@ namespace GLGraphics
         }
         lights.push_back(l);
         isDirty = true;
-        size++;
+        lightsize++;
     }
 
     void LightManager::clearLights()
@@ -37,9 +37,10 @@ namespace GLGraphics
             positions[i] = shader.get_view_matrix() * (nepos);
         }
         */
-        shader.set_uniform(LIGHT_POS_UNIFORM, positions, size);
-        shader.set_uniform(LIGHT_DIFFUSE_COLOR_UNIFORM, diffuse, size);
-        shader.set_uniform(LIGHT_SPEC_COLOR_UNIFORM, specular, size);
+        shader.set_uniform(LIGHT_POS_UNIFORM, positions, lightsize);
+        shader.set_uniform(LIGHT_DIFFUSE_COLOR_UNIFORM, diffuse, lightsize);
+        shader.set_uniform(LIGHT_SPEC_COLOR_UNIFORM, specular, lightsize);
+        shader.set_uniform("light_number", lightsize);
 
         check_gl_error();
     }

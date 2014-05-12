@@ -19,7 +19,7 @@ public:
 
 
     /// Construct with given size
-    ArrayTextureBuffer(int size, int layerCount = 6, int mipmaps = 1);
+    ArrayTextureBuffer(int size, int layerCount, int mipmaps = 1);
 
     /// Destroy
     ~ArrayTextureBuffer() {relinquish();}
@@ -29,7 +29,7 @@ public:
     /** Enable rendering to the FBO that is associated with the GBuffer. No enable since we
      might not want to switch back to the previous framebuffer. */
     int enable(int level);
-    int enableUniqueTarget();
+    int enable();
     int enableUniqueColorTarget(int mipmapLevel);
 
     Mesh::Texture * getColorTexture();

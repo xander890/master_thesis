@@ -13,7 +13,7 @@ namespace GLGraphics
             diffuse(std::vector<CGLA::Vec4f>()),
             specular(std::vector<CGLA::Vec4f>()),
             positions(std::vector<CGLA::Vec4f>()),
-            size(0)
+            lightsize(0)
         {}
 
         void addLight(Light& l);
@@ -21,13 +21,14 @@ namespace GLGraphics
         static const int MAX_LIGHTS = 50;
         void loadLights(ShaderProgramDraw & shader);
         void reloadLights();
+        int size() {return lightsize;}
         Light& operator[] (int x) {return lights[x];}
 
     private:
         std::vector<Light> lights;
 
         bool isDirty;
-        int size;
+        int lightsize;
 
         std::vector<CGLA::Vec4f> diffuse;
         std::vector<CGLA::Vec4f> specular;

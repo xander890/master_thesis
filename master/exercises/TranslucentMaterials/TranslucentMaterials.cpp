@@ -50,9 +50,13 @@
 #include "Utils/areaestimator.h"
 #include "arraytexturebuffer.h"
 #include "mipmapgenerator.h"
+#include "arrayvertexnormalbuffer.h"
 
 #define BUNNIES
 #define POINT_DIST 0 // 0 random, 1 exponential, 2 uniform
+
+//#define SINGLE_LIGHT
+
 using namespace std;
 using namespace CGLA;
 using namespace GLGraphics;
@@ -71,8 +75,10 @@ bool reload_shaders = true;
 LightManager manager;
 
 const Vec4f light_specular(0.6f,0.6f,0.3f,0.6f);
-const Vec4f light_diffuse(.5f,.5f,.5f,1.0f);
-const Vec4f light_position(0.f,0.f,6.f,1);
+const Vec4f light_diffuse(.5f,.5f,.7f,1.0f);
+const Vec4f light_position(-6.f,0.f,0.f,1);
+const Vec4f light_diffuse_2(0.7,0.5,0.5,0.0);
+const Vec4f light_position_2(6.0,0.0,0.0,1.0);
 
 void draw_screen_aligned_quad(ShaderProgram& shader_prog)
 {
@@ -788,7 +794,7 @@ void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & 
     const float CAMERA_FAR = 21.0f;
     const float CAMERA_SIZE = 6.0f;
 
-    int discPoints = params->samples;
+    int discPoints = params->samples / manager.size();
     const int DISCS = LAYERS;
 
     //TODO more objs
@@ -965,7 +971,7 @@ void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & 
     render_to_array.set_uniform("layers", LAYERS);
     render_to_array.set_model_matrix(model);
     render_to_array.set_projection_matrix(projection);
-    arraytexmap.enableUniqueTarget();
+    arraytexmap.enable();
     obj->display(render_to_array);
 
     //arraytexmap.generateMipMaps();
@@ -1085,7 +1091,12 @@ check_gl_error();
 void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDraw & render_to_array)
 {
     static ShaderProgramDraw obj_shader(shader_path,"object.vert","","object.frag");
+
+#ifdef SINGLE_LIGHT
     static ShaderProgramDraw gbuff_shader(shader_path,"ss_cubemap_gbuffer.vert","","ss_cubemap_gbuffer.frag");
+#else
+    static ShaderProgramDraw gbuff_shader(shader_path,"ss_cubemap_gbuffer_multilight.vert","ss_cubemap_gbuffer_multilight.geom", "ss_cubemap_gbuffer_multilight.frag");
+#endif
     static ShaderProgramDraw gbuff_quad(shader_path,"ss_cubemap_test_gbuffer.vert","","ss_cubemap_test_gbuffer.frag");
     static ShaderProgramDraw gbuff_wrap(shader_path,"ss_cubemap_test_wrap_gbuffer.vert","","ss_cubemap_test_wrap_gbuffer.frag");
 
@@ -1101,7 +1112,8 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
 
     const int GBUFFER_SIZE = 1024;
     const float LIGHT_CAMERA_SIZE = 3.0f;
-    static VertexNormalBuffer light_buffer(GBUFFER_SIZE);
+
+
 
     const int ARRAY_TEXTURE_SIZE = 1024;
     const int LAYERS = 10;
@@ -1115,6 +1127,11 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
     ArrayTextureBuffer * front;
     ArrayTextureBuffer * back;
 
+#ifdef SINGLE_LIGHT
+    static VertexNormalBuffer light_buffer(GBUFFER_SIZE);
+#else
+    static ArrayVertexNormalBuffer light_buffer(GBUFFER_SIZE, 4);
+#endif
 
     const float CAMERA_DISTANCE = 6.0f; //This should not matter (can be DIST = max bounding box + camera near + epsilon
     const float CAMERA_NEAR = 1.0f;
@@ -1122,7 +1139,7 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
     const float CAMERA_SIZE = 6.0f;
     const int CONVERGENCE_FRAMES = 100;
 
-    int discPoints = params->samples;
+    int discPoints = params->samples / manager.size();
     const int DISCS = LAYERS;
 
     //TODO more objs
@@ -1152,6 +1169,7 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
         render_to_cubemap_test_cube.reload();
         render_combination.reload();
         render_mipmaps.reload();
+        currentFrame = 0;
     }
 
     Vec3f center = obj->getCenter();
@@ -1185,14 +1203,14 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
     vector<Mat4x4f> planeTransformMatrices(LAYERS);
     vector<Mat4x4f> viewMatricesvector(LAYERS);
 
-    Mat4x4f model = identity_Mat4x4f();
-    Mat4x4f projection = ortho_Mat4x4f(Vec3f(-CAMERA_SIZE,-CAMERA_SIZE,CAMERA_NEAR),Vec3f(CAMERA_SIZE,CAMERA_SIZE,CAMERA_FAR));
-
+    Mat4x4f model_identity = identity_Mat4x4f();
+    Mat4x4f projection_array = ortho_Mat4x4f(Vec3f(-CAMERA_SIZE,-CAMERA_SIZE,CAMERA_NEAR),Vec3f(CAMERA_SIZE,CAMERA_SIZE,CAMERA_FAR));
+    Mat4x4f projection_light = ortho_Mat4x4f(Vec3f(-LIGHT_CAMERA_SIZE,-LIGHT_CAMERA_SIZE,1),Vec3f(LIGHT_CAMERA_SIZE,LIGHT_CAMERA_SIZE,10));
 
 
     Mat4x4f mat2 = translation_Mat4x4f(Vec3f(0.5));
     mat2 *= scaling_Mat4x4f(Vec3f(0.5));
-    mat2 *= projection;
+    mat2 *= projection_array;
 
     for(int i = 0; i < LAYERS; i++)
     {
@@ -1233,23 +1251,50 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
             params->currentFlags &= ~(TranslucentParameters::SAMPLES_CHANGED);
         }
 
+
         gbuff_shader.use();
-        light_buffer.enable();
 
 
         // Set up a modelview matrix suitable for shadow: Maps from world coords to
         // shadow buffer coords.
+
+        gbuff_shader.set_model_matrix(model_identity);
+        gbuff_shader.set_projection_matrix(projection_light);
+
+#ifdef SINGLE_LIGHT
         Vec3f v = Vec3f(manager[0].position);
         gbuff_shader.set_view_matrix(lookat_Mat4x4f(v,-v,Vec3f(0,1,0))); //PARALLEL!
-        gbuff_shader.set_model_matrix(identity_Mat4x4f());
-        gbuff_shader.set_projection_matrix(ortho_Mat4x4f(Vec3f(-LIGHT_CAMERA_SIZE,-LIGHT_CAMERA_SIZE,1),Vec3f(LIGHT_CAMERA_SIZE,LIGHT_CAMERA_SIZE,10)));
+        Mat4x4f mat = translation_Mat4x4f(Vec3f(0.5));
+        mat *= scaling_Mat4x4f(Vec3f(0.5));
+        mat *= gbuff_shader.get_projection_matrix();
+        mat *= gbuff_shader.get_view_matrix();
+        scattering_material->addUniform("lightMatrix",mat);
+#else
 
+        vector<Mat4x4f> lightMatrices;
+        vector<Mat4x4f> inverseLightMatrices;
+        for(int i = 0; i < manager.size(); i++)
+        {
+            Vec3f light_dir = Vec3f(manager[i].position);
+            Mat4x4f V = lookat_Mat4x4f(light_dir,-light_dir,Vec3f(0,1,0));
+            lightMatrices.push_back(V); //PARALLEL!
+
+            Mat4x4f mat = translation_Mat4x4f(Vec3f(0.5));
+            mat *= scaling_Mat4x4f(Vec3f(0.5));
+            mat *= projection_light;
+            mat *= V;
+            inverseLightMatrices.push_back(mat);
+
+        }
+        gbuff_shader.set_uniform("lightMatrices",lightMatrices,manager.size());
+        gbuff_shader.set_uniform("layers", manager.size());
+#endif
         // Switch viewport size to that of shadow buffer.
 
         glViewport(0, 0, GBUFFER_SIZE, GBUFFER_SIZE);
-        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
         // Draw to shadow buffer.
+        light_buffer.enable();
         obj->display(gbuff_shader);
 
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
@@ -1259,17 +1304,13 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
         // the same size as the screen window.
         glViewport(0, 0, window_width, window_height);
 
-        Mat4x4f mat = translation_Mat4x4f(Vec3f(0.5));
-        mat *= scaling_Mat4x4f(Vec3f(0.5));
-        mat *= gbuff_shader.get_projection_matrix();
-        mat *= gbuff_shader.get_view_matrix();
+
 
         Mesh::Texture * vtex = light_buffer.getVertexTexture();
         Mesh::Texture * ntex = light_buffer.getNormalTexture();
 
         scattering_material->addTexture(vtex);
         scattering_material->addTexture(ntex);
-        scattering_material->addUniform("lightMatrix",mat);
 
         render_to_array.use();
 
@@ -1290,6 +1331,9 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
         render_to_array.set_uniform("discradius",trueRadius);
         render_to_array.set_uniform("epsilon_gbuffer", params->epsilon_gbuffer);
 
+#ifndef SINGLE_LIGHT
+        render_to_array.set_uniform("lightMatrices",inverseLightMatrices, manager.size());
+#endif
         render_to_array.set_uniform("epsilon_combination", params->epsilon_combination);
         render_to_array.set_uniform("cameraMatrices", planeTransformMatrices,LAYERS);
         render_to_array.set_uniform("current_frame", currentFrame);
@@ -1317,9 +1361,9 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
 
         render_to_array.set_uniform("viewMatrices", viewMatricesvector, LAYERS);
         render_to_array.set_uniform("layers", LAYERS);
-        render_to_array.set_model_matrix(model);
-        render_to_array.set_projection_matrix(projection);
-        front->enableUniqueTarget();
+        render_to_array.set_model_matrix(model_identity);
+        render_to_array.set_projection_matrix(projection_array);
+        front->enable();
         obj->display(render_to_array);
 
         render_mipmaps.use();
@@ -1400,7 +1444,8 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
         glViewport(0,0,window_width,window_height);
 
         glBindTexture(GL_TEXTURE_2D_ARRAY, front->getColorTexture()->get_id());
-        glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_LOD_BIAS, 3.0f * (1 - currentFrame / float(CONVERGENCE_FRAMES)));
+        float converg = currentFrame / float(CONVERGENCE_FRAMES);
+        glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_LOD_BIAS, 3.0f * (1 - converg * converg * converg));
         glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
     }
 
@@ -1410,11 +1455,7 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
     render_combination.set_uniform("epsilon_combination", params->epsilon_combination);
     render_combination.set_uniform("one_over_max_samples", 1.0f/params->samples);
     render_combination.set_uniform("mipmap_LOD",params->LOD);
-    render_combination.set_uniform("current_frame_rev", 1.0f/min(currentFrame,CONVERGENCE_FRAMES));
-
-
-
-
+    render_combination.set_uniform("current_frame_rev", 1.0f/min(currentFrame + 1,CONVERGENCE_FRAMES));
 
     render_combination.set_uniform("cameraMatrices", planeTransformMatrices,LAYERS);
     float worldCircleRadius = params->circleradius * 2 * LIGHT_CAMERA_SIZE;
@@ -2040,7 +2081,9 @@ TranslucentMaterials::TranslucentMaterials( QWidget* parent)
     , render_mode(DRAW_JENSEN), render_method(CUBEMAP_BASE), currentFrame(0)
 {
     Light mainLight (light_position, light_diffuse, 1.0f, light_specular, true);
+    Light secondaryLight(light_position_2, light_diffuse_2, 15.0f, Vec4f(0.0f), true);
     manager.addLight(mainLight);
+    //manager.addLight(secondaryLight);
     setFocusPolicy(Qt::ClickFocus);
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(animate()));
@@ -2101,8 +2144,13 @@ void TranslucentMaterials::paintGL()
 
     //draw_bounding_boxes(reload_shaders);
 
+#ifdef SINGLE_LIGHT
     static ShaderProgramDraw render_to_cubemap_jensen(shader_path,"ss_cubemap_render_to_cubemap_jensen.vert","ss_cubemap_render_to_cubemap_array.geom","ss_cubemap_render_to_cubemap_jensen.frag");
     static ShaderProgramDraw render_to_cubemap_jeppe(shader_path,"ss_cubemap_render_to_cubemap_jeppe.vert","ss_cubemap_render_to_cubemap_array.geom","ss_cubemap_render_to_cubemap_jeppe.frag");
+#else
+    static ShaderProgramDraw render_to_cubemap_jensen(shader_path,"ss_cubemap_render_to_cubemap_jensen.vert","ss_cubemap_render_to_cubemap_array.geom","ss_cubemap_render_to_arraymap_multilight_jensen.frag");
+    static ShaderProgramDraw render_to_cubemap_jeppe(shader_path,"ss_cubemap_render_to_cubemap_jensen.vert","ss_cubemap_render_to_cubemap_array.geom","ss_cubemap_render_to_arraymap_multilight_jeppe.frag");
+#endif
 
     if(render_method == RenderMethod::BRUTE_FORCE)
     {
@@ -2298,7 +2346,7 @@ void TranslucentMaterials::keyPressEvent(QKeyEvent *e)
         break;
     case 'R':
         reload_shaders = true;
-        currentFrame = 0;
+
         break;
     case 'L':
     {
