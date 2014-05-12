@@ -1,0 +1,32 @@
+\begin{thebibliography}{1}
+
+\bibitem{Nicodemus:1992:GCN:136913.136929}
+F.~E. Nicodemus, J.~C. Richmond, J.~J. Hsia, I.~W. Ginsberg, and T.~Limperis.
+\newblock Geometrical considerations and nomenclature for reflectance.
+\newblock In Lawrence~B. Wolff, Steven~A. Shafer, and Glenn Healey, editors,
+  {\em Radiometry}, chapter Geometrical Considerations and Nomenclature for
+  Reflectance, pages 94--145. Jones and Bartlett Publishers, Inc., USA, 1992.
+\newblock ISBN 0-86720-294-7.
+
+\bibitem{Jensen:2001:PMS:383259.383319}
+Henrik~Wann Jensen, Stephen~R. Marschner, Marc Levoy, and Pat Hanrahan.
+\newblock A practical model for subsurface light transport.
+\newblock In {\em Proceedings of the 28th Annual Conference on Computer
+  Graphics and Interactive Techniques}, SIGGRAPH '01, pages 511--518, New York,
+  NY, USA, 2001. ACM.
+\newblock ISBN 1-58113-374-X.
+
+\bibitem{books/daglib/0093591}
+Akira Ishimaru.
+\newblock {\em Wave propagation and scattering in random media.}
+\newblock IEEE, 1997.
+\newblock ISBN 978-0-7803-3409-0.
+
+\bibitem{IMM2013-06646}
+J.~R. Frisvad, T.~Hachisuka, and T.~K. Kjeldsen.
+\newblock Directional dipole for subsurface scattering in translucent
+  materials.
+\newblock {\em ACM Transactions on Graphics}, 2014.
+\newblock Conditionally Accepted.
+
+\end{thebibliography}
