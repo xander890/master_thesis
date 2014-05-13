@@ -54,7 +54,7 @@ namespace Mesh
         const std::string& get_name() const {return name;}
 
         // Initializes the texture wrt OpenGL.
-        void init();
+        virtual void init();
 
         // Reloads data into GPU memory with the new data provided.
         void reloadData(std::vector<CGLA::Vec3f> & data, int newWidth, int newHeight);
@@ -79,7 +79,8 @@ namespace Mesh
             this->name = name;
         }
 
-    private:
+
+    protected:
         void load();
         GLuint id;
         GLenum target;

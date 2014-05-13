@@ -18,6 +18,7 @@
 #include <CGLA/Vec3f.h>
 #include <CGLA/Vec4f.h>
 #include <CGLA/Mat2x2f.h>
+#include <Mesh/texture.h>
 
 namespace GLGraphics {
     
@@ -34,7 +35,7 @@ namespace GLGraphics {
 
         static int currentShader;
     protected:
-        GLuint prog; // The program
+         // The program
 
         void compile();
 
@@ -44,7 +45,7 @@ namespace GLGraphics {
         void relinquish();
         
     public:
-        
+        GLuint prog;
         GLuint id() const {return prog;}
 
         ShaderProgram()
@@ -113,7 +114,7 @@ namespace GLGraphics {
 
         GLint get_attrib_location(const std::string& name);
         
-        void use_texture(GLenum target, const std::string& name, GLuint tex, GLuint active_texture=0);
+        void use_texture(Mesh::Texture *tex, GLuint active_texture=0);
         
         /**
          * @brief load_a_shader load and compiles a GLSL shader

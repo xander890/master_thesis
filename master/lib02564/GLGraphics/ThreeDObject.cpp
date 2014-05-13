@@ -51,7 +51,7 @@ namespace GLGraphics
         if(firstTime)
         {
             DipoleGPU gip;
-            gip.prepare(*this);
+            //gip.prepare(*this);
             firstTime = false;
         }
         Mat4x4f M = getModelMatrix();

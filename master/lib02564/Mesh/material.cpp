@@ -22,9 +22,20 @@ namespace Mesh
         for(vector<Texture*>::iterator it = textures.begin(); it != textures.end(); it++)
         {
             Texture * texture = *it;
-            shader.use_texture(texture->get_target(), texture->get_name(), texture->get_id(), count);
+            shader.use_texture(texture, count);
             count++;
         }
+
+        unsigned int count2 = 0;
+        for(vector<ImageTexture*>::iterator it = imageTextures.begin(); it != imageTextures.end(); it++)
+        {
+            ImageTexture * texture = *it;
+            shader.use_texture(texture, count);
+            texture->bindImage(count2);
+            count++;
+            count2++;
+        }
+
         loadExtraUniforms(shader);
 
         //uniforms
@@ -56,8 +67,20 @@ namespace Mesh
             }
         }
         textures.push_back(texture);
-
     }
+
+    void Material::addImageTexture(ImageTexture * texture)
+    {
+        for(int i = 0; i < imageTextures.size(); i++)
+        {
+            if(texture->get_name().compare(imageTextures[i]->get_name()) == 0)
+            {
+                return;
+            }
+        }
+        imageTextures.push_back(texture);
+    }
+
 
     Mesh::Texture * Material::getTexture(string& name)
     {
@@ -66,6 +89,18 @@ namespace Mesh
             if(name.compare(textures[i]->get_name()) == 0)
             {
                 return textures[i];
+            }
+        }
+        return nullptr;
+    }
+
+    Mesh::ImageTexture * Material::getImageTexture(string& name)
+    {
+        for(int i = 0; i < imageTextures.size(); i++)
+        {
+            if(name.compare(imageTextures[i]->get_name()) == 0)
+            {
+                return imageTextures[i];
             }
         }
         return nullptr;
@@ -88,6 +123,27 @@ namespace Mesh
             textures.erase(textures.begin() + toRemove);
         }
     }
+
+    void Material::removeImageTexture(string& name)
+    {
+        int toRemove = -1;
+        for(int i = 0; i < imageTextures.size(); i++)
+        {
+            if(name.compare(imageTextures[i]->get_name()) == 0)
+            {
+                toRemove = i;
+                break;
+            }
+        }
+
+        if(toRemove != -1)
+        {
+            imageTextures.erase(imageTextures.begin() + toRemove);
+        }
+    }
+
+
+
 
     void Material::initTextures()
     {

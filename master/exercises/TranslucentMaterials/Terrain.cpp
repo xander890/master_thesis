@@ -99,8 +99,8 @@ void Terrain::draw(ShaderProgramDraw& shader_prog)
 #endif
 		was_here_tex = true;
 	}
-    
-    shader_prog.use_texture(GL_TEXTURE_2D, "noise_tex", noise_tex);
+    Mesh::Texture * tex = new Mesh::Texture("noise_tex", noise_tex, GL_TEXTURE_2D);
+    shader_prog.use_texture(tex);
 
     static GLuint VAO=0;
 	static GLuint buffers[2];

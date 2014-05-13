@@ -5,6 +5,7 @@
 #include <vector>
 #include <CGLA/Vec4f.h>
 #include "texture.h"
+#include "imagetexture.h"
 #include <GLGraphics/ShaderProgram.h>
 #include <ShadowBuffer.h>
 #include <CGLA/Mat2x2f.h>
@@ -39,6 +40,11 @@ namespace Mesh
         virtual void addTexture(Texture * texture);
         virtual Texture *getTexture(std::string &name);
         virtual void removeTexture(std::string &name);
+
+        virtual void addImageTexture(ImageTexture * texture);
+        virtual ImageTexture *getImageTexture(std::string &name);
+        virtual void removeImageTexture(std::string &name);
+
         virtual void initTextures();
 
         virtual void addUniform(const char* name, int value);
@@ -71,6 +77,7 @@ namespace Mesh
         ShadowBuffer * shadowbuffer;
         void loadExtraUniforms(GLGraphics::ShaderProgramDraw &shader);
         std::vector<Texture*> textures;
+        std::vector<ImageTexture*> imageTextures;
         std::map<std::string, int> intUniforms;
         std::map<std::string, float> floatUniforms;
         std::map<std::string, CGLA::Vec2f> vec2Uniforms;

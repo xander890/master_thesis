@@ -51,6 +51,7 @@
 #include "arraytexturebuffer.h"
 #include "mipmapgenerator.h"
 #include "arrayvertexnormalbuffer.h"
+#include "arrayimagebuffer.h"
 
 #define BUNNIES
 #define POINT_DIST 0 // 0 random, 1 exponential, 2 uniform
@@ -720,6 +721,8 @@ void TranslucentMaterials::render_better_dipole(bool reload)
     */
 }
 
+
+
 bool compareVec2fDistanceAscending (Vec2f i,Vec2f j) { return (i.length() < j.length()); }
 
 void TranslucentMaterials::getDiscPoints(vector<Vec3f> * points, const int n, const int m)
@@ -755,14 +758,426 @@ void TranslucentMaterials::getDiscPoints(vector<Vec3f> * points, const int n, co
     }
 }
 
+void TranslucentMaterials::render_direct_abuffer(bool reload, ShaderProgramDraw &render_to_array)
+{
+    //static ShaderProgramDraw obj_shader(shader_path,"object.vert","","object.frag");
+
+#ifdef SINGLE_LIGHT
+    static ShaderProgramDraw gbuff_shader(shader_path,"ss_cubemap_gbuffer.vert","","ss_cubemap_gbuffer.frag");
+#else
+    static ShaderProgramDraw gbuff_shader(shader_path,"ss_cubemap_gbuffer_multilight.vert","ss_cubemap_gbuffer_multilight.geom", "ss_cubemap_gbuffer_multilight.frag");
+#endif
+
+    //static ShaderProgramDraw gbuff_quad(shader_path,"ss_cubemap_test_gbuffer.vert","","ss_cubemap_test_gbuffer.frag");
+    //static ShaderProgramDraw gbuff_wrap(shader_path,"ss_cubemap_test_wrap_gbuffer.vert","","ss_cubemap_test_wrap_gbuffer.frag");
+
+   // static ShaderProgramDraw render_to_cubemap_test(shader_path,"ss_cubemap_render_to_cubemap.vert","","ss_cubemap_render_to_cubemap.frag");
+   // static ShaderProgramDraw render_to_cubemap_test_screen(shader_path,"ss_cubemap_test_render_to_cubemap_screen.vert","","ss_cubemap_test_render_to_cubemap_screen.frag");
+   // static ShaderProgramDraw render_to_cubemap_test_cube(shader_path,"ss_cubemap_test_render_to_cubemap_cube.vert","","ss_cubemap_test_render_to_cubemap_cube.frag");
+
+    static ShaderProgramDraw render_combination(shader_path,"ss_array_combination.vert","","ss_array_combination.frag");
+
+    static ShaderProgramDraw render_mipmaps(shader_path,"display_tex.vert","","display_tex.frag");
+    static ThreeDPlane * screen_quad = new ThreeDPlane();
+    static Mesh::Material * test_mat = new Mesh::Material();
+    static ShaderProgramDraw test2(shader_path,"display_tex_2.vert","","display_tex_2.frag");
+
+    const int GBUFFER_SIZE = 1024;
+    const float LIGHT_CAMERA_SIZE = 3.0f;
+
+    const int ARRAY_TEXTURE_SIZE = 1024;
+    const int LAYERS = 10;
+
+    const int MIPMAPS = 3;
+    const int SCALING [MIPMAPS] = {2, 4, 8};
+    static MipMapGenerator mipmaps [MIPMAPS] = {MipMapGenerator(ARRAY_TEXTURE_SIZE/SCALING[0], LAYERS, 1), MipMapGenerator(ARRAY_TEXTURE_SIZE/SCALING[1], LAYERS, 1), MipMapGenerator(ARRAY_TEXTURE_SIZE/SCALING[2], LAYERS, 1)};
+
+    static ArrayImageBuffer imageTexMap(ARRAY_TEXTURE_SIZE,LAYERS);
+    Mesh::Texture * colorTexture = imageTexMap.getColorTexture();
+
+
+    /*
+    static ArrayTextureBuffer arraytexmap(ARRAY_TEXTURE_SIZE,LAYERS,1);
+    static ArrayTextureBuffer arraytexmap_back(ARRAY_TEXTURE_SIZE,LAYERS,1);
+    ArrayTextureBuffer * front;
+    ArrayTextureBuffer * back;
+    */
+
+#ifdef SINGLE_LIGHT
+    static VertexNormalBuffer light_buffer(GBUFFER_SIZE);
+#else
+    static ArrayVertexNormalBuffer light_buffer(GBUFFER_SIZE, 4);
+#endif
+
+    const float CAMERA_DISTANCE = 6.0f; //This should not matter (can be DIST = max bounding box + camera near + epsilon
+    const float CAMERA_NEAR = 1.0f;
+    const float CAMERA_FAR = 21.0f;
+    const float CAMERA_SIZE = 6.0f;
+    const int CONVERGENCE_FRAMES = 100;
+
+    int discPoints = params->samples / manager.size();
+    const int DISCS = LAYERS;
+
+    //TODO more objs
+    ThreeDObject * obj = objects[0];
+    for(int i = 0; i < objects.size(); i++)
+    {
+        ThreeDObject * o = objects[i];
+        if(o->enabled)
+        {
+            obj = o;
+            break;
+        }
+    }
+    Mesh::Material * scattering_material = obj->mesh.getMaterial();
+
+
+    if(reload)
+    {
+        //test.reload();
+        test2.reload();
+        //obj_shader.reload();
+        gbuff_shader.reload();
+        //gbuff_quad.reload();
+        //gbuff_wrap.reload();
+        render_to_array.reload();
+        //render_to_cubemap_test_screen.reload();
+        //render_to_cubemap_test_cube.reload();
+        render_combination.reload();
+        render_mipmaps.reload();
+        currentFrame = 0;
+    }
+
+    Vec3f center = obj->getCenter();
+
+    static Vec3f cameraPositions[LAYERS] = {
+        center + Vec3f(1,0,0) * CAMERA_DISTANCE, //+X
+        center - Vec3f(1,0,0) * CAMERA_DISTANCE, //-X
+        center + Vec3f(0,1,0) * CAMERA_DISTANCE, //+Y
+        center - Vec3f(0,1,0) * CAMERA_DISTANCE, //-Y
+        center + Vec3f(0,0,1) * CAMERA_DISTANCE, //+Z
+        center - Vec3f(0,0,1) * CAMERA_DISTANCE,  //-Z
+        center + Vec3f(1.0f/sqrt(2.0f),1.0f/sqrt(2.0f),0) * CAMERA_DISTANCE,
+        center + Vec3f(-1.0f/sqrt(2.0f),-1.0f/sqrt(2.0f),0) * CAMERA_DISTANCE,
+        center + Vec3f(-1.0f/sqrt(2.0f),1.0f/sqrt(2.0f),0) * CAMERA_DISTANCE,
+        center + Vec3f(1.0f/sqrt(2.0f),-1.0f/sqrt(2.0f),0) * CAMERA_DISTANCE
+    };
+
+    static Mat4x4f viewMatrices[LAYERS]  = {
+        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[0], center, Vec3f(0,1,0)), //+X
+        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[1], center, Vec3f(0,1,0)), //-X
+        scaling_Mat4x4f(Vec3f(-1,1,1)) * lookat_Mat4x4f_target(cameraPositions[2], center, Vec3f(0,0,1)), //+Y
+        scaling_Mat4x4f(Vec3f(-1,1,1)) * lookat_Mat4x4f_target(cameraPositions[3], center, Vec3f(0,0,-1)), //-Y
+        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[4], center, Vec3f(0,1,0)), //+Z
+        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[5], center, Vec3f(0,1,0)),  //-Z
+        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[6], center, Vec3f(0,1,0)),
+        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[7], center, Vec3f(0,1,0)),
+        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[8], center, Vec3f(0,1,0)),
+        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[9], center, Vec3f(0,1,0))
+    };
+
+    vector<Mat4x4f> planeTransformMatrices(LAYERS);
+    vector<Mat4x4f> viewMatricesvector(LAYERS);
+
+    Mat4x4f model_identity = identity_Mat4x4f();
+    Mat4x4f projection_array = ortho_Mat4x4f(Vec3f(-CAMERA_SIZE,-CAMERA_SIZE,CAMERA_NEAR),Vec3f(CAMERA_SIZE,CAMERA_SIZE,CAMERA_FAR));
+    Mat4x4f projection_light = ortho_Mat4x4f(Vec3f(-LIGHT_CAMERA_SIZE,-LIGHT_CAMERA_SIZE,1),Vec3f(LIGHT_CAMERA_SIZE,LIGHT_CAMERA_SIZE,10));
+
+
+    Mat4x4f mat2 = translation_Mat4x4f(Vec3f(0.5));
+    mat2 *= scaling_Mat4x4f(Vec3f(0.5));
+    mat2 *= projection_array;
+
+    for(int i = 0; i < LAYERS; i++)
+    {
+        planeTransformMatrices[i] = mat2 * viewMatrices[i];
+        viewMatricesvector[i] = viewMatrices[i];
+    }
+
+    if(currentFrame < CONVERGENCE_FRAMES)
+    {
+        static bool initialized = false;
+
+        // Need to disable mipmap afterwards, otherwise the memory space is not reserved.
+        imageTexMap.disableMipMaps();
+
+        if(!initialized)
+        {
+
+            screen_quad->init("","plane",*test_mat);
+            vector<Vec3f> * discpoint_data = new vector<Vec3f>();
+            getDiscPoints(discpoint_data,discPoints,DISCS);
+
+            Mesh::Texture * tex = new Mesh::Texture("discpoints",GL_TEXTURE_2D, discPoints, DISCS, *discpoint_data);
+            tex->init();
+            scattering_material->addTexture(tex);
+
+            scattering_material->addTexture(colorTexture);
+
+            //preparing first color buffer from which to read (just for avoiding errors,
+            // the shader already avoids that)
+            //scattering_material->addTexture(arraytexmap_back.getColorTexture());
+        }
+
+        if(params->currentFlags & TranslucentParameters::SAMPLES_CHANGED)
+        {
+            vector<Vec3f> * discpoint_data = new vector<Vec3f>();
+            getDiscPoints(discpoint_data,discPoints,DISCS);
+            Mesh::Texture * tex = scattering_material->getTexture(string("discpoints"));
+            tex->reloadData(*discpoint_data,discPoints,DISCS);
+            params->currentFlags &= ~(TranslucentParameters::SAMPLES_CHANGED);
+        }
+
+
+        gbuff_shader.use();
+
+
+        // Set up a modelview matrix suitable for shadow: Maps from world coords to
+        // shadow buffer coords.
+
+        gbuff_shader.set_model_matrix(model_identity);
+        gbuff_shader.set_projection_matrix(projection_light);
+
+#ifdef SINGLE_LIGHT
+        Vec3f v = Vec3f(manager[0].position);
+        gbuff_shader.set_view_matrix(lookat_Mat4x4f(v,-v,Vec3f(0,1,0))); //PARALLEL!
+        Mat4x4f mat = translation_Mat4x4f(Vec3f(0.5));
+        mat *= scaling_Mat4x4f(Vec3f(0.5));
+        mat *= gbuff_shader.get_projection_matrix();
+        mat *= gbuff_shader.get_view_matrix();
+        scattering_material->addUniform("lightMatrix",mat);
+#else
+
+        vector<Mat4x4f> lightMatrices;
+        vector<Mat4x4f> inverseLightMatrices;
+        for(int i = 0; i < manager.size(); i++)
+        {
+            Vec3f light_dir = Vec3f(manager[i].position);
+            Mat4x4f V = lookat_Mat4x4f(light_dir,-light_dir,Vec3f(0,1,0));
+            lightMatrices.push_back(V); //PARALLEL!
+
+            Mat4x4f mat = translation_Mat4x4f(Vec3f(0.5));
+            mat *= scaling_Mat4x4f(Vec3f(0.5));
+            mat *= projection_light;
+            mat *= V;
+            inverseLightMatrices.push_back(mat);
+
+        }
+        gbuff_shader.set_uniform("lightMatrices",lightMatrices,manager.size());
+        gbuff_shader.set_uniform("layers", manager.size());
+#endif
+        // Switch viewport size to that of shadow buffer.
+
+        glViewport(0, 0, GBUFFER_SIZE, GBUFFER_SIZE);
+
+        // Draw to shadow buffer.
+        light_buffer.enable();
+        obj->display(gbuff_shader);
+
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+        glDrawBuffer(GL_BACK);
+
+        // We need to reset the viewport, since the shadow buffer does not have
+        // the same size as the screen window.
+        glViewport(0, 0, window_width, window_height);
+
+
+
+        Mesh::Texture * vtex = light_buffer.getVertexTexture();
+        Mesh::Texture * ntex = light_buffer.getNormalTexture();
+
+        scattering_material->addTexture(vtex);
+        scattering_material->addTexture(ntex);
+
+        // TODO RENDER TO DEPTH
+
+
+        // Rendering to array
+        render_to_array.use();
+
+
+        glViewport(0,0,ARRAY_TEXTURE_SIZE,ARRAY_TEXTURE_SIZE);
+
+
+        Vec3f radius = Vec3f(29.909f,23.316f, 18.906f); //radius for marble - red 29.909 green 23.316 blue 18.906
+        //float trueRadius = clamp01(length(mat * Vec4f(radius[0],0,0,0)));
+
+        float trueRadius = params->circleradius;
+        glClearColor(0,0,0,0);
+
+        render_to_array.set_uniform("one_over_max_samples",1.0f/params->samples);
+        render_to_array.set_uniform("one_over_discs",1.0f/DISCS);
+        render_to_array.set_uniform("samples",params->samples);
+        render_to_array.set_uniform("discradius",trueRadius);
+        render_to_array.set_uniform("epsilon_gbuffer", params->epsilon_gbuffer);
+
+#ifndef SINGLE_LIGHT
+        render_to_array.set_uniform("lightMatrices",inverseLightMatrices, manager.size());
+#endif
+        render_to_array.set_uniform("epsilon_combination", params->epsilon_combination);
+        render_to_array.set_uniform("cameraMatrices", planeTransformMatrices,LAYERS);
+        render_to_array.set_uniform("current_frame", currentFrame);
+        render_to_array.set_uniform("convergence_frames", CONVERGENCE_FRAMES);
+
+        set_light_and_camera(render_to_array);
+
+
+
+        render_to_array.set_uniform("viewMatrices", viewMatricesvector, LAYERS);
+        render_to_array.set_uniform("layers", LAYERS);
+        render_to_array.set_model_matrix(model_identity);
+        render_to_array.set_projection_matrix(projection_array);
+
+        imageTexMap.enable();
+        obj->display(render_to_array);
+
+        glMemoryBarrier(GL_ALL_BARRIER_BITS);
+
+
+        test2.use();
+
+        test_mat->addTexture(imageTexMap.getColorTexture());
+        test2.set_uniform("mipmap_LOD",params->LOD);
+        //if(params->cubemapVisible)
+            screen_quad->display(test2);
+        return;
+
+        render_mipmaps.use();
+        render_mipmaps.set_uniform("viewMatrices", viewMatricesvector, LAYERS);
+        render_mipmaps.set_uniform("layers", LAYERS);
+        //front->generateMipMaps();
+
+#ifdef MIPMAPS_USE
+        for(int level = 0; level < MIPMAPS; level++)
+        {
+            glViewport(0, 0, ARRAY_TEXTURE_SIZE / SCALING[level], ARRAY_TEXTURE_SIZE / SCALING[level]);
+
+            /* image processing of mipmaps */
+            screen_quad->mesh.getMaterial()->removeTexture(string("colorMap"));
+            GLuint sourceTex = 0;
+            if(level == 0)
+            {
+                sourceTex = imageTexMap.getColorTexture()->get_id();
+            }
+            else
+            {
+                sourceTex = mipmaps[level - 1].getColorTexture()->get_id();
+            }
+            screen_quad->mesh.getMaterial()->addTexture(new Mesh::Texture("colorMap", sourceTex, GL_TEXTURE_2D_ARRAY));
+
+            render_mipmaps.set_uniform("scaling", SCALING[level]);
+
+            render_mipmaps.set_uniform("texStep", 1.0f / ARRAY_TEXTURE_SIZE);
+
+            for(int i = 0; i < LAYERS; i++)
+            {
+                mipmaps[level].enable(i);
+                render_mipmaps.set_uniform("currentLayer", i);
+                screen_quad->display(render_mipmaps);
+            }
+            check_gl_error();
+        }
+
+        glViewport(0, 0, ARRAY_TEXTURE_SIZE , ARRAY_TEXTURE_SIZE );
+        imageTexMap.enableMipMaps();
+
+        /* copying texture in mipmaps */
+        for(int level = 0; level < MIPMAPS; level++)
+        {
+            GLuint target = imageTexMap.getColorTexture()->get_id();
+            GLuint source = mipmaps[level].getColorTexture()->get_id();
+            GLuint source_d = mipmaps[level].getDepthTexture()->get_id();
+
+            glBindFramebuffer(GL_READ_FRAMEBUFFER, mipmaps[level].getFBO());
+            glBindTexture(GL_TEXTURE_2D_ARRAY, target);
+
+            for(int i = 0; i < LAYERS; i++)
+            {
+                glFramebufferTextureLayer(GL_READ_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, source, 0, i);
+                glFramebufferTextureLayer(GL_READ_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, source_d, 0, i);
+                glReadBuffer(GL_COLOR_ATTACHMENT0);
+                glCopyTexSubImage3D(GL_TEXTURE_2D_ARRAY, level + 1, 0, 0, i, 0, 0, ARRAY_TEXTURE_SIZE / SCALING[level], ARRAY_TEXTURE_SIZE / SCALING[level]);
+            }
+
+            glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
+            glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
+
+        }
+#endif
+        //test_mat->removeTexture(string("colorMap"));
+        test_mat->addTexture(colorTexture);
+        //test_mat->addTexture(front->getDepthTexture());
+
+        // Adding the new calculated stuff.
+        /*
+        Mesh::Texture * color = front->getColorTexture();
+        string colname = color->get_name();
+        scattering_material->removeTexture(colname); //switching the old color TODO : replace
+        scattering_material->addTexture(color);
+
+        Mesh::Texture * depth = front->getDepthTexture();
+        scattering_material->addTexture(depth);
+        */
+
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER,0);
+        glViewport(0,0,window_width,window_height);
+
+        glBindTexture(GL_TEXTURE_2D_ARRAY, colorTexture->get_id());
+        float converg = currentFrame / float(CONVERGENCE_FRAMES);
+        glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_LOD_BIAS, 3.0f * (1 - converg * converg * converg));
+        glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
+        initialized = true;
+    }
+
+
+    render_combination.use();
+    render_combination.set_uniform("shadow_bias", params->shadow_bias);
+    render_combination.set_uniform("epsilon_combination", params->epsilon_combination);
+    render_combination.set_uniform("one_over_max_samples", 1.0f/params->samples);
+    render_combination.set_uniform("mipmap_LOD",params->LOD);
+    render_combination.set_uniform("current_frame_rev", 1.0f/min(currentFrame + 1,CONVERGENCE_FRAMES));
+
+    render_combination.set_uniform("cameraMatrices", planeTransformMatrices,LAYERS);
+    float worldCircleRadius = params->circleradius * 2 * LIGHT_CAMERA_SIZE;
+    render_combination.set_uniform("disc_area", (float)(worldCircleRadius * worldCircleRadius * M_PI));
+    render_combination.set_uniform("step_tex", 1.0f/ARRAY_TEXTURE_SIZE);
+    set_light_and_camera(render_combination);
+    obj->display(render_combination);
+
+    if(currentFrame < CONVERGENCE_FRAMES)
+    {
+        glBindTexture(GL_TEXTURE_2D_ARRAY, colorTexture->get_id());
+        glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_LOD_BIAS, 0.0f);
+        glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
+    }
+
+
+    if((currentFrame - 1) % 5 == 0 && currentFrame < 0)
+    {
+        QImage * screen = takeScreenshot();
+        QString name = QString("C:/Users/alessandro/Desktop/test/test_jensen_100_%1.png").arg(currentFrame - 1);
+        screen->save(name);
+        delete screen;
+    }
+
+    currentFrame++;
+
+    test2.use();
+    test2.set_uniform("mipmap_LOD",params->LOD);
+    if(params->cubemapVisible)
+        screen_quad->display(test2);
+}
 
 void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & render_to_array)
 {
 
 
     static ShaderProgramDraw obj_shader(shader_path,"object.vert","","object.frag");
+#ifdef SINGLE_LIGHT
     static ShaderProgramDraw gbuff_shader(shader_path,"ss_cubemap_gbuffer.vert","","ss_cubemap_gbuffer.frag");
-    static ShaderProgramDraw gbuff_quad(shader_path,"ss_cubemap_test_gbuffer.vert","","ss_cubemap_test_gbuffer.frag");
+#else
+    static ShaderProgramDraw gbuff_shader(shader_path,"ss_cubemap_gbuffer_multilight.vert","ss_cubemap_gbuffer_multilight.geom", "ss_cubemap_gbuffer_multilight.frag");
+#endif    static ShaderProgramDraw gbuff_quad(shader_path,"ss_cubemap_test_gbuffer.vert","","ss_cubemap_test_gbuffer.frag");
     static ShaderProgramDraw gbuff_wrap(shader_path,"ss_cubemap_test_wrap_gbuffer.vert","","ss_cubemap_test_wrap_gbuffer.frag");
 
     static ShaderProgramDraw render_to_cubemap_test(shader_path,"ss_cubemap_render_to_cubemap.vert","","ss_cubemap_render_to_cubemap.frag");
@@ -777,7 +1192,12 @@ void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & 
 
     const int GBUFFER_SIZE = 1024;
     const float LIGHT_CAMERA_SIZE = 3.0f;
+
+#ifdef SINGLE_LIGHT
     static VertexNormalBuffer light_buffer(GBUFFER_SIZE);
+#else
+    static ArrayVertexNormalBuffer light_buffer(GBUFFER_SIZE, 4);
+#endif
 
     const int ARRAY_TEXTURE_SIZE = 1024;
     const int LAYERS = 10;
@@ -815,7 +1235,6 @@ void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & 
     {
         obj_shader.reload();
         gbuff_shader.reload();
-        gbuff_quad.reload();
         gbuff_wrap.reload();
         render_to_array.reload();
         render_to_cubemap_test_screen.reload();
@@ -850,22 +1269,46 @@ void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & 
     }
 
     gbuff_shader.use();
-    light_buffer.enable();
 
 
     // Set up a modelview matrix suitable for shadow: Maps from world coords to
     // shadow buffer coords.
-    Vec3f v = Vec3f(manager[0].position);
-    gbuff_shader.set_view_matrix(lookat_Mat4x4f(v,-v,Vec3f(0,1,0))); //PARALLEL!
-    gbuff_shader.set_model_matrix(identity_Mat4x4f());
-    gbuff_shader.set_projection_matrix(ortho_Mat4x4f(Vec3f(-LIGHT_CAMERA_SIZE,-LIGHT_CAMERA_SIZE,1),Vec3f(LIGHT_CAMERA_SIZE,LIGHT_CAMERA_SIZE,10)));
+#ifdef SINGLE_LIGHT
+        Vec3f v = Vec3f(manager[0].position);
+        gbuff_shader.set_view_matrix(lookat_Mat4x4f(v,-v,Vec3f(0,1,0))); //PARALLEL!
+        Mat4x4f mat = translation_Mat4x4f(Vec3f(0.5));
+        mat *= scaling_Mat4x4f(Vec3f(0.5));
+        mat *= gbuff_shader.get_projection_matrix();
+        mat *= gbuff_shader.get_view_matrix();
+        scattering_material->addUniform("lightMatrix",mat);
+#else
+        Mat4x4f projection_light = ortho_Mat4x4f(Vec3f(-LIGHT_CAMERA_SIZE,-LIGHT_CAMERA_SIZE,1),Vec3f(LIGHT_CAMERA_SIZE,LIGHT_CAMERA_SIZE,10));
+
+        vector<Mat4x4f> lightMatrices;
+        vector<Mat4x4f> inverseLightMatrices;
+        for(int i = 0; i < manager.size(); i++)
+        {
+            Vec3f light_dir = Vec3f(manager[i].position);
+            Mat4x4f V = lookat_Mat4x4f(light_dir,-light_dir,Vec3f(0,1,0));
+            lightMatrices.push_back(V); //PARALLEL!
+
+            Mat4x4f mat = translation_Mat4x4f(Vec3f(0.5));
+            mat *= scaling_Mat4x4f(Vec3f(0.5));
+            mat *= projection_light;
+            mat *= V;
+            inverseLightMatrices.push_back(mat);
+
+        }
+        gbuff_shader.set_uniform("lightMatrices",lightMatrices,manager.size());
+        gbuff_shader.set_uniform("layers", manager.size());
+#endif
 
     // Switch viewport size to that of shadow buffer.
 
     glViewport(0, 0, GBUFFER_SIZE, GBUFFER_SIZE);
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
     // Draw to shadow buffer.
+    light_buffer.enable();
     obj->display(gbuff_shader);
 
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
@@ -950,22 +1393,10 @@ void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & 
     render_to_array.set_uniform("discradius",trueRadius);
     render_to_array.set_uniform("epsilon_gbuffer", params->epsilon_gbuffer);
     set_light_and_camera(render_to_array);
-    check_gl_error();
 
-#ifdef TEST_ONSCREEN_QUAD_2
-
-    //testmaterial->addTexture(*vtex);
-    //testmaterial->addTexture(*ntex);
-
-    gbuff_quad.use();
-    //gbuff_quad.set_uniform("lightMatrix",mat);
-    set_light_and_camera(gbuff_quad);
-    scattering_material->loadUniforms(gbuff_quad);
-    draw_screen_aligned_quad(gbuff_quad);
-    return;
+#ifndef SINGLE_LIGHT
+        render_to_array.set_uniform("lightMatrices",inverseLightMatrices, manager.size());
 #endif
-
-    glClearColor(0,0,0,0);
 
     render_to_array.set_uniform("viewMatrices", viewMatricesvector, LAYERS);
     render_to_array.set_uniform("layers", LAYERS);
@@ -1909,170 +2340,6 @@ void TranslucentMaterials::render_directional_dipole(bool reload)
     */
 }
 
-void TranslucentMaterials::render_deferred_ssao(bool reload)
-{
-    const int NO_DISC_POINTS = 32;
-    const int SHADOW_SIZE = 4096;
-    // Create all resources.
-    static GLuint  ssao_tex, fbo;
-    static vector<Vec3f> disc_points;
-    static GBuffer gbuffer(window_width, window_height);
-    gbuffer.rebuild_on_resize(window_width, window_height);
-    static ShaderProgramDraw deferred_ssao(shader_path, "deferred.vert", "", "deferred_ssao.frag");
-    static ShaderProgramDraw deferred_combination(shader_path, "deferred.vert", "", "deferred_ssao_combination.frag");
-    static ShaderProgramDraw render_to_shadow_map(shader_path, "shadow.vert", "", "shadow.frag");
-    static ShadowBuffer shadow_buffer(SHADOW_SIZE);
-    const int MMW=window_width/2;
-    const int MMH=window_height/2;
-
-    // Reinitialize all shaders and buffers if reload = true
-    if(reload)
-    {
-        gbuffer.initialize(window_width, window_height);
-        deferred_ssao.reload();
-        deferred_combination.reload();
-        render_to_shadow_map.reload();
-        shadow_buffer.initialize();
-    }
-    
-    // If reload=true or we are here first time, reinitialize the FBO for SSAO computation.
-    static bool was_here = false;
-    if(reload || !was_here)
-    {
-        was_here = true;
-
-        glGenTextures(1, &ssao_tex);
-        glBindTexture(GL_TEXTURE_RECTANGLE, ssao_tex);
-        glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_RGBA16F, MMW, MMH, 0, GL_RGBA, GL_FLOAT, 0);
-        
-        glGenFramebuffers(1,&fbo);
-        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);
-        glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_RECTANGLE, ssao_tex, 0);
-        if(glCheckFramebufferStatus(GL_DRAW_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-            cout << "Something wrong with FBO" << endl;
-        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-
-        // Also: Create a bunch of vectors for hemisphere sampling.
-        gel_srand(0);
-        disc_points.clear();
-        for(int i=0;i<NO_DISC_POINTS;++i)
-        {
-            float alpha = 2.0 * M_PI * i / float(NO_DISC_POINTS) - M_PI;
-            Vec3f v(cos(alpha),sin(alpha),0);
-            v*= gel_rand()/float(GEL_RAND_MAX);
-            disc_points.push_back(v);
-        }
-    }
-
-    // Enable shadow buffer and the program for drawing to shadow buffer
-    shadow_buffer.enable();
-    render_to_shadow_map.use();
-    
-    // Set up a modelview matrix suitable for shadow: Maps from world coords to
-    // shadow buffer coords.
-    Vec3f v = Vec3f(manager[0].position) * 75;
-    render_to_shadow_map.set_view_matrix(lookat_Mat4x4f(v,-v,Vec3f(0,0,1)));
-    render_to_shadow_map.set_model_matrix(identity_Mat4x4f());
-    render_to_shadow_map.set_projection_matrix(ortho_Mat4x4f(Vec3f(-35,-35,50),Vec3f(35,35,150)));
-
-    // Switch viewport size to that of shadow buffer.
-    glViewport(0, 0, SHADOW_SIZE, SHADOW_SIZE);
-    glClearColor(0,1,0,0);
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-    
-    // Draw to shadow buffer.
-#ifdef SOLUTION_CODE
-    Mat4x4f ident = identity_Mat4x4f();
-    glUniformMatrix4fv(render_to_shadow_map.get_uniform_location("InstanceMatrix"),1,GL_FALSE,
-                       (const GLfloat*) &ident);
-#endif
-    terra.draw(render_to_shadow_map);
-    draw_objects(render_to_shadow_map);
-    //draw_trees(render_to_shadow_map);
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-    glDrawBuffer(GL_BACK);
-
-    // We need to reset the viewport, since the shadow buffer does not have
-    // the same size as the screen window.
-    glViewport(0, 0, window_width, window_height);
-
-    // Enable GBuffer and render to GBuffer
-    render_to_gbuffer(gbuffer, reload);
-    // Entering deferred rendering, so disable depth test
-    glDisable(GL_DEPTH_TEST);
-    
-    // Bind the FBO that we render to in the first pass where we compute the SSAO contribution
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);
-    glDrawBuffer(GL_COLOR_ATTACHMENT0);
-
-    // We need to change the viewport since we render SSAO to smaller buffer.
-    glViewport(0, 0, MMW, MMH);
-    glClear(GL_COLOR_BUFFER_BIT);
-    deferred_ssao.use();
-
-    // Bind the GBuffer, assign uniforms including the hemisphere direction vectors.
-    gbuffer.bind_textures(0, 1, 2);
-    deferred_ssao.set_uniform("gtex", 0);
-    deferred_ssao.set_uniform("ntex", 1);
-    deferred_ssao.set_uniform("ctex", 2);
-    glUniform3fv(deferred_ssao.get_uniform_location("disc_points"),NO_DISC_POINTS,
-                 reinterpret_cast<float*>(&disc_points[0]));
-    deferred_ssao.set_uniform("NO_DISC_POINTS",NO_DISC_POINTS);
-    Vec2f windowDimension(window_width, window_height);
-    deferred_ssao.set_uniform("win_dim", windowDimension);
-
-    //Bind shadow buffer texture
-    shadow_buffer.bind_textures(3);
-    deferred_ssao.set_uniform("shadow_map", 3);
-
-    // Tricky stuff: Create an inverse of the modelview matrix to (later) be able
-    // to go from the GBuffer coordinates (eye space) to world coordinates. We multiply
-    // this inverse onto the matrix created above in order to go directly from eye space
-    // to shadow buffer space.
-    Mat4x4f mat = translation_Mat4x4f(Vec3f(0.5));
-    mat *= scaling_Mat4x4f(Vec3f(0.5));
-    mat *= render_to_shadow_map.get_projection_matrix();
-    mat *= render_to_shadow_map.get_view_matrix();
-    mat *= invert(user.get_view_matrix());
-    deferred_ssao.set_uniform("Mat", mat);
-
-    // Draw quad to render SSAO computation
-    draw_screen_aligned_quad(deferred_ssao);
-
-    // Bind regular on-screen framebuffer.
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-
-    // Bind program for combining SSAO and other shading.
-    deferred_combination.use();
-    set_light_and_camera(deferred_combination);
-
-    // Bind texture resources, and assign uniforms
-    gbuffer.bind_textures(0, 1, 2);
-    deferred_combination.set_uniform("gtex", 0);
-    deferred_combination.set_uniform("ntex", 1);
-    deferred_combination.set_uniform("ctex", 2);
-    
-    deferred_combination.use_texture(GL_TEXTURE_RECTANGLE, "ssao_tex", ssao_tex, 3);
-
-    shadow_buffer.bind_textures(4);
-    deferred_combination.set_uniform("shadow_map", 4);
-    deferred_combination.set_uniform("Mat", mat);
-    
-    // Go back to right viewport size
-    glViewport(0, 0, window_width, window_height);
-    
-    // Draw quad in order to run the program that combines
-    // SSAO and shading.
-    draw_screen_aligned_quad(deferred_combination);
-
-    // Reenable depth test
-    glEnable(GL_DEPTH_TEST);
-}
-
 
 TranslucentMaterials::TranslucentMaterials( QWidget* parent)
     : QGLWidget( new Core4_3_context(), (QWidget*) parent),
@@ -2128,7 +2395,7 @@ void TranslucentMaterials::paintGL()
 #ifdef SOLUTION_CODE
     static QTime stopwatch;
     static int frames=0;
-    static vector<int> msecs_total(100);
+    static vector<int> msecs_total(50);
     glFinish();
     stopwatch.start();
 #endif
@@ -2149,6 +2416,7 @@ void TranslucentMaterials::paintGL()
     static ShaderProgramDraw render_to_cubemap_jeppe(shader_path,"ss_cubemap_render_to_cubemap_jeppe.vert","ss_cubemap_render_to_cubemap_array.geom","ss_cubemap_render_to_cubemap_jeppe.frag");
 #else
     static ShaderProgramDraw render_to_cubemap_jensen(shader_path,"ss_cubemap_render_to_cubemap_jensen.vert","ss_cubemap_render_to_cubemap_array.geom","ss_cubemap_render_to_arraymap_multilight_jensen.frag");
+    //static ShaderProgramDraw render_to_cubemap_jensen(shader_path,"ss_cubemap_render_to_cubemap_jensen.vert","ss_cubemap_render_to_cubemap_array.geom","ss_render_to_arraymap_imageStore_multilight_jensen.frag");
     static ShaderProgramDraw render_to_cubemap_jeppe(shader_path,"ss_cubemap_render_to_cubemap_jensen.vert","ss_cubemap_render_to_cubemap_array.geom","ss_cubemap_render_to_arraymap_multilight_jeppe.frag");
 #endif
 
@@ -2189,12 +2457,12 @@ void TranslucentMaterials::paintGL()
     glFinish();
     int msecs = stopwatch.elapsed();
     msecs_total[frames++] = msecs;
-    if (frames == 100)
+    if (frames == 50)
     {
-        nth_element(msecs_total.begin(), msecs_total.begin()+50, msecs_total.end());
-        qDebug() << "median frame time (msecs)" << msecs_total[50];
+        nth_element(msecs_total.begin(), msecs_total.begin()+25, msecs_total.end());
+        qDebug() << "median frame time (msecs)" << msecs_total[25];
         frames = 0;
-        emit timeMeasurement(msecs_total[50]);
+        emit timeMeasurement(msecs_total[25]);
     }
 #endif
 }

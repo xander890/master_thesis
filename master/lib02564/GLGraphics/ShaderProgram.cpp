@@ -206,11 +206,12 @@ namespace GLGraphics {
         return glGetAttribLocation(prog, name.c_str());
     }
     
-    void ShaderProgram::use_texture(GLenum target, const std::string& name, GLuint tex, GLuint active_texture)
+    void ShaderProgram::use_texture(Mesh::Texture * tex, GLuint active_texture)
     {
-        glUniform1i(get_uniform_location(name.c_str()), active_texture);
+        GLint u = get_uniform_location(tex->get_name());
+        glUniform1i(u, active_texture);
         glActiveTexture(GL_TEXTURE0 + active_texture);
-        glBindTexture(target, tex);
+        glBindTexture(tex->get_target(), tex->get_id());
     }
 
     GLuint ShaderProgram::load_a_shader(GLenum shader_type, const string& shader_path, const string& str)

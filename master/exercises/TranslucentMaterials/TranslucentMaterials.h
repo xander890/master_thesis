@@ -113,12 +113,12 @@ protected:
     void set_light_and_camera(GLGraphics::ShaderProgramDraw& shader_prog);
     void render_jensen(bool reload);
     void render_better_dipole(bool reload);
+    void render_direct_abuffer(bool reload, GLGraphics::ShaderProgramDraw & render_to_cubemap);
     void render_direct_array(bool reload, GLGraphics::ShaderProgramDraw & render_to_cubemap);
     void render_direct_array_time(bool reload, GLGraphics::ShaderProgramDraw & render_to_cubemap);
     void render_direct_test(bool reload, GLGraphics::ShaderProgramDraw & render_to_cubemap);
     void render_to_gbuffer(GBuffer& gbuffer, bool reload);
     void render_directional_dipole(bool reload);
-    void render_deferred_ssao(bool reload);
     void draw_objects(GLGraphics::ShaderProgramDraw& shader_prog);
     void draw_objects(GLGraphics::ShaderProgramDraw& shader_prog,std::vector<std::string> & str);
     void setup_shadow(bool reload);
