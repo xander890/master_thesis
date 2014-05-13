@@ -17,7 +17,7 @@ void ArrayImageBuffer::initialize()
 
 
     glGenTextures(1, &arraytex);
-
+    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D_ARRAY, arraytex);
     glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -35,7 +35,7 @@ void ArrayImageBuffer::initialize()
 
     glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_RGBA32F, size, size, layers, 0, GL_RGBA, GL_FLOAT, 0);
     glGenerateMipmap(GL_TEXTURE_2D_ARRAY);
-
+    glBindImageTexture(0, arraytex, 0, GL_TRUE, 0, GL_READ_WRITE, GL_RGBA32F);
 
     colorTex = new Mesh::Texture("colorMap", arraytex, GL_TEXTURE_2D_ARRAY);
 }
@@ -43,10 +43,7 @@ void ArrayImageBuffer::initialize()
 
 int ArrayImageBuffer::enable()
 {
-    glBindTexture(GL_TEXTURE_2D_ARRAY, arraytex);
-    glBindImageTexture(0, arraytex, 0, GL_TRUE, 0, GL_READ_WRITE, GL_RGBA32F);
-
-    return 0;
+   return 0;
 }
 
 Mesh::Texture * ArrayImageBuffer::getColorTexture()

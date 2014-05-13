@@ -248,7 +248,8 @@ OTHER_FILES += shaders/TranslucentMaterials/* \
     shaders/TranslucentMaterials/ss_cubemap_gbuffer_multilight.geom \
     shaders/TranslucentMaterials/ss_cubemap_render_to_arraymap_multilight_jensen.frag \
     shaders/TranslucentMaterials/ss_cubemap_render_to_arraymap_multilight_jeppe.frag \
-    shaders/TranslucentMaterials/ss_render_to_arraymap_imageStore_multilight_jensen.frag
+    shaders/TranslucentMaterials/ss_render_to_arraymap_imageStore_multilight_jensen.frag \
+    shaders/TranslucentMaterials/ss_render_to_arraymap_imageStore_clear.frag
 
 FORMS += \
     exercises/TranslucentMaterials/mainwindow.ui \

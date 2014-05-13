@@ -761,6 +761,7 @@ void TranslucentMaterials::getDiscPoints(vector<Vec3f> * points, const int n, co
 void TranslucentMaterials::render_direct_abuffer(bool reload, ShaderProgramDraw &render_to_array)
 {
     //static ShaderProgramDraw obj_shader(shader_path,"object.vert","","object.frag");
+    static ShaderProgramDraw clean_array(shader_path,"display_tex.vert","display_tex.geom","ss_render_to_arraymap_imageStore_clear.frag");
 
 #ifdef SINGLE_LIGHT
     static ShaderProgramDraw gbuff_shader(shader_path,"ss_cubemap_gbuffer.vert","","ss_cubemap_gbuffer.frag");
@@ -836,6 +837,7 @@ void TranslucentMaterials::render_direct_abuffer(bool reload, ShaderProgramDraw 
     {
         //test.reload();
         test2.reload();
+        clean_array.reload();
         //obj_shader.reload();
         gbuff_shader.reload();
         //gbuff_quad.reload();
@@ -993,7 +995,7 @@ void TranslucentMaterials::render_direct_abuffer(bool reload, ShaderProgramDraw 
 
 
         // Rendering to array
-        render_to_array.use();
+
 
 
         glViewport(0,0,ARRAY_TEXTURE_SIZE,ARRAY_TEXTURE_SIZE);
@@ -1005,6 +1007,16 @@ void TranslucentMaterials::render_direct_abuffer(bool reload, ShaderProgramDraw 
         float trueRadius = params->circleradius;
         glClearColor(0,0,0,0);
 
+        clean_array.use();
+        clean_array.set_uniform("colorMapSize",ARRAY_TEXTURE_SIZE);
+        clean_array.set_uniform("layers", LAYERS);
+        GLuint progc = clean_array.prog;
+        glProgramUniform1i(progc, glGetUniformLocation(progc, "colorMap"), 0);
+
+        screen_quad->display(clean_array);
+
+        glMemoryBarrier(GL_ALL_BARRIER_BITS);
+        render_to_array.use();
         render_to_array.set_uniform("one_over_max_samples",1.0f/params->samples);
         render_to_array.set_uniform("one_over_discs",1.0f/DISCS);
         render_to_array.set_uniform("samples",params->samples);
@@ -1021,25 +1033,26 @@ void TranslucentMaterials::render_direct_abuffer(bool reload, ShaderProgramDraw 
 
         set_light_and_camera(render_to_array);
 
-
-
         render_to_array.set_uniform("viewMatrices", viewMatricesvector, LAYERS);
         render_to_array.set_uniform("layers", LAYERS);
         render_to_array.set_model_matrix(model_identity);
         render_to_array.set_projection_matrix(projection_array);
 
-        imageTexMap.enable();
+        GLuint prog = render_to_array.prog;
+        glProgramUniform1i(prog, glGetUniformLocation(prog, "colorMap"), 0);
+
+
         obj->display(render_to_array);
 
         glMemoryBarrier(GL_ALL_BARRIER_BITS);
 
-
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         test2.use();
 
-        test_mat->addTexture(imageTexMap.getColorTexture());
+        //test_mat->addTexture(imageTexMap.getColorTexture());
         test2.set_uniform("mipmap_LOD",params->LOD);
         //if(params->cubemapVisible)
-            screen_quad->display(test2);
+        screen_quad->display(test2);
         return;
 
         render_mipmaps.use();
@@ -2415,8 +2428,8 @@ void TranslucentMaterials::paintGL()
     static ShaderProgramDraw render_to_cubemap_jensen(shader_path,"ss_cubemap_render_to_cubemap_jensen.vert","ss_cubemap_render_to_cubemap_array.geom","ss_cubemap_render_to_cubemap_jensen.frag");
     static ShaderProgramDraw render_to_cubemap_jeppe(shader_path,"ss_cubemap_render_to_cubemap_jeppe.vert","ss_cubemap_render_to_cubemap_array.geom","ss_cubemap_render_to_cubemap_jeppe.frag");
 #else
-    static ShaderProgramDraw render_to_cubemap_jensen(shader_path,"ss_cubemap_render_to_cubemap_jensen.vert","ss_cubemap_render_to_cubemap_array.geom","ss_cubemap_render_to_arraymap_multilight_jensen.frag");
-    //static ShaderProgramDraw render_to_cubemap_jensen(shader_path,"ss_cubemap_render_to_cubemap_jensen.vert","ss_cubemap_render_to_cubemap_array.geom","ss_render_to_arraymap_imageStore_multilight_jensen.frag");
+    //static ShaderProgramDraw render_to_cubemap_jensen(shader_path,"ss_cubemap_render_to_cubemap_jensen.vert","ss_cubemap_render_to_cubemap_array.geom","ss_cubemap_render_to_arraymap_multilight_jensen.frag");
+    static ShaderProgramDraw render_to_cubemap_jensen(shader_path,"ss_cubemap_render_to_cubemap_jensen.vert","ss_cubemap_render_to_cubemap_array.geom","ss_render_to_arraymap_imageStore_multilight_jensen.frag");
     static ShaderProgramDraw render_to_cubemap_jeppe(shader_path,"ss_cubemap_render_to_cubemap_jensen.vert","ss_cubemap_render_to_cubemap_array.geom","ss_cubemap_render_to_arraymap_multilight_jeppe.frag");
 #endif
 
@@ -2440,7 +2453,7 @@ void TranslucentMaterials::paintGL()
         switch(render_mode)
         {
         case DRAW_JENSEN:
-            render_direct_array_time(reload_shaders,render_to_cubemap_jensen);
+            render_direct_abuffer(reload_shaders,render_to_cubemap_jensen);
             break;
         case DRAW_BETTER:
             render_direct_test(reload_shaders, render_to_cubemap_jensen);

@@ -12,7 +12,7 @@ uniform sampler2DArray vtex;
 uniform sampler2D discpoints;
 
 #ifdef TIME
-writeonly uniform layout(size4x32) image2DArray colorMap;
+restrict uniform layout(rgba32f, binding = 0) image2DArray colorMap;
 #endif
 
 smooth in vec3 position;
@@ -236,13 +236,15 @@ void main(void)
     }
 
     //imageStore(colorMap,ivec3(coord,layer), oldColor + vec4(accumulate,1.0));
-    imageStore(colorMap, ivec3(0,0,layer), vec4(1.0));
+    //for(int i = 0; i < 100; i++)
+      imageStore(colorMap, ivec3(coord,layer), vec4(1.0f));
 
     //fragColor = oldColor + vec4(accumulate,1.0);
     //discard;
-    fragColor = vec4(layer * 0.1f,0.0,0.0,0.0);
+    fragColor = vec4(layer * 0.1f,imageSize(colorMap).x / 2048.0f,0.0,0.0);
     //fragColor = texture(ntex, circle_center.xy);
     //fragColor = vec4(count-149,0.0,0.0,1.0);
     //fragColor = vec4(100 *abs(offset),1.0f);
    //fragColor = vec4(0,0,abs(dot(no,wi)),1.0f);
+    //discard;
 }
