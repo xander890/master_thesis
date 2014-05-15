@@ -20,7 +20,9 @@ namespace Mesh
             name("tex"),
             data(std::vector<CGLA::Vec3f>(1)),
             width(1),
-            height(1)
+            height(1),
+            isaImage(false),
+            access(GL_READ_ONLY)
         {}
 
         Texture(const std::string& _name, GLenum target, unsigned int width, unsigned int height, std::vector<CGLA::Vec3f> & data):
@@ -29,7 +31,9 @@ namespace Mesh
             target(target),
             data(data),
             width(width),
-            height(height)
+            height(height),
+            isaImage(false),
+            access(GL_READ_ONLY)
         {}
 
 
@@ -43,7 +47,9 @@ namespace Mesh
             target(target),
             data(std::vector<CGLA::Vec3f>(1)),
             width(1),
-            height(1)
+            height(1),
+            isaImage(false),
+            access(GL_READ_ONLY)
         {}
 
 
@@ -79,6 +85,23 @@ namespace Mesh
             this->name = name;
         }
 
+        void setIfImage(bool isaImage)
+        {
+            this->isaImage = isaImage;
+        }
+
+        void setAccess(GLenum access)
+        {
+            this->access = access;
+        }
+
+        GLenum getAccess() {return access;}
+        bool isImage() {return isaImage;}
+
+        bool isLayered()
+        {
+            return target == GL_TEXTURE_CUBE_MAP || target == GL_TEXTURE_2D_ARRAY || target == GL_TEXTURE_3D;
+        }
 
     protected:
         void load();
@@ -88,6 +111,9 @@ namespace Mesh
         std::vector<CGLA::Vec3f> data;
         unsigned int width;
         unsigned int height;
+
+        bool isaImage;
+        GLenum access;
     };
 
 }

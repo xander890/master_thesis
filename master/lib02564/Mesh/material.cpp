@@ -23,18 +23,22 @@ namespace Mesh
         {
             Texture * texture = *it;
             shader.use_texture(texture, count);
+
+            if(texture->isImage())
+                glBindImageTexture(count, texture->get_id(), 0, texture->isLayered(), 0, texture->getAccess(), GL_RGBA32F);
+
             count++;
         }
 
         unsigned int count2 = 0;
-        for(vector<ImageTexture*>::iterator it = imageTextures.begin(); it != imageTextures.end(); it++)
-        {
-            ImageTexture * texture = *it;
-            shader.use_texture(texture, count);
-            texture->bindImage(count2);
-            count++;
-            count2++;
-        }
+//        for(vector<ImageTexture*>::iterator it = imageTextures.begin(); it != imageTextures.end(); it++)
+//        {
+//            ImageTexture * texture = *it;
+//            shader.use_texture(texture, count);
+//            texture->bindImage(count2);
+//            count++;
+//            count2++;
+//        }
 
         loadExtraUniforms(shader);
 

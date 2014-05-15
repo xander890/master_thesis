@@ -762,7 +762,7 @@ void TranslucentMaterials::render_direct_abuffer(bool reload, ShaderProgramDraw 
 {
     //static ShaderProgramDraw obj_shader(shader_path,"object.vert","","object.frag");
     static ShaderProgramDraw clean_array(shader_path,"display_tex.vert","display_tex.geom","ss_render_to_arraymap_imageStore_clear.frag");
-
+    glDisable(GL_BLEND);
 #ifdef SINGLE_LIGHT
     static ShaderProgramDraw gbuff_shader(shader_path,"ss_cubemap_gbuffer.vert","","ss_cubemap_gbuffer.frag");
 #else
@@ -902,9 +902,15 @@ void TranslucentMaterials::render_direct_abuffer(bool reload, ShaderProgramDraw 
 
         // Need to disable mipmap afterwards, otherwise the memory space is not reserved.
         imageTexMap.disableMipMaps();
-
+        static GLuint emptyFBO = 0;
         if(!initialized)
         {
+            glGenFramebuffers(1, &emptyFBO);
+            glBindFramebuffer(GL_DRAW_FRAMEBUFFER, emptyFBO);
+            glFramebufferParameteri(GL_DRAW_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_WIDTH, ARRAY_TEXTURE_SIZE);
+            glFramebufferParameteri(GL_DRAW_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_HEIGHT, ARRAY_TEXTURE_SIZE);
+            glFramebufferParameteri(GL_DRAW_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_LAYERS, LAYERS);
+            glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 
             screen_quad->init("","plane",*test_mat);
             vector<Vec3f> * discpoint_data = new vector<Vec3f>();
@@ -914,7 +920,7 @@ void TranslucentMaterials::render_direct_abuffer(bool reload, ShaderProgramDraw 
             tex->init();
             scattering_material->addTexture(tex);
 
-            scattering_material->addTexture(colorTexture);
+            //scattering_material->addTexture(colorTexture);
 
             //preparing first color buffer from which to read (just for avoiding errors,
             // the shader already avoids that)
@@ -977,7 +983,6 @@ void TranslucentMaterials::render_direct_abuffer(bool reload, ShaderProgramDraw 
         obj->display(gbuff_shader);
 
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-        glDrawBuffer(GL_BACK);
 
         // We need to reset the viewport, since the shadow buffer does not have
         // the same size as the screen window.
@@ -999,7 +1004,8 @@ void TranslucentMaterials::render_direct_abuffer(bool reload, ShaderProgramDraw 
 
 
         glViewport(0,0,ARRAY_TEXTURE_SIZE,ARRAY_TEXTURE_SIZE);
-
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, emptyFBO);
+        colorTexture->setIfImage(true);
 
         Vec3f radius = Vec3f(29.909f,23.316f, 18.906f); //radius for marble - red 29.909 green 23.316 blue 18.906
         //float trueRadius = clamp01(length(mat * Vec4f(radius[0],0,0,0)));
@@ -1007,14 +1013,18 @@ void TranslucentMaterials::render_direct_abuffer(bool reload, ShaderProgramDraw 
         float trueRadius = params->circleradius;
         glClearColor(0,0,0,0);
 
-        clean_array.use();
-        clean_array.set_uniform("colorMapSize",ARRAY_TEXTURE_SIZE);
-        clean_array.set_uniform("layers", LAYERS);
-        GLuint progc = clean_array.prog;
-        glProgramUniform1i(progc, glGetUniformLocation(progc, "colorMap"), 0);
+        if(currentFrame == 0)
+        {
+            clean_array.use();
+            clean_array.set_uniform("colorMapSize",ARRAY_TEXTURE_SIZE);
+            clean_array.set_uniform("layers", LAYERS);
+            GLuint progc = clean_array.prog;
+            glProgramUniform1i(progc, glGetUniformLocation(progc, "colorMap"), 0);
 
-        screen_quad->display(clean_array);
+            screen_quad->display(clean_array);
 
+
+        }
         glMemoryBarrier(GL_ALL_BARRIER_BITS);
         render_to_array.use();
         render_to_array.set_uniform("one_over_max_samples",1.0f/params->samples);
@@ -1040,20 +1050,16 @@ void TranslucentMaterials::render_direct_abuffer(bool reload, ShaderProgramDraw 
 
         GLuint prog = render_to_array.prog;
         glProgramUniform1i(prog, glGetUniformLocation(prog, "colorMap"), 0);
-
-
         obj->display(render_to_array);
 
         glMemoryBarrier(GL_ALL_BARRIER_BITS);
 
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        test2.use();
+        //glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 
         //test_mat->addTexture(imageTexMap.getColorTexture());
-        test2.set_uniform("mipmap_LOD",params->LOD);
-        //if(params->cubemapVisible)
-        screen_quad->display(test2);
-        return;
+
+        colorTexture->setIfImage(false);
 
         render_mipmaps.use();
         render_mipmaps.set_uniform("viewMatrices", viewMatricesvector, LAYERS);
@@ -2428,8 +2434,8 @@ void TranslucentMaterials::paintGL()
     static ShaderProgramDraw render_to_cubemap_jensen(shader_path,"ss_cubemap_render_to_cubemap_jensen.vert","ss_cubemap_render_to_cubemap_array.geom","ss_cubemap_render_to_cubemap_jensen.frag");
     static ShaderProgramDraw render_to_cubemap_jeppe(shader_path,"ss_cubemap_render_to_cubemap_jeppe.vert","ss_cubemap_render_to_cubemap_array.geom","ss_cubemap_render_to_cubemap_jeppe.frag");
 #else
-    //static ShaderProgramDraw render_to_cubemap_jensen(shader_path,"ss_cubemap_render_to_cubemap_jensen.vert","ss_cubemap_render_to_cubemap_array.geom","ss_cubemap_render_to_arraymap_multilight_jensen.frag");
-    static ShaderProgramDraw render_to_cubemap_jensen(shader_path,"ss_cubemap_render_to_cubemap_jensen.vert","ss_cubemap_render_to_cubemap_array.geom","ss_render_to_arraymap_imageStore_multilight_jensen.frag");
+    static ShaderProgramDraw render_to_cubemap_jensen(shader_path,"ss_cubemap_render_to_cubemap_jensen.vert","ss_cubemap_render_to_cubemap_array.geom","ss_cubemap_render_to_arraymap_multilight_jensen.frag");
+    //static ShaderProgramDraw render_to_cubemap_jensen(shader_path,"ss_cubemap_render_to_cubemap_jensen.vert","ss_cubemap_render_to_cubemap_array.geom","ss_render_to_arraymap_imageStore_multilight_jensen.frag");
     static ShaderProgramDraw render_to_cubemap_jeppe(shader_path,"ss_cubemap_render_to_cubemap_jensen.vert","ss_cubemap_render_to_cubemap_array.geom","ss_cubemap_render_to_arraymap_multilight_jeppe.frag");
 #endif
 
@@ -2453,7 +2459,7 @@ void TranslucentMaterials::paintGL()
         switch(render_mode)
         {
         case DRAW_JENSEN:
-            render_direct_abuffer(reload_shaders,render_to_cubemap_jensen);
+            render_direct_array_time(reload_shaders,render_to_cubemap_jensen);
             break;
         case DRAW_BETTER:
             render_direct_test(reload_shaders, render_to_cubemap_jensen);

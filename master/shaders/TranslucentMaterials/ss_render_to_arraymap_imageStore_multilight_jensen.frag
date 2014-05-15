@@ -3,6 +3,7 @@
 #define TIME
 #define MULTI_LIGHTS
 
+layout(early_fragment_tests) in;
 
 layout(location = 0) out vec4 fragColor;
 
@@ -12,7 +13,7 @@ uniform sampler2DArray vtex;
 uniform sampler2D discpoints;
 
 #ifdef TIME
-restrict uniform layout(rgba32f, binding = 0) image2DArray colorMap;
+coherent uniform layout(rgba32f, binding = 0) image2DArray colorMap;
 #endif
 
 smooth in vec3 position;
@@ -156,12 +157,7 @@ void main(void)
 #ifdef TIME
     vec4 l = cameraMatrices[layer] * vec4(position,1.0f);
     ivec2 coord = ivec2(l.xy * 1024);
-    vec4 oldColor = vec4(0.0f); //imageLoad(colorMap,ivec3(coord,layer));
-
-    if(current_frame == 0)
-    {
-        oldColor = vec4(0.0f); //to avoid garbage on the first round
-    }
+    vec4 oldColor = imageLoad(colorMap,ivec3(coord,layer));
 
     if(current_frame == convergence_frames)
     {
@@ -237,14 +233,14 @@ void main(void)
 
     //imageStore(colorMap,ivec3(coord,layer), oldColor + vec4(accumulate,1.0));
     //for(int i = 0; i < 100; i++)
-      imageStore(colorMap, ivec3(coord,layer), vec4(1.0f));
+    imageStore(colorMap, ivec3(coord,layer), oldColor +  vec4(accumulate,1.0));
 
     //fragColor = oldColor + vec4(accumulate,1.0);
     //discard;
-    fragColor = vec4(layer * 0.1f,imageSize(colorMap).x / 2048.0f,0.0,0.0);
+    //fragColor = vec4(0,imageLoad(colorMap, ivec3(0,0,0)).x,0.0,0.0);
     //fragColor = texture(ntex, circle_center.xy);
     //fragColor = vec4(count-149,0.0,0.0,1.0);
     //fragColor = vec4(100 *abs(offset),1.0f);
-   //fragColor = vec4(0,0,abs(dot(no,wi)),1.0f);
+    //fragColor = vec4(0,0,abs(dot(no,wi)),1.0f);
     //discard;
 }

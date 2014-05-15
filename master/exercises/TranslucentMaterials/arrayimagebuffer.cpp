@@ -38,6 +38,8 @@ void ArrayImageBuffer::initialize()
     glBindImageTexture(0, arraytex, 0, GL_TRUE, 0, GL_READ_WRITE, GL_RGBA32F);
 
     colorTex = new Mesh::Texture("colorMap", arraytex, GL_TEXTURE_2D_ARRAY);
+    colorTex->setIfImage(true);
+    colorTex->setAccess(GL_READ_WRITE);
 }
 
 
