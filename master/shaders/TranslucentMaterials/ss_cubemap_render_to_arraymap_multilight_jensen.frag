@@ -1,6 +1,6 @@
 #version 430
 #define RANDOM
-#define TIME
+//#define TIME
 #define MULTI_LIGHTS
 
 layout(location = 0) out vec4 fragColor;
@@ -229,7 +229,13 @@ void main(void)
             }
         }
     }
-    fragColor = oldColor + vec4(accumulate,1.0);
+
+    fragColor = vec4(accumulate,1.0);
+
+#ifdef TIME
+    fragColor += oldColor;
+#endif
+
     //fragColor = vec4(noise1);
     //fragColor = texture(ntex, circle_center.xy);
     //fragColor = vec4(count-149,0.0,0.0,1.0);

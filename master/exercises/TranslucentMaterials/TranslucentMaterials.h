@@ -114,6 +114,7 @@ protected:
     void render_jensen(bool reload);
     void render_better_dipole(bool reload);
     void render_direct_abuffer(bool reload, GLGraphics::ShaderProgramDraw & render_to_cubemap);
+    void render_direct_compute_time(bool reload, GLGraphics::ShaderProgramDraw & render_to_cubemap);
     void render_direct_array(bool reload, GLGraphics::ShaderProgramDraw & render_to_cubemap);
     void render_direct_array_time(bool reload, GLGraphics::ShaderProgramDraw & render_to_cubemap);
     void render_direct_test(bool reload, GLGraphics::ShaderProgramDraw & render_to_cubemap);

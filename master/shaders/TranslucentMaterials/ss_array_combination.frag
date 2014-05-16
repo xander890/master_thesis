@@ -1,5 +1,5 @@
 #version 430
-#define TIME 1
+#define TIME 0
 #define DEBUG 0
 uniform sampler2DArray colorMap;
 uniform sampler2DArrayShadow depthMap;
@@ -93,7 +93,7 @@ void main(void)
     for(int i = 0; i < DIRECTIONS; i++)
     {
         vec4 l = cameraMatrices[i] * vec4(pos,1.0f);
-        vec4 color = texture(colorMap,vec3(l.xy,i));
+        vec4 color = textureLod(colorMap,vec3(l.xy,i),3);
         float vis = sample_shadow_map(l.xyz,i) * step(1.0f, color.a);
         fragColor += color * vis;
         div += vis;
@@ -106,7 +106,7 @@ void main(void)
 #if DEBUG == 1
     int i = 0;
     vec4 l = cameraMatrices[i] * vec4(pos,1.0f);
-    fragColor =  texture(colorMap,vec3(l.xy,i)) * vec4(sample_shadow_map(l.xyz,i));
+    fragColor =  textureLod(colorMap,vec3(l.xy,i),1) * vec4(sample_shadow_map(l.xyz,i));
 #endif
 
     fragColor *= disc_area * one_over_max_samples * F;

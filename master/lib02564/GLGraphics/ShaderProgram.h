@@ -27,7 +27,7 @@ namespace GLGraphics {
      shaders. */
     class ShaderProgram
     {
-        std::string shader_path;  // as the name says
+
         std::string vs_file_name; // Vertex shader file name
         std::string gs_file_name; // geometry shader file name
         std::string fs_file_name; // Fragment shader file name
@@ -36,13 +36,13 @@ namespace GLGraphics {
         static int currentShader;
     protected:
          // The program
-
-        void compile();
+        std::string shader_path;  // as the name says
+        virtual void compile();
 
         virtual void link();
 
         /// Destroy shaders and program
-        void relinquish();
+        virtual void relinquish();
         
     public:
         GLuint prog;
