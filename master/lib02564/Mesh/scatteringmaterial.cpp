@@ -20,6 +20,10 @@ namespace Mesh{
     const std::string ScatteringMaterial::A_COEFF = "A";
     const std::string ScatteringMaterial::DE_COEFF = "de";
     const std::string ScatteringMaterial::REDUCED_ALBEDO = "reduced_albedo";
+    const std::string ScatteringMaterial::GLOBAL_COEFF= "global_coeff";
+    const std::string ScatteringMaterial::THREE_D= "three_D";
+    const std::string ScatteringMaterial::D_REV= "D_rev";
+    const std::string ScatteringMaterial::TWO_A_DE= "two_a_de";
 
 
     void ScatteringMaterial::loadUniforms(GLGraphics::ShaderProgramDraw &shader)
@@ -40,6 +44,10 @@ namespace Mesh{
         shader.set_uniform(A_COEFF.c_str(),A);
         shader.set_uniform(DE_COEFF.c_str(),de);
         shader.set_uniform(REDUCED_ALBEDO.c_str(),reducedAlbedo);
+        shader.set_uniform(THREE_D.c_str(), three_D);
+        shader.set_uniform(D_REV.c_str(), rev_D);
+        shader.set_uniform(GLOBAL_COEFF.c_str(), global_coeff);
+        shader.set_uniform(TWO_A_DE.c_str(), two_a_de);
     }
 
     void ScatteringMaterial::computeCoefficients()
@@ -61,5 +69,9 @@ namespace Mesh{
                     (float)sqrt(reducedAlbedo[2]));
         this->A = (1.0 - C_E) / (2.0 * C_s);
         this->extinctionCoefficient = scattering + absorption;
+        this->three_D = 3 * D;
+        this->rev_D = (3.f * reducedExtinctionCoefficent);
+        this->two_a_de = 2.0f * A * de;
+        this->global_coeff = 1.0f/(4.0f * C_s_inv) * 1.0f/(4.0f * M_PI * M_PI);
     }
 }

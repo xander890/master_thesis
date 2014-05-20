@@ -8,8 +8,8 @@ uniform float mipmap_LOD;
 
 void main(void)
 {
-    int level = 1;
-    fragColor = textureLod(colorMap,vec3(_tex.xy,level),mipmap_LOD);// + textureLod(colorMap,vec3(_tex.xy,level),1f);
+    int level = 2;
+    fragColor = textureLod(colorMap,vec3(0.5 * _tex.xy + vec2(0.25),level ),mipmap_LOD);// + textureLod(colorMap,vec3(_tex.xy,level),1f);
     //fragColor = vec4(0.0,0.0,1.0f,1.0);
    // fragColor = vec4(1.0);
 

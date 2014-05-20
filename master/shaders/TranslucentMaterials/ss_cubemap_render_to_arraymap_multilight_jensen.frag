@@ -1,10 +1,12 @@
 #version 430
 #define RANDOM
-//#define TIME
+#define TIME
 #define MULTI_LIGHTS
 
 layout(location = 0) out vec4 fragColor;
 
+#define DIRECTIONS 10
+#define MAX_LIGHTS 5
 
 uniform sampler2DArray ntex;
 uniform sampler2DArray vtex;
@@ -16,7 +18,6 @@ uniform sampler2DArray colorMap;
 smooth in vec3 position;
 smooth in vec3 norm;
 
-const int MAX_LIGHTS = 5;
 uniform vec4 light_pos[MAX_LIGHTS];
 uniform vec4 light_diff[MAX_LIGHTS];
 uniform int light_number;
@@ -28,8 +29,8 @@ uniform float one_over_discs;
 #ifdef TIME
 uniform int convergence_frames;
 uniform int current_frame;
-const int DISCS = 10;
-uniform mat4 cameraMatrices[DISCS];
+
+uniform mat4 cameraMatrices[DIRECTIONS];
 uniform float epsilon_combination;
 #endif
 
@@ -37,111 +38,16 @@ uniform float discradius;
 uniform int samples;
 uniform float epsilon_gbuffer;
 
-uniform float ior;
-uniform vec3 red_extinction;
-uniform vec3 D;
-uniform vec3 transmission;
-uniform vec3 reduced_albedo;
-
-
 const float M_PI = 3.141592654;
 
+#include "ss_aincludes_ss_uniforms.glinc"
 
-vec3 refract2(vec3 inv, vec3 n, float n1, float n2)
-{
-    float eta = n1/n2;
-    float c = dot(inv, n);
-    return eta * (c * n - inv) - n * sqrt(max(0.0f,1 - eta * eta * (1 - c * c)));
-}
+#include "ss_aincludes_optics.glinc"
 
-vec2 fresnelAmplitudeTransmittance(vec3 inv, vec3 n, float n1, float n2)
-{
-    float cosin = dot(inv,n);
-    vec3 refr = refract2(inv,n,n1,n2);
-    float costr = dot(refr,-n);
+#include "ss_aincludes_jensen_bssrdf.glinc"
 
-    float t_s = (2 * n1 * cosin) / (n1 * cosin + n2 * costr);
-    float t_p = (2 * n1 * cosin) / (n1 * costr + n2 * cosin);
+#include "ss_aincludes_random.glinc"
 
-    return vec2(t_s,t_p);
-}
-
-
-vec2 fresnelPowerTransmittance(vec3 inv, vec3 n, float n1, float n2)
-{
-    float cosin = dot(inv,n);
-    vec3 refr = refract2(inv,n,n1,n2);
-    float costr = dot(refr,-n);
-
-    vec2 t = fresnelAmplitudeTransmittance(inv,n,n1,n2);
-
-    return (n2 * costr) * ((t * t)/ (n1 * cosin));
-}
-
-float fresnel_T(vec3 inv, vec3 n, float n1, float n2)
-{
-    vec2 T = fresnelPowerTransmittance(inv,n,n1,n2);
-    return 0.5 * (T.x + T.y);
-}
-
-
-vec3 bssrdf(in vec3 xi, in vec3 wi, in vec3 ni, in vec3 xo, in vec3 no)
-{
-    float l = length(xo - xi);
-
-    float ntr = ior;
-    float nin = 1.0f; //air
-    float eta = ntr / nin;
-    float eta_sqr = eta * eta;
-    float Fdr = -1.440 / eta_sqr + 0.71 / eta + 0.668 + 0.0636 * eta;
-    float A = (1 + Fdr) / (1 - Fdr);
-
-    vec3 zr = vec3(1.0f) / red_extinction;
-    vec3 zv = zr + 4.0f * A * D;
-
-    vec3 r = vec3(l);
-    vec3 dr = sqrt(r * r + zr * zr);
-    vec3 dv = sqrt(r * r + zv * zv);
-
-    vec3 tr = transmission;
-    vec3 C1 = zr * (tr + vec3(1.0f)/vec3(dr));
-    vec3 C2 = zv * (tr + vec3(1.0f)/vec3(dv));
-
-    vec3 coeff = reduced_albedo / (4.0f * M_PI);
-    vec3 real = (C1 / (dr * dr)) * exp(- tr * dr);
-    vec3 virt = (C2 / (dv * dv)) * exp(- tr * dv);
-
-    vec3 S = coeff * (real + virt);
-
-    float Ti = fresnel_T(wi,ni,nin,ntr);
-    //float To = fresnel_T(wo,no,nin,ntr);
-
-    S = S *(1.0f/M_PI)* Ti;// * To;
-
-    S = max(vec3(0.0f),S);
-    //S = vec3(length(xo-xi));
-
-
-    return S;
-}
-
-float hash( float n )
-{
-    return fract(sin(n)*43758.5453);
-}
-
-float noise( in vec3 x )
-{
-    vec3 p = floor(x);
-    vec3 f = fract(x);
-
-    f = f*f*(3.0-2.0*f);
-    float n = p.x + p.y*57.0 + 113.0*p.z;
-    return mix(mix(mix( hash(n+  0.0), hash(n+  1.0),f.x),
-                   mix( hash(n+ 57.0), hash(n+ 58.0),f.x),f.y),
-               mix(mix( hash(n+113.0), hash(n+114.0),f.x),
-                   mix( hash(n+170.0), hash(n+171.0),f.x),f.y),f.z);
-}
 
 void main(void)
 {
@@ -192,6 +98,7 @@ void main(void)
     float r_angle = (noise1 + time) * 2 * M_PI;
     float delta_rad = discradius / samples * (noise2 - 0.5f);
     mat2 rot = mat2(cos(r_angle),sin(r_angle), -sin(r_angle), cos(r_angle));
+
 #endif
 
     for(int k = 0; k < light_number; k++)
@@ -235,7 +142,6 @@ void main(void)
 #ifdef TIME
     fragColor += oldColor;
 #endif
-
     //fragColor = vec4(noise1);
     //fragColor = texture(ntex, circle_center.xy);
     //fragColor = vec4(count-149,0.0,0.0,1.0);

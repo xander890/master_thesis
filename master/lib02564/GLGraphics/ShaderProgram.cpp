@@ -20,6 +20,7 @@ namespace GLGraphics {
     using namespace CGLA;
     
     int ShaderProgram::currentShader = -1;
+    ShaderPreprocessor ShaderProgram::preprocessor = ShaderPreprocessor("./shaders/TranslucentMaterials/");
     
     void ShaderProgram::relinquish()
     {
@@ -230,10 +231,14 @@ namespace GLGraphics {
         return shaderProgramId;
     }
 
-    GLuint ShaderProgram::create_glsl_shader(GLuint stype, const std::string& src)
+    GLuint ShaderProgram::create_glsl_shader(GLuint stype, std::string& src)
     {
         GLuint S = glCreateShader(stype);
+
+        preprocessor.processShader(src);
+
         const char* src_cstr = src.c_str();
+
         glShaderSource(S, 1, &src_cstr, 0);
         glCompileShader(S);
 
@@ -250,6 +255,7 @@ namespace GLGraphics {
                 cout << "InfoLog: " << infoLog << endl;
                 delete infoLog;
             }
+            cout << src << endl;
             return 0;
         }
         return S;

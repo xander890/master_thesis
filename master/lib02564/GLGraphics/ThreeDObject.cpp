@@ -50,7 +50,7 @@ namespace GLGraphics
 	{
         if(firstTime)
         {
-            DipoleGPU gip;
+            //DipoleGPU gip;
             //gip.prepare(*this);
             firstTime = false;
         }

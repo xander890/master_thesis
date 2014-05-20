@@ -1,50 +1,44 @@
 #version 430
-readonly layout(rgba32f) uniform image2DArray source;
-writeonly layout(rgba32f) uniform image2DArray dest;
+restrict layout(rgba32f) uniform image2DArray source;
+restrict layout(rgba32f) uniform image2DArray mipmap0;
+restrict layout(rgba32f) uniform image2DArray mipmap1;
+writeonly layout(rgba32f) uniform image2DArray mipmap2;
+
 uniform int scaling;
-layout (local_size_x = 16, local_size_y = 16) in;
+layout (local_size_x = 8, local_size_y = 8, local_size_z = 1) in;
 
-vec4 sampleTex(ivec3 coord)
+
+vec4 computeData(restrict layout(rgba32f) image2DArray src, int ks, ivec3 sourcePos)
 {
-    return imageLoad(source, coord);
-}
+    vec4 c0 = imageLoad(src,sourcePos);
+    vec4 c1 = imageLoad(src,sourcePos + ks * ivec3(1,0,0));
+    vec4 c2 = imageLoad(src,sourcePos - ks * ivec3(1,0,0));
+    vec4 c3 = imageLoad(src,sourcePos + ks * ivec3(0,1,0));
+    vec4 c4 = imageLoad(src,sourcePos - ks * ivec3(0,1,0));
 
-void main()
-{
-    ivec3 storePos = ivec3(gl_GlobalInvocationID.xyz);
-    ivec3 sourcePos = storePos * ivec3(2,2,1);
+    vec4 c5 = imageLoad(src,sourcePos + ks * ivec3(2,0,0));
+    vec4 c6 = imageLoad(src,sourcePos - ks * ivec3(2,0,0));
+    vec4 c7 = imageLoad(src,sourcePos + ks * ivec3(0,2,0));
+    vec4 c8 = imageLoad(src,sourcePos - ks * ivec3(0,2,0));
 
-    int ks = 1;
+    vec4 c9 =  imageLoad(src,sourcePos + ks * ivec3(1,1,0));
+    vec4 c10 = imageLoad(src,sourcePos - ks * ivec3(1,1,0));
+    vec4 c11 = imageLoad(src,sourcePos + ks * ivec3(1,-1,0));
+    vec4 c12 = imageLoad(src,sourcePos - ks * ivec3(1,-1,0));
 
-    vec4 c0 = imageLoad(source,sourcePos);
-    vec4 c1 = imageLoad(source,sourcePos + ks * ivec3(1,0,0));
-    vec4 c2 = sampleTex(sourcePos - ks * ivec3(1,0,0));
-    vec4 c3 = sampleTex(sourcePos + ks * ivec3(0,1,0));
-    vec4 c4 = sampleTex(sourcePos - ks * ivec3(0,1,0));
-
-    vec4 c5 = sampleTex(sourcePos + ks * ivec3(2,0,0));
-    vec4 c6 = sampleTex(sourcePos - ks * ivec3(2,0,0));
-    vec4 c7 = sampleTex(sourcePos + ks * ivec3(0,2,0));
-    vec4 c8 = sampleTex(sourcePos - ks * ivec3(0,2,0));
-
-    vec4 c9 =  sampleTex(sourcePos + ks * ivec3(1,1,0));
-    vec4 c10 = sampleTex(sourcePos - ks * ivec3(1,1,0));
-    vec4 c11 = sampleTex(sourcePos + ks * ivec3(1,-1,0));
-    vec4 c12 = sampleTex(sourcePos - ks * ivec3(1,-1,0));
-
-    float v0 = clamp(c0.a,0.0f,1.0f);
-    float v1 = clamp(c1.a,0.0f,1.0f);
-    float v2 = clamp(c2.a,0.0f,1.0f);
-    float v3 = clamp(c3.a,0.0f,1.0f);
-    float v4 = clamp(c4.a,0.0f,1.0f);
-    float v5 = clamp(c5.a,0.0f,1.0f);
-    float v6 = clamp(c6.a,0.0f,1.0f);
-    float v7 = clamp(c7.a,0.0f,1.0f);
-    float v8 = clamp(c8.a,0.0f,1.0f) ;
-    float v9 = clamp(c9.a,0.0f,1.0f);
-    float v10 = clamp(c10.a,0.0f,1.0f);
-    float v11 = clamp(c11.a,0.0f,1.0f);
-    float v12 = clamp(c12.a,0.0f,1.0f);
+    float v0 = c0.a;
+    float v1 = c1.a;
+    float v2 = c2.a;
+    float v3 = c3.a;
+    float v4 = c4.a;
+    float v5 = c5.a;
+    float v6 = c6.a;
+    float v7 = c7.a;
+    float v8 = c8.a;
+    float v9 = c9.a;
+    float v10 = c10.a;
+    float v11 = c11.a;
+    float v12 = c12.a;
 
     vec4 step1 = c0 * v0 + c1 * v1 + c2 * v2 + c3 * v3 + c4 * v4;
     float vstep1 = v0 + v1 + v2 + v3 + v4;
@@ -54,6 +48,36 @@ void main()
     float vstep3 = v9 + v10 + v11 + v12;
 
     vec4 data = (step1 + step2 + step3) / max(vstep1 + vstep2 + vstep3, 1.0f);
-    vec3 si = vec3(1024.0f / scaling * 2,1024.0f / scaling * 2,10.0f);
-    imageStore(dest, storePos, data);
+    return data;
+}
+
+void main()
+{
+    ivec3 storePos = ivec3(gl_GlobalInvocationID.xyz);
+    ivec3 sourcePos = storePos * ivec3(2,2,1);
+
+    barrier();
+    int ks = 1;
+    vec4 data = computeData(source,ks,sourcePos);
+
+    imageStore(mipmap0, storePos, data);
+    barrier();
+
+    if(storePos.x % 2 == 0 && storePos.y % 2 == 0)
+    {
+        storePos.xy /= 2;
+        sourcePos.xy /= 2;
+        data = computeData(mipmap0,ks,sourcePos);
+        imageStore(mipmap1, storePos, data);
+        barrier();
+
+        if(storePos.x % 2 == 0 && storePos.y % 2 == 0)
+        {
+            storePos.xy /= 2;
+            sourcePos.xy /= 2;
+            data = computeData(mipmap1,ks,sourcePos);
+            imageStore(mipmap2, storePos, data);
+        }
+    }
+
 }

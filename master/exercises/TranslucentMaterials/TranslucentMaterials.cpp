@@ -53,9 +53,11 @@
 #include "arrayvertexnormalbuffer.h"
 #include "arrayimagebuffer.h"
 #include "GLGraphics/computeshader.h"
+#include "shaderpreprocessor.h"
 
 #define BUNNIES
 #define POINT_DIST 0 // 0 random, 1 exponential, 2 uniform
+#define TIMER
 
 //#define SINGLE_LIGHT
 
@@ -78,9 +80,40 @@ LightManager manager;
 
 const Vec4f light_specular(0.6f,0.6f,0.3f,0.6f);
 const Vec4f light_diffuse(.5f,.5f,.7f,1.0f);
-const Vec4f light_position(-6.f,0.f,0.f,1);
+const Vec4f light_position(0.f,0.f,6.f,1);
 const Vec4f light_diffuse_2(0.7,0.5,0.5,0.0);
 const Vec4f light_position_2(6.0,0.0,0.0,1.0);
+
+
+TranslucentMaterials::TranslucentMaterials( QWidget* parent)
+    : QGLWidget( new Core4_3_context(), (QWidget*) parent),
+      ax(0), ay(0), dist(12),ang_x(0),ang_y(0),mouse_x0(0),mouse_y0(0)
+    , clearColor(Vec4f(0.0f,0.0f,0.0f,1.0f)), frame(0),
+      isVertexMode(true),
+      isShadow(true),
+      isGridVisible(true),
+      areAxesVisible(true),
+      params(new TranslucentParameters()),
+      render_mode(DRAW_JENSEN),
+      render_method(CUBEMAP_BASE),
+      currentFrame(0),
+      performanceTimer(PerformanceTimer(20))
+
+    {
+
+        #ifndef TIMER
+            performanceTimer.setIntermediateEnabled(false);
+        #endif
+        Light mainLight (light_position, light_diffuse, 1.0f, light_specular, true);
+        Light secondaryLight(light_position_2, light_diffuse_2, 15.0f, Vec4f(0.0f), true);
+        manager.addLight(mainLight);
+        //manager.addLight(secondaryLight);
+        setFocusPolicy(Qt::ClickFocus);
+        timer = new QTimer(this);
+        connect(timer, SIGNAL(timeout()), this, SLOT(animate()));
+        timer->start(16);
+    }
+
 
 void draw_screen_aligned_quad(ShaderProgram& shader_prog)
 {
@@ -329,9 +362,9 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
         //dipoleCalculator.calculate(*bunny2,luminance,deonDipoleModel);
         //dipoleCalculator.calculate(*bunny3,luminance,jeppeDipole);
         DipoleGPU gip;
-        gip.prepare(*cube);
+        //gip.prepare(*cube);
 
-        gip.prepare(*sphere);
+        //gip.prepare(*sphere);
         //gip.prepare(*bunny2);
         //gip.prepare(*bunny3);
 #endif
@@ -1019,7 +1052,7 @@ void TranslucentMaterials::render_direct_abuffer(bool reload, ShaderProgramDraw 
             clean_array.use();
             clean_array.set_uniform("colorMapSize",ARRAY_TEXTURE_SIZE);
             clean_array.set_uniform("layers", LAYERS);
-            GLuint progc = clean_array.prog;
+            GLuint progc = clean_array.id();
             glProgramUniform1i(progc, glGetUniformLocation(progc, "colorMap"), 0);
 
             screen_quad->display(clean_array);
@@ -1049,7 +1082,7 @@ void TranslucentMaterials::render_direct_abuffer(bool reload, ShaderProgramDraw 
         render_to_array.set_model_matrix(model_identity);
         render_to_array.set_projection_matrix(projection_array);
 
-        GLuint prog = render_to_array.prog;
+        GLuint prog = render_to_array.id();
         glProgramUniform1i(prog, glGetUniformLocation(prog, "colorMap"), 0);
         obj->display(render_to_array);
 
@@ -1190,14 +1223,14 @@ void TranslucentMaterials::render_direct_abuffer(bool reload, ShaderProgramDraw 
 
 void TranslucentMaterials::render_direct_compute_time(bool reload, ShaderProgramDraw &render_to_array)
 {
-
+    performanceTimer.registerEvent("-1: Start");
 #ifdef SINGLE_LIGHT
     static ShaderProgramDraw gbuff_shader(shader_path,"ss_cubemap_gbuffer.vert","","ss_cubemap_gbuffer.frag");
 #else
     static ShaderProgramDraw gbuff_shader(shader_path,"ss_cubemap_gbuffer_multilight.vert","ss_cubemap_gbuffer_multilight.geom", "ss_cubemap_gbuffer_multilight.frag");
 #endif
 
-    static ComputeShader compute_mipmaps(shader_path, "ss_array_generate_mips.compute");
+    static ComputeShader compute_mipmaps(shader_path, "ss_array_generate_mips_single.compute");
 
     static ShaderProgramDraw gbuff_quad(shader_path,"ss_cubemap_test_gbuffer.vert","","ss_cubemap_test_gbuffer.frag");
     static ShaderProgramDraw gbuff_wrap(shader_path,"ss_cubemap_test_wrap_gbuffer.vert","","ss_cubemap_test_wrap_gbuffer.frag");
@@ -1320,6 +1353,8 @@ void TranslucentMaterials::render_direct_compute_time(bool reload, ShaderProgram
         viewMatricesvector[i] = viewMatrices[i];
     }
 
+    performanceTimer.registerEvent("0: Initialization");
+
     if(currentFrame < CONVERGENCE_FRAMES)
     {
         static bool initialized = false;
@@ -1401,7 +1436,7 @@ void TranslucentMaterials::render_direct_compute_time(bool reload, ShaderProgram
 
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
         glDrawBuffer(GL_BACK);
-
+        performanceTimer.registerEvent("1: Render to lightmap");
         // We need to reset the viewport, since the shadow buffer does not have
         // the same size as the screen window.
         glViewport(0, 0, window_width, window_height);
@@ -1468,17 +1503,20 @@ void TranslucentMaterials::render_direct_compute_time(bool reload, ShaderProgram
         front->enable();
         obj->display(render_to_array);
 
+        performanceTimer.registerEvent("2: Render to array");
 
         front->enableMipMaps();
         compute_mipmaps.use();
-        GLuint prog = compute_mipmaps.prog;
+        GLuint prog = compute_mipmaps.id();
         GLuint colTex = front->getColorTexture()->get_id();
 
         GLint location_src = compute_mipmaps.get_uniform_location("source");
         GLint location_dest = compute_mipmaps.get_uniform_location("dest");
 
-        const int KERNEL = 16;
-
+        const int KERNEL_XY = 8;
+        const int KERNEL_Z = 1;
+#define MULTIMIPMAP
+#ifdef MULTIMIPMAP
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D_ARRAY, colTex);
 
@@ -1488,81 +1526,35 @@ void TranslucentMaterials::render_direct_compute_time(bool reload, ShaderProgram
         for(int i = 0; i < MIPMAPS + 1; i++)
             glBindImageTexture(	i, colTex, i, GL_TRUE, 0, GL_READ_WRITE, GL_RGBA32F);
 
+
         for(int i = 0; i < MIPMAPS; i++)
         {
             int pow = 2 << i;
 
             glUniform1i(location_src, i);
-
             glUniform1i(location_dest, i+1);
-
-            glDispatchCompute(ARRAY_TEXTURE_SIZE / (pow * KERNEL), ARRAY_TEXTURE_SIZE / (pow * KERNEL), LAYERS);
-            glMemoryBarrier(GL_ALL_BARRIER_BITS);
+            glDispatchCompute(ARRAY_TEXTURE_SIZE / (pow * KERNEL_XY), ARRAY_TEXTURE_SIZE / (pow * KERNEL_XY), LAYERS / KERNEL_Z);
+            glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
         }
+#else
 
-
-
-/*        render_mipmaps.use();
-        render_mipmaps.set_uniform("viewMatrices", viewMatricesvector, LAYERS);
-        render_mipmaps.set_uniform("layers", LAYERS);
-        //front->generateMipMaps();
-
-        for(int level = 0; level < MIPMAPS; level++)
+        const char * names[10] = {"source","mipmap0","mipmap1","mipmap2","mipmap3","mipmap4","mipmap5","mipmap6","mipmap7","mipmap8"};
+        glMemoryBarrier(GL_ALL_BARRIER_BITS);
+        for(int i = 0; i < MIPMAPS + 1; i++)
         {
-            glViewport(0, 0, ARRAY_TEXTURE_SIZE / SCALING[level], ARRAY_TEXTURE_SIZE / SCALING[level]);
-
-            // image processing of mipmaps
-            screen_quad->mesh.getMaterial()->removeTexture(string("colorMap"));
-            GLuint sourceTex = 0;
-            if(level == 0)
-            {
-                sourceTex = front->getColorTexture()->get_id();
-            }
-            else
-            {
-                sourceTex = mipmaps[level - 1].getColorTexture()->get_id();
-            }
-            screen_quad->mesh.getMaterial()->addTexture(new Mesh::Texture("colorMap", sourceTex, GL_TEXTURE_2D_ARRAY));
-
-            render_mipmaps.set_uniform("scaling", SCALING[level]);
-
-            render_mipmaps.set_uniform("texStep", 1.0f / ARRAY_TEXTURE_SIZE);
-
-            for(int i = 0; i < LAYERS; i++)
-            {
-                mipmaps[level].enable(i);
-                render_mipmaps.set_uniform("currentLayer", i);
-                screen_quad->display(render_mipmaps);
-            }
-            check_gl_error();
+            glActiveTexture(GL_TEXTURE0 + i);
+            glBindTexture(GL_TEXTURE_2D_ARRAY, colTex);
+            glBindImageTexture(	i, colTex, i, GL_TRUE, 0, GL_READ_WRITE, GL_RGBA32F);
+            glUniform1i(compute_mipmaps.get_uniform_location(names[i]), i);
         }
 
-        glViewport(0, 0, ARRAY_TEXTURE_SIZE , ARRAY_TEXTURE_SIZE );
-        front->enableMipMaps();
+        glDispatchCompute(ARRAY_TEXTURE_SIZE / (2 * KERNEL_XY), ARRAY_TEXTURE_SIZE / (2 * KERNEL_XY), LAYERS / KERNEL_Z);
+        glMemoryBarrier(GL_ALL_BARRIER_BITS);
 
-        // copying texture in mipmaps
-        for(int level = 0; level < MIPMAPS; level++)
-        {
-            GLuint target = front->getColorTexture()->get_id();
-            GLuint source = mipmaps[level].getColorTexture()->get_id();
-            GLuint source_d = mipmaps[level].getDepthTexture()->get_id();
+#endif
 
-            glBindFramebuffer(GL_READ_FRAMEBUFFER, mipmaps[level].getFBO());
-            glBindTexture(GL_TEXTURE_2D_ARRAY, target);
+        performanceTimer.registerEvent("3: Compute mipmaps");
 
-            for(int i = 0; i < LAYERS; i++)
-            {
-                glFramebufferTextureLayer(GL_READ_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, source, 0, i);
-                glFramebufferTextureLayer(GL_READ_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, source_d, 0, i);
-                glReadBuffer(GL_COLOR_ATTACHMENT0);
-                glCopyTexSubImage3D(GL_TEXTURE_2D_ARRAY, level + 1, 0, 0, i, 0, 0, ARRAY_TEXTURE_SIZE / SCALING[level], ARRAY_TEXTURE_SIZE / SCALING[level]);
-            }
-
-            glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
-            glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
-
-        }
-*/
         test_mat->removeTexture(string("colorMap"));
         test_mat->addTexture(front->getColorTexture());
         test_mat->addTexture(front->getDepthTexture());
@@ -1581,7 +1573,7 @@ void TranslucentMaterials::render_direct_compute_time(bool reload, ShaderProgram
 
         glBindTexture(GL_TEXTURE_2D_ARRAY, front->getColorTexture()->get_id());
         float converg = currentFrame / float(CONVERGENCE_FRAMES);
-        //glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_LOD_BIAS, 3.0f * (1 - converg * converg * converg));
+        glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_LOD_BIAS, 3.0f * (1 - converg * converg * converg));
         glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
     }
 
@@ -1603,7 +1595,7 @@ void TranslucentMaterials::render_direct_compute_time(bool reload, ShaderProgram
     if(currentFrame < CONVERGENCE_FRAMES)
     {
         glBindTexture(GL_TEXTURE_2D_ARRAY, front->getColorTexture()->get_id());
-        //glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_LOD_BIAS, 0.0f);
+        glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_LOD_BIAS, 0.0f);
         glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
     }
 
@@ -1616,6 +1608,7 @@ void TranslucentMaterials::render_direct_compute_time(bool reload, ShaderProgram
         delete screen;
     }
 
+    performanceTimer.registerEvent("4: Combination");
     currentFrame++;
 
     test2.use();
@@ -1980,6 +1973,7 @@ check_gl_error();
 
 void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDraw & render_to_array)
 {
+    performanceTimer.registerEvent("-1: Start");
     static ShaderProgramDraw obj_shader(shader_path,"object.vert","","object.frag");
 
 #ifdef SINGLE_LIGHT
@@ -2001,12 +1995,11 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
     static ShaderProgramDraw test2(shader_path,"display_tex_2.vert","","display_tex_2.frag");
 
     const int GBUFFER_SIZE = 1024;
-    const float LIGHT_CAMERA_SIZE = 3.0f;
-
-
+    const float LIGHT_CAMERA_SIZE = 5.0f;
 
     const int ARRAY_TEXTURE_SIZE = 1024;
     const int LAYERS = 10;
+    int samples_per_texel = params->samples;
 
     const int MIPMAPS = 3;
     const int SCALING [MIPMAPS] = {2, 4, 8};
@@ -2029,7 +2022,7 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
     const float CAMERA_SIZE = 6.0f;
     const int CONVERGENCE_FRAMES = 100;
 
-    int discPoints = params->samples / manager.size();
+    int discPoints = samples_per_texel / manager.size();
     const int DISCS = LAYERS;
 
     //TODO more objs
@@ -2071,8 +2064,8 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
         center - Vec3f(0,1,0) * CAMERA_DISTANCE, //-Y
         center + Vec3f(0,0,1) * CAMERA_DISTANCE, //+Z
         center - Vec3f(0,0,1) * CAMERA_DISTANCE,  //-Z
-        center + Vec3f(1.0f/sqrt(2.0f),1.0f/sqrt(2.0f),0) * CAMERA_DISTANCE,
-        center + Vec3f(-1.0f/sqrt(2.0f),-1.0f/sqrt(2.0f),0) * CAMERA_DISTANCE,
+        center + Vec3f(1.0f/sqrt(2.0f),1.0f/sqrt(2.0f),1.0f/sqrt(2.0f)) * CAMERA_DISTANCE,
+        center + Vec3f(-1.0f/sqrt(2.0f),-1.0f/sqrt(2.0f),-1.0f/sqrt(2.0f)) * CAMERA_DISTANCE,
         center + Vec3f(-1.0f/sqrt(2.0f),1.0f/sqrt(2.0f),0) * CAMERA_DISTANCE,
         center + Vec3f(1.0f/sqrt(2.0f),-1.0f/sqrt(2.0f),0) * CAMERA_DISTANCE
     };
@@ -2107,6 +2100,8 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
         planeTransformMatrices[i] = mat2 * viewMatrices[i];
         viewMatricesvector[i] = viewMatrices[i];
     }
+
+    performanceTimer.registerEvent("0: Initialization");
 
     if(currentFrame < CONVERGENCE_FRAMES)
     {
@@ -2190,6 +2185,8 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
         glDrawBuffer(GL_BACK);
 
+        performanceTimer.registerEvent("1: Render to lightmap");
+
         // We need to reset the viewport, since the shadow buffer does not have
         // the same size as the screen window.
         glViewport(0, 0, window_width, window_height);
@@ -2201,6 +2198,7 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
 
         scattering_material->addTexture(vtex);
         scattering_material->addTexture(ntex);
+        test_mat->addTexture(ntex);
 
         render_to_array.use();
 
@@ -2215,9 +2213,9 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
         glClearColor(0,0,0,0);
 
         //render_to_cubemap.set_uniform("discpoints", discpoints, DISC_POINTS);
-        render_to_array.set_uniform("one_over_max_samples",1.0f/params->samples);
+        render_to_array.set_uniform("one_over_max_samples",1.0f/samples_per_texel);
         render_to_array.set_uniform("one_over_discs",1.0f/DISCS);
-        render_to_array.set_uniform("samples",params->samples);
+        render_to_array.set_uniform("samples",samples_per_texel);
         render_to_array.set_uniform("discradius",trueRadius);
         render_to_array.set_uniform("epsilon_gbuffer", params->epsilon_gbuffer);
 
@@ -2226,8 +2224,10 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
 #endif
         render_to_array.set_uniform("epsilon_combination", params->epsilon_combination);
         render_to_array.set_uniform("cameraMatrices", planeTransformMatrices,LAYERS);
+        render_to_array.set_uniform("current_frame_percentage", currentFrame / float(CONVERGENCE_FRAMES));
         render_to_array.set_uniform("current_frame", currentFrame);
         render_to_array.set_uniform("convergence_frames", CONVERGENCE_FRAMES);
+        render_to_array.set_uniform("global_frame",frame);
 
         set_light_and_camera(render_to_array);
 
@@ -2247,6 +2247,7 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
             back = &arraytexmap;
         }
 
+        //cout << render_to_array.processed_shader.c_str() << endl;
         //Render to front from back
 
         render_to_array.set_uniform("viewMatrices", viewMatricesvector, LAYERS);
@@ -2254,7 +2255,11 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
         render_to_array.set_model_matrix(model_identity);
         render_to_array.set_projection_matrix(projection_array);
         front->enable();
+        performanceTimer.registerEvent("2.1: Render to array prepare");
+
         obj->display(render_to_array);
+
+        performanceTimer.registerEvent("2: Render to array");
 
         render_mipmaps.use();
         render_mipmaps.set_uniform("viewMatrices", viewMatricesvector, LAYERS);
@@ -2289,8 +2294,12 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
                 screen_quad->display(render_mipmaps);
             }
             check_gl_error();
+            char buffer[50];
+            sprintf(buffer, "3.0.%d: Compute mipmaps - shader", level);
+            performanceTimer.registerEvent(string(buffer));
         }
 
+        performanceTimer.registerEvent("3.1: Compute mipmaps - shader");
         glViewport(0, 0, ARRAY_TEXTURE_SIZE , ARRAY_TEXTURE_SIZE );
         front->enableMipMaps();
 
@@ -2312,10 +2321,13 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
                 glCopyTexSubImage3D(GL_TEXTURE_2D_ARRAY, level + 1, 0, 0, i, 0, 0, ARRAY_TEXTURE_SIZE / SCALING[level], ARRAY_TEXTURE_SIZE / SCALING[level]);
             }
 
-            glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
-            glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
+            //glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
+            //glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
 
         }
+
+
+        performanceTimer.registerEvent("3: Compute mipmaps");
 
         test_mat->removeTexture(string("colorMap"));
         test_mat->addTexture(front->getColorTexture());
@@ -2337,13 +2349,14 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
         float converg = currentFrame / float(CONVERGENCE_FRAMES);
         glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_LOD_BIAS, 3.0f * (1 - converg * converg * converg));
         glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
+
     }
 
 
     render_combination.use();
     render_combination.set_uniform("shadow_bias", params->shadow_bias);
     render_combination.set_uniform("epsilon_combination", params->epsilon_combination);
-    render_combination.set_uniform("one_over_max_samples", 1.0f/params->samples);
+    render_combination.set_uniform("one_over_max_samples", 1.0f/samples_per_texel);
     render_combination.set_uniform("mipmap_LOD",params->LOD);
     render_combination.set_uniform("current_frame_rev", 1.0f/min(currentFrame + 1,CONVERGENCE_FRAMES));
 
@@ -2370,7 +2383,8 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
         delete screen;
     }
 
-    currentFrame++;
+    //currentFrame++;
+    performanceTimer.registerEvent("4: Combination");
 
     test2.use();
     test2.set_uniform("mipmap_LOD",params->LOD);
@@ -2800,22 +2814,6 @@ void TranslucentMaterials::render_directional_dipole(bool reload)
 }
 
 
-TranslucentMaterials::TranslucentMaterials( QWidget* parent)
-    : QGLWidget( new Core4_3_context(), (QWidget*) parent),
-      ax(0), ay(0), dist(12),ang_x(0),ang_y(0),mouse_x0(0),mouse_y0(0)
-    , clearColor(Vec4f(0.0f,0.0f,0.0f,1.0f)), isVertexMode(true), isShadow(true), isGridVisible(true), areAxesVisible(true), params(new TranslucentParameters())
-    , render_mode(DRAW_JENSEN), render_method(CUBEMAP_BASE), currentFrame(0)
-{
-    Light mainLight (light_position, light_diffuse, 1.0f, light_specular, true);
-    Light secondaryLight(light_position_2, light_diffuse_2, 15.0f, Vec4f(0.0f), true);
-    manager.addLight(mainLight);
-    //manager.addLight(secondaryLight);
-    setFocusPolicy(Qt::ClickFocus);
-    timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(animate()));
-    timer->start(16);
-}
-
 QImage* TranslucentMaterials::takeScreenshot()
 {
     float *pixels;
@@ -2825,6 +2823,7 @@ QImage* TranslucentMaterials::takeScreenshot()
     uint h = window_height;
     pixels = new float[w*h*3]; //3 floats = RGB
     // read in the pixel data, TGA's pixels are BGR aligned
+    glBindFramebuffer(GL_READ_FRAMEBUFFER,0);
     glReadPixels(0, 0, w, h, GL_RGB, GL_FLOAT, pixels);
 
     QImage * res = new QImage(w,h,QImage::Format_RGB32);
@@ -2851,15 +2850,12 @@ Vec4f TranslucentMaterials::getClearColor() const
 
 void TranslucentMaterials::paintGL()
 {
-#ifdef SOLUTION_CODE
-    static QTime stopwatch;
-    static int frames=0;
-    static vector<int> msecs_total(50);
-    glFinish();
-    stopwatch.start();
-#endif
 
-    setup_shadow(reload_shaders);
+    manager[0].position = Vec4f(6.0f * sin(float(frame) / 100.0f * 2 * M_PI), 0.0f, 6.0f * cos(float(frame) / 100.0f * 2 * M_PI), 1.0f);
+    performanceTimer.start();
+
+
+    //setup_shadow(reload_shaders);
 
     glClearColor(clearColor[0],clearColor[1],clearColor[2],clearColor[3]);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
@@ -2899,7 +2895,7 @@ void TranslucentMaterials::paintGL()
         switch(render_mode)
         {
         case DRAW_JENSEN:
-            render_direct_compute_time(reload_shaders,render_to_cubemap_jensen);
+            render_direct_array_time(reload_shaders,render_to_cubemap_jensen);
             break;
         case DRAW_BETTER:
             render_direct_test(reload_shaders, render_to_cubemap_jensen);
@@ -2912,18 +2908,13 @@ void TranslucentMaterials::paintGL()
     }
     reload_shaders = false;
     check_gl_error();
-#ifdef SOLUTION_CODE
-    glFinish();
-    int msecs = stopwatch.elapsed();
-    msecs_total[frames++] = msecs;
-    if (frames == 50)
-    {
-        nth_element(msecs_total.begin(), msecs_total.begin()+25, msecs_total.end());
-        qDebug() << "median frame time (msecs)" << msecs_total[25];
-        frames = 0;
-        emit timeMeasurement(msecs_total[25]);
-    }
-#endif
+
+
+    performanceTimer.end();
+    frame++;
+    // TODO REDO emit timeMeasurement(msecs_total[25]);
+
+
 }
 
 void TranslucentMaterials::resizeGL(int W, int H)
@@ -3073,6 +3064,8 @@ void TranslucentMaterials::keyPressEvent(QKeyEvent *e)
         break;
     case 'R':
         reload_shaders = true;
+        performanceTimer.refresh();
+        ShaderProgram::preprocessor.reload();
 
         break;
     case 'L':
@@ -3101,7 +3094,7 @@ void TranslucentMaterials::keyPressEvent(QKeyEvent *e)
         QWidget::keyPressEvent(e);
         break;
     }
-    QWidget::repaint();
+    //QWidget::repaint();
 }
 
 void TranslucentMaterials::keyReleaseEvent(QKeyEvent *)

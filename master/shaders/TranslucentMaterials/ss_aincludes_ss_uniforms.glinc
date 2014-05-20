@@ -1,0 +1,20 @@
+uniform float ior;
+uniform vec3 absorption;
+uniform vec3 scattering;
+uniform vec3 mean_cosine;
+uniform vec3 D;
+uniform float A;
+uniform float C_s;
+uniform float C_s_inv;
+uniform float C_e;
+uniform vec3 de;
+uniform vec3 extinction;
+uniform vec3 red_extinction;
+uniform vec3 red_scattering;
+uniform vec3 transmission;
+uniform vec3 reduced_albedo;
+
+uniform float global_coeff;
+uniform vec3 three_D;
+uniform vec3 D_rev;
+uniform vec3 two_a_de;

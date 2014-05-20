@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include "ObjLoader.h"
+#include "Utils/performancetimer.h"
+#include <string>
 
 using namespace std;
 using namespace CGLA;
@@ -200,6 +202,7 @@ void TriangleMesh::map_data_to_shader_vertex_attributes(GLGraphics::ShaderProgra
     }
 }
 
+
 void TriangleMesh::build_vertex_array_object(GLGraphics::ShaderProgram *shader){
     // create interleaved data
     vector<float> interleavedData;
@@ -252,6 +255,7 @@ void TriangleMesh::build_vertex_array_object(GLGraphics::ShaderProgram *shader){
     initialized = true;
 }
 
+static PerformanceTimer t(20);
 void TriangleMesh::render(ShaderProgramDraw &shader){
     check_gl_error();
 
@@ -260,21 +264,17 @@ void TriangleMesh::render(ShaderProgramDraw &shader){
         return;
     }
     check_gl_error();
-
     glBindVertexArray(vertexArrayObject);
     glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vertexElementArrayBuffer);
 
     map_data_to_shader_vertex_attributes(&shader);
-
-    for (std::vector<DrawCall>::iterator iter = drawCalls.begin();iter != drawCalls.end(); iter++){
+   for (std::vector<DrawCall>::iterator iter = drawCalls.begin();iter != drawCalls.end(); iter++){
         Material & mat = iter->material;
         mat.loadUniforms(shader);
-//        shader.set_material(iter->material.diffuse, iter->material.specular, iter->material.shininess);
-//        shader.use_texture(GL_TEXTURE_2D, "tex", iter->material.tex_map.get_id(), 0);
-
         glDrawElements(iter->renderMode, iter->count, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>( iter->offset));
     }
+
 }
 
 

@@ -69,7 +69,9 @@ HEADERS += exercises/TranslucentMaterials/GBuffer.h\
     exercises/TranslucentMaterials/depthonlybuffer.h \
     lib02564/Mesh/imagetexture.h \
     exercises/TranslucentMaterials/arrayimagebuffer.h \
-    lib02564/GLGraphics/computeshader.h
+    lib02564/GLGraphics/computeshader.h \
+    lib02564/Utils/performancetimer.h \
+    exercises/TranslucentMaterials/shaderpreprocessor.h
 
 SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
         exercises/TranslucentMaterials/ShadowBuffer.cpp\
@@ -112,7 +114,9 @@ SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
     exercises/TranslucentMaterials/depthonlybuffer.cpp \
     lib02564/Mesh/imagetexture.cpp \
     exercises/TranslucentMaterials/arrayimagebuffer.cpp \
-    lib02564/GLGraphics/computeshader.cpp
+    lib02564/GLGraphics/computeshader.cpp \
+    lib02564/Utils/performancetimer.cpp \
+    exercises/TranslucentMaterials/shaderpreprocessor.cpp
 
 
 HEADERS += lib02564/CGLA/ArithMatFloat.h\
@@ -252,7 +256,14 @@ OTHER_FILES += shaders/TranslucentMaterials/* \
     shaders/TranslucentMaterials/ss_cubemap_render_to_arraymap_multilight_jeppe.frag \
     shaders/TranslucentMaterials/ss_render_to_arraymap_imageStore_multilight_jensen.frag \
     shaders/TranslucentMaterials/ss_render_to_arraymap_imageStore_clear.frag \
-    shaders/TranslucentMaterials/ss_array_generate_mips.compute
+    shaders/TranslucentMaterials/ss_array_generate_mips.compute \
+    shaders/TranslucentMaterials/ss_array_generate_mips_single.compute \
+    shaders/TranslucentMaterials/ss_aincludes_jensen_bssrdf.glinc \
+    shaders/TranslucentMaterials/ss_aincludes_optics.glinc \
+    shaders/TranslucentMaterials/ss_aincludes_random.glinc \
+    shaders/TranslucentMaterials/ss_aincludes_ss_uniforms.glinc \
+    shaders/TranslucentMaterials/ss_aincludes_directional_bssrdf.glinc \
+    shaders/TranslucentMaterials/ss_aincludes_directional_bssrdf_opt.glinc
 
 FORMS += \
     exercises/TranslucentMaterials/mainwindow.ui \

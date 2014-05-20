@@ -47,6 +47,10 @@ public:
      CGLA::Vec3f de;
      CGLA::Vec3f reducedAlbedo;
      CGLA::Vec3f extinctionCoefficient;
+     CGLA::Vec3f three_D;
+     CGLA::Vec3f rev_D;
+     float global_coeff;
+     CGLA::Vec3f two_a_de;
 
      static const std::string IOR;
      static const std::string ABSORPTION;
@@ -63,6 +67,10 @@ public:
      static const std::string A_COEFF;
      static const std::string DE_COEFF;
      static const std::string REDUCED_ALBEDO;
+     static const std::string GLOBAL_COEFF;
+     static const std::string THREE_D;
+     static const std::string D_REV;
+     static const std::string TWO_A_DE;
 
     void computeCoefficients();
 };

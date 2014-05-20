@@ -1,0 +1,38 @@
+vec3 bssrdf(in vec3 xi, in vec3 wi, in vec3 ni, in vec3 xo, in vec3 no)
+{
+    float l = length(xo - xi);
+
+    float ntr = ior;
+    float nin = 1.0f; //air
+    float eta = ntr / nin;
+    float eta_sqr = eta * eta;
+    float Fdr = -1.440 / eta_sqr + 0.71 / eta + 0.668 + 0.0636 * eta;
+    float A = (1 + Fdr) / (1 - Fdr);
+
+    vec3 zr = vec3(1.0f) / red_extinction;
+    vec3 zv = zr + 4.0f * A * D;
+
+    vec3 r = vec3(l);
+    vec3 dr = sqrt(r * r + zr * zr);
+    vec3 dv = sqrt(r * r + zv * zv);
+
+    vec3 tr = transmission;
+    vec3 C1 = zr * (tr + vec3(1.0f)/vec3(dr));
+    vec3 C2 = zv * (tr + vec3(1.0f)/vec3(dv));
+
+    vec3 coeff = reduced_albedo / (4.0f * M_PI);
+    vec3 real = (C1 / (dr * dr)) * exp(- tr * dr);
+    vec3 virt = (C2 / (dv * dv)) * exp(- tr * dv);
+
+    vec3 S = coeff * (real + virt);
+
+    float Ti = fresnel_T(wi,ni,nin,ntr);
+    //float To = fresnel_T(wo,no,nin,ntr);
+
+    S = S *(1.0f/M_PI)* Ti;// * To;
+
+    S = max(vec3(0.0f),S);
+    //S = vec3(length(xo-xi));
+
+    return S;
+}

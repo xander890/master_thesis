@@ -19,6 +19,7 @@
 #include <CGLA/Vec4f.h>
 #include <CGLA/Mat2x2f.h>
 #include <Mesh/texture.h>
+#include "shaderpreprocessor.h"
 
 namespace GLGraphics {
     
@@ -27,15 +28,18 @@ namespace GLGraphics {
      shaders. */
     class ShaderProgram
     {
-
         std::string vs_file_name; // Vertex shader file name
         std::string gs_file_name; // geometry shader file name
         std::string fs_file_name; // Fragment shader file name
-        GLuint vs, gs, fs; // The shaders
+
+        GLuint vs, gs, fs; // The shader
+
+
 
         static int currentShader;
     protected:
          // The program
+        GLuint prog;
         std::string shader_path;  // as the name says
         virtual void compile();
 
@@ -45,9 +49,8 @@ namespace GLGraphics {
         virtual void relinquish();
         
     public:
-        GLuint prog;
         GLuint id() const {return prog;}
-
+        static ShaderPreprocessor preprocessor;
         ShaderProgram()
             : vs(0), gs(0), fs(0), prog(0){
 
@@ -57,7 +60,8 @@ namespace GLGraphics {
         ShaderProgram(const std::string& _shader_path,
                       const std::string& _vs_file_name,
                       const std::string& _gs_file_name,
-                      const std::string& _fs_file_name):
+                      const std::string& _fs_file_name)
+                      :
         shader_path(_shader_path),
         vs_file_name(_vs_file_name), 
         gs_file_name(_gs_file_name), 
@@ -75,6 +79,23 @@ namespace GLGraphics {
             gs_file_name = _gs_file_name;
             fs_file_name = _fs_file_name;
             reload();
+        }
+
+        std::string get_shader_name(GLenum shader)
+        {
+            if(shader == GL_VERTEX_SHADER)
+            {
+                return vs_file_name;
+            }
+            else if (shader == GL_GEOMETRY_SHADER)
+            {
+                return gs_file_name;
+            }
+            else if (shader == GL_FRAGMENT_SHADER)
+            {
+                return fs_file_name;
+            }
+            return std::string("");
         }
 
         /// Destroy and relinquish.
@@ -128,7 +149,7 @@ namespace GLGraphics {
         /** Create a shader of type specified by the first argument from a source string given
             as second argument.	Return shader handle. If there is a problem, the infolog is
             printed and 0 is returned. */
-        static GLuint create_glsl_shader(GLuint stype, const std::string& src);
+        static GLuint create_glsl_shader(GLuint stype, std::string &src);
     };
     
     

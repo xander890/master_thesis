@@ -6,6 +6,7 @@
 #include <GLGraphics/ShaderProgram.h>
 #include "GBuffer.h"
 #include <QGLFormat>
+#include "Utils/performancetimer.h"
 
 const int RENDER_MODES = 4;
 const int RENDER_METHODS = 2;
@@ -70,12 +71,14 @@ class TranslucentMaterials : public QGLWidget
     bool isShadow;
     bool isGridVisible;
     bool areAxesVisible;
+    int frame;
 
     GLGraphics::ShaderProgramDraw shader;
     GLGraphics::ThreeDObject cow;
     GLuint m_vertexBuffer;
     CGLA::Vec4f clearColor;
     TranslucentParameters * params;
+    PerformanceTimer performanceTimer;
 
 public:
 
