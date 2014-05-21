@@ -2231,7 +2231,7 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
 
         set_light_and_camera(render_to_array);
 
-        bool isFrontArrayMap = ((currentFrame % 2) == 0)? true : false;
+        bool isFrontArrayMap = ((frame % 2) == 0)? true : false;
 
 
         // ping-pong between buffers
@@ -2347,7 +2347,7 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
 
         glBindTexture(GL_TEXTURE_2D_ARRAY, front->getColorTexture()->get_id());
         float converg = currentFrame / float(CONVERGENCE_FRAMES);
-        glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_LOD_BIAS, 3.0f * (1 - converg * converg * converg));
+        //glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_LOD_BIAS, 3.0f * (1 - converg * converg * converg));
         glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
 
     }
@@ -2852,6 +2852,7 @@ void TranslucentMaterials::paintGL()
 {
 
     manager[0].position = Vec4f(6.0f * sin(float(frame) / 100.0f * 2 * M_PI), 0.0f, 6.0f * cos(float(frame) / 100.0f * 2 * M_PI), 1.0f);
+    manager.reloadLights();
     performanceTimer.start();
 
 

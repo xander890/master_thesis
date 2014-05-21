@@ -132,6 +132,7 @@ void main(void)
                     vec3 S = bssrdf(xi,wi,ni,xo,no);
                     accumulate += Li * S;
                     count++;
+
                 }
             }
         }
