@@ -30,7 +30,6 @@ public:
      might not want to switch back to the previous framebuffer. */
     int enable(int level);
     int enable();
-    int enableUniqueColorTarget(int mipmapLevel);
 
     Mesh::Texture * getColorTexture();
     Mesh::Texture * getDepthTexture();

@@ -36,9 +36,10 @@ void ArrayTextureBuffer::initialize()
     //The final 0 refers to the layer index offset (we start from index 0 and have 2 levels).
     //Altogether you can specify a 3D box subset of the overall texture, but only one mip level at a time.
 
+    glTexStorage3D(	GL_TEXTURE_2D_ARRAY, levels, GL_RGBA32F, size, size, layers);
 
-    glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_RGBA32F, size, size, layers, 0, GL_RGBA, GL_FLOAT, 0);
-    glGenerateMipmap(GL_TEXTURE_2D_ARRAY);
+    //glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_RGBA32F, size, size, layers, 0, GL_RGBA, GL_FLOAT, 0);
+    //glGenerateMipmap(GL_TEXTURE_2D_ARRAY);
 
     glBindTexture(GL_TEXTURE_2D_ARRAY, depthtex);
     glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -54,7 +55,8 @@ void ArrayTextureBuffer::initialize()
     //The following 2 zeroes refers to the x and y offsets in case you only want to specify a subrectangle.
     //The final 0 refers to the layer index offset (we start from index 0 and have 2 levels).
     //Altogether you can specify a 3D box subset of the overall texture, but only one mip level at a time.
-    glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_DEPTH_COMPONENT32, size, size, layers, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
+    glTexStorage3D(	GL_TEXTURE_2D_ARRAY, levels, GL_DEPTH_COMPONENT32F, size, size, layers);
+//    glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_DEPTH_COMPONENT32, size, size, layers, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
 
 
 check_gl_error();
@@ -99,14 +101,6 @@ int ArrayTextureBuffer::enable()
     glFramebufferTexture(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, arraytex, 0);
     glFramebufferTexture(GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthtex, 0);
     glDrawBuffer(GL_COLOR_ATTACHMENT0);
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-    return 0;
-}
-
-int ArrayTextureBuffer::enableUniqueColorTarget(int mipmapLevel)
-{
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);
-    glFramebufferTexture(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, arraytex, mipmapLevel);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     return 0;
 }

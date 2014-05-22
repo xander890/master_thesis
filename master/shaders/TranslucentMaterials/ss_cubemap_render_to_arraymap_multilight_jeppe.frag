@@ -55,6 +55,7 @@ void main(void)
     int layer = gl_Layer;
     vec3 xo = position;
 
+
     vec3 no = normalize(norm);
 
 #ifdef TIME
@@ -96,13 +97,13 @@ void main(void)
         vec4 light_post = lightMatrices[k] * vec4(position_mod,1.0f);
         vec2 circle_center = light_post.xy;
 
-        vec3 Li = light_diff[k].xyz  ;
+        vec3 Li = light_diff[k].xyz / (li * li) * 10;
 
         for(int i = 0; i < samples; i++)
         {
     #ifdef RANDOM
 
-            vec2 discoffset = (discradius + delta_rad) * rot * texture(discpoints,vec2(i * one_over_max_samples, layer * one_over_discs)).xy;
+            vec2 discoffset = (discradius) * rot * texture(discpoints,vec2(i * one_over_max_samples, layer * one_over_discs)).xy;
     #else
             vec2 discoffset = discradius * texture(discpoints,vec2(i * one_over_max_samples, layer * one_over_discs)).xy;
     #endif
@@ -121,15 +122,12 @@ void main(void)
                     vec3 S = bssrdf(xi,wi,ni,xo,no);
                     accumulate += Li * S;
 
-                    //count++;
                 }
             }
 
         }
     }
 
-
-    fragColor = texture(ntex, vec3(gl_FragCoord.xy / 700.0f,0));
     fragColor = vec4(accumulate,1.0f) * 0.75 + oldColor * 0.25;
 
 }

@@ -80,6 +80,9 @@ class TranslucentMaterials : public QGLWidget
     TranslucentParameters * params;
     PerformanceTimer performanceTimer;
 
+    Mesh::Texture * skybox;
+    GLGraphics::ThreeDObject * skybox_cube;
+
 public:
 
     TranslucentMaterials(QWidget* parent = 0);

@@ -11,7 +11,7 @@ out vec4 fragColor;
 uniform float texStep;
 uniform int scaling;
 
-uniform int currentLayer;
+//uniform int currentLayer;
 
 vec4 sampleTex(sampler2DArray smp, vec3 texcoord)
 {
@@ -20,7 +20,7 @@ vec4 sampleTex(sampler2DArray smp, vec3 texcoord)
 
 void main(void)
 {
-//    int currentLayer = gl_Layer;
+    int currentLayer = gl_Layer;
 #if FILTER == 0
     float adjStep = texStep * 0.5 * scaling;
     vec4 c0 = sampleTex(colorMap,vec3(_tex.xy,currentLayer));

@@ -54,6 +54,8 @@
 #include "arrayimagebuffer.h"
 #include "GLGraphics/computeshader.h"
 #include "shaderpreprocessor.h"
+#include "GLGraphics/ResourceLoader.h"
+
 
 #define BUNNIES
 #define POINT_DIST 0 // 0 random, 1 exponential, 2 uniform
@@ -97,8 +99,8 @@ TranslucentMaterials::TranslucentMaterials( QWidget* parent)
       render_mode(DRAW_JENSEN),
       render_method(CUBEMAP_BASE),
       currentFrame(0),
-      performanceTimer(PerformanceTimer(20))
-
+      performanceTimer(PerformanceTimer(20)),
+      skybox_cube(new ThreeDCube(10))
     {
 
         #ifndef TIMER
@@ -1989,7 +1991,7 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
     static ShaderProgramDraw render_to_cubemap_test_cube(shader_path,"ss_cubemap_test_render_to_cubemap_cube.vert","","ss_cubemap_test_render_to_cubemap_cube.frag");
     static ShaderProgramDraw render_combination(shader_path,"ss_array_combination.vert","","ss_array_combination.frag");
 
-    static ShaderProgramDraw render_mipmaps(shader_path,"display_tex.vert","","display_tex.frag");
+    static ShaderProgramDraw render_mipmaps(shader_path,"display_tex.vert","display_tex.geom","display_tex.frag");
     static ThreeDPlane * screen_quad = new ThreeDPlane();
     static Mesh::Material * test_mat = new Mesh::Material();
     static ShaderProgramDraw test2(shader_path,"display_tex_2.vert","","display_tex_2.frag");
@@ -2003,10 +2005,14 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
 
     const int MIPMAPS = 3;
     const int SCALING [MIPMAPS] = {2, 4, 8};
-    static MipMapGenerator mipmaps [MIPMAPS] = {MipMapGenerator(ARRAY_TEXTURE_SIZE/SCALING[0], LAYERS, 1), MipMapGenerator(ARRAY_TEXTURE_SIZE/SCALING[1], LAYERS, 1), MipMapGenerator(ARRAY_TEXTURE_SIZE/SCALING[2], LAYERS, 1)};
+    static MipMapGenerator mipmaps [MIPMAPS] = {
+        MipMapGenerator(ARRAY_TEXTURE_SIZE/SCALING[0], LAYERS, 1),
+        MipMapGenerator(ARRAY_TEXTURE_SIZE/SCALING[1], LAYERS, 1),
+        MipMapGenerator(ARRAY_TEXTURE_SIZE/SCALING[2], LAYERS, 1)
+    };
 
-    static ArrayTextureBuffer arraytexmap(ARRAY_TEXTURE_SIZE,LAYERS,1);
-    static ArrayTextureBuffer arraytexmap_back(ARRAY_TEXTURE_SIZE,LAYERS,1);
+    static ArrayTextureBuffer arraytexmap(ARRAY_TEXTURE_SIZE,LAYERS,MIPMAPS + 1);
+    static ArrayTextureBuffer arraytexmap_back(ARRAY_TEXTURE_SIZE,LAYERS,MIPMAPS + 1);
     ArrayTextureBuffer * front;
     ArrayTextureBuffer * back;
 
@@ -2125,6 +2131,7 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
             //preparing first color buffer from which to read (just for avoiding errors,
             // the shader already avoids that)
             scattering_material->addTexture(arraytexmap_back.getColorTexture());
+            scattering_material->addTexture(skybox);
         }
 
         if(params->currentFlags & TranslucentParameters::SAMPLES_CHANGED)
@@ -2287,10 +2294,10 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
 
             render_mipmaps.set_uniform("texStep", 1.0f / ARRAY_TEXTURE_SIZE);
 
-            for(int i = 0; i < LAYERS; i++)
+            //for(int i = 0; i < LAYERS; i++)
             {
-                mipmaps[level].enable(i);
-                render_mipmaps.set_uniform("currentLayer", i);
+                mipmaps[level].enableUniqueTarget();
+                //render_mipmaps.set_uniform("currentLayer", i);
                 screen_quad->display(render_mipmaps);
             }
             check_gl_error();
@@ -2851,6 +2858,62 @@ Vec4f TranslucentMaterials::getClearColor() const
 void TranslucentMaterials::paintGL()
 {
 
+    static GLGraphics::ShaderProgramDraw skybox_shader(shader_path, "ss_skybox.vert", "", "ss_skybox.frag");
+    static bool mark = false;
+    if(reload_shaders)
+        skybox_shader.reload();
+    if(!mark)
+    {
+        GLuint cubetex;
+        check_gl_error();
+        glGenTextures(1, &cubetex);
+        glBindTexture(GL_TEXTURE_CUBE_MAP, cubetex);
+        glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+        check_gl_error();
+        string names[6] =
+        {
+            string("grace_cross_px.png"),
+            string("grace_cross_mx.png"),
+            string("grace_cross_py.png"),
+            string("grace_cross_my.png"),
+            string("grace_cross_pz.png"),
+            string("grace_cross_mz.png")
+        };
+
+        ResourceLoader r;
+        string base_path = r.compute_resource_path("./images/");
+        check_gl_error();
+
+        for(int i = 0; i < 6; i++)
+        {
+            string path = base_path + names[i];
+            QImage res;
+            QImage * image = new QImage();
+            if(image->load(QString(path.c_str()))) {
+                res = QGLWidget::convertToGLFormat(*image);
+            }
+            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA32F, res.width(), res.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, res.bits());
+            check_gl_error();
+        }
+        check_gl_error();
+        skybox = new Mesh::Texture("skybox", cubetex, GL_TEXTURE_CUBE_MAP);
+
+        Mesh::Material * e = new Mesh::Material();
+        e->addTexture(skybox);
+
+        skybox_cube->init(" ", "light_sphere", *e);
+        skybox_cube->setScale(Vec3f(20.f));
+        skybox_cube->setTranslation(Vec3f(0.0f,0.0f,0.0f));
+        skybox_cube->enabled = true;
+        mark = true;
+    }
+
+
+
     manager[0].position = Vec4f(6.0f * sin(float(frame) / 100.0f * 2 * M_PI), 0.0f, 6.0f * cos(float(frame) / 100.0f * 2 * M_PI), 1.0f);
     manager.reloadLights();
     performanceTimer.start();
@@ -2860,6 +2923,7 @@ void TranslucentMaterials::paintGL()
 
     glClearColor(clearColor[0],clearColor[1],clearColor[2],clearColor[3]);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+
 
 
     if(isGridVisible) draw_grid(reload_shaders);
@@ -2907,9 +2971,13 @@ void TranslucentMaterials::paintGL()
         }
 
     }
+
     reload_shaders = false;
     check_gl_error();
-
+    skybox_shader.use();
+    set_light_and_camera(skybox_shader);
+    skybox_cube->display(skybox_shader);
+    check_gl_error();
 
     performanceTimer.end();
     frame++;
@@ -3107,9 +3175,9 @@ ThreeDObject *TranslucentMaterials::getDefaultObject()
 {
     Mesh::ScatteringMaterial * scattering_mat = getDefaultMaterial(S_Marble);
     ThreeDObject * bunny1 = new ThreeDObject();
-    bunny1->init(objects_path+"dragon.obj", "bunny1", *scattering_mat);
+    bunny1->init(objects_path+"bunny.obj", "bunny1", *scattering_mat);
     bunny1->setScale(Vec3f(1.5f));
-    //bunny1->setRotation(Vec3f(1,0,0), 90);
+    bunny1->setRotation(Vec3f(1,0,0), 90);
     bunny1->setTranslation(Vec3f(0,0,2.0f));
     bunny1->enabled = true;
     bunny1->boundingBoxEnabled = true;
