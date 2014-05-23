@@ -1,30 +1,43 @@
 \chapter{Implementation}
 
-In this chapter, we describe the implementation details of our technique, using the approximation of the rendering equation introduced in the previous chapter. We start by giving a rather generic introduction of our algorithm, introducing then all the implementation details of the implementation. We will also dewscribe which artifacts we identified and how we deal with them.
+In this chapter, we describe the implementation details of our technique, using the approximation of the rendering equation introduced in the previous chapter. We start by giving a rather generic introduction of our algorithm, introducing then all the implementation details. 
+
+\section{Requirements}
+
+Our algorithm, in order to be generic and applicable to a wide range of situations must meet some requirements. 
+
+
+\begin{itemize}
+  \item The algorithm should be \emph{accurate}, so that the renderings are as close as possible to reference images generated using a offline Monte-Carlo simulation. 
+	\item The algorithm should be \emph{fast}, executing at interactive frame rates.
+	\item The algorithm should be \emph{uv-independent}, not relying on a pre-made UV mapping of the object in order to being able to perform. The algorithm should work only if basic geometric features are provided (vertices and normals).
+	\item The algorithm should be \emph{adaptable}, handling in real-time dynamic light changes and object deformations. So it will not possible to use light baking or geometry form factors.
+\end{itemize}
+
+If it is not possible to satisfy all the previous within the strict constraints of real-time rendering, we want to create an algorithm that gets as close as possible to the requested result. The algorithm should progressively progressively improve and converge to an accurate result whenever possible (e.g. when the light in the scene is not changing).
 
 \section{Algorithm overview}
 
-Our algorithm, in order to be generic, must meet some requirements. Our first requirement is that our algorithm must be as generic as possible, relying on the fact that only the geometry of the object will be provided. This means we cannot rely on a UV mapping on the object, but only on the positions and the normals. Secondly, our algorithm must deal in real time with dynamic lighting and object deformations. So no baking of lighting or geometry form factors is possible. Finally, we wanted to create an algorithm that progressively improves, converging to a finer and finer result while there are no changes in the scene.
-
-By keeping this limitations in mind, we introduce our three pass algorithm.
+By keeping the limitations presented in the previous section in mind, we introduce our four pass algorithm.
 
 \textbf{Step 1 - Light buffer} \\
 In the first step, positions and normals of the object are rendered into a texture from the light point of view. In addition, for each light a conversion matrix is computed and stored, in order to convert the position from world space to texture space. 
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=0.5 \linewidth]{images/method/method_step1}
-\caption{Render to G-buffer. The appearance of the G-buffers is shown below.}
+\includegraphics[width=0.5 \linewidth]{images/method/step1}
+\caption{Render to G-buffer.}
 \label{fig:step1}
 \end{figure} 
 
 
-\textbf{Step 2 - Render to cubemap} \\
-In the second step, we render the object on a cubemap. The center of the cubemap is places on the center of the object bounding box. Since the model we are using is view-independent (apart from a Fresnel term) we can combine the results of the cubemap in a final combination step.
+\textbf{Step 2 - Render to array texture} \\
+In the second step, we render the object from different directions into an array texture. Each layer of the texture represents a direction from which the object is rendered to. If we are able to cover all the surface of the model, 
+Since the BSSRDF model we are using is view-independent (apart from a Fresnel term) we can combine the results of the cubemap in a final combination step.
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=0.5 \linewidth]{images/method/method_step2}
+\includegraphics[width=0.5 \linewidth]{images/method/step2}
 \caption{Render to cubemap.}
 \label{fig:step2}
 \end{figure} 

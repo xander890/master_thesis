@@ -76,43 +76,55 @@
 \citation{Borlum:2011:SSL:2018323.2018325}
 \citation{Kaplanyan:2010:CLP:1730804.1730821}
 \@writefile{toc}{\contentsline {section}{\numberline {2.2}Numerical techniques}{8}{section.2.2}}
+\citation{Jensen:2001:PMS:383259.383319}
+\citation{IMM2013-06646}
 \@writefile{toc}{\contentsline {chapter}{\numberline {3}Theory}{9}{chapter.3}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Implementation}{11}{chapter.4}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}Light and Radiometry}{9}{section.3.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces The electromagnetic spectrum.\relax }}{10}{figure.caption.4}}
+\newlabel{fig:spectrum}{{3.1}{10}{The electromagnetic spectrum.\relax }{figure.caption.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}Radiometric quantities}{11}{section.3.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}Radiant flux}{11}{subsection.3.2.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Radiant energy}{11}{subsection.3.2.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.3}Irradiance}{11}{subsection.3.2.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.4}Intensity}{12}{subsection.3.2.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.5}Radiance}{12}{subsection.3.2.5}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Implementation}{15}{chapter.4}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Algorithm overview}{11}{section.4.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Render to G-buffer. The appearance of the G-buffers is shown below.\relax }}{12}{figure.caption.4}}
-\newlabel{fig:step1}{{4.1}{12}{Render to G-buffer. The appearance of the G-buffers is shown below.\relax }{figure.caption.4}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Render to cubemap.\relax }}{12}{figure.caption.5}}
-\newlabel{fig:step2}{{4.2}{12}{Render to cubemap.\relax }{figure.caption.5}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Render to cubemap, side view. Note that the fragment $\mathbf  {x}^T_o$ is not rendered in this step, but only the point $\mathbf  {x}_o$ is.\relax }}{13}{figure.caption.6}}
-\newlabel{fig:stepfrustum}{{4.3}{13}{Render to cubemap, side view. Note that the fragment $\mathbf {x}^T_o$ is not rendered in this step, but only the point $\mathbf {x}_o$ is.\relax }{figure.caption.6}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Render to cubemap, gbuffer view.\relax }}{14}{figure.caption.7}}
-\newlabel{fig:stepgbuffer}{{4.4}{14}{Render to cubemap, gbuffer view.\relax }{figure.caption.7}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Final combination step. Note that the point is generally not visible from all the cubemap faces.\relax }}{15}{figure.caption.8}}
-\newlabel{fig:step3}{{4.5}{15}{Final combination step. Note that the point is generally not visible from all the cubemap faces.\relax }{figure.caption.8}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}Implementation details}{16}{section.4.2}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}Artifacts}{16}{section.4.3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.1}Incorrect sampling of the G-buffer}{16}{subsection.4.3.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.2}Incorrect sampling of the cubemap}{16}{subsection.4.3.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.3}Shadow bias}{17}{subsection.4.3.3}}
-\newlabel{fig:art_ss1}{{4.6a}{18}{Subfigure 4 4.6a}{subfigure.4.6.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Requirements}{15}{section.4.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Algorithm overview}{16}{section.4.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Render to G-buffer.\relax }}{16}{figure.caption.5}}
+\newlabel{fig:step1}{{4.1}{16}{Render to G-buffer.\relax }{figure.caption.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Render to cubemap.\relax }}{17}{figure.caption.6}}
+\newlabel{fig:step2}{{4.2}{17}{Render to cubemap.\relax }{figure.caption.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Render to cubemap, side view. Note that the fragment $\mathbf  {x}^T_o$ is not rendered in this step, but only the point $\mathbf  {x}_o$ is.\relax }}{17}{figure.caption.7}}
+\newlabel{fig:stepfrustum}{{4.3}{17}{Render to cubemap, side view. Note that the fragment $\mathbf {x}^T_o$ is not rendered in this step, but only the point $\mathbf {x}_o$ is.\relax }{figure.caption.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Render to cubemap, gbuffer view.\relax }}{18}{figure.caption.8}}
+\newlabel{fig:stepgbuffer}{{4.4}{18}{Render to cubemap, gbuffer view.\relax }{figure.caption.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Final combination step. Note that the point is generally not visible from all the cubemap faces.\relax }}{19}{figure.caption.9}}
+\newlabel{fig:step3}{{4.5}{19}{Final combination step. Note that the point is generally not visible from all the cubemap faces.\relax }{figure.caption.9}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Implementation details}{20}{section.4.3}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.4}Artifacts}{20}{section.4.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.1}Incorrect sampling of the G-buffer}{20}{subsection.4.4.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.2}Incorrect sampling of the cubemap}{20}{subsection.4.4.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.3}Shadow bias}{21}{subsection.4.4.3}}
+\newlabel{fig:art_ss1}{{4.6a}{22}{Subfigure 4 4.6a}{subfigure.4.6.1}{}}
 \newlabel{sub@fig:art_ss1}{{(a)}{a}{Subfigure 4 4.6a\relax }{subfigure.4.6.1}{}}
-\newlabel{fig:art_ss2}{{4.6b}{18}{Subfigure 4 4.6b}{subfigure.4.6.2}{}}
+\newlabel{fig:art_ss2}{{4.6b}{22}{Subfigure 4 4.6b}{subfigure.4.6.2}{}}
 \newlabel{sub@fig:art_ss2}{{(b)}{b}{Subfigure 4 4.6b\relax }{subfigure.4.6.2}{}}
-\newlabel{fig:art_ss3}{{4.6c}{18}{Subfigure 4 4.6c}{subfigure.4.6.3}{}}
+\newlabel{fig:art_ss3}{{4.6c}{22}{Subfigure 4 4.6c}{subfigure.4.6.3}{}}
 \newlabel{sub@fig:art_ss3}{{(c)}{c}{Subfigure 4 4.6c\relax }{subfigure.4.6.3}{}}
-\newlabel{fig:art_ss4}{{4.6d}{18}{Subfigure 4 4.6d}{subfigure.4.6.4}{}}
+\newlabel{fig:art_ss4}{{4.6d}{22}{Subfigure 4 4.6d}{subfigure.4.6.4}{}}
 \newlabel{sub@fig:art_ss4}{{(d)}{d}{Subfigure 4 4.6d\relax }{subfigure.4.6.4}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Progressively removing artifacts to get to the final image. \relax }}{18}{figure.caption.9}}
-\newlabel{fig:artifacts}{{4.6}{18}{Progressively removing artifacts to get to the final image. \relax }{figure.caption.9}{}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Without shadow bias and sampling fixes}}}{18}{subfigure.6.1}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {With shadow bias and without sampling fixes}}}{18}{subfigure.6.2}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {With both shadow bias and sampling fixes}}}{18}{subfigure.6.3}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {Reference}}}{18}{subfigure.6.4}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Results}{19}{chapter.5}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Progressively removing artifacts to get to the final image. \relax }}{22}{figure.caption.10}}
+\newlabel{fig:artifacts}{{4.6}{22}{Progressively removing artifacts to get to the final image. \relax }{figure.caption.10}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Without shadow bias and sampling fixes}}}{22}{subfigure.6.1}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {With shadow bias and without sampling fixes}}}{22}{subfigure.6.2}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {With both shadow bias and sampling fixes}}}{22}{subfigure.6.3}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {Reference}}}{22}{subfigure.6.4}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Results}{23}{chapter.5}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@input{tex/appendix.tex.aux}
@@ -124,7 +136,7 @@
 \bibcite{D'Eon:2011:QMR:1964921.1964951}{{4}{2011}{{D'Eon and Irving}}{{}}}
 \bibcite{d'Eon:2007:ERH:2383847.2383869}{{5}{2007}{{d'Eon et~al.}}{{d'Eon, Luebke, and Enderton}}}
 \bibcite{Donner:2005:LDM:1186822.1073308}{{6}{2005}{{Donner and Jensen}}{{}}}
-\@writefile{toc}{\contentsline {chapter}{Bibliography}{21}{chapter.5}}
+\@writefile{toc}{\contentsline {chapter}{Bibliography}{25}{chapter.5}}
 \bibcite{Donner:2009:EBM:1531326.1531336}{{7}{2009}{{Donner et~al.}}{{Donner, Lawrence, Ramamoorthi, Hachisuka, Jensen, and Nayar}}}
 \bibcite{Dorsey:1999:MRW:311535.311560}{{8}{1999}{{Dorsey et~al.}}{{Dorsey, Edelman, Jensen, Legakis, and Pedersen}}}
 \bibcite{Fattal:2009:PMI:1477926.1477933}{{9}{2009}{{Fattal}}{{}}}

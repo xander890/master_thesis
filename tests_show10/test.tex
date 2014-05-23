@@ -1,0 +1,64 @@
+\documentclass[12pt, twoside,a4paper]{article}
+\oddsidemargin = 10pt
+\textwidth = 430pt
+
+\usepackage{fullpage}	 %to make smaller margins
+\usepackage{graphicx}
+%\usepackage[utf8]{inputenc}
+%\usepackage[T1]{fontenc}
+%\usepackage{url}
+
+\usepackage[hidelinks]{hyperref}
+\usepackage{pdfpages}
+\usepackage{placeins}
+\usepackage{graphicx}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage{subfig}
+
+%\usepackage{subcaption}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{listings} %for showing program code
+\usepackage{bm}
+\usepackage{wrapfig}
+\usepackage{lipsum}
+\usepackage{float}
+\usepackage{titlesec}	
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[comma,authoryear]{natbib}
+\usepackage{epstopdf}
+\usepackage{array}
+\usepackage{blindtext}
+
+%\titlespacing*{\chapter}{0pt}{-10pt}{20pt}
+%\titleformat{\chapter}[display]{\normalfont\huge\bfseries}{}{35pt}{}
+
+\setlength{\intextsep}{0pt} %to make wrapfigures beautiful
+%\setlength{\oddsidemargin}{0.5cm}
+%\setlength{\evensidemargin}{-0.5cm}
+\begin{document}
+\section{Progress}
+What I did this week:
+\begin{itemize}
+	\item Extended the code to support point lights.
+	\item Optimized all the shaders to avoid as much as conditional branching as possible, gained around 3-4 ms
+	\item Added support for skyboxes and added the reflected fresnel term.	
+	\item Tried to change the main arraytexture to use image load/store of OpenGL 4.2, no performance improvement noticed
+	\item Tried to change the mipmap generation to use a compute shader of OpenGL 4.3, but it gives a worse performance compared to the framebuffer based solution (8 ms in the best case with kernel (8,8,1) vs 5-6 ms).
+	\item Tried different random number generators on gpu (including texture with random numbers loaded from CPU), testing for performance and quality
+	\item Studied animated version of the model (rotating light around it), reasoned on how to avoid some flickering problems. Found out that it depends a lot on which things you randomize in the shader. If the condition of light changes, to avoid flickering is often better to avoid excessive randomization. Also, to reduce noise, it is usefult to accumulate the results over various frames (= less sensible to light changes, but more stable).
+	\item Added advanced timer for precise performance timing (it uses glFinish, so it must be taken with a grain of salt)
+	\item Added simple pre-processing unit for shaders in order to recycle some pieces of code.
+\end{itemize}
+
+Stuff left to do (implementation wise):
+
+\begin{itemize}
+	\item Environment lights using 16 different directions
+	\item Some small adjustments in the engine code
+	\item Add support for distant area lights
+\end{itemize}
+
+
+\end{document}
