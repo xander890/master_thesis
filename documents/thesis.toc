@@ -13,13 +13,27 @@
 \contentsline {subsection}{\numberline {3.2.3}Irradiance}{11}{subsection.3.2.3}
 \contentsline {subsection}{\numberline {3.2.4}Intensity}{12}{subsection.3.2.4}
 \contentsline {subsection}{\numberline {3.2.5}Radiance}{12}{subsection.3.2.5}
-\contentsline {chapter}{\numberline {4}Implementation}{15}{chapter.4}
-\contentsline {section}{\numberline {4.1}Requirements}{15}{section.4.1}
-\contentsline {section}{\numberline {4.2}Algorithm overview}{16}{section.4.2}
-\contentsline {section}{\numberline {4.3}Implementation details}{20}{section.4.3}
-\contentsline {section}{\numberline {4.4}Artifacts}{20}{section.4.4}
-\contentsline {subsection}{\numberline {4.4.1}Incorrect sampling of the G-buffer}{20}{subsection.4.4.1}
-\contentsline {subsection}{\numberline {4.4.2}Incorrect sampling of the cubemap}{20}{subsection.4.4.2}
-\contentsline {subsection}{\numberline {4.4.3}Shadow bias}{21}{subsection.4.4.3}
-\contentsline {chapter}{\numberline {5}Results}{23}{chapter.5}
-\contentsline {chapter}{Bibliography}{25}{chapter.5}
+\contentsline {subsection}{\numberline {3.2.6}Radiometric quantities for simple lights}{13}{subsection.3.2.6}
+\contentsline {section}{\numberline {3.3}Reflectance Functions}{14}{section.3.3}
+\contentsline {subsection}{\numberline {3.3.1}BRDF functions}{14}{subsection.3.3.1}
+\contentsline {subsection}{\numberline {3.3.2}Examples of BRDF functions}{15}{subsection.3.3.2}
+\contentsline {subsubsection}{\numberline {3.3.2.1}Lambertian BRDF}{15}{subsubsection.3.3.2.1}
+\contentsline {subsubsection}{\numberline {3.3.2.2}Mirror BRDF}{15}{subsubsection.3.3.2.2}
+\contentsline {subsubsection}{\numberline {3.3.2.3}Glossy BRDFs}{16}{subsubsection.3.3.2.3}
+\contentsline {subsection}{\numberline {3.3.3}The rendering equation}{17}{subsection.3.3.3}
+\contentsline {subsection}{\numberline {3.3.4}Fresnel equations}{17}{subsection.3.3.4}
+\contentsline {section}{\numberline {3.4}Light transport and subsurface scattering}{18}{section.3.4}
+\contentsline {subsection}{\numberline {3.4.1}BSSRDF functions and generalized rendering equation}{18}{subsection.3.4.1}
+\contentsline {subsection}{\numberline {3.4.2}Scattering parameters}{18}{subsection.3.4.2}
+\contentsline {subsection}{\numberline {3.4.3}Standard dipole model}{18}{subsection.3.4.3}
+\contentsline {subsection}{\numberline {3.4.4}Directional dipole model}{18}{subsection.3.4.4}
+\contentsline {chapter}{\numberline {4}Implementation}{19}{chapter.4}
+\contentsline {section}{\numberline {4.1}Requirements}{19}{section.4.1}
+\contentsline {section}{\numberline {4.2}Algorithm overview}{20}{section.4.2}
+\contentsline {section}{\numberline {4.3}Implementation details}{24}{section.4.3}
+\contentsline {section}{\numberline {4.4}Artifacts}{24}{section.4.4}
+\contentsline {subsection}{\numberline {4.4.1}Incorrect sampling of the G-buffer}{24}{subsection.4.4.1}
+\contentsline {subsection}{\numberline {4.4.2}Incorrect sampling of the cubemap}{24}{subsection.4.4.2}
+\contentsline {subsection}{\numberline {4.4.3}Shadow bias}{25}{subsection.4.4.3}
+\contentsline {chapter}{\numberline {5}Results}{27}{chapter.5}
+\contentsline {chapter}{Bibliography}{29}{chapter.5}
