@@ -763,15 +763,31 @@ bool compareVec2fDistanceAscending (Vec2f i,Vec2f j) { return (i.length() < j.le
 
 void TranslucentMaterials::getDiscPoints(vector<Vec3f> * points, const int n, const int m)
 {
+    getDiscPoints(points,n,m,0.0f);
+}
+
+void TranslucentMaterials::getDiscPoints(vector<Vec3f> * points, const int n, const int m, float sigma_tr)
+{
     vector<vector<Vec2f> > texture;
 
 //#if POINT_DIST == 0
-    planeHammersleyCircleMulti(texture, n, m);
+    planeHaltonCircleRejectionExponentialMulti(texture, n, m, sigma_tr);
 //#elif POINT_DIST == 1
 //    planeHammersleyCircleMultiExp(texture, n, m,3.0f);
 //#else
 //    circleUniformPoints(texture, n / 50, m, 50);
 //#endif
+
+   // vector<Vec2f> test1;
+//    planeHammersleyCircleAlternative(test1, 200);
+    //planeHaltonCircleRejectionExponential(test1,200,0.11f);
+    //cout << "Alternative" << endl;
+    //for(int i = 0 ; i < 200; i++) cout << test1[i][0] << " " << test1[i][1] << endl;
+    //test1.clear();
+    //planeHammersleyCircle(test1,200);
+    //cout << "Standard" << endl;
+    //for(int i = 0 ; i < 200; i++) cout << test1[i][0] << " " << test1[i][1] << endl;
+
     for(int k = 0; k < m; k++)
     {
         //cout << "Vector " << k <<endl;
@@ -950,7 +966,7 @@ void TranslucentMaterials::render_direct_abuffer(bool reload, ShaderProgramDraw 
 
             screen_quad->init("","plane",*test_mat);
             vector<Vec3f> * discpoint_data = new vector<Vec3f>();
-            getDiscPoints(discpoint_data,discPoints,DISCS);
+            getDiscPoints(discpoint_data,discPoints,DISCS,0);
 
             Mesh::Texture * tex = new Mesh::Texture("discpoints",GL_TEXTURE_2D, discPoints, DISCS, *discpoint_data);
             tex->init();
@@ -2003,6 +2019,8 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
     const int LAYERS = 10;
     int samples_per_texel = params->samples;
 
+
+
     const int MIPMAPS = 3;
     const int SCALING [MIPMAPS] = {2, 4, 8};
     static MipMapGenerator mipmaps [MIPMAPS] = {
@@ -2042,8 +2060,9 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
             break;
         }
     }
-    Mesh::Material * scattering_material = obj->mesh.getMaterial();
-
+    Mesh::ScatteringMaterial * scattering_material = (Mesh::ScatteringMaterial*)obj->mesh.getMaterial();
+    Vec3f tr = scattering_material->transmissionCoefficient;
+    float minimumTransmission = min(tr[0],min(tr[1],tr[2]));
 
     if(reload)
     {
@@ -2122,7 +2141,8 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
             initialized = true;
             screen_quad->init("","plane",*test_mat);
             vector<Vec3f> * discpoint_data = new vector<Vec3f>();
-            getDiscPoints(discpoint_data,discPoints,DISCS);
+
+            getDiscPoints(discpoint_data,discPoints,DISCS, minimumTransmission);
 
             Mesh::Texture * tex = new Mesh::Texture("discpoints",GL_TEXTURE_2D, discPoints, DISCS, *discpoint_data);
             tex->init();
@@ -2137,7 +2157,7 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
         if(params->currentFlags & TranslucentParameters::SAMPLES_CHANGED)
         {
             vector<Vec3f> * discpoint_data = new vector<Vec3f>();
-            getDiscPoints(discpoint_data,discPoints,DISCS);
+            getDiscPoints(discpoint_data,discPoints,DISCS, minimumTransmission);
             Mesh::Texture * tex = scattering_material->getTexture(string("discpoints"));
             tex->reloadData(*discpoint_data,discPoints,DISCS);
             params->currentFlags &= ~(TranslucentParameters::SAMPLES_CHANGED);
@@ -2225,6 +2245,7 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
         render_to_array.set_uniform("samples",samples_per_texel);
         render_to_array.set_uniform("discradius",trueRadius);
         render_to_array.set_uniform("epsilon_gbuffer", params->epsilon_gbuffer);
+        render_to_array.set_uniform("min_tr", minimumTransmission);
 
 #ifndef SINGLE_LIGHT
         render_to_array.set_uniform("lightMatrices",inverseLightMatrices, manager.size());

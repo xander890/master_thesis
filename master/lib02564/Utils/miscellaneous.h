@@ -42,6 +42,15 @@ float clamp(float x, float min, float max);
 
 void planeHammersley(std::vector<CGLA::Vec2f> & result, int n);
 void planeHammersleyCircle(std::vector<CGLA::Vec2f> & result, int n);
+void planeHammersleyCircleAlternative(std::vector<CGLA::Vec2f> & result, int n);
+CGLA::Vec2f haltonPoint(int k, int p1, int p2);
+CGLA::Vec2f haltonPointCircle(int k, int p1, int p2);
+void planeHalton(std::vector<CGLA::Vec2f> & result, int n);
+void planeHaltonCircle(std::vector<CGLA::Vec2f> & result, int n);
+void planeHaltonCircleRejectionExponential(std::vector<CGLA::Vec2f> &result, int n, float sigma_tr);
+void planeHaltonCircleRejectionExponentialMulti(std::vector<std::vector<CGLA::Vec2f> > & result, int n, int cols, float sigma_tr);
+
+
 void planeHammersleyCircleMulti(std::vector<std::vector<CGLA::Vec2f> > & result, int n, int cols);
 void planeHammersleyCircleMultiExp(std::vector<std::vector<CGLA::Vec2f> > & result, int n, int cols, float sigma);
 void circleUniformPoints(std::vector<std::vector<CGLA::Vec2f> > &result, int n, int cols, int m);

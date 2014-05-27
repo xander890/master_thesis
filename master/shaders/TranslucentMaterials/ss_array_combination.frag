@@ -60,7 +60,7 @@ void main(void)
     {
         vec4 l = cameraMatrices[i] * vec4(pos,1.0f);
         vec4 color = textureLod(colorMap,vec3(l.xy,i),mipmap_LOD);
-        float vis = sample_shadow_map(l.xyz,i) * color.a;
+        float vis = sample_shadow_map(l.xyz,i) * step(0.0f,color.a);
         fragColor += color * vis;
         div += vis;
     }
@@ -72,7 +72,7 @@ void main(void)
 #if DEBUG == 1
     int i = 1;
     vec4 l = cameraMatrices[i] * vec4(pos,1.0f);
-    fragColor =  textureLod(colorMap,vec3(l.xy,i), 3) * vec4(sample_shadow_map(l.xyz,i));
+    fragColor =  textureLod(colorMap,vec3(l.xy,i), 0) * vec4(sample_shadow_map(l.xyz,i));
 #endif
 
     fragColor *= disc_area * one_over_max_samples;

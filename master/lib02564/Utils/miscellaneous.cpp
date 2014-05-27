@@ -172,7 +172,7 @@ void planeHammersley(std::vector<Vec2f> &result, int n)
 }
 
 
-void planeHammersleyCircle(std::vector<Vec2f> &result, int n)
+void planeHammersleyCircleAlternative(std::vector<Vec2f> &result, int n)
 {
    vector<Vec2f> intermediate;
    planeHammersley(intermediate,n);
@@ -184,6 +184,45 @@ void planeHammersleyCircle(std::vector<Vec2f> &result, int n)
    }
 }
 
+void planeHammersleyCircle(std::vector<Vec2f> &result, int n)
+{
+    //Better method based on hemisphere
+   vector<Vec2f> intermediate;
+   planeHammersley(intermediate,n);
+   for(int i = 0; i < intermediate.size(); i++)
+   {
+       float x = intermediate[i][0];
+       float y = intermediate[i][1];
+       float phi = 2 * M_PI * x;
+       float costheta = 1 - y;
+       float sintheta = sqrt(1 - costheta * costheta);
+       Vec2f t = Vec2f(sintheta * cos(phi), sintheta * sin(phi));
+       result.push_back(t);
+   }
+}
+
+void planeHaltonCircleRejectionExponential(std::vector<Vec2f> &result, int n, float sigma_tr)
+{
+    //Better method based on hemisphere
+   uint accepted = 0;
+
+   gel_srand(0);
+   int i = 1;
+   while(accepted < n)
+   {
+        Vec2f point = haltonPointCircle(i, 2, 3);
+        float radius = point.length();
+        float expon = exp(-1 * (sigma_tr * radius));
+        float zeta = gel_rand() / ((float)(GEL_RAND_MAX));
+        if(zeta < expon)
+        {
+            result.push_back(point);
+            accepted++;
+        }
+        i++;
+   }
+   cout << "Acceptance rate: " << (float)n / i << endl;
+}
 
 void planeHammersleyCircleMulti(vector<vector<Vec2f> > &result, int n, int cols)
 {
@@ -251,6 +290,76 @@ void planeHammersleyCircleMultiExp(std::vector<std::vector<Vec2f> > &result, int
             uv[1] = polar_r * sin(polar_theta);
 
             (*vec)[i] = rot * uv;
+        }
+        result.push_back(*vec);
+    }
+}
+
+float vanDerCorputPoint(int k, int basis)
+{
+    int kprime = k;
+    float pprime = (float)basis;
+    float phi = 0.0f;
+    while(kprime > 0)
+    {
+        int a = kprime % basis;
+        phi = phi + a / pprime;
+        kprime = int(kprime / basis);
+        pprime = pprime * basis;
+    }
+    return phi;
+}
+
+
+Vec2f haltonPoint(int k, int p1, int p2)
+{
+    return Vec2f(vanDerCorputPoint(k,p1),vanDerCorputPoint(k,p2));
+}
+
+
+void planeHalton(std::vector<Vec2f> &result, int n)
+{
+    for(int i = 0; i < n; i++)
+    {
+        result.push_back(haltonPoint(i+1,2,3));
+    }
+}
+
+
+Vec2f haltonPointCircle(int k, int p1, int p2)
+{
+    Vec2f p = haltonPoint(k,p1,p2);
+    float x = p[0];
+    float y = p[1];
+    float phi = 2 * M_PI * x;
+    float costheta = 1 - y;
+    float sintheta = sqrt(1 - costheta * costheta);
+    return Vec2f(sintheta * cos(phi), sintheta * sin(phi));
+}
+
+
+void planeHaltonCircle(std::vector<Vec2f> &result, int n)
+{
+    for(int i = 0; i < n; i++)
+    {
+        result.push_back(haltonPointCircle(i+1,2,3));
+    }
+}
+
+
+void planeHaltonCircleRejectionExponentialMulti(std::vector<std::vector<Vec2f> > &result, int n, int cols, float sigma_tr)
+{
+    vector<Vec2f> intermediate;
+    planeHaltonCircleRejectionExponential(intermediate,n,sigma_tr);
+    for(int k = 0; k < cols; k++)
+    {
+        float angle = ((float)k) / cols * 2 * M_PI;
+        Mat2x2f rot = Mat2x2f(cos(angle),sin(angle), -sin(angle), cos(angle));
+
+        vector<Vec2f> * vec = new vector<Vec2f>(n);
+        for(int i = 0; i < n; i++)
+        {
+            (*vec)[i] = rot * intermediate[i];
         }
         result.push_back(*vec);
     }

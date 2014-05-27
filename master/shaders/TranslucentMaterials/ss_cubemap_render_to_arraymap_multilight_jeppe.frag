@@ -24,6 +24,7 @@ uniform mat4 lightMatrices[MAX_LIGHTS];
 
 uniform float one_over_max_samples;
 uniform float one_over_discs;
+uniform float min_tr;
 
 #ifdef TIME
 uniform int convergence_frames;
@@ -45,7 +46,7 @@ const float M_PI = 3.141592654;
 
 #include "ss_aincludes_optics.glinc"
 
-#include "ss_aincludes_directional_bssrdf.glinc"
+#include "ss_aincludes_directional_bssrdf_opt.glinc"
 
 #include "ss_aincludes_random.glinc"
 
@@ -101,17 +102,15 @@ void main(void)
 
         for(int i = 0; i < samples; i++)
         {
+            vec2 sample = texture(discpoints,vec2(i * one_over_max_samples, layer * one_over_discs)).xy;
     #ifdef RANDOM
 
-            vec2 discoffset = (discradius) * rot * texture(discpoints,vec2(i * one_over_max_samples, layer * one_over_discs)).xy;
+            vec2 discoffset = (discradius) * rot * sample;
     #else
-            vec2 discoffset = discradius * texture(discpoints,vec2(i * one_over_max_samples, layer * one_over_discs)).xy;
+            vec2 discoffset = discradius * sample;
     #endif
             vec2 uvin = circle_center + discoffset;
             vec3 sampl = vec3(uvin, k);
-
-
-
 
             if(uvin.x >= 0.0f && uvin.x <= 1.0f && uvin.y >= 0.0f && uvin.y <= 1.0f)
             {
@@ -120,7 +119,8 @@ void main(void)
                 {
                     vec3 ni = texture(ntex, sampl).rgb;
                     vec3 S = bssrdf(xi,wi,ni,xo,no);
-                    accumulate += Li * S;
+                    float normalization = exp(min_tr * length(sample * discradius));
+                    accumulate += Li * S * normalization;
 
                 }
             }
@@ -128,6 +128,7 @@ void main(void)
         }
     }
 
-    fragColor = vec4(accumulate,1.0f) * 0.75 + oldColor * 0.25;
+    fragColor = vec4(accumulate,1.0f)
+    ;
 
 }
