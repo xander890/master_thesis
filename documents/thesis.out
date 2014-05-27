@@ -24,13 +24,5 @@
 \BOOKMARK [2][]{subsection.3.4.2}{3.4.2 Scattering parameters}{section.3.4}% 24
 \BOOKMARK [2][]{subsection.3.4.3}{3.4.3 Standard dipole model}{section.3.4}% 25
 \BOOKMARK [2][]{subsection.3.4.4}{3.4.4 Directional dipole model}{section.3.4}% 26
-\BOOKMARK [0][]{chapter.4}{4 Implementation}{}% 27
-\BOOKMARK [1][]{section.4.1}{4.1 Requirements}{chapter.4}% 28
-\BOOKMARK [1][]{section.4.2}{4.2 Algorithm overview}{chapter.4}% 29
-\BOOKMARK [1][]{section.4.3}{4.3 Implementation details}{chapter.4}% 30
-\BOOKMARK [1][]{section.4.4}{4.4 Artifacts}{chapter.4}% 31
-\BOOKMARK [2][]{subsection.4.4.1}{4.4.1 Incorrect sampling of the G-buffer}{section.4.4}% 32
-\BOOKMARK [2][]{subsection.4.4.2}{4.4.2 Incorrect sampling of the cubemap}{section.4.4}% 33
-\BOOKMARK [2][]{subsection.4.4.3}{4.4.3 Shadow bias}{section.4.4}% 34
-\BOOKMARK [0][]{chapter.5}{5 Results}{}% 35
-\BOOKMARK [0][]{chapter.5}{Bibliography}{}% 36
+\BOOKMARK [0][]{chapter.4}{4 Results}{}% 27
+\BOOKMARK [0][]{chapter.4}{Bibliography}{}% 28

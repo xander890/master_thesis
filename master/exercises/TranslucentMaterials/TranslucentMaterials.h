@@ -133,6 +133,7 @@ protected:
     void draw_grid(bool reload);
     void draw_bounding_boxes(bool reload);
     void getDiscPoints(std::vector<CGLA::Vec3f> * points, const int n, const int m);
+    void getDiscPoints(std::vector<CGLA::Vec3f> * points, const int n, const int m, float sigma_tr);
 
      void initializeGL();
      void resizeGL( int w, int h );

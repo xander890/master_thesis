@@ -3,9 +3,9 @@
 In this chapter, we give a theoretical introduction to the topic dealt with in this thesis. The ultimate goal of this chapter is to introduce and describe a analytical model for subsurface scattering. First, we will give a brief introduction to what light is, and how we physically describe it. Secondly, we will introduce the basic radiometric quantities that will be used throughout the chapter. Then, we will describe how this quantities are related and can be used to describe light-material interaction, using reflectance functions, of which BSSRDF functions are a special case. Finally, we will introduce subsurface scattering and the diffusion approximation, concluding with a description of two BSSRDF functions actually used to describe it, by \cite{Jensen:2001:PMS:383259.383319} and \cite{IMM2013-06646}.
 
 \section{Light and Radiometry}
-Light is a form of electromagnetic radiation, a sinusoidal wave that propagates through space. Usually by light we generically refer to \emph{visible light}, the small part of the electromagnetic spectrum the human eye is sensible to. This small window is between 380 nm of the infrared and 770 nm of the ultraviolet, but the precise boundaries vary according to the environment and the observer. Instead explicitly noted, we will use the terms light and visible light interchangeably.
+Light is a form of electromagnetic radiation, that propagates through space as a sinusoidal wave. Usually by "light` we usually refer to \emph{visible light}, the small part of the electromagnetic spectrum the human eye is sensible to (see Figure \ref{fig:spectrum}). This small window is between the \SI{380}{\nano\meter} of the infrared and \SI{750}{\nano\meter} of the ultraviolet, but the precise boundaries vary according to the environment and the observer. Instead explicitly noted, we will use the terms light and visible light interchangeably in this report.
 
-The study of light is usually referred as optics. In computer aided image synthesis, we are interested in representing faithfully how visible light propagates though the scene and how interacts with materials. In addition, we are interested on effects that are noticeable at human scales. So, we are interested for example in subsurface scattering, absorption and emission but not in phenomena like diffraction, interference and quantum effects, that happen on a microscopic scale. 
+The study of light is usually referred as optics. In computer aided image synthesis, we are interested in representing faithfully how visible light propagates though the scene and how interacts with materials. In addition, we are usually interested on lighting effects that are noticeable at human scales (\SI{1}{\milli\meter} - \SI{1}{\kilo\meter}). For example, we are interested in subsurface scattering, absorption and emission phenomena but not in diffraction, interference and quantum effects, that for visible light happen on a microscopic scale (\SI{1}{\nano\meter} - \SI{1}{\micro\meter}). 
 
 \begin{figure}[!ht]
 \centering
@@ -14,67 +14,72 @@ The study of light is usually referred as optics. In computer aided image synthe
 \label{fig:spectrum}
 \end{figure}
 
-The study of the measurement of electromagnetic radiation is called \emph{radiometry}. The energy of light, like all the others forms of energy, is measured in \emph{Joules (J)}, and its power in \emph{Watts (W)}. \emph{Photometry}, on the other hand, measures electromagnetic radiation as it is perceived from the human eye, and limits itself only to the visible spectrum, while radiometry spans all of it. The quantities for energy and power are called respectively \emph{talbot (Cd $\cdot$ s)} and \emph{candela (Cd)}. 
+The study of the measurement of electromagnetic radiation is called \emph{radiometry}. The energy of light, like all the others forms of energy, is measured in \emph{Joules} [\si{\joule} $=$ \si{\kg\meter\square\per\second\square}], and its power in \emph{Watts} [\si{\watt} $=$ \si{\kg\meter\square\per\second\cubed}]. \emph{Photometry}, on the other hand, measures electromagnetic radiation as it is perceived from the human eye, and limits itself only to the visible spectrum, while radiometry spans all of it. The quantities for energy and power are called respectively \emph{talbot} [\si{\candela\second}] and \emph{candela} [\si{\candela}]. 
 
-In image synthesis radiometry, is employed, as its quantities are universal and can be easily converted to the photometric ones when necessary. The most important radiometric quantities used in computer graphics are radiant energy, radiant power, radiance, irradiance and intensity.
+In image synthesis radiometry is employed, as its quantities directly derive from the electromagnetic theories, are universal, and can be easily converted to the photometric ones when necessary. The most important radiometric quantities used in computer graphics are \emph{radiant flux}, \emph{radiant energy}, \emph{radiance}, \emph{irradiance} and \emph{intensity}.
 
 \section{Radiometric quantities}
 
 \subsection{Radiant flux}
-The radiant flux, also known as radiant power, is the most basic quantity in radiometry. It is usually indicated with the letter $\Phi$ and it is measured in joules per seconds ($J/s$) or Watts ($W$). The quantity indicates how much power the light irradiates per unit time. Given its nature, the radiant flux is constant irregardless of the distance from the light source.
+The radiant flux, also known as radiant power, is the most basic quantity in radiometry. It is usually indicated with the letter $\Phi$ and it is measured in joules per seconds [\si{\joule\per\second}] or Watts [\si{\watt}]. The quantity indicates how much power the light irradiates per unit time. Given its nature, the radiant flux is independent from the distance from the light source.
 
 \subsection{Radiant energy}
-Radiant energy, usually indicated as $Q$, is the energy that the light carries in a certain amount of time. Like all the other SI units for energy, it is measured in joules ($J$). Radiant energy is usually obtained integrating the radiant flux along time:
+Radiant energy, usually indicated as $Q$, is the energy that the light carries in a certain amount of time. Like all the other SI units for energy, it is measured in joules [\si{\joule}]. Radiant energy is usually obtained integrating the radiant flux along time for an interval $\Delta T$:
 
 $$
 Q = \int_{\Delta T} \Phi \; dt
 $$
 
-Due to the dual nature of the light, the energy carried by the light can be derived both considering the flux of photons as particles, or considering light as a wave. We will not dig further into the topic, because for rendering purposes is not important how we characterize light.
+Due to the dual nature of the light, the energy carried by the light can be derived both considering the flux of photons as particles, or considering light as a wave. We will not dig further into the topic, because for rendering purposes is not important if we characterize light as a flux of particles or as a sinusoidal wave.
 
 \subsection{Irradiance}
 
-Irradiance, usually defined as $E$, is the radiometric unit that measures the radiant flux per unit area \emph{falling} on a surface. It is measuerd in Watts per square meter ($W/m^2$). It is obtained by further deriving the differential of the radiant flux by the differential area:
+Irradiance, usually defined as $E$, is the radiometric unit that measures the radiant flux per unit area \emph{falling} on a surface. It is measured in Watts per square meter [\si{\watt\per\meter\square}]. It is obtained by further deriving the radiant flux by the area:
 
 $$
 E = \frac{d\Phi}{dA}
 $$
 
-Irradiance is usually the term using for the incoming power. The converse, i.e. the irradiance leaving a surface, it is usually referred as radiant exitance or radiosity, and indicated with the letter $B$.
+Irradiance is usually the term in literature used for the \emph{incoming} power per unit area. The converse, i.e. the irradiance leaving a surface, it is usually referred as \emph{radiant exitance} or \emph{radiosity}, and indicated with the letter $B$.
  
 \subsection{Intensity}
-Intensity is often a misused term in the physics community, as it is used for a lot of different measures. Depending on the community, intensity may refer to irradiance or even to radiance (see following section). We will refer to intensity as it is generally interpreted by the optics community, i.e. radiant intensity. It is defined as the differential radiant flux per differential solid angle:
+Intensity is defined as the differential radiant flux per differential solid angle:
 
 $$
 I(\vec{\omega}) = \frac{d \Phi}{d \omega}
 $$
 
-Intensity is measured in Watts / steradian ($W/sr$) and it is indicated with the letter $I$.
+It is measured in Watts / steradian [\si{\watt\per\steradian}] and it is indicated with the letter $I$. Intensity is often a misused term in the physics community, as it is used for many different measures. Depending on the community, intensity may refer to irradiance or even to radiance (see the following section). We will refer to intensity as it is generally interpreted by the optics community, i.e. radiant intensity. 
 
 \subsection{Radiance}
-Radiance is the most important quantity in image synthesis. It is defined precisely as the differential flux per solid angle per projected surface area, and it is measured in Watt per steradian per square meter ($W / (sr \cdot m^2)$).
+Radiance is the most important quantity in image synthesis. It is defined precisely as the differential of the flux per solid angle per projected surface area, and it is measured in Watt per steradian per square meter [\si{\watt\per\steradian\meter\square}].
 
 $$
 L(\vec{\omega}) = \frac{d^2 \Phi}{d\omega dA \cos \theta}
 $$
 
-Where $\theta$ is the angle between the surface normal and the incoming ray of light. Radiance is important in image synthesis because it is the natural quantity to associate with a ray of light (as it remains constant) and because is the quantity the human eye is actually sensible to. For a discussion on why radiance is related to the sensitivity of sensors and the human eye, see X.
+Where $\theta$ is the angle between the surface normal and the incoming ray of light (so that $\cos\theta = \vec{n} \cdot \vec{\omega}_i$). Radiance is important in image synthesis because it is the natural quantity to associate with a ray of light, as it remains constant along it. In addition, the sensibility of the human eye to light is directly proportional to the radiance. For a discussion on why radiance is related to the sensitivity of sensors and the human eye, see X.
 
 All the other radiometric quantities can be derived from radiance:
 
-\begin{equation*}
+\begin{equation}
 \begin{split}
 E &= \int_{2\pi} L_i(\vec{\omega}) \cos\theta \; d\omega \\
+B &= \int_{2\pi} L_o(\vec{\omega}) \cos\theta \; d\omega \\
 I(\vec{\omega}) &= \int_A L(\vec{\omega}) \cos\theta \; dA \\
 \Phi &= \int_A \int_{2\pi} L(\vec{\omega}) \cos\theta \; d\omega dA
 \end{split}
-\end{equation*}
+\label{eq:radiancederivation} 
+\end{equation}
+
+For simplicity of notation, in the previous notations the dependence from the point of incidence $\mathbf{x}$ has been dropped. In principle, all the quantities listed in equation \ref{eq:radiancederivation} are dependent on $\mathbf{x}$.
 
 \subsection{Radiometric quantities for simple lights}
+
 To help with the formulas used later in the report, we derive the above mentioned radiometric quantities for the two simplest types of light, i.e. directional and point lights.
 \begin{itemize}
-	\item \textit{Directional lights} simulate very distant light sources, in which all the rays of light are parallel (i.e. the sun). They are represented by a direction $\vec{\omega}_l$ and a constant radiance value, $L$. 
-	\item \textit{Point light} simulate lights closer to the observer. Isotropic point lights are represented by a position of the light $\mathbf{x}_l$ and a constant intensity $I$. Point lights have a fall off that depends on the inverse square law, i.e. the radiance diminishes with the square of the distance.
+	\item \textit{Directional lights} simulate very distant light sources, in which all the rays of light are parallel (e.g. the sun). They are represented by a direction $\vec{\omega}_l$ and a constant radiance value, $L$. 
+	\item \textit{Point lights} simulate lights closer to the observer. Isotropic point lights are represented by a position of the light $\mathbf{x}_l$ and a constant intensity $I$. Point lights have a falloff that depends on the inverse square law, i.e. the radiance diminishes with the square of the distance.
 \end{itemize}
 
 Table \ref{table:radio} shows different radiometric quantities evaluated for point and directional lights, for a surface point $\mathbf{x}$ with surface normal $\vec{n}$. 
@@ -92,7 +97,7 @@ Table \ref{table:radio} shows different radiometric quantities evaluated for poi
     $I(\mathbf{x},\vec{\omega})$ Intensity  & $\infty$                 & $I$           \\ \hline
     $L(\mathbf{x},\vec{\omega})$ Radiance   & $L$               & $\frac{I}{|\mathbf{x}_l - \mathbf{x}|^2}$           \\ \hline
     \end{tabularx}
-\caption{Different radiometric values for simple light sources.}
+\caption{Different radiometric values for simple light sources. Note that flux and irradiance for a directional light are infinite because they are integrated over an infinite area.}
 \label{table:radio}
 \end{table}
 
@@ -109,7 +114,7 @@ f(\mathbf{x}, \vec{\omega}_i, \vec{\omega}_o) = \frac{d L_o(\mathbf{x}, \vec{\om
 \label{eq:brdf}
 \end{equation}
 
-The BRDF states that the incoming and the outgoing radiance are proportional, so that the energy hitting the material at the point $\mathbf{x}$ is proportional to the energy coming out from the point. The BRDF function is generically reciprocal for the Hemholtz reciprocity principle ( $f(\mathbf{x}, \vec{\omega}_i, \vec{\omega}_o) = f(\mathbf{x}, \vec{\omega}_o, \vec{\omega}_i)$), and anisotropic (if the surface changes orientation and $\vec{\omega}_i$ and $\vec{\omega}_o$ are the same, the resulting BRDFs are different). In addition, it is positive( $f(\mathbf{x}, \vec{\omega}_o, \vec{\omega}_i) \ge 0$), and conserves energy, so that the energy of the outgoing ray is no grater that the one of the incoming one ($\int_{2\pi}  f(\mathbf{x}, \vec{\omega}_o, \vec{\omega}_i) \cos\theta_o d\vec{\omega}_o \le 1$).
+The BRDF states that the incoming and the outgoing radiance are proportional, so that the energy hitting the material at the point $\mathbf{x}$ is proportional to the energy coming out from the point. The BRDF function is generically reciprocal for the Hemholtz reciprocity principle ( $f(\mathbf{x}, \vec{\omega}_i, \vec{\omega}_o) = f(\mathbf{x}, \vec{\omega}_o, \vec{\omega}_i)$), and anisotropic (if the surface changes orientation and $\vec{\omega}_i$ and $\vec{\omega}_o$ stays the same, the resulting BRDFs are different). In addition, it is positive( $f(\mathbf{x}, \vec{\omega}_o, \vec{\omega}_i) \ge 0$), and conserves energy, so that the energy of the outgoing ray is no grater that the one of the incoming one ($\int_{2\pi}  f(\mathbf{x}, \vec{\omega}_o, \vec{\omega}_i) \cos\theta_o d\vec{\omega}_o \le 1$).
 
 By inverting equation \ref{eq:brdf}, we obtain the so-called \emph{reflectance equation}:
 
@@ -121,11 +126,11 @@ That later we will extend to obtain the rendering equation. The BRDF function ha
 
 \subsection{Examples of BRDF functions}
 
-There are many examples of BRDF functions in literature. In this section, we will introduce three of the simplest ones: for a more exhaustive description of BRDF functions, refer to X. The three BRDFs are the lambertian or diffuse BRDF, the specular or mirror BRDF and the Blinn-Phong BRDF.
+There are many examples of BRDF functions in literature. In this section, we will introduce three of the simplest ones: for a more exhaustive description of BRDF functions, refer to X. The three BRDFs are the lambertian or diffuse BRDF, the specular or mirror BRDF and the family of glossy BRDFs.
 
 \subsubsection{Lambertian BRDF}
 
-In the lambertian BRDF, the incoming radiance is distributed equally in all directions, regardless of the incoming directions. To do this, the BRDF must be constant:
+In the lambertian BRDF, the incoming radiance is distributed equally in all directions, regardless of the incoming direction. To do this, the BRDF must be constant:
 
 $$
 f(\mathbf{x}, \vec{\omega}_i, \vec{\omega}_o) = k_d
@@ -160,41 +165,47 @@ L_i(\mathbf{x}, \vec{\omega}_i)  &\text{if $\vec{\omega}_o = \vec{\omega}_r$}\\
 \end{cases}
 \end{equation*}
 
-that is the expected result, as all the radiance is diffused into the direction $\vec{\omega}_r$.
+that is the expected result, as all the radiance is reflected into the direction $\vec{\omega}_r$.
 
 \subsubsection{Glossy BRDFs}
 
-As we can see from real life experience, rarely objects are completely diffuse or completely specular. These two models are idealized models, that represent an ideal case. So, to create a realistic BRDF model, we often need to combine the two terms and add an additional one, called glossy reflection. This term is often needed to model the behaviour of the surface more realistically, especially at grazing angles.
+As we can see from real life experience, rarely objects are completely diffuse or completely specular. These two models are idealized models, that represent an ideal case. So, to create a realistic BRDF model, we often need to combine the two terms and add an additional one, called glossy reflection. This term is often needed to model the behavior of the surface more realistically, especially at grazing angles.
 
-The most used BRDF model used to model glossy reflections is based on microfacet theory. In this theory, the surface of an objecct is modeled as composed of small mirrors. In one of its classical formulation, the BRDF is represented as:
+The most used BRDF model used to model glossy reflections is based on microfacet theory. In this theory, the surface of an object is modeled as composed of small mirrors. In one of its classical formulation, the BRDF is represented as:
 
 $$
-f(\mathbf{x}, \vec{\omega}_i, \vec{\omega}_o) = \frac{D G F}{4 \cos\theta_r \cos\theta_i} = \frac{G F}{4} \frac{(\vec{n}\cdot\vec{h})^s}{(\vec{n}\cdot\vec{r})(\vec{n}\cdot\vec{\omega}_i)}
+f(\mathbf{x}, \vec{\omega}_i, \vec{\omega}_o) = \frac{D G R}{4 \cos\theta_r \cos\theta_i} = \frac{G R}{4} \frac{(\vec{n}\cdot\vec{h})^s}{(\vec{n}\cdot\vec{r})(\vec{n}\cdot\vec{\omega}_i)}
 $$
 
-$D$ regulates how microfacets are distributed, and it is often modeled as $(\vec{n}\cdot\vec{h})^s$, where $\vec{h}$ is the half vector between the eye and the light, and $s$ is an attenuation parameter. $G$ accounts for the object self shadowing, while $F$ is the Fresnel reflection term (more details in section Y).	$\vec{r}$ is the reflection vector as defined in the previous section. See figure Z on how the vectors for the glossy reflection - $\vec{n}$, $\vec{h}$ and $\vec{r}$ - are defined.
+$D$ regulates how microfacets are distributed, and it is often modeled as $(\vec{n}\cdot\vec{h})^s$, where $\vec{h}$ is the half vector between the eye and the light, and $s$ is an attenuation parameter. $\vec{h}$ is defined as:
 
-Various alternative definitions exist for the $D$ and $G$ function, varying among the literature. Other glossy models exist, not based on microfacet theory. 
+$$
+\vec{h} = \frac{\vec{\omega}_o + \vec{\omega}_i}{\left\| \vec{\omega}_o + \vec{\omega}_i \right\|}
+$$
+
+$G$ accounts for the object self shadowing, while $R$ is the Fresnel reflection term (more details in section Y).	$\vec{r}$ is the reflection vector as defined in the previous section. See figure Z on how the vectors for the glossy reflection - $\vec{n}$, $\vec{h}$ and $\vec{r}$ - are defined.
+
+Various alternative definitions exist for the $D$ and $G$ function, varying among the literature. Other glossy models not based on microfacet theory do exist as well. 
 
 \subsection{The rendering equation}
 
-Given the reflectance equation, it is possible to generalize it in order to model all the lighting in an environment. In fact, this form of the reflectance equation does not account for two factors. 
+Given the reflectance equation, it is possible to generalize it in order to model all the lighting in an environment. In fact, this form of the reflectance equation does not account for two important factors. 
 
 The first factor are emissive surfaces. We need to add an emissive radiance term $L_e(\mathbf{x}, \vec{\omega})$ that models how much radiance is a point on a surface emitting in a certain directions. This is useful to model lights as any other surface in the scene. Note that point lights have a singularity: they emit infinite radiance on the point they are placed.
 
 The second factor is that the reflectance equation accounts only for direct illumination. In general, we want to model global illumination, i.e. to include also light that bounced onto another surface before reaching the current surface. To model this, we can replace the $L_i$ term in the reflectance equation with another term $L_r$ that accounts for reflected radiance. This term can be usually modeled as the product of the radiance of the light plus a visibility function $V(\mathbf{x})$.
 
-Accounting for all the described factors, we reach the true form of the rendering equation:
+Accounting for all the described factors, we reach one formulation of the rendering equation:
 
 $$
 L_o(\mathbf{x}, \vec{\omega}_o) = L_e(\mathbf{x}, \vec{\omega}) + \int_{2\pi} f(\mathbf{x}, \vec{\omega}_i, \vec{\omega}_o) L_i(\mathbf{x}, \vec{\omega}_i) V(\mathbf{x}) \cos\theta_i d\vec{\omega}_i
 $$
 
-This form of the rendering equation is still not completely general, since it is based on a BRDF, so no subsurface scattering effects or wavelength-changing effects (like iridescence) are impossible to model. We will extend the rendering equation in order to account for these phenomena later on in this chapter.
+This form of the rendering equation is still not completely general, since it is based on a BRDF, so it is not possible to model subsurface scattering effects or wavelength-changing effects (like iridescence). We will extend the rendering equation in order to account for these phenomena later on in this chapter.
 
 \subsection{Fresnel equations}
 
-Until now, on the considered models, we did consider only the reflected part of the radiance. When a beam of light coming from direction $\vec{\omega}_i$ hits a surface, only part of the incoming radiance gets reflected, while another part gets refracted into the material. As we can see from the setup from figure Z, we obtain the two vectors $\vec{\omega}_r$ and $\vec{\omega}_t$, the reflected and refracted vector, defined as follows:
+Until now, on the described BRDF models, we did consider only the reflected part of the radiance. When a beam of light coming from direction $\vec{\omega}_i$ hits a surface, only part of the incoming radiance gets reflected, while another part gets refracted into the material. As we can see from the setup from figure Z, we obtain the two vectors $\vec{\omega}_r$ and $\vec{\omega}_t$, the reflected and refracted vector, defined as follows:
 
 \begin{equation*}
 \begin{split}
@@ -203,7 +214,7 @@ Until now, on the considered models, we did consider only the reflected part of 
 \end{split}
 \end{equation*}
 
-Where $\eta = \frac{n_1}{n_2}$ is the relative index of refraction of the material. With this setup, we can use a solution to Maxwell's equations for wave propagation to describe how light spreads between reflected and refracted directions. what we obtain are called \emph{Fresnel coefficients}. The coefficients are different according to the polarization of the incoming light, so there are two for the reflection ($R_s$, $R_p$) and two for transmission ($T_s$, $T_p$). The coefficients relate the incoming and outgoing power of the light, and by differentiation, the radiance as well.
+Where $\eta = \frac{n_1}{n_2}$ is the relative index of refraction of the material. With this setup, we can use a solution to Maxwell's equations for wave propagation to describe how light spreads between reflected and refracted directions. What we obtain are called \emph{Fresnel coefficients}. The coefficients are different according to the polarization of the incoming light, so there are two for the reflection ($R_s$, $R_p$) and two for transmission ($T_s$, $T_p$). The coefficients relate the incoming and outgoing power of the light, and by differentiation, the radiance as well.
 
 \begin{equation*}
 \begin{split}
@@ -212,14 +223,8 @@ T_s = \frac{n_2 \cdot \cos\theta_t}{n_1 \cdot \cos\theta_i} \left|\frac{2 n_1 \c
 \end{split}
 \end{equation*}
 
-In most computer graphics applications, we assume that the two polarizations are equally mixed. So, we will use the coefficient $R = \frac{R_s + R_p}{2}$ and $T = \frac{T_s + T_p}{2}$ in our calculations. Note that $R + T = 1$, so the overall energy is conserved.
 
-%vec3 refract2(vec3 inv, vec3 n, float n1, float n2)
-%{
-    %float eta = n1/n2;
-    %float c = dot(inv, n);
-    %return eta * (c * n - inv) - n * sqrt(max(0.0f,1 - eta * eta * (1 - c * c)));
-%}
+In most computer graphics applications (and this is reasonable for most of the real-world lights), we assume that the two polarizations are equally mixed. So, we will use the coefficient $R = \frac{R_s + R_p}{2}$ and $T = \frac{T_s + T_p}{2}$ in our calculations. Note that $R + T = 1$, so the overall energy is conserved.
 
 \section{Light transport and subsurface scattering}
 \subsection{BSSRDF functions and generalized rendering equation}

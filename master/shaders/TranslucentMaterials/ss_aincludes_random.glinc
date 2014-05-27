@@ -41,6 +41,11 @@ float noise( in vec3 x )
                    mix( hash2(n+170.0), hash2(n+171.0),f.x),f.y),f.z);
 }
 
+float noise_t( in float seed)
+{
+    return (22695477 * int(seed) + 1) / 2147483647.0f;
+}
+
 
 float noise2( in vec3 x )
 {
