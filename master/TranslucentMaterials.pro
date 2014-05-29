@@ -71,7 +71,8 @@ HEADERS += exercises/TranslucentMaterials/GBuffer.h\
     exercises/TranslucentMaterials/arrayimagebuffer.h \
     lib02564/GLGraphics/computeshader.h \
     lib02564/Utils/performancetimer.h \
-    exercises/TranslucentMaterials/shaderpreprocessor.h
+    exercises/TranslucentMaterials/shaderpreprocessor.h \
+    exercises/TranslucentMaterials/mipmapgeneratorview.h
 
 SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
         exercises/TranslucentMaterials/ShadowBuffer.cpp\
@@ -116,7 +117,8 @@ SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
     exercises/TranslucentMaterials/arrayimagebuffer.cpp \
     lib02564/GLGraphics/computeshader.cpp \
     lib02564/Utils/performancetimer.cpp \
-    exercises/TranslucentMaterials/shaderpreprocessor.cpp
+    exercises/TranslucentMaterials/shaderpreprocessor.cpp \
+    exercises/TranslucentMaterials/mipmapgeneratorview.cpp
 
 
 HEADERS += lib02564/CGLA/ArithMatFloat.h\

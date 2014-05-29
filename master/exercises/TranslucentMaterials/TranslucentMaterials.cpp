@@ -55,11 +55,17 @@
 #include "GLGraphics/computeshader.h"
 #include "shaderpreprocessor.h"
 #include "GLGraphics/ResourceLoader.h"
-
+#include "mipmapgeneratorview.h"
 
 #define BUNNIES
 #define POINT_DIST 0 // 0 random, 1 exponential, 2 uniform
 #define TIMER
+
+#define GPU_MEMORY_INFO_DEDICATED_VIDMEM_NVX 0x9047
+#define GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX 0x9048
+#define GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX 0x9049
+#define GPU_MEMORY_INFO_EVICTION_COUNT_NVX 0x904A
+#define GPU_MEMORY_INFO_EVICTED_MEMORY_NVX 0x904B
 
 //#define SINGLE_LIGHT
 
@@ -100,7 +106,7 @@ TranslucentMaterials::TranslucentMaterials( QWidget* parent)
       render_method(CUBEMAP_BASE),
       currentFrame(0),
       performanceTimer(PerformanceTimer(20)),
-      skybox_cube(new ThreeDCube(10))
+      skybox_cube(new ThreeDSphere(10))
     {
 
         #ifndef TIMER
@@ -151,8 +157,7 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog)
 
 void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<string>& objectsToDraw)
 {
-
-    if(objects.empty())
+    if(false)
     {
 
         int LODSpheres = 20;
@@ -2023,16 +2028,15 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
 
     const int MIPMAPS = 3;
     const int SCALING [MIPMAPS] = {2, 4, 8};
-    static MipMapGenerator mipmaps [MIPMAPS] = {
-        MipMapGenerator(ARRAY_TEXTURE_SIZE/SCALING[0], LAYERS, 1),
-        MipMapGenerator(ARRAY_TEXTURE_SIZE/SCALING[1], LAYERS, 1),
-        MipMapGenerator(ARRAY_TEXTURE_SIZE/SCALING[2], LAYERS, 1)
-    };
+
 
     static ArrayTextureBuffer arraytexmap(ARRAY_TEXTURE_SIZE,LAYERS,MIPMAPS + 1);
     static ArrayTextureBuffer arraytexmap_back(ARRAY_TEXTURE_SIZE,LAYERS,MIPMAPS + 1);
     ArrayTextureBuffer * front;
-    ArrayTextureBuffer * back;
+
+    static MipMapGeneratorView * mipmaps = new MipMapGeneratorView(arraytexmap.getColorTexture()->get_id(), arraytexmap.getDepthTexture()->get_id(), ARRAY_TEXTURE_SIZE, LAYERS, MIPMAPS);
+    static MipMapGeneratorView * mipmaps_back = new MipMapGeneratorView(arraytexmap_back.getColorTexture()->get_id(), arraytexmap_back.getDepthTexture()->get_id(), ARRAY_TEXTURE_SIZE, LAYERS, MIPMAPS);
+    MipMapGeneratorView * front_mipmaps;
 
 #ifdef SINGLE_LIGHT
     static VertexNormalBuffer light_buffer(GBUFFER_SIZE);
@@ -2132,9 +2136,7 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
     {
         static bool initialized = false;
 
-        // Need to disable mipmap afterwards, otherwise the memory space is not reserved.
-        arraytexmap.disableMipMaps();
-        arraytexmap_back.disableMipMaps();
+
 
         if(!initialized)
         {
@@ -2267,12 +2269,12 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
         if(isFrontArrayMap)
         {
             front = &arraytexmap;
-            back = &arraytexmap_back;
+            front_mipmaps = mipmaps;
         }
         else
         {
             front = &arraytexmap_back;
-            back = &arraytexmap;
+            front_mipmaps = mipmaps_back;
         }
 
         //cout << render_to_array.processed_shader.c_str() << endl;
@@ -2288,6 +2290,9 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
         obj->display(render_to_array);
 
         performanceTimer.registerEvent("2: Render to array");
+
+        // Need to disable mipmaps, otherwise I cannot copy from level 0 to another (weird opengl stuff)
+        front->disableMipMaps();
 
         render_mipmaps.use();
         render_mipmaps.set_uniform("viewMatrices", viewMatricesvector, LAYERS);
@@ -2307,38 +2312,32 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
             }
             else
             {
-                sourceTex = mipmaps[level - 1].getColorTexture()->get_id();
+                sourceTex = front_mipmaps->getColorTexture(level - 1)->get_id();
             }
             screen_quad->mesh.getMaterial()->addTexture(new Mesh::Texture("colorMap", sourceTex, GL_TEXTURE_2D_ARRAY));
 
             render_mipmaps.set_uniform("scaling", SCALING[level]);
-
             render_mipmaps.set_uniform("texStep", 1.0f / ARRAY_TEXTURE_SIZE);
 
-            //for(int i = 0; i < LAYERS; i++)
-            {
-                mipmaps[level].enableUniqueTarget();
-                //render_mipmaps.set_uniform("currentLayer", i);
-                screen_quad->display(render_mipmaps);
-            }
-            check_gl_error();
+            front_mipmaps->enableUniqueTarget(level);
+            screen_quad->display(render_mipmaps);
             char buffer[50];
             sprintf(buffer, "3.0.%d: Compute mipmaps - shader", level);
             performanceTimer.registerEvent(string(buffer));
         }
 
-        performanceTimer.registerEvent("3.1: Compute mipmaps - shader");
         glViewport(0, 0, ARRAY_TEXTURE_SIZE , ARRAY_TEXTURE_SIZE );
         front->enableMipMaps();
 
         /* copying texture in mipmaps */
+/*
         for(int level = 0; level < MIPMAPS; level++)
         {
             GLuint target = front->getColorTexture()->get_id();
-            GLuint source = mipmaps[level].getColorTexture()->get_id();
-            GLuint source_d = mipmaps[level].getDepthTexture()->get_id();
+            GLuint source = front_mipmaps->getColorTexture(level)->get_id();
+            GLuint source_d = front_mipmaps->getDepthTexture(level)->get_id();
 
-            glBindFramebuffer(GL_READ_FRAMEBUFFER, mipmaps[level].getFBO());
+            glBindFramebuffer(GL_READ_FRAMEBUFFER, front_mipmaps->getFBO(level));
             glBindTexture(GL_TEXTURE_2D_ARRAY, target);
 
             for(int i = 0; i < LAYERS; i++)
@@ -2353,7 +2352,7 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
             //glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
 
         }
-
+*/
 
         performanceTimer.registerEvent("3: Compute mipmaps");
 
@@ -2392,6 +2391,7 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
     float worldCircleRadius = params->circleradius * 2 * LIGHT_CAMERA_SIZE;
     render_combination.set_uniform("disc_area", (float)(worldCircleRadius * worldCircleRadius * M_PI));
     render_combination.set_uniform("step_tex", 1.0f/ARRAY_TEXTURE_SIZE);
+    render_combination.set_uniform("skybox_dim", Vec2f(skybox->width,skybox->height));
     set_light_and_camera(render_combination);
     obj->display(render_combination);
 
@@ -2413,6 +2413,20 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
 
     //currentFrame++;
     performanceTimer.registerEvent("4: Combination");
+//#define MEMORY_INFO
+#ifdef MEMORY_INFO
+    GLint data[5];
+    const char * messages[5] = {"Dedicated video memory: %1 Mb", "Total available memory: %1 Mb", "Current available video memory: %1 Mb", "Eviction count: %1 ", "Evicted memory: %1 Mb"};
+    const int divisors[5] = {1024,1024,1024,1,1024};
+    glGetIntegerv(GPU_MEMORY_INFO_DEDICATED_VIDMEM_NVX, &data[0]);
+    glGetIntegerv(GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX, &data[1]);
+    glGetIntegerv(GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX, &data[2]);
+    glGetIntegerv(GPU_MEMORY_INFO_EVICTION_COUNT_NVX, &data[3]);
+    glGetIntegerv(GPU_MEMORY_INFO_EVICTED_MEMORY_NVX, &data[4]);
+    for(int i = 0; i < 5; i++)
+        cout << QString(messages[i]).arg(data[i] / divisors[i]).toStdString() << endl;
+    check_gl_error();
+#endif
 
     test2.use();
     test2.set_uniform("mipmap_LOD",params->LOD);
@@ -2876,6 +2890,79 @@ Vec4f TranslucentMaterials::getClearColor() const
     return clearColor;
 }
 
+void initCubeMap(GLuint * tex, GLenum * type)
+{
+    GLuint cubetex;
+    check_gl_error();
+    glGenTextures(1, &cubetex);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, cubetex);
+    glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+    check_gl_error();
+    string names[6] =
+    {
+        string("grace_cross_px.png"),
+        string("grace_cross_mx.png"),
+        string("grace_cross_py.png"),
+        string("grace_cross_my.png"),
+        string("grace_cross_pz.png"),
+        string("grace_cross_mz.png")
+    };
+
+    ResourceLoader r;
+    string base_path = r.compute_resource_path("./images/");
+    check_gl_error();
+
+    for(int i = 0; i < 6; i++)
+    {
+        string path = base_path + names[i];
+        QImage res;
+        QImage * image = new QImage();
+        if(image->load(QString(path.c_str()))) {
+            res = QGLWidget::convertToGLFormat(*image);
+        }
+        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA32F, res.width(), res.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, res.bits());
+        check_gl_error();
+    }
+    check_gl_error();
+    *tex = cubetex;
+    *type = GL_TEXTURE_CUBE_MAP;
+}
+
+void initRectangle(GLuint * tex, GLenum * type, int * width, int * height)
+{
+    GLuint cubetex;
+    check_gl_error();
+    glGenTextures(1, &cubetex);
+    glBindTexture(GL_TEXTURE_RECTANGLE, cubetex);
+    glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    string name = string("doge2.png");
+
+    ResourceLoader r;
+    string base_path = r.compute_resource_path("./images/");
+    string path = base_path + name;
+
+    QImage res;
+    QImage * image = new QImage();
+    if(image->load(QString(path.c_str()))) {
+        res = QGLWidget::convertToGLFormat(*image);
+    }
+    glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_RGBA16F, res.width(), res.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, res.bits());
+
+    check_gl_error();
+    *tex = cubetex;
+    *type = GL_TEXTURE_RECTANGLE;
+    *width = res.width();
+    *height = res.height();
+}
+
 void TranslucentMaterials::paintGL()
 {
 
@@ -2883,49 +2970,21 @@ void TranslucentMaterials::paintGL()
     static bool mark = false;
     if(reload_shaders)
         skybox_shader.reload();
+
     if(!mark)
     {
         GLuint cubetex;
-        check_gl_error();
-        glGenTextures(1, &cubetex);
-        glBindTexture(GL_TEXTURE_CUBE_MAP, cubetex);
-        glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-        check_gl_error();
-        string names[6] =
-        {
-            string("grace_cross_px.png"),
-            string("grace_cross_mx.png"),
-            string("grace_cross_py.png"),
-            string("grace_cross_my.png"),
-            string("grace_cross_pz.png"),
-            string("grace_cross_mz.png")
-        };
-
-        ResourceLoader r;
-        string base_path = r.compute_resource_path("./images/");
-        check_gl_error();
-
-        for(int i = 0; i < 6; i++)
-        {
-            string path = base_path + names[i];
-            QImage res;
-            QImage * image = new QImage();
-            if(image->load(QString(path.c_str()))) {
-                res = QGLWidget::convertToGLFormat(*image);
-            }
-            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA32F, res.width(), res.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, res.bits());
-            check_gl_error();
-        }
-        check_gl_error();
-        skybox = new Mesh::Texture("skybox", cubetex, GL_TEXTURE_CUBE_MAP);
+        GLenum type;
+        int width, height;
+        initRectangle(&cubetex,&type,&width,&height);
+        //initCubemap(&cubetex,&type);
+        skybox = new Mesh::Texture("skybox", cubetex, type);
+        skybox->width = width;
+        skybox->height = height;
 
         Mesh::Material * e = new Mesh::Material();
         e->addTexture(skybox);
-
+        e->addUniform("cubemap_size", Vec2f(width,height));
         skybox_cube->init(" ", "light_sphere", *e);
         skybox_cube->setScale(Vec3f(20.f));
         skybox_cube->setTranslation(Vec3f(0.0f,0.0f,0.0f));

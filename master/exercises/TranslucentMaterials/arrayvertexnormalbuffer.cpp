@@ -51,6 +51,7 @@ void ArrayVertexNormalBuffer::initialize()
     check_gl_error();
 
 
+
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
     ntex_tex = new Mesh::Texture("ntex",ntex,GL_TEXTURE_2D_ARRAY);
     vtex_tex = new Mesh::Texture("vtex",vtex,GL_TEXTURE_2D_ARRAY);
@@ -59,22 +60,16 @@ void ArrayVertexNormalBuffer::initialize()
 int ArrayVertexNormalBuffer::enable()
 {
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);
-
     glFramebufferTexture(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, vtex, 0);
     glFramebufferTexture(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, ntex, 0);
     glFramebufferTexture(GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, dtex, 0);
 
-    GLenum buffers[] = {GL_COLOR_ATTACHMENT0,GL_COLOR_ATTACHMENT1};
+    const GLenum buffers[] = {GL_COLOR_ATTACHMENT0,GL_COLOR_ATTACHMENT1};
     glDrawBuffers(2, buffers);
-
-
-
-
-
     glClearColor(0,0,-1000.0,0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
-
+/*
     if(glCheckFramebufferStatus(GL_DRAW_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         cout << "Something wrong with FBO" << endl;
     if(glCheckFramebufferStatus(GL_DRAW_FRAMEBUFFER) == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT)
@@ -85,7 +80,9 @@ int ArrayVertexNormalBuffer::enable()
         cout << "Gotcha!3" << endl;
     if(glCheckFramebufferStatus(GL_DRAW_FRAMEBUFFER) == GL_FRAMEBUFFER_UNSUPPORTED)
         cout << "Gotcha!4" << endl;
+*/
     return 0;
+
 }
 
 

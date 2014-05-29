@@ -9,7 +9,6 @@ void MipMapGenerator::relinquish()
 
 MipMapGenerator::MipMapGenerator(int size, int layerCount, int mipmaps) : depth_rb(0),arraytex(0), depthtex(0), fbo(0), size(size), layers(layerCount), levels(mipmaps)
 {
-
     initialize();
 }
 

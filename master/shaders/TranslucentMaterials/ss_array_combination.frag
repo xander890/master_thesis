@@ -3,7 +3,9 @@
 #define DEBUG 0
 uniform sampler2DArray colorMap;
 uniform sampler2DArrayShadow depthMap;
-uniform samplerCube skybox;
+uniform samplerRect skybox;
+
+uniform vec2 skybox_dim;
 
 smooth in vec3 position;
 smooth in vec3 norm;
@@ -25,6 +27,7 @@ uniform float step_tex;
 uniform float mipmap_LOD;
 
 const int DIRECTIONS = 10;
+const float ONE_M_PI = 0.31830988618f;
 
 uniform mat4 cameraMatrices[DIRECTIONS];
 
@@ -33,6 +36,14 @@ uniform float gamma;
 uniform float current_frame_rev;
 
 #include "ss_aincludes_optics.glinc"
+
+vec2 vector_cubemap_to_uv(vec3 pos)
+{
+    vec3 p = normalize(pos);
+    p.z = -p.z;
+    p = p.yzx;
+    return vec2(0.5f + 0.5f * atan(p.x,-p.z) * ONE_M_PI, acos(p.y) * ONE_M_PI);
+}
 
 float sample_shadow_map(vec3 light_pos, float layer)
 {
@@ -72,7 +83,7 @@ void main(void)
 #if DEBUG == 1
     int i = 1;
     vec4 l = cameraMatrices[i] * vec4(pos,1.0f);
-    fragColor =  textureLod(colorMap,vec3(l.xy,i), 0) * vec4(sample_shadow_map(l.xyz,i));
+    fragColor = textureLod(colorMap,vec3(l.xy,i), 0) * vec4(sample_shadow_map(l.xyz,i));
 #endif
 
     fragColor *= disc_area * one_over_max_samples;
@@ -85,8 +96,9 @@ void main(void)
     //fragColor = vec4(0.0f);
     //if(div < 0.01)
     vec3 refl = reflect(wo,no);
-    vec4 refl_col = texture(skybox,refl);
+    vec4 refl_col = texture(skybox,vector_cubemap_to_uv(refl) * skybox_dim);
     fragColor = fragColor * F + refl_col * (1 - F);
+
 
     fragColor = pow(fragColor, vec4(1/gamma));
 }

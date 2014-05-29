@@ -103,14 +103,16 @@ namespace Mesh
             return target == GL_TEXTURE_CUBE_MAP || target == GL_TEXTURE_2D_ARRAY || target == GL_TEXTURE_3D;
         }
 
+        unsigned int width;
+        unsigned int height;
+
     protected:
         void load();
         GLuint id;
         GLenum target;
         std::string name;
         std::vector<CGLA::Vec3f> data;
-        unsigned int width;
-        unsigned int height;
+
 
         bool isaImage;
         GLenum access;

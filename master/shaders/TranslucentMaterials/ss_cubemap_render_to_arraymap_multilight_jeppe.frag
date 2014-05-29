@@ -102,12 +102,12 @@ void main(void)
 
         for(int i = 0; i < samples; i++)
         {
-            vec2 sample = texture(discpoints,vec2(i * one_over_max_samples, layer * one_over_discs)).xy;
+            vec2 smpl = texture(discpoints,vec2(i * one_over_max_samples, layer * one_over_discs)).xy;
     #ifdef RANDOM
 
-            vec2 discoffset = (discradius) * rot * sample;
+            vec2 discoffset = (discradius) * rot * smpl;
     #else
-            vec2 discoffset = discradius * sample;
+            vec2 discoffset = discradius * smpl;
     #endif
             vec2 uvin = circle_center + discoffset;
             vec3 sampl = vec3(uvin, k);
@@ -119,7 +119,7 @@ void main(void)
                 {
                     vec3 ni = texture(ntex, sampl).rgb;
                     vec3 S = bssrdf(xi,wi,ni,xo,no);
-                    float normalization = exp(min_tr * length(sample * discradius));
+                    float normalization = exp(min_tr * length(smpl * discradius));
                     accumulate += Li * S * normalization;
 
                 }
