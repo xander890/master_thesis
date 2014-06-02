@@ -37,8 +37,8 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>700</width>
-         <height>700</height>
+         <width>512</width>
+         <height>512</height>
         </size>
        </property>
       </widget>
@@ -66,7 +66,7 @@
           </size>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="General">
           <attribute name="title">
@@ -315,13 +315,6 @@
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="vertexpixel">
-              <property name="text">
-               <string>Vertex Mode</string>
-              </property>
-             </widget>
-            </item>
-            <item>
              <layout class="QVBoxLayout" name="verticalLayout_4">
               <item>
                <widget class="QLabel" name="label_2">
@@ -524,74 +517,14 @@
               <item row="2" column="0">
                <widget class="QCheckBox" name="cubemapVisible">
                 <property name="text">
-                 <string>Enable cubemap</string>
+                 <string>Enable debug overlay</string>
                 </property>
                </widget>
               </item>
               <item row="3" column="0">
-               <widget class="QLabel" name="label">
+               <widget class="QCheckBox" name="environment">
                 <property name="text">
-                 <string>Enable cubemap faces:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="9" column="0">
-               <widget class="QCheckBox" name="minusZcheck">
-                <property name="text">
-                 <string>-Z</string>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="7" column="0">
-               <widget class="QCheckBox" name="minusYcheck">
-                <property name="text">
-                 <string>-Y</string>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="8" column="0">
-               <widget class="QCheckBox" name="plusZcheck">
-                <property name="text">
-                 <string>+Z</string>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="6" column="0">
-               <widget class="QCheckBox" name="plusYcheck">
-                <property name="text">
-                 <string>+Y</string>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="5" column="0">
-               <widget class="QCheckBox" name="minusXcheck">
-                <property name="text">
-                 <string>-X</string>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="0">
-               <widget class="QCheckBox" name="plusXcheck">
-                <property name="text">
-                 <string>+X</string>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
+                 <string>Enable environment</string>
                 </property>
                </widget>
               </item>

@@ -3,7 +3,7 @@
 
 #include <Mesh/scatteringmaterial.h>
 
-enum DefaultScatteringMaterial{S_Marble, S_Chocolate_Milk, S_Soy_Milk_regular};
+enum DefaultScatteringMaterial{S_Marble, S_Chocolate_Milk, S_Soy_Milk_regular, S_Potato};
 
 Mesh::ScatteringMaterial* getDefaultMaterial(DefaultScatteringMaterial material);
 

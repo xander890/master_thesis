@@ -32,23 +32,14 @@ private slots:
     void LODChanged(float value);
     void gammaChanged(float value);
 
-    void on_plusXcheck_toggled(bool checked);
-
-    void on_minusXcheck_toggled(bool checked);
-
-    void on_plusYcheck_toggled(bool checked);
-
-    void on_minusYcheck_toggled(bool checked);
-
-    void on_plusZcheck_toggled(bool checked);
-
-    void on_minusZcheck_toggled(bool checked);
 
     void on_cubemapVisible_toggled(bool checked);
 
     void on_jensenbutton_clicked();
 
     void on_directionalbutton_clicked();
+
+    void on_environment_toggled(bool checked);
 
 private:
     Ui::MainWindow *ui;

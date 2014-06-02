@@ -17,23 +17,20 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->clearColor->init("Clear color: ", ui->translucentMaterials->getClearColor());
     connect(ui->clearColor,SIGNAL(vectorChanged(CGLA::Vec4f&)),ui->translucentMaterials,SLOT(setClearColor(CGLA::Vec4f&)));
 
-    Vec3f userpos = Vec3f(-1.65, -3.4, 2.5f);
+    Vec3f userpos = Vec3f(0.016, 1.03, 0.054);
     ui->userPosition->init("User position: ", userpos);
     ui->translucentMaterials->setUserPosition(userpos);
     connect(ui->userPosition,SIGNAL(vectorChanged(CGLA::Vec3f&)),ui->translucentMaterials,SLOT(setUserPosition(CGLA::Vec3f&)));
     connect(ui->translucentMaterials,SIGNAL(userPositionChanged(CGLA::Vec3f&)),ui->userPosition,SLOT(setValue(CGLA::Vec3f&)));
 
-    Vec3f userdir = Vec3f(0.418,0.889,-0.187f);
+    Vec3f userdir = Vec3f(0,-1,0);
     ui->userDirection->init("User direction: ", userdir);
     ui->translucentMaterials->setUserDirection(userdir);
     connect(ui->userDirection, SIGNAL(vectorChanged(CGLA::Vec3f&)),ui->translucentMaterials,SLOT(setUserDirection(CGLA::Vec3f&)));
     connect(ui->translucentMaterials,SIGNAL(userDirectionChanged(CGLA::Vec3f&)),ui->userDirection,SLOT(setValue(CGLA::Vec3f&)));
 
-    ui->translucentMaterials->setLightIntensity(12.0f);
-    ui->intensity->setValue(12);
-
-    connect(ui->vertexpixel, SIGNAL(toggled(bool)), ui->translucentMaterials, SLOT(setVertexPixelMode(bool)));
-    ui->vertexpixel->setChecked(true);
+    ui->translucentMaterials->setLightIntensity(10.0f);
+    ui->intensity->setValue(10);
 
     connect(ui->showgrid, SIGNAL(toggled(bool)), ui->translucentMaterials, SLOT(setGridVisible(bool)));
     ui->showgrid->setChecked(true);
@@ -60,7 +57,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->epsilon_gbuffer->init("Gbuffer samp. offset: ", ui->translucentMaterials->getParameters()->epsilon_gbuffer, 0.0, 0.1, false);
     connect(ui->epsilon_gbuffer,SIGNAL(valueChanged(float)), this, SLOT(epsilonGBufferChanged(float)));
 
-    ui->shadow_bias->init("Shadow bias: ", ui->translucentMaterials->getParameters()->shadow_bias, 0.0, 0.2, false);
+    ui->shadow_bias->init("Shadow bias: ", ui->translucentMaterials->getParameters()->shadow_bias, 0.0, 0.06, false);
     connect(ui->shadow_bias, SIGNAL(valueChanged(float)), this, SLOT(shadowBiasChanged(float)));
 
     ui->lod->init("Lod: ", ui->translucentMaterials->getParameters()->LOD, 0, 3, true);
@@ -74,6 +71,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QButtonGroup * group = new QButtonGroup();
     group->addButton(ui->jensenbutton,0);
     group->addButton(ui->directionalbutton,1);
+
+    ui->environment->setChecked(ui->translucentMaterials->getParameters()->environment);
 }
 
 MainWindow::~MainWindow()
@@ -178,39 +177,9 @@ void MainWindow::gammaChanged(float value)
     ui->translucentMaterials->getParameters()->gamma = value;
 }
 
-void MainWindow::on_plusXcheck_toggled(bool checked)
-{
-    ui->translucentMaterials->getParameters()->plusX = checked;
-}
-
-void MainWindow::on_minusXcheck_toggled(bool checked)
-{
-    ui->translucentMaterials->getParameters()->minusX = checked;
-}
-
-void MainWindow::on_plusYcheck_toggled(bool checked)
-{
-    ui->translucentMaterials->getParameters()->plusY = checked;
-}
-
-void MainWindow::on_minusYcheck_toggled(bool checked)
-{
-    ui->translucentMaterials->getParameters()->minusY = checked;
-}
-
-void MainWindow::on_plusZcheck_toggled(bool checked)
-{
-    ui->translucentMaterials->getParameters()->plusZ = checked;
-}
-
-void MainWindow::on_minusZcheck_toggled(bool checked)
-{
-    ui->translucentMaterials->getParameters()->minusZ = checked;
-}
-
 void MainWindow::on_cubemapVisible_toggled(bool checked)
 {
-    ui->translucentMaterials->getParameters()->cubemapVisible = checked;
+    ui->translucentMaterials->getParameters()->debugOverlayVisible = checked;
 }
 
 void MainWindow::on_jensenbutton_clicked()
@@ -221,4 +190,9 @@ void MainWindow::on_jensenbutton_clicked()
 void MainWindow::on_directionalbutton_clicked()
 {
      ui->translucentMaterials->setRenderMode(TranslucentMaterials::RenderMode::DRAW_DIRECTIONAL);
+}
+
+void MainWindow::on_environment_toggled(bool checked)
+{
+    ui->translucentMaterials->getParameters()->environment = checked;
 }

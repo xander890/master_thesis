@@ -328,13 +328,21 @@ void planeHalton(std::vector<Vec2f> &result, int n)
 
 Vec2f haltonPointCircle(int k, int p1, int p2)
 {
+    Vec3f sph = haltonPointSphere(k,p1,p2);
+    return Vec2f(sph[0],sph[1]);
+}
+
+
+
+Vec3f haltonPointSphere(int k, int p1, int p2)
+{
     Vec2f p = haltonPoint(k,p1,p2);
     float x = p[0];
     float y = p[1];
     float phi = 2 * M_PI * x;
-    float costheta = 1 - y;
+    float costheta = (1.0f - y) * 2.0f - 1.0f;
     float sintheta = sqrt(1 - costheta * costheta);
-    return Vec2f(sintheta * cos(phi), sintheta * sin(phi));
+    return Vec3f(sintheta * cos(phi), sintheta * sin(phi),costheta);
 }
 
 
@@ -362,5 +370,14 @@ void planeHaltonCircleRejectionExponentialMulti(std::vector<std::vector<Vec2f> >
             (*vec)[i] = rot * intermediate[i];
         }
         result.push_back(*vec);
+    }
+}
+
+
+void sphereHalton(std::vector<Vec3f> &result, int n)
+{
+    for(int i = 0; i < n; i++)
+    {
+        result.push_back(haltonPointSphere(i+1,2,3));
     }
 }

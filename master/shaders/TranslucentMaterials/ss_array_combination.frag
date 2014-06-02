@@ -3,7 +3,9 @@
 #define DEBUG 0
 uniform sampler2DArray colorMap;
 uniform sampler2DArrayShadow depthMap;
+
 uniform samplerRect skybox;
+uniform int has_environment;
 
 uniform vec2 skybox_dim;
 
@@ -22,6 +24,7 @@ uniform float one_over_max_samples;
 uniform float total_area;
 uniform float disc_area;
 uniform float ior;
+
 
 uniform float step_tex;
 uniform float mipmap_LOD;
@@ -95,10 +98,12 @@ void main(void)
     //fragColor = vec4(div/2);
     //fragColor = vec4(0.0f);
     //if(div < 0.01)
-    vec3 refl = reflect(wo,no);
-    vec4 refl_col = texture(skybox,vector_cubemap_to_uv(refl) * skybox_dim);
-    fragColor = fragColor * F + refl_col * (1 - F);
+    if(has_environment > 0)
+    {
+        vec3 refl = reflect(wo,no);
+        vec4 refl_col = texture(skybox,vector_cubemap_to_uv(refl) * skybox_dim);
+        fragColor += refl_col * (1 - F);
+    }
 
-
-    fragColor = pow(fragColor, vec4(1/gamma));
+    //fragColor = pow(fragColor, vec4(1/gamma));
 }

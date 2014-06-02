@@ -204,7 +204,14 @@ vector<Material> load_material(const string& path, const string& filename){
     return materials;
 }
 
-
+int calculate_idx(int index, int maximum)
+{
+    if(index > 0)
+        return min(index-1, maximum - 1);
+    else if (index < 0)
+        return max(0,maximum+index);
+    return 0;
+}
 
 bool ObjLoader::load_object(const char * filename,
                            vector<Vec3f> *outPositions,
@@ -291,8 +298,6 @@ bool ObjLoader::load_object(const char * filename,
             }
         }
     }
-
-
     if (outMaterials->size() == 0){ // ensure a single material object exist
         outMaterials->push_back(Material());
     }
@@ -306,9 +311,10 @@ bool ObjLoader::load_object(const char * filename,
                 (*outIndices)[triangleString.materialIndex].push_back(cachedIndex->second);
             } else {
                 int vertexIndex = (*outPositions).size();
-                (*outPositions).push_back(positions[index.position-1] * scale);
+               (*outPositions).push_back(positions[calculate_idx(index.position,positions.size())] * scale);
+
                 if (index.normal != -1 && outNormal != NULL){
-                    (*outNormal).push_back(normals[index.normal-1]);
+                    (*outNormal).push_back(normals[calculate_idx(index.normal, normals.size())]);
                 }
                 if (index.uv != -1 && outUv != NULL) {
                     (*outUv).push_back(uvs[index.uv-1]);

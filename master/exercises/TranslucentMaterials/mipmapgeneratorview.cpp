@@ -35,7 +35,7 @@ void MipMapGeneratorView::initialize()
     {
         glGenFramebuffers(1,&(fbo->at(i)));
         glGenTextures(1, &(arraytex->at(i)));
-        glGenTextures(1, &(depthtex->at(i)));
+        //glGenTextures(1, &(depthtex->at(i)));
 
         int size = originalSize / (2 << i);
 
@@ -50,7 +50,7 @@ void MipMapGeneratorView::initialize()
         glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-        glBindTexture(GL_TEXTURE_2D_ARRAY, depthtex->at(i));
+        /*glBindTexture(GL_TEXTURE_2D_ARRAY, depthtex->at(i));
         glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -60,8 +60,9 @@ void MipMapGeneratorView::initialize()
 
         glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_DEPTH_COMPONENT32, size, size, layers, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
         check_gl_error();
+        */
         colorTex->at(i) = new Mesh::Texture("mipcolorMap", arraytex->at(i), GL_TEXTURE_2D_ARRAY);
-        depthTex->at(i) = new Mesh::Texture("mipdepthMap",depthtex->at(i), GL_TEXTURE_2D_ARRAY);
+        //depthTex->at(i) = new Mesh::Texture("mipdepthMap",depthtex->at(i), GL_TEXTURE_2D_ARRAY);
     }
 
 }
@@ -78,7 +79,7 @@ int MipMapGeneratorView::enable(int layer, int level)
 
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo->at(level));
     glFramebufferTextureLayer(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, arraytex->at(level), 0, layer);
-    glFramebufferTextureLayer(GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthtex->at(level), 0, layer);
+    //glFramebufferTextureLayer(GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthtex->at(level), 0, layer);
 
     glDrawBuffer(GL_COLOR_ATTACHMENT0);
 
@@ -94,7 +95,7 @@ int MipMapGeneratorView::enableUniqueTarget(int level)
 
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo->at(level));
     glFramebufferTexture(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, arraytex->at(level), 0);
-    glFramebufferTexture(GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthtex->at(level), 0);
+    //glFramebufferTexture(GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthtex->at(level), 0);
     glDrawBuffer(GL_COLOR_ATTACHMENT0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     return 0;

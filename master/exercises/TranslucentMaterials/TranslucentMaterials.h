@@ -16,13 +16,12 @@ class TranslucentParameters
 
 public:
     TranslucentParameters::TranslucentParameters() :
-        circleradius(0.5f),
-        samples(100),
+        circleradius(0.08f),
+        samples(30),
         epsilon_gbuffer(0.003),
-        epsilon_combination(0.015),
-        shadow_bias(0.01),
-        plusX(true), minusX(true),plusY(true),minusY(true),plusZ(true),minusZ(true),
-        cubemapVisible(false), LOD(0.0f),  currentFlags(0), gamma(2.2f)
+        epsilon_combination(0.001),
+        shadow_bias(0.0007),
+        debugOverlayVisible(false), LOD(0.0f),  currentFlags(0), gamma(2.2f), environment(false)
     {}
 
     enum
@@ -39,15 +38,8 @@ public:
     float shadow_bias; // avoids shadow acne
     int samples;
 
-
-    bool plusX;
-    bool plusY;
-    bool plusZ;
-    bool minusX;
-    bool minusY;
-    bool minusZ;
-
-    bool cubemapVisible;
+    bool debugOverlayVisible;
+    bool environment;
 
     float LOD;
     float gamma;
@@ -119,11 +111,11 @@ protected:
     void set_light_and_camera(GLGraphics::ShaderProgramDraw& shader_prog);
     void render_jensen(bool reload);
     void render_better_dipole(bool reload);
-    void render_direct_abuffer(bool reload, GLGraphics::ShaderProgramDraw & render_to_cubemap);
+
     void render_direct_compute_time(bool reload, GLGraphics::ShaderProgramDraw & render_to_cubemap);
     void render_direct_array(bool reload, GLGraphics::ShaderProgramDraw & render_to_cubemap);
     void render_direct_array_time(bool reload, GLGraphics::ShaderProgramDraw & render_to_cubemap);
-    void render_direct_test(bool reload, GLGraphics::ShaderProgramDraw & render_to_cubemap);
+
     void render_to_gbuffer(GBuffer& gbuffer, bool reload);
     void render_directional_dipole(bool reload);
     void draw_objects(GLGraphics::ShaderProgramDraw& shader_prog);

@@ -46,7 +46,7 @@ const float M_PI = 3.141592654;
 
 #include "ss_aincludes_optics.glinc"
 
-#include "ss_aincludes_directional_bssrdf_opt.glinc"
+#include "ss_aincludes_directional_bssrdf.glinc"
 
 #include "ss_aincludes_random.glinc"
 
@@ -61,11 +61,12 @@ void main(void)
 
 #ifdef TIME
     vec4 l = cameraMatrices[layer] * vec4(position,1.0f);
-    vec4 oldColor = texture(colorMap,vec3(l.xy,layer));
+    vec4 oldColor = current_frame == 0 ? vec4(0.0f) : texture(colorMap,vec3(l.xy,layer));
 
 #else
     vec4 oldColor = vec4(0.0f);
 #endif
+
     vec3 accumulate = vec3(0.0f);
 
 #ifdef TIME
@@ -76,7 +77,7 @@ void main(void)
 
 
 #ifdef RANDOM
-    vec3 s_1 = xo * (617);
+    vec3 s_1 = xo * (617) * (layer + 1);
 
     float noise = noise(s_1);
 
@@ -98,7 +99,7 @@ void main(void)
         vec4 light_post = lightMatrices[k] * vec4(position_mod,1.0f);
         vec2 circle_center = light_post.xy;
 
-        vec3 Li = light_diff[k].xyz / (li * li) * 10;
+        vec3 Li = light_diff[k].xyz;
 
         for(int i = 0; i < samples; i++)
         {
@@ -128,7 +129,6 @@ void main(void)
         }
     }
 
-    fragColor = vec4(accumulate,1.0f)
-    ;
-
+    fragColor = vec4(accumulate,1.0f) + oldColor;
+    //fragColor = vec4(1.0f);
 }

@@ -19,18 +19,18 @@ TriangleMesh::TriangleMesh()
 
 
 bool TriangleMesh::load(const string &filename, Material & material){
-    vector<Vec3f> outPositions;
-    vector<Vec3f> outNormal;
-    vector<Vec2f> outUv;
-    vector<vector<GLuint> > outIndices;
-    vector<Material> outMaterials;
+    vector<Vec3f> * outPositions = new vector<Vec3f>();
+    vector<Vec3f> * outNormal = new vector<Vec3f>();
+    vector<Vec2f> * outUv = new vector<Vec2f>();
+    vector<vector<GLuint> > * outIndices = new vector<vector<GLuint> >();
+    vector<Material> * outMaterials = new vector<Material>();
 
     bool loaded = ObjLoader::load_object(filename.c_str(),
-        &outPositions,
-        &outIndices,
-        &outMaterials,
-        &outNormal,
-        &outUv,
+        outPositions,
+        outIndices,
+        outMaterials,
+        outNormal,
+        outUv,
         1.0f);
 
     if (!loaded){
@@ -38,7 +38,7 @@ bool TriangleMesh::load(const string &filename, Material & material){
     }
 
 
-    return load_external(outIndices[0], outPositions,outNormal,outUv,material, GL_TRIANGLES);
+    return load_external((*outIndices)[0], (*outPositions),(*outNormal),(*outUv),material, GL_TRIANGLES);
 }
 
 bool TriangleMesh::load_external(vector<GLuint> & indices, vector<Vec3f>& outPositions, vector<Vec3f>& outNormal, vector<Vec2f>& outUv, Material& outMaterial, GLenum type)
