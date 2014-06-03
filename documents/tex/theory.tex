@@ -1,11 +1,11 @@
 \chapter{Theory}
 
-In this chapter, we give a theoretical introduction to the topic dealt with in this thesis. The ultimate goal of this chapter is to introduce and describe a analytical model for subsurface scattering. First, we will give a brief introduction to what light is, and how we physically describe it. Secondly, we will introduce the basic radiometric quantities that will be used throughout the chapter. Then, we will describe how this quantities are related and can be used to describe light-material interaction, using reflectance functions, of which BSSRDF functions are a special case. Finally, we will introduce subsurface scattering and the diffusion approximation, concluding with a description of two BSSRDF functions actually used to describe it, by \cite{Jensen:2001:PMS:383259.383319} and \cite{IMM2013-06646}.
+In this chapter, we give a theoretical introduction to the topic dealt with in this thesis. The ultimate goal of this chapter is to introduce and describe what a analytical model for subsurface scattering is. First, we will give a brief introduction to what light is, and how we physically describe it. Secondly, we will introduce the basic radiometric quantities that will be used throughout the chapter. Then, we will describe how this quantities are related and can be used to describe light-material interaction, using reflectance functions, of which BSSRDF functions are a special case. Finally, we will introduce subsurface scattering and the diffusion approximation, concluding with a description of two BSSRDF functions actually used to describe it, by \cite{Jensen:2001:PMS:383259.383319} and \cite{IMM2013-06646}.
 
 \section{Light and Radiometry}
-Light is a form of electromagnetic radiation, that propagates through space as a sinusoidal wave. Usually by "light` we usually refer to \emph{visible light}, the small part of the electromagnetic spectrum the human eye is sensible to (see Figure \ref{fig:spectrum}). This small window is between the \SI{380}{\nano\meter} of the infrared and \SI{750}{\nano\meter} of the ultraviolet, but the precise boundaries vary according to the environment and the observer. Instead explicitly noted, we will use the terms light and visible light interchangeably in this report.
+Light is a form of electromagnetic radiation, that propagates through space as a sinusoidal wave. Usually by \emph{light} we usually refer to \emph{visible light}, the small part of the electromagnetic spectrum the human eye is sensible to (see Figure \ref{fig:spectrum}). This small window is between the \SI{380}{\nano\meter} of infrared and \SI{750}{\nano\meter} of ultraviolet light, but the precise boundaries vary according to the environment and the observer. Instead explicitly noted, we will use the terms light and visible light interchangeably in this report.
 
-The study of light is usually referred as optics. In computer aided image synthesis, we are interested in representing faithfully how visible light propagates though the scene and how interacts with materials. In addition, we are usually interested on lighting effects that are noticeable at human scales (\SI{1}{\milli\meter} - \SI{1}{\kilo\meter}). For example, we are interested in subsurface scattering, absorption and emission phenomena but not in diffraction, interference and quantum effects, that for visible light happen on a microscopic scale (\SI{1}{\nano\meter} - \SI{1}{\micro\meter}). 
+The study of light is usually referred as \emph{optics}. In computer aided image synthesis, we are interested in representing faithfully how visible light propagates through a scene and how interacts with the objects and the materials in it. In addition, we are interested in lighting effects that are noticeable at human scales (\SI{1}{\milli\meter} - \SI{1}{\kilo\meter}). For example, we are interested in subsurface scattering, absorption and emission phenomena but not in diffraction, interference and quantum effects, that for visible light happen on a microscopic scale (\SI{1}{\nano\meter} - \SI{1}{\micro\meter}). 
 
 \begin{figure}[!ht]
 \centering
@@ -14,17 +14,17 @@ The study of light is usually referred as optics. In computer aided image synthe
 \label{fig:spectrum}
 \end{figure}
 
-The study of the measurement of electromagnetic radiation is called \emph{radiometry}. The energy of light, like all the others forms of energy, is measured in \emph{Joules} [\si{\joule} $=$ \si{\kg\meter\square\per\second\square}], and its power in \emph{Watts} [\si{\watt} $=$ \si{\kg\meter\square\per\second\cubed}]. \emph{Photometry}, on the other hand, measures electromagnetic radiation as it is perceived from the human eye, and limits itself only to the visible spectrum, while radiometry spans all of it. The quantities for energy and power are called respectively \emph{talbot} [\si{\candela\second}] and \emph{candela} [\si{\candela}]. 
+The branch of physics that studies how to measure electromagnetic radiation is called \emph{radiometry}. The energy of light, like all the others forms of energy, is measured in \emph{Joules} [\si{\joule} $=$ \si{\kg\meter\square\per\second\square}], and its power in \emph{Watts} [\si{\watt} $=$ \si{\kg\meter\square\per\second\cubed}]. \emph{Photometry}, on the other hand, measures electromagnetic radiation as it is perceived from the human eye, and limits itself only to the visible spectrum, while radiometry spans all of it. The corresponding names for energy and power in photometry are \emph{radiant energy}, measured in \emph{talbots} [\si{\candela\second}], and \emph{radiant flux}, measured in \emph{candelas} [\si{\candela}]. 
 
-In image synthesis radiometry is employed, as its quantities directly derive from the electromagnetic theories, are universal, and can be easily converted to the photometric ones when necessary. The most important radiometric quantities used in computer graphics are \emph{radiant flux}, \emph{radiant energy}, \emph{radiance}, \emph{irradiance} and \emph{intensity}.
+In image synthesis radiometry is usually employed, as its quantities directly derive from the electromagnetic theories, are universal, and can be easily converted to the photometric ones when necessary. The most important radiometric quantities used in computer graphics are \emph{radiant flux}, \emph{radiant energy}, \emph{radiance}, \emph{irradiance} and \emph{intensity}.
 
 \section{Radiometric quantities}
 
 \subsection{Radiant flux}
-The radiant flux, also known as radiant power, is the most basic quantity in radiometry. It is usually indicated with the letter $\Phi$ and it is measured in joules per seconds [\si{\joule\per\second}] or Watts [\si{\watt}]. The quantity indicates how much power the light irradiates per unit time. Given its nature, the radiant flux is independent from the distance from the light source.
+The radiant flux, also known as radiant power, is the most basic quantity in radiometry. It is usually indicated with the letter $\Phi$ and it is measured in joules per seconds [\si{\joule\per\second}] or Watts [\si{\watt}]. The quantity indicates how much power the light irradiates per unit time. 
 
 \subsection{Radiant energy}
-Radiant energy, usually indicated as $Q$, is the energy that the light carries in a certain amount of time. Like all the other SI units for energy, it is measured in joules [\si{\joule}]. Radiant energy is usually obtained integrating the radiant flux along time for an interval $\Delta T$:
+Radiant energy, usually indicated as $Q$, is the energy that the light carries in a certain amount of time. Like all the other SI units for energy, it is measured in joules [\si{\joule}]. Radiant energy is obtained integrating the radiant flux along time for an interval $\Delta T$:
 
 $$
 Q = \int_{\Delta T} \Phi \; dt
@@ -57,11 +57,9 @@ $$
 I(\vomega) = \frac{d \Phi}{d \omega}
 $$
 
-It is measured in Watts / steradian [\si{\watt\per\steradian}] and it is indicated with the letter $I$. Intensity is often a misused term in the physics community, as it is used for many different measures. Depending on the community, intensity may refer to irradiance or even to radiance (see the following section). We will refer to intensity as it is generally interpreted by the optics community, i.e. radiant intensity. 
-
+It is measured in Watts per steradian [\si{\watt\per\steradian}] and it is indicated with the letter $I$. Intensity is often a misused term in the physics community, as it is used for many different measures. Depending on the community, intensity may refer to irradiance or even to radiance (see the following section). We will refer to intensity as it is generally interpreted by the optics community, i.e. radiant intensity. 
 
 \subsection{Radiance}
-
 
 \begin{figure}[!ht]
 \centering
@@ -77,7 +75,7 @@ $$
 L(\vomega) = \frac{d^2 \Phi}{d\omega dA \cos \theta}
 $$
 
-Where $\theta$ is the angle between the surface normal and the incoming ray of light (so that $\cos\theta = \vec{n} \cdot \vomega_i$). Radiance is important in image synthesis because it is the natural quantity to associate with a ray of light, as it remains constant along it. In addition, the sensibility of the human eye to light is directly proportional to the radiance. For a discussion on why radiance is related to the sensitivity of sensors and the human eye, see X.
+Where $\theta$ is the angle between the surface normal and the incoming ray of light (so that $\cos\theta = \vec{n} \cdot \vomega_i$). Radiance is important in image synthesis because it is the natural quantity to associate with a ray of light, as it remains constant along it. In addition, the sensibility of the human eye to light is directly proportional to the radiance. For a discussion on why radiance is related to the sensitivity of sensors and the human eye, see \cite{Cohen:1993:RRI:154731}.
 
 All the other radiometric quantities can be derived from radiance:
 
@@ -91,11 +89,11 @@ I(\vomega) &= \int_A L(\vomega) \cos\theta \; dA \\
 \label{eq:radiancederivation} 
 \end{equation}
 
-For simplicity of notation, in the previous notations the dependence from the point of incidence $\x$ has been dropped. In principle, all the quantities listed in equation \ref{eq:radiancederivation} are dependent on $\x$.
+For simplicity of notation, in the previous formulas the dependence from the point of incidence $\x$ has been dropped. In principle, all the quantities listed in equation \ref{eq:radiancederivation} are dependent on $\x$.
 
 \subsection{Radiometric quantities for simple lights}
 
-To help with the formulas used later in the report, we derive the above mentioned radiometric quantities for the two simplest types of light, i.e. directional and point lights.
+To help with the formulas used later in the report, we derive the standard radiometric quantities for the two simplest types of light, i.e. directional and point lights.
 \begin{itemize}
 	\item \textit{Directional lights} simulate very distant light sources, in which all the rays of light are parallel (e.g. the sun). They are represented by a direction $\vomega_l$ and a constant radiance value, $L$. 
 	\item \textit{Point lights} simulate lights closer to the observer. Isotropic point lights are represented by a position of the light $\x_l$ and a constant intensity $I$. Point lights have a falloff that depends on the inverse square law, i.e. the radiance diminishes with the square of the distance.
@@ -110,22 +108,21 @@ Table \ref{table:radio} shows different radiometric quantities evaluated for poi
     \hline
     Quantity   & Directional light & Point light \\ \hline
     Cosine term       & $\cos\theta = \vec{n} \cdot \vomega_l$ & $\cos\theta = \frac{(\x - \x_l) \cdot \vec{n}}{|\x - \x_l|}$     \\ \hline
-
     $\Phi(\x)$ Flux       & $L\; \delta(\vec{\omega)}$                  & $4 \pi I$           \\ \hline
     $E(\x)$ Irradiance & $L \cos\theta $                 & $I \frac{\cos\theta}{|\x_l - \x|^2}$          \\ \hline
     $I(\x,\vomega)$ Intensity  & $L\; \delta(\vomega)$                 & $I$           \\ \hline
     $L(\x,\vomega)$ Radiance   & $L$               & $\frac{I}{|\x_l - \x|^2}$           \\ \hline
     \end{tabularx}
-\caption{Different radiometric values for simple light sources. Note that flux and irradiance for a directional light are infinite because they are integrated over an infinite area.}
+\caption{Different radiometric values for simple light sources.}
 \label{table:radio}
 \end{table}
 
 \section{Reflectance Functions}
  
-After introducing the basic radiometric quantities, we still lack a way to describe light material interaction. More precisely, we need a way to relate the incoming and the outgoing radiance on a point of a chosen surface. As we have already discussed before, we use radiance since is the radiometric quantity that is directly proportional to what the human eye measures. 
+After introducing the basic radiometric quantities, we still lack a rigorous way to describe light material interaction. More precisely, we need a way to relate the incoming and the outgoing radiance on a point of a chosen surface. As we have already discussed before, we use radiance since is the radiometric quantity that is directly proportional to what the human eye perceives. 
 
 \subsection{BRDF functions}
-
+\label{sec:brdf}
 One of the possible way to describe light-material interaction is by using a BDRF function, acronym for \emph{Bidirectional Reflectance Distribution Function}. The BRDF function $f(\x, \vomega_i, \vomega_o)$ is defined on one point $\x$ of the surface as the differential ratio between the exiting radiance and the incoming irradiance:
 
 \begin{equation}
@@ -133,7 +130,26 @@ f(\x, \vomega_i, \vomega_o) = \frac{d L_o(\x, \vomega_o)}{d E_i(\x, \vomega_i)} 
 \label{eq:brdf}
 \end{equation}
 
-The BRDF states that the incoming and the outgoing radiance are proportional, so that the energy hitting the material at the point $\x$ is proportional to the energy coming out from the point. The BRDF function is generically reciprocal for the Hemholtz reciprocity principle ( $f(\x, \vomega_i, \vomega_o) = f(\x, \vomega_o, \vomega_i)$), and anisotropic (if the surface changes orientation and $\vomega_i$ and $\vomega_o$ stays the same, the resulting BRDFs are different). In addition, it is positive( $f(\x, \vomega_o, \vomega_i) \ge 0$), and conserves energy, so that the energy of the outgoing ray is no grater that the one of the incoming one ($\int_{2\pi}  f(\x, \vomega_o, \vomega_i) \cos\theta_o d\vomega_o \le 1$).
+The BRDF states that the incoming and the outgoing radiance are proportional, so that the energy hitting the material at the point $\x$ is proportional to the energy coming out from the point. The BRDF function has the following properties:
+
+\begin{itemize}
+	\item \emph{reciprocal} for the Hemholtz reciprocity principle, a physics result that is also the basis of reverse path ray tracing\cite{Desolneux:2007:GTI:1557413}:
+	$$
+	f(\x, \vomega_i, \vomega_o) = f(\x, \vomega_o, \vomega_i)
+	$$
+	\item \emph{anisotropic}, as if the surface changes orientation and $\vomega_i$ and $\vomega_o$ stays the same, the resulting BRDFs are different. So generally
+	$$
+	f(\x, \vomega_i, \vomega_o) \neq f(\x, \vomega_o + \vomega, \vomega_i + \vomega)
+	$$
+	\item \emph{positive}, as otherwise it would mean that either the power or the irradiance are negative. 
+	$$
+	f(\x, \vomega_o, \vomega_i) \ge 0
+	$$
+	\item \emph{energy conserving}, so that the energy of the outgoing ray is no grater that the one of the incoming one 
+	$$
+	\int_{2\pi}  f(\x, \vomega_o, \vomega_i) \cos\theta_o d\vomega_o \le 1
+	$$
+\end{itemize}
 
 By inverting equation \ref{eq:brdf}, we obtain the so-called \emph{reflectance equation}:
 
@@ -141,19 +157,19 @@ $$
 L_o(\x, \vomega_o) = \int_{2\pi} f(\x, \vomega_i, \vomega_o) L_i(\x, \vomega_i) \cos\theta_i d\vomega_i
 $$
 
-That later we will extend to obtain the rendering equation. The BRDF function has some limitations, being not able to account for all phenomena. For example, with a BRDF it is not possible to account for subsurface scattering phenomena, because it assumes the light enters and leaves the material in the same point. To model these phenomena, more complicated functions are needed, like the BSSRDF function described later in this chapter. 
+Later we will use this equation as a starting point to obtain the full rendering equation. The BRDF function has some limitations, being not able to account for all phenomena. For example, with a BRDF it is not possible to account for subsurface scattering phenomena, because it assumes the light enters and leaves the material at the same point. To model these phenomena, more complicated functions are needed, like the BSSRDF function described later in this chapter. 
 
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=0.8\textwidth]{images/brdf.pdf}
-\caption{Setup for a BRDF. Note that the light enetrs and leaves the surface at the same point.}
+\caption{Setup for a BRDF. Note that the light enters and leaves the surface at the same point.}
 \label{fig:brdf}
 \end{figure}
  
 
 \subsection{Examples of BRDF functions}
 
-There are many examples of BRDF functions in literature. In this section, we will introduce three of the simplest ones: for a more exhaustive description of BRDF functions, refer to X. The three BRDFs are the lambertian or diffuse BRDF, the specular or mirror BRDF and the family of glossy BRDFs.
+There are many examples of BRDF functions in literature\cite{montes2012overview}. In this section, we will introduce three of the simplest ones: for a more exhaustive description of BRDF functions, refer to TODO. The three BRDFs are the lambertian or diffuse BRDF, the specular or mirror BRDF and the family of glossy BRDFs.
 
 \subsubsection{Lambertian BRDF}
 
@@ -198,7 +214,7 @@ that is the expected result, as all the radiance is reflected into the direction
 
 As we can see from real life experience, rarely objects are completely diffuse or completely specular. These two models are idealized models, that represent an ideal case. So, to create a realistic BRDF model, we often need to combine the two terms and add an additional one, called glossy reflection. This term is often needed to model the behavior of the surface more realistically, especially at grazing angles.
 
-The most used BRDF model used to model glossy reflections is based on microfacet theory. In this theory, the surface of an object is modeled as composed of small mirrors. In one of its classical formulation, the BRDF is represented as:
+The most used BRDF model used to model glossy reflections is based on microfacet theory \cite{Ashikmin:2000:MBG:344779.344814}. In this theory, the surface of an object is modeled as composed of small mirrors. In one of its classical formulation, the BRDF is represented as:
 
 $$
 f(\x, \vomega_i, \vomega_o) = \frac{D G R}{4 \cos\theta_r \cos\theta_i} = \frac{G R}{4} \frac{(\vec{n}\cdot\vec{h})^s}{(\vec{n}\cdot\vec{r})(\vec{n}\cdot\vomega_i)}
@@ -212,15 +228,15 @@ $$
 
 $G$ accounts for the object self shadowing, while $R$ is the Fresnel reflection term (more details in section Y).	$\vec{r}$ is the reflection vector as defined in the previous section. See figure Z on how the vectors for the glossy reflection - $\vec{n}$, $\vec{h}$ and $\vec{r}$ - are defined.
 
-Various alternative definitions exist for the $D$ and $G$ function, varying among the literature. Other glossy models not based on microfacet theory do exist as well. 
+Various alternative definitions exist for the $D$ and $G$ function, varying among the literature. Other glossy models not based on microfacet theory do exist as well \cite{montes2012overview}. 
 
 \subsection{The rendering equation}
 
-Given the reflectance equation, it is possible to generalize it in order to model all the lighting in an environment. In fact, this form of the reflectance equation does not account for two important factors. 
+Given the reflectance equation, it is possible to generalize it in order to model all the lighting in an environment. In fact, the described reflectance equation is a suitable candidate to represent a full global illumination model, but it does not account for two important factors. 
 
 The first factor are emissive surfaces. We need to add an emissive radiance term $L_e(\x, \vomega)$ that models how much radiance is a point on a surface emitting in a certain directions. This is useful to model lights as any other surface in the scene. Note that point lights have a singularity: they emit infinite radiance on the point they are placed.
 
-The second factor is that the reflectance equation accounts only for direct illumination. In general, we want to model global illumination, i.e. to include also light that bounced onto another surface before reaching the current surface. To model this, we can replace the $L_i$ term in the reflectance equation with another term $L_r$ that accounts for reflected radiance. This term can be usually modeled as the product of the radiance of the light plus a visibility function $V(\x)$.
+The second factor is that the reflectance equation accounts only for direct illumination. In general, we want to model global illumination, i.e. to include also light that bounced onto another surface before reaching the current surface. To model this, we can replace the $L_i$ term in the reflectance equation with another term $L_r$ that accounts for light coming from another surface. This term can be usually modeled as the product of the radiance of the light plus a visibility function $V(\x)$.
 
 Accounting for all the described factors, we reach one formulation of the rendering equation:
 
@@ -231,7 +247,7 @@ $$
 This form of the rendering equation is still not completely general, since it is based on a BRDF, so it is not possible to model subsurface scattering effects or wavelength-changing effects (like iridescence). We will extend the rendering equation in order to account for these phenomena later on in this chapter.
 
 \subsection{Fresnel equations}
-
+\label{sec:fresnel}
 Until now, on the described BRDF models, we did consider only the reflected part of the radiance. When a beam of light coming from direction $\vomega_i$ hits a surface, only part of the incoming radiance gets reflected, while another part gets refracted into the material. As we can see from the setup from figure Z, we obtain the two vectors $\vomega_r$ and $\vomega_t$, the reflected and refracted vector, defined as follows:
 
 \begin{equation*}
@@ -261,7 +277,7 @@ In most computer graphics applications (and this is reasonable for most of the r
 \label{fig:bssrdf}
 \end{figure}
 
-As we anticipated in section TODO, the BRDF theory that was introduced before is not accurate in predicting the behavior in the lighting for all materials. In fact, BRDF model assumes that the light enters and leaves the material in the same point. While this assumption holds true for a wide range of material, like metal or plastic, it poorly describes translucent materials, that exhibit a consistent amount of light transport beneath the surface. 
+As we anticipated in section \ref{sec:brdf}, the BRDF theory that was introduced before is not accurate in predicting the behavior in the lighting for all materials. In fact, BRDF models assume that the light enters and leaves the material in the same point. While this assumption holds true for a wide range of material, like metal or plastic, it poorly describes translucent materials, that exhibit a consistent amount of light transport under the surface. 
 
 In order to describe light transport in this material, we introduce a function, called BSSRDF, acronym for \emph{Bidirectional Subsurface Scattering Reflectance Distribution Function}. This function extends the concept of BRDF to account for two separate points. The BSSRDF is usually indicated with a capital $S$. We define the BRDF as the ratio between the incoming flux in a point $\x_i$ from the direction $\vomega_i$ and the outgoing radiance in \emph{another} point $\x_o$ on direction $\vomega_o$:
 
@@ -275,7 +291,7 @@ $$
 L_o(\x_o,\vomega_o) = \int_A \int_{2\pi} S(\x_i, \vomega_i, \x_o, \vomega_o) L_i(\x_i,\vomega_i) \cos \theta_i d\vomega_i d A_i
 $$
 
-We can immediately see that the new reflectance equation accounts for light scattering between two points, but with a price. In fact, it adds a order of magnitude of the calculations, since now the BSSRDF needs to be integrated both on the surface area and the normal-defined hemisphere, while the BRDF needed only a integration over the hemisphere. 
+We can immediately see that the new reflectance equation accounts for light scattering between two points, but with a price. In fact, it adds a order of magnitude of complexity, since now the BSSRDF needs to be integrated on the whole surface and on the normal hemisphere, while the BRDF needed only a integration over the hemisphere. 
 
 As we did for the BRDF, we can further extend the reflectance equation to further include visibility and emission, giving an extended form of the rendering equation. 
 
@@ -322,8 +338,7 @@ $$
 \subsection{Emission}
 Emission is the natural property of the materials to emit light, i.e. to generate photons that add to the existing ones passing through the material. The effect is generally generated by chemical processes emitting photons (as in natural animals like fireflies), by natural black-body radiation emission in the visible spectrum (such as in a star like the sun or in incandescent bulbs), or by other radiation that changed its wavelength into the visible spectrum.
 
-In the directional 3D derivative, the variance in emission is modeled as a constant depending only on the current position and direction.
-
+In the directional 3D derivative, the variance in emission is modeled as a constant depending only on the current position and direction:
 $$
 (\vec{\nabla} \cdot \vomega) L(\x, \vomega) = \epsilon(\x, \vomega)
 $$
@@ -333,7 +348,7 @@ This means that emission increases linearly along the body: if the beam travels 
 \subsection{Absorption}
 Absorption is a property of materials that models a simple physical phenomenon: a photon, traveling though the material, hits one atom of the material. The energy carried by the photon is then absorbed by the atom, augmenting its kinetic energy. This directly translates in an increase of heat in the material. Usually a certain percentage of the photons hits the atoms and gets absorbed. This means, if $k$ is the percentage of the photons absorbed in a unit, after one unit the original radiance will become $k \cdot L_i$, then $k^2 \cdot L_i$, etc.
 
-If we write this phenomena as a differential equation, we get after a distance $d$ a decaying in radiance of $k^d = e^{-\sigma_a d}$, that leads to the following 3D directional derivative:
+If we write this phenomena as a differential equation, we get after a distance $d$ a radiance reduction of $k^d = e^{-\sigma_a d}$, that leads to the following 3D directional derivative:
 
 $$
 (\vec{\nabla} \cdot \vomega) L(\x, \vomega) = -\sigma_a(\x,\vomega) L(\x, \vomega)
@@ -391,14 +406,13 @@ Where the two reducing term, scattering and absorption, have been combined toget
 
 
 \subsection{The diffusion approximation}
-The radiative transport equation \ref{eq:rte} is a integro-differential equation with many degrees of freedom. As we stated in chapter TODO, there are rendering techniques that numerically solve the equation in order to obtain a realistic result. However, analytical methods tend to use some approximations of the RTE, that hold well given specific conditions. The \emph{diffusion approximation} is one of these approximations, and it is still widely used today since its introduction in the computer graphics community by Ishimaru (TODO). 
+The radiative transport equation \ref{eq:rte} is a integro-differential equation with many degrees of freedom. As we stated in chapter \ref{rw}, there are rendering techniques that numerically solve the equation in order to obtain a realistic result. However, analytical methods tend to use some approximations of the RTE, that hold well given specific conditions. The \emph{diffusion approximation} is one of these approximations, and it is still widely used today since its introduction in the computer graphics community by Ishimaru\cite{books/daglib/0093591}. 
 
 The assumption under the diffusion approximation is simple: given that in a physical medium there are a lot of scattering events, the beam of light quickly becomes isotropic. In fact, each one of the scattering events further blurs the light distribution, and as a result the distribution becomes more uniform as the number of scattering events increases. This has been proven to be a reasonable assumption even for highly anisotropic light sources (e.g. a focused laser beam) and phase functions.
 
 When using the diffusion approximation, instead of using the extinction coefficient $\sigma_t$, we account for the contribution from the phase function by using the so-called \emph{reduced extinction coefficient} $\sigma_t'$. It is defined as $\sigma_t' = \sigma_a + \sigma_s'$, with $\sigma_s' = \sigma_s (1 - g)$. $\sigma_s'$ Is called \emph{reduced scattering coefficient}. The converse of the reduced scattering coefficient is called \emph{mean free path} and represents the average distance that light travels in the medium before being absorbed or scattered.
 
-The rationale behind this reduced coefficient is that a highly forward scattering material is virtually indistinguishable from a not-scattering material. So, for highy forward scattering materials ($g \approx 1$) the scattering coefficients reduces to zero. For highly backward scattering materials ($g \approx -1$), the scattering is accounted for twice as for an isotropic material. The situation is clarified in table \ref{table:coefficients}.
-
+The rationale behind this reduced coefficient is that a highly forward scattering material is virtually indistinguishable from a not-scattering material. So, for highly forward scattering materials ($g \approx 1$) the scattering coefficients reduces to zero. For highly backward scattering materials ($g \approx -1$), the scattering is accounted for twice as for an isotropic material (see table \ref{table:coefficients}).
 
 \renewcommand{\arraystretch}{1.8}
 \begin{table}[!ht]
@@ -413,13 +427,13 @@ The rationale behind this reduced coefficient is that a highly forward scatterin
 \label{table:coefficients}
 \end{table}
 
-We leave to TODO and TODO for the algebraic details of the calculation. Once we solve the diffusion equation, we obtain the following formula for $\phi(\x)$, the fluence of light in an infinite scattering medium.
+We leave to \cite{books/daglib/0093591} and \cite{Jensen:2001:PMS:383259.383319} for the algebraic details of the calculation. Once we solve the diffusion equation, we obtain the following formula for $\phi(\x)$, the fluence of light in an infinite scattering medium.
 
 $$
 \phi(\x) = \frac{\Phi}{4\pi D} \frac{e^{\sigma_{tr} r}}{r}
 $$
 
-We recall that $\phi(\x) = \int_{4\pi}L(\x,\vomega) d\vomega$. $r = \|\x\|$ is the distance from the point to the light source.The two coefficients $D$ and $\sigma_{tr}$ are called \emph{diffusion coefficient} and \emph{transmission coefficient} respectively. The two coefficients are defined as follows:
+We recall that $\phi(\x) = \int_{4\pi}L(\x,\vomega) d\vomega$. $r = \|\x\|$ is the distance from the point to the light source. The two coefficients $D$ and $\sigma_{tr}$ are called \emph{diffusion coefficient} and \emph{transmission coefficient} respectively. The two coefficients are defined as follows:
 
 \begin{equation*}
 \begin{split}
@@ -428,13 +442,13 @@ D &= \frac{1}{3 \sigma_t'} \\
 \end{split}
 \end{equation*}
 
-We recall that this is the equation for an infinite medium, i.e. no surface interaction is considered. In order to derive an actual BSSRDF model from the diffusion approximation, \emph{boundary conditions} must be considered. Jensen TODO derived an analytical model starting from this approximation of the RTE, while Frisvad TODO uses a more complex approximation of the RTE. The two models are explained in the following sections.
+This is the equation describe light propagation in an infinite medium, i.e. no surface interaction is considered. In order to derive an actual BSSRDF model from the diffusion approximation, \emph{boundary conditions} must be considered. Jensen \cite{Jensen:2001:PMS:383259.383319} derived an analytical model starting from this approximation of the RTE, while Frisvad \cite{IMM2013-06646} uses a more complex approximation of the RTE. The two models are explained in the following sections.
 
 \subsection{Standard dipole model}
 
-The first model we describe is due to TODO Jensen et al. in their original paper, they used the diffusion approximation for light in an infinite medium described in the previous section. Starting from that, they derive an approximation that holds for light in a semi-infinite medium, i.e. light traveling in void hitting a planar slab of a translucent material.
+The first model we describe is due to Jensen\cite{Jensen:2001:PMS:383259.383319}. In their original paper, they used the diffusion approximation for light in an infinite medium described in the previous section. Starting from that, they derive an approximation that holds for light in a semi-infinite medium, i.e. light traveling in void hitting a planar slab of a translucent material.
 
-As a boundary condition, we take the light coming \emph{out} of the material. Light coming out of the material has a initial fluence $\phi_0$. We assume then that the fluency decays linearly until a distance $z = 2 A D$ from the surface, where it becomes zero. $D$ is the diffusion coefficient, while $A$ is a corrective term that accounts for materials with a different indices of refraction:
+As a boundary condition, we take the light coming \emph{out} of the material. Light coming out of the material has a initial fluence $\phi_0$. We assume then that the fluency decays linearly until a distance $z = 2 A D$ from the surface, where it becomes zero. See \cite{Donner:2006:TRI:1236937} for the full derivation. $D$ is the diffusion coefficient, while $A$ is a corrective term that accounts for materials with mismatching indices of refraction:
 
 \begin{equation}
 \begin{split}
@@ -443,13 +457,13 @@ F_{dr} &= \int_{2\pi} R(\eta, \vec{n} \cdot \vomega)  (\vec{n} \cdot \vomega) d 
 \end{split}
 \end{equation}
 
-Where $R$ is the Fresnel reflection term as defined in section TODO, and $\eta = n_1 / n_2$ is the ratio of the refraction indices. The Fresnel reflectance integral $F_{dr}$ is usually approximated with an analytical expression:
+Where $R$ is the Fresnel reflection term as defined in section \ref{sec:fresnel}, and $\eta = n_1 / n_2$ is the ratio of the refraction indices. The Fresnel reflectance integral $F_{dr}$ is usually approximated with an analytical expression:
 
 $$
 F_{dr} = -\frac{1.440}{\eta^2} + \frac{0.710}{\eta} + 0.668 + 0.0036 \eta
 $$
 
-Given the boundary condition, we can then model the subsurface scattering in a point $\x_o$ with two small sources on the point, a configuration called a \emph{dipole}. One source is placed beneath the surface, called the \emph{real source}, while the other one is placed above the surface, called \emph{virtual source}. The first source actually models the subsurface scattering effect, while the second one reduces the first in order to account for the boundary conditions. Refer to figure TODO for a visual detail on the setup.
+Given the boundary condition, we can then model the subsurface scattering in a point $\x_o$ with two small sources on the point, a configuration called a \emph{dipole}. One source is placed beneath the surface, called the \emph{real source}, while the other one is mirrored above the surface, called \emph{virtual source}. The first source actually models the subsurface scattering effect, while the second one reduces the first in order to account for the boundary conditions and the extrapolation boundary. Refer to figure TODO for a visual detail on the setup.
 
 The real source is placed one mean free path beneath the surface, at $z_r = 1 / \sigma_t'$, while the virtual one is placed symmetrically according to the end of the boundary conditions, ad a distance $z_v = z_r + 4 A D$. From $z_r$ and $z_v$ we can calculate the distances $d_r$ and $d_v$ from the entrance point $\x_i$. Given $r = \|\x_o -\x_i\|$, we obtain:
 
@@ -461,7 +475,7 @@ d_v &= \sqrt{z_v^2 + r^2}
 \end{split}
 \end{equation*}
 
-Given these constraint and using equation TODO for the two point sources, we obtain an equation for the BSSRDF in a semi infinite medium:
+Given these constraints, we obtain an equation for the BSSRDF in a semi infinite medium:
 
 $$
 S_d(\x_i,\vomega_i,\x_i,\vomega_o) = \frac{\alpha'}{4 \pi^2} \left[\frac{z_r (1 + \sigma_{tr} d_r) \; e^{-\sigma_{tr} d_r}}{d_r^3} + \frac{z_v (1 + \sigma_{tr} d_v) \; e^{-\sigma_{tr} d_v}}{d_v^3} \right]
@@ -475,11 +489,13 @@ $$
 S(\x_i, \vomega_i, \x_o, \vomega_o) = S_d(\x_i, \vomega_i, \x_o, \vomega_o) + S^{(1)}(\x_i, \vomega_i, \x_o, \vomega_o)
 $$
 
+\cite{Jensen:2001:PMS:383259.383319} in their original paper describes and justify some corrections that need to be done to the model in order to make it work with generic surfaces, and on how to account for extensions like texture support. We will not describe these extensions here, remanding to the original paper for a description.
+
 \subsection{Directional dipole model}
 
-Various evolution to the standard dipole model have been proposed throughout the years. In this chapter, we will introduce the BSSRDF approximation called \emph{directional dipole}, proposed by Frisvad et al. In the standard dipole model, in fact, the diffusive part of the BSSRDF depends only on the distance between the point of incidence and the point of emergence, that is $S_d(\x_i, \vomega_i, \x_o, \vomega_o) = S_d(\|\x_o - \x_i\|)$. 
+Various evolution to the standard dipole model have been proposed throughout the years. In this chapter, we will introduce the BSSRDF approximation called \emph{directional dipole}, proposed by \cite{IMM2013-06646}. In the standard dipole model, in fact, the diffusive part of the BSSRDF depends only on the distance between the point of incidence and the point of emergence, that is $S_d(\x_i, \vomega_i, \x_o, \vomega_o) = S_d(\|\x_o - \x_i\|)$. 
 
-The directional dipole model, based on the diffusion approximation, accounts for the direction of the incoming light in its calculations, in order to model the scattering effects more precisely. Moreover, the model, instead of splitting the BSSRDF in a multiple and single scattering term, splits the BSSRDF into a diffusive term $S_d$ and a term $S_{\delta E}$, called \emph{reduced intensity}, that can be computed using the delta-Eddington approximation. The final BSSRDF thus becomes:
+The directional dipole model, based on the diffusion approximation, accounts for the direction of the incoming light in its calculations, in order to model the scattering effects more precisely. Moreover, the model, instead of splitting the BSSRDF in a multiple and single scattering term, splits the BSSRDF into a diffusive term $S_d$ and a term $S_{\delta E}$, called \emph{reduced intensity}, that can be computed using the delta-Eddington approximation\cite{delta}. The final BSSRDF thus becomes:
 
 $$
 S(\x_i, \vomega_i, \x_o, \vomega_o) = T(\eta,\vomega_i) (S_d(\x_i, \vomega_i, \x_o) + S_{\delta E}(\x_i, \vomega_i, \x_o, \vomega_o)) T(\eta,\vomega_o)
@@ -501,9 +517,9 @@ $$
 \cos \theta = \frac{\x \cdot \vomega_{12}}{r}
 $$
 
-Where $\vomega_{12}$ is the refracted vector as defined in TODO. Comparing with equation TODO, we can see that we introduced a new term that depends on the angle between the refracted incoming light vector and the vector connecting incidence and emergence. 
+Where $\vomega_{12}$ is the refracted vector as defined in \ref{sec:fresnel}. Comparing with equation TODO, we can see that we introduced a new term that depends on the angle between the refracted incoming light vector and the vector connecting incidence and emergence. 
 
-Using the diffusion approximation, we can first establish a relationship between the radiant exitance $M(\x_o)$ amd the diffusive BSSRDF $S'_d$ in an infinite medium:
+Using the diffusion approximation, we can first establish a relationship between the radiant exitance $M(\x_o)$ and the diffusive BSSRDF $S'_d$ in an infinite medium:
 
 $$
 \frac{d M(\x_o)}{d \Phi_i(\x, \vomega_i)} = T(\eta, \vomega_i) S'_d(\x_i, \vomega_i, \x_o) \; 4\pi\csinv 
@@ -588,7 +604,7 @@ $$
 \end{dcases}
 $$
 
-Another important modification is the distance to the real source. In the standard dipole, we used $d_r = \sqrt{z_r^2 + r^2}$, with $z_r = 1 / \sigma_t'$, which is the average distance a photon travels within the material before being absorbed or scattered. The problem of this definition is that it introduces a singularity in $r = 0$. Moreover, the standard dipole becomes fairly imprecise when $r$ is small, overestimating the overall effect. In order to avoid these problems, TODO proposed a more complicated definition of $d_r$ that matches simulation of transport theory more closely. For the details, see Appendix B in the original paper. $d_r$ is defined as follows, recalling $\sigma_t = \sigma_s + \sigma_a$:
+Another important modification is the distance to the real source. In the standard dipole, we used $d_r = \sqrt{z_r^2 + r^2}$, with $z_r = 1 / \sigma_t'$, which is the average distance a photon travels within the material before being absorbed or scattered. The problem of this definition is that it introduces a singularity in $r = 0$. Moreover, the standard dipole becomes fairly imprecise when $r$ is small, overestimating the overall effect. In order to avoid these problems, \cite{IMM2013-06646} proposed a more complicated definition of $d_r$ that matches simulation of transport theory more closely. For the details, see Appendix B in the original paper. $d_r$ is defined as follows, recalling $\sigma_t = \sigma_s + \sigma_a$:
 
 $$
 d_r^2 = \begin{dcases}

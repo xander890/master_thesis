@@ -14,17 +14,17 @@
 \contentsline {subsection}{\numberline {3.2.4}Intensity}{12}{subsection.3.2.4}
 \contentsline {subsection}{\numberline {3.2.5}Radiance}{12}{subsection.3.2.5}
 \contentsline {subsection}{\numberline {3.2.6}Radiometric quantities for simple lights}{14}{subsection.3.2.6}
-\contentsline {section}{\numberline {3.3}Reflectance Functions}{15}{section.3.3}
+\contentsline {section}{\numberline {3.3}Reflectance Functions}{14}{section.3.3}
 \contentsline {subsection}{\numberline {3.3.1}BRDF functions}{15}{subsection.3.3.1}
 \contentsline {subsection}{\numberline {3.3.2}Examples of BRDF functions}{16}{subsection.3.3.2}
 \contentsline {subsubsection}{\numberline {3.3.2.1}Lambertian BRDF}{16}{subsubsection.3.3.2.1}
 \contentsline {subsubsection}{\numberline {3.3.2.2}Mirror BRDF}{17}{subsubsection.3.3.2.2}
-\contentsline {subsubsection}{\numberline {3.3.2.3}Glossy BRDFs}{17}{subsubsection.3.3.2.3}
+\contentsline {subsubsection}{\numberline {3.3.2.3}Glossy BRDFs}{18}{subsubsection.3.3.2.3}
 \contentsline {subsection}{\numberline {3.3.3}The rendering equation}{18}{subsection.3.3.3}
 \contentsline {subsection}{\numberline {3.3.4}Fresnel equations}{19}{subsection.3.3.4}
 \contentsline {subsection}{\numberline {3.3.5}BSSRDF functions and generalized rendering equation}{20}{subsection.3.3.5}
 \contentsline {section}{\numberline {3.4}Light transport and subsurface scattering}{22}{section.3.4}
-\contentsline {subsection}{\numberline {3.4.1}Emission}{23}{subsection.3.4.1}
+\contentsline {subsection}{\numberline {3.4.1}Emission}{22}{subsection.3.4.1}
 \contentsline {subsection}{\numberline {3.4.2}Absorption}{23}{subsection.3.4.2}
 \contentsline {subsection}{\numberline {3.4.3}Out-scattering}{24}{subsection.3.4.3}
 \contentsline {subsection}{\numberline {3.4.4}In-scattering}{24}{subsection.3.4.4}

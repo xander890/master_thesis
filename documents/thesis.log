@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.10.2)  3 JUN 2014 17:13
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.10.2)  4 JUN 2014 00:24
 entering extended mode
 **thesis.tex
 (C:\Users\xander890\Documents\GitHub\master_thesis\documents\thesis.tex
@@ -1589,67 +1589,67 @@ LaTeX Font Info:    Font shape `U/lasy/b/n' in size <6> not available
 <images/radiance.pdf, id=462, 372.34169pt x 300.05444pt>
 File: images/radiance.pdf Graphic file (type pdf)
  <use images/radiance.pdf>
-Package pdftex.def Info: images/radiance.pdf used on input line 68.
+Package pdftex.def Info: images/radiance.pdf used on input line 66.
 (pdftex.def)             Requested size: 172.65132pt x 139.13469pt.
  [12 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/irradiance.pdf>] [13 <C:/Users/xander890/Docume
 nts/GitHub/master_thesis/documents/images/radiance.pdf>]
-LaTeX Font Info:    Try loading font information for OMS+lmr on input line 100.
+LaTeX Font Info:    Try loading font information for OMS+lmr on input line 98.
  ("C:\Program Files\MiKTeX 2.9\tex\latex\lm\omslmr.fd"
 File: omslmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Font shape `OMS/lmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 100.
- [14]
-<images/brdf.pdf, id=509, 410.49837pt x 273.52559pt>
+(Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 98.
+ [14] [15]
+<images/brdf.pdf, id=520, 410.49837pt x 273.52559pt>
 File: images/brdf.pdf Graphic file (type pdf)
  <use images/brdf.pdf>
-Package pdftex.def Info: images/brdf.pdf used on input line 148.
+Package pdftex.def Info: images/brdf.pdf used on input line 164.
 (pdftex.def)             Requested size: 276.24316pt x 184.07922pt.
- [15] [16 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/brdf.pdf>] [17] [18]
-Overfull \hbox (23.80286pt too wide) in paragraph at lines 251--251
+ [16 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/brdf.pdf>] [17] [18] [19]
+Overfull \hbox (23.80286pt too wide) in paragraph at lines 267--267
 [] 
  []
 
-[19] <images/bssrdf.pdf, id=551, 410.49837pt x 273.52559pt>
+<images/bssrdf.pdf, id=566, 410.49837pt x 273.52559pt>
 File: images/bssrdf.pdf Graphic file (type pdf)
  <use images/bssrdf.pdf>
-Package pdftex.def Info: images/bssrdf.pdf used on input line 259.
+Package pdftex.def Info: images/bssrdf.pdf used on input line 275.
 (pdftex.def)             Requested size: 276.24316pt x 184.07922pt.
- [20 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/bssrdf.pdf>] <images/transport_emission.pdf, id
-=575, 289.08pt x 96.36pt>
+ [20] [21 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/bssrdf.pdf>] <images/transport_emission.pd
+f, id=596, 289.08pt x 96.36pt>
 File: images/transport_emission.pdf Graphic file (type pdf)
 
 <use images/transport_emission.pdf>
-Package pdftex.def Info: images/transport_emission.pdf used on input line 296.
+Package pdftex.def Info: images/transport_emission.pdf used on input line 312.
 (pdftex.def)             Requested size: 172.65132pt x 57.5503pt.
- <images/transport_absorption.pdf, id=576, 289.08pt x 96.36pt>
+ <images/transport_absorption.pdf, id=597, 289.08pt x 96.36pt>
 File: images/transport_absorption.pdf Graphic file (type pdf)
 
 <use images/transport_absorption.pdf>
-Package pdftex.def Info: images/transport_absorption.pdf used on input line 300.
+Package pdftex.def Info: images/transport_absorption.pdf used on input line 316.
 (pdftex.def)             Requested size: 172.65132pt x 57.5503pt.
 
-Overfull \hbox (13.33331pt too wide) in paragraph at lines 296--300
+Overfull \hbox (13.33331pt too wide) in paragraph at lines 312--316
  [][][][] 
  []
 
-<images/transport_outscattering.pdf, id=577, 289.08pt x 96.36pt>
+<images/transport_outscattering.pdf, id=598, 289.08pt x 96.36pt>
 File: images/transport_outscattering.pdf Graphic file (type pdf)
  <use images/transport_outscattering.pdf>
-Package pdftex.def Info: images/transport_outscattering.pdf used on input line 304.
+Package pdftex.def Info: images/transport_outscattering.pdf used on input line 320.
 (pdftex.def)             Requested size: 172.65132pt x 57.5503pt.
 
-<images/transport_inscattering.pdf, id=578, 289.08pt x 96.36pt>
+<images/transport_inscattering.pdf, id=599, 289.08pt x 96.36pt>
 File: images/transport_inscattering.pdf Graphic file (type pdf)
  <use images/transport_inscattering.pdf>
-Package pdftex.def Info: images/transport_inscattering.pdf used on input line 308.
+Package pdftex.def Info: images/transport_inscattering.pdf used on input line 324.
 (pdftex.def)             Requested size: 172.65132pt x 57.5503pt.
 
-Overfull \hbox (13.33331pt too wide) in paragraph at lines 304--310
+Overfull \hbox (13.33331pt too wide) in paragraph at lines 320--326
  [][][][][] 
  []
 
-[21] [22 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/transport_emission.pdf> <C:/Users/xander890
+[22] [23 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/transport_emission.pdf> <C:/Users/xander890
 /Documents/GitHub/master_thesis/documents/images/transport_absorption.pdf
 
 pdfTeX warning: pdflatex.exe (file C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/transport_absorpti
@@ -1662,33 +1662,33 @@ ering.pdf): PDF inclusion: multiple pdfs with page group included in a single pa
 
 pdfTeX warning: pdflatex.exe (file C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/transport_inscatte
 ring.pdf): PDF inclusion: multiple pdfs with page group included in a single page
->] [23] [24] [25]
-Underfull \hbox (badness 10000) in paragraph at lines 411--411
+>] [24] [25]
+Underfull \hbox (badness 10000) in paragraph at lines 425--425
 []|\OT1/lmr/m/n/10 Backward
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 411--411
+Underfull \hbox (badness 10000) in paragraph at lines 425--425
 \OT1/lmr/m/n/10 Scattering
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 411--411
+Underfull \hbox (badness 10000) in paragraph at lines 425--425
 []|\OT1/lmr/m/n/10 Isotropic
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 411--411
+Underfull \hbox (badness 10000) in paragraph at lines 425--425
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 411--411
+Underfull \hbox (badness 10000) in paragraph at lines 425--425
 []|\OT1/lmr/m/n/10 Forward
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 411--411
+Underfull \hbox (badness 10000) in paragraph at lines 425--425
 \OT1/lmr/m/n/10 Scat-ter-ing
  []
 
@@ -1705,7 +1705,7 @@ No file tex/appendix.tex.tex.
 
 ] (C:\Users\xander890\Documents\GitHub\master_thesis\documents\thesis.bbl [37
 
-] [38]) [39]
+] [38] [39]) [40]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 59.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 59.
 
@@ -1718,13 +1718,13 @@ Package rerunfilecheck Info: File `thesis.out' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 59.
  ) 
 Here is how much of TeX's memory you used:
- 29050 strings out of 493921
- 554658 string characters out of 3147270
- 676826 words of memory out of 3000000
- 31675 multiletter control sequences out of 15000+200000
+ 29075 strings out of 493921
+ 555262 string characters out of 3147270
+ 677213 words of memory out of 3000000
+ 31692 multiletter control sequences out of 15000+200000
  126292 words of font info for 120 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 56i,19n,73p,10416b,908s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 56i,19n,73p,10416b,894s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-rmtt.enc}{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-rm.enc}
 {C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathit.enc}{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathsy.
 enc}{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathex.enc}{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ts1
@@ -1742,9 +1742,9 @@ type1/public/lm/lmr9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmri
 s/type1/public/lm/lmssbx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmsy10.pfb><C:/Program Files/MiKTeX 2.
 9/fonts/type1/public/lm/lmsy6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmsy7.pfb><C:/Program Files/MiKTeX 
 2.9/fonts/type1/public/lm/lmsy9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmtt10.pfb>
-Output written on thesis.pdf (41 pages, 1040279 bytes).
+Output written on thesis.pdf (42 pages, 1052167 bytes).
 PDF statistics:
- 839 PDF objects out of 1000 (max. 8388607)
- 126 named destinations out of 1000 (max. 500000)
+ 890 PDF objects out of 1000 (max. 8388607)
+ 134 named destinations out of 1000 (max. 500000)
  342 words of extra memory for PDF output out of 10000 (max. 10000000)
 

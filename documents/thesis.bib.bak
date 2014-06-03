@@ -18,6 +18,24 @@
   url = {http://dx.doi.org/10.2312/EGWR/EGSR07/147-157}
 }
 
+@INPROCEEDINGS{Ashikmin:2000:MBG:344779.344814,
+  author = {Ashikmin, Michael and Premo\v{z}e, Simon and Shirley, Peter},
+  title = {A Microfacet-based BRDF Generator},
+  booktitle = {Proceedings of the 27th Annual Conference on Computer Graphics and
+	Interactive Techniques},
+  year = {2000},
+  series = {SIGGRAPH '00},
+  pages = {65--74},
+  address = {New York, NY, USA},
+  publisher = {ACM Press/Addison-Wesley Publishing Co.},
+  acmid = {344814},
+  doi = {10.1145/344779.344814},
+  isbn = {1-58113-208-5},
+  keywords = {reflectance \& shading models, rendering},
+  numpages = {10},
+  url = {http://dx.doi.org/10.1145/344779.344814}
+}
+
 @INPROCEEDINGS{Borlum:2011:SSL:2018323.2018325,
   author = {B{\o}rlum, Jesper and Christensen, Brian Bunch and Kjeldsen, Thomas
 	Kim and Mikkelsen, Peter Trier and Noe, Karsten {\O}stergaard and
@@ -38,6 +56,15 @@
   owner = {xander890},
   timestamp = {2014.02.26},
   url = {http://doi.acm.org/10.1145/2018323.2018325}
+}
+
+@BOOK{Cohen:1993:RRI:154731,
+  title = {Radiosity and Realistic Image Synthesis},
+  publisher = {Academic Press Professional, Inc.},
+  year = {1993},
+  author = {Cohen, Michael F. and Wallace, John and Hanrahan, Pat},
+  address = {San Diego, CA, USA},
+  isbn = {0-12-178270-0}
 }
 
 @INBOOK{CG12,
@@ -100,6 +127,15 @@
   owner = {xander890},
   timestamp = {2014.02.26},
   url = {http://dl.acm.org/citation.cfm?id=882404.882433}
+}
+
+@BOOK{Desolneux:2007:GTI:1557413,
+  title = {From Gestalt Theory to Image Analysis: A Probabilistic Approach},
+  publisher = {Springer Publishing Company, Incorporated},
+  year = {2007},
+  author = {Desolneux, Agns and Moisan, Lionel and Morel, Jean-Michel},
+  edition = {1st},
+  isbn = {0387726357, 9780387726359}
 }
 
 @ARTICLE{Dong:2010:FSS:1778765.1778799,
