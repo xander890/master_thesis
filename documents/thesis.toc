@@ -32,5 +32,5 @@
 \contentsline {subsection}{\numberline {3.4.6}The diffusion approximation}{25}{subsection.3.4.6}
 \contentsline {subsection}{\numberline {3.4.7}Standard dipole model}{27}{subsection.3.4.7}
 \contentsline {subsection}{\numberline {3.4.8}Directional dipole model}{29}{subsection.3.4.8}
-\contentsline {chapter}{\numberline {4}Results}{31}{chapter.4}
-\contentsline {chapter}{Bibliography}{33}{chapter.4}
+\contentsline {chapter}{\numberline {4}Results}{35}{chapter.4}
+\contentsline {chapter}{Bibliography}{37}{chapter.4}
