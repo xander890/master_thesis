@@ -1,9 +1,18 @@
-\begin{thebibliography}{23}
+\begin{thebibliography}{30}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Ashikmin et~al.(2000)Ashikmin, Premo\v{z}e, and
+  Shirley]{Ashikmin:2000:MBG:344779.344814}
+Michael Ashikmin, Simon Premo\v{z}e, and Peter Shirley.
+\newblock A microfacet-based brdf generator.
+\newblock In \emph{Proceedings of the 27th Annual Conference on Computer
+  Graphics and Interactive Techniques}, SIGGRAPH '00, pages 65--74, New York,
+  NY, USA, 2000. ACM Press/Addison-Wesley Publishing Co.
+\newblock URL \url{http://dx.doi.org/10.1145/344779.344814}.
 
 \bibitem[B{\o}rlum et~al.(2011)B{\o}rlum, Christensen, Kjeldsen, Mikkelsen,
   Noe, Rimestad, and Mosegaard]{Borlum:2011:SSL:2018323.2018325}
@@ -13,6 +22,11 @@ Jesper B{\o}rlum, Brian~Bunch Christensen, Thomas~Kim Kjeldsen, Peter~Trier
 \newblock In \emph{Proceedings of the ACM SIGGRAPH Symposium on High
   Performance Graphics}, HPG '11, pages 7--14, New York, NY, USA, 2011. ACM.
 \newblock URL \url{http://doi.acm.org/10.1145/2018323.2018325}.
+
+\bibitem[Cohen et~al.(1993)Cohen, Wallace, and Hanrahan]{Cohen:1993:RRI:154731}
+Michael~F. Cohen, John Wallace, and Pat Hanrahan.
+\newblock \emph{Radiosity and Realistic Image Synthesis}.
+\newblock Academic Press Professional, Inc., San Diego, CA, USA, 1993.
 
 \bibitem[Dachsbacher and Stamminger(2003)]{Dachsbacher:2003:TSM:882404.882433}
 Carsten Dachsbacher and Marc Stamminger.
@@ -44,6 +58,13 @@ Eugene d'Eon, David Luebke, and Eric Enderton.
   Switzerland, 2007. Eurographics Association.
 \newblock URL \url{http://dx.doi.org/10.2312/EGWR/EGSR07/147-157}.
 
+\bibitem[Desolneux et~al.(2007)Desolneux, Moisan, and
+  Morel]{Desolneux:2007:GTI:1557413}
+Agns Desolneux, Lionel Moisan, and Jean-Michel Morel.
+\newblock \emph{From Gestalt Theory to Image Analysis: A Probabilistic
+  Approach}.
+\newblock Springer Publishing Company, Incorporated, 1st edition, 2007.
+
 \bibitem[Donner and Jensen(2005)]{Donner:2005:LDM:1186822.1073308}
 Craig Donner and Henrik~Wann Jensen.
 \newblock Light diffusion in multi-layered translucent materials.
@@ -59,6 +80,13 @@ Craig Donner, Jason Lawrence, Ravi Ramamoorthi, Toshiya Hachisuka, Henrik~Wann
 \newblock \emph{ACM Trans. Graph.}, 28\penalty0 (3):\penalty0 30:1--30:10, July
   2009.
 \newblock URL \url{http://doi.acm.org/10.1145/1531326.1531336}.
+
+\bibitem[Donner(2006)]{Donner:2006:TRI:1236937}
+Craig~Steven Donner.
+\newblock \emph{Towards Realistic Image Synthesis of Scattering Materials}.
+\newblock PhD thesis, University of California, San Diego, La Jolla, CA, USA,
+  2006.
+\newblock AAI3226771.
 
 \bibitem[Dorsey et~al.(1999)Dorsey, Edelman, Jensen, Legakis, and
   Pedersen]{Dorsey:1999:MRW:311535.311560}
@@ -84,6 +112,11 @@ J.~R. Frisvad, T.~Hachisuka, and T.~K. Kjeldsen.
 \newblock Technical report, DTU Compute, 2013.
 \newblock URL \url{http://www2.imm.dtu.dk/pubdb/p.php?6646}.
 \newblock Unpublished manuscript.
+
+\bibitem[Ishimaru(1997)]{books/daglib/0093591}
+Akira Ishimaru.
+\newblock \emph{Wave propagation and scattering in random media.}
+\newblock IEEE, 1997.
 
 \bibitem[Jensen and Buhler(2002)]{Jensen:2002:RHR:566654.566619}
 Henrik~Wann Jensen and Juan Buhler.
@@ -117,6 +150,12 @@ Jorge Jimenez, Veronica Sundstedt, and Diego Gutierrez.
 \newblock \emph{ACM Trans. Appl. Percept.}, 6\penalty0 (4):\penalty0
   23:1--23:15, October 2009.
 \newblock URL \url{http://doi.acm.org/10.1145/1609967.1609970}.
+
+\bibitem[{Joseph} et~al.(1976){Joseph}, {Wiscombe}, and {Weinman}]{delta}
+J.~H. {Joseph}, W.~J. {Wiscombe}, and J.~A. {Weinman}.
+\newblock {The delta-Eddington approximation for radiative flux transfer}.
+\newblock \emph{Journal of Atmospheric Sciences}, 33:\penalty0 2452--2459,
+  December 1976.
 
 \bibitem[Kaplanyan and Dachsbacher(2010)]{Kaplanyan:2010:CLP:1730804.1730821}
 Anton Kaplanyan and Carsten Dachsbacher.
@@ -153,6 +192,11 @@ Tom Mertens, Jan Kautz, Philippe Bekaert, Hans-Peter Seidelz, and Frank
   EGRW '03, pages 130--140, Aire-la-Ville, Switzerland, Switzerland,
   2003{\natexlab{b}}. Eurographics Association.
 \newblock URL \url{http://dl.acm.org/citation.cfm?id=882404.882423}.
+
+\bibitem[Montes~Soldado and Ure{\~n}a~Almagro(2012)]{montes2012overview}
+Rosana Montes~Soldado and Carlos Ure{\~n}a~Almagro.
+\newblock An overview of brdf models.
+\newblock \emph{-}, -:\penalty0 --, 2012.
 
 \bibitem[Pharr and Hanrahan(2000)]{Pharr:2000:MCE:344779.344824}
 Matt Pharr and Pat Hanrahan.
