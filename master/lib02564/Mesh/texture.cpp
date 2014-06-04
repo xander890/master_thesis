@@ -19,12 +19,13 @@ void Mesh::Texture::init()
     load();
 }
 
-void Mesh::Texture::reloadData(std::vector<CGLA::Vec3f> & data, int newWidth, int newHeight)
+void Mesh::Texture::reloadData(std::vector<CGLA::Vec3f> & ndata, int newWidth, int newHeight)
 {
     width = newWidth;
     height = newHeight;
     this->data = data;
-    load();
+    glBindTexture(target, id);
+    glTexImage2D(target, 0, GL_RGB32F, width, height,0, GL_RGB,GL_FLOAT, &ndata[0]);
 }
 
 std::vector<CGLA::Vec3f> Mesh::Texture::getData()

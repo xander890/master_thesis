@@ -33,6 +33,7 @@ const int DIRECTIONS = 10;
 const float ONE_M_PI = 0.31830988618f;
 
 uniform mat4 cameraMatrices[DIRECTIONS];
+uniform vec3 camera_dirs[DIRECTIONS];
 
 uniform float gamma;
 
@@ -63,18 +64,19 @@ void main(void)
     vec3 wi = vec3(light_pos[0]);
     wi = normalize(wi);
     //vec3 offset = epsilon * (no - wi * dot(no,wi));
-    vec3 offset = epsilon_combination * no;
-    vec3 pos = position - offset;
 
-    vec3 wo = normalize(user_pos - pos);
+    vec3 wo = normalize(user_pos - position);
 
     fragColor = vec4(0.0f);
     float div = 0.0f;
     for(int i = 0; i < DIRECTIONS; i++)
     {
+        vec3 dir = camera_dirs[i];
+        vec3 offset = epsilon_combination * (no - dir * dot(no,dir));
+        vec3 pos = position - offset;
         vec4 l = cameraMatrices[i] * vec4(pos,1.0f);
         vec4 color = textureLod(colorMap,vec3(l.xy,i),mipmap_LOD);
-        float vis = sample_shadow_map(l.xyz,i) * step(0.0f,color.a);
+        float vis = sample_shadow_map(l.xyz,i);
         fragColor += color * vis;
         div += vis;
     }

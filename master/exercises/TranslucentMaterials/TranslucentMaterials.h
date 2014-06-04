@@ -18,6 +18,7 @@ public:
     TranslucentParameters::TranslucentParameters() :
         circleradius(0.08f),
         samples(30),
+        maxsamples(300),
         epsilon_gbuffer(0.003),
         epsilon_combination(0.001),
         shadow_bias(0.0007),
@@ -37,6 +38,7 @@ public:
     float epsilon_combination; // avoids artifacts when sampling from cubebuffer
     float shadow_bias; // avoids shadow acne
     int samples;
+    int maxsamples;
 
     bool debugOverlayVisible;
     bool environment;

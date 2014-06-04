@@ -63,7 +63,7 @@ namespace Mesh
         virtual void init();
 
         // Reloads data into GPU memory with the new data provided.
-        void reloadData(std::vector<CGLA::Vec3f> & data, int newWidth, int newHeight);
+        void reloadData(std::vector<CGLA::Vec3f> & data,int w,int h);
         std::vector<CGLA::Vec3f> getData();
 
         GLuint get_id()

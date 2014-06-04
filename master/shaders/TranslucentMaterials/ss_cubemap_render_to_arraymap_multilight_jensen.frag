@@ -93,7 +93,7 @@ void main(void)
 
 
 #ifdef RANDOM
-    float noise1 = noise(xo * (layer+1) * (197));
+    float noise1 = noise3(xo * (layer+1) * (197));
     //float noise2 = noise(xo * (layer+1) * (677 + tt));
     float r_angle = (noise1 + time) * 2 * M_PI;
     float delta_rad = discradius / samples * (noise1 - 0.5f);

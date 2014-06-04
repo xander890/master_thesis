@@ -26,6 +26,8 @@ private slots:
 
     void radiusChanged(float value);
     void samplesChanged(float value);
+
+    void maxsamplesChanged(float value);
     void epsilonGBufferChanged(float value);
     void epsilonCombinationChanged(float value);
     void shadowBiasChanged(float value);

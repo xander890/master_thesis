@@ -22,13 +22,22 @@ uint wang_hash(uint seed)
     return (seed);
 }
 
+highp float noise(vec2 co)
+{
+    highp float a = 12.9898;
+    highp float b = 78.233;
+    highp float c = 43758.5453;
+    highp float dt = dot(co.xy,vec2(a,b));
+    highp float sn = mod(dt,3.14);
+    return fract(sin(sn) * c);
+}
 
 float hash2( float n )
 {
     return fract(sin(n)*43758.5453);
 }
 
-float noise( in vec3 x )
+float noise3( in vec3 x )
 {
     vec3 p = floor(x);
     vec3 f = fract(x);

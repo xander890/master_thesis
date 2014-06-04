@@ -51,6 +51,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->samples->init("Samples: ",ui->translucentMaterials->getParameters()->samples,1,1000, true);
     connect(ui->samples, SIGNAL(valueChanged(float)), this, SLOT(samplesChanged(float)));
 
+    ui->maxsamples->init("Max samples: ",ui->translucentMaterials->getParameters()->maxsamples,1,1000, true);
+    connect(ui->maxsamples, SIGNAL(valueChanged(float)), this, SLOT(maxsamplesChanged(float)));
+
+
     ui->epsilon_combination->init("Comb. offset: ", ui->translucentMaterials->getParameters()->epsilon_combination, 0.0, 0.1, false);
     connect(ui->epsilon_combination,SIGNAL(valueChanged(float)), this, SLOT(epsilonCombinationChanged(float)));
 
@@ -148,6 +152,15 @@ void MainWindow::samplesChanged(float value)
     if(value != ui->translucentMaterials->getParameters()->samples)
     {
         ui->translucentMaterials->getParameters()->samples = (int) value;
+        //ui->translucentMaterials->getParameters()->currentFlags |= TranslucentParameters::SAMPLES_CHANGED;
+    }
+}
+
+void MainWindow::maxsamplesChanged(float value)
+{
+    if(value != ui->translucentMaterials->getParameters()->maxsamples)
+    {
+        ui->translucentMaterials->getParameters()->maxsamples = (int) value;
         ui->translucentMaterials->getParameters()->currentFlags |= TranslucentParameters::SAMPLES_CHANGED;
     }
 }

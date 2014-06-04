@@ -420,7 +420,7 @@ void TranslucentMaterials::getDiscPoints(vector<Vec3f> * points, const int n, co
     //test1.clear();
     //planeHammersleyCircle(test1,200);
     //cout << "Standard" << endl;
-    //for(int i = 0 ; i < 200; i++) cout << test1[i][0] << " " << test1[i][1] << endl;
+    for(int i = 0 ; i < n; i++) cout << texture[0][i][0] << " " << texture[0][i][1] << endl;
 
     for(int k = 0; k < m; k++)
     {
@@ -1235,6 +1235,7 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
     const int ARRAY_TEXTURE_SIZE = 1024;
     const int LAYERS = 10;
     int samples_per_texel = params->samples;
+    int maximum_samples = params->maxsamples;
 
     const int MIPMAPS = 3;
 
@@ -1257,7 +1258,7 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
     const int CONVERGENCE_FRAMES = 100;
     const float CAMERA_RATIO = CAMERA_SIZE / LIGHT_CAMERA_SIZE;
 
-    int discPoints = samples_per_texel / manager.size();
+    int discPoints = maximum_samples; //TODO more LIGHTS!
     const int DISCS = LAYERS;
 
     //TODO more objs
@@ -1293,7 +1294,7 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
 
 //    Vec3f center = obj->getCenter();
 
-//    static vector<Vec3f> cameraPositions(LAYERS);
+    static vector<Vec3f> cameraPositions(LAYERS);
 
             /*= {
         center + Vec3f(1,0,0) * CAMERA_DISTANCE, //+X
@@ -1346,7 +1347,7 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
         scattering_material->addTexture(arraytexmap_back.getColorTexture());
         scattering_material->addTexture(skybox);
 
-
+        screen_quad_material->addTexture(tex);
         vector<Vec3f> spherePoints;
         sphereHalton(spherePoints, LAYERS);
 
@@ -1362,6 +1363,7 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
         {
             Vec3f point = spherePoints[i];
             Vec3f camera_pos = center + point * CAMERA_DISTANCE;
+            cameraPositions[i] = camera_pos;
             viewMatrices[i] = scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(camera_pos, center, up);
             planeTransformMatrices[i] = mat2 * viewMatrices[i];
         }
@@ -1446,7 +1448,8 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
         glClearColor(0,0,0,0);
 
         //render_to_cubemap.set_uniform("discpoints", discpoints, DISC_POINTS);
-        render_to_array.set_uniform("one_over_max_samples",1.0f/samples_per_texel);
+        render_to_array.set_uniform("one_over_max_samples",1.0f/maximum_samples);
+        render_to_array.set_uniform("max_samples",(float)maximum_samples);
         render_to_array.set_uniform("one_over_discs",1.0f/DISCS);
         render_to_array.set_uniform("samples",samples_per_texel);
         render_to_array.set_uniform("discradius",trueRadius);
@@ -1570,6 +1573,7 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
     render_combination.set_uniform("mipmap_LOD",params->LOD);
     render_combination.set_uniform("current_frame_rev", 1.0f/min(currentFrame + 1,CONVERGENCE_FRAMES));
     render_combination.set_uniform("cameraMatrices", planeTransformMatrices,LAYERS);
+    render_combination.set_uniform("camera_dirs", cameraPositions, LAYERS);
     render_combination.set_uniform("has_environment", params->environment);
     float worldCircleRadius = params->circleradius * LIGHT_CAMERA_SIZE;
     render_combination.set_uniform("disc_area", (float)(worldCircleRadius * worldCircleRadius * M_PI) * CAMERA_RATIO);

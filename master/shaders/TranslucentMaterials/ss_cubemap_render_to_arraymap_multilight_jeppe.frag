@@ -2,7 +2,7 @@
 #define RANDOM
 #define TIME
 #define MULTI_LIGHTS
-
+//#define OVERLAY
 layout(location = 0) out vec4 fragColor;
 
 uniform sampler2DArray ntex;
@@ -25,7 +25,7 @@ uniform mat4 lightMatrices[MAX_LIGHTS];
 uniform float one_over_max_samples;
 uniform float one_over_discs;
 uniform float min_tr;
-
+uniform float max_samples;
 #ifdef TIME
 uniform int convergence_frames;
 uniform float current_frame_percentage;
@@ -77,15 +77,18 @@ void main(void)
 
 
 #ifdef RANDOM
-    vec3 s_1 = xo * (617) * (layer + 1);
+    vec3 s_1 = xo * 617 * (layer + 1);
 
-    float noise = noise(s_1);
+    float noise = noise3(s_1);
 
     float r_angle = (noise + time) * 2 * M_PI;
     float delta_rad = discradius * one_over_max_samples * (noise - 0.5f);
     mat2 rot = mat2(cos(r_angle),sin(r_angle), -sin(r_angle), cos(r_angle));
 #endif
-
+    int count = 0;
+#ifdef OVERLAY
+    bool color  = false;
+#endif
     for(int k = 0; k < light_number; k++)
     {
         vec3 wi = vec3(light_pos[k]);
@@ -101,7 +104,7 @@ void main(void)
 
         vec3 Li = light_diff[k].xyz;
 
-        for(int i = 0; i < samples; i++)
+        for(int i = 0; i < max_samples && count < samples; i++)
         {
             vec2 smpl = texture(discpoints,vec2(i * one_over_max_samples, layer * one_over_discs)).xy;
     #ifdef RANDOM
@@ -120,15 +123,28 @@ void main(void)
                 {
                     vec3 ni = texture(ntex, sampl).rgb;
                     vec3 S = bssrdf(xi,wi,ni,xo,no);
-                    float normalization = exp(min_tr * length(smpl * discradius));
+                    float normalization = exp(min_tr * length(smpl));
                     accumulate += Li * S * normalization;
 
                 }
+                count++;
             }
-
+            #ifdef OVERLAY
+                if(length(discradius * smpl + vec2(0.5) - gl_FragCoord.xy / 1024) < 0.005f)
+                    color = true;
+            #endif
         }
-    }
 
-    fragColor = vec4(accumulate,1.0f) + oldColor;
-    //fragColor = vec4(1.0f);
+    }
+#ifdef OVERLAY
+    if(color)
+        fragColor = vec4(1,0,0,0);
+    else
+
+        fragColor = vec4(1);
+#else
+        fragColor = vec4(accumulate,count) + vec4(oldColor.xyz,0);
+#endif
+    //fragColor = vec4(accumulate,count) + vec4(oldColor.xyz,0);
+   // fragColor = vec4(count / float(samples));
 }

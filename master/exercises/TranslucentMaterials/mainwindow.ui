@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1143</width>
-    <height>746</height>
+    <width>1470</width>
+    <height>1024</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1024</width>
+    <height>1024</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
@@ -19,8 +25,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>1141</width>
-      <height>702</height>
+      <width>1464</width>
+      <height>1071</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="mainLayout">
@@ -37,8 +43,8 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>512</width>
-         <height>512</height>
+         <width>1024</width>
+         <height>1024</height>
         </size>
        </property>
       </widget>
@@ -435,6 +441,19 @@
              <number>6</number>
             </property>
             <item>
+             <widget class="SliderLabel" name="maxsamples" native="true">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>30</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="SliderLabel" name="radius" native="true">
               <property name="enabled">
                <bool>true</bool>
@@ -445,6 +464,7 @@
                 <height>30</height>
                </size>
               </property>
+              <zorder>maxsamples</zorder>
              </widget>
             </item>
             <item>
@@ -558,7 +578,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1143</width>
+     <width>1470</width>
      <height>21</height>
     </rect>
    </property>
