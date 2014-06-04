@@ -1,4 +1,4 @@
-\begin{thebibliography}{30}
+\begin{thebibliography}{31}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -197,6 +197,15 @@ Tom Mertens, Jan Kautz, Philippe Bekaert, Hans-Peter Seidelz, and Frank
 Rosana Montes~Soldado and Carlos Ure{\~n}a~Almagro.
 \newblock An overview of brdf models.
 \newblock \emph{-}, -:\penalty0 --, 2012.
+
+\bibitem[Narasimhan et~al.(2006)Narasimhan, Gupta, Donner, Ramamoorthi, Nayar,
+  and Jensen]{Narasimhan:2006:ASP:1141911.1141986}
+Srinivasa~G. Narasimhan, Mohit Gupta, Craig Donner, Ravi Ramamoorthi, Shree~K.
+  Nayar, and Henrik~Wann Jensen.
+\newblock Acquiring scattering properties of participating media by dilution.
+\newblock \emph{ACM Trans. Graph.}, 25\penalty0 (3):\penalty0 1003--1012, July
+  2006.
+\newblock URL \url{http://doi.acm.org/10.1145/1141911.1141986}.
 
 \bibitem[Pharr and Hanrahan(2000)]{Pharr:2000:MCE:344779.344824}
 Matt Pharr and Pat Hanrahan.

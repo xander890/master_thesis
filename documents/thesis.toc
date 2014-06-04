@@ -17,20 +17,26 @@
 \contentsline {section}{\numberline {3.3}Reflectance Functions}{14}{section.3.3}
 \contentsline {subsection}{\numberline {3.3.1}BRDF functions}{15}{subsection.3.3.1}
 \contentsline {subsection}{\numberline {3.3.2}Examples of BRDF functions}{16}{subsection.3.3.2}
-\contentsline {subsubsection}{\numberline {3.3.2.1}Lambertian BRDF}{16}{subsubsection.3.3.2.1}
-\contentsline {subsubsection}{\numberline {3.3.2.2}Mirror BRDF}{17}{subsubsection.3.3.2.2}
-\contentsline {subsubsection}{\numberline {3.3.2.3}Glossy BRDFs}{18}{subsubsection.3.3.2.3}
-\contentsline {subsection}{\numberline {3.3.3}The rendering equation}{18}{subsection.3.3.3}
-\contentsline {subsection}{\numberline {3.3.4}Fresnel equations}{19}{subsection.3.3.4}
-\contentsline {subsection}{\numberline {3.3.5}BSSRDF functions and generalized rendering equation}{20}{subsection.3.3.5}
-\contentsline {section}{\numberline {3.4}Light transport and subsurface scattering}{22}{section.3.4}
-\contentsline {subsection}{\numberline {3.4.1}Emission}{22}{subsection.3.4.1}
-\contentsline {subsection}{\numberline {3.4.2}Absorption}{23}{subsection.3.4.2}
-\contentsline {subsection}{\numberline {3.4.3}Out-scattering}{24}{subsection.3.4.3}
-\contentsline {subsection}{\numberline {3.4.4}In-scattering}{24}{subsection.3.4.4}
-\contentsline {subsection}{\numberline {3.4.5}Final formulation of the radiative transport equation}{25}{subsection.3.4.5}
-\contentsline {subsection}{\numberline {3.4.6}The diffusion approximation}{25}{subsection.3.4.6}
-\contentsline {subsection}{\numberline {3.4.7}Standard dipole model}{27}{subsection.3.4.7}
-\contentsline {subsection}{\numberline {3.4.8}Directional dipole model}{29}{subsection.3.4.8}
-\contentsline {chapter}{\numberline {4}Results}{35}{chapter.4}
-\contentsline {chapter}{Bibliography}{37}{chapter.4}
+\contentsline {section}{\numberline {3.4}Light transport and subsurface scattering}{16}{section.3.4}
+\contentsline {subsubsection}{\numberline {3.4.0.1}Lambertian BRDF}{17}{subsubsection.3.4.0.1}
+\contentsline {subsubsection}{\numberline {3.4.0.2}Mirror BRDF}{18}{subsubsection.3.4.0.2}
+\contentsline {subsubsection}{\numberline {3.4.0.3}Glossy BRDFs}{18}{subsubsection.3.4.0.3}
+\contentsline {subsection}{\numberline {3.4.1}The rendering equation}{19}{subsection.3.4.1}
+\contentsline {subsection}{\numberline {3.4.2}Fresnel equations}{20}{subsection.3.4.2}
+\contentsline {subsection}{\numberline {3.4.3}BSSRDF functions and generalized rendering equation}{21}{subsection.3.4.3}
+\contentsline {section}{\numberline {3.5}Light transport and subsurface scattering}{23}{section.3.5}
+\contentsline {subsection}{\numberline {3.5.1}Emission}{23}{subsection.3.5.1}
+\contentsline {subsection}{\numberline {3.5.2}Absorption}{24}{subsection.3.5.2}
+\contentsline {subsection}{\numberline {3.5.3}Out-scattering}{25}{subsection.3.5.3}
+\contentsline {subsection}{\numberline {3.5.4}In-scattering}{25}{subsection.3.5.4}
+\contentsline {subsection}{\numberline {3.5.5}Final formulation of the radiative transport equation}{26}{subsection.3.5.5}
+\contentsline {subsection}{\numberline {3.5.6}The diffusion approximation}{27}{subsection.3.5.6}
+\contentsline {subsection}{\numberline {3.5.7}Standard dipole model}{28}{subsection.3.5.7}
+\contentsline {subsection}{\numberline {3.5.8}Directional dipole model}{30}{subsection.3.5.8}
+\contentsline {chapter}{\numberline {4}Method}{37}{chapter.4}
+\contentsline {section}{\numberline {4.1}Constraints and assumptions}{38}{section.4.1}
+\contentsline {section}{\numberline {4.2}Method overview}{38}{section.4.2}
+\contentsline {section}{\numberline {4.3}Sampling patterns}{38}{section.4.3}
+\contentsline {section}{\numberline {4.4}Parameter acquisition}{38}{section.4.4}
+\contentsline {chapter}{\numberline {5}Results}{41}{chapter.5}
+\contentsline {chapter}{Bibliography}{43}{chapter.5}

@@ -417,6 +417,26 @@
   url = {http://doi.acm.org/10.1145/1609967.1609970}
 }
 
+@ARTICLE{delta,
+  author = {{Joseph}, J. H. and {Wiscombe}, W. J. and {Weinman}, J. A.},
+  title = {{The delta-Eddington approximation for radiative flux transfer}},
+  journal = {Journal of Atmospheric Sciences},
+  year = {1976},
+  volume = {33},
+  pages = {2452-2459},
+  month = dec,
+  added-at = {2014-03-31T16:26:07.000+0200},
+  adsnote = {Provided by the SAO/NASA Astrophysics Data System},
+  adsurl = {http://adsabs.harvard.edu/abs/1976JAtS...33.2452J},
+  biburl = {http://www.bibsonomy.org/bibtex/211a4e9a257ca08f964eebbb38f56c0a0/emmamryan},
+  description = {NASA ADS: The delta-Eddington approximation for radiative flux transfer},
+  doi = {10.1175/1520-0469(1976)033<2452:TDEAFR>2.0.CO;2},
+  interhash = {412e28d73409c492a8c9cc3bc4090583},
+  intrahash = {11a4e9a257ca08f964eebbb38f56c0a0},
+  keywords = {delta},
+  timestamp = {2014-03-31T16:26:07.000+0200}
+}
+
 @INPROCEEDINGS{Kaplanyan:2010:CLP:1730804.1730821,
   author = {Kaplanyan, Anton and Dachsbacher, Carsten},
   title = {Cascaded Light Propagation Volumes for Real-time Indirect Illumination},
@@ -529,6 +549,35 @@
 	scattering;Rendering (computer graphics);Skin},
   owner = {xander890},
   timestamp = {2014.02.26}
+}
+
+@ARTICLE{montes2012overview,
+  author = {Montes Soldado, Rosana and Ure{\~n}a Almagro, Carlos},
+  title = {An Overview of BRDF Models},
+  journal = {-},
+  year = {2012},
+  volume = {-},
+  pages = {-}
+}
+
+@ARTICLE{Narasimhan:2006:ASP:1141911.1141986,
+  author = {Narasimhan, Srinivasa G. and Gupta, Mohit and Donner, Craig and Ramamoorthi,
+	Ravi and Nayar, Shree K. and Jensen, Henrik Wann},
+  title = {Acquiring Scattering Properties of Participating Media by Dilution},
+  journal = {ACM Trans. Graph.},
+  year = {2006},
+  volume = {25},
+  pages = {1003--1012},
+  number = {3},
+  month = jul,
+  acmid = {1141986},
+  address = {New York, NY, USA},
+  doi = {10.1145/1141911.1141986},
+  issn = {0730-0301},
+  issue_date = {July 2006},
+  numpages = {10},
+  publisher = {ACM},
+  url = {http://doi.acm.org/10.1145/1141911.1141986}
 }
 
 @INCOLLECTION{Nicodemus:1992:GCN:136913.136929,

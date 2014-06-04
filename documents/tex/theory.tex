@@ -169,6 +169,31 @@ Later we will use this equation as a starting point to obtain the full rendering
 
 \subsection{Examples of BRDF functions}
 
+\section{Light transport and subsurface scattering}
+\FloatBarrier
+\begin{figure}
+\centering
+\subfloat[{Lambertian BRDF}]{
+  \includegraphics[width=0.5 \linewidth]{images/brdf_lambertian.pdf}
+  \label{fig:lambertianbrdf}
+}
+\subfloat[{Mirror BRDF}]{
+  \includegraphics[width=0.5 \linewidth]{images/brdf_mirror.pdf}
+  \label{fig:mirrorbrdf}
+} \\
+\subfloat[{Glossy BRDF}]{
+  \includegraphics[width=0.5 \linewidth]{images/brdf_glossy.pdf}
+  \label{fig:glossybrdf}
+} 
+\subfloat[{Combined BRDF}]{
+  \includegraphics[width=0.5 \linewidth]{images/brdf_combined.pdf}
+  \label{fig:combinedbrdf}
+} 
+\label{fig:brdfexamples}
+\caption{Examples of BRDF functions. In this particular example, the three simple BRDFs can be combined in the more complex BRDF of figure \ref{fig:combinebrdf} in order to combine multiple effects.}
+\end{figure}
+
+
 There are many examples of BRDF functions in literature\cite{montes2012overview}. In this section, we will introduce three of the simplest ones: for a more exhaustive description of BRDF functions, refer to TODO. The three BRDFs are the lambertian or diffuse BRDF, the specular or mirror BRDF and the family of glossy BRDFs.
 
 \subsubsection{Lambertian BRDF}
@@ -226,7 +251,7 @@ $$
 \vec{h} = \frac{\vomega_o + \vomega_i}{\left\| \vomega_o + \vomega_i \right\|}
 $$
 
-$G$ accounts for the object self shadowing, while $R$ is the Fresnel reflection term (more details in section Y).	$\vec{r}$ is the reflection vector as defined in the previous section. See figure Z on how the vectors for the glossy reflection - $\vec{n}$, $\vec{h}$ and $\vec{r}$ - are defined.
+$G$ accounts for the object self shadowing, while $R$ is the Fresnel reflection term (more details in section \ref{sec:fresnel}).	$\vec{r}$ is the reflection vector as defined in the previous section. See figure Z on how the vectors for the glossy reflection - $\vec{n}$, $\vec{h}$ and $\vec{r}$ - are defined.
 
 Various alternative definitions exist for the $D$ and $G$ function, varying among the literature. Other glossy models not based on microfacet theory do exist as well \cite{montes2012overview}. 
 
@@ -248,6 +273,15 @@ This form of the rendering equation is still not completely general, since it is
 
 \subsection{Fresnel equations}
 \label{sec:fresnel}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.5\textwidth]{images/fresnelsetup.pdf}
+\caption{Reflected and refracted vector on mismatching indices of reflection.}
+\label{fig:fresnelsetup}
+\end{figure}
+ 
+
 Until now, on the described BRDF models, we did consider only the reflected part of the radiance. When a beam of light coming from direction $\vomega_i$ hits a surface, only part of the incoming radiance gets reflected, while another part gets refracted into the material. As we can see from the setup from figure Z, we obtain the two vectors $\vomega_r$ and $\vomega_t$, the reflected and refracted vector, defined as follows:
 
 \begin{equation*}
@@ -257,12 +291,14 @@ Until now, on the described BRDF models, we did consider only the reflected part
 \end{split}
 \end{equation*}
 
-Where $\eta = \frac{n_1}{n_2}$ is the relative index of refraction of the material. With this setup, we can use a solution to Maxwell's equations for wave propagation to describe how light spreads between reflected and refracted directions. What we obtain are called \emph{Fresnel coefficients}. The coefficients are different according to the polarization of the incoming light, so there are two for the reflection ($R_s$, $R_p$) and two for transmission ($T_s$, $T_p$). The coefficients relate the incoming and outgoing power of the light, and by differentiation, the radiance as well.
+Where $\eta = \frac{n_1}{n_2}$ is the relative index of refraction of the material. With this setup, illustrated in figure \ref{fig:fresnelsetup}, we can use a solution to Maxwell's equations for wave propagation to describe how light spreads between reflected and refracted directions. What we obtain are called \emph{Fresnel coefficients}. The coefficients are different according to the polarization of the incoming light, so there are two for the reflection ($R_s$, $R_p$) and two for transmission ($T_s$, $T_p$). The coefficients relate the incoming and outgoing power of the light, and by differentiation, the radiance as well.
 
 \begin{equation*}
 \begin{split}
-R_s = \left|\frac{n_1 \cdot \cos\theta_i - n_2 \cdot \cos\theta_t} {n_1 \cdot \cos\theta_i + n_2 \cdot \cos\theta_t}\right|^2 \;\;\;&\;\;\; R_p = \left|\frac{n_1 \cdot \cos\theta_t - n_2 \cdot \cos\theta_i} {n_1 \cdot \cos\theta_t + n_2 \cdot \cos\theta_i}\right|^2\\
-T_s = \frac{n_2 \cdot \cos\theta_t}{n_1 \cdot \cos\theta_i} \left|\frac{2 n_1 \cdot \cos\theta_i}{n_1 \cdot \cos\theta_i + n_2 \cdot \cos\theta_t}\right|^2 \;\;\;&\;\;\; T_p = \frac{n_2 \cdot \cos\theta_t}{n_1 \cdot \cos\theta_i}  \left|\frac{2 n_1 \cdot \cos\theta_i}{n_1 \cdot \cos\theta_t + n_2 \cdot \cos\theta_i}\right|^2
+R_s(\eta,\vomega_i) &= \left|\frac{\eta  \cos\theta_i -  \cos\theta_t} {\eta  \cos\theta_i +  \cos\theta_t}\right|^2 \\
+R_p(\eta,\vomega_i) &= \left|\frac{\eta  \cos\theta_t -  \cos\theta_i} {\eta  \cos\theta_t +  \cos\theta_i}\right|^2\\
+T_s(\eta,\vomega_i) &= \eta \  \frac{ \cos\theta_t}{ \cos\theta_i} \left|\frac{2  \cos\theta_i}{\eta  \cos\theta_i +  \cos\theta_t}\right|^2 \\
+T_p(\eta,\vomega_i) &= \eta \  \frac{ \cos\theta_t}{ \cos\theta_i}  \left|\frac{2  \cos\theta_i}{\eta  \cos\theta_t +  \cos\theta_i}\right|^2
 \end{split}
 \end{equation*}
 
@@ -446,6 +482,15 @@ This is the equation describe light propagation in an infinite medium, i.e. no s
 
 \subsection{Standard dipole model}
 
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\textwidth]{images/jensen.pdf}
+\caption{Setup for the standard dipole model.}
+\label{fig:jensen}
+\end{figure}
+ 
+
 The first model we describe is due to Jensen\cite{Jensen:2001:PMS:383259.383319}. In their original paper, they used the diffusion approximation for light in an infinite medium described in the previous section. Starting from that, they derive an approximation that holds for light in a semi-infinite medium, i.e. light traveling in void hitting a planar slab of a translucent material.
 
 As a boundary condition, we take the light coming \emph{out} of the material. Light coming out of the material has a initial fluence $\phi_0$. We assume then that the fluency decays linearly until a distance $z = 2 A D$ from the surface, where it becomes zero. See \cite{Donner:2006:TRI:1236937} for the full derivation. $D$ is the diffusion coefficient, while $A$ is a corrective term that accounts for materials with mismatching indices of refraction:
@@ -493,6 +538,14 @@ $$
 
 \subsection{Directional dipole model}
 
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\textwidth]{images/jeppe.pdf}
+\caption{Setup for the directional dipole model.}
+\label{fig:jeppe}
+\end{figure}
+ 
 Various evolution to the standard dipole model have been proposed throughout the years. In this chapter, we will introduce the BSSRDF approximation called \emph{directional dipole}, proposed by \cite{IMM2013-06646}. In the standard dipole model, in fact, the diffusive part of the BSSRDF depends only on the distance between the point of incidence and the point of emergence, that is $S_d(\x_i, \vomega_i, \x_o, \vomega_o) = S_d(\|\x_o - \x_i\|)$. 
 
 The directional dipole model, based on the diffusion approximation, accounts for the direction of the incoming light in its calculations, in order to model the scattering effects more precisely. Moreover, the model, instead of splitting the BSSRDF in a multiple and single scattering term, splits the BSSRDF into a diffusive term $S_d$ and a term $S_{\delta E}$, called \emph{reduced intensity}, that can be computed using the delta-Eddington approximation\cite{delta}. The final BSSRDF thus becomes:
