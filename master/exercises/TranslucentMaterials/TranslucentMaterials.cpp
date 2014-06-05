@@ -1230,10 +1230,11 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
     static ShaderProgramDraw screen_quad_display_shader(shader_path,"display_tex_2.vert","","display_tex_2.frag");
 
     const int GBUFFER_SIZE = 1024;
-    const float LIGHT_CAMERA_SIZE = 4.0f;
+    const float LIGHT_CAMERA_SIZE = 1.0f;
 
     const int ARRAY_TEXTURE_SIZE = 1024;
-    const int LAYERS = 10;
+    const int MAX_LIGHTS = 5;
+    const int LAYERS = 16;
     int samples_per_texel = params->samples;
     int maximum_samples = params->maxsamples;
 
@@ -1248,7 +1249,7 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
     MipMapGeneratorView * front_mipmaps;
 
 
-    static ArrayVertexNormalBuffer light_buffer(GBUFFER_SIZE, 4);
+    static ArrayVertexNormalBuffer light_buffer(GBUFFER_SIZE, MAX_LIGHTS);
 
 
     const float CAMERA_DISTANCE = 3.0f; //This should not matter (can be DIST = max bounding box + camera near + epsilon
@@ -1433,7 +1434,7 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
 
         scattering_material->addTexture(vtex);
         scattering_material->addTexture(ntex);
-        screen_quad_material->addTexture(ntex);
+        screen_quad_material->addTexture(vtex);
 
         render_to_array.use();
 
@@ -1569,14 +1570,14 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
     render_combination.use();
     render_combination.set_uniform("shadow_bias", params->shadow_bias);
     render_combination.set_uniform("epsilon_combination", params->epsilon_combination);
-    render_combination.set_uniform("one_over_max_samples", 1.0f/samples_per_texel);
+    render_combination.set_uniform("one_over_max_samples", 1.0f/maximum_samples);
     render_combination.set_uniform("mipmap_LOD",params->LOD);
     render_combination.set_uniform("current_frame_rev", 1.0f/min(currentFrame + 1,CONVERGENCE_FRAMES));
     render_combination.set_uniform("cameraMatrices", planeTransformMatrices,LAYERS);
     render_combination.set_uniform("camera_dirs", cameraPositions, LAYERS);
     render_combination.set_uniform("has_environment", params->environment);
-    float worldCircleRadius = params->circleradius * LIGHT_CAMERA_SIZE;
-    render_combination.set_uniform("disc_area", (float)(worldCircleRadius * worldCircleRadius * M_PI) * CAMERA_RATIO);
+    float worldCircleRadius = params->circleradius * LIGHT_CAMERA_SIZE * 0.5;
+    render_combination.set_uniform("disc_area", (float)(worldCircleRadius * worldCircleRadius * M_PI));
     render_combination.set_uniform("step_tex", 1.0f/ARRAY_TEXTURE_SIZE);
     render_combination.set_uniform("skybox_dim", Vec2f(skybox->width,skybox->height));
 

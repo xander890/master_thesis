@@ -13,7 +13,7 @@ void main(void)
     int level = 1;
     fragColor = vec4(0);
     for(int i = 0; i < 1; i++)
-        fragColor += textureLod(colorMap,vec3(_tex.xy,5 ),mipmap_LOD);// + textureLod(colorMap,vec3(_tex.xy,level),1f);
+        fragColor += textureLod(colorMap,vec3(_tex.xy, 10),mipmap_LOD);// + textureLod(colorMap,vec3(_tex.xy,level),1f);
     //fragColor = texture(discpoints, _tex.xy);
     //fragColor = vec4(0.0,0.0,1.0f,1.0);
    // fragColor = vec4(1.0);

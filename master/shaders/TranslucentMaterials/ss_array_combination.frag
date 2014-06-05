@@ -7,6 +7,8 @@ uniform sampler2DArrayShadow depthMap;
 uniform samplerRect skybox;
 uniform int has_environment;
 
+#include "ss_aincludes_constants.glinc"
+
 uniform vec2 skybox_dim;
 
 smooth in vec3 position;
@@ -29,15 +31,13 @@ uniform float ior;
 uniform float step_tex;
 uniform float mipmap_LOD;
 
-const int DIRECTIONS = 10;
-const float ONE_M_PI = 0.31830988618f;
-
 uniform mat4 cameraMatrices[DIRECTIONS];
 uniform vec3 camera_dirs[DIRECTIONS];
 
 uniform float gamma;
 
 uniform float current_frame_rev;
+
 
 #include "ss_aincludes_optics.glinc"
 
