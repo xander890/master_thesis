@@ -1,0 +1,45 @@
+\chapter{Method}
+In this chapter, the goal is to solve the problem that we have presented, i.e. rendering translucent materials efficiently using the directional dipole. First of all, we will start this chapter with a list of constraints and assumptions that we will use to devise our method. Secondly, we will give a theoretical justification of our method, deriving a discretization of the rendering equation that can be actually implemented in a GPU environment. Then, we will discuss some possible sampling patterns and how they could possibly improve the results of the final rendering. Then, we will introduce how the actual scattering parameters are acquired in an experimental environment, in order to obtain a plausible result. 
+
+%Finally, we will introduce a method to extend our result to enviromnent ligthins, using a particular sampling pdf.
+
+\section{Constraints and assumptions}
+
+\section{Method overview}
+
+\section{Sampling patterns}
+
+\section{Parameter acquisition}
+When rendering translucent materials, it is important that we have the right scattering properties, in order to match the appearance of real world objects. The scattering parameters may be tweaked by the artist and set up manually, but this is a long process since the the scattering properties are not directly related to material appearance. In order to avoid this problems, the scattering parameters are measured from samples taken from real world objects. In this section, we will give an overview of two methods used to estimate the scattering parameters.
+
+The first method was presented alongside the standard dipole model by \cite{Jensen:2001:PMS:383259.383319}. The measurement apparatus consists of a series of lenses that focus the light on the sample. The light power $\Phi$ is measured by calibrating the sensor with a spectralon sample. A picture of the sample is then acquired at different exposure, in order to build an high dynamic range image. This is necessary since the scattering decays exponentially, so a high range is needed to have meaningful measurements. The measured data are then fitted to diffusion theory in order to obtain the scattering coefficients. Due to the nature of the measurement, it is not possible to measure the mean cosine $g$ of the material, but only the reduced scattering coefficient $\sigma_s' = \sigma_s (1 - g)$ and the absorption coefficient $\sigma_a$. This measurement model uses the diffusion approximation to work, so it shares the same limitations: it is valid only for materials where $\sigma_a \ll \sigma_s$.
+
+The second method, proposed by \cite{Narasimhan:2006:ASP:1141911.1141986} proposes a method to measure the scattering coefficient by dilution. The assumption is that water does not interfere with the scattering properties of the materials dissolved within it for small distances (less than \SI{50}{cm}). Naturally, the material needs then to be already in  a liquid form, or to be a powder that can be easily dissolved in water. The setup of the experiment is a box full of water with a camera and an area light. High dynamic range picture of the material dissolved in water are then taken, and the scattering coefficients can be measured with a low error. Various measurements at different concentrations are needed in order to get an effective measurement of the coefficients, but then the coefficients can be extrapolated for any concentration. 
+
+Some of the scattering properties measured thanks to this method are reported in table \ref{table:scatteringcoefficients}. This coefficients will be used throughout the report when referencing to a specific material.
+\clearpage
+\begin{landscape}
+\renewcommand{\arraystretch}{1.8}
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|l|ccc|ccc|ccc|c|c|}
+    \hline
+    \multirow{2}{*}{Material}               & \multicolumn{3}{|c|}{Absorption, $\sigma_a$}     & \multicolumn{3}{|c|}{Scattering, $\sigma_s$}     & \multicolumn{3}{|c|}{Mean cosine, $g$}    & \multirow{2}{*}{$\eta$} & \multirow{2}{*}{Source} \\ \hline
+               &R& G      & B     & R & G      & B      & R   & G     & B     &  &  \\ \hline
+    {Apple}                  & 0.0030 & 0.0034 & 0.0046 & 2.29   & 2.39   & 1.97   & -     & -     & -     & 1.3    & J      \\
+    {Ketchup}                & 0.061  & 0.97   & 1.45   & 0.18   & 0.07   & 0.03   & -     & -     & -     & 1.3    & J      \\
+    {Marble}                 & 0.0021 & 0.0041 & 0.0071 & 2.19   & 2.62   & 3.00   & -     & -     & -     & 1.5    & J      \\
+    {Potato}                 & 0.0024 & 0.0090 & 0.12   & 0.68   & 0.70   & 0.55   & -     & -     & -     & 1.3    & J      \\
+   { Whole milk}             & 0.0011 & 0.0024 & 0.014  & 2.55   & 3.21   & 3.77   & -     & -     & -     & 1.3    & J      \\
+    {Coffee}                 & 0.1669 & 0.2287 & 0.3078 & 0.2707 & 0.2828 & 0.297  & 0.907 & 0.896 & 0.88  & 1.3    & N    \\
+    {Soy milk}               & 0.0001 & 0.0005 & 0.0034 & 0.2433 & 0.2714 & 0.4563 & 0.873 & 0.858 & 0.832 & 1.3    & N      \\
+    {Wine (merlot)   }       & 0.7586 & 1.6429 & 1.9196 & 0.0053 & 0      & 0      & 0.974 & 0     & 0     & 1.3    & N      \\
+    {Beer (Budweiser)}       & 0.1449 & 0.3141 & 0.7286 & 0.0037 & 0.0069 & 0.0074 & 0.917 & 0.956 & 0.982 & 1.3    & N      \\
+    {White grapefruit juice} & 0.0096 & 0.0131 & 0.0395 & 0.3513 & 0.3669 & 0.5237 & 0.548 & 0.545 & 0.565 & 1.3    & N      \\ \hline
+    \end{tabular}
+		\caption{Scattering material parameters estimated using different methods. For the source field, \texttt{J} materials come from \cite{Jensen:2001:PMS:383259.383319}, while \texttt{N} materials come from \cite{Narasimhan:2006:ASP:1141911.1141986}. Note that the materials measured with the technique proposed in \cite{Jensen:2001:PMS:383259.383319} are without the $g$ coefficient.}
+		\label{table:scatteringcoefficients}
+\end{table}
+\end{landscape}
+\clearpage
+%\section{Environment lights}
