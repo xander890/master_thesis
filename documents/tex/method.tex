@@ -5,9 +5,119 @@ In this chapter, the goal is to solve the problem that we have presented, i.e. r
 
 \section{Constraints and assumptions}
 
+Quality constraints
+\begin{enumerate}
+	\item Close as much as possible to a path traced solution. 
+	\item work with the less amount as possible of provided data, i.e. only the position data and eventually the normals should be provided in order for the method to run. In particular, no uv mapping should be necessary for the method to run.
+	\item If the quality is not reachable within one frame, converge towards a result in a reasonable amount of time. Techniuqes should be used to fake the required quality in order to approximate the itnermediate result. 
+	\item flexibility: integrable in a engine-ready environment, or adaptable to different shading techniques (forward and deferred rendering)
+	\item tweakable: the quality / performance tradeoff should be set by a potential artist, and with the fewest number of parameters as possible.
+\end{enumerate}
+
+Performance assumptions
+\begin{enumerate}
+	\item Maintain a reasonable performance under changing light conditions, deformations and change of parameters, with little or none performance parameters
+	\item As less as dependent as possible from the geometrical complexity of the model.
+	\item As less as dependent from the screen resolution.
+	\item Being real-time, i.e. one frame should take less that 100 ms (10 FPS) to render. The ideal result would be to reach a rendering time of less than 16ms 
+	\item Employ the advantages of the directional dipole model to improve performance.
+	\item Support a certain number of directional and point lights (up to 3 to 5 pixel lights, as in commercial engines\cite{unitymanual})
+	
+\end{enumerate}
+
 \section{Method overview}
 
+TODO overview
+
+Going into the mathematical details the idea is to take the integral form of the rendering equation (equation \ref{eq:bssrdfeq}):
+
+\begin{equation*}
+L_o(\x_o,\vomega_o) = L_e(\x_i,\vomega_i) + \int_A \int_{2\pi} S(\x_i, \vomega_i, \x_o, \vomega_o) L_i(\x_i,\vomega_i) V(\x_i) (\vec{n}_i \cdot \vomega_i) d\vomega_i d A_i
+\end{equation*}
+
+First of all, we make the assumption of a body that is not emitting light: all the radiance from the body comes from an external source. This assumption can be trivially relaxed and implemented, but to simplify the equation in this chapter we will exclude it from the calculations. Secondly, we limit ourselves to the case of one directional light, treating the case of a point light later as an extension. The directional light direction $\vomega_l$ and radiance $L_d \ \delta(\vomega_d)$.
+
+Under the first assumption, equation \ref{eq:bssrdfeq} becomes:
+
+\begin{equation*}
+\begin{split}
+L_o^D(\x_o,\vomega_o) &= \int_A \int_{2\pi} S(\x_i, \vomega_i, \x_o, \vomega_o) L_d \ \delta(\vomega_l)\ V(\x_i) (\vec{n}_i \cdot \vomega_i) d\vomega_i d A_i \\
+L_o^D(\x_o,\vomega_o) &= \int_A S(\x_i, \vomega_l, \x_o, \vomega_o) L_d  V(\x_i) (\vec{n}_i \cdot \vomega_l) d A_i 
+\end{split}
+\end{equation*}
+
+In this way, we remove the internal integral. Then, in order to make a feasible calculation, we need to discretize the other integral as well. We imagine to have a set of $N$ points on the surface. We assume that each one of these points is visible from the light source (so we can get rid of the $V(\x_i)$ term). We will discuss in the implementation section how to make sure that all these points are visible. Each one of these points has an associated area $A_i$, so that we can write:
+
+\begin{equation}
+L_o^D(\x_o,\vomega_o) = L_d \sum_{i = 1}^N S(\x_i, \vomega_l, \x_o, \vomega_o) (\vec{n}_i \cdot \vomega_l) A_i 
+\label{eq:inter1}
+\end{equation}
+
+Now, instead of using all the points on the surface, we consider only the points within a certain radius $r^*$ from the point $\x_o$. This is reasonable because because the dominating term in the directional dipole is $e^{-\sigma_{tr} r}$, so after a certain critical radius the contribution from the other points becomes negligible. Assuming the points are distributed uniformly on the circle, we obtain the following area for a point:
+
+$$
+A_i = \frac{A_c}{N \ (\vec{n}_i \cdot \vomega_l)}
+$$
+
+Where $A_c = \pi (r^*)^2$ is the area of the circle. And, by inserting into equation \ref{eq:inter1}, we obtain:
+
+\begin{equation}
+L_o^D(\x_o,\vomega_o) = L_d \frac{A_c}{N} \sum_{i = 1}^N S(\x_i, \vomega_l, \x_o, \vomega_o)
+\label{eq:inter2}
+\end{equation}
+
+That is our final approximation for a directional light. For a point light, following the exact same steps, we reach a similar solution. We recall that a point light is defined by an intensity $I_p$ and a source point $\x_p$:
+
+\begin{equation}
+L_o^P(\x_o,\vomega_o) = I_p \frac{A_c}{N} \sum_{i = 1}^N \frac{S(\x_i, \frac{\x_p - \x_i}{\|\x_p - \x_i\|}, \x_o, \vomega_o)}{\|\x_p - \x_i\|^2}
+\label{eq:inter3}
+\end{equation}
+
+And, since the radiance is linearly summable, we can combine the contribution from an arbitrary number of $P_1, P_2 ... P_p$ point sources and $D_1, D_2 ... D_d$ directional sources:
+
+\begin{equation}
+\begin{split}
+&L_o(\x_o,\vomega_o) = \\
+&= \sum_{k=1}^{p}L_o^{P_k}(\x_o,\vomega_o) + \sum_{k=1}^{d}L_o^{D_k}(\x_o,\vomega_o) \\
+&= \frac{A_c}{N} \left[ \sum_{k=1}^{p}I_p^k \sum_{i = 1}^N \frac{S(\x_i, \frac{\x_p^k - \x_i}{\|\x_p^k - \x_i\|}, \x_o, \vomega_o)}{\|\x_p^k - \x_i\|^2} + \sum_{k=1}^{d} L_d^k \sum_{i = 1}^N S(\x_i, \vomega^k_l, \x_o, \vomega_o) \right] 
+\end{split}
+\end{equation}
+
+
 \section{Sampling patterns}
+As we discussed in the previous section, the BSSRDF function for the directional dipole is dominated by an exponential decay. So, it is more probable to find points that contribute more to the BSSRDF if we take points closer to the evaluation point $\x_o$. However, our assumption of uniform areas does not hold anymore, so we need to modify the previous equations in order to account for the non-linear sampling.
+
+Assuming to have number generator that can generate numbers on a disc, we can create an exponentially distributed disc by rejection sampling. The probability distribution is:
+
+$$
+pdf(x) = \sigma_{tr} e^{-\sigma_{tr} x}
+$$
+
+We will give more detail on the process later. The radius of the point $\x_i$ is 
+
+$$
+r_i = \|\x_o^{proj} - \x_i^{proj}\|
+$$
+
+Where the two points have been projected on the circle. See figure X for more details. So now we have a new normalization term to include in order to scale back the result. So, we need now to divide by $exp(-\sigma_{tr} r_i)$ each sample. The new equation for a directional light then becomes:
+
+$$
+\hat{L}_o^D(\x_o,\vomega_o) = L_d \frac{A_c}{N} \sum_{i = 1}^N S(\x_i, \vomega_l, \x_o, \vomega_o) e^{-\sigma_{tr} r_i}
+$$
+
+The other two equations TODO and TODO change accordingly:
+
+$$
+\hat{L}_o^P(\x_o,\vomega_o) = I_p \frac{A_c}{N} \sum_{i = 1}^N \frac{S(\x_i, \frac{\x_p - \x_i}{\|\x_p - \x_i\|}, \x_o, \vomega_o)}{\|\x_p - \x_i\|^2}  e^{-\sigma_{tr} r_i}
+$$
+
+\begin{equation}
+\begin{split}
+&\hat{L}_o(\x_o,\vomega_o) = \\
+&= \sum_{k=1}^{p}L_o^{P_k}(\x_o,\vomega_o) + \sum_{k=1}^{d}L_o^{D_k}(\x_o,\vomega_o) \\
+&= \frac{A_c}{N} \left[ \sum_{k=1}^{p}I_p^k \sum_{i = 1}^N \frac{S(\x_i, \frac{\x_p^k - \x_i}{\|\x_p^k - \x_i\|}, \x_o, \vomega_o)}{\|\x_p^k - \x_i\|^2} e^{-\sigma_{tr} r_i} + \sum_{k=1}^{d} L_d^k \sum_{i = 1}^N S(\x_i, \vomega^k_l, \x_o, \vomega_o) e^{-\sigma_{tr} r_i}\right] 
+\end{split}
+\end{equation}
 
 \section{Parameter acquisition}
 When rendering translucent materials, it is important that we have the right scattering properties, in order to match the appearance of real world objects. The scattering parameters may be tweaked by the artist and set up manually, but this is a long process since the the scattering properties are not directly related to material appearance. In order to avoid this problems, the scattering parameters are measured from samples taken from real world objects. In this section, we will give an overview of two methods used to estimate the scattering parameters.
@@ -24,13 +134,13 @@ Some of the scattering properties measured thanks to this method are reported in
     \centering
     \begin{tabular}{|l|ccc|ccc|ccc|c|c|}
     \hline
-    \multirow{2}{*}{Material}               & \multicolumn{3}{|c|}{Absorption, $\sigma_a$}     & \multicolumn{3}{|c|}{Scattering, $\sigma_s$}     & \multicolumn{3}{|c|}{Mean cosine, $g$}    & \multirow{2}{*}{$\eta$} & \multirow{2}{*}{Source} \\ \hline
+    \multirow{2}{*}{Material}               & \multicolumn{3}{|c|}{Absorption, $\sigma_a$}     & \multicolumn{3}{|c|}{Scattering, $\sigma_s$}     & \multicolumn{3}{|c|}{Mean cosine, $g$}    & \multirow{2}{*}{$\eta$} & \multirow{2}{*}{Source} \\ 
                &R& G      & B     & R & G      & B      & R   & G     & B     &  &  \\ \hline
     {Apple}                  & 0.0030 & 0.0034 & 0.0046 & 2.29   & 2.39   & 1.97   & -     & -     & -     & 1.3    & J      \\
     {Ketchup}                & 0.061  & 0.97   & 1.45   & 0.18   & 0.07   & 0.03   & -     & -     & -     & 1.3    & J      \\
     {Marble}                 & 0.0021 & 0.0041 & 0.0071 & 2.19   & 2.62   & 3.00   & -     & -     & -     & 1.5    & J      \\
     {Potato}                 & 0.0024 & 0.0090 & 0.12   & 0.68   & 0.70   & 0.55   & -     & -     & -     & 1.3    & J      \\
-   { Whole milk}             & 0.0011 & 0.0024 & 0.014  & 2.55   & 3.21   & 3.77   & -     & -     & -     & 1.3    & J      \\
+    {Whole milk}             & 0.0011 & 0.0024 & 0.014  & 2.55   & 3.21   & 3.77   & -     & -     & -     & 1.3    & J      \\
     {Coffee}                 & 0.1669 & 0.2287 & 0.3078 & 0.2707 & 0.2828 & 0.297  & 0.907 & 0.896 & 0.88  & 1.3    & N    \\
     {Soy milk}               & 0.0001 & 0.0005 & 0.0034 & 0.2433 & 0.2714 & 0.4563 & 0.873 & 0.858 & 0.832 & 1.3    & N      \\
     {Wine (merlot)   }       & 0.7586 & 1.6429 & 1.9196 & 0.0053 & 0      & 0      & 0.974 & 0     & 0     & 1.3    & N      \\

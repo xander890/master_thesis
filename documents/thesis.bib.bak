@@ -747,6 +747,15 @@
   url = {http://dx.doi.org/10.1007/978-3-642-31295-3_47}
 }
 
+@MANUAL{unitymanual,
+  title = {Unity Manual: Forward Rendering Path Details},
+  author = {Unity},
+  year = {2012},
+  owner = {alessandro},
+  timestamp = {2014.06.05},
+  url = {http://docs.unity3d.com/Manual/RenderTech-ForwardRendering.html}
+}
+
 @ARTICLE{journals/cgf/WangWHSYG10,
   author = {Wang, Yajun and Wang, Jiaping and Holzschuch, Nicolas and Subr, Kartic
 	and Yong, Jun-Hai and Guo, Baining},

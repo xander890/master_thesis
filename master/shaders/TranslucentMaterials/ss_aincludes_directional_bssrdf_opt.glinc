@@ -23,8 +23,8 @@ vec3 bssrdf(vec3 _xi,vec3 _nin,vec3 _wi,vec3 _xo, vec3 _no)
     float dot_x_w12 = dot(_x,_w12);
     float dot_x_no = dot(_x,_no);
 
-    vec3 _r_sqr = vec3(r_sqr);
-    vec3 _dr_sqr = vec3(r_sqr);
+    vec3 _r_sqr = r_sqr.xxx;
+    vec3 _dr_sqr = _r_sqr;
 
     float edge = step(mu, EPSILON_MU); // == 1.0 if mu > EPSILON_MU
 
@@ -50,7 +50,6 @@ vec3 bssrdf(vec3 _xi,vec3 _nin,vec3 _wi,vec3 _xo, vec3 _no)
     vec3 _S_v = S_infinite(_dv, _dv_sqr, dot(_xov,_wv), dot(_no,_wv), dot(_xov,_no));
     vec3 _S = _S_r - _S_v;
 
-    _S *= global_coeff;
     float Ti = fresnel_T(_wi,_nin,1.0f,ior);
     _S *= Ti;
     _S = max(vec3(0.0f),_S);

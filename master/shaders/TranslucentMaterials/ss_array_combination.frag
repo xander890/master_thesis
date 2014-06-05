@@ -37,7 +37,7 @@ uniform vec3 camera_dirs[DIRECTIONS];
 uniform float gamma;
 
 uniform float current_frame_rev;
-
+uniform float global_coeff;
 
 #include "ss_aincludes_optics.glinc"
 
@@ -75,7 +75,7 @@ void main(void)
         vec3 offset = epsilon_combination * (no - dir * dot(no,dir));
         vec3 pos = position - offset;
         vec4 l = cameraMatrices[i] * vec4(pos,1.0f);
-        vec4 color = textureLod(colorMap,vec3(l.xy,i),mipmap_LOD);
+        vec4 color = texture(colorMap,vec3(l.xy,i));
         float vis = sample_shadow_map(l.xyz,i);
         fragColor += color * vis;
         div += vis;
@@ -91,7 +91,7 @@ void main(void)
     fragColor = textureLod(colorMap,vec3(l.xy,i), 0) * vec4(sample_shadow_map(l.xyz,i));
 #endif
 
-    fragColor *= disc_area * one_over_max_samples;
+    fragColor *= disc_area * one_over_max_samples * global_coeff;
 
 #if TIME == 1
     fragColor *= current_frame_rev;
@@ -107,5 +107,5 @@ void main(void)
         fragColor += refl_col * (1 - F);
     }
 
-    //fragColor = pow(fragColor, vec4(1/gamma));
+    //fragColor = pow(fragColor, vec4(gamma));
 }

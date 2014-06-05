@@ -3,7 +3,7 @@
 #define TIME
 #define MULTI_LIGHTS
 //#define OVERLAY
-layout(early_fragment_tests) in;
+
 layout(location = 0) out vec4 fragColor;
 
 #include "ss_aincludes_constants.glinc"
@@ -45,12 +45,13 @@ uniform float epsilon_gbuffer;
 
 #include "ss_aincludes_optics.glinc"
 
-#include "ss_aincludes_directional_bssrdf.glinc"
+#include "ss_aincludes_directional_bssrdf_opt.glinc"
 
 #include "ss_aincludes_random.glinc"
 
 void main(void)
 {
+
 
     int layer = gl_Layer;
     vec3 xo = position;
@@ -60,8 +61,7 @@ void main(void)
 
 #ifdef TIME
     vec4 l = cameraMatrices[layer] * vec4(position,1.0f);
-    vec4 oldColor = current_frame == 0 ? vec4(0.0f) : texture(colorMap,vec3(l.xy,layer));
-
+    vec4 oldColor = texture(colorMap,vec3(l.xy,layer)) * step(1,current_frame);
 #else
     vec4 oldColor = vec4(0.0f);
 #endif
@@ -81,24 +81,29 @@ void main(void)
     float noise = noise3(s_1);
 
     float r_angle = (noise + time) * 2 * M_PI;
-    float delta_rad = discradius * one_over_max_samples * (noise - 0.5f);
-    mat2 rot = mat2(cos(r_angle),sin(r_angle), -sin(r_angle), cos(r_angle));
+    //float delta_rad = discradius * one_over_max_samples * (noise - 0.5f);
+    float c = cos(r_angle);
+    float s = sin(r_angle);
+    mat2 rot = mat2(c,s,-s,c);
 #endif
     int count = 0;
 #ifdef OVERLAY
     bool color  = false;
 #endif
+
+
+
     for(int k = 0; k < light_number; k++)
     {
-        vec3 wi = vec3(light_pos[k]);
-        float li = length(vec3(light_pos[k]) - xo);
+        vec3 wi = light_pos[k].xyz;
+        //float li = length(wi - xo);
         wi = normalize(wi);
 
-        vec3 offset = epsilon_gbuffer * (no - wi * dot(no,wi));
-        vec3 position_mod = xo - offset;
+        //vec3 offset = epsilon_gbuffer * (no - wi * dot(no,wi));
+        //vec3 position_mod = xo;
         //vec3 position_mod = xo - epsilon * (1 - dot(no,wi)) * no;
 
-        vec4 light_post = lightMatrices[k] * vec4(position_mod,1.0f);
+        vec4 light_post = lightMatrices[k] * vec4(xo,1.0f);
         vec2 circle_center = light_post.xy;
 
         vec3 Li = light_diff[k].xyz;
@@ -118,15 +123,15 @@ void main(void)
             if(uvin.x >= 0.0f && uvin.x <= 1.0f && uvin.y >= 0.0f && uvin.y <= 1.0f)
             {
                 vec3 xi = texture(vtex, sampl).rgb;
-                if(xi.z > -990.0f)
+               // if(xi.z > -990.0f)
                 {
                     vec3 ni = texture(ntex, sampl).rgb;
                     vec3 S = bssrdf(xi,wi,ni,xo,no);
-                    float normalization = exp(-min_tr * length(discradius * smpl));
+                    float normalization = exp(min_tr * length(discoffset));
                     accumulate += Li * S * normalization;
-
+                    count += 1;
                 }
-                count++;
+
             }
             #ifdef OVERLAY
                 if(length(discradius * smpl + vec2(0.5) - gl_FragCoord.xy / 1024) < 5.f/1024)

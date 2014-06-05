@@ -1,4 +1,4 @@
-\begin{thebibliography}{31}
+\begin{thebibliography}{32}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -238,6 +238,12 @@ Anna Tomaszewska and Krzysztof Stefanowski.
   and Recognition}, volume 7324 of \emph{Lecture Notes in Computer Science},
   pages 402--409. Springer Berlin Heidelberg, 2012.
 \newblock URL \url{http://dx.doi.org/10.1007/978-3-642-31295-3_47}.
+
+\bibitem[Unity(2012)]{unitymanual}
+Unity.
+\newblock \emph{Unity Manual: Forward Rendering Path Details}, 2012.
+\newblock URL
+  \url{http://docs.unity3d.com/Manual/RenderTech-ForwardRendering.html}.
 
 \bibitem[Wang et~al.(2010)Wang, Wang, Holzschuch, Subr, Yong, and
   Guo]{journals/cgf/WangWHSYG10}

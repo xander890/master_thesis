@@ -34,9 +34,9 @@
 \contentsline {subsection}{\numberline {3.5.7}Standard dipole model}{28}{subsection.3.5.7}
 \contentsline {subsection}{\numberline {3.5.8}Directional dipole model}{30}{subsection.3.5.8}
 \contentsline {chapter}{\numberline {4}Method}{37}{chapter.4}
-\contentsline {section}{\numberline {4.1}Constraints and assumptions}{38}{section.4.1}
+\contentsline {section}{\numberline {4.1}Constraints and assumptions}{37}{section.4.1}
 \contentsline {section}{\numberline {4.2}Method overview}{38}{section.4.2}
-\contentsline {section}{\numberline {4.3}Sampling patterns}{38}{section.4.3}
-\contentsline {section}{\numberline {4.4}Parameter acquisition}{38}{section.4.4}
-\contentsline {chapter}{\numberline {5}Results}{41}{chapter.5}
-\contentsline {chapter}{Bibliography}{43}{chapter.5}
+\contentsline {section}{\numberline {4.3}Sampling patterns}{40}{section.4.3}
+\contentsline {section}{\numberline {4.4}Parameter acquisition}{41}{section.4.4}
+\contentsline {chapter}{\numberline {5}Results}{45}{chapter.5}
+\contentsline {chapter}{Bibliography}{47}{chapter.5}
