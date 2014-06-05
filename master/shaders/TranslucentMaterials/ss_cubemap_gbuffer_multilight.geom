@@ -1,8 +1,8 @@
 #version 430
-#define MAX_LIGHTS 4
-
 layout(triangles) in;
-layout(triangle_strip, max_vertices = 12) out;
+layout(triangle_strip, max_vertices = 15) out;
+
+#include "ss_aincludes_constants.glinc"
 
 uniform int layers;
 uniform mat4 P;

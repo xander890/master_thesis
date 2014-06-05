@@ -3,7 +3,10 @@
 #define TIME
 #define MULTI_LIGHTS
 //#define OVERLAY
+layout(early_fragment_tests) in;
 layout(location = 0) out vec4 fragColor;
+
+#include "ss_aincludes_constants.glinc"
 
 uniform sampler2DArray ntex;
 uniform sampler2DArray vtex;
@@ -16,7 +19,6 @@ uniform sampler2DArray colorMap;
 smooth in vec3 position;
 smooth in vec3 norm;
 
-const int MAX_LIGHTS = 5;
 uniform vec4 light_pos[MAX_LIGHTS];
 uniform vec4 light_diff[MAX_LIGHTS];
 uniform int light_number;
@@ -29,8 +31,7 @@ uniform float max_samples;
 #ifdef TIME
 uniform int convergence_frames;
 uniform float current_frame_percentage;
-const int DISCS = 10;
-uniform mat4 cameraMatrices[DISCS];
+uniform mat4 cameraMatrices[DIRECTIONS];
 uniform float epsilon_combination;
 uniform int global_frame;
 uniform int current_frame;
@@ -39,8 +40,6 @@ uniform int current_frame;
 uniform float discradius;
 uniform int samples;
 uniform float epsilon_gbuffer;
-
-const float M_PI = 3.141592654;
 
 #include "ss_aincludes_ss_uniforms.glinc"
 
@@ -123,14 +122,14 @@ void main(void)
                 {
                     vec3 ni = texture(ntex, sampl).rgb;
                     vec3 S = bssrdf(xi,wi,ni,xo,no);
-                    float normalization = exp(min_tr * length(smpl));
+                    float normalization = exp(-min_tr * length(discradius * smpl));
                     accumulate += Li * S * normalization;
 
                 }
                 count++;
             }
             #ifdef OVERLAY
-                if(length(discradius * smpl + vec2(0.5) - gl_FragCoord.xy / 1024) < 0.005f)
+                if(length(discradius * smpl + vec2(0.5) - gl_FragCoord.xy / 1024) < 5.f/1024)
                     color = true;
             #endif
         }

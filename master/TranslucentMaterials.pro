@@ -267,7 +267,8 @@ OTHER_FILES += shaders/TranslucentMaterials/* \
     shaders/TranslucentMaterials/ss_aincludes_directional_bssrdf.glinc \
     shaders/TranslucentMaterials/ss_aincludes_directional_bssrdf_opt.glinc \
     shaders/TranslucentMaterials/ss_skybox.vert \
-    shaders/TranslucentMaterials/ss_skybox.frag
+    shaders/TranslucentMaterials/ss_skybox.frag \
+    shaders/TranslucentMaterials/ss_aincludes_constants.glinc
 
 FORMS += \
     exercises/TranslucentMaterials/mainwindow.ui \

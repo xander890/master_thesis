@@ -1,12 +1,12 @@
 #version 430
-#define MAX_LAYERS 10
-
 layout(triangles) in;
-layout(triangle_strip, max_vertices = 30) out;
+layout(triangle_strip, max_vertices = 60) out;
+
+#include "ss_aincludes_constants.glinc"
 
 uniform int layers;
 uniform mat4 P;
-uniform mat4 viewMatrices[MAX_LAYERS];
+uniform mat4 viewMatrices[DIRECTIONS];
 
 smooth in vec3 v_position[3];
 smooth in vec3 v_norm[3];

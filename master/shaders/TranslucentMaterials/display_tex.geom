@@ -1,8 +1,9 @@
 #version 430
-#define MAX_LAYERS 10
+
+#include "ss_aincludes_constants.glinc"
 
 layout(triangles) in;
-layout(triangle_strip, max_vertices = 30) out;
+layout(triangle_strip, max_vertices = 60) out;
 
 uniform int layers;
 
