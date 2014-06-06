@@ -3,6 +3,7 @@
 #define TIME
 #define MULTI_LIGHTS
 //#define OVERLAY
+#define SPECTRAL
 
 layout(location = 0) out vec4 fragColor;
 
@@ -23,6 +24,7 @@ uniform vec4 light_pos[MAX_LIGHTS];
 uniform vec4 light_diff[MAX_LIGHTS];
 uniform int light_number;
 uniform mat4 lightMatrices[MAX_LIGHTS];
+uniform vec3 sigma_tr_normalized;
 
 uniform float one_over_max_samples;
 uniform float one_over_discs;
@@ -84,7 +86,7 @@ void main(void)
     //float delta_rad = discradius * one_over_max_samples * (noise - 0.5f);
     float c = cos(r_angle);
     float s = sin(r_angle);
-    mat2 rot = mat2(c,s,-s,c);
+    mat2 rotation_matrix = mat2(c,s,-s,c);
 #endif
     int count = 0;
 #ifdef OVERLAY
@@ -111,11 +113,12 @@ void main(void)
         for(int i = 0; i < max_samples && count < samples; i++)
         {
             vec2 smpl = texture(discpoints,vec2(i * one_over_max_samples, layer * one_over_discs)).xy;
-    #ifdef RANDOM
+            vec2 relative_point = discradius * smpl;
 
-            vec2 discoffset = (discradius) * rot * smpl;
+    #ifdef RANDOM
+            vec2 discoffset = rotation_matrix * relative_point;
     #else
-            vec2 discoffset = discradius * smpl;
+            vec2 discoffset = relative_point;
     #endif
             vec2 uvin = circle_center + discoffset;
             vec3 sampl = vec3(uvin, k);
@@ -127,7 +130,7 @@ void main(void)
                 {
                     vec3 ni = texture(ntex, sampl).rgb;
                     vec3 S = bssrdf(xi,wi,ni,xo,no);
-                    float normalization = exp(min_tr * length(discoffset));
+                    float normalization = exp(min_tr * length(relative_point));
                     accumulate += Li * S * normalization;
                     count += 1;
                 }
@@ -144,11 +147,10 @@ void main(void)
     if(color)
         fragColor = vec4(1,0,0,0);
     else
-
         fragColor = vec4(1);
 #else
         fragColor = vec4(accumulate,count) + vec4(oldColor.xyz,0);
 #endif
     //fragColor = vec4(accumulate,count) + vec4(oldColor.xyz,0);
-   // fragColor = vec4(count / float(samples));
+
 }

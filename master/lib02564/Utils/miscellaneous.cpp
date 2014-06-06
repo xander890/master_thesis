@@ -156,6 +156,11 @@ float clamp(float x, float min_f, float max_f)
 }
 
 
+int clamp(int x, int min_i, int max_i)
+{
+    return std::max(std::min(x,max_i),min_i);
+}
+
 void planeHammersley(std::vector<Vec2f> &result, int n)
 {
     float p, u, v;
@@ -381,3 +386,4 @@ void sphereHalton(std::vector<Vec3f> &result, int n)
         result.push_back(haltonPointSphere(i+1,2,3));
     }
 }
+

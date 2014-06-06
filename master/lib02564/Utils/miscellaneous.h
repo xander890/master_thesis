@@ -39,6 +39,7 @@ float C_2(float ni);
 
 float clamp01(float x);
 float clamp(float x, float min, float max);
+int clamp(int x, int min, int max);
 
 void planeHammersley(std::vector<CGLA::Vec2f> & result, int n);
 void planeHammersleyCircle(std::vector<CGLA::Vec2f> & result, int n);

@@ -17,12 +17,12 @@ class TranslucentParameters
 public:
     TranslucentParameters::TranslucentParameters() :
         circleradius(0.5f),
-        samples(40),
+        samples(2*16),
         maxsamples(1000),
         epsilon_gbuffer(0.003),
         epsilon_combination(0.001),
         shadow_bias(0.0007),
-        debugOverlayVisible(false), LOD(0.0f),  currentFlags(0), gamma(2.2f), environment(false)
+        debugOverlayVisible(false), LOD(0.0f),  currentFlags(0), gamma(2.2f), environment(true)
     {}
 
     enum

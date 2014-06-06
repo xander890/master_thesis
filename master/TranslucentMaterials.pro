@@ -72,7 +72,8 @@ HEADERS += exercises/TranslucentMaterials/GBuffer.h\
     lib02564/GLGraphics/computeshader.h \
     lib02564/Utils/performancetimer.h \
     exercises/TranslucentMaterials/shaderpreprocessor.h \
-    exercises/TranslucentMaterials/mipmapgeneratorview.h
+    exercises/TranslucentMaterials/mipmapgeneratorview.h \
+    lib02564/GLGraphics/infinitearealight.h
 
 SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
         exercises/TranslucentMaterials/ShadowBuffer.cpp\
@@ -118,7 +119,8 @@ SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
     lib02564/GLGraphics/computeshader.cpp \
     lib02564/Utils/performancetimer.cpp \
     exercises/TranslucentMaterials/shaderpreprocessor.cpp \
-    exercises/TranslucentMaterials/mipmapgeneratorview.cpp
+    exercises/TranslucentMaterials/mipmapgeneratorview.cpp \
+    lib02564/GLGraphics/infinitearealight.cpp
 
 
 HEADERS += lib02564/CGLA/ArithMatFloat.h\
@@ -236,30 +238,16 @@ OTHER_FILES += shaders/TranslucentMaterials/* \
     shaders/TranslucentMaterials/ss_cubemap_test_render_to_cubemap_cube.frag \
     shaders/TranslucentMaterials/ss_cubemap_combination.vert \
     shaders/TranslucentMaterials/ss_cubemap_combination.frag \
-    shaders/TranslucentMaterials/ss_cubemap_render_to_cubemap_jensen.vert \
     shaders/TranslucentMaterials/ss_cubemap_render_to_cubemap_jensen.frag \
     shaders/TranslucentMaterials/ss_cubemap_render_to_cubemap_jeppe.vert \
     shaders/TranslucentMaterials/ss_cubemap_render_to_cubemap_jeppe.frag \
     shaders/TranslucentMaterials/ss_array_combination.vert \
     shaders/TranslucentMaterials/ss_array_combination.frag \
-    shaders/TranslucentMaterials/display_tex.vert \
-    shaders/TranslucentMaterials/display_tex.frag \
-    shaders/TranslucentMaterials/ss_cubemap_render_to_cubemap_array.geom \
     shaders/TranslucentMaterials/ss_cubemap_render_to_mipmap.vert \
     shaders/TranslucentMaterials/ss_cubemap_render_to_mipmap.frag \
     shaders/TranslucentMaterials/ss_cubemap_render_to_mipmap.geom \
-    shaders/TranslucentMaterials/display_tex_2.frag \
-    shaders/TranslucentMaterials/display_tex_2.vert \
-    shaders/TranslucentMaterials/display_tex.geom \
-    shaders/TranslucentMaterials/ss_cubemap_gbuffer_multilight.vert \
-    shaders/TranslucentMaterials/ss_cubemap_gbuffer_multilight.frag \
-    shaders/TranslucentMaterials/ss_cubemap_gbuffer_multilight.geom \
-    shaders/TranslucentMaterials/ss_cubemap_render_to_arraymap_multilight_jensen.frag \
-    shaders/TranslucentMaterials/ss_cubemap_render_to_arraymap_multilight_jeppe.frag \
     shaders/TranslucentMaterials/ss_render_to_arraymap_imageStore_multilight_jensen.frag \
     shaders/TranslucentMaterials/ss_render_to_arraymap_imageStore_clear.frag \
-    shaders/TranslucentMaterials/ss_array_generate_mips.compute \
-    shaders/TranslucentMaterials/ss_array_generate_mips_single.compute \
     shaders/TranslucentMaterials/ss_aincludes_jensen_bssrdf.glinc \
     shaders/TranslucentMaterials/ss_aincludes_optics.glinc \
     shaders/TranslucentMaterials/ss_aincludes_random.glinc \
@@ -268,7 +256,21 @@ OTHER_FILES += shaders/TranslucentMaterials/* \
     shaders/TranslucentMaterials/ss_aincludes_directional_bssrdf_opt.glinc \
     shaders/TranslucentMaterials/ss_skybox.vert \
     shaders/TranslucentMaterials/ss_skybox.frag \
-    shaders/TranslucentMaterials/ss_aincludes_constants.glinc
+    shaders/TranslucentMaterials/ss_aincludes_constants.glinc \
+    shaders/TranslucentMaterials/ss_array_gbuffer_multilight.vert \
+    shaders/TranslucentMaterials/ss_array_gbuffer_multilight.frag \
+    shaders/TranslucentMaterials/ss_array_gbuffer_multilight.geom \
+    shaders/TranslucentMaterials/ss_old_array_generate_mips.compute \
+    shaders/TranslucentMaterials/ss_old_array_generate_mips_single.compute \
+    shaders/TranslucentMaterials/ss_array_generate_mipmaps.vert \
+    shaders/TranslucentMaterials/ss_array_generate_mipmaps.geom \
+    shaders/TranslucentMaterials/ss_array_generate_mipmaps.frag \
+    shaders/TranslucentMaterials/ss_array_render_to_arraymap_multilight_directional.frag \
+    shaders/TranslucentMaterials/ss_array_render_to_arraymap_multilight_standard.frag \
+    shaders/TranslucentMaterials/ss_array_render_to_arraymap.vert \
+    shaders/TranslucentMaterials/ss_array_render_to_arraymap.geom \
+    shaders/TranslucentMaterials/ss_array_debug_tex.vert \
+    shaders/TranslucentMaterials/ss_array_debug_tex.frag
 
 FORMS += \
     exercises/TranslucentMaterials/mainwindow.ui \

@@ -13,7 +13,7 @@ uniform int scaling;
 
 //uniform int currentLayer;
 
-vec4 sampleTex(sampler2DArray smp, vec3 texcoord)
+vec4 sampleTex(in sampler2DArray smp, in vec3 texcoord)
 {
     return texture(smp,texcoord);
 }

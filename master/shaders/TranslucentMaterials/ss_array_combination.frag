@@ -57,6 +57,21 @@ float sample_shadow_map(vec3 light_pos, float layer)
     return texture(depthMap,vec4(light_pos.x,light_pos.y,layer,light_pos.z)).r;
 }
 
+float sample_shadow_map_more(vec3 light_pos, float layer)
+{
+    light_pos.z -= shadow_bias; //bias to avoid shadow acne
+    if(light_pos.x < 0.0 || light_pos.x > 1.0) return 1.0;
+    if(light_pos.y < 0.0 || light_pos.y > 1.0) return 1.0;
+
+    const vec2 adj [4]= {vec2(step_tex,0.0f), vec2(0.0f,step_tex) ,vec2(-step_tex,0.0f) ,vec2(0.0f,-step_tex)};
+
+    float res = texture(depthMap,vec4(light_pos.x,light_pos.y,layer,light_pos.z)).r;
+    for(int i = 0; i < 4; i++)
+    {
+        res *= texture(depthMap,vec4(light_pos.x + adj[i].x,light_pos.y + adj[i].y,layer,light_pos.z)).r;
+    }
+    return res;
+}
 
 void main(void)
 {
@@ -76,7 +91,7 @@ void main(void)
         vec3 pos = position - offset;
         vec4 l = cameraMatrices[i] * vec4(pos,1.0f);
         vec4 color = texture(colorMap,vec3(l.xy,i));
-        float vis = sample_shadow_map(l.xyz,i);
+        float vis = sample_shadow_map_more(l.xyz,i);
         fragColor += color * vis;
         div += vis;
     }
@@ -98,7 +113,7 @@ void main(void)
 #endif
 
     //fragColor = vec4(div/2);
-    //fragColor = vec4(0.0f);
+
     //if(div < 0.01)
     if(has_environment > 0)
     {

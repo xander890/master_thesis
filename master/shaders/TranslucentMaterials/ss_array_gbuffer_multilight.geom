@@ -1,6 +1,6 @@
 #version 430
 layout(triangles) in;
-layout(triangle_strip, max_vertices = 15) out;
+layout(triangle_strip, max_vertices = 60) out;
 
 #include "ss_aincludes_constants.glinc"
 

@@ -48,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->radius->init("Radius: ", ui->translucentMaterials->getParameters()->circleradius, 0.001, 1.0, false);
     connect(ui->radius, SIGNAL(valueChanged(float)), this, SLOT(radiusChanged(float)));
 
-    ui->samples->init("Samples: ",ui->translucentMaterials->getParameters()->samples,1,1000, true);
+    ui->samples->init("Samples (total): ",ui->translucentMaterials->getParameters()->samples,2,1024, true);
     connect(ui->samples, SIGNAL(valueChanged(float)), this, SLOT(samplesChanged(float)));
 
     ui->maxsamples->init("Max samples: ",ui->translucentMaterials->getParameters()->maxsamples,1,1000, true);

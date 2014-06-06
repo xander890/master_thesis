@@ -56,6 +56,7 @@
 #include "shaderpreprocessor.h"
 #include "GLGraphics/ResourceLoader.h"
 #include "mipmapgeneratorview.h"
+#include <GLGraphics/infinitearealight.h>
 
 #define BUNNIES
 #define POINT_DIST 0 // 0 random, 1 exponential, 2 uniform
@@ -113,7 +114,7 @@ TranslucentMaterials::TranslucentMaterials( QWidget* parent)
         #endif
         Light mainLight (light_position, light_diffuse, 1.0f, light_specular, true);
         Light secondaryLight(light_position_2, light_diffuse_2, 15.0f, Vec4f(0.0f), true);
-        manager.addLight(mainLight);
+        //manager.addLight(mainLight);
         //manager.addLight(secondaryLight);
         setFocusPolicy(Qt::ClickFocus);
         timer = new QTimer(this);
@@ -143,8 +144,8 @@ void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<s
 
 void TranslucentMaterials::set_light_and_camera(ShaderProgramDraw& shader_prog)
 {
-
-    shader_prog.set_projection_matrix(perspective_Mat4x4f(53.1301, float(window_width)/window_height, 0.1f, 10));
+    check_gl_error();
+    shader_prog.set_projection_matrix(perspective_Mat4x4f(53.1301, float(window_width)/window_height, 0.1f, 100));
 
 
     shader_prog.set_view_matrix(user.get_view_matrix());
@@ -420,7 +421,7 @@ void TranslucentMaterials::getDiscPoints(vector<Vec3f> * points, const int n, co
     //test1.clear();
     //planeHammersleyCircle(test1,200);
     //cout << "Standard" << endl;
-    for(int i = 0 ; i < n; i++) cout << texture[0][i][0] << " " << texture[0][i][1] << endl;
+    //for(int i = 0 ; i < n; i++) cout << texture[0][i][0] << " " << texture[0][i][1] << endl;
 
     for(int k = 0; k < m; k++)
     {
@@ -468,7 +469,7 @@ void TranslucentMaterials::render_direct_compute_time(bool reload, ShaderProgram
     static ShaderProgramDraw gbuff_shader(shader_path,"ss_cubemap_gbuffer_multilight.vert","ss_cubemap_gbuffer_multilight.geom", "ss_cubemap_gbuffer_multilight.frag");
 #endif
 
-    static ComputeShader compute_mipmaps(shader_path, "ss_array_generate_mips_single.compute");
+    static ComputeShader compute_mipmaps(shader_path, "ss_old_array_generate_mips.compute");
 
     static ShaderProgramDraw gbuff_quad(shader_path,"ss_cubemap_test_gbuffer.vert","","ss_cubemap_test_gbuffer.frag");
     static ShaderProgramDraw gbuff_wrap(shader_path,"ss_cubemap_test_wrap_gbuffer.vert","","ss_cubemap_test_wrap_gbuffer.frag");
@@ -1212,45 +1213,46 @@ check_gl_error();
 void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDraw & render_to_array)
 {
     performanceTimer.registerEvent("-1: Start");
-    static ShaderProgramDraw obj_shader(shader_path,"object.vert","","object.frag");
+    //static ShaderProgramDraw obj_shader(shader_path,"object.vert","","object.frag");
 
-    static ShaderProgramDraw gbuff_shader(shader_path,"ss_cubemap_gbuffer_multilight.vert","ss_cubemap_gbuffer_multilight.geom", "ss_cubemap_gbuffer_multilight.frag");
+    static ShaderProgramDraw gbuff_shader(shader_path,"ss_array_gbuffer_multilight.vert","ss_array_gbuffer_multilight.geom", "ss_array_gbuffer_multilight.frag");
 
-    static ShaderProgramDraw gbuff_quad(shader_path,"ss_cubemap_test_gbuffer.vert","","ss_cubemap_test_gbuffer.frag");
-    static ShaderProgramDraw gbuff_wrap(shader_path,"ss_cubemap_test_wrap_gbuffer.vert","","ss_cubemap_test_wrap_gbuffer.frag");
+    //static ShaderProgramDraw gbuff_quad(shader_path,"ss_cubemap_test_gbuffer.vert","","ss_cubemap_test_gbuffer.frag");
+    //static ShaderProgramDraw gbuff_wrap(shader_path,"ss_cubemap_test_wrap_gbuffer.vert","","ss_cubemap_test_wrap_gbuffer.frag");
 
-    static ShaderProgramDraw render_to_cubemap_test(shader_path,"ss_cubemap_render_to_cubemap.vert","","ss_cubemap_render_to_cubemap.frag");
-    static ShaderProgramDraw render_to_cubemap_test_screen(shader_path,"ss_cubemap_test_render_to_cubemap_screen.vert","","ss_cubemap_test_render_to_cubemap_screen.frag");
-    static ShaderProgramDraw render_to_cubemap_test_cube(shader_path,"ss_cubemap_test_render_to_cubemap_cube.vert","","ss_cubemap_test_render_to_cubemap_cube.frag");
+    //static ShaderProgramDraw render_to_cubemap_test(shader_path,"ss_cubemap_render_to_cubemap.vert","","ss_cubemap_render_to_cubemap.frag");
+    //static ShaderProgramDraw render_to_cubemap_test_screen(shader_path,"ss_cubemap_test_render_to_cubemap_screen.vert","","ss_cubemap_test_render_to_cubemap_screen.frag");
+    //static ShaderProgramDraw render_to_cubemap_test_cube(shader_path,"ss_cubemap_test_render_to_cubemap_cube.vert","","ss_cubemap_test_render_to_cubemap_cube.frag");
     static ShaderProgramDraw render_combination(shader_path,"ss_array_combination.vert","","ss_array_combination.frag");
 
-    static ShaderProgramDraw render_mipmaps(shader_path,"display_tex.vert","display_tex.geom","display_tex.frag");
+    static ShaderProgramDraw render_mipmaps(shader_path,"ss_array_generate_mipmaps.vert","ss_array_generate_mipmaps.geom","ss_array_generate_mipmaps.frag");
     static ThreeDPlane * screen_quad = new ThreeDPlane();
     static Mesh::Material * screen_quad_material = new Mesh::Material();
-    static ShaderProgramDraw screen_quad_display_shader(shader_path,"display_tex_2.vert","","display_tex_2.frag");
+    static ShaderProgramDraw screen_quad_display_shader(shader_path,"ss_array_debug_tex.vert","","ss_array_debug_tex.frag");
 
-    const int GBUFFER_SIZE = 1024;
+    const int GBUFFER_SIZE = 512;
     const float LIGHT_CAMERA_SIZE = 1.0f;
 
     const int ARRAY_TEXTURE_SIZE = 1024;
-    const int MAX_LIGHTS = 5;
+    const int MAX_LIGHTS = 16;
     const int LAYERS = 16;
-    int samples_per_texel = params->samples;
+    int samples_per_texel = params->samples / LAYERS;
     int maximum_samples = params->maxsamples;
 
     const int MIPMAPS = 3;
 
     static ArrayTextureBuffer arraytexmap(ARRAY_TEXTURE_SIZE,LAYERS,MIPMAPS + 1);
     static ArrayTextureBuffer arraytexmap_back(ARRAY_TEXTURE_SIZE,LAYERS,MIPMAPS + 1);
-    ArrayTextureBuffer * front;
+
 
     static MipMapGeneratorView * mipmaps = new MipMapGeneratorView(arraytexmap.getColorTexture()->get_id(), arraytexmap.getDepthTexture()->get_id(), ARRAY_TEXTURE_SIZE, LAYERS, MIPMAPS);
     static MipMapGeneratorView * mipmaps_back = new MipMapGeneratorView(arraytexmap_back.getColorTexture()->get_id(), arraytexmap_back.getDepthTexture()->get_id(), ARRAY_TEXTURE_SIZE, LAYERS, MIPMAPS);
-    MipMapGeneratorView * front_mipmaps;
 
 
     static ArrayVertexNormalBuffer light_buffer(GBUFFER_SIZE, MAX_LIGHTS);
 
+    ArrayTextureBuffer * front;
+    MipMapGeneratorView * front_mipmaps;
 
     const float CAMERA_DISTANCE = 3.0f; //This should not matter (can be DIST = max bounding box + camera near + epsilon
     const float CAMERA_NEAR = 0.1f;
@@ -1280,16 +1282,18 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
     if(reload)
     {
         //test.reload();
+
         screen_quad_display_shader.reload();
-        obj_shader.reload();
+        //obj_shader.reload();
         gbuff_shader.reload();
-        gbuff_quad.reload();
-        gbuff_wrap.reload();
+        //gbuff_quad.reload();
+        //gbuff_wrap.reload();
         render_to_array.reload();
-        render_to_cubemap_test_screen.reload();
-        render_to_cubemap_test_cube.reload();
+        //render_to_cubemap_test_screen.reload();
+        //render_to_cubemap_test_cube.reload();
         render_combination.reload();
         render_mipmaps.reload();
+
         currentFrame = 0;
     }
 
@@ -1396,7 +1400,7 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
 
         for(int i = 0; i < manager.size(); i++)
         {
-            Vec3f light_dir = Vec3f(manager[i].position);
+            Vec3f light_dir = 6 * Vec3f(manager[i].position);
             Mat4x4f V = lookat_Mat4x4f(light_dir,-light_dir,Vec3f(0,0,1));
             lightMatrices.push_back(V); //PARALLEL!
 
@@ -1761,7 +1765,7 @@ void initCubeMap(GLuint * tex, GLenum * type)
     *type = GL_TEXTURE_CUBE_MAP;
 }
 
-void initRectangle(GLuint * tex, GLenum * type, int * width, int * height)
+void initRectangle(GLuint * tex, GLenum * type, QImage & img)
 {
     GLuint cubetex;
     check_gl_error();
@@ -1772,7 +1776,7 @@ void initRectangle(GLuint * tex, GLenum * type, int * width, int * height)
     glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-    string name = string("doge2.png");
+    string name = string("grace-new.png");
 
     ResourceLoader r;
     string base_path = r.compute_resource_path("./images/");
@@ -1788,8 +1792,7 @@ void initRectangle(GLuint * tex, GLenum * type, int * width, int * height)
     check_gl_error();
     *tex = cubetex;
     *type = GL_TEXTURE_RECTANGLE;
-    *width = res.width();
-    *height = res.height();
+    img = res;
 }
 
 void TranslucentMaterials::paintGL()
@@ -1800,20 +1803,36 @@ void TranslucentMaterials::paintGL()
     if(reload_shaders)
         skybox_shader.reload();
 
+    const int n_lights = 16;
+    static vector<Vec4f> light_dirs;
     if(!mark)
     {
         GLuint cubetex;
         GLenum type;
-        int width, height;
-        initRectangle(&cubetex,&type,&width,&height);
+
+        QImage img;
+        initRectangle(&cubetex,&type,img);
+        InfiniteAreaLight i (img);
+        vector<Light *> lights;
+
+        i.getLights(img, lights,n_lights);
+
         //initCubemap(&cubetex,&type);
         skybox = new Mesh::Texture("skybox", cubetex, type);
-        skybox->width = width;
-        skybox->height = height;
+        skybox->width = img.width();
+        skybox->height = img.height();
 
         Mesh::Material * e = new Mesh::Material();
         e->addTexture(skybox);
-        e->addUniform("cubemap_size", Vec2f(width,height));
+        e->addUniform("cubemap_size", Vec2f(img.width(),img.height()));
+
+
+        for(int i = 0; i < n_lights; i++)
+        {
+            manager.addLight(*lights[i]);
+            light_dirs.push_back(lights.at(i)->position);
+        }
+
         skybox_cube->init(" ", "light_sphere", *e);
         skybox_cube->setScale(Vec3f(20.f));
         skybox_cube->setTranslation(Vec3f(0.0f,0.0f,0.0f));
@@ -1840,8 +1859,8 @@ void TranslucentMaterials::paintGL()
 
     //draw_bounding_boxes(reload_shaders);
 
-    static ShaderProgramDraw render_to_cubemap_jensen(shader_path,"ss_cubemap_render_to_cubemap_jensen.vert","ss_cubemap_render_to_cubemap_array.geom","ss_cubemap_render_to_arraymap_multilight_jensen.frag");
-    static ShaderProgramDraw render_to_cubemap_jeppe(shader_path,"ss_cubemap_render_to_cubemap_jensen.vert","ss_cubemap_render_to_cubemap_array.geom","ss_cubemap_render_to_arraymap_multilight_jeppe.frag");
+    static ShaderProgramDraw render_to_cubemap_jensen(shader_path,"ss_array_render_to_arraymap.vert","ss_array_render_to_arraymap.geom","ss_array_render_to_arraymap_multilight_standard.frag");
+    static ShaderProgramDraw render_to_cubemap_jeppe(shader_path,"ss_array_render_to_arraymap.vert","ss_array_render_to_arraymap.geom","ss_array_render_to_arraymap_multilight_directional.frag");
 
     if(render_method == RenderMethod::BRUTE_FORCE)
     {
@@ -1863,7 +1882,7 @@ void TranslucentMaterials::paintGL()
         switch(render_mode)
         {
         case DRAW_JENSEN:
-            render_direct_array_time(reload_shaders,render_to_cubemap_jensen);
+            //render_direct_array_time(reload_shaders,render_to_cubemap_jensen);
             break;
         case DRAW_BETTER:
             //render_direct_test(reload_shaders, render_to_cubemap_jensen);
@@ -1877,9 +1896,10 @@ void TranslucentMaterials::paintGL()
 
     reload_shaders = false;
 
-    if(params->environment)
+   // if(params->environment)
     {
         skybox_shader.use();
+        skybox_shader.set_uniform("dir_lights", light_dirs, n_lights);
         set_light_and_camera(skybox_shader);
         skybox_cube->display(skybox_shader);
     }
@@ -1927,7 +1947,8 @@ void TranslucentMaterials::setUserDirection(Vec3f &direction)
 
 void TranslucentMaterials::setLightIntensity(float intensity)
 {
-    manager[0].intensity = intensity;
+    if(manager.size() > 0)
+        manager[0].intensity = intensity;
     manager.reloadLights();
 }
 
@@ -1961,6 +1982,8 @@ void TranslucentMaterials::initializeGL()
     setup_gl();
     glClearColor( 0.7f, 0.7f, 0.7f, 0.0f );
     glEnable(GL_DEPTH_TEST);
+    //glEnable(GL_CULL_FACE);
+    //glCullFace(GL_BACK);
 }
 
 void TranslucentMaterials::mousePressEvent(QMouseEvent *m)
@@ -2082,7 +2105,7 @@ ThreeDObject *TranslucentMaterials::getDefaultObject()
 {
     Mesh::ScatteringMaterial * scattering_mat = getDefaultMaterial(S_Potato);
     ThreeDObject * bunny1 = new ThreeDObject();
-    bunny1->init(objects_path+"buddha.obj", "bunny1", *scattering_mat);
+    bunny1->init(objects_path+"bunny-simplified.obj", "bunny1", *scattering_mat);
     bunny1->setScale(Vec3f(1.f));
     bunny1->setRotation(Vec3f(90,0,0));
     bunny1->setTranslation(Vec3f(0,0,0.f));

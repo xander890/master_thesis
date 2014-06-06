@@ -464,7 +464,6 @@
                 <height>30</height>
                </size>
               </property>
-              <zorder>maxsamples</zorder>
              </widget>
             </item>
             <item>
