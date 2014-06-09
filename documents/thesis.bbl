@@ -1,9 +1,148 @@
-\begin{thebibliography}{3}
+\begin{thebibliography}{36}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Ashikmin et~al.(2000)Ashikmin, Premo\v{z}e, and
+  Shirley]{Ashikmin:2000:MBG:344779.344814}
+Michael Ashikmin, Simon Premo\v{z}e, and Peter Shirley.
+\newblock A microfacet-based brdf generator.
+\newblock In \emph{Proceedings of the 27th Annual Conference on Computer
+  Graphics and Interactive Techniques}, SIGGRAPH '00, pages 65--74, New York,
+  NY, USA, 2000. ACM Press/Addison-Wesley Publishing Co.
+\newblock URL \url{http://dx.doi.org/10.1145/344779.344814}.
+
+\bibitem[B{\o}rlum et~al.(2011)B{\o}rlum, Christensen, Kjeldsen, Mikkelsen,
+  Noe, Rimestad, and Mosegaard]{Borlum:2011:SSL:2018323.2018325}
+Jesper B{\o}rlum, Brian~Bunch Christensen, Thomas~Kim Kjeldsen, Peter~Trier
+  Mikkelsen, Karsten~{\O}stergaard Noe, Jens Rimestad, and Jesper Mosegaard.
+\newblock Sslpv: Subsurface light propagation volumes.
+\newblock In \emph{Proceedings of the ACM SIGGRAPH Symposium on High
+  Performance Graphics}, HPG '11, pages 7--14, New York, NY, USA, 2011. ACM.
+\newblock URL \url{http://doi.acm.org/10.1145/2018323.2018325}.
+
+\bibitem[Cohen et~al.(1993)Cohen, Wallace, and Hanrahan]{Cohen:1993:RRI:154731}
+Michael~F. Cohen, John Wallace, and Pat Hanrahan.
+\newblock \emph{Radiosity and Realistic Image Synthesis}.
+\newblock Academic Press Professional, Inc., San Diego, CA, USA, 1993.
+
+\bibitem[Dachsbacher and Stamminger(2003)]{Dachsbacher:2003:TSM:882404.882433}
+Carsten Dachsbacher and Marc Stamminger.
+\newblock Translucent shadow maps.
+\newblock In \emph{Proceedings of the 14th Eurographics Workshop on Rendering},
+  EGRW '03, pages 197--201, Aire-la-Ville, Switzerland, Switzerland, 2003.
+  Eurographics Association.
+\newblock URL \url{http://dl.acm.org/citation.cfm?id=882404.882433}.
+
+\bibitem[Davison and Sykes(1958)]{ntt}
+B.~Davison and John~Bradbury Sykes.
+\newblock \emph{Neutron transport theory}.
+\newblock Oxford University Press, 1958.
+
+\bibitem[D'Eon(2012)]{deondeon}
+Eugene D'Eon.
+\newblock A better dipole (a publicly available manuscript).
+\newblock Technical report, -, 2012.
+\newblock URL \url{. http://www.eugenedeon.com/papers/betterdipole.pdf.}
+
+\bibitem[D'Eon and Irving(2011)]{D'Eon:2011:QMR:1964921.1964951}
+Eugene D'Eon and Geoffrey Irving.
+\newblock A quantized-diffusion model for rendering translucent materials.
+\newblock In \emph{ACM SIGGRAPH 2011 Papers}, SIGGRAPH '11, pages 56:1--56:14,
+  New York, NY, USA, 2011. ACM.
+\newblock URL \url{http://doi.acm.org/10.1145/1964921.1964951}.
+
+\bibitem[d'Eon et~al.(2007)d'Eon, Luebke, and
+  Enderton]{d'Eon:2007:ERH:2383847.2383869}
+Eugene d'Eon, David Luebke, and Eric Enderton.
+\newblock Efficient rendering of human skin.
+\newblock In \emph{Proceedings of the 18th Eurographics Conference on Rendering
+  Techniques}, EGSR'07, pages 147--157, Aire-la-Ville, Switzerland,
+  Switzerland, 2007. Eurographics Association.
+\newblock URL \url{http://dx.doi.org/10.2312/EGWR/EGSR07/147-157}.
+
+\bibitem[Desolneux et~al.(2007)Desolneux, Moisan, and
+  Morel]{Desolneux:2007:GTI:1557413}
+Agns Desolneux, Lionel Moisan, and Jean-Michel Morel.
+\newblock \emph{From Gestalt Theory to Image Analysis: A Probabilistic
+  Approach}.
+\newblock Springer Publishing Company, Incorporated, 1st edition, 2007.
+
+\bibitem[Donner and Jensen(2005)]{Donner:2005:LDM:1186822.1073308}
+Craig Donner and Henrik~Wann Jensen.
+\newblock Light diffusion in multi-layered translucent materials.
+\newblock In \emph{ACM SIGGRAPH 2005 Papers}, SIGGRAPH '05, pages 1032--1039,
+  New York, NY, USA, 2005. ACM.
+\newblock URL \url{http://doi.acm.org/10.1145/1186822.1073308}.
+
+\bibitem[Donner et~al.(2009)Donner, Lawrence, Ramamoorthi, Hachisuka, Jensen,
+  and Nayar]{Donner:2009:EBM:1531326.1531336}
+Craig Donner, Jason Lawrence, Ravi Ramamoorthi, Toshiya Hachisuka, Henrik~Wann
+  Jensen, and Shree Nayar.
+\newblock An empirical bssrdf model.
+\newblock \emph{ACM Trans. Graph.}, 28\penalty0 (3):\penalty0 30:1--30:10, July
+  2009.
+\newblock URL \url{http://doi.acm.org/10.1145/1531326.1531336}.
+
+\bibitem[Donner(2006)]{Donner:2006:TRI:1236937}
+Craig~Steven Donner.
+\newblock \emph{Towards Realistic Image Synthesis of Scattering Materials}.
+\newblock PhD thesis, University of California, San Diego, La Jolla, CA, USA,
+  2006.
+\newblock AAI3226771.
+
+\bibitem[Dorsey et~al.(1999)Dorsey, Edelman, Jensen, Legakis, and
+  Pedersen]{Dorsey:1999:MRW:311535.311560}
+Julie Dorsey, Alan Edelman, Henrik~Wann Jensen, Justin Legakis, and
+  Hans~K{\o}hling Pedersen.
+\newblock Modeling and rendering of weathered stone.
+\newblock In \emph{Proceedings of the 26th Annual Conference on Computer
+  Graphics and Interactive Techniques}, SIGGRAPH '99, pages 225--234, New York,
+  NY, USA, 1999. ACM Press/Addison-Wesley Publishing Co.
+\newblock URL \url{http://dx.doi.org/10.1145/311535.311560}.
+
+\bibitem[Fattal(2009)]{Fattal:2009:PMI:1477926.1477933}
+Raanan Fattal.
+\newblock Participating media illumination using light propagation maps.
+\newblock \emph{ACM Trans. Graph.}, 28\penalty0 (1):\penalty0 7:1--7:11,
+  February 2009.
+\newblock URL \url{http://doi.acm.org/10.1145/1477926.1477933}.
+
+\bibitem[Frisvad et~al.(2013)Frisvad, Hachisuka, and Kjeldsen]{IMM2013-06646}
+J.~R. Frisvad, T.~Hachisuka, and T.~K. Kjeldsen.
+\newblock Directional dipole for subsurface scattering in translucent
+  materials.
+\newblock Technical report, DTU Compute, 2013.
+\newblock URL \url{http://www2.imm.dtu.dk/pubdb/p.php?6646}.
+\newblock Unpublished manuscript.
+
+\bibitem[Green(2003)]{green}
+Robin Green.
+\newblock Spherical harmonic lighting: The gritty details, January 2003.
+\newblock Sony Computer Entertainment America.
+
+\bibitem[Ishimaru(1997)]{books/daglib/0093591}
+Akira Ishimaru.
+\newblock \emph{Wave propagation and scattering in random media.}
+\newblock IEEE, 1997.
+
+\bibitem[Jensen and Buhler(2002)]{Jensen:2002:RHR:566654.566619}
+Henrik~Wann Jensen and Juan Buhler.
+\newblock A rapid hierarchical rendering technique for translucent materials.
+\newblock \emph{ACM Trans. Graph.}, 21\penalty0 (3):\penalty0 576--581, July
+  2002.
+\newblock URL \url{http://doi.acm.org/10.1145/566654.566619}.
+
+\bibitem[Jensen and Christensen(1998)]{Jensen:1998:ESL:280814.280925}
+Henrik~Wann Jensen and Per~H. Christensen.
+\newblock Efficient simulation of light transport in scenes with participating
+  media using photon maps.
+\newblock In \emph{Proceedings of the 25th Annual Conference on Computer
+  Graphics and Interactive Techniques}, SIGGRAPH '98, pages 311--320, New York,
+  NY, USA, 1998. ACM.
+\newblock URL \url{http://doi.acm.org/10.1145/280814.280925}.
 
 \bibitem[Jensen et~al.(2001)Jensen, Marschner, Levoy, and
   Hanrahan]{Jensen:2001:PMS:383259.383319}
@@ -14,6 +153,61 @@ Henrik~Wann Jensen, Stephen~R. Marschner, Marc Levoy, and Pat Hanrahan.
   NY, USA, 2001. ACM.
 \newblock URL \url{http://doi.acm.org/10.1145/383259.383319}.
 
+\bibitem[Jimenez et~al.(2009)Jimenez, Sundstedt, and
+  Gutierrez]{Jimenez:2009:SPR:1609967.1609970}
+Jorge Jimenez, Veronica Sundstedt, and Diego Gutierrez.
+\newblock Screen-space perceptual rendering of human skin.
+\newblock \emph{ACM Trans. Appl. Percept.}, 6\penalty0 (4):\penalty0
+  23:1--23:15, October 2009.
+\newblock URL \url{http://doi.acm.org/10.1145/1609967.1609970}.
+
+\bibitem[{Joseph} et~al.(1976){Joseph}, {Wiscombe}, and {Weinman}]{delta}
+J.~H. {Joseph}, W.~J. {Wiscombe}, and J.~A. {Weinman}.
+\newblock {The delta-Eddington approximation for radiative flux transfer}.
+\newblock \emph{Journal of Atmospheric Sciences}, 33:\penalty0 2452--2459,
+  December 1976.
+
+\bibitem[Kaplanyan and Dachsbacher(2010)]{Kaplanyan:2010:CLP:1730804.1730821}
+Anton Kaplanyan and Carsten Dachsbacher.
+\newblock Cascaded light propagation volumes for real-time indirect
+  illumination.
+\newblock In \emph{Proceedings of the 2010 ACM SIGGRAPH Symposium on
+  Interactive 3D Graphics and Games}, I3D '10, pages 99--107, New York, NY,
+  USA, 2010. ACM.
+\newblock URL \url{http://doi.acm.org/10.1145/1730804.1730821}.
+
+\bibitem[Lensch et~al.(2002)Lensch, Goesele, Bekaert, Kautz, Magnor, Lang, and
+  Seidel]{Lensch:2002:IRT:826030.826632}
+Hendrik P.~A. Lensch, Michael Goesele, Philippe Bekaert, Jan Kautz, Marcus~A.
+  Magnor, Jochen Lang, and Hans-Peter Seidel.
+\newblock Interactive rendering of translucent objects.
+\newblock In \emph{Proceedings of the 10th Pacific Conference on Computer
+  Graphics and Applications}, PG '02, pages 214--, Washington, DC, USA, 2002.
+  IEEE Computer Society.
+\newblock URL \url{http://dl.acm.org/citation.cfm?id=826030.826632}.
+
+\bibitem[Mertens et~al.(2003{\natexlab{a}})Mertens, Kautz, Bekaert, Van~Reeth,
+  and Seidel]{1238246}
+Tom Mertens, J.~Kautz, P.~Bekaert, F.~Van~Reeth, and H.-P. Seidel.
+\newblock Efficient rendering of local subsurface scattering.
+\newblock In \emph{Computer Graphics and Applications, 2003. Proceedings. 11th
+  Pacific Conference on}, pages 51--58, Oct 2003{\natexlab{a}}.
+
+\bibitem[Mertens et~al.(2003{\natexlab{b}})Mertens, Kautz, Bekaert, Seidelz,
+  and Van~Reeth]{Mertens:2003:IRT:882404.882423}
+Tom Mertens, Jan Kautz, Philippe Bekaert, Hans-Peter Seidelz, and Frank
+  Van~Reeth.
+\newblock Interactive rendering of translucent deformable objects.
+\newblock In \emph{Proceedings of the 14th Eurographics Workshop on Rendering},
+  EGRW '03, pages 130--140, Aire-la-Ville, Switzerland, Switzerland,
+  2003{\natexlab{b}}. Eurographics Association.
+\newblock URL \url{http://dl.acm.org/citation.cfm?id=882404.882423}.
+
+\bibitem[Montes and Ure{\~n}a(2012)]{montes2012overview}
+Rosana Montes and Carlos Ure{\~n}a.
+\newblock An overview of brdf models.
+\newblock \emph{-}, -:\penalty0 --, 2012.
+
 \bibitem[Narasimhan et~al.(2006)Narasimhan, Gupta, Donner, Ramamoorthi, Nayar,
   and Jensen]{Narasimhan:2006:ASP:1141911.1141986}
 Srinivasa~G. Narasimhan, Mohit Gupta, Craig Donner, Ravi Ramamoorthi, Shree~K.
@@ -23,10 +217,64 @@ Srinivasa~G. Narasimhan, Mohit Gupta, Craig Donner, Ravi Ramamoorthi, Shree~K.
   2006.
 \newblock URL \url{http://doi.acm.org/10.1145/1141911.1141986}.
 
+\bibitem[Pharr and Hanrahan(2000)]{Pharr:2000:MCE:344779.344824}
+Matt Pharr and Pat Hanrahan.
+\newblock Monte carlo evaluation of non-linear scattering equations for
+  subsurface reflection.
+\newblock In \emph{Proceedings of the 27th Annual Conference on Computer
+  Graphics and Interactive Techniques}, SIGGRAPH '00, pages 75--84, New York,
+  NY, USA, 2000. ACM Press/Addison-Wesley Publishing Co.
+\newblock URL \url{http://dx.doi.org/10.1145/344779.344824}.
+
+\bibitem[Pharr and Humphreys(2004)]{Pharr:2004:PBR:975275}
+Matt Pharr and Greg Humphreys.
+\newblock \emph{Physically Based Rendering: From Theory to Implementation}.
+\newblock Morgan Kaufmann Publishers Inc., San Francisco, CA, USA, 2004.
+
+\bibitem[Shah et~al.(2009)Shah, Konttinen, and Pattanaik]{4736459}
+M.A. Shah, J.~Konttinen, and S.~Pattanaik.
+\newblock Image-space subsurface scattering for interactive rendering of
+  deformable translucent objects.
+\newblock \emph{Computer Graphics and Applications, IEEE}, 29\penalty0
+  (1):\penalty0 66--78, Jan 2009.
+
+\bibitem[Sloan(2008)]{peterpikeconference}
+Peter-Pike Sloan.
+\newblock Stupid spherical harmonics (sh) tricks.
+\newblock In \emph{Game Developers Conference 2008, February 2008 (updated
+  2/10/2010)}, 2008.
+
+\bibitem[Stam(1995)]{raey}
+Jos Stam.
+\newblock Multiple scattering as a diffusion process.
+\newblock In PatrickM. Hanrahan and Werner Purgathofer, editors,
+  \emph{Rendering Techniques 1995}, Eurographics, pages 41--50. Springer
+  Vienna, 1995.
+\newblock URL \url{http://dx.doi.org/10.1007/978-3-7091-9430-0_5}.
+
+\bibitem[Tomaszewska and Stefanowski(2012)]{Tomaszewska2012}
+Anna Tomaszewska and Krzysztof Stefanowski.
+\newblock Real-time spherical harmonics based subsurface scattering.
+\newblock In Aurélio Campilho and Mohamed Kamel, editors, \emph{Image Analysis
+  and Recognition}, volume 7324 of \emph{Lecture Notes in Computer Science},
+  pages 402--409. Springer Berlin Heidelberg, 2012.
+\newblock URL \url{http://dx.doi.org/10.1007/978-3-642-31295-3_47}.
+
 \bibitem[Unity(2012)]{unitymanual}
 Unity.
 \newblock \emph{Unity Manual: Forward Rendering Path Details}, 2012.
 \newblock URL
   \url{http://docs.unity3d.com/Manual/RenderTech-ForwardRendering.html}.
+
+\bibitem[Wang et~al.(2010)Wang, Wang, Holzschuch, Subr, Yong, and
+  Guo]{journals/cgf/WangWHSYG10}
+Yajun Wang, Jiaping Wang, Nicolas Holzschuch, Kartic Subr, Jun-Hai Yong, and
+  Baining Guo.
+\newblock Real-time rendering of heterogeneous translucent objects with
+  arbitrary shapes.
+\newblock \emph{Comput. Graph. Forum}, 29\penalty0 (2):\penalty0 497--506,
+  2010.
+\newblock URL
+  \url{http://dblp.uni-trier.de/db/journals/cgf/cgf29.html#WangWHSYG10}.
 
 \end{thebibliography}

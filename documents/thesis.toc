@@ -1,7 +1,45 @@
 \select@language {english}
-\contentsline {chapter}{\numberline {1}Method}{1}{chapter.1}
-\contentsline {section}{\numberline {1.1}Constraints and assumptions}{1}{section.1.1}
-\contentsline {section}{\numberline {1.2}Method overview}{2}{section.1.2}
-\contentsline {section}{\numberline {1.3}Sampling patterns}{4}{section.1.3}
-\contentsline {section}{\numberline {1.4}Parameter acquisition}{5}{section.1.4}
-\contentsline {chapter}{Bibliography}{9}{table.caption.2}
+\contentsline {chapter}{\numberline {1}Introduction (draft)}{1}{chapter.1}
+\contentsline {chapter}{\numberline {2}Related Work}{5}{chapter.2}
+\contentsline {section}{\numberline {2.1}Analytical techniques}{5}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}Models}{6}{subsection.2.1.1}
+\contentsline {subsection}{\numberline {2.1.2}Implementations}{6}{subsection.2.1.2}
+\contentsline {section}{\numberline {2.2}Numerical techniques}{8}{section.2.2}
+\contentsline {chapter}{\numberline {3}Theory}{9}{chapter.3}
+\contentsline {section}{\numberline {3.1}Light and Radiometry}{9}{section.3.1}
+\contentsline {section}{\numberline {3.2}Radiometric quantities}{11}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Radiant flux}{11}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Radiant energy}{11}{subsection.3.2.2}
+\contentsline {subsection}{\numberline {3.2.3}Irradiance}{11}{subsection.3.2.3}
+\contentsline {subsection}{\numberline {3.2.4}Intensity}{12}{subsection.3.2.4}
+\contentsline {subsection}{\numberline {3.2.5}Radiance}{13}{subsection.3.2.5}
+\contentsline {subsection}{\numberline {3.2.6}Radiometric quantities for simple lights}{14}{subsection.3.2.6}
+\contentsline {section}{\numberline {3.3}Reflectance Functions}{14}{section.3.3}
+\contentsline {subsection}{\numberline {3.3.1}BRDF functions}{15}{subsection.3.3.1}
+\contentsline {subsection}{\numberline {3.3.2}Examples of BRDF functions}{17}{subsection.3.3.2}
+\contentsline {subsubsection}{\numberline {3.3.2.1}Lambertian BRDF}{17}{subsubsection.3.3.2.1}
+\contentsline {subsubsection}{\numberline {3.3.2.2}Mirror BRDF}{18}{subsubsection.3.3.2.2}
+\contentsline {subsubsection}{\numberline {3.3.2.3}Glossy BRDFs}{18}{subsubsection.3.3.2.3}
+\contentsline {subsection}{\numberline {3.3.3}The rendering equation}{19}{subsection.3.3.3}
+\contentsline {subsection}{\numberline {3.3.4}Fresnel equations}{20}{subsection.3.3.4}
+\contentsline {subsection}{\numberline {3.3.5}BSSRDF functions and generalized rendering equation}{22}{subsection.3.3.5}
+\contentsline {section}{\numberline {3.4}Light transport and subsurface scattering}{23}{section.3.4}
+\contentsline {subsection}{\numberline {3.4.1}Emission}{24}{subsection.3.4.1}
+\contentsline {subsection}{\numberline {3.4.2}Absorption}{25}{subsection.3.4.2}
+\contentsline {subsection}{\numberline {3.4.3}Out-scattering}{25}{subsection.3.4.3}
+\contentsline {subsection}{\numberline {3.4.4}In-scattering}{25}{subsection.3.4.4}
+\contentsline {subsection}{\numberline {3.4.5}Final formulation of the radiative transport equation}{27}{subsection.3.4.5}
+\contentsline {subsection}{\numberline {3.4.6}The diffusion approximation}{27}{subsection.3.4.6}
+\contentsline {subsection}{\numberline {3.4.7}Standard dipole model}{29}{subsection.3.4.7}
+\contentsline {subsection}{\numberline {3.4.8}Directional dipole model}{31}{subsection.3.4.8}
+\contentsline {chapter}{\numberline {4}Method}{37}{chapter.4}
+\contentsline {section}{\numberline {4.1}Constraints and assumptions}{37}{section.4.1}
+\contentsline {subsection}{\numberline {4.1.1}Quality constraints}{38}{subsection.4.1.1}
+\contentsline {subsection}{\numberline {4.1.2}Flexibility requirements}{38}{subsection.4.1.2}
+\contentsline {subsection}{\numberline {4.1.3}Performance requirements}{39}{subsection.4.1.3}
+\contentsline {section}{\numberline {4.2}Method overview}{39}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Approximation of the rendering equation}{43}{subsection.4.2.1}
+\contentsline {section}{\numberline {4.3}Sampling patterns}{45}{section.4.3}
+\contentsline {section}{\numberline {4.4}Parameter acquisition}{46}{section.4.4}
+\contentsline {section}{\numberline {4.5}Environment lights}{49}{section.4.5}
+\contentsline {chapter}{Bibliography}{53}{figure.caption.22}

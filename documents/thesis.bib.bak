@@ -129,6 +129,16 @@
   url = {http://dl.acm.org/citation.cfm?id=882404.882433}
 }
 
+@BOOK{ntt,
+  title = {Neutron transport theory},
+  publisher = {Oxford University Press},
+  year = {1958},
+  editor = {Oxford University Press},
+  author = {Davison, B. and Sykes, John Bradbury},
+  owner = {alessandro},
+  timestamp = {2014.06.06}
+}
+
 @BOOK{Desolneux:2007:GTI:1557413,
   title = {From Gestalt Theory to Image Analysis: A Probabilistic Approach},
   publisher = {Springer Publishing Company, Incorporated},
@@ -281,6 +291,18 @@
   doi = {10.1145/1187112.1187154},
   location = {Los Angeles, California},
   url = {http://doi.acm.org/10.1145/1187112.1187154}
+}
+
+@MISC{green,
+  author = {Robin Green},
+  title = {Spherical Harmonic Lighting: 
+	
+	The Gritty Details},
+  month = {January},
+  year = {2003},
+  note = {Sony Computer Entertainment America},
+  owner = {xander890},
+  timestamp = {2014.06.09}
 }
 
 @ARTICLE{CGF:CGF12148,
@@ -619,6 +641,15 @@
 	function},
   numpages = {10},
   url = {http://dx.doi.org/10.1145/344779.344824}
+}
+
+@BOOK{Pharr:2004:PBR:975275,
+  title = {Physically Based Rendering: From Theory to Implementation},
+  publisher = {Morgan Kaufmann Publishers Inc.},
+  year = {2004},
+  author = {Pharr, Matt and Humphreys, Greg},
+  address = {San Francisco, CA, USA},
+  isbn = {012553180X}
 }
 
 @ARTICLE{Ritschel:2012:SAI:2283296.2283310,
