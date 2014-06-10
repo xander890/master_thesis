@@ -1615,6 +1615,7 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
 
     screen_quad_display_shader.use();
     screen_quad_display_shader.set_uniform("mipmap_LOD",params->LOD);
+    scattering_material->loadUniforms(screen_quad_display_shader);
     if(params->debugOverlayVisible)
         screen_quad->display(screen_quad_display_shader);
 

@@ -1,5 +1,5 @@
 \chapter{Method}
-In this chapter, the goal is to solve the problem that we have presented, i.e. rendering translucent materials efficiently using the directional dipole. First of all, we will start this chapter with a list of constraints and assumptions that we will use to devise our method. Secondly, we will give a theoretical justification of our method, deriving a discretization of the rendering equation that can be actually implemented in a GPU environment. Then, we will discuss some possible sampling patterns and how they could possibly improve the results of the final rendering. Then, we will introduce how the actual scattering parameters are acquired in an experimental environment, in order to obtain a plausible result. Finally, we will describe a method to approximate environment lighting using an arbitrary number of directional sources.
+In this chapter, after giving the theoretical foundations in the topic of this report, we introduce our method to render translucent materials efficiently using the directional dipole. This chapter is meant to connect the theory presented in the last chapter with the implementation. First of all, we will start this chapter with a list of constraints and assumptions in order to better define the scope of our method. Secondly, we will give a theoretical justification of our method, deriving a discretization of the rendering equation that can be actually solved and implemented in a GPU environment. Then, we will discuss some possible sampling patterns and how they could possibly improve the results of the final rendering. Then, we will introduce how the actual scattering parameters are acquired in an experimental environment, in order to obtain a plausible result. Finally, we will describe a method to approximate environment lighting using an arbitrary number of directional sources.
 
 \section{Constraints and assumptions}
 
@@ -7,22 +7,22 @@ Before describing the actual method, we will introduce some constraints and assu
 
 \subsection{Quality constraints}
 \begin{enumerate}
-	\item Being close as much as possible to a path traced solution. By close we mean that the root mean square of the comparison between our method and a path traced result under the same lighting conditions should not be over a certain threshold. 
-	\item Being consistent with the directional dipole model for a wide range of material properties. In particular, show to perform well in the domain of quality where the directional dipole model excels (highly scattering materials).
-	\item Being able to render under an arbitrary number of directional sources, point light sources and environment lighting.
+	\item Being close as much as possible to a path traced solution. By \emph{close} we mean that the root mean square of the comparison between our method and a path traced result under the same lighting conditions should not be over a certain threshold. 
+	\item Being consistent with the directional dipole model for a wide range of material properties. In particular, the method should perform well in the domain of quality where the directional dipole model excels (highly scattering materials).
+	\item Being potentially able to render an object under an arbitrary number of directional sources, point light sources and one environment map.
 \end{enumerate}
 
 \subsection{Flexibility requirements}	
 \begin{enumerate}
-	\item Work with the less amount as possible of provided model data, i.e. only the position data and eventually the normals should be provided in order for the method to run. In particular, no unwrap of the mesh (UV mapping) should be necessary for the method to run. In case normal data are missing, generate them using a standard method to give a smooth appearance.
-	\item Be possible to be integrated in a game engine environment, using data from other computations (e.g. vertices and normals from shadow mapping) and being adaptable to different lighting paths (forward and deferred shading).
+	\item Work with the less amount as possible of provided model data, i.e. only the position data and eventually the normals should be provided in order for the method to run. In particular, no unwrap of the mesh (UV mapping) should be necessary. In case normal data are missing,  being able to generate them using a standard method to give a smooth appearance.
+	\item Be possible to be integrated in a game engine environment, using data from other computations (e.g. from other lighting computations or from othet techniques such as shadow mapping) and being adaptable to different lighting paths (forward and deferred shading).
   \item The quality versus performance tradeoff should be set by a potential artist or developer, with the fewest number of parameters as possible.
 \end{enumerate}
 
 \subsection{Performance requirements}
 
 \begin{enumerate}
-	\item Being real-time on a high-end modern GPU, i.e. one frame should take less that 100 ms (10 FPS) to render. The ideal result would be to reach a rendering time of less than 16 ms (60 FPS)
+	\item Being real-time on a high-end modern GPU, i.e. one frame should take less that 100 ms (10 FPS) to render. The ideal result would be to reach a rendering time of less than 16 ms (60 FPS).
 	\item Being as less dependent as possible from the geometrical complexity of the model.
 	\item Being as less as dependent from the viewport resolution.
 	\item If the desired quality is not reachable within one frame, converge towards a result in a reasonable amount of time. Techniques should be used to approximate the required quality for the intermediate result. 
@@ -41,11 +41,19 @@ First of all, we recall the general form of the rendering equation for participa
 L_o(\x_o,\vomega_o) = L_e(\x_i,\vomega_i) + \int_A \int_{2\pi} S(\x_i, \vomega_i, \x_o, \vomega_o) L_i(\x_i,\vomega_i) V(\x_i) (\vec{n}_i \cdot \vomega_i) d\vomega_i d A_i
 \end{equation*}
 
-In the usual approach to offline path traced rendered, for each pixel of the final image we need to integrate the radiance from all the possible sources along the path traced from the pixel in the scene. For each surface element in one pixel, all the incoming contributions from the other points in the scene must be accounted, an then multiplied by the BSSRDF function in the direction of the camera. In a way, we are basically performing the integral in \ref{eq:bssrdfeq}numerically. If we use a BSSRDF function, the contribution from all the points from the other surfaces must be employed, while in the case of a BRDF some contribution may be excluded (e.g., if there is a opaque surface between two points). Given its natural exponential explosion, path tracing is not obviously suitable for real-time rendering.
+In the usual approach to offline path traced rendering, for each pixel of the final image we need to integrate the radiance from all the possible sources on the surface point seen by the pixel. For this surface element subtended by one pixel, all the incoming radiance contributions from the other points in the scene must be accounted an then multiplied by the BSSRDF function in the direction of the camera. In a way, we are basically performing the integral in equation \ref{eq:bssrdfeq}numerically. If we use a BSSRDF function, the contribution from all the points from the other surfaces must be employed, while in the case of a BRDF some contribution may be excluded (e.g., if there is a opaque surface between two points). Given its natural exponential explosion, path tracing is not obviously suitable for real-time rendering.
 
-Our method, in its final goal to be real time, performs the same integral as equation \ref{eq:bssrdfeq} , but under some assumptions and restrictions that allow us to perform it more efficiently. In addition, since our method involves more how to approximate the \emph{integral} and not the BSSRDF, it is applicable to any BSSRDF function, given that it has limited or no dependence on the outgoing direction $\vomega_o$, like the directional dipole model.
 
-The idea on approximating the integral comes from the fact that the directional dipole (and subsurface scattering effects) generally decay exponentially from the point of incidence, as we can see from figure TODO; where we show the simulation of a laser light hitting a surface in one point. So, the subsurface scattering contribution for points that are far apart becomes quickly negligible. The distance on which these effects become negligible is usually related to the transmission coefficient $\sigma_{tr}$. We will investigate this relation better in the result section. 
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.8\textwidth]{images/bssrdf_slab_potato.png}
+\caption{Simulation of the BSSRDF of a laser hitting a slab of 2x2 cm of potato material. We note the exponential decay of the subsurface scattering phenomena.}
+\label{fig:slab_potato}
+\end{figure}
+
+In our method, in its final goal to be real time, we perform the same integral as equation \ref{eq:bssrdfeq}, but under some assumptions and restrictions that allow us to perform it more efficiently. In addition, since our method approximates the \emph{integral} and not the BSSRDF function, it is applicable to any BSSRDF function, given that it has limited or no dependence on the outgoing direction $\vomega_o$, like the directional dipole model.
+
+The idea on approximating the integral comes from the fact that the directional dipole (and subsurface scattering effects) generally decay exponentially from the point of incidence, as we can see from figure \ref{fig:slab_potato}; where we show the simulation of a laser light hitting a surface in one point. So, the subsurface scattering contribution for points that are far apart becomes quickly negligible. The distance on which these effects become negligible is usually related to the transmission coefficient $\sigma_{tr}$. We will investigate this relation better in the result section. 
 
 \begin{figure}
 \centering
@@ -63,7 +71,7 @@ So, given this exponential decay, we place a sample disc on the surface for a po
 
 Then, we calculate and average the BSSRDF contribution from these points $\x_i^k$ on the point $x_o$. The process can be repeated more times for multiple lights, using the same sampling points. 
 
-Given this set up, we need to find a way of efficiently placing the disc in order to get a good approximation of the BSSRDF. In fact, if the disc is placed in the wrong position, the accounted contribution from the sampling points will not be correct. Moreover, also the orientation of the disc is important, in order to not undersample light in certain regions of the model. . A na\"{i}ve approach would suggest to pick $\x_d = \x_o$ and $\vomega_d = \vec{n}_o$, but we can see that this approach is not correct. The most obvious counter examples are displayed in Figure \ref{fig:discwrong}: in the first example \ref{fig:discwrongpoint}, the contribution from the surrounding points will be zero, because none of the sampling points is directly illuminated by the light, so the visibility term on the rendering equation will evaluate to zero. In the second example (figure \ref{fig:discwrongdir}), the wrong direction $\vec{n}_o$ prevents the most of the points from being sampled.
+Given this set up, we need to find a way of efficiently placing the disc in order to get a good approximation of the BSSRDF. In fact, if the disc is placed in the wrong position, the accounted contribution from the sampling points will not be correct. Moreover, also the orientation of the disc is important, in order to not undersample light in certain regions of the model. A na\"{i}ve approach would suggest to pick $\x_d = \x_o$ and $\vomega_d = \vec{n}_o$, but we can see that this approach is not correct. The most obvious counter examples are displayed in Figure \ref{fig:discwrong}: in the first example \ref{fig:discwrongpoint}, the contribution from the surrounding points will be zero, because none of the sampling points is directly illuminated by the light, so the visibility term on the rendering equation will evaluate to zero. In the second example (figure \ref{fig:discwrongdir}), the wrong direction $\vec{n}_o$ prevents the most of the points from being sampled.
 
 \begin{figure}
 \centering
@@ -88,10 +96,10 @@ $$
 The bounding box vector is a vector where its components are the maximum extension of the mesh in the coordinate reference system. So,
 
 $$
-\mathbf{b} = (\max(\x_i^x) - \min(\x_i^x), \max(\x_i^y) - \min(\x_i^y), \max(\x_i^z) - \min(\x_i^z))
+\mathbf{b} = (\max(\x_i^x) - \min(\x_i^x), \max(\x_i^y) - \min(\x_i^y), \max(\x_i^z) - \min(\x_i^z)), \ \ \ \forall \x_i
 $$ 
 
-To solve the problem in the second example in figure \ref{fig:discwrongdir}, we chose to always orient the circle towards the light, that is $\vomega_d = \vomega_l$ for directional lights and $\vomega = \frac{\x_l - \x_d}{\|\x_l - \x_d\|}$ for point lights. As we can see, for the new choices of disc placement and orientation we are able to catch the points from where the contribution is stronger. This new setup seems much more complicated that the na\"{i}ve approach, but as we will see in the implementation section the Z-buffer of the GPU will permit us to get the requested point without any additional computation.
+To solve the problem in the second example in figure \ref{fig:discwrongdir}, we chose to always orient the circle towards the light, that is $\vomega_d = \vomega_l$ for directional lights and $\vomega = \frac{\x_l - \x_d}{\|\x_l - \x_d\|}$ for point lights. As we can see, for the new choices of disc placement and orientation we are able to catch the points from where the contribution is stronger. This new setup seems much more complicated that the na\"{i}ve approach, but as we will see in the implementation section the Z-buffer of the GPU will permit us to get the desired point without any additional computation.
 
 \begin{figure}
 \centering
@@ -128,20 +136,20 @@ L_o^D(\x_o,\vomega_o) &= \int_A S(\x_i, \vomega_l, \x_o, \vomega_o) L_d  V(\x_i)
 \end{split}
 \end{equation*}
 
-In this way, we remove the internal integral. Then, in order to make a feasible calculation, we need to discretize the other integral as well. We imagine to have a set of $N$ points on the surface. We assume that each one of these points is visible from the light source (so we can get rid of the $V(\x_i)$ term). We will discuss in the implementation section how to make sure that all these points are visible. Each one of these points has an associated area $A_i$, so that we can write:
+In this way, we remove the internal integral. Then, in order to make a computable calculation, we need to discretize the remaining integral. We imagine to have a set of $N$ points on the surface. We assume that each one of these points is visible from the light source (so we can get rid of the $V(\x_i)$ term). We will discuss in the implementation section how to make sure that all these points are visible. Each one of these points has an associated area $A_i$, so that we can write:
 
 \begin{equation}
 L_o^D(\x_o,\vomega_o) = L_d \sum_{i = 1}^N S(\x_i, \vomega_l, \x_o, \vomega_o) (\vec{n}_i \cdot \vomega_l) A_i 
 \label{eq:inter1}
 \end{equation}
 
-Now, instead of using all the points on the surface, we consider only the points within a certain radius $r^*$ from the point $\x_o$. This is reasonable because because the dominating term in the directional dipole is $e^{-\sigma_{tr} r}$, so after a certain critical radius the contribution from the other points becomes negligible. Assuming the points are distributed uniformly on the circle, we obtain the following area for a point:
+Now, instead of using all the points on the surface, we consider only the points within a certain radius $r^*$ from the point $\x_o$, i.e. the disk we discussed in the previous section. Assuming the points are distributed uniformly on the disk, we obtain the following area for a point:
 
 $$
 A_i = \frac{A_c}{N \ (\vec{n}_i \cdot \vomega_l)}
 $$
 
-Where $A_c = \pi (r^*)^2$ is the area of the circle. And, by inserting into equation \ref{eq:inter1}, we obtain:
+Where $A_c = \pi (r^*)^2$ is the area of the circle. Inserting into equation \ref{eq:inter1}, we obtain:
 
 \begin{equation}
 L_o^D(\x_o,\vomega_o) = L_d \frac{A_c}{N} \sum_{i = 1}^N S(\x_i, \vomega_l, \x_o, \vomega_o)
@@ -167,39 +175,51 @@ And, since the radiance is linearly summable, we can combine the contribution fr
 
 
 \section{Sampling patterns}
-As we discussed in the previous section, the BSSRDF function for the directional dipole is dominated by an exponential decay. So, it is more probable to find points that contribute more to the BSSRDF if we take points closer to the evaluation point $\x_o$. However, our assumption of uniform areas does not hold anymore, so we need to modify the previous equations in order to account for the non-linear sampling.
+As we discussed, the BSSRDF function for the directional dipole is dominated by an exponential decay. So, it is more probable to find points that contribute more to the BSSRDF if we take points closer to the evaluation point $\x_o$. However, our assumption of uniform areas in the previous calculations does not hold anymore, so we need to modify the previous equations in order to account for the non-linear sampling.
 
-Assuming to have number generator that can generate numbers on a disc, we can create an exponentially distributed disc by rejection sampling. The probability distribution is:
+Assuming to have number generator that can generate numbers on a disc, we can create an exponentially distributed disc with the following exponential probability distribution function (PDF):
 
 $$
 pdf(x) = \sigma_{tr} e^{-\sigma_{tr} x}
 $$
 
-We will give more detail on the process later. The radius of the point $\x_i$ is 
+The difference between a disc sampled using this distribution and an uniform one is shown in figure \ref{fig:samplingweight}. The process to create this distribution will be illustrated in the implementation section, assuming for now to have already obtained one. The radius of the point $\x_i$ is: 
 
 $$
 r_i = \|\x_o^{proj} - \x_i^{proj}\|
 $$
 
-Where the two points have been projected on the circle. See figure X for more details. So now we have a new normalization term to include in order to scale back the result. So, we need now to divide by $exp(-\sigma_{tr} r_i)$ each sample. The new equation for a directional light then becomes:
+Where the two points have been projected on the circle. So now we have a new normalization term to include in order to scale back the result. So, we need now to divide by a $exp(-\sigma_{tr} r_i)$ term each sample. The new equation for a directional light then becomes:
 
 $$
-\hat{L}_o^D(\x_o,\vomega_o) = L_d \frac{A_c}{N} \sum_{i = 1}^N S(\x_i, \vomega_l, \x_o, \vomega_o) e^{-\sigma_{tr} r_i}
+\hat{L}_o^D(\x_o,\vomega_o) = L_d \frac{A_c}{N} \sum_{i = 1}^N S(\x_i, \vomega_l, \x_o, \vomega_o) e^{\sigma_{tr} r_i}
 $$
 
-The other two equations TODO and TODO change accordingly:
+\begin{figure}
+\centering
+\subfloat[{Uniform sampling ($\sigma_{tr} = 1$)}]{
+  \includegraphics[width=0.5 \linewidth]{images/matlab/halton_norm.eps}
+}
+\subfloat[{Exponential sampling ($\sigma_{tr} = 70$)}]{
+  \includegraphics[width=0.5\linewidth]{images/matlab/halton_exp.eps}
+} \\
+\caption{Uniform versus exponentially-weighted sampling of 300 points.}
+\label{fig:samplingweight}
+\end{figure}
+
+The other two equations \ref{eq:inter2} and \ref{eq:inter2} then change accordingly:
 
 $$
-\hat{L}_o^P(\x_o,\vomega_o) = I_p \frac{A_c}{N} \sum_{i = 1}^N \frac{S(\x_i, \frac{\x_p - \x_i}{\|\x_p - \x_i\|}, \x_o, \vomega_o)}{\|\x_p - \x_i\|^2}  e^{-\sigma_{tr} r_i}
+\hat{L}_o^P(\x_o,\vomega_o) = I_p \frac{A_c}{N} \sum_{i = 1}^N \frac{S(\x_i, \frac{\x_p - \x_i}{\|\x_p - \x_i\|}, \x_o, \vomega_o)}{\|\x_p - \x_i\|^2}  e^{\sigma_{tr} r_i}
 $$
 
-\begin{equation}
+\begin{equation*}
 \begin{split}
 &\hat{L}_o(\x_o,\vomega_o) = \\
-&= \sum_{k=1}^{p}L_o^{P_k}(\x_o,\vomega_o) + \sum_{k=1}^{d}L_o^{D_k}(\x_o,\vomega_o) \\
-&= \frac{A_c}{N} \left[ \sum_{k=1}^{p}I_p^k \sum_{i = 1}^N \frac{S(\x_i, \frac{\x_p^k - \x_i}{\|\x_p^k - \x_i\|}, \x_o, \vomega_o)}{\|\x_p^k - \x_i\|^2} e^{-\sigma_{tr} r_i} + \sum_{k=1}^{d} L_d^k \sum_{i = 1}^N S(\x_i, \vomega^k_l, \x_o, \vomega_o) e^{-\sigma_{tr} r_i}\right] 
+&= \sum_{k=1}^{p}\hat{L}_o^{P_k}(\x_o,\vomega_o) + \sum_{k=1}^{d}\hat{L}_o^{D_k}(\x_o,\vomega_o) \\
+&= \frac{A_c}{N} \left[ \sum_{k=1}^{p}I_p^k \sum_{i = 1}^N \frac{S(\x_i, \frac{\x_p^k - \x_i}{\|\x_p^k - \x_i\|}, \x_o, \vomega_o)}{\|\x_p^k - \x_i\|^2} e^{\sigma_{tr} r_i} + \sum_{k=1}^{d} L_d^k \sum_{i = 1}^N S(\x_i, \vomega^k_l, \x_o, \vomega_o) e^{\sigma_{tr} r_i}\right] 
 \end{split}
-\end{equation}
+\end{equation*}
 
 \section{Parameter acquisition}
 When rendering translucent materials, it is important that we have the right scattering properties, in order to match the appearance of real world objects. The scattering parameters may be tweaked by the artist and set up manually, but this is a long process since the the scattering properties are not directly related to material appearance. In order to avoid this problems, the scattering parameters are measured from samples taken from real world objects. In this section, we will give an overview of two methods used to estimate the scattering parameters.
@@ -235,34 +255,65 @@ Some of the scattering properties measured thanks to this method are reported in
 \end{landscape}
 \clearpage
 
-\section{Environment lights}
-\FloatBarrier
+\begin{figure}
+\centering
+\subfloat[Apple]{
+  \includegraphics[width=0.33 \linewidth]{images/pathtrace/image-apple.pdf}
+}
+\subfloat[Marble]{
+  \includegraphics[width=0.33 \linewidth]{images/pathtrace/image-marble.pdf}
+}
+\subfloat[Potato]{
+  \includegraphics[width=0.33 \linewidth]{images/pathtrace/image-potato.pdf}
+} \\
+\subfloat[Whole Milk]{
+  \includegraphics[width=0.33 \linewidth]{images/pathtrace/image-wholemilk.pdf}
+}
+\subfloat[Coffee]{
+  \includegraphics[width=0.33 \linewidth]{images/pathtrace/image-coffee.pdf}
+}
+\subfloat[Soy Milk]{
+  \includegraphics[width=0.33 \linewidth]{images/pathtrace/image-soymilk.pdf}
+} \\
+\subfloat[Wine (merlot)]{
+  \includegraphics[width=0.33 \linewidth]{images/pathtrace/image-merlot.pdf}
+}
+\subfloat[Beer (Budweiser)]{
+  \includegraphics[width=0.33 \linewidth]{images/pathtrace/image-beer.pdf}
+}
+\subfloat[White Grapefruit Juice]{
+  \includegraphics[width=0.33 \linewidth]{images/pathtrace/image-grapefruit.pdf}
+} \\
+\label{fig:examplesmaterials}
+\caption{Path traced rendering on a sphere of the materials described in table \ref{table:scatteringcoefficients}.}
+\end{figure}
+\clearpage
 
-Environment lighting is a omni-directional lighting that represents lighting coming from an environment. Instead of defining a light as a direction or a point in space, we define directly the radiance distribution on a map. The map is usually provided in a hdr format in order to cover various range of radiance, and it is usually given as a set of six cube faces (cubemap) or as a latitude-longitude map, as the one in figure \ref{fig:doge}. The maps are usually given in equirectangular projection.
+\section{Environment lights}
+
+Environment lighting is a omni-directional lighting that represents lighting coming from an environment. Instead of defining a light as a direction or a point in space, we define directly the radiance distribution on a map. The map is usually provided in a HDR format in order to cover various range of radiance, and it is usually given as a set of six cube faces (cubemap) or as a latitude-longitude map, as the one in figure \ref{fig:doge}. The maps are usually given in equirectangular projection.
 
 In the game development community, spherical harmonics (SH) \citep{green,peterpikeconference} are usually employed. This technique, given an heavy pre-computation step, transforms the radiance map into a set of coefficients in the spherical harmonics basis. This coefficients that then can be used easily to represent the radiance map, if we are interested only in the low-frequency part of it. 
 
-
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=\textwidth]{images/matlab/doge2.png}
-\caption{Latitude - longitude environment map of the inner courtyard of the Doge's palace in Venice. The map has been converted to a RGB format from the original HDR format. Image courtesy of \url{http://gl.ict.usc.edu/Data/HighResProbes/}.}
+\caption{Latitude - longitude environment map of the inner courtyard of the Doge's palace in Venice (Doge map). The map has been converted to a RGB format from the original HDR format. Image courtesy of \url{http://gl.ict.usc.edu/Data/HighResProbes/}.}
 \label{fig:doge}
 \end{figure}
 
-
 In this chapter, we introduce a technique presented in \cite{Pharr:2004:PBR:975275} to convert a environment map into a set of directional light sources of arbitrary size. The general idea is to generate a set of random points and them transform them according to a pre-computed probability distribution. This distribution make the random point concentrate in areas where the radiance is higher, so that it is possible to get the most representative points on the radiance map. The found points are then transformed into a spherical coordinate basis in order to get the light direction.
 
-We start defining our image as an array of $n$ rows and $m$ columns. We need to define a function that of each pixel of the image gives us a single radiance value. Instead of using radiance, we use luminance. The ITU-R recommendation standard gives us a formula to obtain luminance from spectral radiance values:
+We start defining our image as an array of $n$ rows and $m$ columns. We need to define a function that of each pixel of the image gives us a single radiance value. Instead of using radiance, we use luminance. The ITU-R recommendation standard BT.709\citep{BT.709-2} gives us a formula to obtain luminance from spectral radiance values:
 
 $$
-f(u,v) = 0.2126 R(u,v) + 0.7152 G(u,v) + 0.0722 B(u,v)
+f(u,v) = 0.2126\ R(u,v) + 0.7152\ G(u,v) + 0.0722\ B(u,v)
 $$
 
 Where $[u,v] \in [0,n)\times [0,m)$. $R$, $G$ and $B$ represent the spectral coordinates of the radiance map. We would like to define now a probability distribution function based on the $f(u,v)$ function. We can define it simply by normalizing $f$ with the integral of the function over the domain:
 
 $$
-p(u,v) = \frac{f(u,v)}{\int \int f(u,v) du dv} = \frac{f(u,v)}{\sum_u \sum_v f(u,v)}
+p(u,v) = \frac{f(u,v)}{ \displaystyle\iint f(u,v) du dv} = \frac{f(u,v)}{ \displaystyle\sum_u \sum_v f(u,v)}
 $$
 
 However, in order to be able to sample from the distribution $p(u,v)$, there are some things to take care about. We would like now to separate the two variables, in order to sample from two one-dimensional distribution, instead of one two-dimensional distribution. To do this, we use the conditional probability formula:
@@ -275,16 +326,28 @@ $$
 So that we first choose u, sample its probability $p_u(u)$ and then compute the conditional density $p_v(v|u)$ using the found value for $u$. Using the marginal formulas, the first probability is easily found:
 
 $$
-p_u(u) =\int p(u,v) dv = \frac{\sum_v f(u,v)}{\sum_u \sum_v f(u,v)}
+p_u(u) =\int p(u,v) dv = \frac{ \displaystyle\sum_v f(u,v)}{ \displaystyle\sum_u \sum_v f(u,v)}
 $$
 
 And, from equation \ref{eq:conditional_prob}, we find the conditional probability:
 
 $$
-p_v(v|u) = \frac{p(u,v)}{p_u(u)} = \frac{f(u,v)}{\sum_v f(u,v)} \sin \theta
+p_v(v|u) = \frac{p(u,v)}{p_u(u)} = \frac{f(u,v)}{ \displaystyle\sum_v f(u,v)} \sin \theta
 $$
 
-The $\sin \theta$ comes from the fact that the latitude-longitude map with a equirectangular projection is not area preserving. So, the sampling must take into account the distortion of the map, otherwise the samples will be more concentrated at the poles, rather than distributed uniformly on the sphere. TODO IMAGE OF NOT DISTRIBUTED POINTS
+The $\sin \theta$ comes from the fact that the latitude-longitude map with a equirectangular projection is not area preserving. So, the sampling must take into account the distortion of the map, otherwise the samples will be more concentrated at the poles, rather than distributed uniformly on the sphere. We can appreciate the difference for a random sampling on a sphere in figure \ref{fig:randomsamplingsphere}.
+
+\begin{figure}[!ht]
+\centering
+\subfloat[Without $\sin\theta$ correction]{
+  \includegraphics[width=0.5 \linewidth]{images/matlab/notunif.eps}
+}
+\subfloat[With $\sin\theta$ correction]{
+  \includegraphics[width=0.5\linewidth]{images/matlab/unif.eps}
+} \\
+\caption{Effect of $\sin\theta$ on a random point distribution on a sphere.}
+\label{fig:randomsamplingsphere}
+\end{figure}
 
 Now we are ready to sample the function. In order to bias our sample according to the radiance distribution, we need to calculate the cumulative distribution function (CDF) for a one-dimensional probability distribution function. The CDF is defined as:
 
@@ -301,9 +364,9 @@ That is the discrete integral of the function up to the point $u$. Figure \ref{f
 %\label{fig:cdf}
 %\end{figure}
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
-\includegraphics[width=0.7\textwidth]{images/matlab/cdfex.pdf}
+\includegraphics[width=0.5\textwidth]{images/matlab/cdfex.pdf}
 \caption{Effect of weighting values with the CDF. We note that the random values on the $y$ axis are transformed and accumulated where the CDF is steeper.}
 \label{fig:cdfweight}
 \end{figure}
@@ -311,13 +374,21 @@ That is the discrete integral of the function up to the point $u$. Figure \ref{f
 Let us now pick a couple of random points $(\zeta_1,\zeta_2) \in [0,1)^2$. We then convert these points to a pair of coordinates $(u_b,v_b) \in [0,n)\times[0,m)$ by inverse sampling of the CDF. We will give the details of how to discretize this process in the implementation section. Then, we obtain the spherical coordinates using the standard formula:
 
 $$
-(\theta, \phi) = \left(\frac{u_b}{n\pi}, \frac{v_b}{2 \pi m}\right)
+(\theta, \phi) = \left(\frac{u_b}{\pi n}, \frac{v_b}{2 \pi m}\right)
 $$
 
 And, from the spherical coordinates, we use the equirectangular projection formula to transform them into a vector in the 3D space, that is the final direction for our light.
 
 $$
-\vomega_l = (\cos\phi\  \sin\theta, \sin\phi\  \sin\theta, \cos\theta)
+\vomega_l = (\cos\phi\;\sin\theta, \sin\phi\;\sin\theta, \cos\theta)
 $$
 
-And, by varying the random values $(\zeta_1,\zeta_2)$, obtain a set of directions that we can use for rendering. The generated points for the Doge map can be seen in figure TODO.
+And, by varying the random values $(\zeta_1,\zeta_2)$, obtain a set of directions that we can use for rendering. The generated points for the Doge map can be seen in figure \ref{fig:doge_lights}.
+
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{images/matlab/doge2_lights.png}
+\caption{Position of calculated lights for the doge map.}
+\label{fig:doge_lights}
+\end{figure}

@@ -98,7 +98,7 @@ void main(void)
 
     fragColor /= div;
 
-    float F = fresnel_T(wo,no,1.0f,ior);
+    float F = clamp(fresnel_T(wo,no,1.0f,ior),0.0f,1.0f);
 
 #if DEBUG == 1
     int i = 1;
