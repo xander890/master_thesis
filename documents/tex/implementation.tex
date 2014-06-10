@@ -1,5 +1,69 @@
 \chapter{Implementation}
 
+Stuff to insert:
+\begin{itemize}
+	\item Generation of random points
+	\item Noise generation on GPU
+	\item Sampling patterns
+	\item Layered rendering
+	\item Shadow mapping (for lights)
+	\item Ping ponging and accumulation
+	\item Texture Views and mipmap generation (memory optimization)
+	\item Engine structure
+	\item Extension: compute shaders
+	\item Extension: image load store
+	\item Extension: subroutines (meh)
+	\item Sampling cubemap
+
+\end{itemize}
+
+Caveats:
+\begin{itemize}
+	\item Oversampling issues in final combinaiton (multisampling of depth map)
+	\item Combination delta
+	\item Shadow bias
+  \item Random rotation
+	
+\end{itemize}
+
+\begin{lstlisting}[language=GLSL,label=test,caption=Test!]
+#version 430
+layout(triangles) in;
+layout(triangle_strip, max_vertices = 60) out;
+
+#include "ss_aincludes_constants.glinc"
+
+uniform int layers;
+uniform mat4 P;
+uniform mat4 viewMatrices[DIRECTIONS];
+
+smooth in vec3 v_position[3];
+smooth in vec3 v_norm[3];
+
+smooth out vec3 position;
+smooth out vec3 norm;
+
+void main(void)
+{
+    int l = layers;
+    for(int i = 0; i < l; i++)
+    {
+        gl_Layer = i;
+
+        for(int k = 0; k < 3; k++)
+        {
+            vec4 v0 = gl_in[k].gl_Position;
+            position = v_position[k];
+            norm = v_norm[k];
+            gl_Position = P * viewMatrices[i] * v0;
+            EmitVertex();
+        }
+
+        EndPrimitive();
+    }
+}
+\end{lstlisting}
+
 In this chapter, we describe the implementation details of our technique, using the approximation of the rendering equation introduced in the previous chapter. We start by giving a rather generic introduction of our algorithm, introducing then all the implementation details. 
 
 \section{Requirements}

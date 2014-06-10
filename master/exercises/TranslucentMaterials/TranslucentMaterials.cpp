@@ -1232,6 +1232,7 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
 
     const int GBUFFER_SIZE = 512;
     const float LIGHT_CAMERA_SIZE = 1.0f;
+    const float LIGHT_CAMERA_DISTANCE = 6.0f;
 
     const int ARRAY_TEXTURE_SIZE = 1024;
     const int MAX_LIGHTS = 16;
@@ -1297,39 +1298,10 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
         currentFrame = 0;
     }
 
-//    Vec3f center = obj->getCenter();
 
     static vector<Vec3f> cameraPositions(LAYERS);
-
-            /*= {
-        center + Vec3f(1,0,0) * CAMERA_DISTANCE, //+X
-        center - Vec3f(1,0,0) * CAMERA_DISTANCE, //-X
-        center + Vec3f(0,1,0) * CAMERA_DISTANCE, //+Y
-        center - Vec3f(0,1,0) * CAMERA_DISTANCE, //-Y
-        center + Vec3f(0,0,1) * CAMERA_DISTANCE, //+Z
-        center - Vec3f(0,0,1) * CAMERA_DISTANCE,  //-Z
-        center + Vec3f(1.0f/sqrt(2.0f),1.0f/sqrt(2.0f),1.0f/sqrt(2.0f)) * CAMERA_DISTANCE,
-        center + Vec3f(-1.0f/sqrt(2.0f),-1.0f/sqrt(2.0f),-1.0f/sqrt(2.0f)) * CAMERA_DISTANCE,
-        center + Vec3f(-1.0f/sqrt(2.0f),1.0f/sqrt(2.0f),0) * CAMERA_DISTANCE,
-        center + Vec3f(1.0f/sqrt(2.0f),-1.0f/sqrt(2.0f),0) * CAMERA_DISTANCE
-    };
-*/
     static vector<Mat4x4f> viewMatrices(LAYERS);
-/*            = {
-        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[0], center, Vec3f(0,1,0)), //+X
-        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[1], center, Vec3f(0,1,0)), //-X
-        scaling_Mat4x4f(Vec3f(-1,1,1)) * lookat_Mat4x4f_target(cameraPositions[2], center, Vec3f(0,0,1)), //+Y
-        scaling_Mat4x4f(Vec3f(-1,1,1)) * lookat_Mat4x4f_target(cameraPositions[3], center, Vec3f(0,0,-1)), //-Y
-        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[4], center, Vec3f(0,1,0)), //+Z
-        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[5], center, Vec3f(0,1,0)),  //-Z
-        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[6], center, Vec3f(0,1,0)),
-        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[7], center, Vec3f(0,1,0)),
-        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[8], center, Vec3f(0,1,0)),
-        scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(cameraPositions[9], center, Vec3f(0,1,0))
-    };
-*/
     static vector<Mat4x4f> planeTransformMatrices(LAYERS);
-
     static Mat4x4f model_identity = identity_Mat4x4f();
     static Mat4x4f projection_array = ortho_Mat4x4f(Vec3f(-CAMERA_SIZE,-CAMERA_SIZE,CAMERA_NEAR),Vec3f(CAMERA_SIZE,CAMERA_SIZE,CAMERA_FAR));
     static Mat4x4f projection_light = ortho_Mat4x4f(Vec3f(-LIGHT_CAMERA_SIZE,-LIGHT_CAMERA_SIZE,1),Vec3f(LIGHT_CAMERA_SIZE,LIGHT_CAMERA_SIZE,10));
@@ -1400,7 +1372,7 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
 
         for(int i = 0; i < manager.size(); i++)
         {
-            Vec3f light_dir = 6 * Vec3f(manager[i].position);
+            Vec3f light_dir = LIGHT_CAMERA_DISTANCE * Vec3f(manager[i].position);
             Mat4x4f V = lookat_Mat4x4f(light_dir,-light_dir,Vec3f(0,0,1));
             lightMatrices.push_back(V); //PARALLEL!
 

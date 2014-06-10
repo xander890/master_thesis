@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.2.28)  10 JUN 2014 15:50
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.2.28)  10 JUN 2014 17:21
 entering extended mode
 **thesis.tex
 (C:\Users\alessandro\Documents\master_thesis\documents\thesis.tex
@@ -1336,95 +1336,18 @@ Package: lscape 2000/10/22 v3.01 Landscape Pages (DPC)
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\multirow\multirow.sty"
 \bigstrutjot=\dimen298
 )
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\cjk\CJKutf8.sty"
-Package: CJKutf8 2012/05/07 4.8.3
- ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\cjk\CJK.sty"
-Package: CJK 2012/05/07 4.8.3
- ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\cjk\mule\MULEenc.sty"
-Package: MULEenc 2012/05/07 4.8.3
+(C:\Users\alessandro\Documents\master_thesis\documents\glslListings.sty
+Package: glslListings 
 )
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\cjk\CJK.enc"
-File: CJK.enc 2012/05/07 4.8.3
-Now handling font encoding C00 ...
-... no UTF-8 mapping file for font encoding C00
-Now handling font encoding C05 ...
-... no UTF-8 mapping file for font encoding C05
-Now handling font encoding C09 ...
-... no UTF-8 mapping file for font encoding C09
-Now handling font encoding C10 ...
-... no UTF-8 mapping file for font encoding C10
-Now handling font encoding C20 ...
-... no UTF-8 mapping file for font encoding C20
-Now handling font encoding C19 ...
-... no UTF-8 mapping file for font encoding C19
-Now handling font encoding C40 ...
-... no UTF-8 mapping file for font encoding C40
-Now handling font encoding C42 ...
-... no UTF-8 mapping file for font encoding C42
-Now handling font encoding C43 ...
-... no UTF-8 mapping file for font encoding C43
-Now handling font encoding C50 ...
-... no UTF-8 mapping file for font encoding C50
-Now handling font encoding C52 ...
-... no UTF-8 mapping file for font encoding C52
-Now handling font encoding C49 ...
-... no UTF-8 mapping file for font encoding C49
-Now handling font encoding C60 ...
-... no UTF-8 mapping file for font encoding C60
-Now handling font encoding C61 ...
-... no UTF-8 mapping file for font encoding C61
-Now handling font encoding C63 ...
-... no UTF-8 mapping file for font encoding C63
-Now handling font encoding C64 ...
-... no UTF-8 mapping file for font encoding C64
-Now handling font encoding C65 ...
-... no UTF-8 mapping file for font encoding C65
-Now handling font encoding C70 ...
-... no UTF-8 mapping file for font encoding C70
-Now handling font encoding C31 ...
-... no UTF-8 mapping file for font encoding C31
-Now handling font encoding C32 ...
-... no UTF-8 mapping file for font encoding C32
-Now handling font encoding C33 ...
-... no UTF-8 mapping file for font encoding C33
-Now handling font encoding C34 ...
-... no UTF-8 mapping file for font encoding C34
-Now handling font encoding C35 ...
-... no UTF-8 mapping file for font encoding C35
-Now handling font encoding C36 ...
-... no UTF-8 mapping file for font encoding C36
-Now handling font encoding C37 ...
-... no UTF-8 mapping file for font encoding C37
-Now handling font encoding C80 ...
-... no UTF-8 mapping file for font encoding C80
-Now handling font encoding C81 ...
-... no UTF-8 mapping file for font encoding C81
-Now handling font encoding C01 ...
-... no UTF-8 mapping file for font encoding C01
-Now handling font encoding C11 ...
-... no UTF-8 mapping file for font encoding C11
-Now handling font encoding C21 ...
-... no UTF-8 mapping file for font encoding C21
-Now handling font encoding C41 ...
-... no UTF-8 mapping file for font encoding C41
-Now handling font encoding C62 ...
-... no UTF-8 mapping file for font encoding C62
-)
-LaTeX Info: Redefining \selectfont on input line 755.
-\CJK@indent=\box75
-)
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\fontenc.sty"
-Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
-))
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tcolorbox\tcbbreakable.code.tex"
 Library (tcolorbox): 'tcbbreakable.code.tex' version '3.04'
-\tcb@totalupperbox=\box76
-\tcb@totallowerbox=\box77
+\tcb@totalupperbox=\box75
+\tcb@totallowerbox=\box76
 )
-Package hyperref Info: Option `breaklinks' set `true' on input line 79.
-Package hyperref Info: Option `bookmarksopen' set `true' on input line 79.
-Package hyperref Info: Option `bookmarksnumbered' set `true' on input line 79.
-Package hyperref Info: Option `plainpages' set `false' on input line 79.
+Package hyperref Info: Option `breaklinks' set `true' on input line 80.
+Package hyperref Info: Option `bookmarksopen' set `true' on input line 80.
+Package hyperref Info: Option `bookmarksnumbered' set `true' on input line 80.
+Package hyperref Info: Option `plainpages' set `false' on input line 80.
 ) (C:\Users\alessandro\Documents\master_thesis\documents\thesis.aux
 (C:\Users\alessandro\Documents\master_thesis\documents\tex/appendix.tex.aux))
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 3.
@@ -1441,70 +1364,6 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 3.
 LaTeX Font Info:    ... okay on input line 3.
 LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 3.
 LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for C00/song/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for C05/song/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for C09/song/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for C10/song/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for C20/song/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for C19/song/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for C40/song/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for C42/song/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for C43/song/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for C50/song/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for C52/song/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for C49/song/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for C60/mj/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for C61/mj/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for C63/mj/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for C64/mj/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for C65/mj/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for C70/song/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for C31/song/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for C32/song/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for C33/song/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for C34/song/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for C35/song/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for C36/song/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for C37/song/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for C80/song/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for C81/song/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for C01/song/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for C11/song/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for C21/song/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for C41/song/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for C62/song/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
 LaTeX Font Info:    Try loading font information for OT1+lmr on input line 3.
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\lm\ot1lmr.fd"
@@ -1514,7 +1373,7 @@ File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count288
 \scratchdimen=\dimen299
-\scratchbox=\box78
+\scratchbox=\box77
 \nofMPsegments=\count289
 \nofMParguments=\count290
 \everyMPshowfont=\toks45
@@ -1531,7 +1390,7 @@ Package caption Info: hyperref package is loaded.
 Package caption Info: listings package is loaded.
 Package caption Info: wrapfig package is loaded.
 Package caption Info: End \AtBeginDocument code.
-\AtBeginShipoutBox=\box79
+\AtBeginShipoutBox=\box78
 Package hyperref Info: Link coloring OFF on input line 3.
  ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
@@ -1680,19 +1539,17 @@ LaTeX Font Info:    Try loading font information for OT1+lmtt on input line 3.
  ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\lm\ot1lmtt.fd"
 File: ot1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-(C:\Users\alessandro\Documents\master_thesis\documents\thesis.toc)
+(C:\Users\alessandro\Documents\master_thesis\documents\thesis.toc [1
+Non-PDF special ignored!
+
+
+Non-PDF special ignored!
+
+
+{C:/Users/alessandro/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}])
 \tf@toc=\write7
- [1
-Non-PDF special ignored!
-
-
-Non-PDF special ignored!
-
-
-{C:/Users/alessandro/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2
-
-]
-(C:\Users\alessandro\Documents\master_thesis\documents\tex/method.tex
+ [2]
+(C:\Users\alessandro\Documents\master_thesis\documents\tex/intro.tex
 Chapter 1.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <24.88> on input line 1.
@@ -1700,46 +1557,249 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <20.74> on input line 1.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <17.28> on input line 1.
-[1
+<images/diagram.pdf, id=270, 536.18213pt x 281.24902pt>
+File: images/diagram.pdf Graphic file (type pdf)
+ <use images/diagram.pdf>
+Package pdftex.def Info: images/diagram.pdf used on input line 6.
+(pdftex.def)             Requested size: 276.24316pt x 144.90707pt.
+ [1
 
-] [2]
 
-LaTeX Warning: Reference `eq:bssrdfeq' on page 3 undefined on input line 38.
+]
+<images/milk.jpg, id=303, 602.25pt x 803.0pt>
+File: images/milk.jpg Graphic file (type jpg)
+ <use images/milk.jpg>
+Package pdftex.def Info: images/milk.jpg used on input line 24.
+(pdftex.def)             Requested size: 103.59184pt x 138.1133pt.
+
+<images/leaves.jpg, id=304, 334.24875pt x 445.665pt>
+File: images/leaves.jpg Graphic file (type jpg)
+ <use images/leaves.jpg>
+Package pdftex.def Info: images/leaves.jpg used on input line 28.
+(pdftex.def)             Requested size: 103.59184pt x 138.12071pt.
+
+<images/candle.jpg, id=305, 722.7pt x 963.6pt>
+File: images/candle.jpg Graphic file (type jpg)
+ <use images/candle.jpg>
+Package pdftex.def Info: images/candle.jpg used on input line 32.
+(pdftex.def)             Requested size: 103.59184pt x 138.1084pt.
+)
+(C:\Users\alessandro\Documents\master_thesis\documents\tex/previous.tex [2 <C:/Users/alessandro/Documents/master_thesis/
+documents/images/diagram.pdf>] [3 <C:/Users/alessandro/Documents/master_thesis/documents/images/milk.jpg> <C:/Users/ales
+sandro/Documents/master_thesis/documents/images/leaves.jpg> <C:/Users/alessandro/Documents/master_thesis/documents/image
+s/candle.jpg>] [4
+
+]
+Chapter 2.
+[5] [6] [7]) (C:\Users\alessandro\Documents\master_thesis\documents\tex/theory.tex [8]
+Chapter 3.
+[9
+
+]
+LaTeX Font Info:    Try loading font information for TS1+lmr on input line 8.
+ ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\lm\ts1lmr.fd"
+File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+<images/spectrum.pdf, id=425, 513.84715pt x 294.58528pt>
+File: images/spectrum.pdf Graphic file (type pdf)
+ <use images/spectrum.pdf>
+Package pdftex.def Info: images/spectrum.pdf used on input line 12.
+(pdftex.def)             Requested size: 345.30264pt x 197.95995pt.
+ [10 <C:/Users/alessandro/Documents/master_thesis/documents/images/spectrum.pdf>] [11] <images/irradiance.pdf, id=549, 2
+85.065pt x 285.065pt>
+File: images/irradiance.pdf Graphic file (type pdf)
+
+<use images/irradiance.pdf>
+Package pdftex.def Info: images/irradiance.pdf used on input line 47.
+(pdftex.def)             Requested size: 172.65132pt x 172.64972pt.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <9> on input line 48.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <6> on input line 48.
+LaTeX Font Info:    Font shape `U/lasy/b/n' in size <9> not available
+(Font)              Font shape `U/lasy/m/n' tried instead on input line 48.
+LaTeX Font Info:    Font shape `U/lasy/b/n' in size <6> not available
+(Font)              Font shape `U/lasy/m/n' tried instead on input line 48.
+ <images/radiance.pdf, id=551, 372.34169pt x 300.05444pt>
+File: images/radiance.pdf Graphic file (type pdf)
+ <use images/radiance.pdf>
+Package pdftex.def Info: images/radiance.pdf used on input line 67.
+(pdftex.def)             Requested size: 172.65132pt x 139.13469pt.
+ [12 <C:/Users/alessandro/Documents/master_thesis/documents/images/irradiance.pdf>] [13 <C:/Users/alessandro/Documents/m
+aster_thesis/documents/images/radiance.pdf>]
+LaTeX Font Info:    Try loading font information for OMS+lmr on input line 99.
+ ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\lm\omslmr.fd"
+File: omslmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    Font shape `OMS/lmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 99.
+ [14] [15]
+<images/brdf.pdf, id=609, 410.49837pt x 273.52559pt>
+File: images/brdf.pdf Graphic file (type pdf)
+ <use images/brdf.pdf>
+Package pdftex.def Info: images/brdf.pdf used on input line 166.
+(pdftex.def)             Requested size: 276.24316pt x 184.07922pt.
+
+<images/brdf_lambertian.pdf, id=610, 212.34332pt x 102.72453pt>
+File: images/brdf_lambertian.pdf Graphic file (type pdf)
+ <use images/brdf_lambertian.pdf>
+Package pdftex.def Info: images/brdf_lambertian.pdf used on input line 180.
+(pdftex.def)             Requested size: 138.11894pt x 66.82187pt.
+
+<images/brdf_mirror.pdf, id=611, 212.34332pt x 102.72453pt>
+File: images/brdf_mirror.pdf Graphic file (type pdf)
+ <use images/brdf_mirror.pdf>
+Package pdftex.def Info: images/brdf_mirror.pdf used on input line 184.
+(pdftex.def)             Requested size: 138.11894pt x 66.82187pt.
+
+<images/brdf_glossy.pdf, id=612, 212.34332pt x 102.72453pt>
+File: images/brdf_glossy.pdf Graphic file (type pdf)
+ <use images/brdf_glossy.pdf>
+Package pdftex.def Info: images/brdf_glossy.pdf used on input line 188.
+(pdftex.def)             Requested size: 138.11894pt x 66.82187pt.
+
+<images/brdf_combined.pdf, id=613, 212.34332pt x 102.72453pt>
+File: images/brdf_combined.pdf Graphic file (type pdf)
+ <use images/brdf_combined.pdf>
+Package pdftex.def Info: images/brdf_combined.pdf used on input line 192.
+(pdftex.def)             Requested size: 138.11894pt x 66.82187pt.
+ [16 <C:/Users/alessandro/Documents/master_thesis/documents/images/brdf.pdf>] [17 <C:/Users/alessandro/Documents/master_
+thesis/documents/images/brdf_lambertian.pdf> <C:/Users/alessandro/Documents/master_thesis/documents/images/brdf_mirror.p
+df
+
+pdfTeX warning: pdflatex.exe (file C:/Users/alessandro/Documents/master_thesis/documents/images/brdf_mirror.pdf): PDF in
+clusion: multiple pdfs with page group included in a single page
+> <C:/Users/alessandro/Documents/master_thesis/documents/images/brdf_glossy.pdf
+
+pdfTeX warning: pdflatex.exe (file C:/Users/alessandro/Documents/master_thesis/documents/images/brdf_glossy.pdf): PDF in
+clusion: multiple pdfs with page group included in a single page
+> <C:/Users/alessandro/Documents/master_thesis/documents/images/brdf_combined.pdf
+
+pdfTeX warning: pdflatex.exe (file C:/Users/alessandro/Documents/master_thesis/documents/images/brdf_combined.pdf): PDF 
+inclusion: multiple pdfs with page group included in a single page
+>] [18] [19] <images/fresnelsetup.pdf, id=674, 411.136pt x 411.136pt>
+File: images/fresnelsetup.pdf Graphic file (type pdf)
+ <use images/fresnelsetup.pdf>
+Package pdftex.def Info: images/fresnelsetup.pdf used on input line 290.
+(pdftex.def)             Requested size: 172.65132pt x 172.65085pt.
+ [20]
+<images/bssrdf.pdf, id=681, 410.49837pt x 273.52559pt>
+File: images/bssrdf.pdf Graphic file (type pdf)
+ <use images/bssrdf.pdf>
+Package pdftex.def Info: images/bssrdf.pdf used on input line 313.
+(pdftex.def)             Requested size: 276.24316pt x 184.07922pt.
+ [21 <C:/Users/alessandro/Documents/master_thesis/documents/images/fresnelsetup.pdf>] [22 <C:/Users/alessandro/Documents
+/master_thesis/documents/images/bssrdf.pdf>] <images/transport_emission.pdf, id=712, 289.08pt x 96.36pt>
+File: images/transport_emission.pdf Graphic file (type pdf)
+ <use images/transport_emission.pdf>
+Package pdftex.def Info: images/transport_emission.pdf used on input line 350.
+(pdftex.def)             Requested size: 172.65132pt x 57.5503pt.
+
+<images/transport_absorption.pdf, id=713, 289.08pt x 96.36pt>
+File: images/transport_absorption.pdf Graphic file (type pdf)
+ <use images/transport_absorption.pdf>
+Package pdftex.def Info: images/transport_absorption.pdf used on input line 354.
+(pdftex.def)             Requested size: 172.65132pt x 57.5503pt.
+
+Overfull \hbox (13.33331pt too wide) in paragraph at lines 350--354
+ [][][][] 
+ []
+
+<images/transport_outscattering.pdf, id=714, 289.08pt x 96.36pt>
+File: images/transport_outscattering.pdf Graphic file (type pdf)
+ <use images/transport_outscattering.pdf>
+Package pdftex.def Info: images/transport_outscattering.pdf used on input line 358.
+(pdftex.def)             Requested size: 172.65132pt x 57.5503pt.
+
+<images/transport_inscattering.pdf, id=715, 289.08pt x 96.36pt>
+File: images/transport_inscattering.pdf Graphic file (type pdf)
+ <use images/transport_inscattering.pdf>
+Package pdftex.def Info: images/transport_inscattering.pdf used on input line 362.
+(pdftex.def)             Requested size: 172.65132pt x 57.5503pt.
+
+Overfull \hbox (13.33331pt too wide) in paragraph at lines 358--364
+ [][][][][] 
+ []
+
+[23] [24 <C:/Users/alessandro/Documents/master_thesis/documents/images/transport_emission.pdf> <C:/Users/alessandro/Docu
+ments/master_thesis/documents/images/transport_absorption.pdf
+
+pdfTeX warning: pdflatex.exe (file C:/Users/alessandro/Documents/master_thesis/documents/images/transport_absorption.pdf
+): PDF inclusion: multiple pdfs with page group included in a single page
+> <C:/Users/alessandro/Documents/master_thesis/documents/images/transport_outscattering.pdf
+
+pdfTeX warning: pdflatex.exe (file C:/Users/alessandro/Documents/master_thesis/documents/images/transport_outscattering.
+pdf): PDF inclusion: multiple pdfs with page group included in a single page
+> <C:/Users/alessandro/Documents/master_thesis/documents/images/transport_inscattering.pdf
+
+pdfTeX warning: pdflatex.exe (file C:/Users/alessandro/Documents/master_thesis/documents/images/transport_inscattering.p
+df): PDF inclusion: multiple pdfs with page group included in a single page
+>] [25] [26] [27]
+Underfull \hbox (badness 10000) in paragraph at lines 462--462
+[]|\OT1/lmr/m/n/10 Backward
+ []
 
 
-LaTeX Warning: Reference `eq:bssrdfeq' on page 3 undefined on input line 44.
+Underfull \hbox (badness 10000) in paragraph at lines 462--462
+\OT1/lmr/m/n/10 Scattering
+ []
 
-[3] <images/bssrdf_slab_potato.png, id=117, 770.88pt x 770.88pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 462--462
+[]|\OT1/lmr/m/n/10 Isotropic
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 462--462
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 462--462
+[]|\OT1/lmr/m/n/10 Forward
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 462--462
+\OT1/lmr/m/n/10 Scat-ter-ing
+ []
+
+[28] <images/jensen.pdf, id=782, 954.79353pt x 537.62373pt>
+File: images/jensen.pdf Graphic file (type pdf)
+ <use images/jensen.pdf>
+Package pdftex.def Info: images/jensen.pdf used on input line 510.
+(pdftex.def)             Requested size: 345.30264pt x 194.43037pt.
+ [29] [30 <C:/Users/alessandro/Documents/master_thesis/documents/images/jensen.pdf>] [31] <images/jeppe.pdf, id=833, 953
+.98773pt x 607.17648pt>
+File: images/jeppe.pdf Graphic file (type pdf)
+
+<use images/jeppe.pdf>
+Package pdftex.def Info: images/jeppe.pdf used on input line 572.
+(pdftex.def)             Requested size: 345.30264pt x 219.76924pt.
+ [32 <C:/Users/alessandro/Documents/master_thesis/documents/images/jeppe.pdf>] [33] [34] [35])
+(C:\Users\alessandro\Documents\master_thesis\documents\tex/method.tex [36]
+Chapter 4.
+[37
+
+] [38] [39] <images/bssrdf_slab_potato.png, id=922, 770.88pt x 770.88pt>
 File: images/bssrdf_slab_potato.png Graphic file (type png)
  <use images/bssrdf_slab_potato.png>
 Package pdftex.def Info: images/bssrdf_slab_potato.png used on input line 49.
 (pdftex.def)             Requested size: 276.24316pt x 276.23445pt.
-
-
-LaTeX Warning: Reference `eq:bssrdfeq' on page 4 undefined on input line 54.
-
-[4 <C:/Users/alessandro/Documents/master_thesis/documents/images/bssrdf_slab_potato.png (PNG copy)>]
-<images/disk_setup.pdf, id=126, 608.35619pt x 421.11052pt>
+ [40 <C:/Users/alessandro/Documents/master_thesis/documents/images/bssrdf_slab_potato.png (PNG copy)>]
+<images/disk_setup.pdf, id=930, 608.35619pt x 421.11052pt>
 File: images/disk_setup.pdf Graphic file (type pdf)
  <use images/disk_setup.pdf>
 Package pdftex.def Info: images/disk_setup.pdf used on input line 60.
 (pdftex.def)             Requested size: 276.24316pt x 191.22005pt.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <9> on input line 61.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 61.
-LaTeX Font Info:    Font shape `U/lasy/b/n' in size <9> not available
-(Font)              Font shape `U/lasy/m/n' tried instead on input line 61.
-LaTeX Font Info:    Font shape `U/lasy/b/n' in size <6> not available
-(Font)              Font shape `U/lasy/m/n' tried instead on input line 61.
- [5 <C:/Users/alessandro/Documents/master_thesis/documents/images/disk_setup.pdf>] <images/distribution_wrong_1.pdf, id=
-159, 337.92793pt x 367.08572pt>
+ [41 <C:/Users/alessandro/Documents/master_thesis/documents/images/disk_setup.pdf>] <images/distribution_wrong_1.pdf, id
+=961, 337.92793pt x 367.08572pt>
 File: images/distribution_wrong_1.pdf Graphic file (type pdf)
 
 <use images/distribution_wrong_1.pdf>
 Package pdftex.def Info: images/distribution_wrong_1.pdf used on input line 81.
 (pdftex.def)             Requested size: 172.65132pt x 187.5473pt.
- <images/distribution_wrong_3.pdf, id=160, 337.92793pt x 367.08572pt>
+ <images/distribution_wrong_3.pdf, id=962, 337.92793pt x 367.08572pt>
 File: images/distribution_wrong_3.pdf Graphic file (type pdf)
 
 <use images/distribution_wrong_3.pdf>
@@ -1751,18 +1811,18 @@ Overfull \hbox (13.33331pt too wide) in paragraph at lines 81--86
  []
 
 Missing character: There is no b in font msbm10!
-[6 <C:/Users/alessandro/Documents/master_thesis/documents/images/distribution_wrong_1.pdf> <C:/Users/alessandro/Document
-s/master_thesis/documents/images/distribution_wrong_3.pdf
+[42 <C:/Users/alessandro/Documents/master_thesis/documents/images/distribution_wrong_1.pdf> <C:/Users/alessandro/Documen
+ts/master_thesis/documents/images/distribution_wrong_3.pdf
 
 pdfTeX warning: pdflatex.exe (file C:/Users/alessandro/Documents/master_thesis/documents/images/distribution_wrong_3.pdf
 ): PDF inclusion: multiple pdfs with page group included in a single page
->] <images/distribution_wrong_2.pdf, id=224, 337.92793pt x 283.57368pt>
+>] <images/distribution_wrong_2.pdf, id=1024, 337.92793pt x 283.57368pt>
 File: images/distribution_wrong_2.pdf Graphic file (type pdf)
  <use images/distribution_wrong_2.pdf>
 Package pdftex.def Info: images/distribution_wrong_2.pdf used on input line 109.
 (pdftex.def)             Requested size: 172.65132pt x 144.88028pt.
 
-<images/distribution_wrong_4.pdf, id=225, 330.658pt x 260.96327pt>
+<images/distribution_wrong_4.pdf, id=1025, 330.658pt x 260.96327pt>
 File: images/distribution_wrong_4.pdf Graphic file (type pdf)
  <use images/distribution_wrong_4.pdf>
 Package pdftex.def Info: images/distribution_wrong_4.pdf used on input line 113.
@@ -1772,19 +1832,12 @@ Overfull \hbox (13.33331pt too wide) in paragraph at lines 109--115
  [][][][][] 
  []
 
-
-LaTeX Warning: Reference `eq:bssrdfeq' on page 7 undefined on input line 122.
-
-[7 <C:/Users/alessandro/Documents/master_thesis/documents/images/distribution_wrong_2.pdf> <C:/Users/alessandro/Document
-s/master_thesis/documents/images/distribution_wrong_4.pdf
+[43 <C:/Users/alessandro/Documents/master_thesis/documents/images/distribution_wrong_2.pdf> <C:/Users/alessandro/Documen
+ts/master_thesis/documents/images/distribution_wrong_4.pdf
 
 pdfTeX warning: pdflatex.exe (file C:/Users/alessandro/Documents/master_thesis/documents/images/distribution_wrong_4.pdf
 ): PDF inclusion: multiple pdfs with page group included in a single page
->]
-
-LaTeX Warning: Reference `eq:bssrdfeq' on page 8 undefined on input line 130.
-
-[8] [9]
+>] [44] [45]
 Package epstopdf Info: Source file: <images/matlab/halton_norm.eps>
 (epstopdf)                    date: 2014-06-10 11:28:38
 (epstopdf)                    size: 184122 bytes
@@ -1795,7 +1848,7 @@ Package epstopdf Info: Source file: <images/matlab/halton_norm.eps>
 norm.eps>
 (epstopdf)             \includegraphics on input line 202.
 Package epstopdf Info: Output file is already uptodate.
- <images/matlab/halton_norm-eps-converted-to.pdf, id=305, 456.70625pt x 449.68pt>
+ <images/matlab/halton_norm-eps-converted-to.pdf, id=1104, 456.70625pt x 449.68pt>
 File: images/matlab/halton_norm-eps-converted-to.pdf Graphic file (type pdf)
 
 <use images/matlab/halton_norm-eps-converted-to.pdf>
@@ -1816,7 +1869,7 @@ xp.eps>
 (epstopdf)             \includegraphics on input line 205.
 Package epstopdf Info: Output file is already uptodate.
 
-<images/matlab/halton_exp-eps-converted-to.pdf, id=306, 457.71pt x 449.68pt>
+<images/matlab/halton_exp-eps-converted-to.pdf, id=1105, 457.71pt x 449.68pt>
 File: images/matlab/halton_exp-eps-converted-to.pdf Graphic file (type pdf)
 
 <use images/matlab/halton_exp-eps-converted-to.pdf>
@@ -1832,24 +1885,24 @@ Overfull \hbox (10.73029pt too wide) in paragraph at lines 222--222
 [] 
  []
 
-[10] [11 <C:/Users/alessandro/Documents/master_thesis/documents/images/matlab/halton_norm-eps-converted-to.pdf> <C:/User
-s/alessandro/Documents/master_thesis/documents/images/matlab/halton_exp-eps-converted-to.pdf>] [12] [13
+[46] [47 <C:/Users/alessandro/Documents/master_thesis/documents/images/matlab/halton_norm-eps-converted-to.pdf> <C:/User
+s/alessandro/Documents/master_thesis/documents/images/matlab/halton_exp-eps-converted-to.pdf>] [48] [49
 
 
 ]
-<images/pathtrace/image-apple.pdf, id=373, 513.92pt x 513.92pt>
+<images/pathtrace/image-apple.pdf, id=1171, 513.92pt x 513.92pt>
 File: images/pathtrace/image-apple.pdf Graphic file (type pdf)
  <use images/pathtrace/image-apple.pdf>
 Package pdftex.def Info: images/pathtrace/image-apple.pdf used on input line 262.
 (pdftex.def)             Requested size: 113.9505pt x 113.94887pt.
 
-<images/pathtrace/image-marble.pdf, id=374, 513.92pt x 513.92pt>
+<images/pathtrace/image-marble.pdf, id=1172, 513.92pt x 513.92pt>
 File: images/pathtrace/image-marble.pdf Graphic file (type pdf)
  <use images/pathtrace/image-marble.pdf>
 Package pdftex.def Info: images/pathtrace/image-marble.pdf used on input line 265.
 (pdftex.def)             Requested size: 113.9505pt x 113.94887pt.
 
-<images/pathtrace/image-potato.pdf, id=375, 513.92pt x 513.92pt>
+<images/pathtrace/image-potato.pdf, id=1173, 513.92pt x 513.92pt>
 File: images/pathtrace/image-potato.pdf Graphic file (type pdf)
  <use images/pathtrace/image-potato.pdf>
 Package pdftex.def Info: images/pathtrace/image-potato.pdf used on input line 268.
@@ -1859,19 +1912,19 @@ Overfull \hbox (16.54883pt too wide) in paragraph at lines 262--268
  [][][][][][] 
  []
 
-<images/pathtrace/image-wholemilk.pdf, id=376, 513.92pt x 513.92pt>
+<images/pathtrace/image-wholemilk.pdf, id=1174, 513.92pt x 513.92pt>
 File: images/pathtrace/image-wholemilk.pdf Graphic file (type pdf)
  <use images/pathtrace/image-wholemilk.pdf>
 Package pdftex.def Info: images/pathtrace/image-wholemilk.pdf used on input line 271.
 (pdftex.def)             Requested size: 113.9505pt x 113.94887pt.
 
-<images/pathtrace/image-coffee.pdf, id=377, 513.92pt x 513.92pt>
+<images/pathtrace/image-coffee.pdf, id=1175, 513.92pt x 513.92pt>
 File: images/pathtrace/image-coffee.pdf Graphic file (type pdf)
  <use images/pathtrace/image-coffee.pdf>
 Package pdftex.def Info: images/pathtrace/image-coffee.pdf used on input line 274.
 (pdftex.def)             Requested size: 113.9505pt x 113.94887pt.
 
-<images/pathtrace/image-soymilk.pdf, id=378, 513.92pt x 513.92pt>
+<images/pathtrace/image-soymilk.pdf, id=1176, 513.92pt x 513.92pt>
 File: images/pathtrace/image-soymilk.pdf Graphic file (type pdf)
  <use images/pathtrace/image-soymilk.pdf>
 Package pdftex.def Info: images/pathtrace/image-soymilk.pdf used on input line 277.
@@ -1881,19 +1934,19 @@ Overfull \hbox (16.54883pt too wide) in paragraph at lines 271--277
  [][][][][][] 
  []
 
-<images/pathtrace/image-merlot.pdf, id=379, 513.92pt x 513.92pt>
+<images/pathtrace/image-merlot.pdf, id=1177, 513.92pt x 513.92pt>
 File: images/pathtrace/image-merlot.pdf Graphic file (type pdf)
  <use images/pathtrace/image-merlot.pdf>
 Package pdftex.def Info: images/pathtrace/image-merlot.pdf used on input line 280.
 (pdftex.def)             Requested size: 113.9505pt x 113.94887pt.
 
-<images/pathtrace/image-beer.pdf, id=380, 513.92pt x 513.92pt>
+<images/pathtrace/image-beer.pdf, id=1178, 513.92pt x 513.92pt>
 File: images/pathtrace/image-beer.pdf Graphic file (type pdf)
  <use images/pathtrace/image-beer.pdf>
 Package pdftex.def Info: images/pathtrace/image-beer.pdf used on input line 283.
 (pdftex.def)             Requested size: 113.9505pt x 113.94887pt.
 
-<images/pathtrace/image-grapefruit.pdf, id=381, 513.92pt x 513.92pt>
+<images/pathtrace/image-grapefruit.pdf, id=1179, 513.92pt x 513.92pt>
 File: images/pathtrace/image-grapefruit.pdf Graphic file (type pdf)
  <use images/pathtrace/image-grapefruit.pdf>
 Package pdftex.def Info: images/pathtrace/image-grapefruit.pdf used on input line 286.
@@ -1903,7 +1956,7 @@ Overfull \hbox (16.54883pt too wide) in paragraph at lines 280--286
  [][][][][][] 
  []
 
-[14 <C:/Users/alessandro/Documents/master_thesis/documents/images/pathtrace/image-apple.pdf> <C:/Users/alessandro/Docume
+[50 <C:/Users/alessandro/Documents/master_thesis/documents/images/pathtrace/image-apple.pdf> <C:/Users/alessandro/Docume
 nts/master_thesis/documents/images/pathtrace/image-marble.pdf> <C:/Users/alessandro/Documents/master_thesis/documents/im
 ages/pathtrace/image-potato.pdf> <C:/Users/alessandro/Documents/master_thesis/documents/images/pathtrace/image-wholemilk
 .pdf> <C:/Users/alessandro/Documents/master_thesis/documents/images/pathtrace/image-coffee.pdf> <C:/Users/alessandro/Doc
@@ -1914,16 +1967,16 @@ Overfull \hbox (11.10477pt too wide) in paragraph at lines 296--297
 []\OT1/lmr/m/n/10 Sloan[], []2008[]] are usu-ally em-ployed. This tech-nique, given an heavy pre-computation
  []
 
-<images/matlab/doge2.png, id=439, 903.375pt x 451.6875pt>
+<images/matlab/doge2.png, id=1237, 903.375pt x 451.6875pt>
 File: images/matlab/doge2.png Graphic file (type png)
  <use images/matlab/doge2.png>
 Package pdftex.def Info: images/matlab/doge2.png used on input line 300.
 (pdftex.def)             Requested size: 345.30264pt x 172.65617pt.
- [15
+ [51
 
 
 
- <C:/Users/alessandro/Documents/master_thesis/documents/images/matlab/doge2.png>] [16]
+ <C:/Users/alessandro/Documents/master_thesis/documents/images/matlab/doge2.png>] [52]
 Package epstopdf Info: Source file: <images/matlab/notunif.eps>
 (epstopdf)                    date: 2014-06-10 15:05:53
 (epstopdf)                    size: 266924 bytes
@@ -1935,7 +1988,7 @@ Package epstopdf Info: Source file: <images/matlab/notunif.eps>
 (epstopdf)             \includegraphics on input line 344.
 Package epstopdf Info: Output file is already uptodate.
 
-<images/matlab/notunif-eps-converted-to.pdf, id=461, 430.60875pt x 453.695pt>
+<images/matlab/notunif-eps-converted-to.pdf, id=1259, 430.60875pt x 453.695pt>
 File: images/matlab/notunif-eps-converted-to.pdf Graphic file (type pdf)
 
 <use images/matlab/notunif-eps-converted-to.pdf>
@@ -1951,7 +2004,7 @@ Package epstopdf Info: Source file: <images/matlab/unif.eps>
 (epstopdf)             \includegraphics on input line 347.
 Package epstopdf Info: Output file is already uptodate.
 
-<images/matlab/unif-eps-converted-to.pdf, id=462, 430.60875pt x 453.695pt>
+<images/matlab/unif-eps-converted-to.pdf, id=1260, 430.60875pt x 453.695pt>
 File: images/matlab/unif-eps-converted-to.pdf Graphic file (type pdf)
 
 <use images/matlab/unif-eps-converted-to.pdf>
@@ -1962,29 +2015,126 @@ Overfull \hbox (13.33331pt too wide) in paragraph at lines 344--347
  [][][][] 
  []
 
-<images/matlab/cdfex.pdf, id=464, 278.6308pt x 276.40784pt>
+<images/matlab/cdfex.pdf, id=1262, 278.6308pt x 276.40784pt>
 File: images/matlab/cdfex.pdf Graphic file (type pdf)
  <use images/matlab/cdfex.pdf>
 Package pdftex.def Info: images/matlab/cdfex.pdf used on input line 369.
 (pdftex.def)             Requested size: 172.65132pt x 171.27408pt.
- [17 <C:/Users/alessandro/Documents/master_thesis/documents/images/matlab/notunif-eps-converted-to.pdf> <C:/Users/alessa
-ndro/Documents/master_thesis/documents/images/matlab/unif-eps-converted-to.pdf>] <images/matlab/doge2_lights.png, id=495
-, 903.375pt x 451.6875pt>
+ [53 <C:/Users/alessandro/Documents/master_thesis/documents/images/matlab/notunif-eps-converted-to.pdf> <C:/Users/alessa
+ndro/Documents/master_thesis/documents/images/matlab/unif-eps-converted-to.pdf>] <images/matlab/doge2_lights.png, id=129
+3, 903.375pt x 451.6875pt>
 File: images/matlab/doge2_lights.png Graphic file (type png)
 
 <use images/matlab/doge2_lights.png>
 Package pdftex.def Info: images/matlab/doge2_lights.png used on input line 391.
 (pdftex.def)             Requested size: 345.30264pt x 172.65617pt.
-) [18 <C:/Users/alessandro/Documents/master_thesis/documents/images/matlab/cdfex.pdf>] [19 <C:/Users/alessandro/Document
-s/master_thesis/documents/images/matlab/doge2_lights.png (PNG copy)>]
-No file tex/appendix.tex.tex.
-[20
-
-
-
-] (C:\Users\alessandro\Documents\master_thesis\documents\thesis.bbl) [21
+) (C:\Users\alessandro\Documents\master_thesis\documents\tex/implementation.tex
+[54 <C:/Users/alessandro/Documents/master_thesis/documents/images/matlab/cdfex.pdf>] [55 <C:/Users/alessandro/Documents/
+master_thesis/documents/images/matlab/doge2_lights.png (PNG copy)>] [56
 
 ]
+Chapter 5.
+[57]
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 29.
+LaTeX Font Info:    Font shape `OMS/lmr/m/n' in size <7> not available
+(Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 47.
+LaTeX Font Info:    Try loading font information for OML+lmr on input line 49.
+ ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\lm\omllmr.fd"
+File: omllmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    Font shape `OML/lmr/m/n' in size <7> not available
+(Font)              Font shape `OML/lmm/m/it' tried instead on input line 49.
+ [58]
+Package epstopdf Info: Source file: <images/method/step1.eps>
+(epstopdf)                    date: 2014-05-27 11:22:08
+(epstopdf)                    size: 4411 bytes
+(epstopdf)             Output file: <images/method/step1-eps-converted-to.pdf>
+(epstopdf)                    date: 2014-05-27 11:22:08
+(epstopdf)                    size: 2961 bytes
+(epstopdf)             Command: <epstopdf --outfile=images/method/step1-eps-converted-to.pdf images/method/step1.eps>
+(epstopdf)             \includegraphics on input line 92.
+Package epstopdf Info: Output file is already uptodate.
+
+<images/method/step1-eps-converted-to.pdf, id=1373, 641.39626pt x 452.69125pt>
+File: images/method/step1-eps-converted-to.pdf Graphic file (type pdf)
+
+<use images/method/step1-eps-converted-to.pdf>
+Package pdftex.def Info: images/method/step1-eps-converted-to.pdf used on input line 92.
+(pdftex.def)             Requested size: 172.65132pt x 121.85526pt.
+ [59]
+Package epstopdf Info: Source file: <images/method/step2.eps>
+(epstopdf)                    date: 2014-05-27 11:22:08
+(epstopdf)                    size: 38553 bytes
+(epstopdf)             Output file: <images/method/step2-eps-converted-to.pdf>
+(epstopdf)                    date: 2014-05-27 11:22:08
+(epstopdf)                    size: 24674 bytes
+(epstopdf)             Command: <epstopdf --outfile=images/method/step2-eps-converted-to.pdf images/method/step2.eps>
+(epstopdf)             \includegraphics on input line 104.
+Package epstopdf Info: Output file is already uptodate.
+
+<images/method/step2-eps-converted-to.pdf, id=1379, 595.22375pt x 437.635pt>
+File: images/method/step2-eps-converted-to.pdf Graphic file (type pdf)
+
+<use images/method/step2-eps-converted-to.pdf>
+Package pdftex.def Info: images/method/step2-eps-converted-to.pdf used on input line 104.
+(pdftex.def)             Requested size: 172.65132pt x 126.9376pt.
+ <images/method/method_frustumside.png, id=1382, 609.3675pt x 317.55pt>
+File: images/method/method_frustumside.png Graphic file (type png)
+
+<use images/method/method_frustumside.png>
+Package pdftex.def Info: images/method/method_frustumside.png used on input line 113.
+(pdftex.def)             Requested size: 345.30264pt x 179.94423pt.
+ [60 <C:/Users/alessandro/Documents/master_thesis/documents/images/method/step1-eps-converted-to.pdf> <C:/Users/alessand
+ro/Documents/master_thesis/documents/images/method/step2-eps-converted-to.pdf>] <images/method/method_gbuffer.png, id=13
+99, 357.5175pt x 357.5175pt>
+File: images/method/method_gbuffer.png Graphic file (type png)
+ <use images/method/method_gbuffer.png>
+Package pdftex.def Info: images/method/method_gbuffer.png used on input line 130.
+(pdftex.def)             Requested size: 172.65132pt x 172.6484pt.
+ [61 <C:/Users/alessandro/Documents/master_thesis/documents/images/method/method_frustumside.png>]
+<images/method/method_step3.png, id=1406, 199.8375pt x 181.77pt>
+File: images/method/method_step3.png Graphic file (type png)
+ <use images/method/method_step3.png>
+Package pdftex.def Info: images/method/method_step3.png used on input line 147.
+(pdftex.def)             Requested size: 172.65132pt x 157.0486pt.
+ [62 <C:/Users/alessandro/Documents/master_thesis/documents/images/method/method_gbuffer.png>] [63 <C:/Users/alessandro/
+Documents/master_thesis/documents/images/method/method_step3.png>] [64
+
+] <images/artifacts/all.png, id=1422, 526.96875pt x 526.96875pt>
+File: images/artifacts/all.png Graphic file (type png)
+
+<use images/artifacts/all.png>
+Package pdftex.def Info: images/artifacts/all.png used on input line 201.
+(pdftex.def)             Requested size: 155.38513pt x 155.38206pt.
+ <images/artifacts/nobias.png, id=1423, 526.96875pt x 526.96875pt>
+File: images/artifacts/nobias.png Graphic file (type png)
+
+<use images/artifacts/nobias.png>
+Package pdftex.def Info: images/artifacts/nobias.png used on input line 205.
+(pdftex.def)             Requested size: 155.38513pt x 155.38206pt.
+ <images/artifacts/cmboffset.png, id=1424, 526.96875pt x 526.96875pt>
+File: images/artifacts/cmboffset.png Graphic file (type png)
+
+<use images/artifacts/cmboffset.png>
+Package pdftex.def Info: images/artifacts/cmboffset.png used on input line 210.
+(pdftex.def)             Requested size: 155.38513pt x 155.38206pt.
+ <images/artifacts/reference.png, id=1425, 526.96875pt x 526.96875pt>
+File: images/artifacts/reference.png Graphic file (type png)
+
+<use images/artifacts/reference.png>
+Package pdftex.def Info: images/artifacts/reference.png used on input line 214.
+(pdftex.def)             Requested size: 155.38513pt x 155.38206pt.
+) [65] [66 <C:/Users/alessandro/Documents/master_thesis/documents/images/artifacts/all.png (PNG copy)> <C:/Users/alessan
+dro/Documents/master_thesis/documents/images/artifacts/nobias.png (PNG copy)> <C:/Users/alessandro/Documents/master_thes
+is/documents/images/artifacts/cmboffset.png (PNG copy)> <C:/Users/alessandro/Documents/master_thesis/documents/images/ar
+tifacts/reference.png (PNG copy)>]
+No file tex/appendix.tex.tex.
+(C:\Users\alessandro\Documents\master_thesis\documents\thesis.bbl [67
+
+
+
+
+] [68] [69]) [70]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 71.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 71.
 
@@ -1993,42 +2143,41 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 71.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 71.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 71.
 Package rerunfilecheck Info: File `thesis.out' has not changed.
-(rerunfilecheck)             Checksum: E71CF3BD2816D6BFE4FC05158696CC4A;830.
-
-
-LaTeX Warning: There were undefined references.
-
+(rerunfilecheck)             Checksum: 40BC4610F1FD9E05879F7F7DEBB1AB4A;3684.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 71.
  ) 
 Here is how much of TeX's memory you used:
- 30020 strings out of 493921
- 564585 string characters out of 3144861
- 691108 words of memory out of 3000000
- 32625 multiletter control sequences out of 15000+200000
- 130792 words of font info for 128 fonts, out of 3000000 for 9000
+ 30168 strings out of 493921
+ 574724 string characters out of 3144861
+ 760857 words of memory out of 3000000
+ 32556 multiletter control sequences out of 15000+200000
+ 131157 words of font info for 129 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 56i,18n,73p,10416b,842s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 56i,19n,73p,10416b,1606s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/lm/lm-rmtt.enc}{C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/l
-m/lm-mathit.enc}{C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathsy.enc}{C:/Program Files (x86)/MiKTeX 2.9/f
-onts/enc/dvips/lm/lm-rm.enc}{C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathex.enc}{C:/Program Files (x86)/
-MiKTeX 2.9/fonts/enc/dvips/lm/lm-rmsc.enc}<C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmbx10.pfb><C:/Progra
-m Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmbx12.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmbx7
-.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmbx8.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/p
-ublic/lm/lmbx9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmcsc10.pfb><C:/Program Files (x86)/MiKTeX 2
-.9/fonts/type1/public/lm/lmex10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmmi10.pfb><C:/Program File
-s (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmmi5.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmmi6.pfb><C
-:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmmi7.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/l
-m/lmmi8.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmmi9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/
-type1/public/lm/lmr10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmr17.pfb><C:/Program Files (x86)/MiK
-TeX 2.9/fonts/type1/public/lm/lmr7.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmr8.pfb><C:/Program Fil
-es (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmr9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmri10.pfb><
-C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmssbx10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/publ
-ic/lm/lmsy10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmsy7.pfb><C:/Program Files (x86)/MiKTeX 2.9/f
-onts/type1/public/lm/lmtt10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmtt9.pfb><C:/Program Files (x8
-6)/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on thesis.pdf (23 pages, 3642940 bytes).
+m/lm-mathit.enc}{C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/lm/lm-rm.enc}{C:/Program Files (x86)/MiKTeX 2.9/fonts
+/enc/dvips/lm/lm-mathsy.enc}{C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathex.enc}{C:/Program Files (x86)/
+MiKTeX 2.9/fonts/enc/dvips/lm/lm-ts1.enc}{C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/lm/lm-rmsc.enc}<C:/Program F
+iles (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmbx10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmbx12.p
+fb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmbx7.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/pub
+lic/lm/lmbx8.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmbx9.pfb><C:/Program Files (x86)/MiKTeX 2.9/f
+onts/type1/public/lm/lmcsc10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmex10.pfb><C:/Program Files (
+x86)/MiKTeX 2.9/fonts/type1/public/lm/lmmi10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmmi5.pfb><C:/
+Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmmi6.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/
+lmmi7.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmmi8.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/ty
+pe1/public/lm/lmmi9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmr10.pfb><C:/Program Files (x86)/MiKTe
+X 2.9/fonts/type1/public/lm/lmr17.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmr5.pfb><C:/Program File
+s (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmr6.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmr7.pfb><C:/
+Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmr8.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/l
+mr9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmri10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/typ
+e1/public/lm/lmssbx10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmsy10.pfb><C:/Program Files (x86)/Mi
+KTeX 2.9/fonts/type1/public/lm/lmsy6.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmsy7.pfb><C:/Program 
+Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmsy9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmtt10.p
+fb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmtt8.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/pub
+lic/lm/lmtt9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on thesis.pdf (72 pages, 5116545 bytes).
 PDF statistics:
- 645 PDF objects out of 1000 (max. 8388607)
- 91 named destinations out of 1000 (max. 500000)
- 219 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1659 PDF objects out of 1728 (max. 8388607)
+ 291 named destinations out of 1000 (max. 500000)
+ 668 words of extra memory for PDF output out of 10000 (max. 10000000)
 
