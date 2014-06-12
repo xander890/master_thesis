@@ -1,5 +1,12 @@
 \chapter{Implementation}
 
+In this chapter, we will introduce the implementation details of our method. The difference between this chapter and the previous one is that the concepts introduced in the method chapter are easily adaptable to any kind of implementation environment, while in this chapter we focus on a GPU-oriented implementation. First, we will give a general outline of our algorithm. Then, we will take each one of the single parts of the algorithm and discuss them separately. After introducing the details of the algorithm, we will discuss some caveats that are necessary in order to eliminate defects and artifacts in our algorithm. Finally, we will discuss our implementation, introducing some possible implementation alternatives in order to compare them in the result section.
+
+\section{Environment}
+
+In order to better contextualize some of the choices and the code parts that will be introduced in this section, we will first introduced the environment used in our implementation. The method we are going to discuss was made using the OpenGL API, version 4.3 (released in August 2012), a multi-platform API used for rendering 2D and 3D accelerated graphics. With the OpenGL API comes together GLSL, the OpenGL Shading Language, used for writing pieces of code to be run on the GPU, called \emph{shaders}. On the CPU side, we use an extended framework based on Qt, a C++ library that allows to create OpenGL contexts and graphical interfaces in an easy way.
+
+
 Stuff to insert:
 \begin{itemize}
 	\item Generation of random points
@@ -7,13 +14,15 @@ Stuff to insert:
 	\item Sampling patterns
 	\item Layered rendering
 	\item Shadow mapping (for lights)
-	\item Ping ponging and accumulation
+	\item Ping-ponging and accumulation
 	\item Texture Views and mipmap generation (memory optimization)
 	\item Engine structure
 	\item Extension: compute shaders
-	\item Extension: image load store
+	\item Extension: image load store (meh)
+	\item Extension: cubemap
 	\item Extension: subroutines (meh)
-	\item Sampling cubemap
+	\item Sampling colormap
+	\item Alternative: voxelization
 
 \end{itemize}
 
@@ -66,23 +75,24 @@ void main(void)
 
 In this chapter, we describe the implementation details of our technique, using the approximation of the rendering equation introduced in the previous chapter. We start by giving a rather generic introduction of our algorithm, introducing then all the implementation details. 
 
-\section{Requirements}
 
-Our algorithm, in order to be generic and applicable to a wide range of situations must meet some requirements. 
-
-
-\begin{itemize}
-  \item The algorithm should be \emph{accurate}, so that the renderings are as close as possible to reference images generated using a offline Monte-Carlo simulation. 
-	\item The algorithm should be \emph{fast}, executing at interactive frame rates.
-	\item The algorithm should be \emph{uv-independent}, not relying on a pre-made UV mapping of the object in order to being able to perform. The algorithm should work only if basic geometric features are provided (vertices and normals).
-	\item The algorithm should be \emph{adaptable}, handling in real-time dynamic light changes and object deformations. So it will not possible to use light baking or geometry form factors.
-\end{itemize}
-
-If it is not possible to satisfy all the previous within the strict constraints of real-time rendering, we want to create an algorithm that gets as close as possible to the requested result. The algorithm should progressively progressively improve and converge to an accurate result whenever possible (e.g. when the light in the scene is not changing).
+%\section{Requirements}
+%
+%Our algorithm, in order to be generic and applicable to a wide range of situations must meet some requirements. 
+%
+%
+%\begin{itemize}
+  %\item The algorithm should be \emph{accurate}, so that the renderings are as close as possible to reference images generated using a offline Monte-Carlo simulation. 
+	%\item The algorithm should be \emph{fast}, executing at interactive frame rates.
+	%\item The algorithm should be \emph{uv-independent}, not relying on a pre-made UV mapping of the object in order to being able to perform. The algorithm should work only if basic geometric features are provided (vertices and normals).
+	%\item The algorithm should be \emph{adaptable}, handling in real-time dynamic light changes and object deformations. So it will not possible to use light baking or geometry form factors.
+%\end{itemize}
+%
+%If it is not possible to satisfy all the previous within the strict constraints of real-time rendering, we want to create an algorithm that gets as close as possible to the requested result. The algorithm should progressively progressively improve and converge to an accurate result whenever possible (e.g. when the light in the scene is not changing).
 
 \section{Algorithm overview}
 
-By keeping the limitations presented in the previous section in mind, we introduce our four pass algorithm.
+By keeping the limitations presented in the previous chapter in mind TODO, we introduce our four pass algorithm. 
 
 \textbf{Step 1 - Light buffer} \\
 In the first step, positions and normals of the object are rendered into a texture from the light point of view. In addition, for each light a conversion matrix is computed and stored, in order to convert the position from world space to texture space. 
