@@ -1,3 +1,99 @@
-\chapter{Stuff}
+\chapter{Model matrices}
+\label{sec:matrices}
+\section{Model matrices}
 
-This appendix is full of stuff ...
+\textbf{Translation matrix}
+
+$$T(\mathbf{t}) = \left[\begin{array}{cccc}
+1 & 0 & 0 & \mathbf{t}_x       \\
+0 & 1 & 0 & \mathbf{t}_y       \\
+0 & 0 & 1 & \mathbf{t}_z       \\
+0 & 0 & 0 & 1
+\end{array}\right]$$
+
+
+\textbf{Rotation matrix}
+
+$$R_x(\theta) = \left[\begin{array}{cccc}
+1 & 0 & 0 & 0       \\
+0 & \cos\theta & -\sin\theta & 0       \\
+0 & \sin\theta & \cos\theta & 0      \\
+0 & 0 & 0 & 1
+\end{array}\right]$$
+
+$$R_y(\theta) = \left[\begin{array}{cccc}
+\cos\theta & 0 & \sin\theta & 0       \\
+0 & 1 & 0 & 0       \\
+-\sin\theta & 0 & \cos\theta & 0      \\
+0 & 0 & 0 & 1
+\end{array}\right]$$
+
+$$R_z(\theta) = \left[\begin{array}{cccc}
+\cos\theta & -\sin\theta & 0 & 0       \\
+\sin\theta & \cos\theta & 0 & 0       \\
+0 & 0 & 1 & 0      \\
+0 & 0 & 0 & 1
+\end{array}\right]$$
+
+\textbf{Scale matrix}
+
+$$S(\mathbf{s}) = \left[\begin{array}{cccc}
+\mathbf{s}_x & 0 & 0 & 0       \\
+0 & \mathbf{s}_y & 0 & 0       \\
+0 & 0 & \mathbf{s}_z & 0      \\
+0 & 0 & 0 & 1
+\end{array}\right]$$
+
+\section{View Matrix}
+
+$\mathbf{e}$ is the camera position, $\mathbf{d}$ is the camera direction, $\mathbf{u}$ is the up vector.
+
+\begin{equation*}
+\begin{split}
+\vec{c} &= -\frac{\mathbf{d}}{\|\mathbf{d}\|} \\
+\vec{a} &= \frac{\vec{c} \times \mathbf{u}}{\|\vec{c} \times \mathbf{u}\|} \\
+\vec{b} &= \vec{a} \times \vec{c} 
+\end{split}
+\end{equation*}
+
+$$
+V(\mathbf{e},\mathbf{d},\mathbf{u}) = \left[\begin{array}{cccc}
+\vec{a}_x & \vec{a}_y & \vec{a}_z & -\mathbf{e}_x      \\
+\vec{b}_x & \vec{b}_y & \vec{b}_z & -\mathbf{e}_y        \\
+\vec{c}_x & \vec{c}_y & \vec{c}_z & -\mathbf{e}_z       \\
+0 & 0 & 0 & 1
+\end{array}\right]$$
+
+\section{Projection Matrix}
+
+\textbf{Orthographic matrix}
+
+$\mathbf{l}$ is the left bottom near corner of the frustum, $\mathbf{r}$ is the top right far corner.
+
+$$
+O(\mathbf{l},\mathbf{r}) = \left[\begin{array}{cccc}
+\frac{2}{\mathbf{r}_x-\mathbf{l}_x} & 0 & 0 & -\frac{\mathbf{r}_x+\mathbf{l}_x}{\mathbf{r}_x-\mathbf{l}_x}       \\
+0 & \frac{2}{\mathbf{r}_y-\mathbf{l}_y} & 0 & -\frac{\mathbf{r}_y+\mathbf{l}_y}{\mathbf{r}_y-\mathbf{l}_y}      \\
+0 & 0 &  - \frac{2}{\mathbf{r}_z-\mathbf{l}_z} & -\frac{\mathbf{r}_z+\mathbf{l}_z}{\mathbf{r}_z-\mathbf{l}_z}      \\
+0 & 0 & 0 & 1
+\end{array}\right]
+$$
+
+\textbf{Perspective matrix}
+
+$fov$ is the field of view in radians, $A$ is the aspect ratio, $n_p$ is the near camera plane and $f_p$ is the far camera plane. We define:
+
+$$
+f_c = \frac{1}{\tan(\frac{fov}{2})}
+$$
+
+$$
+P(fov,A,n,f) = \left[\begin{array}{cccc}
+\frac{f_c}{A} & 0 & 0 & 0       \\
+0 & f_c & 0 & 0       \\
+0 & 0 & \frac{n + f}{n - f} & \frac{2 n f}{n-f}      \\
+0 & 0 & -1 & 0
+\end{array}\right]
+$$
+
+
