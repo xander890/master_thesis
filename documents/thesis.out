@@ -40,11 +40,11 @@
 \BOOKMARK [1][]{section.4.4}{4.4 Parameter acquisition}{chapter.4}% 40
 \BOOKMARK [1][]{section.4.5}{4.5 Environment lights}{chapter.4}% 41
 \BOOKMARK [0][]{chapter.5}{5 Implementation}{}% 42
-\BOOKMARK [1][]{section.5.1}{5.1 Requirements}{chapter.5}% 43
+\BOOKMARK [1][]{section.5.1}{5.1 Environment}{chapter.5}% 43
 \BOOKMARK [1][]{section.5.2}{5.2 Algorithm overview}{chapter.5}% 44
 \BOOKMARK [1][]{section.5.3}{5.3 Implementation details}{chapter.5}% 45
 \BOOKMARK [1][]{section.5.4}{5.4 Artifacts}{chapter.5}% 46
 \BOOKMARK [2][]{subsection.5.4.1}{5.4.1 Incorrect sampling of the G-buffer}{section.5.4}% 47
 \BOOKMARK [2][]{subsection.5.4.2}{5.4.2 Incorrect sampling of the cubemap}{section.5.4}% 48
 \BOOKMARK [2][]{subsection.5.4.3}{5.4.3 Shadow bias}{section.5.4}% 49
-\BOOKMARK [0][]{figure.caption.32}{Bibliography}{}% 50
+\BOOKMARK [0][]{figure.caption.33}{Bibliography}{}% 50
