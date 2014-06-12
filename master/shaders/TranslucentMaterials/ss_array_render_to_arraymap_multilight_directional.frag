@@ -130,7 +130,7 @@ void main(void)
                 {
                     vec3 ni = texture(ntex, sampl).rgb;
                     vec3 S = bssrdf(xi,wi,ni,xo,no);
-                    float normalization = exp(min_tr * length(relative_point));
+                    float normalization = exp(-min_tr * length(relative_point));
                     accumulate += Li * S * normalization;
                     count += 1;
                 }
@@ -151,6 +151,6 @@ void main(void)
 #else
         fragColor = vec4(accumulate,count) + vec4(oldColor.xyz,0);
 #endif
-    //fragColor = vec4(accumulate,count) + vec4(oldColor.xyz,0);
+
 
 }

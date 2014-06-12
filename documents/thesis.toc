@@ -43,11 +43,16 @@
 \contentsline {section}{\numberline {4.4}Parameter acquisition}{47}{section.4.4}
 \contentsline {section}{\numberline {4.5}Environment lights}{51}{section.4.5}
 \contentsline {chapter}{\numberline {5}Implementation}{57}{chapter.5}
-\contentsline {section}{\numberline {5.1}Requirements}{59}{section.5.1}
+\contentsline {section}{\numberline {5.1}Environment}{57}{section.5.1}
 \contentsline {section}{\numberline {5.2}Algorithm overview}{59}{section.5.2}
-\contentsline {section}{\numberline {5.3}Implementation details}{64}{section.5.3}
-\contentsline {section}{\numberline {5.4}Artifacts}{64}{section.5.4}
-\contentsline {subsection}{\numberline {5.4.1}Incorrect sampling of the G-buffer}{64}{subsection.5.4.1}
-\contentsline {subsection}{\numberline {5.4.2}Incorrect sampling of the cubemap}{64}{subsection.5.4.2}
-\contentsline {subsection}{\numberline {5.4.3}Shadow bias}{65}{subsection.5.4.3}
-\contentsline {chapter}{Bibliography}{67}{figure.caption.32}
+\contentsline {section}{\numberline {5.3}Implementation details}{65}{section.5.3}
+\contentsline {section}{\numberline {5.4}Artifacts}{65}{section.5.4}
+\contentsline {subsection}{\numberline {5.4.1}Incorrect sampling of the G-buffer}{65}{subsection.5.4.1}
+\contentsline {subsection}{\numberline {5.4.2}Incorrect sampling of the cubemap}{65}{subsection.5.4.2}
+\contentsline {subsection}{\numberline {5.4.3}Shadow bias}{66}{subsection.5.4.3}
+\contentsline {chapter}{\numberline {6}Results}{69}{chapter.6}
+\contentsline {chapter}{\numberline {A}Model matrices}{71}{appendix.A}
+\contentsline {section}{\numberline {A.1}Model matrices}{71}{section.A.1}
+\contentsline {section}{\numberline {A.2}View Matrix}{72}{section.A.2}
+\contentsline {section}{\numberline {A.3}Projection Matrix}{73}{section.A.3}
+\contentsline {chapter}{Bibliography}{75}{section.A.3}

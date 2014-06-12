@@ -90,7 +90,7 @@ void main(void)
         vec3 offset = epsilon_combination * (no - dir * dot(no,dir));
         vec3 pos = position - offset;
         vec4 l = cameraMatrices[i] * vec4(pos,1.0f);
-        vec4 color = texture(colorMap,vec3(l.xy,i));
+        vec4 color = textureLod(colorMap,vec3(l.xy,i),1);
         float vis = sample_shadow_map_more(l.xyz,i);
         fragColor += color * vis;
         div += vis;
@@ -122,5 +122,5 @@ void main(void)
         fragColor += refl_col * (1 - F);
     }
 
-    //fragColor = pow(fragColor, vec4(gamma));
+    fragColor = pow(fragColor, vec4(1/gamma));
 }

@@ -4,7 +4,7 @@ In this chapter, we will introduce the implementation details of our method. The
 
 \section{Environment}
 
-In order to better contextualize some of the choices and the code parts that will be introduced in this section, we will first introduced the environment used in our implementation. The method we are going to discuss was made using the OpenGL API, version 4.3 (released in August 2012), a multi-platform API used for rendering 2D and 3D accelerated graphics. With the OpenGL API comes together GLSL, the OpenGL Shading Language, used for writing pieces of code to be run on the GPU, called \emph{shaders}. On the CPU side, we use an extended framework based on Qt, a C++ library that allows to create OpenGL contexts and graphical interfaces in an easy way.
+In order to better contextualize some of the choices and the code parts that will be introduced in this section, we will first introduced the environment used in our implementation. The method we are going to discuss was made using the OpenGL API, version 4.3 (released in August 2012), a multi-platform API used for rendering 2D and 3D accelerated graphics. With the OpenGL API comes together GLSL, the OpenGL Shading Language, used for writing pieces of code to be run on the GPU, called \emph{shaders}. Our method uses some advanced features of OpenGL 4.3, so it is not immediately portable to previous generation hardware, and runs only on high-end modern GPUs. On the CPU side, we use an extended framework based on Qt, a C++ library that allows to create OpenGL contexts and graphical interfaces in an easy way.
 
 
 Stuff to insert:
@@ -92,10 +92,17 @@ In this chapter, we describe the implementation details of our technique, using 
 
 \section{Algorithm overview}
 
-By keeping the limitations presented in the previous chapter in mind TODO, we introduce our four pass algorithm. 
+By keeping the limitations presented in the previous chapter in mind TODO, we introduce our four pass algorithm. The algorithm is inspired by \emph{translucent shadow maps} TODO, that we presented in chapter TODO. The general idea is to first render the scene from the light point of view, then place the disk we discussed in the method chapter TODO directly on the generated texture. We use many directions in order to capture all the sides of the object. In this section, we will assume to only have one directional light and one object in the scene. We will discuss later how to extend the method to multiple light sources.
 
 \textbf{Step 1 - Light buffer} \\
-In the first step, positions and normals of the object are rendered into a texture from the light point of view. In addition, for each light a conversion matrix is computed and stored, in order to convert the position from world space to texture space. 
+
+In the first step, positions and normals of the object are rendered into a texture from the light point of view. As in standard shadow mapping we create and store a matrix to convert between world space and texture light space. With the matrix definitions and notation in section \ref{sec:matrices}, we express the matrix as:
+
+$$
+L = T\left(\frac{1}{2}\right) \cdot S\left(\frac{1}{2}\right) \cdot P \cdot V
+$$
+
+where $P$ and $V$ are the projection and view matrix we use to render with the light. The first two matrices are necessary to convert between clip and texture coordinates, as clip coordinates are in the range $[-1,1] \times [-1,1]$, while texture coordinates are in the range $[0,1]\times[0,1]$. 
 
 \begin{figure}[!ht]
 \centering
@@ -105,9 +112,27 @@ In the first step, positions and normals of the object are rendered into a textu
 \end{figure} 
 
 
-\textbf{Step 2 - Render to array texture} \\
-In the second step, we render the object from different directions into an array texture. Each layer of the texture represents a direction from which the object is rendered to. If we are able to cover all the surface of the model, 
-Since the BSSRDF model we are using is view-independent (apart from a Fresnel term) we can combine the results of the cubemap in a final combination step.
+\begin{figure}
+\centering
+\subfloat[{Vertex buffer}]{
+  \includegraphics[width=0.5 \linewidth]{images/method/vertices.png}
+  \label{fig:vbuff}
+}
+\subfloat[{Normal buffer}]{
+  \includegraphics[width=0.5 \linewidth]{images/method/normals.png}
+  \label{fig:nbuff}
+} 
+\label{fig:lightbuffers}
+\caption{State of the vertex and normal buffer after rendering from a directional light. The model used was the Stanford bunny from the Standford 3D Scanning repository.}
+\end{figure}
+
+\FloatBarrier
+
+\textbf{Step 2 - Render to radiance map} \\
+In the second step, we render the object from different directions into a radiance map. Each the radiance map is organized as a layered texture, where each layer represents a direction. The points on which to place the cameras are chosen to be uniformly distributed but random. On each layer, we accumulate the result over different frames.
+
+
+Since the BSSRDF model we are using is view-independent (apart from a Fresnel term) we can combine the results of the array map in a final combination step.
 
 \begin{figure}[!ht]
 \centering

@@ -114,7 +114,7 @@ TranslucentMaterials::TranslucentMaterials( QWidget* parent)
         #endif
         Light mainLight (light_position, light_diffuse, 1.0f, light_specular, true);
         Light secondaryLight(light_position_2, light_diffuse_2, 15.0f, Vec4f(0.0f), true);
-        //manager.addLight(mainLight);
+        manager.addLight(mainLight);
         //manager.addLight(secondaryLight);
         setFocusPolicy(Qt::ClickFocus);
         timer = new QTimer(this);
@@ -1305,6 +1305,9 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
     static Mat4x4f model_identity = identity_Mat4x4f();
     static Mat4x4f projection_array = ortho_Mat4x4f(Vec3f(-CAMERA_SIZE,-CAMERA_SIZE,CAMERA_NEAR),Vec3f(CAMERA_SIZE,CAMERA_SIZE,CAMERA_FAR));
     static Mat4x4f projection_light = ortho_Mat4x4f(Vec3f(-LIGHT_CAMERA_SIZE,-LIGHT_CAMERA_SIZE,1),Vec3f(LIGHT_CAMERA_SIZE,LIGHT_CAMERA_SIZE,10));
+    static Mat4x4f mat2 = translation_Mat4x4f(Vec3f(0.5)) * scaling_Mat4x4f(Vec3f(0.5)) * projection_array;
+    static Vec3f up = Vec3f(0,0,1);
+    static vector<Vec3f> spherePoints;
 
     static bool initialized = false;
     if(!initialized)
@@ -1325,25 +1328,11 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
         scattering_material->addTexture(skybox);
 
         screen_quad_material->addTexture(tex);
-        vector<Vec3f> spherePoints;
+
         sphereHalton(spherePoints, LAYERS);
 
         for(int i = 0; i < LAYERS; i++) cout << spherePoints[i] <<endl;
 
-        Mat4x4f mat2 = translation_Mat4x4f(Vec3f(0.5));
-        mat2 *= scaling_Mat4x4f(Vec3f(0.5));
-        mat2 *= projection_array;
-
-        Vec3f up = Vec3f(0,0,1);
-        Vec3f center = obj->getCenter();
-        for(int i = 0; i < LAYERS; i++)
-        {
-            Vec3f point = spherePoints[i];
-            Vec3f camera_pos = center + point * CAMERA_DISTANCE;
-            cameraPositions[i] = camera_pos;
-            viewMatrices[i] = scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(camera_pos, center, up);
-            planeTransformMatrices[i] = mat2 * viewMatrices[i];
-        }
     }
 
     if(params->currentFlags & TranslucentParameters::SAMPLES_CHANGED)
@@ -1359,6 +1348,9 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
 
     if(currentFrame < CONVERGENCE_FRAMES)
     {
+
+        Vec3f center = obj->getPosition();
+
         gbuff_shader.use();
 
         // Set up a modelview matrix suitable for shadow: Maps from world coords to
@@ -1372,8 +1364,8 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
 
         for(int i = 0; i < manager.size(); i++)
         {
-            Vec3f light_dir = LIGHT_CAMERA_DISTANCE * Vec3f(manager[i].position);
-            Mat4x4f V = lookat_Mat4x4f(light_dir,-light_dir,Vec3f(0,0,1));
+            Vec3f light_pos = center + LIGHT_CAMERA_DISTANCE * normalize(Vec3f(manager[i].position));
+            Mat4x4f V = lookat_Mat4x4f_target(light_pos,center,up);
             lightMatrices.push_back(V); //PARALLEL!
 
             Mat4x4f mat = translation_Mat4x4f(Vec3f(0.5));
@@ -1405,13 +1397,23 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
 
 
 
+
+        for(int i = 0; i < LAYERS; i++)
+        {
+            Vec3f point = spherePoints[i];
+            Vec3f camera_pos = center + point * CAMERA_DISTANCE;
+            cameraPositions[i] = camera_pos;
+            viewMatrices[i] = scaling_Mat4x4f(Vec3f(1,-1,1)) * lookat_Mat4x4f_target(camera_pos, center, up);
+            planeTransformMatrices[i] = mat2 * viewMatrices[i];
+        }
+
         Mesh::Texture * vtex = light_buffer.getVertexTexture();
         Mesh::Texture * ntex = light_buffer.getNormalTexture();
 
         scattering_material->addTexture(vtex);
         scattering_material->addTexture(ntex);
         screen_quad_material->addTexture(vtex);
-
+        screen_quad_material->addTexture(ntex);
         render_to_array.use();
 
 
@@ -1802,7 +1804,7 @@ void TranslucentMaterials::paintGL()
 
         for(int i = 0; i < n_lights; i++)
         {
-            manager.addLight(*lights[i]);
+            //manager.addLight(*lights[i]);
             light_dirs.push_back(lights.at(i)->position);
         }
 
@@ -2079,7 +2081,7 @@ ThreeDObject *TranslucentMaterials::getDefaultObject()
     Mesh::ScatteringMaterial * scattering_mat = getDefaultMaterial(S_Potato);
     ThreeDObject * bunny1 = new ThreeDObject();
     bunny1->init(objects_path+"bunny-simplified.obj", "bunny1", *scattering_mat);
-    bunny1->setScale(Vec3f(1.f));
+    bunny1->setScale(Vec3f(4.f));
     bunny1->setRotation(Vec3f(90,0,0));
     bunny1->setTranslation(Vec3f(0,0,0.f));
     bunny1->enabled = true;
