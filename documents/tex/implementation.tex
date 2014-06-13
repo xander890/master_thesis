@@ -92,7 +92,7 @@ In this chapter, we describe the implementation details of our technique, using 
 
 \section{Algorithm overview}
 
-By keeping the limitations presented in the previous chapter in mind TODO, we introduce our four pass algorithm. The algorithm is inspired by \emph{translucent shadow maps} TODO, that we presented in chapter TODO. The general idea is to first render the scene from the light point of view, then place the disk we discussed in the method chapter TODO directly on the generated texture. We use many directions in order to capture all the sides of the object. In this section, we will assume to only have one directional light and one object in the scene. We will discuss later how to extend the method to multiple light sources.
+By keeping the limitations presented in the previous chapter in mind TODO, we introduce our four pass algorithm. The algorithm is inspired by \emph{translucent shadow maps} TODO, that we presented in chapter TODO. The general idea is to first render the scene from the light point of view, then place the disk we discussed in the method chapter TODO directly on the generated texture. We use many directions in order to capture all the sides of the object. In this section, we will assume to only have one directional light $L_d$, $\vomega_d$ and one not-deformable object in the scene. We will discuss later how to extend the method to multiple light sources.
 
 \textbf{Step 1 - Light buffer} \\
 
@@ -106,8 +106,8 @@ where $P$ and $V$ are the projection and view matrix we use to render with the l
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=0.5 \linewidth]{images/method/step1}
-\caption{Render to G-buffer.}
+\includegraphics[width=0.8 \linewidth]{images/method/step1.pdf}
+\caption{Render to G-buffer. Note that the frustum and the light direction are aligned.}
 \label{fig:step1}
 \end{figure} 
 
@@ -129,60 +129,86 @@ where $P$ and $V$ are the projection and view matrix we use to render with the l
 \FloatBarrier
 
 \textbf{Step 2 - Render to radiance map} \\
-In the second step, we render the object from different directions into a radiance map. Each the radiance map is organized as a layered texture, where each layer represents a direction. The points on which to place the cameras are chosen to be uniformly distributed but random. On each layer, we accumulate the result over different frames.
+In the second step, we render the object from $K$ different directions into a radiance map. The radiance map is organized as a layered texture, where each layer represents a direction. The points on which to place the cameras are chosen randomly. On each layer, we accumulate the result over different frames. On the rendering step, for each pixel that corresponds to an exitance point $\x_o$ the shader samples $N$ points from the texture rendered in the previous step. If the sampled point is valid, it is then used to calculate the BSSRDF and accumulate it in the resulting radiance map. So, this step calculates the following:
 
-
-Since the BSSRDF model we are using is view-independent (apart from a Fresnel term) we can combine the results of the array map in a final combination step.
+$$
+R^{t,k}(\x_o) = L_d \sum_{i = 1}^N S(\x^{t,k}_i, \vomega^t_l, \x_o, \vomega_o) \exp\left(\sigma_{tr} r^{t,k}_i\right), \ \ t \in [0,T], \ \ k \in [0,K-1] 
+\label{eq:evolution_step}
+$$
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=0.5 \linewidth]{images/method/step2}
-\caption{Render to cubemap.}
+\includegraphics[width=0.9 \linewidth]{images/method/step2_improved.pdf}
+\caption{Render to the radiance map. When we render the point $\x_o$, the position in the lightmap is calculated and the values $\x_i$ in the samples are calculated and summed over.}
 \label{fig:step2}
 \end{figure} 
 
-When we are rendering a point from the orthographic camera that represents a side of the cubemap, we do as illustrated in Figure \ref{fig:stepfrustum}. For each fragment, we calculate the closest point to the light, sampling the texture calculated in the previous step. In Figure  \ref{fig:stepfrustum} we have two examples, of when the two points coincide (directly lit) and when the two points does not (light passing through the object). 
+Where we recall that we have introduced an exponential term in order to compensate for the exponential displacement of the sampling pattern. We introduced also a time $t$ parameter, that represents the fact that the result change over time, and a $k$ parameter, that represents the current direction we are rendering to. We will come back to this accumulation concept in a few lines. We can see how we are rendering a point from one of the considered directions in Figure \ref{fig:stepfrustum}. Also in this case, the texture space - world space conversion matrices are stored and prepared to be reused in the final combination step. 
 
+We can appreciate that rendering the light from the camera point of view comes with two important advantages:
+
+\begin{itemize}
+	\item If the disk is placed in texture space, it is automatically oriented towards the light direction, that is $\vomega_d = \vomega_l$.
+	\item The light renders in the texture only the points directly visible from it, that are also the points where the light radiance is maximum. In addition, if we sample the lightmap on any point, we get the corresponding vertex that is closest to the light.
+\end{itemize}
+
+This two factors allows us to sample the most optimal point and direction in where to place the disk, as we described it in section TODO.
+ 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=\linewidth]{images/method/method_frustumside}
-\caption{Render to cubemap, side view. Note that the fragment $\mathbf{x}^T_o$ is not rendered in this step, but only the point $\mathbf{x}_o$ is.}
+\includegraphics[width=\linewidth]{images/method/step2}
+\caption{Render to cubemap, side view. The gray area represents the frustum of the current direction's camera (orthographic). We have three different cases of a point on the surface: $\x_o^1$ is visible from both the light and the camera, so the disk is placed on it. $\x_o^2$ is visible from the camera but not from the light, so the disk is placed in the closest position to the light. $\x_o^3$ is not visible from the camera, so it is discarded.}
 \label{fig:stepfrustum}
 \end{figure} 
 
+As we discussed, these is an accumulation process going on:
 
-Then, we place a disk in the texture and accumulate the BSSRDF from the neighboring points, as shown in Figure \ref{fig:stepgbuffer}. The points are chosen on the disk according to a pre-determined sampling scheme (discussed later). In order to accumulate the points and perform the right area integral, we need to assume that all the points on the disk cover the same area. So, we accumulate the point according to this formula:
+$$
+\tilde{R}^{t,k} = \sum_{i = 0}^{t-1} R^{i,k} + R^{t,k} = \tilde{R}^{t-1, k} + R^{t,k}
+$$
 
-
-\[
-C^f(\mathbf{x}_o) = \sum_{i = 1}^{k} L_i(\mathbf{x}_i,\vec{\mathbf{\omega}}_i) S_i(\mathbf{x}_i,\mathbf{x}_o,\vec{\mathbf{\omega}}_i, \vec{\mathbf{\omega}}_o) \; (\vec{n_i}\cdot \vec{\mathbf{\omega}}_i) \; F_t(\vec{n_i},\vec{\mathbf{\omega}}_i) 
-\]
-
-where $\mathbf{x}_o$ is the exiting point $C^f$ is the cubemap on face $f$, $L_i$ is the incoming radiance, $S_i$ is the BSSRDF, $\mathbf{x}_i$ and $\vec{n_i}$ are the position and the normal sampled from a point of the disc, $k$ is the number of samples, and $F_t$ is the incoming Fresnel term.
-
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=0.5 \linewidth]{images/method/method_gbuffer}
-\caption{Render to cubemap, gbuffer view.}
-\label{fig:stepgbuffer}
-\end{figure} 
-
+$\tilde{R}$ here represents the actual value that is stored in the texture or loaded from the previous one. Naturally, the accumulation process works only if the scene does not change. A change can be a relative change of positions between the points on the model and the light, so if the model gets rotated or scaled (translation for directional lights is irrelevant), the accumulated result has to be discarded and the accumulation started all over. The cameras are locked with the model, so the pixels are always aligned irregardless of the model matrix of the object. This is why in equation \ref{eq:evolution_step} the dependence from time of the point $\x_o$ and $\vomega_o$ have been dropped. Obviously, the dependence must be reintroduced in case we are dealing with deformable objects.
+ 
 \FloatBarrier
+
 \textbf{Step 3 - Combination} \\
-In this step, for each fragment on the surface we sample all the six cubemap sides as illustrated in Figure \ref{fig:step3}. In order to do this, we need a depth cubemap that inform us if the fragment was visible when we rendered the cubemap face. Then, each point is divided by the number of visible faces to average it. In formulas, to get the final luminance:
+In this step, we have the final render of our model. While all the previous steps were not rendering anything in the scene (making a render-to-texture), in this scene we do an actual rendering of the model. Using the matrices prepared in the previous step, for each fragment on the surface we sample all the layers in the texture as illustrated in Figure \ref{fig:step3}. In order to do this, we need also to sample the depth map generated in the previous step. We can define this sampling as a visibility function to test if a point $\x$ belongs to layer $k$:
 
 $$
-L(\mathbf{x}) = \frac{\sum_{i = 1}^{6}V_{i}C(\mathbf{x}_{proj}^i)}{\sum_{i = 1}^{6}V_{i}}
+V_i^k(\x) = \begin{cases}
+1 & \text{if $\x$ is visible from the $k$th camera} \\
+0 & \text{otherwise}
+\end{cases}
+$$
+Given this function, we can simply represent the outgoing radiance by simply averaging the summation over the $K$ layers:
+
+$$
+L_{SS}^t(\mathbf{x}) = \frac{A_c}{N (t + 1)} \frac{\displaystyle\sum_{k = 0}^{K-1}V_{i}^k(\x) \tilde{R}^{t,k}(\mathbf{x})}{\displaystyle\sum_{k = 0}^{K-1}V_{i}^k(\x)}
 $$
 
-where $V_{i}$ is a visibility function that is zero if the point is not visible on the face $i$ and 1 if it is visible. $C(\mathbf{x})$ is the sample from the cubamap obtained in the previous step, and $\mathbf{x}_{proj}^i$ is the point $\mathbf{x}$ projected on the $i$-th cubemap face.
+The first factor $\frac{1}{t + 1}$ is to average over the number of frames, while the second is the average area of a sample in the circle $\frac{A_c}{N}$, that is necessary to complete the equation as described in TODO. We note that we tried to move all the layer-independent computation into the final computation step, in order to save as much performance as possible. 
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=0.5 \linewidth]{images/method/method_step3}
-\caption{Final combination step. Note that the point is generally not visible from all the cubemap faces.}
+\includegraphics[width=0.8 \linewidth]{images/method/combination.pdf}
+\caption{Final combination step. The blue quads indicates each one of the radiance map layers, as seen from their direction. We can see that in the point $\x_o$ the contribution from three faces (green dots) is considered. For the remaining two faces (red dots), the contribution is not considered as the point is not visible.}
 \label{fig:step3}
 \end{figure} 
+
+We are not done yet, as for now we have computed the radiance only deriving from subsurface scattering. For finally describing the illumination of our scene, we need also to include a factor based on the surface reflection. Since the subsurface scattering radiance is already multiplied by a transmittance Fresnel term (in the BSSRDF equation in TODO) $T(\eta,\vomega_o)$ we the reflection color multiplied by the converse transmission term $1 - T(\eta,\vomega_o)$:
+
+$$
+L^t(\x, \vomega_o) = L_{SS}^t(\x) + (1 - T(\eta,\vomega_o)) L_i(\x, \vomega_o - 2 (\vomega_o \cdot \vec{n}) \vec{n})
+$$
+
+$L_i$ can be the radiance coming from other objects or by an environment map. After this, we just need to perform gamma correction in order to get the final result. Given the gamma coefficient $\gamma$, we perform gamma correction by:
+
+$$
+L_{gamma}^t(\x, \vomega_o, \gamma) = L^t(\x,\vomega_o)^{\frac{1}{\gamma}}
+$$
+
+And we can finally send the radiance to the output device.
+
 
 \clearpage
 \section{Implementation details}
