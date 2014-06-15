@@ -1214,17 +1214,14 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
 {
     performanceTimer.registerEvent("-1: Start");
     //static ShaderProgramDraw obj_shader(shader_path,"object.vert","","object.frag");
-
-    static ShaderProgramDraw gbuff_shader(shader_path,"ss_array_gbuffer_multilight.vert","ss_array_gbuffer_multilight.geom", "ss_array_gbuffer_multilight.frag");
-
     //static ShaderProgramDraw gbuff_quad(shader_path,"ss_cubemap_test_gbuffer.vert","","ss_cubemap_test_gbuffer.frag");
     //static ShaderProgramDraw gbuff_wrap(shader_path,"ss_cubemap_test_wrap_gbuffer.vert","","ss_cubemap_test_wrap_gbuffer.frag");
-
     //static ShaderProgramDraw render_to_cubemap_test(shader_path,"ss_cubemap_render_to_cubemap.vert","","ss_cubemap_render_to_cubemap.frag");
     //static ShaderProgramDraw render_to_cubemap_test_screen(shader_path,"ss_cubemap_test_render_to_cubemap_screen.vert","","ss_cubemap_test_render_to_cubemap_screen.frag");
     //static ShaderProgramDraw render_to_cubemap_test_cube(shader_path,"ss_cubemap_test_render_to_cubemap_cube.vert","","ss_cubemap_test_render_to_cubemap_cube.frag");
-    static ShaderProgramDraw render_combination(shader_path,"ss_array_combination.vert","","ss_array_combination.frag");
 
+    static ShaderProgramDraw gbuff_shader(shader_path,"ss_array_gbuffer_multilight.vert","ss_array_gbuffer_multilight.geom", "ss_array_gbuffer_multilight.frag");
+    static ShaderProgramDraw render_combination(shader_path,"ss_array_combination.vert","","ss_array_combination.frag");
     static ShaderProgramDraw render_mipmaps(shader_path,"ss_array_generate_mipmaps.vert","ss_array_generate_mipmaps.geom","ss_array_generate_mipmaps.frag");
     static ThreeDPlane * screen_quad = new ThreeDPlane();
     static Mesh::Material * screen_quad_material = new Mesh::Material();
@@ -1245,7 +1242,6 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
     static ArrayTextureBuffer arraytexmap(ARRAY_TEXTURE_SIZE,LAYERS,MIPMAPS + 1);
     static ArrayTextureBuffer arraytexmap_back(ARRAY_TEXTURE_SIZE,LAYERS,MIPMAPS + 1);
 
-
     static MipMapGeneratorView * mipmaps = new MipMapGeneratorView(arraytexmap.getColorTexture()->get_id(), arraytexmap.getDepthTexture()->get_id(), ARRAY_TEXTURE_SIZE, LAYERS, MIPMAPS);
     static MipMapGeneratorView * mipmaps_back = new MipMapGeneratorView(arraytexmap_back.getColorTexture()->get_id(), arraytexmap_back.getDepthTexture()->get_id(), ARRAY_TEXTURE_SIZE, LAYERS, MIPMAPS);
 
@@ -1260,7 +1256,7 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
     const float CAMERA_FAR = 10.0f;
     const float CAMERA_SIZE = 1.0f;
     const int CONVERGENCE_FRAMES = 100;
-    const float CAMERA_RATIO = CAMERA_SIZE / LIGHT_CAMERA_SIZE;
+    //const float CAMERA_RATIO = CAMERA_SIZE / LIGHT_CAMERA_SIZE;
 
     int discPoints = maximum_samples; //TODO more LIGHTS!
     const int DISCS = LAYERS;
@@ -1391,13 +1387,6 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
 
         performanceTimer.registerEvent("1: Render to lightmap");
 
-        // We need to reset the viewport, since the shadow buffer does not have
-        // the same size as the screen window.
-        glViewport(0, 0, window_width, window_height);
-
-
-
-
         for(int i = 0; i < LAYERS; i++)
         {
             Vec3f point = spherePoints[i];
@@ -1416,12 +1405,7 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
         screen_quad_material->addTexture(ntex);
         render_to_array.use();
 
-
         glViewport(0,0,ARRAY_TEXTURE_SIZE,ARRAY_TEXTURE_SIZE);
-
-
-        Vec3f radius = Vec3f(29.909f,23.316f, 18.906f); //radius for marble - red 29.909 green 23.316 blue 18.906
-        //float trueRadius = clamp01(length(mat * Vec4f(radius[0],0,0,0)));
 
         float trueRadius = params->circleradius;
         glClearColor(0,0,0,0);
@@ -1446,9 +1430,7 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
 
         bool isFrontArrayMap = ((frame % 2) == 0)? true : false;
 
-
         // ping-pong between buffers
-
         if(isFrontArrayMap)
         {
             front = &arraytexmap;
@@ -1460,16 +1442,13 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
             front_mipmaps = mipmaps_back;
         }
 
-        //cout << render_to_array.processed_shader.c_str() << endl;
         //Render to front from back
-
         render_to_array.set_uniform("viewMatrices", viewMatrices, LAYERS);
         render_to_array.set_uniform("layers", LAYERS);
         render_to_array.set_model_matrix(model_identity);
         render_to_array.set_projection_matrix(projection_array);
-        front->enable();
-        performanceTimer.registerEvent("2.1: Render to array prepare");
 
+        front->enable();
         obj->display(render_to_array);
 
         performanceTimer.registerEvent("2: Render to array");

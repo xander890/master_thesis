@@ -98,6 +98,8 @@ void main(void)
     for(int k = 0; k < light_number; k++)
     {
         vec3 wi = light_pos[k].xyz;
+        vec4 rad = light_diff[k];
+        wi = (rad.a > 0)? normalize(wi - xo) : normalize(wi);
         //float li = length(wi - xo);
         wi = normalize(wi);
 
@@ -130,7 +132,7 @@ void main(void)
                 {
                     vec3 ni = texture(ntex, sampl).rgb;
                     vec3 S = bssrdf(xi,wi,ni,xo,no);
-                    float normalization = exp(-min_tr * length(relative_point));
+                    float normalization = exp(min_tr * length(relative_point));
                     accumulate += Li * S * normalization;
                     count += 1;
                 }

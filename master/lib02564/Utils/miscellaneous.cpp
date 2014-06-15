@@ -300,17 +300,17 @@ void planeHammersleyCircleMultiExp(std::vector<std::vector<Vec2f> > &result, int
     }
 }
 
-float vanDerCorputPoint(int k, int basis)
+float vanDerCorputPoint(int n, int basis)
 {
-    int kprime = k;
-    float pprime = (float)basis;
+    int kp = n;
+    float pp = (float)basis;
     float phi = 0.0f;
-    while(kprime > 0)
+    while(kp > 0)
     {
-        int a = kprime % basis;
-        phi = phi + a / pprime;
-        kprime = int(kprime / basis);
-        pprime = pprime * basis;
+        int a = kp % basis;
+        phi = phi + a / pp;
+        kp = int(kp / basis);
+        pp = pp * basis;
     }
     return phi;
 }

@@ -1,4 +1,4 @@
-\begin{thebibliography}{37}
+\begin{thebibliography}{44}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -103,6 +103,11 @@ Julie Dorsey, Alan Edelman, Henrik~Wann Jensen, Justin Legakis, and
   NY, USA, 1999. ACM Press/Addison-Wesley Publishing Co.
 \newblock URL \url{http://dx.doi.org/10.1145/311535.311560}.
 
+\bibitem[Everitt et~al.(2003)Everitt, Rege, and Cebenoyan]{everitt}
+Cass Everitt, Ashu Rege, and Cem Cebenoyan.
+\newblock Hardware shadow mapping.
+\newblock Technical report, NVIDIA Corporation, 2003.
+
 \bibitem[Fattal(2009)]{Fattal:2009:PMI:1477926.1477933}
 Raanan Fattal.
 \newblock Participating media illumination using light propagation maps.
@@ -122,6 +127,14 @@ J.~R. Frisvad, T.~Hachisuka, and T.~K. Kjeldsen.
 Robin Green.
 \newblock Spherical harmonic lighting: The gritty details, January 2003.
 \newblock Sony Computer Entertainment America.
+
+\bibitem[Halton(1964)]{Halton:1964:ARQ:355588.365104}
+J.~H. Halton.
+\newblock Algorithm 247: Radical-inverse quasi-random point sequence.
+\newblock \emph{Commun. ACM}, 7\penalty0 (12):\penalty0 701--702, December
+  1964.
+\newblock URL
+  \url{http://doi.acm.org.globalproxy.cvt.dk/10.1145/355588.365104}.
 
 \bibitem[Ishimaru(1997)]{books/daglib/0093591}
 Akira Ishimaru.
@@ -224,6 +237,11 @@ Srinivasa~G. Narasimhan, Mohit Gupta, Craig Donner, Ravi Ramamoorthi, Shree~K.
   2006.
 \newblock URL \url{http://doi.acm.org/10.1145/1141911.1141986}.
 
+\bibitem[Niederreiter(1992)]{niederreiter1992a}
+H.~Niederreiter.
+\newblock \emph{Random number generation and quasi-Monte Carlo methods}.
+\newblock SIAM, 1992.
+
 \bibitem[Pharr and Hanrahan(2000)]{Pharr:2000:MCE:344779.344824}
 Matt Pharr and Pat Hanrahan.
 \newblock Monte carlo evaluation of non-linear scattering equations for
@@ -237,6 +255,20 @@ Matt Pharr and Pat Hanrahan.
 Matt Pharr and Greg Humphreys.
 \newblock \emph{Physically Based Rendering: From Theory to Implementation}.
 \newblock Morgan Kaufmann Publishers Inc., San Francisco, CA, USA, 2004.
+
+\bibitem[Segal and Akeley(2012)]{openglspec}
+Marc Segal and Kurt Akeley.
+\newblock \emph{The OpenGL Graphics System: A Specification}, version 4.3 (core
+  profile) edition, August 2012.
+
+\bibitem[Segal et~al.(1992)Segal, Korobkin, van Widenfelt, Foran, and
+  Haeberli]{Segal:1992:FSL:142920.134071}
+Mark Segal, Carl Korobkin, Rolf van Widenfelt, Jim Foran, and Paul Haeberli.
+\newblock Fast shadows and lighting effects using texture mapping.
+\newblock \emph{SIGGRAPH Comput. Graph.}, 26\penalty0 (2):\penalty0 249--252,
+  July 1992.
+\newblock URL
+  \url{http://doi.acm.org.globalproxy.cvt.dk/10.1145/142920.134071}.
 
 \bibitem[Shah et~al.(2009)Shah, Konttinen, and Pattanaik]{4736459}
 M.A. Shah, J.~Konttinen, and S.~Pattanaik.
@@ -262,9 +294,9 @@ Jos Stam.
 \bibitem[Tomaszewska and Stefanowski(2012)]{Tomaszewska2012}
 Anna Tomaszewska and Krzysztof Stefanowski.
 \newblock Real-time spherical harmonics based subsurface scattering.
-\newblock In Aurélio Campilho and Mohamed Kamel, editors, \emph{Image Analysis
-  and Recognition}, volume 7324 of \emph{Lecture Notes in Computer Science},
-  pages 402--409. Springer Berlin Heidelberg, 2012.
+\newblock In Aur\'elio Campilho and Mohamed Kamel, editors, \emph{Image
+  Analysis and Recognition}, volume 7324 of \emph{Lecture Notes in Computer
+  Science}, pages 402--409. Springer Berlin Heidelberg, 2012.
 \newblock URL \url{http://dx.doi.org/10.1007/978-3-642-31295-3_47}.
 
 \bibitem[Unity(2012)]{unitymanual}
@@ -283,5 +315,19 @@ Yajun Wang, Jiaping Wang, Nicolas Holzschuch, Kartic Subr, Jun-Hai Yong, and
   2010.
 \newblock URL
   \url{http://dblp.uni-trier.de/db/journals/cgf/cgf29.html#WangWHSYG10}.
+
+\bibitem[Williams(1978)]{williams1978a}
+Lance Williams.
+\newblock Casting curved shadows on curved surfaces.
+\newblock \emph{International Conference on Computer Graphics and Interactive
+  Techniques}, -:\penalty0 270--274, 1978.
+
+\bibitem[Wong et~al.(1997)Wong, Luk, and Heng]{journals/jgtools/WongLH97}
+Tien-Tsin Wong, Wai-Shing Luk, and Pheng-Ann Heng.
+\newblock Sampling with hammersley and halton points.
+\newblock \emph{J. Graphics, GPU, \& Game Tools}, 2\penalty0 (2):\penalty0
+  9--24, 1997.
+\newblock URL
+  \url{http://dblp.uni-trier.de/db/journals/jgtools/jgtools2.html#WongLH97}.
 
 \end{thebibliography}
