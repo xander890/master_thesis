@@ -52,14 +52,14 @@
 \contentsline {subsection}{\numberline {5.3.4}Generation of uniformly distributed points}{69}{subsection.5.3.4}
 \contentsline {subsubsection}{\numberline {5.3.4.1}Exponentially biased points}{70}{subsubsection.5.3.4.1}
 \contentsline {subsection}{\numberline {5.3.5}Shadow mapping}{71}{subsection.5.3.5}
-\contentsline {section}{\numberline {5.4}Caveats}{73}{section.5.4}
-\contentsline {subsection}{\numberline {5.4.1}Random rotation of samples}{73}{subsection.5.4.1}
+\contentsline {section}{\numberline {5.4}Caveats}{74}{section.5.4}
+\contentsline {subsection}{\numberline {5.4.1}Random rotation of samples}{74}{subsection.5.4.1}
 \contentsline {subsection}{\numberline {5.4.2}Mipmap generation}{75}{subsection.5.4.2}
-\contentsline {subsection}{\numberline {5.4.3}Shadow bias}{77}{subsection.5.4.3}
-\contentsline {subsection}{\numberline {5.4.4}Texture discretization artifacts}{77}{subsection.5.4.4}
-\contentsline {chapter}{\numberline {6}Results}{79}{chapter.6}
-\contentsline {chapter}{\numberline {A}Model matrices}{81}{appendix.A}
-\contentsline {section}{\numberline {A.1}Model matrices}{81}{section.A.1}
-\contentsline {section}{\numberline {A.2}View Matrix}{82}{section.A.2}
-\contentsline {section}{\numberline {A.3}Projection Matrix}{83}{section.A.3}
-\contentsline {chapter}{Bibliography}{85}{section.A.3}
+\contentsline {subsection}{\numberline {5.4.3}Shadow bias}{78}{subsection.5.4.3}
+\contentsline {subsection}{\numberline {5.4.4}Texture discretization artifacts}{78}{subsection.5.4.4}
+\contentsline {chapter}{\numberline {6}Results}{81}{chapter.6}
+\contentsline {chapter}{\numberline {A}Model matrices}{83}{appendix.A}
+\contentsline {section}{\numberline {A.1}Model matrices}{83}{section.A.1}
+\contentsline {section}{\numberline {A.2}View Matrix}{84}{section.A.2}
+\contentsline {section}{\numberline {A.3}Projection Matrix}{85}{section.A.3}
+\contentsline {chapter}{Bibliography}{87}{section.A.3}

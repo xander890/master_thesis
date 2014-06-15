@@ -384,8 +384,15 @@ void planeHaltonCircleRejectionExponential(std::vector<Vec2f> &result, int n, fl
 Shadow mapping is a common technique used in modern real-time graphics \citep{everitt,Segal:1992:FSL:142920.134071,williams1978a}. The idea behind it is to render an object from a light's point of view, and then use the generated depth information in order to decide if a point is shadowed or not. First of all, we convert the point into the light camera space, using a special space conversion matrix. After this, if we have a point $\mathbf{p} = (p_x,p_y,p_z)$, we compare $p_z$ to the texture $T$ sampled in the point $(p_x,p_y)$:
 
 $$
-p_z < T(p_x,p_y)
+p_z > T(p_x,p_y)
 $$ 
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\linewidth]{images/method/shadow_map.pdf}
+\caption{Shadow mapping. We see the different results for three points $\mathbf{p^1}$, $\mathbf{p^2}$ and $\mathbf{p^3}$. The red length represents the value sampled from the depth texture($T(p_x,p_y)$), while the green length represents the value we compare against ($p_z$). When $p_z$ is less than $T(P_{xy})$, as in $\mathbf{p_1}$, the point is not shadowed. In the other cases, $\mathbf{p_2}$ and $\mathbf{p_3}$, $p_z > T(P_{xy})$and the point is not visible.}
+\label{fig:step3}
+\end{figure} 
 
 If the above condition is verified, it means that the current point is beneath the point visible from the light and then it should be shadowed. The matrix $L$ used to convert a point from world space to texture space is the following, using the matrix definitions and notation in section \ref{sec:matrices}:
 
@@ -482,7 +489,25 @@ highp float noise(vec2 co)
 \subsection{Mipmap generation}
 The randomization we performed in the previous step comes with a drawback, i.e. we increase the noisiness of the result, especially in the initial steps. Once we reach convergence, the noisiness slowly disappears, as we can see from figure TODO. In order to improve our method, we need to introduce a way to take the intermediate result and make it as close as possible to the final result at convergence. Our approach was to use a filter to blur the result multiple times, storing the results in the mipmaps of the radiance map generated in step 2 of our method. This results in an additional step between step 2 and step 3, where the mip maps are calculated.
 
-We tried different filters with different weights, and we will test some of them in the result chapter. The one that gave us the most promising results is the bilinear filter with the shape shown in figure TODO. The filter uses the alpha value of the texture as a weight for the sampled color, so the filter maintain the edges of the texture. We can see in figure TODO a comparison between the standard mipmap filter (which is an averaging of four neighbouring pixels) and our bilinear filter, noticing immediately the result.
+We tried different filters with different weights, and we will test some of them in the result chapter. The one that gave us the most promising results is the bilinear filter with the shape shown in figure \ref{fig:filters}. The filter uses the alpha value of the texture as a weight for the sampled color, so the filter maintain the edges of the texture. We can see in figure TODO a comparison between the standard mipmap filter (which is an averaging of four neighbouring pixels) and our bilinear filter, noticing immediately the result.
+
+\begin{figure}
+\centering
+\subfloat{
+  \includegraphics[width=0.33 \linewidth]{images/method/filter_1.pdf}
+  \label{fig:filter1}
+} 
+\subfloat{
+  \includegraphics[width=0.33 \linewidth]{images/method/filter_2.pdf}
+  \label{fig:filter2}
+} 
+\subfloat{
+  \includegraphics[width=0.33 \linewidth]{images/method/filter_3.pdf}
+  \label{fig:filter3}
+}  
+\caption{Alpha-weighted bilinear filter. In \ref{fig:filter1} we have the shape of the filter. In \ref{fig:filter2} we have the alpha channel of an example image, to which we show the weights used in the filters in figure \ref{fig:filter3}, based on the alpha channel of the picture.}
+\label{fig:filters}
+\end{figure}
 
 On the implementation level, the mipmaps need to be rendered one after the other, as we need the result of the first computation in order to perform the second. So, we use always the same shader, reported in listing \ref{lst:shaderimageprocessing}, to filter between two textures. In the first step, we bind layer zero (where the result of the rendering of step 2 is stored) as source and layer one as destination. Then, we bind layer 1 as source and layer 2 as destination, and so on. To perform the filtering, we render a full screen quad.
 
@@ -534,6 +559,22 @@ void main(void)
 }
 \end{lstlisting}
 \subsection{Shadow bias}
+
+\begin{figure}
+\centering
+\subfloat[Shadow acne]{
+  \includegraphics[width=0.5 \linewidth]{images/method/shadow_bias.pdf}
+  \label{fig:acne}
+}
+\subfloat[Shadow acne, with shadow bias]{
+  \includegraphics[width=0.5 \linewidth]{images/method/shadow_bias_correct.pdf}
+  \label{fig:bias}
+} 
+\caption{Shadow acne (figure \ref{fig:acne}) origin: the angle of the light causes little bands to appear. Adding a small offset $\epsilon_z$ to the sampling (\ref{fig:bias}) corrects the result, leading to a full lit surface.}
+\label{fig:shadowbias}
+\end{figure}
+
+
 The shadow mapping described in section TODO has an obvious problem, called \emph{shadow acne}. As we can see in figure TODO, the discretization of depth comes with a problem: depending on the incidence angle, the surface starts generating an alternating pattern of dark and light on the visible areas. The solution in this case is to introduce a constant factor when we are comparing the texture space position and the depth of a point, called \emph{shadow bias} $\epsilon_b$. The test then becomes:
 
 $$
