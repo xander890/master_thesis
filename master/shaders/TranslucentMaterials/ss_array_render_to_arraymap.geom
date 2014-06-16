@@ -16,8 +16,7 @@ smooth out vec3 norm;
 
 void main(void)
 {
-    int l = layers;
-    for(int i = 0; i < l; i++)
+    for(int i = 0; i < DIRECTIONS; i++)
     {
         gl_Layer = i;
 

@@ -24,7 +24,6 @@ uniform vec4 light_pos[MAX_LIGHTS];
 uniform vec4 light_diff[MAX_LIGHTS];
 uniform int light_number;
 uniform mat4 lightMatrices[MAX_LIGHTS];
-uniform vec3 sigma_tr_normalized;
 
 uniform float one_over_max_samples;
 uniform float one_over_discs;
@@ -34,14 +33,12 @@ uniform float max_samples;
 uniform int convergence_frames;
 uniform float current_frame_percentage;
 uniform mat4 cameraMatrices[DIRECTIONS];
-uniform float epsilon_combination;
 uniform int global_frame;
 uniform int current_frame;
 #endif
 
 uniform float discradius;
 uniform int samples;
-uniform float epsilon_gbuffer;
 
 #include "ss_aincludes_ss_uniforms.glinc"
 
@@ -57,8 +54,6 @@ void main(void)
 
     int layer = gl_Layer;
     vec3 xo = position;
-
-
     vec3 no = normalize(norm);
 
 #ifdef TIME

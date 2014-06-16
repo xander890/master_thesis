@@ -5,16 +5,14 @@
 layout(triangles) in;
 layout(triangle_strip, max_vertices = 60) out;
 
-uniform int layers;
-
 in vec3 v_tex[3];
 
 out vec3 _tex;
 
 void main(void)
 {
-    int l = layers;
-    for(int i = 0; i < l; i++)
+
+    for(int i = 0; i < DIRECTIONS; i++)
     {
         gl_Layer = i;
 

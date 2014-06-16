@@ -30,7 +30,7 @@ vec3 bssrdf(in vec3 xi, in vec3 wi, in vec3 ni, in vec3 xo, in vec3 no)
     //float To = fresnel_T(wo,no,nin,ntr);
 
     S = S *(1.0f/M_PI)* Ti;// * To;
-
+    S /= global_coeff;
     S = max(vec3(0.0f),S);
     //S = vec3(length(xo-xi));
 

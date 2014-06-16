@@ -2,13 +2,12 @@
 in vec3 _tex;
 
 #define FILTER 0
+#include "ss_aincludes_constants.glinc"
 
 uniform sampler2DArray colorMap;
 
 out vec4 fragColor;
 
-
-uniform float texStep;
 uniform int scaling;
 
 //uniform int currentLayer;
@@ -22,7 +21,7 @@ void main(void)
 {
     int currentLayer = gl_Layer;
 #if FILTER == 0
-    float adjStep = texStep * 0.5 * scaling;
+    float adjStep = ARRAY_TEX_STEP * 0.5 * scaling;
     vec4 c0 = sampleTex(colorMap,vec3(_tex.xy,currentLayer));
     vec4 c1 = sampleTex(colorMap,vec3(_tex.xy + vec2(adjStep,0.0f),currentLayer));
     vec4 c2 = sampleTex(colorMap,vec3(_tex.xy - vec2(adjStep,0.0f),currentLayer));

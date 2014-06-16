@@ -58,9 +58,15 @@
 #include "mipmapgeneratorview.h"
 #include <GLGraphics/infinitearealight.h>
 
-#define BUNNIES
+#define BUNNY 0
+#define BUDDHA 1
+#define DRAGON 2
+
+#define MODEL BUDDHA
+
 #define POINT_DIST 0 // 0 random, 1 exponential, 2 uniform
 #define TIMER
+//#define DIR
 
 #define GPU_MEMORY_INFO_DEDICATED_VIDMEM_NVX 0x9047
 #define GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX 0x9048
@@ -112,9 +118,12 @@ TranslucentMaterials::TranslucentMaterials( QWidget* parent)
         #ifndef TIMER
             performanceTimer.setIntermediateEnabled(false);
         #endif
+
         Light mainLight (light_position, light_diffuse, 1.0f, light_specular, true);
         Light secondaryLight(light_position_2, light_diffuse_2, 15.0f, Vec4f(0.0f), true);
+#ifndef DIR
         manager.addLight(mainLight);
+#endif
         //manager.addLight(secondaryLight);
         setFocusPolicy(Qt::ClickFocus);
         timer = new QTimer(this);
@@ -1783,7 +1792,9 @@ void TranslucentMaterials::paintGL()
 
         for(int i = 0; i < n_lights; i++)
         {
-            //manager.addLight(*lights[i]);
+#ifdef DIR
+            manager.addLight(*lights[i]);
+#endif
             light_dirs.push_back(lights.at(i)->position);
         }
 
@@ -1836,7 +1847,7 @@ void TranslucentMaterials::paintGL()
         switch(render_mode)
         {
         case DRAW_JENSEN:
-            //render_direct_array_time(reload_shaders,render_to_cubemap_jensen);
+            render_direct_array_time(reload_shaders,render_to_cubemap_jensen);
             break;
         case DRAW_BETTER:
             //render_direct_test(reload_shaders, render_to_cubemap_jensen);
@@ -2057,15 +2068,27 @@ void TranslucentMaterials::keyReleaseEvent(QKeyEvent *)
 
 ThreeDObject *TranslucentMaterials::getDefaultObject()
 {
+
     Mesh::ScatteringMaterial * scattering_mat = getDefaultMaterial(S_Potato);
-    ThreeDObject * bunny1 = new ThreeDObject();
-    bunny1->init(objects_path+"bunny-simplified.obj", "bunny1", *scattering_mat);
-    bunny1->setScale(Vec3f(4.f));
-    bunny1->setRotation(Vec3f(90,0,0));
-    bunny1->setTranslation(Vec3f(0,0,0.f));
-    bunny1->enabled = true;
-    bunny1->boundingBoxEnabled = true;
-    return bunny1;
+    ThreeDObject * object = new ThreeDObject();
+
+#if MODEL == BUNNY
+    object->init(objects_path+"bunny-simplified.obj", "object", *scattering_mat);
+    object->setScale(Vec3f(4.f));
+    object->setRotation(Vec3f(90,0,0));
+#elif MODEL == BUDDHA
+    object->init(objects_path+"buddha.obj", "object", *scattering_mat);
+    object->setScale(Vec3f(1.f));
+    object->setRotation(Vec3f(90,0,0));
+#elif MODEL == DRAGON
+    object->init(objects_path+"dragon.obj", "object", *scattering_mat);
+    object->setScale(Vec3f(1.f));
+    object->setRotation(Vec3f(0,0,0));
+#endif
+    object->setTranslation(Vec3f(0,0,0.f));
+    object->enabled = true;
+    object->boundingBoxEnabled = true;
+    return object;
 }
 
 ThreeDObject * TranslucentMaterials::getObject(string name)

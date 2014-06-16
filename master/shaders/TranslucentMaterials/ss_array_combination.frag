@@ -27,8 +27,6 @@ uniform float total_area;
 uniform float disc_area;
 uniform float ior;
 
-
-uniform float step_tex;
 uniform float mipmap_LOD;
 
 uniform mat4 cameraMatrices[DIRECTIONS];
@@ -63,12 +61,13 @@ float sample_shadow_map_more(vec3 light_pos, float layer)
     if(light_pos.x < 0.0 || light_pos.x > 1.0) return 1.0;
     if(light_pos.y < 0.0 || light_pos.y > 1.0) return 1.0;
 
-    const vec2 adj [4]= {vec2(step_tex,0.0f), vec2(0.0f,step_tex) ,vec2(-step_tex,0.0f) ,vec2(0.0f,-step_tex)};
+    vec2 adj [4]= {vec2(ARRAY_TEX_STEP,0.0f), vec2(0.0f,ARRAY_TEX_STEP) ,vec2(-ARRAY_TEX_STEP,0.0f) ,vec2(0.0f,-ARRAY_TEX_STEP)};
 
     float res = texture(depthMap,vec4(light_pos.x,light_pos.y,layer,light_pos.z)).r;
+    float mipmap = 1;
     for(int i = 0; i < 4; i++)
     {
-        res *= texture(depthMap,vec4(light_pos.x + adj[i].x,light_pos.y + adj[i].y,layer,light_pos.z)).r;
+        res *= texture(depthMap,vec4(light_pos.x + mipmap * adj[i].x,light_pos.y + mipmap * adj[i].y,layer,light_pos.z)).r;
     }
     return res;
 }
@@ -90,7 +89,8 @@ void main(void)
         vec3 offset = epsilon_combination * (no - dir * dot(no,dir));
         vec3 pos = position - offset;
         vec4 l = cameraMatrices[i] * vec4(pos,1.0f);
-        vec4 color = textureLod(colorMap,vec3(l.xy,i),1);
+        vec4 color = textureLod(colorMap,vec3(l.xy,i), mipmap_LOD);
+        float co = 1;
         float vis = sample_shadow_map_more(l.xyz,i);
         fragColor += color * vis;
         div += vis;
@@ -103,7 +103,7 @@ void main(void)
 #if DEBUG == 1
     int i = 1;
     vec4 l = cameraMatrices[i] * vec4(pos,1.0f);
-    fragColor = textureLod(colorMap,vec3(l.xy,i), 0) * vec4(sample_shadow_map(l.xyz,i));
+    fragColor = textureLod(colorMap,vec3(l.xy,i), 3) * vec4(sample_shadow_map(l.xyz,i));
 #endif
 
     fragColor *= disc_area * one_over_max_samples * global_coeff;
