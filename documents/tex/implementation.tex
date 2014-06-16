@@ -166,6 +166,22 @@ $$
 
 And we can finally send the radiance to the output device.
 
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.6 \linewidth]{images/results/potato_100_convergence.png}
+\caption{Final Result of the method after 100 frames simulating a potato bunny of dimensions $\approx 30 cm$. The parameters used were $r = 1 dm$, $N = 128$. All the results presented in this chapter are gamma corrected with $\gamma = 2.2$.}
+\label{fig:potato_result}
+\end{figure} 
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.6 \linewidth]{images/results/beer_backlit_100_convergence.png}
+\caption{Final Result of the method after 100 frames simulating a backlit bunny made of beer, dimensions $\approx 30 cm$. The parameters used were $r = 3 dm$, $N = 128$.}
+\label{fig:beer_result}
+\end{figure} 
+ 
+\FloatBarrier
+
 \section{Implementation details}
 In this section, we will further expand the overview  given in the previous section adding further details. We organized this section in topics, rather than following the order given by the algorithm, since most of the topic we will introduce will be used in multiple places. We will point out where each topic will be used in the algorithm.
 
@@ -558,9 +574,50 @@ void main(void)
 	fragColor = (step1 + step2 + step3 )/max(vstep1 + vstep2 + vstep3, 1.0f);
 }
 \end{lstlisting}
-\subsection{Shadow bias}
 
 \begin{figure}
+\centering
+\subfloat{
+  \includegraphics[width=0.33 \linewidth]{images/results/mipmap_0.png}
+  \label{fig:mip0}
+} 
+\subfloat{
+  \includegraphics[width=0.33 \linewidth]{images/results/mipmap_1.png}
+  \label{fig:mip1}
+} 
+\subfloat{
+  \includegraphics[width=0.33 \linewidth]{images/results/mipmap_2.png}
+  \label{fig:mip2}
+}  \\
+\subfloat{
+  \includegraphics[width=0.33 \linewidth]{images/results/jeppe_noise.png}
+  \label{fig:jenoise}
+} 
+\subfloat{
+  \includegraphics[width=0.33 \linewidth]{images/results/jeppe_mipmap_1.png}
+  \label{fig:jemip1}
+} 
+\subfloat{
+  \includegraphics[width=0.33 \linewidth]{images/results/jeppe_mipmap_2.png}
+  \label{fig:jemip2}
+}  
+\caption{Mipmap generation. On the first row, left to right, the base level and two subsequent applications of the bilinear filter (the images have been cropped for a better visualization). On the bottom row, the model sampled with the different mipmap levels. We note that at level 2 artifacts start to emerge along the camera seams.}
+\label{fig:mipmaps}
+\end{figure}
+\FloatBarrier
+
+\subsection{Shadow bias}
+
+The shadow mapping described in section TODO has an obvious problem, called \emph{shadow acne}. As we can see in figure TODO, the discretization of depth comes with a problem: depending on the incidence angle, the surface starts generating an alternating pattern of dark and light on the visible areas. The solution in this case is to introduce a constant factor when we are comparing the texture space position and the depth of a point, called \emph{shadow bias} $\epsilon_b$. The test then becomes:
+
+$$
+p_z - \epsilon_b < T(p_x,p_y)
+$$ 
+
+The result is depicted in figure TODO. As we can see, we raise the sampling by the bias factor, so the lit areas do not present shadow acne anymore. This comes with a drawback: the shadow bias, for thin objects, it introduces another artifact, called \emph{peter panning}, i.e. the shadow and the object become disconnected. In the case of our method, a too large bias makes the different directions to become "disconnected`, not representing a faithful result. 
+
+\begin{figure}
+\vspace{-3cm}
 \centering
 \subfloat[Shadow acne]{
   \includegraphics[width=0.5 \linewidth]{images/method/shadow_bias.pdf}
@@ -574,15 +631,7 @@ void main(void)
 \label{fig:shadowbias}
 \end{figure}
 
-
-The shadow mapping described in section TODO has an obvious problem, called \emph{shadow acne}. As we can see in figure TODO, the discretization of depth comes with a problem: depending on the incidence angle, the surface starts generating an alternating pattern of dark and light on the visible areas. The solution in this case is to introduce a constant factor when we are comparing the texture space position and the depth of a point, called \emph{shadow bias} $\epsilon_b$. The test then becomes:
-
-$$
-p_z - \epsilon_b < T(p_x,p_y)
-$$ 
-
-The result is depicted in figure TODO. As we can see, we raise the sampling by the bias factor, so the lit areas do not present shadow acne anymore. This comes with a drawback: the shadow bias, for thin objects, it introduces another artifact, called \emph{peter panning}, i.e. the shadow and the object become disconnected. In the case of our method, a too large bias makes the different directions to become "disconnected`, not representing a faithful result. 
-
+\FloatBarrier
 \subsection{Texture discretization artifacts}
 A problem related to the previous one is texture discretization artifacts, that appear as seams in the texture in figure TODO. The problem is similar to the one of depth bias, but it manifests on the direction perpendicular to the directional cameras. Because of the discretization and the depth bias in the shadow sampling, some pixels become false positives, being incorrectly sampled even if they are not visible. To fix this, we apply a transformation to the vertex in the final step that shrinks it a little bit towards the center of the texture. The shrinking is made using the camera direction as a main axis, according to the formula:
 
@@ -591,3 +640,17 @@ $$
 $$
 
 Where $\epsilon_c = \frac{1}{W}$, where $W$ is the width of the radiance map in pixel. In this way we obtain a shrinkage of one pixel of the model when we use $\x_o^{shrink}$ for sampling the radiance map. As we can see in figure TODO, adding this correction solves the problem.
+
+\begin{figure}
+\centering
+\subfloat[Without correction]{
+  \includegraphics[width=0.5 \linewidth]{images/results/comb_offset.png}
+  \label{fig:comb_off}
+}
+\subfloat[With correction]{
+  \includegraphics[width=0.5 \linewidth]{images/results/comb_offset_solved.png}
+  \label{fig:comb_off_solved}
+} 
+\caption{Combination offset artifacts. Without the correction, artifacts start to appear. With a correction of $0.001 \approx 1 / 1024$ the result is greatly improved.}
+\label{fig:shadowbias}
+\end{figure}

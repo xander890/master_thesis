@@ -270,7 +270,10 @@ OTHER_FILES += shaders/TranslucentMaterials/* \
     shaders/TranslucentMaterials/ss_array_render_to_arraymap.vert \
     shaders/TranslucentMaterials/ss_array_render_to_arraymap.geom \
     shaders/TranslucentMaterials/ss_array_debug_tex.vert \
-    shaders/TranslucentMaterials/ss_array_debug_tex.frag
+    shaders/TranslucentMaterials/ss_array_debug_tex.frag \
+    shaders/TranslucentMaterials/ss_array_depth_pass.vert \
+    shaders/TranslucentMaterials/ss_array_depth_pass.geom \
+    shaders/TranslucentMaterials/ss_array_depth_pass.frag
 
 FORMS += \
     exercises/TranslucentMaterials/mainwindow.ui \

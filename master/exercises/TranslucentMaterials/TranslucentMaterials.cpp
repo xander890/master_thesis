@@ -57,12 +57,13 @@
 #include "GLGraphics/ResourceLoader.h"
 #include "mipmapgeneratorview.h"
 #include <GLGraphics/infinitearealight.h>
+#include "depthonlybuffer.h"
 
 #define BUNNY 0
 #define BUDDHA 1
 #define DRAGON 2
 
-#define MODEL BUDDHA
+#define MODEL 2
 
 #define POINT_DIST 0 // 0 random, 1 exponential, 2 uniform
 #define TIMER
@@ -94,7 +95,7 @@ LightManager manager;
 
 const Vec4f light_specular(0.6f,0.6f,0.3f,0.6f);
 const Vec4f light_diffuse(.5f,.5f,.5f,1.0f);
-const Vec4f light_position(6.f,0.f,0.f,1);
+const Vec4f light_position(0.f,0.f,6.f,1);
 const Vec4f light_diffuse_2(0.7,0.5,0.5,0.0);
 const Vec4f light_position_2(6.0,0.0,0.0,1.0);
 
@@ -108,7 +109,7 @@ TranslucentMaterials::TranslucentMaterials( QWidget* parent)
       isGridVisible(true),
       areAxesVisible(true),
       params(new TranslucentParameters()),
-      render_mode(DRAW_JENSEN),
+      render_mode(DRAW_DIRECTIONAL),
       render_method(CUBEMAP_BASE),
       currentFrame(0),
       performanceTimer(PerformanceTimer(20)),
@@ -1248,6 +1249,14 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
 
     const int MIPMAPS = 3;
 
+//#define EXPERIMENT
+#ifdef EXPERIMENT
+static DepthOnlyBuffer depth_buffer(ARRAY_TEXTURE_SIZE,LAYERS);
+static ArrayTextureBuffer clean(ARRAY_TEXTURE_SIZE,LAYERS,1);
+
+static ShaderProgramDraw depth_only(shader_path,"ss_array_depth_pass.vert","ss_array_depth_pass.geom", "ss_array_depth_pass.frag");
+#endif
+
     static ArrayTextureBuffer arraytexmap(ARRAY_TEXTURE_SIZE,LAYERS,MIPMAPS + 1);
     static ArrayTextureBuffer arraytexmap_back(ARRAY_TEXTURE_SIZE,LAYERS,MIPMAPS + 1);
 
@@ -1299,7 +1308,9 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
         //render_to_cubemap_test_cube.reload();
         render_combination.reload();
         render_mipmaps.reload();
-
+#ifdef EXPERIMENT
+        depth_only.reload();
+#endif
         currentFrame = 0;
     }
 
@@ -1311,7 +1322,7 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
     static Mat4x4f projection_array = ortho_Mat4x4f(Vec3f(-CAMERA_SIZE,-CAMERA_SIZE,CAMERA_NEAR),Vec3f(CAMERA_SIZE,CAMERA_SIZE,CAMERA_FAR));
     static Mat4x4f projection_light = ortho_Mat4x4f(Vec3f(-LIGHT_CAMERA_SIZE,-LIGHT_CAMERA_SIZE,1),Vec3f(LIGHT_CAMERA_SIZE,LIGHT_CAMERA_SIZE,10));
     static Mat4x4f mat2 = translation_Mat4x4f(Vec3f(0.5)) * scaling_Mat4x4f(Vec3f(0.5)) * projection_array;
-    static Vec3f up = Vec3f(0,0,1);
+    static Vec3f up = Vec3f(1,0,0);
     static vector<Vec3f> spherePoints;
 
     static bool initialized = false;
@@ -1330,9 +1341,24 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
         // preparing first color buffer from which to read (just for avoiding errors,
         // the shader already avoids that)
         scattering_material->addTexture(arraytexmap_back.getColorTexture());
+
+        Mesh::Texture * vtex = light_buffer.getVertexTexture();
+        Mesh::Texture * ntex = light_buffer.getNormalTexture();
+
+        scattering_material->addTexture(vtex);
+        scattering_material->addTexture(ntex);
+        //scattering_material->addTexture(arraytexmap.getColorTexture());
+        //scattering_material->addTexture(arraytexmap.getDepthTexture());
         scattering_material->addTexture(skybox);
 
-        screen_quad_material->addTexture(tex);
+
+        //screen_quad_material->addTexture(arraytexmap.getColorTexture());
+        //screen_quad_material->addTexture(arraytexmap.getDepthTexture());
+        screen_quad_material->addTexture(vtex);
+        screen_quad_material->addTexture(ntex);
+
+        scattering_material->addTexture(arraytexmap.getDepthTexture());
+
 
         sphereHalton(spherePoints, LAYERS);
 
@@ -1405,21 +1431,27 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
             planeTransformMatrices[i] = mat2 * viewMatrices[i];
         }
 
-        Mesh::Texture * vtex = light_buffer.getVertexTexture();
-        Mesh::Texture * ntex = light_buffer.getNormalTexture();
 
-        scattering_material->addTexture(vtex);
-        scattering_material->addTexture(ntex);
-        screen_quad_material->addTexture(vtex);
-        screen_quad_material->addTexture(ntex);
+        #ifdef EXPERIMENT
+        depth_only.use();
+        glViewport(0,0,ARRAY_TEXTURE_SIZE,ARRAY_TEXTURE_SIZE);
+        depth_only.set_uniform("viewMatrices", viewMatrices, LAYERS);
+        scattering_material->replaceTexture(string("colorMap"),clean.getColorTexture());
+        scattering_material->replaceTexture(string("depthMap"),clean.getDepthTexture());
+        screen_quad_material->replaceTexture(string("colorMap"),clean.getColorTexture());
+        screen_quad_material->replaceTexture(string("depthMap"),clean.getDepthTexture());
+        set_light_and_camera(depth_only);
+        clean.enable();
+        obj->display(depth_only);
+        performanceTimer.registerEvent("2.1: Separate depth");
+        #endif
+
         render_to_array.use();
-
         glViewport(0,0,ARRAY_TEXTURE_SIZE,ARRAY_TEXTURE_SIZE);
 
         float trueRadius = params->circleradius;
         glClearColor(0,0,0,0);
 
-        //render_to_cubemap.set_uniform("discpoints", discpoints, DISC_POINTS);
         render_to_array.set_uniform("one_over_max_samples",1.0f/maximum_samples);
         render_to_array.set_uniform("max_samples",(float)maximum_samples);
         render_to_array.set_uniform("one_over_discs",1.0f/DISCS);
@@ -1509,18 +1541,13 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
         front->enableMipMaps();
         performanceTimer.registerEvent("3: Compute mipmaps");
 
-        screen_quad_material->removeTexture(string("colorMap"));
-        screen_quad_material->addTexture(front->getColorTexture());
-        screen_quad_material->addTexture(front->getDepthTexture());
 
         // Adding the new calculated stuff.
-        Mesh::Texture * color = front->getColorTexture();
-        string colname = color->get_name();
-        scattering_material->removeTexture(colname); //switching the old color TODO : replace
-        scattering_material->addTexture(color);
 
-        Mesh::Texture * depth = front->getDepthTexture();
-        scattering_material->addTexture(depth);
+        scattering_material->replaceTexture(string("colorMap"),front->getColorTexture());
+        scattering_material->replaceTexture(string("depthMap"),front->getDepthTexture());
+        screen_quad_material->replaceTexture(string("colorMap"),front->getColorTexture());
+        screen_quad_material->replaceTexture(string("depthMap"),front->getDepthTexture());
 
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER,0);
         glViewport(0,0,window_width,window_height);
@@ -1561,7 +1588,7 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
     if((currentFrame - 1) % 5 == 0 && currentFrame < 0)
     {
         QImage * screen = takeScreenshot();
-        QString name = QString("C:/Users/alessandro/Desktop/test/test_jensen_100_%1.png").arg(currentFrame - 1);
+        QString name = QString("C:/Users/alessandro/Desktop/test_convergence/test_jeppe_100_%1.png").arg(currentFrame - 1);
         screen->save(name);
         delete screen;
     }
@@ -1861,7 +1888,7 @@ void TranslucentMaterials::paintGL()
 
     reload_shaders = false;
 
-   // if(params->environment)
+    if(params->environment)
     {
         skybox_shader.use();
         skybox_shader.set_uniform("dir_lights", light_dirs, n_lights);

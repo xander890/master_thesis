@@ -75,6 +75,11 @@ namespace Mesh
             return id;
         }
 
+        void set_id(GLuint id)
+        {
+            this->id = id;
+        }
+
         GLenum get_target()
         {
             return target;

@@ -45,10 +45,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->objTest->setObject(bunny);
     ui->translucentMaterials->addObject(bunny);
 
-    ui->radius->init("Radius: ", ui->translucentMaterials->getParameters()->circleradius, 0.001, 1.0, false);
+    ui->radius->init("Radius: ", ui->translucentMaterials->getParameters()->circleradius, 0.1, 3.0, false);
     connect(ui->radius, SIGNAL(valueChanged(float)), this, SLOT(radiusChanged(float)));
 
-    ui->samples->init("Samples (total): ",ui->translucentMaterials->getParameters()->samples,2,1024, true);
+    ui->samples->init("Samples (total): ",ui->translucentMaterials->getParameters()->samples,2,2048, true);
     connect(ui->samples, SIGNAL(valueChanged(float)), this, SLOT(samplesChanged(float)));
 
     ui->maxsamples->init("Max samples: ",ui->translucentMaterials->getParameters()->maxsamples,1,1000, true);

@@ -98,6 +98,18 @@ namespace Mesh
         return nullptr;
     }
 
+    void Material::replaceTexture(string& name, Mesh::Texture * toReplace)
+    {
+        for(int i = 0; i < textures.size(); i++)
+        {
+            if(name.compare(textures[i]->get_name()) == 0)
+            {
+                textures[i] = toReplace;
+            }
+        }
+
+    }
+
     Mesh::ImageTexture * Material::getImageTexture(string& name)
     {
         for(int i = 0; i < imageTextures.size(); i++)

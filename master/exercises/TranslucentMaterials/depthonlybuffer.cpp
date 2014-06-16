@@ -19,6 +19,7 @@ void DepthOnlyBuffer::initialize()
     glGenFramebuffers(1,&fbo);
     glGenTextures(1, &depthtex);
 
+
     glBindTexture(GL_TEXTURE_2D_ARRAY, depthtex);
     glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -26,14 +27,7 @@ void DepthOnlyBuffer::initialize()
     glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
     glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_COMPARE_FUNC, GL_LESS);
-
-    //glTexStorage3D(GL_TEXTURE_2D_ARRAY, levels, GL_DEPTH_COMPONENT32, size, size, layers);
-    //Upload pixel data.
-    //The first 0 refers to the mipmap level (level 0, since there's only 1)
-    //The following 2 zeroes refers to the x and y offsets in case you only want to specify a subrectangle.
-    //The final 0 refers to the layer index offset (we start from index 0 and have 2 levels).
-    //Altogether you can specify a 3D box subset of the overall texture, but only one mip level at a time.
-    glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_DEPTH_COMPONENT32, size, size, layers, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
+    glTexStorage3D(	GL_TEXTURE_2D_ARRAY, 1, GL_DEPTH_COMPONENT32F, size, size, layers);
 
 
     depthTex = new Mesh::Texture("depthMap",depthtex, GL_TEXTURE_2D_ARRAY);

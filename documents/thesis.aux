@@ -280,78 +280,104 @@
 \newlabel{fig:stepfrustum}{{5.4}{62}{Render to cubemap, side view. The gray area represents the frustum of the current direction's camera (orthographic). We have three different cases of a point on the surface: $\x _o^1$ is visible from both the light and the camera, so the disk is placed on it. $\x _o^2$ is visible from the camera but not from the light, so the disk is placed in the closest position to the light. $\x _o^3$ is not visible from the camera, so it is discarded.\relax }{figure.caption.30}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {5.5}{\ignorespaces Final combination step. The blue quads indicates each one of the radiance map layers, as seen from their direction. We can see that in the point $\mathbf  {x}_o$ the contribution from three faces (green dots) is considered. For the remaining two faces (red dots), the contribution is not considered as the point is not visible.\relax }}{64}{figure.caption.31}}
 \newlabel{fig:step3}{{5.5}{64}{Final combination step. The blue quads indicates each one of the radiance map layers, as seen from their direction. We can see that in the point $\x _o$ the contribution from three faces (green dots) is considered. For the remaining two faces (red dots), the contribution is not considered as the point is not visible.\relax }{figure.caption.31}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.3}Implementation details}{64}{section.5.3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.1}Render-to-texture}{64}{subsection.5.3.1}}
-\newlabel{lst:rendertotextureinit}{{5.1}{65}{Render to texture example, initilalization phase. Note the call to \gl {glFramebufferTexture2D}}{lstlisting.5.1}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.1}Render to texture example, initilalization phase. Note the call to \texttt  {\nolinkurl  {glFramebufferTexture2D}}}{65}{lstlisting.5.1}}
-\newlabel{lst:rendertotexturerender}{{5.2}{65}{Render to texture example, rendering phase. Since we have not configured and FBO for depth and stencil buffers, depth testing and stencil should be disabled at this point}{lstlisting.5.2}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.2}Render to texture example, rendering phase. Since we have not configured and FBO for depth and stencil buffers, depth testing and stencil should be disabled at this point.}{65}{lstlisting.5.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.2}Layered rendering}{65}{subsection.5.3.2}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.6}{\ignorespaces Diagram that illustrates layered rendering.\relax }}{66}{figure.caption.32}}
-\newlabel{fig:step3}{{5.6}{66}{Diagram that illustrates layered rendering.\relax }{figure.caption.32}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.6}{\ignorespaces Final Result of the method after 100 frames simulating a potato bunny of dimensions $\approx 30 cm$. The parameters used were $r = 1 dm$, $N = 128$. All the results presented in this chapter are gamma corrected with $\gamma = 2.2$.\relax }}{65}{figure.caption.32}}
+\newlabel{fig:potato_result}{{5.6}{65}{Final Result of the method after 100 frames simulating a potato bunny of dimensions $\approx 30 cm$. The parameters used were $r = 1 dm$, $N = 128$. All the results presented in this chapter are gamma corrected with $\gamma = 2.2$.\relax }{figure.caption.32}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.7}{\ignorespaces Final Result of the method after 100 frames simulating a backlit bunny made of beer, dimensions $\approx 30 cm$. The parameters used were $r = 3 dm$, $N = 128$.\relax }}{65}{figure.caption.33}}
+\newlabel{fig:beer_result}{{5.7}{65}{Final Result of the method after 100 frames simulating a backlit bunny made of beer, dimensions $\approx 30 cm$. The parameters used were $r = 3 dm$, $N = 128$.\relax }{figure.caption.33}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.3}Implementation details}{66}{section.5.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.1}Render-to-texture}{66}{subsection.5.3.1}}
+\newlabel{lst:rendertotextureinit}{{5.1}{66}{Render to texture example, initilalization phase. Note the call to \gl {glFramebufferTexture2D}}{lstlisting.5.1}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.1}Render to texture example, initilalization phase. Note the call to \texttt  {\nolinkurl  {glFramebufferTexture2D}}}{66}{lstlisting.5.1}}
+\newlabel{lst:rendertotexturerender}{{5.2}{67}{Render to texture example, rendering phase. Since we have not configured and FBO for depth and stencil buffers, depth testing and stencil should be disabled at this point}{lstlisting.5.2}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.2}Render to texture example, rendering phase. Since we have not configured and FBO for depth and stencil buffers, depth testing and stencil should be disabled at this point.}{67}{lstlisting.5.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.2}Layered rendering}{67}{subsection.5.3.2}}
 \newlabel{lst:initarraytexture}{{5.3}{67}{Initializing array texture. Note that the number of layers is passed to the \gl {glTexStorage3D} command}{lstlisting.5.3}{}}
 \@writefile{lol}{\contentsline {lstlisting}{\numberline {5.3}Initializing array texture. Note that the number of layers is passed to the \texttt  {\nolinkurl  {glTexStorage3D}} command.}{67}{lstlisting.5.3}}
-\newlabel{lst:arraygeomshader}{{5.4}{67}{Geometry shader for layered rendering. The multiplication by the model matrix of vertex v is performed in the vertex shader (not shown)}{lstlisting.5.4}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.4}Geometry shader for layered rendering. The multiplication by the model matrix of vertex v is performed in the vertex shader (not shown).}{67}{lstlisting.5.4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.8}{\ignorespaces Diagram that illustrates layered rendering.\relax }}{68}{figure.caption.34}}
+\newlabel{fig:step3}{{5.8}{68}{Diagram that illustrates layered rendering.\relax }{figure.caption.34}{}}
+\newlabel{lst:arraygeomshader}{{5.4}{68}{Geometry shader for layered rendering. The multiplication by the model matrix of vertex v is performed in the vertex shader (not shown)}{lstlisting.5.4}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.4}Geometry shader for layered rendering. The multiplication by the model matrix of vertex v is performed in the vertex shader (not shown).}{68}{lstlisting.5.4}}
 \citation{openglspec}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.3}Accumulation buffers}{68}{subsection.5.3.3}}
-\newlabel{lst:pingpong}{{5.5}{68}{Minimal example of ping-pong textures}{lstlisting.5.5}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.5}Minimal example of ping-pong textures.}{68}{lstlisting.5.5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.3}Accumulation buffers}{69}{subsection.5.3.3}}
 \citation{Halton:1964:ARQ:355588.365104}
 \citation{niederreiter1992a}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.4}Generation of uniformly distributed points}{69}{subsection.5.3.4}}
+\newlabel{lst:pingpong}{{5.5}{70}{Minimal example of ping-pong textures}{lstlisting.5.5}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.5}Minimal example of ping-pong textures.}{70}{lstlisting.5.5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.4}Generation of uniformly distributed points}{70}{subsection.5.3.4}}
 \citation{journals/jgtools/WongLH97}
-\newlabel{lst:vandercorput}{{5.6}{70}{Generating the p-adic Van der Corput point}{lstlisting.5.6}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.6}Generating the p-adic Van der Corput point.}{70}{lstlisting.5.6}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.4.1}Exponentially biased points}{70}{subsubsection.5.3.4.1}}
+\newlabel{lst:vandercorput}{{5.6}{72}{Generating the p-adic Van der Corput point}{lstlisting.5.6}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.6}Generating the p-adic Van der Corput point.}{72}{lstlisting.5.6}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.4.1}Exponentially biased points}{72}{subsubsection.5.3.4.1}}
+\newlabel{lst:randomexp}{{5.7}{72}{Generation by rejection of a exponentially distributed disc}{lstlisting.5.7}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.7}Generation by rejection of a exponentially distributed disc.}{72}{lstlisting.5.7}}
 \citation{everitt,Segal:1992:FSL:142920.134071,williams1978a}
-\newlabel{lst:randomexp}{{5.7}{71}{Generation by rejection of a exponentially distributed disc}{lstlisting.5.7}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.7}Generation by rejection of a exponentially distributed disc.}{71}{lstlisting.5.7}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.5}Shadow mapping}{71}{subsection.5.3.5}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.7}{\ignorespaces Shadow mapping. We see the different results for three points $\mathbf  {p^1}$, $\mathbf  {p^2}$ and $\mathbf  {p^3}$. The red length represents the value sampled from the depth texture($T(p_x,p_y)$), while the green length represents the value we compare against ($p_z$). When $p_z$ is less than $T(P_{xy})$, as in $\mathbf  {p_1}$, the point is not shadowed. In the other cases, $\mathbf  {p_2}$ and $\mathbf  {p_3}$, $p_z > T(P_{xy})$and the point is not visible.\relax }}{72}{figure.caption.33}}
-\newlabel{fig:step3}{{5.7}{72}{Shadow mapping. We see the different results for three points $\mathbf {p^1}$, $\mathbf {p^2}$ and $\mathbf {p^3}$. The red length represents the value sampled from the depth texture($T(p_x,p_y)$), while the green length represents the value we compare against ($p_z$). When $p_z$ is less than $T(P_{xy})$, as in $\mathbf {p_1}$, the point is not shadowed. In the other cases, $\mathbf {p_2}$ and $\mathbf {p_3}$, $p_z > T(P_{xy})$and the point is not visible.\relax }{figure.caption.33}{}}
-\newlabel{lst:textureconfshadow}{{5.8}{73}{Sampling of the shadow map texture in step 3 of our method}{lstlisting.5.8}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.8}Sampling of the shadow map texture in step 3 of our method.}{73}{lstlisting.5.8}}
-\newlabel{lst:textureconfshadow}{{5.9}{73}{Configuration of a shadow map depth texture}{lstlisting.5.9}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.9}Configuration of a shadow map depth texture.}{73}{lstlisting.5.9}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.4}Caveats}{74}{section.5.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.1}Random rotation of samples}{74}{subsection.5.4.1}}
-\newlabel{eq:randomrot}{{5.1}{74}{Random rotation of samples}{equation.5.4.1}{}}
-\newlabel{lst:sinegenerator}{{5.10}{75}{Sine-based generation of random points on the GPU}{lstlisting.5.10}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.10}Sine-based generation of random points on the GPU.}{75}{lstlisting.5.10}}
-\newlabel{lst:lineargenerator}{{5.11}{75}{Linear Congruential generator of random points on the GPU}{lstlisting.5.11}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.11}Linear Congruential generator of random points on the GPU.}{75}{lstlisting.5.11}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.2}Mipmap generation}{75}{subsection.5.4.2}}
-\newlabel{fig:filter1}{{5.8a}{76}{Subfigure 5 5.8a}{subfigure.5.8.1}{}}
-\newlabel{sub@fig:filter1}{{(a)}{a}{Subfigure 5 5.8a\relax }{subfigure.5.8.1}{}}
-\newlabel{fig:filter2}{{5.8b}{76}{Subfigure 5 5.8b}{subfigure.5.8.2}{}}
-\newlabel{sub@fig:filter2}{{(b)}{b}{Subfigure 5 5.8b\relax }{subfigure.5.8.2}{}}
-\newlabel{fig:filter3}{{5.8c}{76}{Subfigure 5 5.8c}{subfigure.5.8.3}{}}
-\newlabel{sub@fig:filter3}{{(c)}{c}{Subfigure 5 5.8c\relax }{subfigure.5.8.3}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.8}{\ignorespaces Alpha-weighted bilinear filter. In \ref  {fig:filter1} we have the shape of the filter. In \ref  {fig:filter2} we have the alpha channel of an example image, to which we show the weights used in the filters in figure \ref  {fig:filter3}, based on the alpha channel of the picture.\relax }}{76}{figure.caption.34}}
-\newlabel{fig:filters}{{5.8}{76}{Alpha-weighted bilinear filter. In \ref {fig:filter1} we have the shape of the filter. In \ref {fig:filter2} we have the alpha channel of an example image, to which we show the weights used in the filters in figure \ref {fig:filter3}, based on the alpha channel of the picture.\relax }{figure.caption.34}{}}
-\newlabel{lst:shaderimageprocessing}{{5.12}{77}{Custom mipmap filtering on GPU. \gl {_tex} are the texture coordinates on the screen aligned quad}{lstlisting.5.12}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.12}Custom mipmap filtering on GPU. \texttt  {\nolinkurl  {_tex}} are the texture coordinates on the screen aligned quad.}{77}{lstlisting.5.12}}
-\newlabel{fig:acne}{{5.9a}{78}{Subfigure 5 5.9a}{subfigure.5.9.1}{}}
-\newlabel{sub@fig:acne}{{(a)}{a}{Subfigure 5 5.9a\relax }{subfigure.5.9.1}{}}
-\newlabel{fig:bias}{{5.9b}{78}{Subfigure 5 5.9b}{subfigure.5.9.2}{}}
-\newlabel{sub@fig:bias}{{(b)}{b}{Subfigure 5 5.9b\relax }{subfigure.5.9.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.9}{\ignorespaces Shadow acne (figure \ref  {fig:acne}) origin: the angle of the light causes little bands to appear. Adding a small offset $\epsilon _z$ to the sampling (\ref  {fig:bias}) corrects the result, leading to a full lit surface.\relax }}{78}{figure.caption.35}}
-\newlabel{fig:shadowbias}{{5.9}{78}{Shadow acne (figure \ref {fig:acne}) origin: the angle of the light causes little bands to appear. Adding a small offset $\epsilon _z$ to the sampling (\ref {fig:bias}) corrects the result, leading to a full lit surface.\relax }{figure.caption.35}{}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Shadow acne}}}{78}{subfigure.9.1}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Shadow acne, with shadow bias}}}{78}{subfigure.9.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.3}Shadow bias}{78}{subsection.5.4.3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.4}Texture discretization artifacts}{78}{subsection.5.4.4}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Results}{81}{chapter.6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.5}Shadow mapping}{73}{subsection.5.3.5}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.9}{\ignorespaces Shadow mapping. We see the different results for three points $\mathbf  {p^1}$, $\mathbf  {p^2}$ and $\mathbf  {p^3}$. The red length represents the value sampled from the depth texture($T(p_x,p_y)$), while the green length represents the value we compare against ($p_z$). When $p_z$ is less than $T(P_{xy})$, as in $\mathbf  {p_1}$, the point is not shadowed. In the other cases, $\mathbf  {p_2}$ and $\mathbf  {p_3}$, $p_z > T(P_{xy})$and the point is not visible.\relax }}{74}{figure.caption.35}}
+\newlabel{fig:step3}{{5.9}{74}{Shadow mapping. We see the different results for three points $\mathbf {p^1}$, $\mathbf {p^2}$ and $\mathbf {p^3}$. The red length represents the value sampled from the depth texture($T(p_x,p_y)$), while the green length represents the value we compare against ($p_z$). When $p_z$ is less than $T(P_{xy})$, as in $\mathbf {p_1}$, the point is not shadowed. In the other cases, $\mathbf {p_2}$ and $\mathbf {p_3}$, $p_z > T(P_{xy})$and the point is not visible.\relax }{figure.caption.35}{}}
+\newlabel{lst:textureconfshadow}{{5.8}{74}{Sampling of the shadow map texture in step 3 of our method}{lstlisting.5.8}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.8}Sampling of the shadow map texture in step 3 of our method.}{74}{lstlisting.5.8}}
+\newlabel{lst:textureconfshadow}{{5.9}{75}{Configuration of a shadow map depth texture}{lstlisting.5.9}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.9}Configuration of a shadow map depth texture.}{75}{lstlisting.5.9}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.4}Caveats}{76}{section.5.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.1}Random rotation of samples}{76}{subsection.5.4.1}}
+\newlabel{eq:randomrot}{{5.1}{76}{Random rotation of samples}{equation.5.4.1}{}}
+\newlabel{lst:sinegenerator}{{5.10}{77}{Sine-based generation of random points on the GPU}{lstlisting.5.10}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.10}Sine-based generation of random points on the GPU.}{77}{lstlisting.5.10}}
+\newlabel{lst:lineargenerator}{{5.11}{77}{Linear Congruential generator of random points on the GPU}{lstlisting.5.11}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.11}Linear Congruential generator of random points on the GPU.}{77}{lstlisting.5.11}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.2}Mipmap generation}{77}{subsection.5.4.2}}
+\newlabel{fig:filter1}{{5.10a}{78}{Subfigure 5 5.10a}{subfigure.5.10.1}{}}
+\newlabel{sub@fig:filter1}{{(a)}{a}{Subfigure 5 5.10a\relax }{subfigure.5.10.1}{}}
+\newlabel{fig:filter2}{{5.10b}{78}{Subfigure 5 5.10b}{subfigure.5.10.2}{}}
+\newlabel{sub@fig:filter2}{{(b)}{b}{Subfigure 5 5.10b\relax }{subfigure.5.10.2}{}}
+\newlabel{fig:filter3}{{5.10c}{78}{Subfigure 5 5.10c}{subfigure.5.10.3}{}}
+\newlabel{sub@fig:filter3}{{(c)}{c}{Subfigure 5 5.10c\relax }{subfigure.5.10.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.10}{\ignorespaces Alpha-weighted bilinear filter. In \ref  {fig:filter1} we have the shape of the filter. In \ref  {fig:filter2} we have the alpha channel of an example image, to which we show the weights used in the filters in figure \ref  {fig:filter3}, based on the alpha channel of the picture.\relax }}{78}{figure.caption.36}}
+\newlabel{fig:filters}{{5.10}{78}{Alpha-weighted bilinear filter. In \ref {fig:filter1} we have the shape of the filter. In \ref {fig:filter2} we have the alpha channel of an example image, to which we show the weights used in the filters in figure \ref {fig:filter3}, based on the alpha channel of the picture.\relax }{figure.caption.36}{}}
+\newlabel{lst:shaderimageprocessing}{{5.12}{78}{Custom mipmap filtering on GPU. \gl {_tex} are the texture coordinates on the screen aligned quad}{lstlisting.5.12}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.12}Custom mipmap filtering on GPU. \texttt  {\nolinkurl  {_tex}} are the texture coordinates on the screen aligned quad.}{78}{lstlisting.5.12}}
+\newlabel{fig:mip0}{{5.11a}{80}{Subfigure 5 5.11a}{subfigure.5.11.1}{}}
+\newlabel{sub@fig:mip0}{{(a)}{a}{Subfigure 5 5.11a\relax }{subfigure.5.11.1}{}}
+\newlabel{fig:mip1}{{5.11b}{80}{Subfigure 5 5.11b}{subfigure.5.11.2}{}}
+\newlabel{sub@fig:mip1}{{(b)}{b}{Subfigure 5 5.11b\relax }{subfigure.5.11.2}{}}
+\newlabel{fig:mip2}{{5.11c}{80}{Subfigure 5 5.11c}{subfigure.5.11.3}{}}
+\newlabel{sub@fig:mip2}{{(c)}{c}{Subfigure 5 5.11c\relax }{subfigure.5.11.3}{}}
+\newlabel{fig:jenoise}{{5.11d}{80}{Subfigure 5 5.11d}{subfigure.5.11.4}{}}
+\newlabel{sub@fig:jenoise}{{(d)}{d}{Subfigure 5 5.11d\relax }{subfigure.5.11.4}{}}
+\newlabel{fig:jemip1}{{5.11e}{80}{Subfigure 5 5.11e}{subfigure.5.11.5}{}}
+\newlabel{sub@fig:jemip1}{{(e)}{e}{Subfigure 5 5.11e\relax }{subfigure.5.11.5}{}}
+\newlabel{fig:jemip2}{{5.11f}{80}{Subfigure 5 5.11f}{subfigure.5.11.6}{}}
+\newlabel{sub@fig:jemip2}{{(f)}{f}{Subfigure 5 5.11f\relax }{subfigure.5.11.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.11}{\ignorespaces Mipmap generation. On the first row, left to right, the base level and two subsequent applications of the bilinear filter (the images have been cropped for a better visualization). On the bottom row, the model sampled with the different mipmap levels. We note that at level 2 artifacts start to emerge along the camera seams.\relax }}{80}{figure.caption.37}}
+\newlabel{fig:mipmaps}{{5.11}{80}{Mipmap generation. On the first row, left to right, the base level and two subsequent applications of the bilinear filter (the images have been cropped for a better visualization). On the bottom row, the model sampled with the different mipmap levels. We note that at level 2 artifacts start to emerge along the camera seams.\relax }{figure.caption.37}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.3}Shadow bias}{81}{subsection.5.4.3}}
+\newlabel{fig:acne}{{5.12a}{81}{Subfigure 5 5.12a}{subfigure.5.12.1}{}}
+\newlabel{sub@fig:acne}{{(a)}{a}{Subfigure 5 5.12a\relax }{subfigure.5.12.1}{}}
+\newlabel{fig:bias}{{5.12b}{81}{Subfigure 5 5.12b}{subfigure.5.12.2}{}}
+\newlabel{sub@fig:bias}{{(b)}{b}{Subfigure 5 5.12b\relax }{subfigure.5.12.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.12}{\ignorespaces Shadow acne (figure \ref  {fig:acne}) origin: the angle of the light causes little bands to appear. Adding a small offset $\epsilon _z$ to the sampling (\ref  {fig:bias}) corrects the result, leading to a full lit surface.\relax }}{81}{figure.caption.38}}
+\newlabel{fig:shadowbias}{{5.12}{81}{Shadow acne (figure \ref {fig:acne}) origin: the angle of the light causes little bands to appear. Adding a small offset $\epsilon _z$ to the sampling (\ref {fig:bias}) corrects the result, leading to a full lit surface.\relax }{figure.caption.38}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Shadow acne}}}{81}{subfigure.12.1}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Shadow acne, with shadow bias}}}{81}{subfigure.12.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.4}Texture discretization artifacts}{82}{subsection.5.4.4}}
+\newlabel{fig:comb_off}{{5.13a}{83}{Subfigure 5 5.13a}{subfigure.5.13.1}{}}
+\newlabel{sub@fig:comb_off}{{(a)}{a}{Subfigure 5 5.13a\relax }{subfigure.5.13.1}{}}
+\newlabel{fig:comb_off_solved}{{5.13b}{83}{Subfigure 5 5.13b}{subfigure.5.13.2}{}}
+\newlabel{sub@fig:comb_off_solved}{{(b)}{b}{Subfigure 5 5.13b\relax }{subfigure.5.13.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.13}{\ignorespaces Combination offset artifacts. Without the correction, artifacts start to appear. With a correction of $0.001 \approx 1 / 1024$ the result is greatly improved.\relax }}{83}{figure.caption.39}}
+\newlabel{fig:shadowbias}{{5.13}{83}{Combination offset artifacts. Without the correction, artifacts start to appear. With a correction of $0.001 \approx 1 / 1024$ the result is greatly improved.\relax }{figure.caption.39}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Without correction}}}{83}{subfigure.13.1}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {With correction}}}{83}{subfigure.13.2}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Results}{85}{chapter.6}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {chapter}{\numberline {A}Model matrices}{83}{appendix.A}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {A}Model matrices}{87}{appendix.A}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{sec:matrices}{{A}{83}{Model matrices}{appendix.A}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {A.1}Model matrices}{83}{section.A.1}}
-\@writefile{toc}{\contentsline {section}{\numberline {A.2}View Matrix}{84}{section.A.2}}
-\@writefile{toc}{\contentsline {section}{\numberline {A.3}Projection Matrix}{85}{section.A.3}}
+\newlabel{sec:matrices}{{A}{87}{Model matrices}{appendix.A}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.1}Model matrices}{87}{section.A.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.2}View Matrix}{88}{section.A.2}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.3}Projection Matrix}{89}{section.A.3}}
 \bibstyle{alexnat}
 \bibdata{thesis}
 \bibcite{Ashikmin:2000:MBG:344779.344814}{{1}{2000}{{Ashikmin et~al.}}{{Ashikmin, Premo\v {z}e, and Shirley}}}
@@ -361,7 +387,7 @@
 \bibcite{ntt}{{5}{1958}{{Davison and Sykes}}{{}}}
 \bibcite{deondeon}{{6}{2012}{{D'Eon}}{{}}}
 \bibcite{D'Eon:2011:QMR:1964921.1964951}{{7}{2011}{{D'Eon and Irving}}{{}}}
-\@writefile{toc}{\contentsline {chapter}{Bibliography}{87}{section.A.3}}
+\@writefile{toc}{\contentsline {chapter}{Bibliography}{91}{section.A.3}}
 \bibcite{d'Eon:2007:ERH:2383847.2383869}{{8}{2007}{{d'Eon et~al.}}{{d'Eon, Luebke, and Enderton}}}
 \bibcite{Desolneux:2007:GTI:1557413}{{9}{2007}{{Desolneux et~al.}}{{Desolneux, Moisan, and Morel}}}
 \bibcite{Donner:2005:LDM:1186822.1073308}{{10}{2005}{{Donner and Jensen}}{{}}}

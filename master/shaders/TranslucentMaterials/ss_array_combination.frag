@@ -90,8 +90,8 @@ void main(void)
         vec3 pos = position - offset;
         vec4 l = cameraMatrices[i] * vec4(pos,1.0f);
         vec4 color = textureLod(colorMap,vec3(l.xy,i), mipmap_LOD);
-        float co = 1;
-        float vis = sample_shadow_map_more(l.xyz,i);
+
+        float vis = sample_shadow_map(l.xyz,i);
         fragColor += color * vis;
         div += vis;
     }

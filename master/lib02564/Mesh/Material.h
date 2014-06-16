@@ -40,6 +40,7 @@ namespace Mesh
         virtual void addTexture(Texture * texture);
         virtual Texture *getTexture(std::string &name);
         virtual void removeTexture(std::string &name);
+        virtual void replaceTexture(std::string& name, Texture *toReplace);
 
         virtual void addImageTexture(ImageTexture * texture);
         virtual ImageTexture *getImageTexture(std::string &name);
