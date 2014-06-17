@@ -360,8 +360,6 @@
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Shadow acne}}}{81}{subfigure.12.1}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Shadow acne, with shadow bias}}}{81}{subfigure.12.2}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.4.4}Texture discretization artifacts}{82}{subsection.5.4.4}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.5}Extensions to the method}{82}{section.5.5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.1}Rendering with multiple lights}{82}{subsection.5.5.1}}
 \newlabel{fig:comb_off}{{5.13a}{83}{Subfigure 5 5.13a}{subfigure.5.13.1}{}}
 \newlabel{sub@fig:comb_off}{{(a)}{a}{Subfigure 5 5.13a\relax }{subfigure.5.13.1}{}}
 \newlabel{fig:comb_off_solved}{{5.13b}{83}{Subfigure 5 5.13b}{subfigure.5.13.2}{}}
@@ -370,21 +368,25 @@
 \newlabel{fig:shadowbias}{{5.13}{83}{Combination offset artifacts. Without the correction, artifacts start to appear. With a correction of $0.001 \approx 1 / 1024$ the result is greatly improved.\relax }{figure.caption.39}{}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Without correction}}}{83}{subfigure.13.1}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {With correction}}}{83}{subfigure.13.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.2}Rendering with point light illumination}{83}{subsection.5.5.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.3}Rendering with environment light illumination}{84}{subsection.5.5.3}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.6}Discussion}{84}{section.5.6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.6.1}Advantages}{84}{subsection.5.6.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.6.2}Disadvantages}{84}{subsection.5.6.2}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Results}{85}{chapter.6}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.5}Extensions to the method}{83}{section.5.5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.1}Rendering with multiple lights}{83}{subsection.5.5.1}}
+\newlabel{lst:multi}{{5.13}{84}{Outline of the shader in step 2 with support for multiple lights}{lstlisting.5.13}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.13}Outline of the shader in step 2 with support for multiple lights.}{84}{lstlisting.5.13}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.2}Rendering with other kinds of light}{85}{subsection.5.5.2}}
+\newlabel{eq:evolution_step}{{5.5.2}{85}{Rendering with other kinds of light}{subsection.5.5.2}{}}
+\newlabel{lst:multilighttype}{{5.14}{85}{GLSL Code to calculate the radiance \gl {Li} and the incoming light direction \gl {wi} for the k-th directional or point light source}{lstlisting.5.14}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.14}GLSL Code to calculate the radiance \texttt  {\nolinkurl  {Li}} and the incoming light direction \texttt  {\nolinkurl  {wi}} for the k-th directional or point light source.}{85}{lstlisting.5.14}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.3}Rendering with environment light illumination}{86}{subsection.5.5.3}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Results}{87}{chapter.6}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {chapter}{\numberline {A}Model matrices}{87}{appendix.A}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {A}Model matrices}{89}{appendix.A}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{sec:matrices}{{A}{87}{Model matrices}{appendix.A}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {A.1}Model matrices}{87}{section.A.1}}
-\@writefile{toc}{\contentsline {section}{\numberline {A.2}View Matrix}{88}{section.A.2}}
-\@writefile{toc}{\contentsline {section}{\numberline {A.3}Projection Matrix}{89}{section.A.3}}
+\newlabel{sec:matrices}{{A}{89}{Model matrices}{appendix.A}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.1}Model matrices}{89}{section.A.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.2}View Matrix}{90}{section.A.2}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.3}Projection Matrix}{91}{section.A.3}}
 \bibstyle{alexnat}
 \bibdata{thesis}
 \bibcite{Ashikmin:2000:MBG:344779.344814}{{1}{2000}{{Ashikmin et~al.}}{{Ashikmin, Premo\v {z}e, and Shirley}}}
@@ -394,7 +396,7 @@
 \bibcite{ntt}{{5}{1958}{{Davison and Sykes}}{{}}}
 \bibcite{deondeon}{{6}{2012}{{D'Eon}}{{}}}
 \bibcite{D'Eon:2011:QMR:1964921.1964951}{{7}{2011}{{D'Eon and Irving}}{{}}}
-\@writefile{toc}{\contentsline {chapter}{Bibliography}{91}{section.A.3}}
+\@writefile{toc}{\contentsline {chapter}{Bibliography}{93}{section.A.3}}
 \bibcite{d'Eon:2007:ERH:2383847.2383869}{{8}{2007}{{d'Eon et~al.}}{{d'Eon, Luebke, and Enderton}}}
 \bibcite{Desolneux:2007:GTI:1557413}{{9}{2007}{{Desolneux et~al.}}{{Desolneux, Moisan, and Morel}}}
 \bibcite{Donner:2005:LDM:1186822.1073308}{{10}{2005}{{Donner and Jensen}}{{}}}

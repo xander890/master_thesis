@@ -655,6 +655,7 @@ Where $\epsilon_c = \frac{1}{W}$, where $W$ is the width of the radiance map in 
 \label{fig:shadowbias}
 \end{figure}
 
+\FloatBarrier
 \section{Extensions to the method}
 
 In this section, we describe briefly how we extended our implementation in order to cover a wider range of cases, especially regarding different types of light.
@@ -666,19 +667,117 @@ $$
 R^{t,k}(\x_o) = \sum_{l = 1}^L L_l \sum_{i = 1}^{N/L} S(\x^{t,k}_i, \vomega^t_l, \x_o, \vomega_o) \exp\left(\sigma_{tr} r^{t,k}_i\right), \ \ t \in [0,T], \ \ k \in [0,K-1] 
 $$
 
-We can see that only the light vector $\vomega^t_l$ and the radiance $L_l$ depend on the current light, while the other parameters are left unchanged. On the implementation level, we are simply adding an extra loop in the shader of step 2. As for the light parameters, they are passed to the shader as a series of uniforms \gl{uniform vec4 light_dir[MAX_LIGHTS];} and \gl{uniform vec4 light_diff[MAX_LIGHT
-S];}
+We can see that only the light vector $\vomega^t_l$ and the radiance $L_l$ depend on the current light, while the other parameters are left unchanged. On the implementation level, we first need to change the light map in order to be a layered texture as well. As in step 2, we employ layered rendering to render all the faces at the same time. Then we simply add an extra loop in the shader of step 2. As for the light parameters, they are passed to the shader as a series of uniforms. The outline of the new shader illustrating how lights are computed is listed in listing \ref{lst:multi}.
 
-\subsection{Rendering with point light illumination}
+\begin{lstlisting}[language=GLSL,label=lst:multi,caption={Outline of the shader in step 2 with support for multiple lights.}]
+#version 430
+layout(location = 0) out vec4 fragColor;
 
-Our method does not depend on a specific type of light in order to render a material. Once we have a formula for the radiance for the light, we can simply introduce it in equation TODO and compute
+[...] // constants, includes, textures omitted
+
+uniform sampler2DArray vtex; // texture with vertices
+uniform sampler2DArray ntex; // texture with normals
+
+smooth in vec3 position;
+smooth in vec3 norm;
+
+uniform vec4 light_pos[MAX_LIGHTS];
+uniform vec4 light_diff[MAX_LIGHTS];
+uniform int light_number;
+uniform mat4 lightMatrices[MAX_LIGHTS];
+
+[...] //BSSRDF code, uniform and functions
+
+void main(void)
+{
+    vec3 xo = position;
+    vec3 no = normalize(norm);
+
+		[...] // sampling the old color, noise calculation
+
+    for(int k = 0; k < light_number; k++)
+    {
+        vec3 wi = light_pos[k].xyz;
+        vec4 light_post = lightMatrices[k] * vec4(xo,1.0f);
+        vec2 circle_center = light_post.xy;
+        vec3 Li = light_diff[k].xyz;
+				
+        for(int i = 0; i < max_samples; i++)
+        {
+						[...] // sampling from layer k in textures vtex and ntex
+						[...] // summing over BSSRDF on vector accumulate
+        }
+    }
+
+    fragColor = vec4(accumulate,1.0f);
+		[...] //adding old color
+}
+\end{lstlisting}
+
+\subsection{Rendering with other kinds of light}
+
+Our method does not depend on a specific type of light in order to render a material. Once we have a formula for the radiance for the light, we can simply introduce it in equation \ref{eq:evolution_step} and compute the result. So, for example, for a point light the equation would become.
+
+$$
+R^{t,k}(\x_o) = {I_l} \sum_{i = 1}^N  \frac{S(\x^{t,k}_i, \frac{\x_l - \x_i}{\|\x_l - \x_i\|}, \x_o, \vomega_o)}{{\|\x_l - \x_i\|}} \exp\left(\sigma_{tr} r^{t,k}_i\right), \ \ t \in [0,T], \ \ k \in [0,K-1] 
+\label{eq:evolution_step}
+$$
+
+Where $\x_l$ is the light position and $I_l$ the light intensity. Equation TODO can be extended in the same way. More generally, if we have a function to compute the light direction $\vomega_l(\x_i)$ and a function to compute radiance $L(\x_i, \vomega_l(\x_i))$ we can express equation TODO in the following way:
+
+$$
+R^{t,k}(\x_o) = \sum_{l = 1}^L \sum_{i = 1}^{N/L} L^t(\x_i, \vomega_l(\x_i)) S(\x^{t,k}_i, \vomega_l^t(\x_i), \x_o, \vomega_o) \exp\left(\sigma_{tr} r^{t,k}_i\right)
+$$
+
+If we have only point and directional lights, we have the following setup for the two formulas:
+
+\begin{equation*}
+\begin{split}
+\vomega_l(\x_i) &= \begin{cases}
+\vomega_l & \text{if l is directional with $\vomega_l$, $L_l$} \\
+ \frac{\x_l - \x_i}{\|\x_l - \x_i\|} & \text{if $l$ is point with $\x_l$, $I_l$}
+\end{cases} \\
+L(\x_i, \vomega_l(\x_i)) &= \begin{cases}
+L_l & \text{if l is directional with $\vomega_l$, $L_l$} \\
+ \frac{I_l}{\|\x_l - \x_i\|} & \text{if $l$ is point with $\x_l$, $I_l$}
+\end{cases} \\
+\end{split}
+\end{equation*}
+
+On the implementation level, we can still use same setup of section TODO. We make the position vector of the light carry some extra information in the alpha channel: if the alpha is zero, we are dealing with a directional light, while if the alpha is one we are using a point light. The code to calculate lights thus becomes:
+
+\begin{lstlisting}[language=GLSL,label=lst:multilighttype,caption={GLSL Code to calculate the radiance \gl{Li} and the incoming light direction \gl{wi} for the k-th directional or point light source.}]
+vec3 wi = light_pos[k].xyz;
+vec4 rad = light_diff[k];
+vec3 to_point = wi - xo;
+wi = (rad.a > 0)? normalize(to_point) : normalize(wi);
+
+vec3 Li = light_diff[k].xyz;
+Li = (rad.a > 0)? Li / dot(to_point,to_point) : Li;
+\end{lstlisting}
+
 
 \subsection{Rendering with environment light illumination}
 
+As for the environment lighting, we proceed as we outlined in section TODO. In the method chapter, we omitted how we do actually organize and sample our CDF. The idea is to have one CDF for the rows of the function that gives us the CDF according to the probability $p_u(u)$. Then we have a CDF for each one of the column of the functions, that sample the probability $p_v(v|u)$. When we select a random couple of random points $(\zeta_1,\zeta_2)$ we first sample the first function according to $\zeta_1$, then we sample the resulting column using $\zeta_2$.
 
-\section{Discussion}
-\subsection{Advantages}
+We define our discreet CDF as and array $C$ of $s+1$ elements as follows, where $s$ is the size of the distribution $P$ (that would be either $n$ or $m$ in our case). $P$ is an array of $N$ elements.
 
-\subsection{Disadvantages}
+$$
+C[i] = \frac{\sum_{k = 0}^{i-1} C[k]}{s\ C[s]}
+$$
 
-vertex vs fragment shading
+Then, we sample our CDF using a generic value $\zeta$ using the following:
+
+$$
+u = j + \frac{\zeta - C[j]}{C[j + 1] - C[j]}
+$$
+
+Where $j = \min_j\{j \in [0,s] | C[j] > \zeta \} - 1$ is the CDF value right before the CDF surpasses $\zeta$. This is basically the inverse function we discussed in the chapter method. Once we have calculated the two values $(u_1,u_2)$, as before we convert them to spherical coordinates, from which we create a set of directional lights that approximate our environment light. We can appreciate the rendering with different numbers of generated lights using the doge lightmap in figure TODO.
+
+%\section{Discussion}
+%\subsection{Advantages}
+
+%\subsection{Disadvantages}
+
+%vertex vs fragment shading

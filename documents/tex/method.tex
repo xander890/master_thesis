@@ -371,10 +371,10 @@ That is the discrete integral of the function up to the point $u$. Figure \ref{f
 \label{fig:cdfweight}
 \end{figure}
 
-Let us now pick a couple of random points $(\zeta_1,\zeta_2) \in [0,1)^2$. We then convert these points to a pair of coordinates $(u_b,v_b) \in [0,n)\times[0,m)$ by inverse sampling of the CDF. We will give the details of how to discretize this process in the implementation section. Then, we obtain the spherical coordinates using the standard formula:
+Let us now pick a couple of random points $(\zeta_1,\zeta_2) \in [0,1)^2$. We then convert these points to a pair of coordinates $(u_1,u_2) \in [0,n)\times[0,m)$ by inverse sampling of the CDF. We will give the details of how to discretize this process in the implementation section. Then, we obtain the spherical coordinates using the standard formula:
 
 $$
-(\theta, \phi) = \left(\frac{u_b}{\pi n}, \frac{v_b}{2 \pi m}\right)
+(\theta, \phi) = \left(\frac{u_1}{\pi n}, \frac{u_2}{2 \pi m}\right)
 $$
 
 And, from the spherical coordinates, we use the equirectangular projection formula to transform them into a vector in the 3D space, that is the final direction for our light.

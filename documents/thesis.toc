@@ -57,16 +57,13 @@
 \contentsline {subsection}{\numberline {5.4.2}Mipmap generation}{77}{subsection.5.4.2}
 \contentsline {subsection}{\numberline {5.4.3}Shadow bias}{81}{subsection.5.4.3}
 \contentsline {subsection}{\numberline {5.4.4}Texture discretization artifacts}{82}{subsection.5.4.4}
-\contentsline {section}{\numberline {5.5}Extensions to the method}{82}{section.5.5}
-\contentsline {subsection}{\numberline {5.5.1}Rendering with multiple lights}{82}{subsection.5.5.1}
-\contentsline {subsection}{\numberline {5.5.2}Rendering with point light illumination}{83}{subsection.5.5.2}
-\contentsline {subsection}{\numberline {5.5.3}Rendering with environment light illumination}{84}{subsection.5.5.3}
-\contentsline {section}{\numberline {5.6}Discussion}{84}{section.5.6}
-\contentsline {subsection}{\numberline {5.6.1}Advantages}{84}{subsection.5.6.1}
-\contentsline {subsection}{\numberline {5.6.2}Disadvantages}{84}{subsection.5.6.2}
-\contentsline {chapter}{\numberline {6}Results}{85}{chapter.6}
-\contentsline {chapter}{\numberline {A}Model matrices}{87}{appendix.A}
-\contentsline {section}{\numberline {A.1}Model matrices}{87}{section.A.1}
-\contentsline {section}{\numberline {A.2}View Matrix}{88}{section.A.2}
-\contentsline {section}{\numberline {A.3}Projection Matrix}{89}{section.A.3}
-\contentsline {chapter}{Bibliography}{91}{section.A.3}
+\contentsline {section}{\numberline {5.5}Extensions to the method}{83}{section.5.5}
+\contentsline {subsection}{\numberline {5.5.1}Rendering with multiple lights}{83}{subsection.5.5.1}
+\contentsline {subsection}{\numberline {5.5.2}Rendering with other kinds of light}{85}{subsection.5.5.2}
+\contentsline {subsection}{\numberline {5.5.3}Rendering with environment light illumination}{86}{subsection.5.5.3}
+\contentsline {chapter}{\numberline {6}Results}{87}{chapter.6}
+\contentsline {chapter}{\numberline {A}Model matrices}{89}{appendix.A}
+\contentsline {section}{\numberline {A.1}Model matrices}{89}{section.A.1}
+\contentsline {section}{\numberline {A.2}View Matrix}{90}{section.A.2}
+\contentsline {section}{\numberline {A.3}Projection Matrix}{91}{section.A.3}
+\contentsline {chapter}{Bibliography}{93}{section.A.3}
