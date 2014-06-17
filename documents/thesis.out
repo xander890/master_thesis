@@ -53,9 +53,16 @@
 \BOOKMARK [2][]{subsection.5.4.2}{5.4.2 Mipmap generation}{section.5.4}% 53
 \BOOKMARK [2][]{subsection.5.4.3}{5.4.3 Shadow bias}{section.5.4}% 54
 \BOOKMARK [2][]{subsection.5.4.4}{5.4.4 Texture discretization artifacts}{section.5.4}% 55
-\BOOKMARK [0][]{chapter.6}{6 Results}{}% 56
-\BOOKMARK [0][]{appendix.A}{A Model matrices}{}% 57
-\BOOKMARK [1][]{section.A.1}{A.1 Model matrices}{appendix.A}% 58
-\BOOKMARK [1][]{section.A.2}{A.2 View Matrix}{appendix.A}% 59
-\BOOKMARK [1][]{section.A.3}{A.3 Projection Matrix}{appendix.A}% 60
-\BOOKMARK [0][]{section.A.3}{Bibliography}{}% 61
+\BOOKMARK [1][]{section.5.5}{5.5 Extensions to the method}{chapter.5}% 56
+\BOOKMARK [2][]{subsection.5.5.1}{5.5.1 Rendering with multiple lights}{section.5.5}% 57
+\BOOKMARK [2][]{subsection.5.5.2}{5.5.2 Rendering with point light illumination}{section.5.5}% 58
+\BOOKMARK [2][]{subsection.5.5.3}{5.5.3 Rendering with environment light illumination}{section.5.5}% 59
+\BOOKMARK [1][]{section.5.6}{5.6 Discussion}{chapter.5}% 60
+\BOOKMARK [2][]{subsection.5.6.1}{5.6.1 Advantages}{section.5.6}% 61
+\BOOKMARK [2][]{subsection.5.6.2}{5.6.2 Disadvantages}{section.5.6}% 62
+\BOOKMARK [0][]{chapter.6}{6 Results}{}% 63
+\BOOKMARK [0][]{appendix.A}{A Model matrices}{}% 64
+\BOOKMARK [1][]{section.A.1}{A.1 Model matrices}{appendix.A}% 65
+\BOOKMARK [1][]{section.A.2}{A.2 View Matrix}{appendix.A}% 66
+\BOOKMARK [1][]{section.A.3}{A.3 Projection Matrix}{appendix.A}% 67
+\BOOKMARK [0][]{section.A.3}{Bibliography}{}% 68

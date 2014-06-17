@@ -654,3 +654,31 @@ Where $\epsilon_c = \frac{1}{W}$, where $W$ is the width of the radiance map in 
 \caption{Combination offset artifacts. Without the correction, artifacts start to appear. With a correction of $0.001 \approx 1 / 1024$ the result is greatly improved.}
 \label{fig:shadowbias}
 \end{figure}
+
+\section{Extensions to the method}
+
+In this section, we describe briefly how we extended our implementation in order to cover a wider range of cases, especially regarding different types of light.
+
+\subsection{Rendering with multiple lights}
+Rendering with multiple lights requires only a slight extension to the method. We just need to adjust the computation in \ref{eq:evolution_step} in order to account for multiple lights. We notice that this computation may come with a performance penalty, since we are now computing the contribution from $L N$ samples instead of $N$, where $L$ is the number of lights. To avoid this, we account in advance and calculate only $\frac{N}{L}$ samples per light:
+
+$$
+R^{t,k}(\x_o) = \sum_{l = 1}^L L_l \sum_{i = 1}^{N/L} S(\x^{t,k}_i, \vomega^t_l, \x_o, \vomega_o) \exp\left(\sigma_{tr} r^{t,k}_i\right), \ \ t \in [0,T], \ \ k \in [0,K-1] 
+$$
+
+We can see that only the light vector $\vomega^t_l$ and the radiance $L_l$ depend on the current light, while the other parameters are left unchanged. On the implementation level, we are simply adding an extra loop in the shader of step 2. As for the light parameters, they are passed to the shader as a series of uniforms \gl{uniform vec4 light_dir[MAX_LIGHTS];} and \gl{uniform vec4 light_diff[MAX_LIGHT
+S];}
+
+\subsection{Rendering with point light illumination}
+
+Our method does not depend on a specific type of light in order to render a material. Once we have a formula for the radiance for the light, we can simply introduce it in equation TODO and compute
+
+\subsection{Rendering with environment light illumination}
+
+
+\section{Discussion}
+\subsection{Advantages}
+
+\subsection{Disadvantages}
+
+vertex vs fragment shading

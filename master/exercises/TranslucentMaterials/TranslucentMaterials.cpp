@@ -1244,7 +1244,7 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
     const int ARRAY_TEXTURE_SIZE = 1024;
     const int MAX_LIGHTS = 16;
     const int LAYERS = 16;
-    int samples_per_texel = params->samples / LAYERS;
+    int samples_per_texel = params->samples / (LAYERS * manager.size());
     int maximum_samples = params->maxsamples;
 
     const int MIPMAPS = 3;

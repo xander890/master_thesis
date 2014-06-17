@@ -94,7 +94,8 @@ void main(void)
     {
         vec3 wi = light_pos[k].xyz;
         vec4 rad = light_diff[k];
-        wi = (rad.a > 0)? normalize(wi - xo) : normalize(wi);
+        vec3 topoint = wi - xo;
+        wi = (rad.a > 0)? normalize(topoint) : normalize(wi);
         //float li = length(wi - xo);
         wi = normalize(wi);
 
@@ -106,6 +107,7 @@ void main(void)
         vec2 circle_center = light_post.xy;
 
         vec3 Li = light_diff[k].xyz;
+        Li = (rad.a > 0)? Li / dot(topoint,topoint) : Li;
 
         for(int i = 0; i < max_samples && count < samples; i++)
         {
