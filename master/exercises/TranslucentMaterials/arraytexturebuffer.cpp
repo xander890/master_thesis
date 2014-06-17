@@ -7,13 +7,19 @@ void ArrayTextureBuffer::relinquish()
     glDeleteFramebuffers(1, &fbo);
 }
 
-ArrayTextureBuffer::ArrayTextureBuffer(int size, int layerCount, int mipmaps) : depth_rb(0),arraytex(0), depthtex(0), fbo(0), size(size), layers(layerCount), levels(mipmaps)
+ArrayTextureBuffer::ArrayTextureBuffer(int size, int layerCount, int mipmaps, GLuint depth_view):
+     depth_rb(0),
+     arraytex(0),
+     depthtex(0),
+     fbo(0),
+     size(size),
+     layers(layerCount),
+     levels(mipmaps)
 {
-
-    initialize();
+    initialize(depth_view);
 }
 
-void ArrayTextureBuffer::initialize()
+void ArrayTextureBuffer::initialize(GLuint depth_view)
 {
     //relinquish();
 
@@ -32,6 +38,11 @@ void ArrayTextureBuffer::initialize()
 
     //glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_RGBA32F, size, size, layers, 0, GL_RGBA, GL_FLOAT, 0);
 
+    if(depth_view > 0)
+    {
+        glTextureView(depthtex, GL_TEXTURE_2D_ARRAY, depth_view, GL_DEPTH_COMPONENT32F, 0, 1, 0, layers);
+    }
+
     glBindTexture(GL_TEXTURE_2D_ARRAY, depthtex);
     glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -40,7 +51,11 @@ void ArrayTextureBuffer::initialize()
     glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
     glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_COMPARE_FUNC, GL_LESS);
 
-    glTexStorage3D(	GL_TEXTURE_2D_ARRAY, 1, GL_DEPTH_COMPONENT32F, size, size, layers);
+    if(depth_view == 0)
+    {
+        glTexStorage3D(	GL_TEXTURE_2D_ARRAY, 1, GL_DEPTH_COMPONENT32F, size, size, layers);
+    }
+
 
 check_gl_error();
     check_gl_error();

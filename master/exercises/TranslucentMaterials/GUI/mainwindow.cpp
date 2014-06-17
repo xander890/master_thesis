@@ -45,7 +45,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->objTest->setObject(bunny);
     ui->translucentMaterials->addObject(bunny);
 
-    ui->radius->init("Radius: ", ui->translucentMaterials->getParameters()->circleradius, 0.1, 3.0, false);
+    ui->radius->init("Radius: ", ui->translucentMaterials->getParameters()->circleradius, 0.1, 7.0, false);
     connect(ui->radius, SIGNAL(valueChanged(float)), this, SLOT(radiusChanged(float)));
 
     ui->samples->init("Samples (total): ",ui->translucentMaterials->getParameters()->samples,2,2048, true);

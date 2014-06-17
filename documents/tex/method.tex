@@ -1,4 +1,5 @@
 \chapter{Method}
+\label{chap:method}
 In this chapter, after giving the theoretical foundations in the topic of this report, we introduce our method to render translucent materials efficiently using the directional dipole. This chapter is meant to connect the theory presented in the last chapter with the implementation. First of all, we will start this chapter with a list of constraints and assumptions in order to better define the scope of our method. Secondly, we will give a theoretical justification of our method, deriving a discretization of the rendering equation that can be actually solved and implemented in a GPU environment. Then, we will discuss some possible sampling patterns and how they could possibly improve the results of the final rendering. Then, we will introduce how the actual scattering parameters are acquired in an experimental environment, in order to obtain a plausible result. Finally, we will describe a method to approximate environment lighting using an arbitrary number of directional sources.
 
 \section{Constraints and assumptions}
@@ -6,6 +7,7 @@ In this chapter, after giving the theoretical foundations in the topic of this r
 Before describing the actual method, we will introduce some constraints and assumptions on our method. Some of these assumptions and constraints are well known to the graphics community, and they are generally introduced to allow better performance, quality and flexibility. Being a real-time rendering method implies that performance plays a big part in the decisions made in the process, but since the method uses a physically based approximation the final quality of the result is also important. In the process the aspect of flexibility has been taken into account: the tradeoff between quality and performance should be tweakable with the fewest number of variables as possible. We will now list the assumptions we made in all the three described domains, quality, performance and flexibility, in order to later justify our method in the light of these assumptions. 
 
 \subsection{Quality constraints}
+ \label{sec:quality}
 \begin{enumerate}
 	\item Being close as much as possible to a path traced solution. By \emph{close} we mean that the root mean square of the comparison between our method and a path traced result under the same lighting conditions should not be over a certain threshold. 
 	\item Being consistent with the directional dipole model for a wide range of material properties. In particular, the method should perform well in the domain of quality where the directional dipole model excels (highly scattering materials).
@@ -34,7 +36,7 @@ Before describing the actual method, we will introduce some constraints and assu
 \end{enumerate}
 
 \section{Method overview}
-
+\label{sec:m_overv}
 First of all, we recall the general form of the rendering equation for participating media using a BSSRDF (equation \ref{eq:bssrdfeq}):
 
 \begin{equation*}
@@ -175,6 +177,7 @@ And, since the radiance is linearly summable, we can combine the contribution fr
 
 
 \section{Sampling patterns}
+\label{sec:patterns}
 As we discussed, the BSSRDF function for the directional dipole is dominated by an exponential decay. So, it is more probable to find points that contribute more to the BSSRDF if we take points closer to the evaluation point $\x_o$. However, our assumption of uniform areas in the previous calculations does not hold anymore, so we need to modify the previous equations in order to account for the non-linear sampling.
 
 Assuming to have number generator that can generate numbers on a disc, we can create an exponentially distributed disc with the following exponential probability distribution function (PDF):
@@ -290,7 +293,7 @@ Some of the scattering properties measured thanks to this method are reported in
 \clearpage
 
 \section{Environment lights}
-
+\label{sec:env}
 Environment lighting is a omni-directional lighting that represents lighting coming from an environment. Instead of defining a light as a direction or a point in space, we define directly the radiance distribution on a map. The map is usually provided in a HDR format in order to cover various range of radiance, and it is usually given as a set of six cube faces (cubemap) or as a latitude-longitude map, as the one in figure \ref{fig:doge}. The maps are usually given in equirectangular projection.
 
 In the game development community, spherical harmonics (SH) \citep{green,peterpikeconference} are usually employed. This technique, given an heavy pre-computation step, transforms the radiance map into a set of coefficients in the spherical harmonics basis. This coefficients that then can be used easily to represent the radiance map, if we are interested only in the low-frequency part of it. 

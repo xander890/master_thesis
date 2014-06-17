@@ -19,12 +19,11 @@ public:
 
 
     /// Construct with given size
-    ArrayTextureBuffer(int size, int layerCount, int mipmaps = 1);
-
+    ArrayTextureBuffer(int size, int layerCount, int mipmaps = 1, GLuint depth_view = 0);
     /// Destroy
     ~ArrayTextureBuffer() {relinquish();}
 
-    void initialize();
+    void initialize(GLuint depth_view);
 
     /** Enable rendering to the FBO that is associated with the GBuffer. No enable since we
      might not want to switch back to the previous framebuffer. */

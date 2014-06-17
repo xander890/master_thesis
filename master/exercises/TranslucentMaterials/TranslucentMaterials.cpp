@@ -95,9 +95,9 @@ LightManager manager;
 
 const Vec4f light_specular(0.6f,0.6f,0.3f,0.6f);
 const Vec4f light_diffuse(.5f,.5f,.5f,1.0f);
-const Vec4f light_position(0.f,0.f,6.f,1);
-const Vec4f light_diffuse_2(0.7,0.5,0.5,0.0);
-const Vec4f light_position_2(6.0,0.0,0.0,1.0);
+const Vec4f light_position(0.f,0.f,2.f,1);
+const Vec4f light_diffuse_2(1.3,0.5,0.5,0.0);
+const Vec4f light_position_2(2.0,0.0,0.0,1.0);
 
 
 TranslucentMaterials::TranslucentMaterials( QWidget* parent)
@@ -121,9 +121,10 @@ TranslucentMaterials::TranslucentMaterials( QWidget* parent)
         #endif
 
         Light mainLight (light_position, light_diffuse, 1.0f, light_specular, true);
-        Light secondaryLight(light_position_2, light_diffuse_2, 15.0f, Vec4f(0.0f), true);
+        Light secondaryLight(light_position_2, light_diffuse_2, 15.0f, Vec4f(0.0f), false);
 #ifndef DIR
         manager.addLight(mainLight);
+        //manager.addLight(secondaryLight);
 #endif
         //manager.addLight(secondaryLight);
         setFocusPolicy(Qt::ClickFocus);
@@ -1257,8 +1258,8 @@ static ArrayTextureBuffer clean(ARRAY_TEXTURE_SIZE,LAYERS,1);
 static ShaderProgramDraw depth_only(shader_path,"ss_array_depth_pass.vert","ss_array_depth_pass.geom", "ss_array_depth_pass.frag");
 #endif
 
-    static ArrayTextureBuffer arraytexmap(ARRAY_TEXTURE_SIZE,LAYERS,MIPMAPS + 1);
-    static ArrayTextureBuffer arraytexmap_back(ARRAY_TEXTURE_SIZE,LAYERS,MIPMAPS + 1);
+    static ArrayTextureBuffer arraytexmap(ARRAY_TEXTURE_SIZE,LAYERS,MIPMAPS + 1, 0);
+    static ArrayTextureBuffer arraytexmap_back(ARRAY_TEXTURE_SIZE,LAYERS,MIPMAPS + 1, arraytexmap.getDepthTexture()->get_id());
 
     static MipMapGeneratorView * mipmaps = new MipMapGeneratorView(arraytexmap.getColorTexture()->get_id(), arraytexmap.getDepthTexture()->get_id(), ARRAY_TEXTURE_SIZE, LAYERS, MIPMAPS);
     static MipMapGeneratorView * mipmaps_back = new MipMapGeneratorView(arraytexmap_back.getColorTexture()->get_id(), arraytexmap_back.getDepthTexture()->get_id(), ARRAY_TEXTURE_SIZE, LAYERS, MIPMAPS);
@@ -1322,7 +1323,7 @@ static ShaderProgramDraw depth_only(shader_path,"ss_array_depth_pass.vert","ss_a
     static Mat4x4f projection_array = ortho_Mat4x4f(Vec3f(-CAMERA_SIZE,-CAMERA_SIZE,CAMERA_NEAR),Vec3f(CAMERA_SIZE,CAMERA_SIZE,CAMERA_FAR));
     static Mat4x4f projection_light = ortho_Mat4x4f(Vec3f(-LIGHT_CAMERA_SIZE,-LIGHT_CAMERA_SIZE,1),Vec3f(LIGHT_CAMERA_SIZE,LIGHT_CAMERA_SIZE,10));
     static Mat4x4f mat2 = translation_Mat4x4f(Vec3f(0.5)) * scaling_Mat4x4f(Vec3f(0.5)) * projection_array;
-    static Vec3f up = Vec3f(1,0,0);
+    static Vec3f up = Vec3f(0,1,0);
     static vector<Vec3f> spherePoints;
 
     static bool initialized = false;
@@ -1357,7 +1358,7 @@ static ShaderProgramDraw depth_only(shader_path,"ss_array_depth_pass.vert","ss_a
         screen_quad_material->addTexture(vtex);
         screen_quad_material->addTexture(ntex);
 
-        scattering_material->addTexture(arraytexmap.getDepthTexture());
+        scattering_material->addTexture(arraytexmap_back.getDepthTexture());
 
 
         sphereHalton(spherePoints, LAYERS);
@@ -1545,9 +1546,9 @@ static ShaderProgramDraw depth_only(shader_path,"ss_array_depth_pass.vert","ss_a
         // Adding the new calculated stuff.
 
         scattering_material->replaceTexture(string("colorMap"),front->getColorTexture());
-        scattering_material->replaceTexture(string("depthMap"),front->getDepthTexture());
+        //scattering_material->replaceTexture(string("depthMap"),front->getDepthTexture());
         screen_quad_material->replaceTexture(string("colorMap"),front->getColorTexture());
-        screen_quad_material->replaceTexture(string("depthMap"),front->getDepthTexture());
+        //screen_quad_material->replaceTexture(string("depthMap"),front->getDepthTexture());
 
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER,0);
         glViewport(0,0,window_width,window_height);
@@ -1766,7 +1767,7 @@ void initRectangle(GLuint * tex, GLenum * type, QImage & img)
     glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-    string name = string("grace-new.png");
+    string name = string("doge2.png");
 
     ResourceLoader r;
     string base_path = r.compute_resource_path("./images/");
@@ -2096,7 +2097,7 @@ void TranslucentMaterials::keyReleaseEvent(QKeyEvent *)
 ThreeDObject *TranslucentMaterials::getDefaultObject()
 {
 
-    Mesh::ScatteringMaterial * scattering_mat = getDefaultMaterial(S_Potato);
+    Mesh::ScatteringMaterial * scattering_mat = getDefaultMaterial(S_Whitegrapefruit);
     ThreeDObject * object = new ThreeDObject();
 
 #if MODEL == BUNNY

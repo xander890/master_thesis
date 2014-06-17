@@ -48,8 +48,8 @@ Mesh::ScatteringMaterial* getDefaultMaterial(DefaultScatteringMaterial material)
 
     break;
     case S_Marble:
-     sigma_a = Vec3f(0.0021f,0.0041f,0.0071f);
-     sigma_s = Vec3f(2.19f,2.62f,3.00f);
+     sigma_a = Vec3f(0.0021f,0.0041f,0.0071f) / scale;
+     sigma_s = Vec3f(2.19f,2.62f,3.00f) / scale;
      g = Vec3f(0.0f,0.0f,0.0f);
     break;
     case S_Potato:

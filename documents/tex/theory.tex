@@ -443,7 +443,7 @@ Where the two reducing term, scattering and absorption, have been combined toget
 
 
 \subsection{The diffusion approximation}
-The radiative transport equation \ref{eq:rte} is a integro-differential equation with many degrees of freedom. As we stated in chapter \ref{rw}, there are rendering techniques that numerically solve the equation in order to obtain a realistic result. However, analytical methods tend to use some approximations of the RTE, that hold well given specific conditions. The \emph{diffusion approximation} is one of these approximations, and it is still widely used today since its introduction in the computer graphics community by Ishimaru\cite{books/daglib/0093591}. 
+The radiative transport equation \ref{eq:rte} is a integro-differential equation with many degrees of freedom. As we stated in chapter \ref{chap:previous}, there are rendering techniques that numerically solve the equation in order to obtain a realistic result. However, analytical methods tend to use some approximations of the RTE, that hold well given specific conditions. The \emph{diffusion approximation} is one of these approximations, and it is still widely used today since its introduction in the computer graphics community by Ishimaru\cite{books/daglib/0093591}. 
 
 The assumption under the diffusion approximation is simple: given that in a physical medium there are a lot of scattering events, the beam of light quickly becomes isotropic. Each one of the scattering events blurs the light distribution, and as a result the distribution becomes more uniform as the number of scattering events increases. This has been proven to be a reasonable assumption even for highly anisotropic light sources (e.g. a focused laser beam) and phase functions.
 
@@ -546,6 +546,7 @@ The directional dipole model, based on the diffusion approximation, accounts for
 
 $$
 S(\x_i, \vomega_i, \x_o, \vomega_o) = T(\eta,\vomega_i) (S_d(\x_i, \vomega_i, \x_o) + S_{\delta E}(\x_i, \vomega_i, \x_o, \vomega_o)) T(\eta,\vomega_o)
+\label{eq:bssrdfgen}
 $$
 
 Where $T$ are the Fresnel transmission coefficients for the incoming and outgoing directions. We note also that the diffusive part of the BSSRDF does not depend on the outgoing direction $\vomega_o$. 

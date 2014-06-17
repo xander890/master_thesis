@@ -91,12 +91,12 @@ void main(void)
         vec4 l = cameraMatrices[i] * vec4(pos,1.0f);
         vec4 color = textureLod(colorMap,vec3(l.xy,i), mipmap_LOD);
 
-        float vis = sample_shadow_map(l.xyz,i);
+        float vis = sample_shadow_map_more(l.xyz,i);
         fragColor += color * vis;
         div += vis;
     }
 
-    fragColor /= div;
+    fragColor /= max(div,1.0);
 
     float F = clamp(fresnel_T(wo,no,1.0f,ior),0.0f,1.0f);
 

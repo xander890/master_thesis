@@ -35,6 +35,7 @@ uniform float current_frame_percentage;
 uniform mat4 cameraMatrices[DIRECTIONS];
 uniform int global_frame;
 uniform int current_frame;
+
 #endif
 
 uniform float discradius;
@@ -58,7 +59,8 @@ void main(void)
 
 #ifdef TIME
     vec4 l = cameraMatrices[layer] * vec4(position,1.0f);
-    vec4 oldColor = texture(colorMap,vec3(l.xy,layer)) * step(1,current_frame);
+
+    vec4 oldColor = (current_frame > 0)? texture(colorMap,vec3(l.xy,layer)) : vec4(0.0f) ;
 #else
     vec4 oldColor = vec4(0.0f);
 #endif
@@ -73,9 +75,7 @@ void main(void)
 
 
 #ifdef RANDOM
-    vec3 s_1 = xo * 617 * (layer + 1);
-
-    float noise = noise3(s_1);
+    float noise = noise(layer * gl_FragCoord.xy);//LFSR_Rand_Gen(layer * int(gl_FragCoord.x + ARRAY_TEX_SIZE * gl_FragCoord.y));
 
     float r_angle = (noise + time) * 2 * M_PI;
     //float delta_rad = discradius * one_over_max_samples * (noise - 0.5f);
@@ -83,7 +83,7 @@ void main(void)
     float s = sin(r_angle);
     mat2 rotation_matrix = mat2(c,s,-s,c);
 #endif
-    int count = 0;
+
 #ifdef OVERLAY
     bool color  = false;
 #endif
@@ -92,12 +92,15 @@ void main(void)
 
     for(int k = 0; k < light_number; k++)
     {
-        vec3 wi = light_pos[k].xyz;
-        vec4 rad = light_diff[k];
+        int count = 0;
+        int current_light = k;
+        vec3 wi = light_pos[current_light].xyz;
+        vec4 rad = light_diff[current_light];
         vec3 topoint = wi - xo;
-        wi = (rad.a > 0)? normalize(topoint) : normalize(wi);
-        //float li = length(wi - xo);
-        wi = normalize(wi);
+        float light_type = 1;
+        wi = (light_type > 0)? normalize(topoint) : normalize(wi);
+        vec3 Li = light_diff[current_light].xyz;
+        Li = (light_type > 0)? Li / dot(topoint,topoint) : Li;
 
         //vec3 offset = epsilon_gbuffer * (no - wi * dot(no,wi));
         //vec3 position_mod = xo;
@@ -106,12 +109,9 @@ void main(void)
         vec4 light_post = lightMatrices[k] * vec4(xo,1.0f);
         vec2 circle_center = light_post.xy;
 
-        vec3 Li = light_diff[k].xyz;
-        Li = (rad.a > 0)? Li / dot(topoint,topoint) : Li;
-
         for(int i = 0; i < max_samples && count < samples; i++)
         {
-            vec2 smpl = texture(discpoints,vec2(i * one_over_max_samples, layer * one_over_discs)).xy;
+            vec2 smpl = texture(discpoints,vec2((i) * one_over_max_samples, layer * one_over_discs)).xy;
             vec2 relative_point = discradius * smpl;
 
     #ifdef RANDOM
@@ -125,7 +125,7 @@ void main(void)
             if(uvin.x >= 0.0f && uvin.x <= 1.0f && uvin.y >= 0.0f && uvin.y <= 1.0f)
             {
                 vec3 xi = texture(vtex, sampl).rgb;
-               // if(xi.z > -990.0f)
+                //if(xi.z > -990.0f)
                 {
                     vec3 ni = texture(ntex, sampl).rgb;
                     vec3 S = bssrdf(xi,wi,ni,xo,no);
@@ -148,7 +148,7 @@ void main(void)
     else
         fragColor = vec4(1);
 #else
-        fragColor = vec4(accumulate,count) + vec4(oldColor.xyz,0);
+        fragColor = vec4(accumulate,noise) + vec4(oldColor.xyz,0);
 #endif
 
 

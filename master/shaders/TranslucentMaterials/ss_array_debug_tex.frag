@@ -10,11 +10,15 @@ uniform sampler2D discpoints;
 out vec4 fragColor;
 uniform float mipmap_LOD;
 
+#include "ss_aincludes_constants.glinc"
 #include "ss_aincludes_ss_uniforms.glinc"
 
 #include "ss_aincludes_optics.glinc"
 
 #include "ss_aincludes_directional_bssrdf_opt.glinc"
+
+
+#include "ss_aincludes_random.glinc"
 
 void main(void)
 {
@@ -29,8 +33,13 @@ void main(void)
    //fragColor = vec4(bssrdf(xi,ni,wi,xo,no),1.0f) / 1;
     //fragColor = pow(fragColor,vec4(1/2.2f));
 
-        fragColor = textureLod(colorMap,vec3(_tex.xy, 3),mipmap_LOD).xyzz / 10000000;// + textureLod(colorMap,vec3(_tex.xy,level),1f);
-    //fragColor = (texture(ntex, vec3(_tex.xy,0)));
+        fragColor = textureLod(colorMap,vec3(_tex.xy, 0),mipmap_LOD).xyzz;
+        fragColor = texture(depthMap,vec4(_tex.xy, 0, 0.5)).xxxx;// + textureLod(colorMap,vec3(_tex.xy,level),1f);
+        fragColor = noise(gl_FragCoord.xy).xxxx;
+
+       fragColor = LCG(int(gl_FragCoord.x + 1024 * gl_FragCoord.y)).xxxx;
+
+    fragColor = (texture(vtex, vec3(_tex.xy,1)));
     //if(fragColor.z > 100)
     //    fragColor = vec4(0);
     //fragColor = vec4(0.0,0.0,1.0f,1.0);
