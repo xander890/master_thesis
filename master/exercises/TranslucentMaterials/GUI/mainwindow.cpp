@@ -43,7 +43,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     GLGraphics::ThreeDObject * bunny = ui->translucentMaterials->getDefaultObject();
     ui->objTest->setObject(bunny);
-    ui->translucentMaterials->addObject(bunny);
+    connect(ui->objTest,SIGNAL(modelChanged(QString &)), this, SLOT(modelChanged(QString &)));
 
     ui->radius->init("Radius: ", ui->translucentMaterials->getParameters()->circleradius, 0.1, 7.0, false);
     connect(ui->radius, SIGNAL(valueChanged(float)), this, SLOT(radiusChanged(float)));
@@ -57,9 +57,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->epsilon_combination->init("Comb. offset: ", ui->translucentMaterials->getParameters()->epsilon_combination, 0.0, 0.1, false);
     connect(ui->epsilon_combination,SIGNAL(valueChanged(float)), this, SLOT(epsilonCombinationChanged(float)));
-
-    ui->epsilon_gbuffer->init("Gbuffer samp. offset: ", ui->translucentMaterials->getParameters()->epsilon_gbuffer, 0.0, 0.1, false);
-    connect(ui->epsilon_gbuffer,SIGNAL(valueChanged(float)), this, SLOT(epsilonGBufferChanged(float)));
 
     ui->shadow_bias->init("Shadow bias: ", ui->translucentMaterials->getParameters()->shadow_bias, 0.0, 0.06, false);
     connect(ui->shadow_bias, SIGNAL(valueChanged(float)), this, SLOT(shadowBiasChanged(float)));
@@ -188,6 +185,12 @@ void MainWindow::LODChanged(float value)
 void MainWindow::gammaChanged(float value)
 {
     ui->translucentMaterials->getParameters()->gamma = value;
+}
+
+void MainWindow::modelChanged(QString &newModel)
+{
+    GLGraphics::ThreeDObject * obj = ui->translucentMaterials->setObject(newModel);
+    ui->objTest->setObject(obj);
 }
 
 void MainWindow::on_cubemapVisible_toggled(bool checked)

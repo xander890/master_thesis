@@ -113,13 +113,14 @@ TranslucentMaterials::TranslucentMaterials( QWidget* parent)
       render_method(CUBEMAP_BASE),
       currentFrame(0),
       performanceTimer(PerformanceTimer(20)),
-      skybox_cube(new ThreeDSphere(30))
+      skybox_cube(new ThreeDSphere(30)),
+      objectPool((*new vector<ThreeDObject*>()))
     {
 
         #ifndef TIMER
             performanceTimer.setIntermediateEnabled(false);
         #endif
-
+        initialize();
         Light mainLight (light_position, light_diffuse, 1.0f, light_specular, true);
         Light secondaryLight(light_position_2, light_diffuse_2, 15.0f, Vec4f(0.0f), false);
 #ifndef DIR
@@ -134,22 +135,43 @@ TranslucentMaterials::TranslucentMaterials( QWidget* parent)
     }
 
 
-void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog)
+void TranslucentMaterials::initialize()
 {
-    vector<string> objs;
-    objs.push_back(default_obj);
-    draw_objects(shader_prog,objs);
+    Mesh::ScatteringMaterial * scattering_mat_1 = getDefaultMaterial(S_Whitegrapefruit);
+    Mesh::ScatteringMaterial * scattering_mat_2 = getDefaultMaterial(S_Whitegrapefruit);
+    Mesh::ScatteringMaterial * scattering_mat_3 = getDefaultMaterial(S_Whitegrapefruit);
+
+    ThreeDObject * object_1 = new ThreeDObject();
+    ThreeDObject * object_2 = new ThreeDObject();
+    ThreeDObject * object_3 = new ThreeDObject();
+
+    object_1->init(objects_path+"bunny-simplified.obj", "bunny", *scattering_mat_1);
+    object_1->setScale(Vec3f(4.f));
+    object_1->setRotation(Vec3f(90,0,0));
+    object_1->setTranslation(Vec3f(0,0,0.f));
+    object_1->enabled = true;
+    object_1->boundingBoxEnabled = true;
+
+    object_2->init(objects_path+"buddha-simple.obj", "buddha", *scattering_mat_2);
+    object_2->setScale(Vec3f(1.f));
+    object_2->setRotation(Vec3f(90,0,0));
+    object_2->setTranslation(Vec3f(0,0,0.f));
+    object_2->enabled = true;
+    object_2->boundingBoxEnabled = true;
+
+    object_3->init(objects_path+"dragon.obj", "dragon", *scattering_mat_3);
+    object_3->setScale(Vec3f(1.f));
+    object_3->setRotation(Vec3f(0,0,0));
+    object_3->setTranslation(Vec3f(0,0,0.f));
+    object_3->enabled = true;
+    object_3->boundingBoxEnabled = true;
+
+    objectPool.push_back(object_1);
+    //objectPool.push_back(object_2);
+    objectPool.push_back(object_3);
+    currentObject = object_1;
 }
 
-void TranslucentMaterials::draw_objects(ShaderProgramDraw& shader_prog, vector<string>& objectsToDraw)
-{
-    for(unsigned int i=0; i<objects.size();++i)
-    {
-        ThreeDObject * obj = objects[i];
-        if(obj->enabled)
-            obj->display(shader_prog);
-    }
-}
 
 
 
@@ -192,19 +214,19 @@ void TranslucentMaterials::render_jensen(bool reload)
     {
         jensen_shader_vertex.use();
         set_light_and_camera(jensen_shader_vertex);
-        draw_objects(jensen_shader_vertex);
+        currentObject->display(jensen_shader_vertex);
 
     }
     else
     {
         jensen_shader.use();
         set_light_and_camera(jensen_shader);
-        draw_objects(jensen_shader);
+        currentObject->display(jensen_shader);
 
     }
 }
 
-
+/*
 void TranslucentMaterials::setup_shadow(bool reload)
 {
     const int SHADOW_SIZE = 4096;
@@ -233,9 +255,9 @@ void TranslucentMaterials::setup_shadow(bool reload)
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
     // Draw to shadow buffer.
-    for(uint i = 0; i < objects.size(); i++)
+    for(uint i = 0; i < objectPool.size(); i++)
     {
-        ThreeDObject * o = objects[i];
+        ThreeDObject * o = objectPool[i];
         if(o->enabled && o->mesh.getMaterial()->cast_shadows)
         {
             o->display(render_to_shadow_map);
@@ -256,9 +278,9 @@ void TranslucentMaterials::setup_shadow(bool reload)
 
     shadow_buffer.setLightWorldTransformationMatrix(mat);
 
-    for(uint i = 0; i < objects.size(); i++)
+    for(uint i = 0; i < objectPool.size(); i++)
     {
-        ThreeDObject * o = objects[i];
+        ThreeDObject * o = objectPool[i];
         Mesh::Material * mat = o->mesh.getMaterial();
         if(o->enabled && mat->receives_shadows)
         {
@@ -266,6 +288,7 @@ void TranslucentMaterials::setup_shadow(bool reload)
         }
     }
 }
+*/
 
 void TranslucentMaterials::draw_axes(bool reload)
 {
@@ -358,19 +381,9 @@ void TranslucentMaterials::draw_bounding_boxes(bool reload)
         washere = true;
     }
 
-    for(int i = 0; i < objects.size(); i++)
-    {
-        ThreeDObject * o = objects[i];
-        if(o->boundingBoxEnabled && o->enabled)
-        {
-            Mesh::BoundingBox * boundingBox = o->getBoundingBox();
-            boundingBoxCubes[i]->setModelView(o->getPosition(),o->getRotation(),o->getScale());
 
-            boundingBoxCubes[i]->setColor(Vec4f(0.0,1.0,0.0,1.0));
-            boundingBoxCubes[i]->display(color_shader);
-            delete boundingBox;
-        }
-    }
+    //TODO REDO
+
 }
 
 void TranslucentMaterials::render_better_dipole(bool reload)
@@ -391,7 +404,7 @@ void TranslucentMaterials::render_better_dipole(bool reload)
         better_dipole_shader_vertex.use();
         set_light_and_camera(better_dipole_shader_vertex);
 
-        draw_objects(better_dipole_shader_vertex);
+        currentObject->display(better_dipole_shader_vertex);
 
     }
     else
@@ -399,7 +412,7 @@ void TranslucentMaterials::render_better_dipole(bool reload)
         better_dipole_shader.use();
         set_light_and_camera(better_dipole_shader);
 
-        draw_objects(better_dipole_shader);
+        currentObject->display(better_dipole_shader);
     }
 }
 
@@ -528,18 +541,8 @@ void TranslucentMaterials::render_direct_compute_time(bool reload, ShaderProgram
     const int DISCS = LAYERS;
 
     //TODO more objs
-    ThreeDObject * obj = objects[0];
-    for(int i = 0; i < objects.size(); i++)
-    {
-        ThreeDObject * o = objects[i];
-        if(o->enabled)
-        {
-            obj = o;
-            break;
-        }
-    }
+    ThreeDObject * obj = currentObject;
     Mesh::Material * scattering_material = obj->mesh.getMaterial();
-
 
     if(reload)
     {
@@ -608,10 +611,12 @@ void TranslucentMaterials::render_direct_compute_time(bool reload, ShaderProgram
     if(currentFrame < CONVERGENCE_FRAMES)
     {
         static bool initialized = false;
+        check_gl_error();
 
         // Need to disable mipmap afterwards, otherwise the memory space is not reserved.
         arraytexmap.disableMipMaps();
         arraytexmap_back.disableMipMaps();
+        check_gl_error();
 
         if(!initialized)
         {
@@ -637,6 +642,7 @@ void TranslucentMaterials::render_direct_compute_time(bool reload, ShaderProgram
             tex->reloadData(*discpoint_data,discPoints,DISCS);
             params->currentFlags &= ~(TranslucentParameters::SAMPLES_CHANGED);
         }
+        check_gl_error();
 
 
         gbuff_shader.use();
@@ -644,6 +650,7 @@ void TranslucentMaterials::render_direct_compute_time(bool reload, ShaderProgram
 
         // Set up a modelview matrix suitable for shadow: Maps from world coords to
         // shadow buffer coords.
+        check_gl_error();
 
         gbuff_shader.set_model_matrix(model_identity);
         gbuff_shader.set_projection_matrix(projection_light);
@@ -657,6 +664,7 @@ void TranslucentMaterials::render_direct_compute_time(bool reload, ShaderProgram
         mat *= gbuff_shader.get_view_matrix();
         scattering_material->addUniform("lightMatrix",mat);
 #else
+        check_gl_error();
 
         vector<Mat4x4f> lightMatrices;
         vector<Mat4x4f> inverseLightMatrices;
@@ -677,7 +685,7 @@ void TranslucentMaterials::render_direct_compute_time(bool reload, ShaderProgram
         gbuff_shader.set_uniform("layers", manager.size());
 #endif
         // Switch viewport size to that of shadow buffer.
-
+        check_gl_error();
         glViewport(0, 0, GBUFFER_SIZE, GBUFFER_SIZE);
 
         // Draw to shadow buffer.
@@ -690,8 +698,6 @@ void TranslucentMaterials::render_direct_compute_time(bool reload, ShaderProgram
         // We need to reset the viewport, since the shadow buffer does not have
         // the same size as the screen window.
         glViewport(0, 0, window_width, window_height);
-
-
 
         Mesh::Texture * vtex = light_buffer.getVertexTexture();
         Mesh::Texture * ntex = light_buffer.getNormalTexture();
@@ -920,16 +926,8 @@ void TranslucentMaterials::render_direct_array(bool reload, ShaderProgramDraw & 
     const int DISCS = LAYERS;
 
     //TODO more objs
-    ThreeDObject * obj = objects[0];
-    for(int i = 0; i < objects.size(); i++)
-    {
-        ThreeDObject * o = objects[i];
-        if(o->enabled)
-        {
-            obj = o;
-            break;
-        }
-    }
+    ThreeDObject * obj = currentObject;
+
     Mesh::Material * scattering_material = obj->mesh.getMaterial();
 
     check_gl_error();
@@ -1280,17 +1278,8 @@ static ShaderProgramDraw depth_only(shader_path,"ss_array_depth_pass.vert","ss_a
     int discPoints = maximum_samples; //TODO more LIGHTS!
     const int DISCS = LAYERS;
 
-    //TODO more objs
-    ThreeDObject * obj = objects[0];
-    for(int i = 0; i < objects.size(); i++)
-    {
-        ThreeDObject * o = objects[i];
-        if(o->enabled)
-        {
-            obj = o;
-            break;
-        }
-    }
+
+    ThreeDObject * obj = currentObject;
     Mesh::ScatteringMaterial * scattering_material = (Mesh::ScatteringMaterial*)obj->mesh.getMaterial();
     Vec3f tr = scattering_material->transmissionCoefficient;
     float minimumTransmission = min(tr[0],min(tr[1],tr[2]));
@@ -1437,11 +1426,12 @@ static ShaderProgramDraw depth_only(shader_path,"ss_array_depth_pass.vert","ss_a
         depth_only.use();
         glViewport(0,0,ARRAY_TEXTURE_SIZE,ARRAY_TEXTURE_SIZE);
         depth_only.set_uniform("viewMatrices", viewMatrices, LAYERS);
-        scattering_material->replaceTexture(string("colorMap"),clean.getColorTexture());
-        scattering_material->replaceTexture(string("depthMap"),clean.getDepthTexture());
-        screen_quad_material->replaceTexture(string("colorMap"),clean.getColorTexture());
-        screen_quad_material->replaceTexture(string("depthMap"),clean.getDepthTexture());
+        static Mesh::Texture * newDepth = new Mesh::Texture("newDepthMap", clean.getDepthTexture()->get_id(), GL_TEXTURE_2D_ARRAY);
+        scattering_material->addTexture(newDepth);
+        screen_quad_material->addTexture(newDepth);
+
         set_light_and_camera(depth_only);
+        depth_only.set_projection_matrix(projection_array);
         clean.enable();
         obj->display(depth_only);
         performanceTimer.registerEvent("2.1: Separate depth");
@@ -1453,6 +1443,9 @@ static ShaderProgramDraw depth_only(shader_path,"ss_array_depth_pass.vert","ss_a
         float trueRadius = params->circleradius;
         glClearColor(0,0,0,0);
 
+#ifdef EXPERIMENT
+        render_to_array.set_uniform("shadow_bias", params->shadow_bias);
+#endif
         render_to_array.set_uniform("one_over_max_samples",1.0f/maximum_samples);
         render_to_array.set_uniform("max_samples",(float)maximum_samples);
         render_to_array.set_uniform("one_over_discs",1.0f/DISCS);
@@ -1489,24 +1482,24 @@ static ShaderProgramDraw depth_only(shader_path,"ss_array_depth_pass.vert","ss_a
         render_to_array.set_uniform("layers", LAYERS);
         render_to_array.set_model_matrix(model_identity);
         render_to_array.set_projection_matrix(projection_array);
-
+check_gl_error();
         front->enable();
         obj->display(render_to_array);
-
+check_gl_error();
         performanceTimer.registerEvent("2: Render to array");
-
+check_gl_error();
         // Need to disable mipmaps, otherwise I cannot copy from level 0 to another (weird opengl stuff)
         front->disableMipMaps();
-
+check_gl_error();
         render_mipmaps.use();
         render_mipmaps.set_uniform("viewMatrices", viewMatrices, LAYERS);
         render_mipmaps.set_uniform("layers", LAYERS);
         //front->generateMipMaps();
-
+check_gl_error();
         //disabling depth test so we do not need a special renderbuffer for depth.
         glDisable(GL_DEPTH_TEST);
         glDepthMask(GL_FALSE);
-
+        check_gl_error();
         for(int level = 0; level < MIPMAPS; level++)
         {
             int viewport_size = ARRAY_TEXTURE_SIZE >> (level + 1);
@@ -1530,6 +1523,7 @@ static ShaderProgramDraw depth_only(shader_path,"ss_array_depth_pass.vert","ss_a
             render_mipmaps.set_uniform("texStep", 1.0f / ARRAY_TEXTURE_SIZE);
 
             front_mipmaps->enableUniqueTarget(level);
+            check_gl_error();
             screen_quad->display(render_mipmaps);
 
             performanceTimer.registerEvent(QString("3.0.%1: Compute mipmaps - shader").arg(QString::number(level)).toStdString());
@@ -1632,7 +1626,7 @@ void TranslucentMaterials::render_directional_dipole(bool reload)
         directional_dipole_shader_vertex.use();
         set_light_and_camera(directional_dipole_shader_vertex);
 
-        draw_objects(directional_dipole_shader_vertex);
+        currentObject->display(directional_dipole_shader_vertex);
 
     }
     else
@@ -1640,7 +1634,7 @@ void TranslucentMaterials::render_directional_dipole(bool reload)
         directional_dipole_shader.use();
         set_light_and_camera(directional_dipole_shader);
 
-        draw_objects(directional_dipole_shader);
+        currentObject->display(directional_dipole_shader);
 
     }
 
@@ -1965,16 +1959,12 @@ void TranslucentMaterials::setAxesVisible(bool areVisible)
     areAxesVisible = areVisible;
 }
 
-void TranslucentMaterials::addObject(ThreeDObject *obj)
-{
-    objects.push_back(obj);
-}
-
 void TranslucentMaterials::initializeGL()
 {
     setup_gl();
     glClearColor( 0.7f, 0.7f, 0.7f, 0.0f );
     glEnable(GL_DEPTH_TEST);
+
     //glEnable(GL_CULL_FACE);
     //glCullFace(GL_BACK);
 }
@@ -2096,34 +2086,14 @@ void TranslucentMaterials::keyReleaseEvent(QKeyEvent *)
 
 ThreeDObject *TranslucentMaterials::getDefaultObject()
 {
-
-    Mesh::ScatteringMaterial * scattering_mat = getDefaultMaterial(S_Whitegrapefruit);
-    ThreeDObject * object = new ThreeDObject();
-
-#if MODEL == BUNNY
-    object->init(objects_path+"bunny-simplified.obj", "object", *scattering_mat);
-    object->setScale(Vec3f(4.f));
-    object->setRotation(Vec3f(90,0,0));
-#elif MODEL == BUDDHA
-    object->init(objects_path+"buddha.obj", "object", *scattering_mat);
-    object->setScale(Vec3f(1.f));
-    object->setRotation(Vec3f(90,0,0));
-#elif MODEL == DRAGON
-    object->init(objects_path+"dragon.obj", "object", *scattering_mat);
-    object->setScale(Vec3f(1.f));
-    object->setRotation(Vec3f(0,0,0));
-#endif
-    object->setTranslation(Vec3f(0,0,0.f));
-    object->enabled = true;
-    object->boundingBoxEnabled = true;
-    return object;
+    return objectPool[0];
 }
 
 ThreeDObject * TranslucentMaterials::getObject(string name)
 {
     vector<ThreeDObject*>::iterator it;
-    it = std::find_if(objects.begin(),objects.end(), CompareThreeD(name));
-    if(it != objects.end())
+    it = std::find_if(objectPool.begin(),objectPool.end(), CompareThreeD(name));
+    if(it != objectPool.end())
     {
         return *it;
     }
@@ -2138,4 +2108,12 @@ TranslucentParameters *TranslucentMaterials::getParameters()
 void TranslucentMaterials::setRenderMode(RenderMode mode)
 {
     this->render_mode = mode;
+}
+
+ThreeDObject* TranslucentMaterials::setObject(QString &object)
+{
+    currentObject = getObject(object.toStdString());
+    glUseProgram(0);
+    currentObject->mesh.build_vertex_array_object();
+    return currentObject;
 }

@@ -19,19 +19,28 @@ using namespace std;
 namespace GLGraphics
 {	
 
+
+   const char* const ThreeDObject::OBJECT_TYPES[] =  {"bunny", "buddha", "dragon"};
+
     ThreeDObject::ThreeDObject():
         translation_vector(0),
         rotation(Quatf(0,0,0,1)),
         scaling_factors(1,1,1),
         mesh(Mesh::TriangleMesh()),
         enabled(false),
-        boundingBoxEnabled(false)
+        boundingBoxEnabled(false),
+        initialized(false)
     {
 	}
 
     bool ThreeDObject::init(std::string filename, std::string name, Mesh::Material & material){
+        if(initialized)
+        {
+            return false;
+        }
         this->firstTime = true;
         this->name = name;
+        this->initialized = true;
         return mesh.load(filename, material);
     }
 

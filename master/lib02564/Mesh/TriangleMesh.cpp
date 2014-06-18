@@ -272,9 +272,11 @@ void TriangleMesh::render(ShaderProgramDraw &shader){
    for (std::vector<DrawCall>::iterator iter = drawCalls.begin();iter != drawCalls.end(); iter++){
         Material & mat = iter->material;
         mat.loadUniforms(shader);
+        check_gl_error();
         glDrawElements(iter->renderMode, iter->count, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>( iter->offset));
+        check_gl_error();
     }
-
+    check_gl_error();
 }
 
 

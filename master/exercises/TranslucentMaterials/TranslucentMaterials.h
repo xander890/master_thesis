@@ -84,13 +84,13 @@ public:
     CGLA::Vec4f getClearColor() const;
     void keyPressEvent(QKeyEvent *);
     void keyReleaseEvent(QKeyEvent *);
-    GLGraphics::ThreeDObject * getDefaultObject();
     GLGraphics::ThreeDObject * getObject(std::string name);
     TranslucentParameters * getParameters();
     enum RenderMode {DRAW_JENSEN=0, DRAW_BETTER=1, DRAW_DIRECTIONAL=2};
     enum RenderMethod {BRUTE_FORCE = 0, CUBEMAP_BASE = 1};
-
+    GLGraphics::ThreeDObject *getDefaultObject();
     void setRenderMode(RenderMode mode);
+    GLGraphics::ThreeDObject *setObject(QString & object);
 
 public slots:
     void animate();
@@ -102,7 +102,6 @@ public slots:
     void setVertexPixelMode(bool isVertex);
     void setGridVisible(bool isVisible);
     void setAxesVisible(bool areVisible);
-    void addObject(GLGraphics::ThreeDObject * obj);
 
 signals:
     void userPositionChanged(CGLA::Vec3f & newPosition);
@@ -120,8 +119,6 @@ protected:
 
     void render_to_gbuffer(GBuffer& gbuffer, bool reload);
     void render_directional_dipole(bool reload);
-    void draw_objects(GLGraphics::ShaderProgramDraw& shader_prog);
-    void draw_objects(GLGraphics::ShaderProgramDraw& shader_prog,std::vector<std::string> & str);
     void setup_shadow(bool reload);
     void draw_axes(bool reload);
     void draw_grid(bool reload);
@@ -129,6 +126,7 @@ protected:
     void getDiscPoints(std::vector<CGLA::Vec3f> * points, const int n, const int m);
     void getDiscPoints(std::vector<CGLA::Vec3f> * points, const int n, const int m, float sigma_tr);
 
+     void initialize();
      void initializeGL();
      void resizeGL( int w, int h );
      void paintGL();
@@ -137,7 +135,9 @@ protected:
      void mouseMoveEvent(QMouseEvent *);
      RenderMode render_mode;
      RenderMethod render_method;
-     std::vector<GLGraphics::ThreeDObject*> objects;
+     std::vector<GLGraphics::ThreeDObject*> objectPool;
+     GLGraphics::ThreeDObject * currentObject;
+
 
      int currentFrame;
 };

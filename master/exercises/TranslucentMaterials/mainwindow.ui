@@ -72,7 +72,7 @@
           </size>
          </property>
          <property name="currentIndex">
-          <number>2</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="General">
           <attribute name="title">
@@ -92,7 +92,7 @@
              <number>6</number>
             </property>
             <item>
-             <widget class="QGroupBox" name="groupBox">
+             <widget class="QGroupBox" name="general">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -468,19 +468,6 @@
             </item>
             <item>
              <widget class="SliderLabel" name="samples" native="true">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>30</height>
-               </size>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="SliderLabel" name="epsilon_gbuffer" native="true">
               <property name="enabled">
                <bool>true</bool>
               </property>

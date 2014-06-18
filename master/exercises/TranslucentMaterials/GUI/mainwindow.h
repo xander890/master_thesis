@@ -33,14 +33,11 @@ private slots:
     void shadowBiasChanged(float value);
     void LODChanged(float value);
     void gammaChanged(float value);
-
+    void modelChanged(QString & newModel);
 
     void on_cubemapVisible_toggled(bool checked);
-
     void on_jensenbutton_clicked();
-
     void on_directionalbutton_clicked();
-
     void on_environment_toggled(bool checked);
 
 private:

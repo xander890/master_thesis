@@ -25,6 +25,11 @@ private slots:
 
     void on_groupBox_toggled(bool arg1);
 
+    void on_modelcombobox_activated(const QString &arg1);
+
+signals:
+    void modelChanged(QString & newModel);
+
 private:
     Ui::ThreeDObjectGUI *ui;
     GLGraphics::ThreeDObject *obj;

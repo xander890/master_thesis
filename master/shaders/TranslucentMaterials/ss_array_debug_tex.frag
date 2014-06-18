@@ -5,6 +5,7 @@ uniform sampler2DArray colorMap;
 uniform sampler2DArray vtex;
 uniform sampler2DArray ntex;
 uniform sampler2DArrayShadow depthMap;
+uniform sampler2DArrayShadow newDepthMap;
 uniform sampler2D discpoints;
 
 out vec4 fragColor;
@@ -33,13 +34,13 @@ void main(void)
    //fragColor = vec4(bssrdf(xi,ni,wi,xo,no),1.0f) / 1;
     //fragColor = pow(fragColor,vec4(1/2.2f));
 
-        fragColor = textureLod(colorMap,vec3(_tex.xy, 0),mipmap_LOD).xyzz;
-        fragColor = texture(depthMap,vec4(_tex.xy, 0, 0.5)).xxxx;// + textureLod(colorMap,vec3(_tex.xy,level),1f);
-        fragColor = noise(gl_FragCoord.xy).xxxx;
+        fragColor = textureLod(colorMap,vec3(_tex.xy, 0),0).xyzz;
+        fragColor +=  (0.5 - 0.5* texture(newDepthMap,vec4(_tex.xy, 0, 0.5)) ).xxxx;// + textureLod(colorMap,vec3(_tex.xy,level),1f);
+        //fragColor = noise(gl_FragCoord.xy).xxxx;
 
-       fragColor = LCG(int(gl_FragCoord.x + 1024 * gl_FragCoord.y)).xxxx;
+       //fragColor = LCG(int(gl_FragCoord.x + 1024 * gl_FragCoord.y)).xxxx;
 
-    fragColor = (texture(vtex, vec3(_tex.xy,1)));
+    //fragColor = (texture(vtex, vec3(_tex.xy,1)));
     //if(fragColor.z > 100)
     //    fragColor = vec4(0);
     //fragColor = vec4(0.0,0.0,1.0f,1.0);

@@ -16,6 +16,7 @@
 #include "ShaderProgram.h"
 #include <Mesh/TriangleMesh.h>
 #include <string>
+#define OBJECT_TYPE_SIZE 3
 
 namespace GLGraphics
 {
@@ -31,9 +32,11 @@ protected:
     CGLA::Vec3f eulerAngles;
     CGLA::Vec3f scaling_factors;
     bool firstTime;
+    bool initialized;
 
 
 public:
+    static const char * const OBJECT_TYPES[];
     Mesh::TriangleMesh mesh;
     std::string name;
     bool enabled;

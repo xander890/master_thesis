@@ -3,6 +3,7 @@
 #define TIME
 #define MULTI_LIGHTS
 //#define OVERLAY
+//#define PREDEPTH
 #define SPECTRAL
 
 layout(location = 0) out vec4 fragColor;
@@ -41,6 +42,20 @@ uniform int current_frame;
 uniform float discradius;
 uniform int samples;
 
+#ifdef PREDEPTH
+    uniform float shadow_bias;
+    uniform sampler2DArrayShadow newDepthMap;
+
+    float sample_shadow_map(vec3 camera_pos, float layer)
+    {
+        camera_pos.z -= 0; //bias to avoid shadow acne
+        if(camera_pos.x < 0.0 || camera_pos.x > 1.0) return 1.0;
+        if(camera_pos.y < 0.0 || camera_pos.y > 1.0) return 1.0;
+        return texture(newDepthMap,vec4(camera_pos.x,camera_pos.y,layer,camera_pos.z)).r;
+    }
+
+#endif
+
 #include "ss_aincludes_ss_uniforms.glinc"
 
 #include "ss_aincludes_optics.glinc"
@@ -49,8 +64,10 @@ uniform int samples;
 
 #include "ss_aincludes_random.glinc"
 
+
 void main(void)
 {
+
 
 
     int layer = gl_Layer;
@@ -59,6 +76,16 @@ void main(void)
 
 #ifdef TIME
     vec4 l = cameraMatrices[layer] * vec4(position,1.0f);
+
+    #ifdef PREDEPTH
+    float isVisible = sample_shadow_map(l.xyz,layer);
+
+    if(isVisible < 0.0f)
+    {
+        fragColor = vec4(0.0);
+        return;
+    }
+    #endif
 
     vec4 oldColor = (current_frame > 0)? texture(colorMap,vec3(l.xy,layer)) : vec4(0.0f) ;
 #else
