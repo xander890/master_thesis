@@ -35,7 +35,7 @@ void main(void)
     //fragColor = pow(fragColor,vec4(1/2.2f));
 
         fragColor = textureLod(colorMap,vec3(_tex.xy, 0),0).xyzz;
-        fragColor +=  (0.5 - 0.5* texture(newDepthMap,vec4(_tex.xy, 0, 0.5)) ).xxxx;// + textureLod(colorMap,vec3(_tex.xy,level),1f);
+        //fragColor +=  (0.5 - 0.5* texture(newDepthMap,vec4(_tex.xy, 0, 0.5)) ).xxxx;// + textureLod(colorMap,vec3(_tex.xy,level),1f);
         //fragColor = noise(gl_FragCoord.xy).xxxx;
 
        //fragColor = LCG(int(gl_FragCoord.x + 1024 * gl_FragCoord.y)).xxxx;

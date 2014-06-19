@@ -67,7 +67,7 @@
 
 #define POINT_DIST 0 // 0 random, 1 exponential, 2 uniform
 #define TIMER
-//#define DIR
+#define DIR
 
 #define GPU_MEMORY_INFO_DEDICATED_VIDMEM_NVX 0x9047
 #define GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX 0x9048
@@ -94,8 +94,8 @@ bool reload_shaders = true;
 LightManager manager;
 
 const Vec4f light_specular(0.6f,0.6f,0.3f,0.6f);
-const Vec4f light_diffuse(.5f,.5f,.5f,1.0f);
-const Vec4f light_position(0.f,0.f,2.f,1);
+const Vec4f light_diffuse(1.f,1.f,1.f,1.0f);
+const Vec4f light_position(0.f,0.f,1.f,1);
 const Vec4f light_diffuse_2(1.3,0.5,0.5,0.0);
 const Vec4f light_position_2(2.0,0.0,0.0,1.0);
 
@@ -137,39 +137,39 @@ TranslucentMaterials::TranslucentMaterials( QWidget* parent)
 
 void TranslucentMaterials::initialize()
 {
-    Mesh::ScatteringMaterial * scattering_mat_1 = getDefaultMaterial(S_Whitegrapefruit);
-    Mesh::ScatteringMaterial * scattering_mat_2 = getDefaultMaterial(S_Whitegrapefruit);
-    Mesh::ScatteringMaterial * scattering_mat_3 = getDefaultMaterial(S_Whitegrapefruit);
+    Mesh::ScatteringMaterial * scattering_mat_bunny = getDefaultMaterial(S_Whitegrapefruit);
+    Mesh::ScatteringMaterial * scattering_mat_buddha = getDefaultMaterial(S_Whitegrapefruit);
+    Mesh::ScatteringMaterial * scattering_mat_dragon = getDefaultMaterial(S_Potato);
 
-    ThreeDObject * object_1 = new ThreeDObject();
-    ThreeDObject * object_2 = new ThreeDObject();
-    ThreeDObject * object_3 = new ThreeDObject();
+    ThreeDObject * bunny = new ThreeDObject();
+    ThreeDObject * buddha = new ThreeDObject();
+    ThreeDObject * dragon = new ThreeDObject();
 
-    object_1->init(objects_path+"bunny-simplified.obj", "bunny", *scattering_mat_1);
-    object_1->setScale(Vec3f(4.f));
-    object_1->setRotation(Vec3f(90,0,0));
-    object_1->setTranslation(Vec3f(0,0,0.f));
-    object_1->enabled = true;
-    object_1->boundingBoxEnabled = true;
+    bunny->init(objects_path+"bunny-simplified.obj", "bunny", *scattering_mat_bunny);
+    bunny->setScale(Vec3f(4.f));
+    bunny->setRotation(Vec3f(90,0,0));
+    bunny->setTranslation(Vec3f(0,0,0.f));
+    bunny->enabled = true;
+    bunny->boundingBoxEnabled = true;
 
-    object_2->init(objects_path+"buddha-simple.obj", "buddha", *scattering_mat_2);
-    object_2->setScale(Vec3f(1.f));
-    object_2->setRotation(Vec3f(90,0,0));
-    object_2->setTranslation(Vec3f(0,0,0.f));
-    object_2->enabled = true;
-    object_2->boundingBoxEnabled = true;
+    //buddha->init(objects_path+"buddha.obj", "buddha", *scattering_mat_buddha);
+    buddha->setScale(Vec3f(1.f));
+    buddha->setRotation(Vec3f(90,0,0));
+    buddha->setTranslation(Vec3f(0,0,0.f));
+    buddha->enabled = true;
+    buddha->boundingBoxEnabled = true;
 
-    object_3->init(objects_path+"dragon.obj", "dragon", *scattering_mat_3);
-    object_3->setScale(Vec3f(1.f));
-    object_3->setRotation(Vec3f(0,0,0));
-    object_3->setTranslation(Vec3f(0,0,0.f));
-    object_3->enabled = true;
-    object_3->boundingBoxEnabled = true;
+    dragon->init(objects_path+"dragon.obj", "dragon", *scattering_mat_dragon);
+    dragon->setScale(Vec3f(1.f));
+    dragon->setRotation(Vec3f(0,0,0));
+    dragon->setTranslation(Vec3f(0,0,0.f));
+    dragon->enabled = true;
+    dragon->boundingBoxEnabled = true;
 
-    objectPool.push_back(object_1);
-    //objectPool.push_back(object_2);
-    objectPool.push_back(object_3);
-    currentObject = object_1;
+    objectPool.push_back(bunny);
+    objectPool.push_back(buddha);
+    objectPool.push_back(dragon);
+    currentObject = bunny;
 }
 
 
@@ -422,15 +422,15 @@ bool compareVec2fDistanceAscending (Vec2f i,Vec2f j) { return (i.length() < j.le
 
 void TranslucentMaterials::getDiscPoints(vector<Vec3f> * points, const int n, const int m)
 {
-    getDiscPoints(points,n,m,0.0f);
+    getDiscPoints(points,n,m,0.0f,1.0f);
 }
 
-void TranslucentMaterials::getDiscPoints(vector<Vec3f> * points, const int n, const int m, float sigma_tr)
+void TranslucentMaterials::getDiscPoints(vector<Vec3f> * points, const int n, const int m, float sigma_tr, float radius)
 {
     vector<vector<Vec2f> > texture;
 
 //#if POINT_DIST == 0
-    planeHaltonCircleRejectionExponentialMulti(texture, n, m, sigma_tr);
+    planeHaltonCircleRejectionExponentialMulti(texture, n, m, sigma_tr, radius);
 //#elif POINT_DIST == 1
 //    planeHammersleyCircleMultiExp(texture, n, m,3.0f);
 //#else
@@ -1243,15 +1243,14 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
     const int ARRAY_TEXTURE_SIZE = 1024;
     const int MAX_LIGHTS = 16;
     const int LAYERS = 16;
-    int samples_per_texel = params->samples / (LAYERS * manager.size());
+    int samples_per_texel = params->samples / (manager.size());
     int maximum_samples = params->maxsamples;
 
     const int MIPMAPS = 3;
 
 //#define EXPERIMENT
 #ifdef EXPERIMENT
-static DepthOnlyBuffer depth_buffer(ARRAY_TEXTURE_SIZE,LAYERS);
-static ArrayTextureBuffer clean(ARRAY_TEXTURE_SIZE,LAYERS,1);
+static ArrayTextureBuffer clean(ARRAY_TEXTURE_SIZE,LAYERS,1,0);
 
 static ShaderProgramDraw depth_only(shader_path,"ss_array_depth_pass.vert","ss_array_depth_pass.geom", "ss_array_depth_pass.frag");
 #endif
@@ -1273,6 +1272,7 @@ static ShaderProgramDraw depth_only(shader_path,"ss_array_depth_pass.vert","ss_a
     const float CAMERA_FAR = 10.0f;
     const float CAMERA_SIZE = 1.0f;
     const int CONVERGENCE_FRAMES = 100;
+    const float MAX_RADIUS = 3.0f;
     //const float CAMERA_RATIO = CAMERA_SIZE / LIGHT_CAMERA_SIZE;
 
     int discPoints = maximum_samples; //TODO more LIGHTS!
@@ -1301,6 +1301,7 @@ static ShaderProgramDraw depth_only(shader_path,"ss_array_depth_pass.vert","ss_a
 #ifdef EXPERIMENT
         depth_only.reload();
 #endif
+
         currentFrame = 0;
     }
 
@@ -1314,17 +1315,20 @@ static ShaderProgramDraw depth_only(shader_path,"ss_array_depth_pass.vert","ss_a
     static Mat4x4f mat2 = translation_Mat4x4f(Vec3f(0.5)) * scaling_Mat4x4f(Vec3f(0.5)) * projection_array;
     static Vec3f up = Vec3f(0,1,0);
     static vector<Vec3f> spherePoints;
+    static vector<Vec3f> discpoint_data;
+
 
     static bool initialized = false;
+
+
     if(!initialized)
     {
         initialized = true;
         screen_quad->init("","plane",*screen_quad_material);
-        vector<Vec3f> * discpoint_data = new vector<Vec3f>();
 
-        getDiscPoints(discpoint_data,discPoints,DISCS, minimumTransmission);
+        getDiscPoints(&discpoint_data,discPoints,DISCS, minimumTransmission, MAX_RADIUS);
 
-        Mesh::Texture * tex = new Mesh::Texture("discpoints",GL_TEXTURE_2D, discPoints, DISCS, *discpoint_data);
+        Mesh::Texture * tex = new Mesh::Texture("discpoints",GL_TEXTURE_2D, discPoints, DISCS, discpoint_data);
         tex->init();
         scattering_material->addTexture(tex);
 
@@ -1337,13 +1341,7 @@ static ShaderProgramDraw depth_only(shader_path,"ss_array_depth_pass.vert","ss_a
 
         scattering_material->addTexture(vtex);
         scattering_material->addTexture(ntex);
-        //scattering_material->addTexture(arraytexmap.getColorTexture());
-        //scattering_material->addTexture(arraytexmap.getDepthTexture());
         scattering_material->addTexture(skybox);
-
-
-        //screen_quad_material->addTexture(arraytexmap.getColorTexture());
-        //screen_quad_material->addTexture(arraytexmap.getDepthTexture());
         screen_quad_material->addTexture(vtex);
         screen_quad_material->addTexture(ntex);
 
@@ -1358,12 +1356,15 @@ static ShaderProgramDraw depth_only(shader_path,"ss_array_depth_pass.vert","ss_a
 
     if(params->currentFlags & TranslucentParameters::SAMPLES_CHANGED)
     {
-        vector<Vec3f> * discpoint_data = new vector<Vec3f>();
-        getDiscPoints(discpoint_data,discPoints,DISCS, minimumTransmission);
+        discpoint_data.clear();
+        getDiscPoints(&discpoint_data,discPoints,DISCS, minimumTransmission, MAX_RADIUS);
         Mesh::Texture * tex = scattering_material->getTexture(string("discpoints"));
-        tex->reloadData(*discpoint_data,discPoints,DISCS);
+        tex->reloadData(discpoint_data,discPoints,DISCS);
         params->currentFlags &= ~(TranslucentParameters::SAMPLES_CHANGED);
+
     }
+
+
 
     performanceTimer.registerEvent("0: Initialization");
 
@@ -1433,14 +1434,14 @@ static ShaderProgramDraw depth_only(shader_path,"ss_array_depth_pass.vert","ss_a
         set_light_and_camera(depth_only);
         depth_only.set_projection_matrix(projection_array);
         clean.enable();
+        check_gl_error();
         obj->display(depth_only);
         performanceTimer.registerEvent("2.1: Separate depth");
         #endif
 
         render_to_array.use();
         glViewport(0,0,ARRAY_TEXTURE_SIZE,ARRAY_TEXTURE_SIZE);
-
-        float trueRadius = params->circleradius;
+        check_gl_error();
         glClearColor(0,0,0,0);
 
 #ifdef EXPERIMENT
@@ -1450,7 +1451,7 @@ static ShaderProgramDraw depth_only(shader_path,"ss_array_depth_pass.vert","ss_a
         render_to_array.set_uniform("max_samples",(float)maximum_samples);
         render_to_array.set_uniform("one_over_discs",1.0f/DISCS);
         render_to_array.set_uniform("samples",samples_per_texel);
-        render_to_array.set_uniform("discradius",trueRadius);
+        //render_to_array.set_uniform("discradius",trueRadius);
         render_to_array.set_uniform("epsilon_gbuffer", params->epsilon_gbuffer);
         render_to_array.set_uniform("min_tr", minimumTransmission);
         render_to_array.set_uniform("lightMatrices",inverseLightMatrices, manager.size());
@@ -1482,24 +1483,24 @@ static ShaderProgramDraw depth_only(shader_path,"ss_array_depth_pass.vert","ss_a
         render_to_array.set_uniform("layers", LAYERS);
         render_to_array.set_model_matrix(model_identity);
         render_to_array.set_projection_matrix(projection_array);
-check_gl_error();
+
         front->enable();
         obj->display(render_to_array);
-check_gl_error();
+        check_gl_error();
         performanceTimer.registerEvent("2: Render to array");
-check_gl_error();
+
         // Need to disable mipmaps, otherwise I cannot copy from level 0 to another (weird opengl stuff)
         front->disableMipMaps();
-check_gl_error();
+
         render_mipmaps.use();
         render_mipmaps.set_uniform("viewMatrices", viewMatrices, LAYERS);
         render_mipmaps.set_uniform("layers", LAYERS);
         //front->generateMipMaps();
-check_gl_error();
+
         //disabling depth test so we do not need a special renderbuffer for depth.
         glDisable(GL_DEPTH_TEST);
         glDepthMask(GL_FALSE);
-        check_gl_error();
+
         for(int level = 0; level < MIPMAPS; level++)
         {
             int viewport_size = ARRAY_TEXTURE_SIZE >> (level + 1);
@@ -1526,7 +1527,7 @@ check_gl_error();
             check_gl_error();
             screen_quad->display(render_mipmaps);
 
-            performanceTimer.registerEvent(QString("3.0.%1: Compute mipmaps - shader").arg(QString::number(level)).toStdString());
+//            performanceTimer.registerEvent(QString("3.0.%1: Compute mipmaps - shader").arg(QString::number(level)).toStdString());
         }
 
         // re-enabling depth test for final rendering
@@ -1538,11 +1539,8 @@ check_gl_error();
 
 
         // Adding the new calculated stuff.
-
         scattering_material->replaceTexture(string("colorMap"),front->getColorTexture());
-        //scattering_material->replaceTexture(string("depthMap"),front->getDepthTexture());
         screen_quad_material->replaceTexture(string("colorMap"),front->getColorTexture());
-        //screen_quad_material->replaceTexture(string("depthMap"),front->getDepthTexture());
 
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER,0);
         glViewport(0,0,window_width,window_height);
@@ -1554,21 +1552,18 @@ check_gl_error();
 
     }
 
-
     render_combination.use();
     render_combination.set_uniform("shadow_bias", params->shadow_bias);
     render_combination.set_uniform("epsilon_combination", params->epsilon_combination);
-    render_combination.set_uniform("one_over_max_samples", 1.0f/maximum_samples);
+    render_combination.set_uniform("one_over_max_samples", 1.0f/samples_per_texel);
     render_combination.set_uniform("mipmap_LOD",params->LOD);
     render_combination.set_uniform("current_frame_rev", 1.0f/min(currentFrame + 1,CONVERGENCE_FRAMES));
     render_combination.set_uniform("cameraMatrices", planeTransformMatrices,LAYERS);
-    render_combination.set_uniform("camera_dirs", cameraPositions, LAYERS);
     render_combination.set_uniform("has_environment", params->environment);
-    float worldCircleRadius = params->circleradius * LIGHT_CAMERA_SIZE * 0.5;
+    float worldCircleRadius = length(discpoint_data.at(samples_per_texel - 1)) *  LIGHT_CAMERA_SIZE;
     render_combination.set_uniform("disc_area", (float)(worldCircleRadius * worldCircleRadius * M_PI));
     render_combination.set_uniform("step_tex", 1.0f/ARRAY_TEXTURE_SIZE);
     render_combination.set_uniform("skybox_dim", Vec2f(skybox->width,skybox->height));
-
     set_light_and_camera(render_combination);
     obj->display(render_combination);
 
@@ -2086,7 +2081,7 @@ void TranslucentMaterials::keyReleaseEvent(QKeyEvent *)
 
 ThreeDObject *TranslucentMaterials::getDefaultObject()
 {
-    return objectPool[0];
+    return currentObject;
 }
 
 ThreeDObject * TranslucentMaterials::getObject(string name)
@@ -2112,8 +2107,9 @@ void TranslucentMaterials::setRenderMode(RenderMode mode)
 
 ThreeDObject* TranslucentMaterials::setObject(QString &object)
 {
-    currentObject = getObject(object.toStdString());
     glUseProgram(0);
-    currentObject->mesh.build_vertex_array_object();
+    //currentObject->mesh.disable();
+    currentObject = getObject(object.toStdString());
+    reload_shaders = true;
     return currentObject;
 }

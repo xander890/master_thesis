@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->clearColor->init("Clear color: ", ui->translucentMaterials->getClearColor());
     connect(ui->clearColor,SIGNAL(vectorChanged(CGLA::Vec4f&)),ui->translucentMaterials,SLOT(setClearColor(CGLA::Vec4f&)));
 
-    Vec3f userpos = Vec3f(0.016, 1.03, 0.054);
+    Vec3f userpos = Vec3f(-0.0058789,0.228939,0.124951);
     ui->userPosition->init("User position: ", userpos);
     ui->translucentMaterials->setUserPosition(userpos);
     connect(ui->userPosition,SIGNAL(vectorChanged(CGLA::Vec3f&)),ui->translucentMaterials,SLOT(setUserPosition(CGLA::Vec3f&)));
@@ -45,10 +45,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->objTest->setObject(bunny);
     connect(ui->objTest,SIGNAL(modelChanged(QString &)), this, SLOT(modelChanged(QString &)));
 
-    ui->radius->init("Radius: ", ui->translucentMaterials->getParameters()->circleradius, 0.1, 7.0, false);
+    ui->radius->init("Radius: ", ui->translucentMaterials->getParameters()->circleradius, 1.0, 50.0, false);
     connect(ui->radius, SIGNAL(valueChanged(float)), this, SLOT(radiusChanged(float)));
 
-    ui->samples->init("Samples (total): ",ui->translucentMaterials->getParameters()->samples,2,2048, true);
+
+    ui->samples->init("Samples (per all lights): ",ui->translucentMaterials->getParameters()->samples,1,300, true);
     connect(ui->samples, SIGNAL(valueChanged(float)), this, SLOT(samplesChanged(float)));
 
     ui->maxsamples->init("Max samples: ",ui->translucentMaterials->getParameters()->maxsamples,1,1000, true);

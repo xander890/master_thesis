@@ -67,9 +67,6 @@ uniform int samples;
 
 void main(void)
 {
-
-
-
     int layer = gl_Layer;
     vec3 xo = position;
     vec3 no = normalize(norm);
@@ -124,22 +121,18 @@ void main(void)
         vec3 wi = light_pos[current_light].xyz;
         vec4 rad = light_diff[current_light];
         vec3 topoint = wi - xo;
-        float light_type = 1;
+        float light_type = light_pos[current_light].a;
         wi = (light_type > 0)? normalize(topoint) : normalize(wi);
         vec3 Li = light_diff[current_light].xyz;
         Li = (light_type > 0)? Li / dot(topoint,topoint) : Li;
 
-        //vec3 offset = epsilon_gbuffer * (no - wi * dot(no,wi));
-        //vec3 position_mod = xo;
-        //vec3 position_mod = xo - epsilon * (1 - dot(no,wi)) * no;
-
         vec4 light_post = lightMatrices[k] * vec4(xo,1.0f);
         vec2 circle_center = light_post.xy;
 
-        for(int i = 0; i < max_samples && count < samples; i++)
+        for(int i = 0; i < samples; i++)
         {
             vec2 smpl = texture(discpoints,vec2((i) * one_over_max_samples, layer * one_over_discs)).xy;
-            vec2 relative_point = discradius * smpl;
+            vec2 relative_point = smpl; //discradius * smpl;
 
     #ifdef RANDOM
             vec2 discoffset = rotation_matrix * relative_point;
@@ -156,14 +149,14 @@ void main(void)
                 {
                     vec3 ni = texture(ntex, sampl).rgb;
                     vec3 S = bssrdf(xi,wi,ni,xo,no);
-                    float normalization = exp(min_tr * length(relative_point));
+                    float normalization = exp(-min_tr * length(relative_point));
                     accumulate += Li * S * normalization;
-                    count += 1;
+                    //count += 1;
                 }
 
             }
             #ifdef OVERLAY
-                if(length(discradius * smpl + vec2(0.5) - gl_FragCoord.xy / 1024) < 5.f/1024)
+                if(length(smpl + vec2(0.5) - gl_FragCoord.xy / 1024) < 5.f/1024)
                     color = true;
             #endif
         }

@@ -206,7 +206,7 @@ void planeHammersleyCircle(std::vector<Vec2f> &result, int n)
    }
 }
 
-void planeHaltonCircleRejectionExponential(std::vector<Vec2f> &result, int n, float sigma_tr)
+void planeHaltonCircleRejectionExponential(std::vector<Vec2f> &result, int n, float sigma_tr, float radius)
 {
     //Better method based on hemisphere
    uint accepted = 0;
@@ -216,12 +216,12 @@ void planeHaltonCircleRejectionExponential(std::vector<Vec2f> &result, int n, fl
    while(accepted < n)
    {
         Vec2f point = haltonPointCircle(i, 2, 3);
-        float radius = point.length();
-        float expon = exp(-1 * (sigma_tr * radius));
+        float rad = point.length() * radius;
+        float expon = exp(-1 * (sigma_tr * rad));
         float zeta = gel_rand() / ((float)(GEL_RAND_MAX));
         if(zeta < expon)
         {
-            result.push_back(point);
+            result.push_back(radius * point);
             accepted++;
         }
         i++;
@@ -360,10 +360,10 @@ void planeHaltonCircle(std::vector<Vec2f> &result, int n)
 }
 
 
-void planeHaltonCircleRejectionExponentialMulti(std::vector<std::vector<Vec2f> > &result, int n, int cols, float sigma_tr)
+void planeHaltonCircleRejectionExponentialMulti(std::vector<std::vector<Vec2f> > &result, int n, int cols, float sigma_tr, float radius)
 {
     vector<Vec2f> intermediate;
-    planeHaltonCircleRejectionExponential(intermediate,n,sigma_tr);
+    planeHaltonCircleRejectionExponential(intermediate,n,sigma_tr,radius);
     for(int k = 0; k < cols; k++)
     {
         float angle = ((float)k) / cols * 2 * M_PI;

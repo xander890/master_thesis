@@ -50,8 +50,8 @@ CGLA::Vec3f haltonPointSphere(int k, int p1, int p2);
 void planeHalton(std::vector<CGLA::Vec2f> & result, int n);
 void sphereHalton(std::vector<CGLA::Vec3f> & result, int n);
 void planeHaltonCircle(std::vector<CGLA::Vec2f> & result, int n);
-void planeHaltonCircleRejectionExponential(std::vector<CGLA::Vec2f> &result, int n, float sigma_tr);
-void planeHaltonCircleRejectionExponentialMulti(std::vector<std::vector<CGLA::Vec2f> > & result, int n, int cols, float sigma_tr);
+void planeHaltonCircleRejectionExponential(std::vector<CGLA::Vec2f> &result, int n, float sigma_tr, float radius);
+void planeHaltonCircleRejectionExponentialMulti(std::vector<std::vector<CGLA::Vec2f> > & result, int n, int cols, float sigma_tr, float radius);
 
 
 void planeHammersleyCircleMulti(std::vector<std::vector<CGLA::Vec2f> > & result, int n, int cols);

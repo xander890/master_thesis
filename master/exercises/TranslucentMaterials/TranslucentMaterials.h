@@ -16,8 +16,8 @@ class TranslucentParameters
 
 public:
     TranslucentParameters::TranslucentParameters() :
-        circleradius(0.7f),
-        samples(1),
+        circleradius(4.0f),
+        samples(16),
         maxsamples(1000),
         epsilon_gbuffer(0.003),
         epsilon_combination(0.001),
@@ -124,7 +124,7 @@ protected:
     void draw_grid(bool reload);
     void draw_bounding_boxes(bool reload);
     void getDiscPoints(std::vector<CGLA::Vec3f> * points, const int n, const int m);
-    void getDiscPoints(std::vector<CGLA::Vec3f> * points, const int n, const int m, float sigma_tr);
+    void getDiscPoints(std::vector<CGLA::Vec3f> * points, const int n, const int m, float sigma_tr, float radius);
 
      void initialize();
      void initializeGL();

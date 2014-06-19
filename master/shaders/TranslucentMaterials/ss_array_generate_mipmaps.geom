@@ -3,7 +3,7 @@
 #include "ss_aincludes_constants.glinc"
 
 layout(triangles) in;
-layout(triangle_strip, max_vertices = 60) out;
+layout(triangle_strip, max_vertices = 93) out;
 
 in vec3 v_tex[3];
 
