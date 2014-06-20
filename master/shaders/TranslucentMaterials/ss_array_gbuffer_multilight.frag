@@ -2,8 +2,8 @@
 smooth in vec3 position;
 smooth in vec3 norm;
 
-layout(location = 0) out vec4 pos;
-layout(location = 1) out vec4 normal;
+layout(location = 0) out vec3 pos;
+layout(location = 1) out vec3 normal;
 
 void main()
 {

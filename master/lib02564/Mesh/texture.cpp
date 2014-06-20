@@ -23,9 +23,17 @@ void Mesh::Texture::reloadData(std::vector<CGLA::Vec3f> & ndata, int newWidth, i
 {
     width = newWidth;
     height = newHeight;
-    this->data = data;
+    this->data = ndata;
     glBindTexture(target, id);
-    glTexImage2D(target, 0, GL_RGB32F, width, height,0, GL_RGB,GL_FLOAT, &ndata[0]);
+
+    if(height > 1)
+    {
+        glTexImage2D(target, 0, GL_RGB32F, width, height,0, GL_RGB,GL_FLOAT, &ndata[0]);
+    }
+    else
+    {
+        glTexImage1D(target, 0, GL_RGB32F, width,0, GL_RGB,GL_FLOAT, &ndata[0]);
+    }
 }
 
 std::vector<CGLA::Vec3f> Mesh::Texture::getData()
@@ -35,5 +43,12 @@ std::vector<CGLA::Vec3f> Mesh::Texture::getData()
 
 void Mesh::Texture::load()
 {
-    glTexImage2D(target, 0, GL_RGB32F, width, height,0, GL_RGB,GL_FLOAT, &data[0]);
+    if(height > 1)
+    {
+        glTexImage2D(target, 0, GL_RGB32F, width, height,0, GL_RGB,GL_FLOAT, &data[0]);
+    }
+    else
+    {
+        glTexImage1D(target, 0, GL_RGB32F, width,0, GL_RGB,GL_FLOAT, &data[0]);
+    }
 }

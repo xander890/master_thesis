@@ -115,12 +115,13 @@ void main(void)
     //fragColor = vec4(div/2);
 
     //if(div < 0.01)
-    if(has_environment > 0)
+    if(false)
     {
         vec3 refl = reflect(wo,no);
         vec4 refl_col = texture(skybox,vector_cubemap_to_uv(refl) * skybox_dim);
         fragColor += refl_col * (1 - F);
     }
 
-    fragColor = pow(fragColor, vec4(1/gamma));
+
+    fragColor = pow(vec4(1) - exp(-fragColor), vec4(1.0/gamma));
 }

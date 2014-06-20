@@ -257,26 +257,19 @@ void TriangleMesh::build_vertex_array_object(GLGraphics::ShaderProgram *shader){
 
 static PerformanceTimer t(20);
 void TriangleMesh::render(ShaderProgramDraw &shader){
-    check_gl_error();
-
     if (!initialized){
         build_vertex_array_object();
         return;
     }
-    check_gl_error();
     glBindVertexArray(vertexArrayObject);
     glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vertexElementArrayBuffer);
-
     map_data_to_shader_vertex_attributes(&shader);
-   for (std::vector<DrawCall>::iterator iter = drawCalls.begin();iter != drawCalls.end(); iter++){
+    for (std::vector<DrawCall>::iterator iter = drawCalls.begin();iter != drawCalls.end(); iter++){
         Material & mat = iter->material;
         mat.loadUniforms(shader);
-        check_gl_error();
         glDrawElements(iter->renderMode, iter->count, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>( iter->offset));
-        check_gl_error();
     }
-    check_gl_error();
 }
 
 

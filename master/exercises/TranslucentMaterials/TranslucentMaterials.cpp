@@ -95,6 +95,7 @@ LightManager manager;
 
 const Vec4f light_specular(0.6f,0.6f,0.3f,0.6f);
 const Vec4f light_diffuse(1.f,1.f,1.f,1.0f);
+//const Vec4f light_position(-1.f,-0.5f,1.f,1);
 const Vec4f light_position(0.f,0.f,1.f,1);
 const Vec4f light_diffuse_2(1.3,0.5,0.5,0.0);
 const Vec4f light_position_2(2.0,0.0,0.0,1.0);
@@ -137,13 +138,14 @@ TranslucentMaterials::TranslucentMaterials( QWidget* parent)
 
 void TranslucentMaterials::initialize()
 {
-    Mesh::ScatteringMaterial * scattering_mat_bunny = getDefaultMaterial(S_Whitegrapefruit);
-    Mesh::ScatteringMaterial * scattering_mat_buddha = getDefaultMaterial(S_Whitegrapefruit);
-    Mesh::ScatteringMaterial * scattering_mat_dragon = getDefaultMaterial(S_Potato);
+    Mesh::ScatteringMaterial * scattering_mat_bunny = getDefaultMaterial(S_Marble);
+    Mesh::ScatteringMaterial * scattering_mat_buddha = getDefaultMaterial(S_Potato);
+    Mesh::ScatteringMaterial * scattering_mat_dragon = getDefaultMaterial(S_Ketchup);
 
     ThreeDObject * bunny = new ThreeDObject();
     ThreeDObject * buddha = new ThreeDObject();
     ThreeDObject * dragon = new ThreeDObject();
+    ThreeDObject * sphere = new ThreeDSphere(40);
 
     bunny->init(objects_path+"bunny-simplified.obj", "bunny", *scattering_mat_bunny);
     bunny->setScale(Vec3f(4.f));
@@ -165,6 +167,12 @@ void TranslucentMaterials::initialize()
     dragon->setTranslation(Vec3f(0,0,0.f));
     dragon->enabled = true;
     dragon->boundingBoxEnabled = true;
+
+    sphere->init("","sphere", *scattering_mat_bunny);
+    sphere->setScale(Vec3f(.25f));
+    sphere->setTranslation(Vec3f(0,0,0.f));
+    sphere->enabled = true;
+    sphere->boundingBoxEnabled = true;
 
     objectPool.push_back(bunny);
     objectPool.push_back(buddha);
@@ -463,6 +471,7 @@ void TranslucentMaterials::getDiscPoints(vector<Vec3f> * points, const int n, co
             {
                 //cout <<discpoints[i][0] << " " << discpoints[i][1] << endl;
             }
+            Vec2f p = Vec2f(discpoints[i][0],discpoints[i][1]);
             points->push_back(Vec3f(discpoints[i][0],discpoints[i][1],0.0f));
 
         }
@@ -625,7 +634,7 @@ void TranslucentMaterials::render_direct_compute_time(bool reload, ShaderProgram
             vector<Vec3f> * discpoint_data = new vector<Vec3f>();
             getDiscPoints(discpoint_data,discPoints,DISCS);
 
-            Mesh::Texture * tex = new Mesh::Texture("discpoints",GL_TEXTURE_2D, discPoints, DISCS, *discpoint_data);
+            Mesh::Texture * tex = new Mesh::Texture("discpoints",GL_TEXTURE_1D, discPoints, 1, *discpoint_data);
             tex->init();
             scattering_material->addTexture(tex);
 
@@ -837,7 +846,7 @@ void TranslucentMaterials::render_direct_compute_time(bool reload, ShaderProgram
     render_combination.use();
     render_combination.set_uniform("shadow_bias", params->shadow_bias);
     render_combination.set_uniform("epsilon_combination", params->epsilon_combination);
-    render_combination.set_uniform("one_over_max_samples", 1.0f/params->samples);
+    render_combination.set_uniform("one_over_max_samples", 1.0f/params->maxsamples);
     render_combination.set_uniform("mipmap_LOD",params->LOD);
     render_combination.set_uniform("current_frame_rev", 1.0f/min(currentFrame + 1,CONVERGENCE_FRAMES));
 
@@ -1272,7 +1281,6 @@ static ShaderProgramDraw depth_only(shader_path,"ss_array_depth_pass.vert","ss_a
     const float CAMERA_FAR = 10.0f;
     const float CAMERA_SIZE = 1.0f;
     const int CONVERGENCE_FRAMES = 100;
-    const float MAX_RADIUS = 3.0f;
     //const float CAMERA_RATIO = CAMERA_SIZE / LIGHT_CAMERA_SIZE;
 
     int discPoints = maximum_samples; //TODO more LIGHTS!
@@ -1280,9 +1288,11 @@ static ShaderProgramDraw depth_only(shader_path,"ss_array_depth_pass.vert","ss_a
 
 
     ThreeDObject * obj = currentObject;
+    float MAX_RADIUS = length(obj->getScale() * 0.5 *(obj->getBoundingBox()->high - obj->getBoundingBox()->low));
+
     Mesh::ScatteringMaterial * scattering_material = (Mesh::ScatteringMaterial*)obj->mesh.getMaterial();
     Vec3f tr = scattering_material->transmissionCoefficient;
-    float minimumTransmission = min(tr[0],min(tr[1],tr[2]));
+    float selectedTransmission = min(tr[0],min(tr[1],tr[2])) / params->circleradius;
 
     if(reload)
     {
@@ -1326,9 +1336,9 @@ static ShaderProgramDraw depth_only(shader_path,"ss_array_depth_pass.vert","ss_a
         initialized = true;
         screen_quad->init("","plane",*screen_quad_material);
 
-        getDiscPoints(&discpoint_data,discPoints,DISCS, minimumTransmission, MAX_RADIUS);
+        getDiscPoints(&discpoint_data,discPoints,1, selectedTransmission, MAX_RADIUS);
 
-        Mesh::Texture * tex = new Mesh::Texture("discpoints",GL_TEXTURE_2D, discPoints, DISCS, discpoint_data);
+        Mesh::Texture * tex = new Mesh::Texture("discpoints",GL_TEXTURE_1D, discPoints, 1, discpoint_data);
         tex->init();
         scattering_material->addTexture(tex);
 
@@ -1357,9 +1367,9 @@ static ShaderProgramDraw depth_only(shader_path,"ss_array_depth_pass.vert","ss_a
     if(params->currentFlags & TranslucentParameters::SAMPLES_CHANGED)
     {
         discpoint_data.clear();
-        getDiscPoints(&discpoint_data,discPoints,DISCS, minimumTransmission, MAX_RADIUS);
+        getDiscPoints(&discpoint_data,discPoints,1, selectedTransmission, MAX_RADIUS);
         Mesh::Texture * tex = scattering_material->getTexture(string("discpoints"));
-        tex->reloadData(discpoint_data,discPoints,DISCS);
+        tex->reloadData(discpoint_data,discPoints,1);
         params->currentFlags &= ~(TranslucentParameters::SAMPLES_CHANGED);
 
     }
@@ -1449,11 +1459,11 @@ static ShaderProgramDraw depth_only(shader_path,"ss_array_depth_pass.vert","ss_a
 #endif
         render_to_array.set_uniform("one_over_max_samples",1.0f/maximum_samples);
         render_to_array.set_uniform("max_samples",(float)maximum_samples);
-        render_to_array.set_uniform("one_over_discs",1.0f/DISCS);
+        //render_to_array.set_uniform("one_over_discs",1.0f/DISCS);
         render_to_array.set_uniform("samples",samples_per_texel);
         //render_to_array.set_uniform("discradius",trueRadius);
         render_to_array.set_uniform("epsilon_gbuffer", params->epsilon_gbuffer);
-        render_to_array.set_uniform("min_tr", minimumTransmission);
+        render_to_array.set_uniform("min_tr", selectedTransmission);
         render_to_array.set_uniform("lightMatrices",inverseLightMatrices, manager.size());
         render_to_array.set_uniform("epsilon_combination", params->epsilon_combination);
         render_to_array.set_uniform("cameraMatrices", planeTransformMatrices,LAYERS);
@@ -1560,7 +1570,7 @@ static ShaderProgramDraw depth_only(shader_path,"ss_array_depth_pass.vert","ss_a
     render_combination.set_uniform("current_frame_rev", 1.0f/min(currentFrame + 1,CONVERGENCE_FRAMES));
     render_combination.set_uniform("cameraMatrices", planeTransformMatrices,LAYERS);
     render_combination.set_uniform("has_environment", params->environment);
-    float worldCircleRadius = length(discpoint_data.at(samples_per_texel - 1)) *  LIGHT_CAMERA_SIZE;
+    float worldCircleRadius = length(discpoint_data.at(samples_per_texel - 1)) * LIGHT_CAMERA_SIZE;
     render_combination.set_uniform("disc_area", (float)(worldCircleRadius * worldCircleRadius * M_PI));
     render_combination.set_uniform("step_tex", 1.0f/ARRAY_TEXTURE_SIZE);
     render_combination.set_uniform("skybox_dim", Vec2f(skybox->width,skybox->height));
@@ -1756,7 +1766,7 @@ void initRectangle(GLuint * tex, GLenum * type, QImage & img)
     glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-    string name = string("doge2.png");
+    string name = string("pisa.png");
 
     ResourceLoader r;
     string base_path = r.compute_resource_path("./images/");
@@ -2041,6 +2051,7 @@ void TranslucentMaterials::keyPressEvent(QKeyEvent *e)
         break;
     case 'R':
         reload_shaders = true;
+        params->currentFlags |= TranslucentParameters::SAMPLES_CHANGED;
         performanceTimer.refresh();
         ShaderProgram::preprocessor.reload();
 

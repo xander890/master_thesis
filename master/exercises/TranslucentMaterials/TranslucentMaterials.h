@@ -16,13 +16,13 @@ class TranslucentParameters
 
 public:
     TranslucentParameters::TranslucentParameters() :
-        circleradius(4.0f),
+        circleradius(1.f),
         samples(16),
         maxsamples(1000),
         epsilon_gbuffer(0.003),
         epsilon_combination(0.001),
         shadow_bias(0.0007),
-        debugOverlayVisible(false), LOD(0.0f),  currentFlags(0), gamma(2.2f), environment(true)
+        debugOverlayVisible(false), LOD(0.0f),  currentFlags(0), gamma(1.8f), environment(true)
     {}
 
     enum

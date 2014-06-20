@@ -1,0 +1,38 @@
+Memory Occupation tests
+Without starting: 360MB
+Baseline (QT only): 387MB
+Lightmap only: 452MB
+Total: 1297MB
+
+
+
+Qualitative results
+
+Comparison with spheres
+Six spheres to show differences in scattering / absorption tradeoff
+Two spheres to compare grapefruit juice
+Extra parameter to exponentially bias the results - grapefruit juice
+
+
+
+Comparison with buddha potato
+Comparison with dragon ketchup
+Comparisons between different times
+
+
+Performance
+Different number of lights
+Different number of directions
+Different size of texture
+Different sample size
+
+
+Memory occupation
+
+
+Discussion
+Trade-offs 
+Texture vs memory
+Size vs resolution
+
+

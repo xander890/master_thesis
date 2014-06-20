@@ -12,7 +12,7 @@ layout(location = 0) out vec4 fragColor;
 
 uniform sampler2DArray ntex;
 uniform sampler2DArray vtex;
-uniform sampler2D discpoints;
+uniform sampler1D discpoints;
 
 #ifdef TIME
 uniform sampler2DArray colorMap;
@@ -101,8 +101,7 @@ void main(void)
 #ifdef RANDOM
     float noise = noise(layer * gl_FragCoord.xy);//LFSR_Rand_Gen(layer * int(gl_FragCoord.x + ARRAY_TEX_SIZE * gl_FragCoord.y));
 
-    float r_angle = (noise + time) * 2 * M_PI;
-    //float delta_rad = discradius * one_over_max_samples * (noise - 0.5f);
+    float r_angle = (noise + time + float(layer)/DIRECTIONS) * 2 * M_PI;
     float c = cos(r_angle);
     float s = sin(r_angle);
     mat2 rotation_matrix = mat2(c,s,-s,c);
@@ -121,7 +120,7 @@ void main(void)
         vec3 wi = light_pos[current_light].xyz;
         vec4 rad = light_diff[current_light];
         vec3 topoint = wi - xo;
-        float light_type = light_pos[current_light].a;
+        float light_type = 0;
         wi = (light_type > 0)? normalize(topoint) : normalize(wi);
         vec3 Li = light_diff[current_light].xyz;
         Li = (light_type > 0)? Li / dot(topoint,topoint) : Li;
@@ -131,8 +130,9 @@ void main(void)
 
         for(int i = 0; i < samples; i++)
         {
-            vec2 smpl = texture(discpoints,vec2((i) * one_over_max_samples, layer * one_over_discs)).xy;
-            vec2 relative_point = smpl; //discradius * smpl;
+            vec2 smpl = texture(discpoints,(i * one_over_max_samples)).xy;
+            vec2 relative_point = (smpl.xy); //discradius * smpl;
+            //float normalization = smpl.z;
 
     #ifdef RANDOM
             vec2 discoffset = rotation_matrix * relative_point;
@@ -168,8 +168,7 @@ void main(void)
     else
         fragColor = vec4(1);
 #else
-        fragColor = vec4(accumulate,noise) + vec4(oldColor.xyz,0);
+        fragColor = vec4(accumulate + oldColor.xyz,1.0);
 #endif
-
 
 }

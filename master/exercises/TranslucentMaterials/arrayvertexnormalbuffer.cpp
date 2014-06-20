@@ -30,24 +30,24 @@ void ArrayVertexNormalBuffer::initialize()
     glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_RGBA16F, size, size, layers, 0, GL_RGBA, GL_FLOAT, 0);
+    //glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_RGBA16F, size, size, layers, 0, GL_RGBA, GL_FLOAT, 0);
+    glTexStorage3D(	GL_TEXTURE_2D_ARRAY, 1, GL_RGB16F, size, size, layers);
 
     glBindTexture(GL_TEXTURE_2D_ARRAY, ntex);
     glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_RGBA16F, size, size, layers, 0, GL_RGBA, GL_FLOAT, 0);
+    //glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_RGBA16F, size, size, layers, 0, GL_RGBA, GL_FLOAT, 0);
+    glTexStorage3D(	GL_TEXTURE_2D_ARRAY, 1, GL_RGB16F, size, size, layers);
 
     glBindTexture(GL_TEXTURE_2D_ARRAY, dtex);
     glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameterf(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_DEPTH_COMPONENT32F, size, size, layers, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
 
-    check_gl_error();
-
+    glTexStorage3D(	GL_TEXTURE_2D_ARRAY, 1, GL_DEPTH_COMPONENT32F, size, size, layers);
 
 
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
