@@ -67,7 +67,7 @@
 
 #define POINT_DIST 0 // 0 random, 1 exponential, 2 uniform
 #define TIMER
-#define DIR
+//#define DIR
 
 #define GPU_MEMORY_INFO_DEDICATED_VIDMEM_NVX 0x9047
 #define GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX 0x9048
@@ -138,7 +138,7 @@ TranslucentMaterials::TranslucentMaterials( QWidget* parent)
 
 void TranslucentMaterials::initialize()
 {
-    Mesh::ScatteringMaterial * scattering_mat_bunny = getDefaultMaterial(S_Marble);
+    Mesh::ScatteringMaterial * scattering_mat_bunny = getDefaultMaterial(S_Whitegrapefruit);
     Mesh::ScatteringMaterial * scattering_mat_buddha = getDefaultMaterial(S_Potato);
     Mesh::ScatteringMaterial * scattering_mat_dragon = getDefaultMaterial(S_Ketchup);
 
@@ -147,7 +147,7 @@ void TranslucentMaterials::initialize()
     ThreeDObject * dragon = new ThreeDObject();
     ThreeDObject * sphere = new ThreeDSphere(40);
 
-    bunny->init(objects_path+"bunny-simplified.obj", "bunny", *scattering_mat_bunny);
+    bunny->init(objects_path+"bunny.obj", "bunny", *scattering_mat_bunny);
     bunny->setScale(Vec3f(4.f));
     bunny->setRotation(Vec3f(90,0,0));
     bunny->setTranslation(Vec3f(0,0,0.f));
@@ -177,7 +177,7 @@ void TranslucentMaterials::initialize()
     objectPool.push_back(bunny);
     objectPool.push_back(buddha);
     objectPool.push_back(dragon);
-    currentObject = bunny;
+    currentObject = dragon;
 }
 
 
@@ -1396,7 +1396,16 @@ static ShaderProgramDraw depth_only(shader_path,"ss_array_depth_pass.vert","ss_a
 
         for(int i = 0; i < manager.size(); i++)
         {
-            Vec3f light_pos = center + LIGHT_CAMERA_DISTANCE * normalize(Vec3f(manager[i].position));
+            Vec3f light_pos;
+            if(manager[i].isDirectional)
+            {
+                light_pos = center + LIGHT_CAMERA_DISTANCE * normalize(Vec3f(manager[i].position));
+            }
+            else
+            {
+                light_pos = manager[i].position;
+            }
+
             Mat4x4f V = lookat_Mat4x4f_target(light_pos,center,up);
             lightMatrices.push_back(V); //PARALLEL!
 

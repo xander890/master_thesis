@@ -62,8 +62,14 @@
 \contentsline {subsection}{\numberline {5.5.2}Rendering with other kinds of light}{85}{subsection.5.5.2}
 \contentsline {subsection}{\numberline {5.5.3}Rendering with environment light illumination}{87}{subsection.5.5.3}
 \contentsline {chapter}{\numberline {6}Results}{89}{chapter.6}
-\contentsline {chapter}{\numberline {A}Model matrices}{91}{appendix.A}
-\contentsline {section}{\numberline {A.1}Model matrices}{91}{section.A.1}
-\contentsline {section}{\numberline {A.2}View Matrix}{92}{section.A.2}
-\contentsline {section}{\numberline {A.3}Projection Matrix}{93}{section.A.3}
-\contentsline {chapter}{Bibliography}{95}{section.A.3}
+\contentsline {section}{\numberline {6.1}Parameters}{89}{section.6.1}
+\contentsline {section}{\numberline {6.2}Quality comparison}{90}{section.6.2}
+\contentsline {subsection}{\numberline {6.2.1}Tests with different number of samples}{90}{subsection.6.2.1}
+\contentsline {subsection}{\numberline {6.2.2}Radiance map sizes tests}{98}{subsection.6.2.2}
+\contentsline {subsection}{\numberline {6.2.3}Tests during the evolution}{101}{subsection.6.2.3}
+\contentsline {subsection}{\numberline {6.2.4}Environment map illumination}{101}{subsection.6.2.4}
+\contentsline {chapter}{\numberline {A}Model matrices}{105}{appendix.A}
+\contentsline {section}{\numberline {A.1}Model matrices}{105}{section.A.1}
+\contentsline {section}{\numberline {A.2}View Matrix}{106}{section.A.2}
+\contentsline {section}{\numberline {A.3}Projection Matrix}{107}{section.A.3}
+\contentsline {chapter}{Bibliography}{109}{section.A.3}
