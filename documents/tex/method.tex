@@ -1,39 +1,6 @@
 \chapter{Method}
 \label{chap:method}
-In this chapter, after giving the theoretical foundations in the topic of this report, we introduce our method to render translucent materials efficiently using the directional dipole. This chapter is meant to connect the theory presented in the last chapter with the implementation. First of all, we will start this chapter with a list of constraints and assumptions in order to better define the scope of our method. Secondly, we will give a theoretical justification of our method, deriving a discretization of the rendering equation that can be actually solved and implemented in a GPU environment. Then, we will discuss some possible sampling patterns and how they could possibly improve the results of the final rendering. Then, we will introduce how the actual scattering parameters are acquired in an experimental environment, in order to obtain a plausible result. Finally, we will describe a method to approximate environment lighting using an arbitrary number of directional sources.
-
-\section{Constraints and assumptions}
-
-Before describing the actual method, we will introduce some constraints and assumptions on our method. Some of these assumptions and constraints are well known to the graphics community, and they are generally introduced to allow better performance, quality and flexibility. Being a real-time rendering method implies that performance plays a big part in the decisions made in the process, but since the method uses a physically based approximation the final quality of the result is also important. In the process the aspect of flexibility has been taken into account: the tradeoff between quality and performance should be tweakable with the fewest number of variables as possible. We will now list the assumptions we made in all the three described domains, quality, performance and flexibility, in order to later justify our method in the light of these assumptions. 
-
-\subsection{Quality constraints}
- \label{sec:quality}
-\begin{enumerate}
-	\item Being close as much as possible to a path traced solution. By \emph{close} we mean that the root mean square of the comparison between our method and a path traced result under the same lighting conditions should not be over a certain threshold. 
-	\item Being consistent with the directional dipole model for a wide range of material properties. In particular, the method should perform well in the domain of quality where the directional dipole model excels (highly scattering materials).
-	\item Being potentially able to render an object under an arbitrary number of directional sources, point light sources and one environment map.
-\end{enumerate}
-
-\subsection{Flexibility requirements}	
-\begin{enumerate}
-	\item Work with the less amount as possible of provided model data, i.e. only the position data and eventually the normals should be provided in order for the method to run. In particular, no unwrap of the mesh (UV mapping) should be necessary. In case normal data are missing,  being able to generate them using a standard method to give a smooth appearance.
-	\item Be possible to be integrated in a game engine environment, using data from other computations (e.g. from other lighting computations or from othet techniques such as shadow mapping) and being adaptable to different lighting paths (forward and deferred shading).
-  \item The quality versus performance tradeoff should be set by a potential artist or developer, with the fewest number of parameters as possible.
-\end{enumerate}
-
-\subsection{Performance requirements}
-
-\begin{enumerate}
-	\item Being real-time on a high-end modern GPU, i.e. one frame should take less that 100 ms (10 FPS) to render. The ideal result would be to reach a rendering time of less than 16 ms (60 FPS).
-	\item Being as less dependent as possible from the geometrical complexity of the model.
-	\item Being as less as dependent from the viewport resolution.
-	\item If the desired quality is not reachable within one frame, converge towards a result in a reasonable amount of time. Techniques should be used to approximate the required quality for the intermediate result. 
-	\item Maintain a reasonable performance under changing light conditions, deformations and change of parameters, with little or none performance penalties.
-	\item Employ the advantages of the directional dipole model to improve performance.
-	\item Support a certain number of directional and point lights (up to 3 to 5 pixel lights, as in commercial engines\citep{unitymanual}).
-	\item Require little or no pre-processing in order to be able to perform. In particular, pre-processing, if any, should be general and performed only at the beginning of the life cycle of the program. 
-	\item Employ and explore the latest features in the available graphics drivers and libraries. The details on which feature will be used are left to the implementation section.
-\end{enumerate}
+In this chapter, after giving the theoretical foundations in the topic of this report, we introduce our method to render translucent materials efficiently using the directional dipole. This chapter is meant to connect the theory presented in the last chapter with the implementation. First of all, we will give a theoretical justification of our method, deriving a discretization of the rendering equation that can be actually solved and implemented in a GPU environment. Then, we will discuss some possible sampling patterns and how they could possibly improve the results of the final rendering. Then, we will introduce how the actual scattering parameters are acquired in an experimental environment, in order to obtain a plausible result. Finally, we will describe a method to approximate environment lighting using an arbitrary number of directional sources.
 
 \section{Method overview}
 \label{sec:m_overv}
@@ -44,7 +11,6 @@ L_o(\x_o,\vomega_o) = L_e(\x_o,\vomega_o) + \int_A \int_{2\pi} S(\x_i, \vomega_i
 \end{equation*}
 
 In the usual approach to offline path traced rendering, for each pixel of the final image we need to integrate the radiance from all the possible sources on the surface point seen by the pixel. For this surface element subtended by one pixel, all the incoming radiance contributions from the other points in the scene must be accounted an then multiplied by the BSSRDF function in the direction of the camera. In a way, we are basically performing the integral in equation \ref{eq:bssrdfeq}numerically. If we use a BSSRDF function, the contribution from all the points from the other surfaces must be employed, while in the case of a BRDF some contribution may be excluded (e.g., if there is a opaque surface between two points). Given its natural exponential explosion, path tracing is not obviously suitable for real-time rendering.
-
 
 \begin{figure}[!ht]
 \centering

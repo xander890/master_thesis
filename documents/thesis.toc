@@ -1,75 +1,78 @@
 \select@language {english}
-\contentsline {chapter}{\numberline {1}Introduction (draft)}{1}{chapter.1}
-\contentsline {chapter}{\numberline {2}Related Work}{5}{chapter.2}
-\contentsline {section}{\numberline {2.1}Analytical techniques}{5}{section.2.1}
-\contentsline {subsection}{\numberline {2.1.1}Models}{6}{subsection.2.1.1}
-\contentsline {subsection}{\numberline {2.1.2}Implementations}{6}{subsection.2.1.2}
-\contentsline {section}{\numberline {2.2}Numerical techniques}{8}{section.2.2}
-\contentsline {chapter}{\numberline {3}Theory}{9}{chapter.3}
-\contentsline {section}{\numberline {3.1}Light and Radiometry}{9}{section.3.1}
-\contentsline {section}{\numberline {3.2}Radiometric quantities}{11}{section.3.2}
-\contentsline {subsection}{\numberline {3.2.1}Radiant flux}{11}{subsection.3.2.1}
-\contentsline {subsection}{\numberline {3.2.2}Radiant energy}{11}{subsection.3.2.2}
-\contentsline {subsection}{\numberline {3.2.3}Irradiance}{11}{subsection.3.2.3}
-\contentsline {subsection}{\numberline {3.2.4}Intensity}{12}{subsection.3.2.4}
-\contentsline {subsection}{\numberline {3.2.5}Radiance}{13}{subsection.3.2.5}
-\contentsline {subsection}{\numberline {3.2.6}Radiometric quantities for simple lights}{14}{subsection.3.2.6}
-\contentsline {section}{\numberline {3.3}Reflectance Functions}{14}{section.3.3}
-\contentsline {subsection}{\numberline {3.3.1}BRDF functions}{15}{subsection.3.3.1}
-\contentsline {subsection}{\numberline {3.3.2}Examples of BRDF functions}{17}{subsection.3.3.2}
-\contentsline {subsubsection}{\numberline {3.3.2.1}Lambertian BRDF}{17}{subsubsection.3.3.2.1}
-\contentsline {subsubsection}{\numberline {3.3.2.2}Mirror BRDF}{18}{subsubsection.3.3.2.2}
-\contentsline {subsubsection}{\numberline {3.3.2.3}Glossy BRDFs}{18}{subsubsection.3.3.2.3}
-\contentsline {subsection}{\numberline {3.3.3}The rendering equation}{19}{subsection.3.3.3}
-\contentsline {subsection}{\numberline {3.3.4}Fresnel equations}{20}{subsection.3.3.4}
-\contentsline {subsection}{\numberline {3.3.5}BSSRDF functions and generalized rendering equation}{22}{subsection.3.3.5}
-\contentsline {section}{\numberline {3.4}Light transport and subsurface scattering}{23}{section.3.4}
-\contentsline {subsection}{\numberline {3.4.1}Emission}{24}{subsection.3.4.1}
-\contentsline {subsection}{\numberline {3.4.2}Absorption}{25}{subsection.3.4.2}
-\contentsline {subsection}{\numberline {3.4.3}Out-scattering}{25}{subsection.3.4.3}
-\contentsline {subsection}{\numberline {3.4.4}In-scattering}{25}{subsection.3.4.4}
-\contentsline {subsection}{\numberline {3.4.5}Final formulation of the radiative transport equation}{27}{subsection.3.4.5}
-\contentsline {subsection}{\numberline {3.4.6}The diffusion approximation}{27}{subsection.3.4.6}
-\contentsline {subsection}{\numberline {3.4.7}Standard dipole model}{29}{subsection.3.4.7}
-\contentsline {subsection}{\numberline {3.4.8}Directional dipole model}{31}{subsection.3.4.8}
-\contentsline {chapter}{\numberline {4}Method}{37}{chapter.4}
-\contentsline {section}{\numberline {4.1}Constraints and assumptions}{37}{section.4.1}
-\contentsline {subsection}{\numberline {4.1.1}Quality constraints}{38}{subsection.4.1.1}
-\contentsline {subsection}{\numberline {4.1.2}Flexibility requirements}{38}{subsection.4.1.2}
-\contentsline {subsection}{\numberline {4.1.3}Performance requirements}{39}{subsection.4.1.3}
-\contentsline {section}{\numberline {4.2}Method overview}{39}{section.4.2}
-\contentsline {subsection}{\numberline {4.2.1}Approximation of the rendering equation}{44}{subsection.4.2.1}
-\contentsline {section}{\numberline {4.3}Sampling patterns}{45}{section.4.3}
-\contentsline {section}{\numberline {4.4}Parameter acquisition}{47}{section.4.4}
-\contentsline {section}{\numberline {4.5}Environment lights}{51}{section.4.5}
-\contentsline {chapter}{\numberline {5}Implementation}{57}{chapter.5}
-\contentsline {section}{\numberline {5.1}Environment}{57}{section.5.1}
-\contentsline {section}{\numberline {5.2}Algorithm overview}{58}{section.5.2}
-\contentsline {section}{\numberline {5.3}Implementation details}{64}{section.5.3}
-\contentsline {subsection}{\numberline {5.3.1}Render-to-texture}{65}{subsection.5.3.1}
-\contentsline {subsection}{\numberline {5.3.2}Layered rendering}{66}{subsection.5.3.2}
-\contentsline {subsection}{\numberline {5.3.3}Accumulation buffers}{68}{subsection.5.3.3}
-\contentsline {subsection}{\numberline {5.3.4}Generation of uniformly distributed points}{70}{subsection.5.3.4}
-\contentsline {subsubsection}{\numberline {5.3.4.1}Exponentially biased points}{71}{subsubsection.5.3.4.1}
-\contentsline {subsection}{\numberline {5.3.5}Shadow mapping}{72}{subsection.5.3.5}
-\contentsline {section}{\numberline {5.4}Caveats}{75}{section.5.4}
-\contentsline {subsection}{\numberline {5.4.1}Random rotation of samples}{75}{subsection.5.4.1}
-\contentsline {subsection}{\numberline {5.4.2}Mipmap generation}{77}{subsection.5.4.2}
-\contentsline {subsection}{\numberline {5.4.3}Shadow bias}{79}{subsection.5.4.3}
-\contentsline {subsection}{\numberline {5.4.4}Texture discretization artifacts}{81}{subsection.5.4.4}
-\contentsline {section}{\numberline {5.5}Extensions to the method}{81}{section.5.5}
-\contentsline {subsection}{\numberline {5.5.1}Rendering with multiple lights}{83}{subsection.5.5.1}
-\contentsline {subsection}{\numberline {5.5.2}Rendering with other kinds of light}{85}{subsection.5.5.2}
-\contentsline {subsection}{\numberline {5.5.3}Rendering with environment light illumination}{87}{subsection.5.5.3}
-\contentsline {chapter}{\numberline {6}Results}{89}{chapter.6}
-\contentsline {section}{\numberline {6.1}Parameters}{89}{section.6.1}
-\contentsline {section}{\numberline {6.2}Quality comparison}{90}{section.6.2}
-\contentsline {subsection}{\numberline {6.2.1}Tests with different number of samples}{90}{subsection.6.2.1}
-\contentsline {subsection}{\numberline {6.2.2}Radiance map sizes tests}{98}{subsection.6.2.2}
-\contentsline {subsection}{\numberline {6.2.3}Tests during the evolution}{101}{subsection.6.2.3}
-\contentsline {subsection}{\numberline {6.2.4}Environment map illumination}{101}{subsection.6.2.4}
-\contentsline {chapter}{\numberline {A}Model matrices}{105}{appendix.A}
-\contentsline {section}{\numberline {A.1}Model matrices}{105}{section.A.1}
-\contentsline {section}{\numberline {A.2}View Matrix}{106}{section.A.2}
-\contentsline {section}{\numberline {A.3}Projection Matrix}{107}{section.A.3}
-\contentsline {chapter}{Bibliography}{109}{section.A.3}
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Background}{1}{section.1.1}
+\contentsline {section}{\numberline {1.2}Problem statement}{2}{section.1.2}
+\contentsline {section}{\numberline {1.3}Constraints, limitations, and scope}{4}{section.1.3}
+\contentsline {subsection}{\numberline {1.3.1}Quality constraints}{5}{subsection.1.3.1}
+\contentsline {subsection}{\numberline {1.3.2}Flexibility requirements}{5}{subsection.1.3.2}
+\contentsline {subsection}{\numberline {1.3.3}Performance requirements}{5}{subsection.1.3.3}
+\contentsline {section}{\numberline {1.4}Outline}{6}{section.1.4}
+\contentsline {chapter}{\numberline {2}Related Work}{7}{chapter.2}
+\contentsline {section}{\numberline {2.1}Analytical techniques}{8}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}Models}{8}{subsection.2.1.1}
+\contentsline {subsection}{\numberline {2.1.2}Implementations}{9}{subsection.2.1.2}
+\contentsline {section}{\numberline {2.2}Numerical techniques}{10}{section.2.2}
+\contentsline {chapter}{\numberline {3}Theory}{13}{chapter.3}
+\contentsline {section}{\numberline {3.1}Light and Radiometry}{15}{section.3.1}
+\contentsline {section}{\numberline {3.2}Radiometric quantities}{16}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Radiant flux}{16}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Radiant energy}{16}{subsection.3.2.2}
+\contentsline {subsection}{\numberline {3.2.3}Irradiance}{17}{subsection.3.2.3}
+\contentsline {subsection}{\numberline {3.2.4}Intensity}{17}{subsection.3.2.4}
+\contentsline {subsection}{\numberline {3.2.5}Radiance}{18}{subsection.3.2.5}
+\contentsline {subsection}{\numberline {3.2.6}Radiometric quantities for simple lights}{19}{subsection.3.2.6}
+\contentsline {section}{\numberline {3.3}Reflectance Functions}{19}{section.3.3}
+\contentsline {subsection}{\numberline {3.3.1}BRDF functions}{20}{subsection.3.3.1}
+\contentsline {subsection}{\numberline {3.3.2}Examples of BRDF functions}{22}{subsection.3.3.2}
+\contentsline {subsubsection}{\numberline {3.3.2.1}Lambertian BRDF}{22}{subsubsection.3.3.2.1}
+\contentsline {subsubsection}{\numberline {3.3.2.2}Mirror BRDF}{23}{subsubsection.3.3.2.2}
+\contentsline {subsubsection}{\numberline {3.3.2.3}Glossy BRDFs}{23}{subsubsection.3.3.2.3}
+\contentsline {subsection}{\numberline {3.3.3}The rendering equation}{24}{subsection.3.3.3}
+\contentsline {subsection}{\numberline {3.3.4}Fresnel equations}{25}{subsection.3.3.4}
+\contentsline {subsection}{\numberline {3.3.5}BSSRDF functions and generalized rendering equation}{27}{subsection.3.3.5}
+\contentsline {section}{\numberline {3.4}Light transport and subsurface scattering}{28}{section.3.4}
+\contentsline {subsection}{\numberline {3.4.1}Emission}{29}{subsection.3.4.1}
+\contentsline {subsection}{\numberline {3.4.2}Absorption}{30}{subsection.3.4.2}
+\contentsline {subsection}{\numberline {3.4.3}Out-scattering}{30}{subsection.3.4.3}
+\contentsline {subsection}{\numberline {3.4.4}In-scattering}{30}{subsection.3.4.4}
+\contentsline {subsection}{\numberline {3.4.5}Final formulation of the radiative transport equation}{32}{subsection.3.4.5}
+\contentsline {subsection}{\numberline {3.4.6}The diffusion approximation}{32}{subsection.3.4.6}
+\contentsline {subsection}{\numberline {3.4.7}Standard dipole model}{34}{subsection.3.4.7}
+\contentsline {subsection}{\numberline {3.4.8}Directional dipole model}{36}{subsection.3.4.8}
+\contentsline {chapter}{\numberline {4}Method}{43}{chapter.4}
+\contentsline {section}{\numberline {4.1}Method overview}{43}{section.4.1}
+\contentsline {subsection}{\numberline {4.1.1}Approximation of the rendering equation}{48}{subsection.4.1.1}
+\contentsline {section}{\numberline {4.2}Sampling patterns}{49}{section.4.2}
+\contentsline {section}{\numberline {4.3}Parameter acquisition}{51}{section.4.3}
+\contentsline {section}{\numberline {4.4}Environment lights}{55}{section.4.4}
+\contentsline {chapter}{\numberline {5}Implementation}{61}{chapter.5}
+\contentsline {section}{\numberline {5.1}Environment}{61}{section.5.1}
+\contentsline {section}{\numberline {5.2}Algorithm overview}{62}{section.5.2}
+\contentsline {section}{\numberline {5.3}Implementation details}{68}{section.5.3}
+\contentsline {subsection}{\numberline {5.3.1}Render-to-texture}{69}{subsection.5.3.1}
+\contentsline {subsection}{\numberline {5.3.2}Layered rendering}{70}{subsection.5.3.2}
+\contentsline {subsection}{\numberline {5.3.3}Accumulation buffers}{72}{subsection.5.3.3}
+\contentsline {subsection}{\numberline {5.3.4}Generation of uniformly distributed points}{74}{subsection.5.3.4}
+\contentsline {subsubsection}{\numberline {5.3.4.1}Exponentially biased points}{75}{subsubsection.5.3.4.1}
+\contentsline {subsection}{\numberline {5.3.5}Shadow mapping}{76}{subsection.5.3.5}
+\contentsline {section}{\numberline {5.4}Caveats}{79}{section.5.4}
+\contentsline {subsection}{\numberline {5.4.1}Random rotation of samples}{79}{subsection.5.4.1}
+\contentsline {subsection}{\numberline {5.4.2}Mipmap generation}{81}{subsection.5.4.2}
+\contentsline {subsection}{\numberline {5.4.3}Shadow bias}{83}{subsection.5.4.3}
+\contentsline {subsection}{\numberline {5.4.4}Texture discretization artifacts}{85}{subsection.5.4.4}
+\contentsline {section}{\numberline {5.5}Extensions to the method}{85}{section.5.5}
+\contentsline {subsection}{\numberline {5.5.1}Rendering with multiple lights}{87}{subsection.5.5.1}
+\contentsline {subsection}{\numberline {5.5.2}Rendering with other kinds of light}{89}{subsection.5.5.2}
+\contentsline {subsection}{\numberline {5.5.3}Rendering with environment light illumination}{91}{subsection.5.5.3}
+\contentsline {chapter}{\numberline {6}Results}{93}{chapter.6}
+\contentsline {section}{\numberline {6.1}Parameters}{93}{section.6.1}
+\contentsline {section}{\numberline {6.2}Quality comparison}{94}{section.6.2}
+\contentsline {subsection}{\numberline {6.2.1}Tests with different number of samples}{94}{subsection.6.2.1}
+\contentsline {subsection}{\numberline {6.2.2}Radiance map sizes tests}{102}{subsection.6.2.2}
+\contentsline {subsection}{\numberline {6.2.3}Tests during the evolution}{105}{subsection.6.2.3}
+\contentsline {subsection}{\numberline {6.2.4}Environment map illumination}{105}{subsection.6.2.4}
+\contentsline {chapter}{\numberline {A}Model matrices}{109}{appendix.A}
+\contentsline {section}{\numberline {A.1}Model matrices}{109}{section.A.1}
+\contentsline {section}{\numberline {A.2}View Matrix}{110}{section.A.2}
+\contentsline {section}{\numberline {A.3}Projection Matrix}{111}{section.A.3}
+\contentsline {chapter}{Bibliography}{113}{section.A.3}

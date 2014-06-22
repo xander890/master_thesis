@@ -243,6 +243,16 @@
   url = {http://dx.doi.org/10.1145/311535.311560}
 }
 
+@INCOLLECTION{deonss,
+  author = {D'Eon Eugene and Luebke David},
+  title = {Chapter 14. Advanced Techniques for Realistic Real-Time Skin Rendering},
+  booktitle = {GPU Gems 3},
+  publisher = {Addison-Wesley Professional},
+  year = {2007},
+  owner = {xander890},
+  timestamp = {2014.06.22}
+}
+
 @TECHREPORT{everitt,
   author = {Everitt, Cass and Rege, Ashu and Cebenoyan, Cem},
   title = {Hardware Shadow Mapping},
@@ -272,6 +282,14 @@
   numpages = {11},
   publisher = {ACM},
   url = {http://doi.acm.org/10.1145/1477926.1477933}
+}
+
+@BOOK{Fernando:2004:GGP:983868,
+  title = {GPU Gems: Programming Techniques, Tips and Tricks for Real-Time Graphics},
+  publisher = {Pearson Higher Education},
+  year = {2004},
+  author = {Fernando, Randima},
+  isbn = {0321228324}
 }
 
 @TECHREPORT{IMM2013-06646,
@@ -312,6 +330,16 @@
   note = {Sony Computer Entertainment America},
   owner = {xander890},
   timestamp = {2014.06.09}
+}
+
+@INCOLLECTION{greenrtss,
+  author = {Simon Green},
+  title = {Chapter 16. Real-Time Approximations to Subsurface Scattering},
+  booktitle = {GPU Gems: Programming Techniques, Tips and Tricks for Real-Time Graphics},
+  publisher = {Pearson Higher Education},
+  year = {2004},
+  owner = {xander890},
+  timestamp = {2014.06.22}
 }
 
 @ARTICLE{CGF:CGF12148,
@@ -539,6 +567,26 @@
   publisher = {SP Science China Press},
   timestamp = {2014.02.26},
   url = {http://dx.doi.org/10.1007/s11432-010-0068-y}
+}
+
+@INPROCEEDINGS{Kosaka:2012:RAR:2407156.2407206,
+  author = {Kosaka, Takahiro and Hattori, Tomohito and Kubo, Hiroyuki and Morishima,
+	Shigeo},
+  title = {Rapid and Authentic Rendering of Translucent Materials Using Depth-maps
+	from Multi-viewpoint},
+  booktitle = {SIGGRAPH Asia 2012 Posters},
+  year = {2012},
+  series = {SA '12},
+  pages = {45:1--45:1},
+  address = {New York, NY, USA},
+  publisher = {ACM},
+  acmid = {2407206},
+  articleno = {45},
+  doi = {10.1145/2407156.2407206},
+  isbn = {978-1-4503-1911-9},
+  location = {Singapore, Singapore},
+  numpages = {1},
+  url = {http://doi.acm.org/10.1145/2407156.2407206}
 }
 
 @INPROCEEDINGS{Lensch:2002:IRT:826030.826632,

@@ -2,6 +2,48 @@
 
 In this chapter, we give a theoretical introduction to the topic dealt with in this thesis. The ultimate goal of this chapter is to introduce and describe what a analytical model for subsurface scattering is. First, we will give a brief introduction to what light is, and how we physically describe it. Secondly, we will introduce the basic radiometric quantities that will be used throughout the chapter. Then, we will describe how this quantities are related and can be used to describe light-material interaction, using reflectance functions, of which BSSRDF functions are a special case. Finally, we will introduce subsurface scattering and the diffusion approximation, concluding with a description of two BSSRDF functions actually used to describe it, by \cite{Jensen:2001:PMS:383259.383319} and \cite{IMM2013-06646}.
 
+
+\renewcommand{\arraystretch}{1.2}
+\begin{table}[h]
+\rowcolors{2}{white}{myblue}
+\begin{tabular}{|l|l|}
+\hline
+Quantity                           & Description                                             \\ %\hline
+$\mathbf{x}$                       & Point, not normalized vector                            \\ %\hline
+$(x_x,x_y,x_z)$                    & Components of a vector                                  \\ %\hline
+$\vec{\omega}$                     & Normalized vector, direction                            \\ %\hline
+$Q$                                & Radiant Energy                                          \\ %\hline
+$\Phi$                             & Radiant Flux                                            \\ %\hline
+$E$                                & Irradiance                                              \\ %\hline
+$I$                                & Intensity                                               \\ %\hline
+$L$                                & Radiance                                                \\ %\hline
+$\vec{n} \cdot \vec{m}$            & Dot product between two vectors                         \\ %\hline
+$\vec{n} \times \vec{m}$           & Cross product between two vectors                       \\ %\hline
+$A$                                & Area                                                    \\ %\hline
+$i$ (subscript)                    & Denotes incoming direction or incidence point           \\ %\hline
+$o$ (subscript)                    & Denotes outgoing direction or exitance point            \\ %\hline
+M (capital letter)                 & Denotes matrix (see Appendix A)                         \\ %\hline
+$f(...)$                           & BRDF function                                           \\ %\hline
+$S(...)$                           & BSSRDF function                                         \\ %\hline
+$\eta = \frac{n_1}{n_2}$           & Relative index of refraction                            \\ %\hline
+$R(\eta,\vec{\omega})$             & Fresnel reflection term                                 \\ %\hline
+$T(\eta,\vec{\omega})$             & Fresnel transmission term                               \\ %\hline
+$\vec{\nabla} \cdot \vec{x}$       & Directional derivative of vector $\vec{x}$              \\ %\hline
+$\sigma_a$                         & Absorption coefficient                                  \\ %\hline
+$\sigma_s$                         & Scattering coefficient                                  \\ %\hline
+$g$                                & Mean cosine coefficient                                 \\ %\hline
+$\sigma_t = \sigma_s + \sigma_a$   & Extinction coefficient                                  \\ %\hline
+$\sigma'_s = \sigma_s (1-g)$       & Reduced scattering coefficient                          \\ %\hline
+$\sigma'_t = \sigma'_t + \sigma_a$ & Reduced extinction coefficient                          \\ %\hline
+$\sigma_{tr}$                      & Transmission coefficient                                \\ %\hline
+$\alpha'$                          & Reduced albedo                                          \\ %\hline
+$\cs$                              & Approximation of the scalar fluence Fresnel integral    \\ %\hline
+$\ce$                              & Approximation of the vector irradiance Fresnel integral \\ \hline
+\end{tabular}
+\caption{Table of the notation used in this thesis.}
+\end{table}
+\FloatBarrier
+
 \section{Light and Radiometry}
 Light is a form of electromagnetic radiation, that propagates through space as a sinusoidal wave. Usually by \emph{light} we usually refer to \emph{visible light}, the small part of the electromagnetic spectrum the human eye is sensible to (see Figure \ref{fig:spectrum}). This small window is between the \SI{380}{\nano\meter} of infrared and \SI{750}{\nano\meter} of ultraviolet light, but the precise boundaries vary according to the environment and the observer. Instead explicitly noted, we will use the terms light and visible light interchangeably in this report.
 
@@ -691,3 +733,16 @@ d_v &= \|x_o - x_v\|
 \end{equation*}
 
 The directional dipole model described in this chapter, gives a better result that the standard dipole, at the extra price of additional calculations. In particular, the model improves the previous one for highly forward scattering materials, where it is sensibly closer to the path traced result. The final goal of this thesis is to provide a real-time implementation of it. Given this theoretical introduction, in the next section we will describe our contribution in order to breakdown the problems and the issues of a real-time implementation.
+
+\begin{figure}
+\centering
+\subfloat[{Standard dipole}]{
+  \includegraphics[width=0.5 \linewidth]{images/gamma_potato_buddha_dipole.png}
+}
+\subfloat[Directional Dipole]{
+  \includegraphics[width=0.5 \linewidth]{images/gamma_potato_buddha_dir.png}
+}
+
+\label{fig:comparison}
+\caption{Comparison of the standard and the directional dipole model, for a Stanford Happy Buddha made of potato, with a side directional light. We can see that  the directional dipole is able to capture finer details and provide a generally less flat appearance than the standard one.}
+\end{figure}
