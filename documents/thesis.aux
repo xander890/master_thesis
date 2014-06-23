@@ -477,7 +477,7 @@
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {$N = 10$, $M = 100$, $q = 1.5$}}}{101}{subfigure.6.1}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {$N = 50$, $M = 120$, $q = 1$}}}{101}{subfigure.6.2}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {$N = 50$, $M = 1000$, $q = 1.5$}}}{101}{subfigure.6.3}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {$N = 1000$, $M = 1000$, $q = 1$}}}{101}{subfigure.6.4}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {Path traced result}}}{101}{subfigure.6.4}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.2.2}Radiance map sizes tests}{102}{subsection.6.2.2}}
 \newlabel{fig:pathdragonsize}{{\caption@xref {fig:pathdragonsize}{ on input line 183}}{103}{Radiance map sizes tests}{subfigure.6.7.4}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {6.7}{\ignorespaces TODO\relax }}{103}{figure.caption.53}}
@@ -487,26 +487,40 @@
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {$W_s = 1024$}}}{103}{subfigure.7.4}}
 \newlabel{fig:pathdragon}{{\caption@xref {fig:pathdragon}{ on input line 190}}{104}{Radiance map sizes tests}{figure.caption.54}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {6.8}{\ignorespaces Difference multiplied by 10 between TODO and TODO.\relax }}{104}{figure.caption.54}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.3}Tests during the evolution}{105}{subsection.6.2.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.3}Tests of mipmap blurring quality}{105}{subsection.6.2.3}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.2.4}Environment map illumination}{105}{subsection.6.2.4}}
-\newlabel{fig:bunnyenv1}{{\caption@xref {fig:bunnyenv1}{ on input line 210}}{106}{Environment map illumination}{figure.caption.55}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.9}{\ignorespaces TODO\relax }}{106}{figure.caption.55}}
-\newlabel{fig:bunnyenv}{{\caption@xref {fig:bunnyenv}{ on input line 222}}{106}{Environment map illumination}{subfigure.6.10.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.10}{\ignorespaces TODO\relax }}{106}{figure.caption.56}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Grace Cathedral}}}{106}{subfigure.10.1}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Pisa Courtyard}}}{106}{subfigure.10.2}}
-\newlabel{fig:pathbuddhaenv}{{\caption@xref {fig:pathbuddhaenv}{ on input line 238}}{107}{Environment map illumination}{subfigure.6.11.3}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.11}{\ignorespaces Rendering of a potato buddha using our environment lighting and the Doge map.\relax }}{107}{figure.caption.57}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {$L = 16$, $N = 90$, $M = 1000$}}}{107}{subfigure.11.1}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {$L = 16$, $N = 90$, $M = 300$}}}{107}{subfigure.11.2}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {Path traced result}}}{107}{subfigure.11.3}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {A}Model matrices}{109}{appendix.A}}
+\newlabel{fig:mipblurring}{{\caption@xref {fig:mipblurring}{ on input line 214}}{106}{Tests of mipmap blurring quality}{subfigure.6.9.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.9}{\ignorespaces Rendering of a potato dragon with different mipmap levels in the first frame of the computation, apart from the last one, that shows the result at convergence. We can see that the second mipmap level helps a lot in getting closer to the final result. However, some artifacts due to the stretching of the mipmap appear, such as black spot and bright seams. All the maps use the standard parameters, apart from $N = 32$ and $M = 300$.\relax }}{106}{figure.caption.55}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Mipmap level 0 (no blur)}}}{106}{subfigure.9.1}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Mipmap level 1}}}{106}{subfigure.9.2}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {Mipmap level 2}}}{106}{subfigure.9.3}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {Convergence}}}{106}{subfigure.9.4}}
+\newlabel{fig:bunnyenv1}{{\caption@xref {fig:bunnyenv1}{ on input line 227}}{107}{Environment map illumination}{figure.caption.56}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.10}{\ignorespaces TODO\relax }}{107}{figure.caption.56}}
+\newlabel{fig:bunnyenv}{{\caption@xref {fig:bunnyenv}{ on input line 239}}{107}{Environment map illumination}{subfigure.6.11.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.11}{\ignorespaces TODO\relax }}{107}{figure.caption.57}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Grace Cathedral}}}{107}{subfigure.11.1}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Pisa Courtyard}}}{107}{subfigure.11.2}}
+\newlabel{fig:pathbuddhaenv}{{\caption@xref {fig:pathbuddhaenv}{ on input line 255}}{108}{Environment map illumination}{subfigure.6.12.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.12}{\ignorespaces Rendering of a potato buddha using our environment lighting and the Doge map.\relax }}{108}{figure.caption.58}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {$L = 16$, $N = 90$, $M = 1000$}}}{108}{subfigure.12.1}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {$L = 16$, $N = 90$, $M = 300$}}}{108}{subfigure.12.2}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {Path traced result}}}{108}{subfigure.12.3}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.3}Performance comparisons}{109}{section.6.3}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.1}{\ignorespaces Timings in milliseconds of our method for different models and number of samples $N$ (potato material properties). The other parameters were $L = 1$, $W_s = W_l = 512$, $M = 1000$, $q = 1$, $K = 16$.\relax }}{109}{table.caption.60}}
+\newlabel{fig:mipblurring}{{\caption@xref {fig:mipblurring}{ on input line 278}}{110}{Environment map illumination}{subfigure.6.13.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.13}{\ignorespaces Rendering of a potato dragon ($N = 32$, $M = 300$) using a different number of directional light to represent the environment map.\relax }}{110}{figure.caption.59}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {2 lights}}}{110}{subfigure.13.1}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {4 lights}}}{110}{subfigure.13.2}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {8 lights}}}{110}{subfigure.13.3}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {16 lights}}}{110}{subfigure.13.4}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {A}Model matrices}{111}{appendix.A}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{sec:matrices}{{A}{109}{Model matrices}{appendix.A}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {A.1}Model matrices}{109}{section.A.1}}
-\@writefile{toc}{\contentsline {section}{\numberline {A.2}View Matrix}{110}{section.A.2}}
-\@writefile{toc}{\contentsline {section}{\numberline {A.3}Projection Matrix}{111}{section.A.3}}
+\newlabel{sec:matrices}{{A}{111}{Model matrices}{appendix.A}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.1}Model matrices}{111}{section.A.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.2}View Matrix}{112}{section.A.2}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.3}Projection Matrix}{113}{section.A.3}}
 \bibstyle{alexnat}
 \bibdata{thesis}
 \bibcite{Ashikmin:2000:MBG:344779.344814}{{1}{2000}{{Ashikmin et~al.}}{{Ashikmin, Premo\v {z}e, and Shirley}}}
@@ -516,7 +530,7 @@
 \bibcite{ntt}{{5}{1958}{{Davison and Sykes}}{{}}}
 \bibcite{deondeon}{{6}{2012}{{D'Eon}}{{}}}
 \bibcite{D'Eon:2011:QMR:1964921.1964951}{{7}{2011}{{D'Eon and Irving}}{{}}}
-\@writefile{toc}{\contentsline {chapter}{Bibliography}{113}{section.A.3}}
+\@writefile{toc}{\contentsline {chapter}{Bibliography}{115}{section.A.3}}
 \bibcite{d'Eon:2007:ERH:2383847.2383869}{{8}{2007}{{d'Eon et~al.}}{{d'Eon, Luebke, and Enderton}}}
 \bibcite{Desolneux:2007:GTI:1557413}{{9}{2007}{{Desolneux et~al.}}{{Desolneux, Moisan, and Morel}}}
 \bibcite{Donner:2005:LDM:1186822.1073308}{{10}{2005}{{Donner and Jensen}}{{}}}

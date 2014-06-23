@@ -36,7 +36,7 @@ bool TriangleMesh::load(const string &filename, Material & material){
     if (!loaded){
         return false;
     }
-
+    std::cout << "Loaded triangle mesh: " << filename << ". " << outPositions->size() << " vertices, " << outIndices->at(0).size() << " triangles." <<std::endl;
 
     return load_external((*outIndices)[0], (*outPositions),(*outNormal),(*outUv),material, GL_TRIANGLES);
 }

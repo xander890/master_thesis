@@ -45,13 +45,24 @@
 %------------- 
 \mainmatter
 \definecolor{myblue}{HTML}{D4DEFF}
+\definecolor{redcell}{HTML}{FF0000}
+\definecolor{greencell}{HTML}{00FF00}
+\definecolor{yellowcell}{HTML}{FFFF00}
 \newcommand{\vomega}{\vec{\omega}}
 \newcommand{\x}{\mathbf{x}}
 \newcommand{\cs}{C_{\phi}(\eta)}
 \newcommand{\csinv}{C_{\phi}(1/\eta)}
 \newcommand{\ce}{C_{\mathbf{E}}(\eta)}
 \newcommand{\gl}[1]{\texttt{\nolinkurl{#1}}}
-\newcommand{\projt}{\rotatebox[origin=c]{180}{T}}
+\newcommand\mycolor[1]{
+\ifnum\StrBefore{#1}{'.'}>100 \cellcolor{redcell}#1%
+\else
+\cellcolor{greencell}#1%
+\fi
+}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
 \input{tex/intro.tex}
 \input{tex/previous.tex}
 \input{tex/theory.tex}

@@ -17,11 +17,11 @@ class TranslucentParameters
 public:
     TranslucentParameters::TranslucentParameters() :
         circleradius(1.f),
-        samples(16),
+        samples(1),
         maxsamples(1000),
         epsilon_gbuffer(0.003),
-        epsilon_combination(0.001),
-        shadow_bias(0.0007),
+        epsilon_combination(0.0050),
+        shadow_bias(0.0024),
         debugOverlayVisible(false), LOD(0.0f),  currentFlags(0), gamma(1.8f), environment(true)
     {}
 

@@ -152,7 +152,7 @@ For the ketchup dragon, instead, we observe that for a very low number of concen
 \subfloat[{$N = 50$, $M = 1000$, $q = 1.5$}]{
   \includegraphics[width=0.5 \linewidth]{images/results/dragon_50_over_1000_nobias.png}
 }
-\subfloat[{$N = 1000$, $M = 1000$, $q = 1$}]{
+\subfloat[{Path traced result}]{
   \includegraphics[width=0.5 \linewidth]{images/results/ketchup_dragon_dir.png}
 }
 \label{fig:pathdragon}
@@ -192,11 +192,28 @@ Finally, we tested the effect of reducing the size of the texture used for the r
 \end{figure}
 
 \FloatBarrier
-\subsection{Tests during the evolution}
+\subsection{Tests of mipmap blurring quality}
 
-In this part we tested the quality improvement from the mipmap blurring introduced in TODO to the final image. We can see the result of our method at the first frame and helfway though the simulation, as well as an adjusted mipmap level $m$. At the beginning of the evolution, a strong blurring is needed to compensate the high level noise. During the evolution, a lesser level of mipmaps is needed in order to preserve a noiseless image. At convergence, we do not need mipmap blurring at all. 
+In this part we tested the quality improvement from the mipmap blurring introduced in TODO to the final image. We can see the result of our method at the first frame and helfway though the simulation, as well as an adjusted mipmap level $m$. At the beginning of the evolution, a strong blurring is needed to compensate the high level noise, as we can see from image TODO. During the evolution, a lesser level of mipmaps is needed in order to preserve a noiseless image. At convergence, we do not need mipmap blurring at all. 
 
-%TODO images
+\begin{figure}
+\centering
+\subfloat[{Mipmap level 0 (no blur)}]{
+  \includegraphics[width=0.4 \linewidth]{images/results/mipmaps00.png}
+}
+\subfloat[{Mipmap level 1}]{
+  \includegraphics[width=0.4 \linewidth]{images/results/mipmaps01.png}
+} \\
+
+\subfloat[{Mipmap level 2}]{
+  \includegraphics[width=0.4 \linewidth]{images/results/mipmaps02.png}
+}
+\subfloat[{Convergence}]{
+  \includegraphics[width=0.4 \linewidth]{images/results/mipmapsc.png}
+}
+\label{fig:mipblurring}
+\caption{Rendering of a potato dragon with different mipmap levels in the first frame of the computation, apart from the last one, that shows the result at convergence. We can see that the second mipmap level helps a lot in getting closer to the final result. However, some artifacts due to the stretching of the mipmap appear, such as black spot and bright seams. All the maps use the standard parameters, apart from $N = 32$ and $M = 300$.}
+\end{figure}
 
 \subsection{Environment map illumination}
 
@@ -238,5 +255,47 @@ As for reference, we compared our results to the reference image of the potato b
 \label{fig:pathbuddhaenv}
 \caption{Rendering of a potato buddha using our environment lighting and the Doge map.}
 \end{figure}
+
+\FloatBarrier
+
+In the image of figure TODO, we compare the result using the Pisa Courtyard environment map on a Stanford Dragon, comparing a different number of lights. We can see the more lights we introduce, the more closer we get to a result that approximate true environment illumination. We observe also that the images have more scattering than absorption the more we increase the number of lights: this is because the total number of samples $N$ does not change, so each light has less and less samples available. In this way, the sampels tend to concentrate in thecenter and produce a result where the scatterign component is predominant.
+
+\begin{figure}
+\centering
+\subfloat[{2 lights}]{
+  \includegraphics[width=0.4 \linewidth]{images/results/env2.png}
+}
+\subfloat[{4 lights}]{
+  \includegraphics[width=0.4 \linewidth]{images/results/env4.png}
+} \\
+
+\subfloat[{8 lights}]{
+  \includegraphics[width=0.4 \linewidth]{images/results/env8.png}
+}
+\subfloat[{16 lights}]{
+  \includegraphics[width=0.4 \linewidth]{images/results/env16.png}
+}
+\label{fig:mipblurring}
+\caption{Rendering of a potato dragon ($N = 32$, $M = 300$) using a different number of directional light to represent the environment map.}
+\end{figure}
+
+\section{Performance comparisons}
+In this section, we examine and analyze the performance of our method. 
+
+
+\begin{table}[!ht]
+\centering
+\begin{tabular}{p{3cm}l|l|l|l|l|}
+\cline{3-6}
+                             &      & \multicolumn{4}{c|}{Number of samples ($N$)}                                          \\ \cline{3-6} 
+                             & \#$\Delta$& \multicolumn{1}{c|}{1} & \multicolumn{1}{c|}{10} & \multicolumn{1}{c|}{50} & \multicolumn{1}{c|}{100} \\ \hline
+\multicolumn{1}{|l|}{Bunny}  & $10^5$ & 4.1                  & 10.1                 & 21.4                  & 38.7                 \\ \hline
+\multicolumn{1}{|l|}{Dragon} & $10^6$ & 13.9                 & 35.2                  & 139.6                & 270.8                \\ \hline
+\multicolumn{1}{|l|}{Buddha} & $10^7$ & 91.5                 & 93.0                  & 121.4                & 209.2                 \\ \hline
+\end{tabular}
+\caption{Timings in milliseconds of our method for different models and number of samples $N$ (potato material properties). The other parameters were $L = 1$, $W_s = W_l = 512$, $M = 1000$, $q = 1$, $K = 16$.}
+\end{table}
+
+
 
 %TODO text and images

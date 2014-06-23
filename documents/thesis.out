@@ -65,10 +65,11 @@
 \BOOKMARK [1][]{section.6.2}{6.2 Quality comparison}{chapter.6}% 65
 \BOOKMARK [2][]{subsection.6.2.1}{6.2.1 Tests with different number of samples}{section.6.2}% 66
 \BOOKMARK [2][]{subsection.6.2.2}{6.2.2 Radiance map sizes tests}{section.6.2}% 67
-\BOOKMARK [2][]{subsection.6.2.3}{6.2.3 Tests during the evolution}{section.6.2}% 68
+\BOOKMARK [2][]{subsection.6.2.3}{6.2.3 Tests of mipmap blurring quality}{section.6.2}% 68
 \BOOKMARK [2][]{subsection.6.2.4}{6.2.4 Environment map illumination}{section.6.2}% 69
-\BOOKMARK [0][]{appendix.A}{A Model matrices}{}% 70
-\BOOKMARK [1][]{section.A.1}{A.1 Model matrices}{appendix.A}% 71
-\BOOKMARK [1][]{section.A.2}{A.2 View Matrix}{appendix.A}% 72
-\BOOKMARK [1][]{section.A.3}{A.3 Projection Matrix}{appendix.A}% 73
-\BOOKMARK [0][]{section.A.3}{Bibliography}{}% 74
+\BOOKMARK [1][]{section.6.3}{6.3 Performance comparisons}{chapter.6}% 70
+\BOOKMARK [0][]{appendix.A}{A Model matrices}{}% 71
+\BOOKMARK [1][]{section.A.1}{A.1 Model matrices}{appendix.A}% 72
+\BOOKMARK [1][]{section.A.2}{A.2 View Matrix}{appendix.A}% 73
+\BOOKMARK [1][]{section.A.3}{A.3 Projection Matrix}{appendix.A}% 74
+\BOOKMARK [0][]{section.A.3}{Bibliography}{}% 75

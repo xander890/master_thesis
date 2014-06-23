@@ -64,7 +64,7 @@ float sample_shadow_map_more(vec3 light_pos, float layer)
     vec2 adj [4]= {vec2(ARRAY_TEX_STEP,0.0f), vec2(0.0f,ARRAY_TEX_STEP) ,vec2(-ARRAY_TEX_STEP,0.0f) ,vec2(0.0f,-ARRAY_TEX_STEP)};
 
     float res = texture(depthMap,vec4(light_pos.x,light_pos.y,layer,light_pos.z)).r;
-    float mipmap = (mipmap_LOD == 0.0f)? 1.0f : ((mipmap_LOD == 1.0f)? 2.0f : 6.0f);
+    float mipmap = (mipmap_LOD == 0.0f)? 1.0f : ((mipmap_LOD == 1.0f)? 3.0f : 8.0f);
     for(int i = 0; i < 4; i++)
     {
         res *= texture(depthMap,vec4(light_pos.x + mipmap * adj[i].x,light_pos.y + mipmap * adj[i].y,layer,light_pos.z)).r;

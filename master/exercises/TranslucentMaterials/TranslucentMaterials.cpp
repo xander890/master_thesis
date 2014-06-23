@@ -88,6 +88,19 @@ static const Vec4f light_ambient(0.3f,0.4f,0.6f,0.4f);
 
 Terrain terra(30,0.025f);
 
+const int GBUFFER_SIZE = 512;
+const float LIGHT_CAMERA_SIZE = 1.0f;
+const float LIGHT_CAMERA_DISTANCE = 6.0f;
+const int ARRAY_TEXTURE_SIZE = 512;
+const int LIGHTS = 1;
+const int LAYERS = 16;
+const int MIPMAPS = 3;
+const float CAMERA_DISTANCE = 3.0f; //This should not matter (can be DIST = max bounding box + camera near + epsilon
+const float CAMERA_NEAR = 0.1f;
+const float CAMERA_FAR = 10.0f;
+const float CAMERA_SIZE = 1.0f;
+const int CONVERGENCE_FRAMES = 100;
+
 User user (&terra);
 bool reload_shaders = true;
 
@@ -107,8 +120,8 @@ TranslucentMaterials::TranslucentMaterials( QWidget* parent)
     , clearColor(Vec4f(0.0f,0.0f,0.0f,1.0f)), frame(0),
       isVertexMode(true),
       isShadow(true),
-      isGridVisible(true),
-      areAxesVisible(true),
+      isGridVisible(false),
+      areAxesVisible(false),
       params(new TranslucentParameters()),
       render_mode(DRAW_DIRECTIONAL),
       render_method(CUBEMAP_BASE),
@@ -138,16 +151,16 @@ TranslucentMaterials::TranslucentMaterials( QWidget* parent)
 
 void TranslucentMaterials::initialize()
 {
-    Mesh::ScatteringMaterial * scattering_mat_bunny = getDefaultMaterial(S_Whitegrapefruit);
-    Mesh::ScatteringMaterial * scattering_mat_buddha = getDefaultMaterial(S_Potato);
-    Mesh::ScatteringMaterial * scattering_mat_dragon = getDefaultMaterial(S_Ketchup);
+    Mesh::ScatteringMaterial * scattering_mat_bunny = getDefaultMaterial(S_Ketchup);
+    Mesh::ScatteringMaterial * scattering_mat_buddha = getDefaultMaterial(S_Ketchup);
+    Mesh::ScatteringMaterial * scattering_mat_dragon = getDefaultMaterial(S_Potato);
 
     ThreeDObject * bunny = new ThreeDObject();
     ThreeDObject * buddha = new ThreeDObject();
     ThreeDObject * dragon = new ThreeDObject();
     ThreeDObject * sphere = new ThreeDSphere(40);
 
-    bunny->init(objects_path+"bunny.obj", "bunny", *scattering_mat_bunny);
+    bunny->init(objects_path+"bunny-simplified.obj", "bunny", *scattering_mat_bunny);
     bunny->setScale(Vec3f(4.f));
     bunny->setRotation(Vec3f(90,0,0));
     bunny->setTranslation(Vec3f(0,0,0.f));
@@ -177,7 +190,7 @@ void TranslucentMaterials::initialize()
     objectPool.push_back(bunny);
     objectPool.push_back(buddha);
     objectPool.push_back(dragon);
-    currentObject = dragon;
+    currentObject =  dragon;
 }
 
 
@@ -1245,17 +1258,8 @@ void TranslucentMaterials::render_direct_array_time(bool reload, ShaderProgramDr
     static Mesh::Material * screen_quad_material = new Mesh::Material();
     static ShaderProgramDraw screen_quad_display_shader(shader_path,"ss_array_debug_tex.vert","","ss_array_debug_tex.frag");
 
-    const int GBUFFER_SIZE = 512;
-    const float LIGHT_CAMERA_SIZE = 1.0f;
-    const float LIGHT_CAMERA_DISTANCE = 6.0f;
-
-    const int ARRAY_TEXTURE_SIZE = 1024;
-    const int MAX_LIGHTS = 16;
-    const int LAYERS = 16;
     int samples_per_texel = params->samples / (manager.size());
     int maximum_samples = params->maxsamples;
-
-    const int MIPMAPS = 3;
 
 //#define EXPERIMENT
 #ifdef EXPERIMENT
@@ -1271,21 +1275,12 @@ static ShaderProgramDraw depth_only(shader_path,"ss_array_depth_pass.vert","ss_a
     static MipMapGeneratorView * mipmaps_back = new MipMapGeneratorView(arraytexmap_back.getColorTexture()->get_id(), arraytexmap_back.getDepthTexture()->get_id(), ARRAY_TEXTURE_SIZE, LAYERS, MIPMAPS);
 
 
-    static ArrayVertexNormalBuffer light_buffer(GBUFFER_SIZE, MAX_LIGHTS);
+    static ArrayVertexNormalBuffer light_buffer(GBUFFER_SIZE, LIGHTS);
 
     ArrayTextureBuffer * front;
     MipMapGeneratorView * front_mipmaps;
 
-    const float CAMERA_DISTANCE = 3.0f; //This should not matter (can be DIST = max bounding box + camera near + epsilon
-    const float CAMERA_NEAR = 0.1f;
-    const float CAMERA_FAR = 10.0f;
-    const float CAMERA_SIZE = 1.0f;
-    const int CONVERGENCE_FRAMES = 100;
-    //const float CAMERA_RATIO = CAMERA_SIZE / LIGHT_CAMERA_SIZE;
-
     int discPoints = maximum_samples; //TODO more LIGHTS!
-    const int DISCS = LAYERS;
-
 
     ThreeDObject * obj = currentObject;
     float MAX_RADIUS = length(obj->getScale() * 0.5 *(obj->getBoundingBox()->high - obj->getBoundingBox()->low));
@@ -1802,7 +1797,7 @@ void TranslucentMaterials::paintGL()
     if(reload_shaders)
         skybox_shader.reload();
 
-    const int n_lights = 16;
+
     static vector<Vec4f> light_dirs;
     if(!mark)
     {
@@ -1814,7 +1809,7 @@ void TranslucentMaterials::paintGL()
         InfiniteAreaLight i (img);
         vector<Light *> lights;
 
-        i.getLights(img, lights,n_lights);
+        i.getLights(img, lights,LIGHTS);
 
         //initCubemap(&cubetex,&type);
         skybox = new Mesh::Texture("skybox", cubetex, type);
@@ -1826,7 +1821,7 @@ void TranslucentMaterials::paintGL()
         e->addUniform("cubemap_size", Vec2f(img.width(),img.height()));
 
 
-        for(int i = 0; i < n_lights; i++)
+        for(int i = 0; i < LIGHTS; i++)
         {
 #ifdef DIR
             manager.addLight(*lights[i]);
@@ -1900,7 +1895,7 @@ void TranslucentMaterials::paintGL()
     if(params->environment)
     {
         skybox_shader.use();
-        skybox_shader.set_uniform("dir_lights", light_dirs, n_lights);
+        skybox_shader.set_uniform("dir_lights", light_dirs, LIGHTS);
         set_light_and_camera(skybox_shader);
         skybox_cube->display(skybox_shader);
     }
