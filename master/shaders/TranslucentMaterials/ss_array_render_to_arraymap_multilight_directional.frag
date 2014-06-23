@@ -120,7 +120,7 @@ void main(void)
         vec3 wi = light_pos[current_light].xyz;
         vec4 rad = light_diff[current_light];
         vec3 topoint = wi - xo;
-        float light_type = light_pos[current_light].a;
+        float light_type = 1;
         wi = (light_type > 0)? normalize(topoint) : normalize(wi);
         vec3 Li = light_diff[current_light].xyz;
         Li = (light_type > 0)? Li / dot(topoint,topoint) : Li;

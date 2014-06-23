@@ -72,8 +72,8 @@
 \contentsline {subsection}{\numberline {6.2.3}Tests of mipmap blurring quality}{105}{subsection.6.2.3}
 \contentsline {subsection}{\numberline {6.2.4}Environment map illumination}{105}{subsection.6.2.4}
 \contentsline {section}{\numberline {6.3}Performance comparisons}{109}{section.6.3}
-\contentsline {chapter}{\numberline {A}Model matrices}{111}{appendix.A}
-\contentsline {section}{\numberline {A.1}Model matrices}{111}{section.A.1}
-\contentsline {section}{\numberline {A.2}View Matrix}{112}{section.A.2}
-\contentsline {section}{\numberline {A.3}Projection Matrix}{113}{section.A.3}
-\contentsline {chapter}{Bibliography}{115}{section.A.3}
+\contentsline {chapter}{\numberline {A}Model matrices}{115}{appendix.A}
+\contentsline {section}{\numberline {A.1}Model matrices}{115}{section.A.1}
+\contentsline {section}{\numberline {A.2}View Matrix}{116}{section.A.2}
+\contentsline {section}{\numberline {A.3}Projection Matrix}{117}{section.A.3}
+\contentsline {chapter}{Bibliography}{119}{section.A.3}

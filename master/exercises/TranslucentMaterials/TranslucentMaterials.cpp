@@ -151,9 +151,9 @@ TranslucentMaterials::TranslucentMaterials( QWidget* parent)
 
 void TranslucentMaterials::initialize()
 {
-    Mesh::ScatteringMaterial * scattering_mat_bunny = getDefaultMaterial(S_Ketchup);
+    Mesh::ScatteringMaterial * scattering_mat_bunny = getDefaultMaterial(S_Beer);
     Mesh::ScatteringMaterial * scattering_mat_buddha = getDefaultMaterial(S_Ketchup);
-    Mesh::ScatteringMaterial * scattering_mat_dragon = getDefaultMaterial(S_Potato);
+    Mesh::ScatteringMaterial * scattering_mat_dragon = getDefaultMaterial(S_Ketchup);
 
     ThreeDObject * bunny = new ThreeDObject();
     ThreeDObject * buddha = new ThreeDObject();
@@ -190,7 +190,7 @@ void TranslucentMaterials::initialize()
     objectPool.push_back(bunny);
     objectPool.push_back(buddha);
     objectPool.push_back(dragon);
-    currentObject =  dragon;
+    currentObject =  bunny;
 }
 
 
