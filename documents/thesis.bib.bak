@@ -292,12 +292,15 @@
   isbn = {0321228324}
 }
 
-@TECHREPORT{IMM2013-06646,
+@ARTICLE{IMM2013-06646,
   author = {J. R. Frisvad and T. Hachisuka and T. K. Kjeldsen},
   title = {Directional Dipole for Subsurface Scattering in Translucent Materials},
+  journal = {ACM Transactions on Graphics, 2014},
+  year = {2014},
+  volume = {-},
+  pages = {-},
+  note = {To appear},
   institution = {DTU Compute},
-  year = {2013},
-  note = {Unpublished manuscript.},
   keywords = {{BSSRDF,} radiative transfer, subsurface scattering, translucent materials},
   owner = {xander890},
   timestamp = {2014.02.26},

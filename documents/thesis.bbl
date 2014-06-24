@@ -127,13 +127,13 @@ Randima Fernando.
   Graphics}.
 \newblock Pearson Higher Education, 2004.
 
-\bibitem[Frisvad et~al.(2013)Frisvad, Hachisuka, and Kjeldsen]{IMM2013-06646}
+\bibitem[Frisvad et~al.(2014)Frisvad, Hachisuka, and Kjeldsen]{IMM2013-06646}
 J.~R. Frisvad, T.~Hachisuka, and T.~K. Kjeldsen.
 \newblock Directional dipole for subsurface scattering in translucent
   materials.
-\newblock Technical report, DTU Compute, 2013.
+\newblock \emph{ACM Transactions on Graphics, 2014}, -:\penalty0 --, 2014.
 \newblock URL \url{http://www2.imm.dtu.dk/pubdb/p.php?6646}.
-\newblock Unpublished manuscript.
+\newblock To appear.
 
 \bibitem[Green(2003)]{green}
 Robin Green.
