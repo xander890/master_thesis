@@ -67,10 +67,13 @@
 \BOOKMARK [2][]{subsection.6.2.2}{6.2.2 Radiance map sizes tests}{section.6.2}% 67
 \BOOKMARK [2][]{subsection.6.2.3}{6.2.3 Tests of mipmap blurring quality}{section.6.2}% 68
 \BOOKMARK [2][]{subsection.6.2.4}{6.2.4 Environment map illumination}{section.6.2}% 69
-\BOOKMARK [1][]{section.6.3}{6.3 Performance comparisons}{chapter.6}% 70
-\BOOKMARK [0][]{chapter.7}{7 Future work}{}% 71
-\BOOKMARK [0][]{appendix.A}{A Model matrices}{}% 72
-\BOOKMARK [1][]{section.A.1}{A.1 Model matrices}{appendix.A}% 73
-\BOOKMARK [1][]{section.A.2}{A.2 View Matrix}{appendix.A}% 74
-\BOOKMARK [1][]{section.A.3}{A.3 Projection Matrix}{appendix.A}% 75
-\BOOKMARK [0][]{section.A.3}{Bibliography}{}% 76
+\BOOKMARK [1][]{section.6.3}{6.3 Performance tests}{chapter.6}% 70
+\BOOKMARK [2][]{subsection.6.3.1}{6.3.1 Time algorithm breakdown}{section.6.3}% 71
+\BOOKMARK [2][]{subsection.6.3.2}{6.3.2 Tests for varying parameters}{section.6.3}% 72
+\BOOKMARK [2][]{subsection.6.3.3}{6.3.3 Tests on environment lighting}{section.6.3}% 73
+\BOOKMARK [0][]{chapter.7}{7 Future work}{}% 74
+\BOOKMARK [0][]{appendix.A}{A Model matrices}{}% 75
+\BOOKMARK [1][]{section.A.1}{A.1 Model matrices}{appendix.A}% 76
+\BOOKMARK [1][]{section.A.2}{A.2 View Matrix}{appendix.A}% 77
+\BOOKMARK [1][]{section.A.3}{A.3 Projection Matrix}{appendix.A}% 78
+\BOOKMARK [0][]{section.A.3}{Bibliography}{}% 79

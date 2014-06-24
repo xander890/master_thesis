@@ -71,10 +71,13 @@
 \contentsline {subsection}{\numberline {6.2.2}Radiance map sizes tests}{102}{subsection.6.2.2}
 \contentsline {subsection}{\numberline {6.2.3}Tests of mipmap blurring quality}{105}{subsection.6.2.3}
 \contentsline {subsection}{\numberline {6.2.4}Environment map illumination}{105}{subsection.6.2.4}
-\contentsline {section}{\numberline {6.3}Performance comparisons}{109}{section.6.3}
-\contentsline {chapter}{\numberline {7}Future work}{115}{chapter.7}
-\contentsline {chapter}{\numberline {A}Model matrices}{117}{appendix.A}
-\contentsline {section}{\numberline {A.1}Model matrices}{117}{section.A.1}
-\contentsline {section}{\numberline {A.2}View Matrix}{118}{section.A.2}
-\contentsline {section}{\numberline {A.3}Projection Matrix}{119}{section.A.3}
-\contentsline {chapter}{Bibliography}{121}{section.A.3}
+\contentsline {section}{\numberline {6.3}Performance tests}{111}{section.6.3}
+\contentsline {subsection}{\numberline {6.3.1}Time algorithm breakdown}{111}{subsection.6.3.1}
+\contentsline {subsection}{\numberline {6.3.2}Tests for varying parameters}{114}{subsection.6.3.2}
+\contentsline {subsection}{\numberline {6.3.3}Tests on environment lighting}{118}{subsection.6.3.3}
+\contentsline {chapter}{\numberline {7}Future work}{119}{chapter.7}
+\contentsline {chapter}{\numberline {A}Model matrices}{121}{appendix.A}
+\contentsline {section}{\numberline {A.1}Model matrices}{121}{section.A.1}
+\contentsline {section}{\numberline {A.2}View Matrix}{122}{section.A.2}
+\contentsline {section}{\numberline {A.3}Projection Matrix}{123}{section.A.3}
+\contentsline {chapter}{Bibliography}{125}{section.A.3}

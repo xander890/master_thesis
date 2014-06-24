@@ -279,33 +279,73 @@ In the image of figure TODO, we compare the result using the Pisa Courtyard envi
 \caption{Rendering of a potato dragon ($N = 32$, $M = 300$) using a different number of directional light to represent the environment map.}
 \end{figure}
 
-\section{Performance comparisons}
-In this section, we examine and analyze the performance of our method. 
+\clearpage
+\section{Performance tests}
+In this section, we examine and analyze the performance of our method. The tests in this section were made by keeping in mind the performance requirements we made in chapter \ref{chap:intro}, and they exploit how the different parameters listed in \ref{sec:parameters} influence the final result. For the tests, we used three main models, to which we will refer as Bunny, Dragon and Buddha (see table \ref{table:models}). The models cover a varying range of complexity. The Bunny model represents a typical model used in modern games and consoles ($10^4$ triangles), while the Dragon represents a highly detailed model, usually for visualization purposes ($10^5$ triangles). Finally, the Buddha model represent a high resolution model, and it will be used as a stress test for our algorithm ($10^6$ triangles).
+
+\begin{table}[!ht]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+Model  & Vertices (\#$V$) & Triangles (\#$\Delta$) \\ \hline
+Bunny  & $3581$                                   & $21474 \approx 10^4$                           \\ \hline
+Dragon & $50000$                                  & $300000 \approx 10^5$                          \\ \hline
+Buddha & $549409$                                 & $3262422 \approx 10^6$                         \\ \hline
+\end{tabular}
+\caption{The three models used for our tests, with number of vertices and triangles.}
+\label{table:models}
+\end{table}
+
+All the tests were performed on a NVIDIA GeForce GTX 780Ti, a high-end modern GPU with OpenGL 4.3 capabilities. All the timings measure the average milliseconds during the 20th and the 40th frame during an evolution to convergence of 100 frames. The first frames were not measured because of the overhead introduced by the initialization procedure (texture creation, model parsing and loading, shader compilation, etc.).
+
+\subsection{Time algorithm breakdown}
+
+The first test we are going to perform is to time how much time the algorithm takes to perform the different steps illustrated in chapter \ref{chap:implementation}. When we were timing the algorithm, we divided the whole computation into five different steps:
+
+\begin{enumerate}
+	\item Initialization phase, where all the different constants and data structures in the algorithm are created and initialized.
+	\item Render to light map step, that corresponds to step 1 in our outline.
+	\item Render to radiance map step, that corresponds to step 2 in our outline.
+	\item Mipmap generation, as in the extension outlined in section \ref{sec:mipmaps}.
+	\item Final render combination, that corresponds to step 3 in our outline.
+\end{enumerate}
+
+For this tests we tried all the three models, and the results are shown in figure \ref{fig:timingssplit}. The parameters were tweaked in order to reach the best compromise between visual quality and performance, in order to measure realistic timings. 
+
+We can observe that, irregardless of the test case, most of the time is spent computing the BSSRDF function for the samples in step 2. Thee render to lightmap step does not have a big performance impact, likely because all the tests were made with one light. We will test in the next section the impact of a different number of lights on the performance.  Another consideration to do is that, as to be expected, the more triangles we have the less samples we can use. As we will see, this is not the only factor that causes a performance drop. However, the big number of triangles that has to be multiplied by the number of directions generates a big load on the GPU for rasterization procedures. 
+
+Regarding the mipmap generation, as expected its performance is not tied to the size of the model, but only to the size of the radiance map texture $W_l$ and to the number of mipmaps we generate. Finally, the final combination step is tied as well to the size of the model, rising slightly with an increasing model size. However, in this case we are rendering only once the model to the main framebuffer, and not $K$ times as in step 2.
 
 \begin{figure}
 \centering
-\subfloat[a]{
-  \includegraphics[width=0.4 \linewidth]{images/results/example1.png}
-}
-\subfloat[a]{
-  \includegraphics[width=0.4 \linewidth]{images/results/example1.png}
-}\\
-\subfloat[a]{
+\subfloat[Beer Bunny, $67.5 ms$. Point light. $N = 180$, $M = 210$, $q = 2$]{
   \includegraphics[width=0.4 \linewidth]{images/results/example2.png}
 }
 \subfloat[a]{
   \includegraphics[width=0.4 \linewidth]{images/results/example2.png}
 }\\
+\subfloat[Ketchup Dragon, $60.4 ms$. Directional light. $N = 20$, $M = 180$.]{
+  \includegraphics[width=0.4 \linewidth]{images/results/example1.png}
+}
 \subfloat[a]{
+  \includegraphics[width=0.4 \linewidth]{images/results/example1.png}
+}\\
+\subfloat[Potato Buddha, $93.0 ms$. Point light. $N = 10$, $M = 300$, $q = 1$]{
   \includegraphics[width=0.4 \linewidth]{images/results/example3.png}
 }
 \subfloat[{a}]{
   \includegraphics[width=0.4 \linewidth]{images/results/example3.png}
 }
-\label{fig:pathbuddhaenv}
-\caption{Rendering of a potato buddha using our environment lighting and the Doge map.}
+\label{fig:timingssplit}
+\caption{Rendering of different models, and graphs that illustrate how the timings are split into the different phases of the algorithm. All tests use $W_l = W_s = 512$. }
 \end{figure}
 
+\FloatBarrier
+\subsection{Tests for varying parameters}
+In this section, we will discuss how well our method behaves for changing parameters. From the quality tests before we have learned that the parameters that are related mostly to the quality of the are $N$, $M$, $q$ and to a certain extent $W_s$. The number of directions $K$ is important in order to ensure to cover the whole model, and if we are generating the cameras automatically it cannot be too low. Of the mentioned parameters, $M$ and $q$ do not directly influence performance, as they are used only at the beginning of the computation in order to distribute the points on the disc. 
+ 
+\textbf{$N$ parameter}\\
+We start by discussing $N$. We can see the results for different value of the parameter in the following table:
 
 \begin{table}[!ht]
 \centering
@@ -320,6 +360,11 @@ Model                        & \#$\Delta$& \multicolumn{1}{c|}{1} & \multicolumn
 \caption{Timings in milliseconds of our method for different models and number of samples $N$ (potato material properties). The other parameters were $L = 1$, $W_s = W_l = 512$, $M = 1000$, $K = 16$.}
 \end{table}
 
+We tested $N$ in the range $1-100$. The test with $N = 1$ was introduced to measure the baseline performance of the method (where the most expensive operation is the generation of the random number for the rotation). We did not use zero samples because otherwise the shader compiler optimizations would have removed the base code as well, making the result useless.
+
+We note that from the graph the time to render the dragon with 50 samples is slower that rendering the buddha with the same parameters, despite the buddha having 10 times the triangles as the dragon. This suggests that $N$ and the triangle size of the model are not the only factors involved in the performance. Since the heavy computational step is made on a pixel shader in step 2, the number of pixels involved in the computation matters: the buddha on average occupies less texture area on the directional cameras, and thus the number of computations performed in total is less that the ones for the dragon. For a low number of samples, the performance is bound by the rasterization time, so the dragon outperforms the buddha in this case because of the fewer number of triangles. 
+
+We tested this changing performance according to the area in the following test: we kept the same settings for the directional cameras, but we tried different dragon sizes. By size, we mean the size of the dragon using a different scaling transform matrix.
 
 \begin{table}[!ht]
 \centering
@@ -332,6 +377,11 @@ Model                        & \#$\Delta$& \multicolumn{1}{c|}{1} & \multicolumn
 \caption{Timings in milliseconds of our method for different model size (potato material properties). The size of the camera is 2 units, and the model is 2 units wide. The camera does not scale with the model. The other parameters were $N = 50$, $L = 1$, $W_s = W_l = 512$, $M = 1000$, $K = 16$.}
 \end{table}
 
+The dragon, by changing size, occupies a different area of the camera, and so the algorithm performs differently according to the dragon size. A degrading in quality of the final result is also visible, because of the less number of pixels involved. This problem should be addressed in an eventual extension to the implementation, that should account for these problems in a optimal camera placement.
+
+\textbf{$W_s$ parameter}\\
+The next test we performed was on the size of the radiance map. 
+
 \begin{table}[!ht]
 \centering
 \begin{tabular}{p{3cm}l|l|l|l|l|}
@@ -343,7 +393,13 @@ Model                        & \#$\Delta$& \multicolumn{1}{>{\centering\arraybac
 \multicolumn{1}{|l|}{Buddha} & $10^6$ & \mycolor{92}.1                 & \mycolor{122}.1                  & \mycolor{252}.6                             \\ \hline
 \end{tabular}
 \caption{Timings in milliseconds of our method for different models and size of the radiance map $W_s$ (ketchup material properties). The other parameters were $N = 50$, $L = 1$, $W_l = 512$, $M = 1000$, $K = 16$.}
+\label{table:sizews}
 \end{table}
+
+As we can see from table \ref{table:sizews}, the performance scales linearly with the radiance map size. This means that if we double the size of the radiance map, the time to render the model roughly doubles. This comes from the fact that most of the time in the computation is spent in rendering to the radiance map, that is a pixel bound operation. So if we double the size of map, we roughly double the number of pixels involved and thus the number of the fragment shader invocations in step 2. 
+
+\textbf{$K$ parameter}\\
+The next test is about the number of directions used to render the model, $K$.
 
 \begin{table}[!ht]
 \centering
@@ -358,20 +414,26 @@ Model                        & \#$\Delta$& \multicolumn{1}{c|}{4} & \multicolumn
 \caption{Timings in milliseconds of our method for different models and different number of directions $K$ (ketchup material properties). The other parameters were $N = 50$, $L = 1$, $W_s = W_l = 512$, $M = 1000$, $q = 1$.}
 \end{table}
 
+We can see that the performance for the models scales linearly. We can see from this test that is a big advantage to place the cameras manually, instead of relying on an automatic algorithm. A careful placement of the cameras can cover the whole model evenly with a smaller number of cameras that an automatic placement. In our implementation, we needed to use at least 16 cameras to ensure that most of the models were covered. On the other hand, with careful placement of the cameras, we were able to lower the number of cameras up to 8 in all cases, thus doubling the performance. Also in this test, we can see that the minor area occupation of the buddha improves its performance for 4,8, and 16 directions. For 32 directions, the number of triangles that actually need to be rasterized ($32 \cdot 10^6$) probably becomes so high that memory issues on the GPU become important.
+
+\textbf{Different types of lights}\\
+We tested the different times in performance for different kind of lights. Since the operations performed are roughly the same (the point light requires an extra division), also is the performance:
 
 \begin{table}[!ht]
 \centering
-\begin{tabular}{p{3cm}l|l|l|l|l|}
-\cline{3-6}
-                             &      & \multicolumn{4}{c|}{Type of light}                                          \\ \cline{3-6} 
-Model                        & \#$\Delta$& \multicolumn{1}{c|}{Point light} & \multicolumn{1}{c|}{Directional light} & \multicolumn{1}{c|}{With choice} & \multicolumn{1}{c|}{No loop} \\ \hline
-\multicolumn{1}{|l|}{Dragon}  & $10^5$ & \mycolor{60}.5                  & \mycolor{60}.3                 & \mycolor{61}.0                 & \mycolor{58}.2                 \\ \hline
+\begin{tabular}{p{3cm}l|l|l|l|}
+\cline{3-5}
+                             &      & \multicolumn{3}{c|}{Type of light}                                          \\ \cline{3-5} 
+Model                        & \#$\Delta$& \multicolumn{1}{c|}{Point light} & \multicolumn{1}{c|}{Directional light}  & \multicolumn{1}{c|}{No loop} \\ \hline
+\multicolumn{1}{|l|}{Dragon}  & $10^5$ & \mycolor{60}.5                  & \mycolor{60}.3                            & \mycolor{58}.2                 \\ \hline
 \end{tabular}
 \caption{Timings in milliseconds of our method for different types of light (potato material properties), one light. The other parameters were $N = 20$, $W_s = W_l = 512$, $M = 1000$, $K = 16$.}
 \end{table}
 
+We times a third case, that is when we strip the outer loop in listing \ref{lst:multi}, thus obtaining a shader suitable for only one light. In this case, we can see that the performance slightly improves by 2 milliseconds.
 
-
+\textbf{Different materials}\\
+We finally tried to see if different materials gave a different performance on the method. As we expected, the material does not influence the rendering time, as the computations in the BSSRDF do not actually take advantage on the material type to easy any computation. We can see the test result in the following table:
 \begin{table}[!ht]
 \centering
 \begin{tabular}{p{3cm}l|l|l|l|l|}
@@ -383,8 +445,12 @@ Model                        & \#$\Delta$& \multicolumn{1}{c|}{Ketchup} & \multi
 \caption{Timings in milliseconds of our method for different materials. The other parameters were $N = 30$, $L = 1$, $W_s = W_l = 512$, $M = 300$, $K = 16$.}
 \end{table}
 
+\clearpage
+\subsection{Tests on environment lighting}
+The considerations so far discussed apply also in environment map lighting, that we converted to a certain number $L$ of directional lights. So discussing the impact on performance of multiple lights and the impact of environment lighting is essentially the same, apart from a initialization delay to generate the lights from the environment map that we will not consider.
 
-\begin{table}[h]
+The timings for different kind of lights are reported in the following table:
+\begin{table}[!ht]
 \centering
 \begin{tabular}{p{3cm}l|l|l|l|l|l|}
 \cline{3-7}
@@ -394,16 +460,13 @@ Model                        & \#$\Delta$ & \multicolumn{1}{c|}{1} & \multicolum
 \end{tabular}
 \caption{Timings in milliseconds of our method for different number of lights (environment map approximation, material properties for potato). The other parameters were $N = 32$, $W_s = W_l = 512$, $M = 300$, $K = 16$.}
 \end{table}
+\vspace{-0.2cm}
+As we can see, even if we maintain the same number of samples ($N = 32$, so the number of samples per light changes) the performance worsen increasing the number of lights. To look at this into more detail, we broke down the timings again in the different steps. We can see in figure \ref{fig:numblights} that the increase in timing is due to step 1, the render to lightmap: in fact, we have to render the model once for each light, that implies a performance penalty.
 
-\FloatBarrier
-
-\begin{figure}
+\begin{figure}[!ht]
 \centering
-  \includegraphics[width=\linewidth]{images/matlab/multiple_lights_test.pdf}
+  \includegraphics[width=0.7\linewidth]{images/matlab/multiple_lights_test.pdf}
+
+\caption{Rendering times for the environment lighting of figure TODO, split into the various components. The rendering times of step 2 are not shown, but they are $[87.2\ 90.2\ 89.4\ 91.6\ 95.2]$.}
 \label{fig:numblights}
-\caption{Rendering times for the environment lighting of figure TODO, split into the various components. The rendering times of step 2 are not shown, but they are $[87.2\ 90.2\ 89.4\ 91.6\ 95.2]$. We can see that the rendering time spent rendering the lights into the lightmap is increasing, while the other values are stable.}
 \end{figure}
-
-
-
-%TODO text and images

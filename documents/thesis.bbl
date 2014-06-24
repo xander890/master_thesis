@@ -1,4 +1,4 @@
-\begin{thebibliography}{48}
+\begin{thebibliography}{49}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -232,6 +232,13 @@ Hendrik P.~A. Lensch, Michael Goesele, Philippe Bekaert, Jan Kautz, Marcus~A.
   Graphics and Applications}, PG '02, pages 214--, Washington, DC, USA, 2002.
   IEEE Computer Society.
 \newblock URL \url{http://dl.acm.org/citation.cfm?id=826030.826632}.
+
+\bibitem[Menon et~al.(2005)Menon, Su, and Grobe]{PhysRevLett.94.153904}
+S.~Menon, Q.~Su, and R.~Grobe.
+\newblock Determination of g and $\mu${} using multiply scattered light in
+  turbid media.
+\newblock \emph{Phys. Rev. Lett.}, 94:\penalty0 153904, Apr 2005.
+\newblock URL \url{http://link.aps.org/doi/10.1103/PhysRevLett.94.153904}.
 
 \bibitem[Mertens et~al.(2003{\natexlab{a}})Mertens, Kautz, Bekaert, Van~Reeth,
   and Seidel]{1238246}
