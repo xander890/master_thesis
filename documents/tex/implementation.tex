@@ -1,33 +1,20 @@
 \chapter{Implementation}
 \label{chap:implementation}
-In this chapter, we will introduce the implementation of our method. The difference between this chapter and chapter \ref{chap:method} is that the concepts introduced in the method chapter are easily adaptable to any kind of implementation, while in this chapter we will focus on a GPU-oriented implementation. First, we will briefly introduce the environment in which we are operating. Then, we will give a general outline of our algorithm. Then, we will discuss some of the main ideas behind the algorithm. After this discussion, we will discuss some caveats that were met during the implementation and that was necessary to resolve in order to eliminate defects and artifacts in our algorithm. Finally, we will extend our implementation to different kind of lights. %Finally, we will discuss our implementation, introducing some possible implementation alternatives in order to compare them in the result section.
+In this chapter, we will introduce the implementation of our method. In this chapter we will focus on a GPU-oriented implementation of the method presented in chapter \ref{chap:method}. First, we will briefly introduce the environment in which we are operating. Then, we will give a general outline of our algorithm. Then, we will discuss in more detail some of the ideas introduced in the algorithm overview. After this discussion, we will discuss some defects and artifacts in our algorithm that arose during the implementation, and how we have solved them. Finally, we will extend our implementation to different kind of lights. Finally, we will discuss our implementation, introducing some possible implementation alternatives.
 
 \section{Environment}
 
 In order to better contextualize some of the choices and the code parts that will be introduced in this section, we will first introduce the environment used in our implementation. The method we are going to discuss was made using the OpenGL API, version 4.3 (released in August 2012), a multi-platform API used for rendering 2D and 3D accelerated graphics. With the OpenGL API comes GLSL, the \emph{OpenGL Shading Language}, used for writing pieces of code to be run on the GPU, called \emph{shaders}. Our method uses some advanced features of OpenGL 4.3, so it is not immediately portable to previous generation hardware, and runs only on high-end modern GPUs. On the CPU side, we use an extended framework based on Qt, a C++ library that allows to create OpenGL contexts and graphical interfaces in an easy way.
 
-
-%\section{Requirements}
-%
-%Our algorithm, in order to be generic and applicable to a wide range of situations must meet some requirements. 
-%
-%
-%\begin{itemize}
-  %\item The algorithm should be \emph{accurate}, so that the renderings are as close as possible to reference images generated using a offline Monte-Carlo simulation. 
-	%\item The algorithm should be \emph{fast}, executing at interactive frame rates.
-	%\item The algorithm should be \emph{uv-independent}, not relying on a pre-made UV mapping of the object in order to being able to perform. The algorithm should work only if basic geometric features are provided (vertices and normals).
-	%\item The algorithm should be \emph{adaptable}, handling in real-time dynamic light changes and object deformations. So it will not possible to use light baking or geometry form factors.
-%\end{itemize}
-%
-%If it is not possible to satisfy all the previous within the strict constraints of real-time rendering, we want to create an algorithm that gets as close as possible to the requested result. The algorithm should progressively progressively improve and converge to an accurate result whenever possible (e.g. when the light in the scene is not changing).
-
 \section{Algorithm overview}
 
-By keeping the limitations presented in the previous chapter in mind and introduced in \ref{sec:quality}, we introduce our algorithm. The algorithm is inspired by \emph{translucent shadow maps} \citep{Dachsbacher:2003:TSM:882404.882433}, that we presented in chapter \ref{chap:previous}. The general idea is to first render the scene from the light point of view, then place the disk we discussed in the previous chapter (section \ref{sec:m_overv}) directly on the generated texture. We use many directions in order to capture all the sides of the object. In this section, we will assume to only have one directional light $L_d$, $\vomega_d$ and one not-deformable object in the scene. We will discuss later how to extend the method to multiple light sources.
+By keeping the limitations presented in chapter \ref{chap:intro} in mind and introduced in \ref{sec:quality}, we introduce our algorithm. The algorithm is inspired by \emph{translucent shadow maps} \citep{Dachsbacher:2003:TSM:882404.882433}, that we presented in chapter \ref{chap:previous}. The general idea is to first render the scene from the light point of view, then place the disk we discussed in the previous chapter (section \ref{sec:m_overv}) directly on the generated texture, storing the result in a radiance map. We use many directions in order to capture all the sides of the object. Finally, we sample from the radiance map for the final rendering.
+
+In this section, we will assume to only have one directional light $L_d$, $\vomega_d$ and one not-deformable object in the scene. We will discuss later how to extend the method to multiple light sources.
 
 \textbf{Step 1 - Light buffer} \\
 
-In the first step, positions and normals of the object are rendered into a texture from the light point of view. As in standard shadow mapping we create and store a matrix to convert between world space and texture light space. Depth testing in this step is enabled.
+In the first step, positions and normals of the object are rendered into a texture from the light point of view. The resulting texture is called the \emph{light map}. As in standard shadow mapping we create and store a matrix to convert between world space and texture light space. Depth testing in this step is enabled. More details on the implementation of a render to texture are presented in section \ref{sec:rendertotexture}.
 
 \begin{figure}[!ht]
 \centering
@@ -51,10 +38,10 @@ In the first step, positions and normals of the object are rendered into a textu
 \caption{State of the vertex and normal buffer after rendering from a directional light. The model used was the Stanford bunny from the Standford 3D Scanning repository.}
 \end{figure}
 
-
-
 \textbf{Step 2 - Render to radiance map} \\
-In the second step, we render the object from $K$ different directions into a radiance map. The radiance map is organized as a layered texture, where each layer represents a direction. The points on which to place the cameras are chosen randomly. On each layer, we accumulate the result over different frames. On the rendering step, for each pixel that corresponds to an exitance point $\x_o$ the shader samples $N$ points from the texture rendered in the previous step. If the sampled point is valid, it is then used to calculate the BSSRDF and accumulate it in the resulting radiance map. So, this step calculates the following:
+In the second step, we render the object from $K$ different directions into another texture, called the \emph{radiance map}. The radiance map is organized as a layered texture, where each layer represents a direction. More details on render to texture and layered textures are presented in sections \ref{sec:rendertotexture} and \ref{sec:layeredrendering}. The points on which to place the cameras are chosen randomly, distributed on a sphere (see section \ref{sec:random} for the details). 
+
+On each layer, we accumulate the result over different frames (more details on it will be given later in this section). On the rendering step, for each pixel that corresponds to an exitance point $\x_o$ the shader samples $N$ points from the texture rendered in the previous step. If the sampled point is valid, it is then used to calculate the BSSRDF and accumulate it in the resulting radiance map. So, this step calculates the following:
 
 $$
 R^{k}(\x_o) = L_d \sum_{i = 1}^N S(\x^{k}_i, \vomega_l, \x_o, \vomega_o) \exp\left(\sigma_{tr} r^{k}_i\right), \ \ k \in [0,K-1] 
@@ -64,17 +51,17 @@ $$
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=0.9 \linewidth]{images/method/step2_improved.pdf}
-\caption{Render to the radiance map. When we render the point $\x_o$, the position in the lightmap is calculated and the values $\x_i$ in the samples are calculated and summed over.}
+\caption{Render to the radiance map. When we render the point $\x_o$, the position in the light map is calculated and the values $\x_i$ in the samples are calculated and summed over.}
 \label{fig:step2}
 \end{figure} 
 
-Where we recall that we have introduced an exponential term in order to compensate for the exponential displacement of the sampling pattern. We introduced a $k$ parameter, that represents the current direction we are rendering to. We can see how we are rendering a point from one of the considered directions in Figure \ref{fig:stepfrustum}. Also in this case, the texture space - world space conversion matrices are stored and prepared to be reused in the final combination step. 
+Where we recall that we have introduced an exponential term in order to compensate for the exponential displacement of the sampling pattern (the generation of the samping pattern is described in section \ref{sec:exponentiallybiased}). We introduced a $k$ parameter, that represents the current direction we are rendering to. We can see how we are rendering a point from one of the considered directions in Figure \ref{fig:stepfrustum}. Also in this case, the texture space - world space conversion matrices are stored and prepared to be reused in the final combination step. 
 
 We can appreciate that rendering the light from the camera point of view comes with two important advantages:
 
 \begin{itemize}
 	\item If the disk is placed in texture space, it is automatically oriented towards the light direction, that is $\vomega_d = \vomega_l$.
-	\item The light renders in the texture only the points directly visible from it, that are also the points where the light radiance is maximum. In addition, if we sample the lightmap on any point, we get the corresponding vertex that is closest to the light.
+	\item The light renders in the texture only the points directly visible from it, that are also the only points directly lit. In addition, if we sample the light map on any point, we get the corresponding vertex that is closest to the light.
 \end{itemize}
 
 This two factors allows us to sample the most optimal point and direction in where to place the disk, as we described it in section \ref{sec:m_overv}.
@@ -92,12 +79,12 @@ $$
 \tilde{R}^{t,k} = \sum_{i = 0}^{t-1} R^{i,k} + R^{t,k} = \tilde{R}^{t-1, k} + R^{t,k}
 $$
 
-$\tilde{R}$ here represents the actual value that is stored in the texture or loaded from the previous one. In equation \ref{eq:evolution_step}, we omitted the dependence from time for the sake of clarity. We need an accumulation process in order to deal with the fact that the result from the previous computation are not reaching a satisfying result within one frame, so they need to be accumulated over a period of $T$ frames in order to reach converge to an appreciable result. In order to do this, the sampled points need to change on different frames (see section \ref{sec:random} for more details). 
+$\tilde{R}$ here represents the value that is stored in the radiance map. In equation \ref{eq:evolution_step}, we omitted the dependence from time for the sake of clarity. We need an accumulation process in order to deal with the fact that the result from the previous computation are not reaching a satisfying result within one frame, so they need to be accumulated over a period of $T$ frames in order to reach an appreciable result. In order to do this, the sampled points need to change on different frames (in section \ref{sec:random} we give more details on the process). 
 
-Naturally, the accumulation process works only if the scene does not change. A change can be a relative change of positions between the points on the model and the light, so if the model gets rotated or scaled (translation for directional lights is irrelevant), the accumulated result has to be discarded and the accumulation started all over. The cameras are locked with the model, so the pixels are always aligned irregardless of the model matrix of the object. This is why in equation \ref{eq:evolution_step} the dependence from time of the point $\x_o$ and $\vomega_o$ have been dropped. Obviously, the dependence must be reintroduced in case we are dealing with deformable objects.
+Naturally, the accumulation process works only if the scene does not change. A change can be a relative change of positions between the points on the model and the light, so if the model gets rotated or scaled (translation for directional lights is irrelevant), the accumulated result has to be discarded and the accumulation started all over. The cameras are locked with the model, so the pixels are always aligned. This is why in equation \ref{eq:evolution_step} the dependence from time of the point $\x_o$ and $\vomega_o$ have been dropped. 
  
 \textbf{Step 3 - Combination} \\
-In this step, we have the final render of our model. While all the previous steps were not rendering anything in the scene, in this scene we do an actual rendering of the model. Using the matrices and the textures prepared in the previous step, for each fragment on the surface we sample all the layers in the texture as illustrated in Figure \ref{fig:step3}. In order to do this, we need also to sample the depth map generated in the previous step. We can define this sampling as a visibility function to test if a point $\x$ belongs to layer $k$:
+In this step, we have the final render of our model. Using the matrices and the textures prepared in the previous step, for each fragment on the surface we sample all the layers in the texture as illustrated in Figure \ref{fig:step3}. In order to do this, we need also to sample the depth map generated in the previous step. We can define this sampling as a visibility function to test if a point $\x$ belongs to layer $k$:
 
 $$
 V^k(\x) = \begin{cases}
@@ -105,13 +92,14 @@ V^k(\x) = \begin{cases}
 0 & \text{otherwise}
 \end{cases}
 $$
-Given this function, we can simply represent the outgoing radiance by simply averaging the summation over the $K$ layers:
+
+The function $V$ is calculated by sampling the $kth$ layer depth map in a way similar to shadow mapping (details in section \ref{sec:shadow_map}). Given this function, we can simply represent the outgoing radiance by simply averaging the summation over the $K$ layers:
 
 $$
-L_{SS}^t(\mathbf{x}) = \frac{A_c}{N (t + 1)} \frac{\displaystyle\sum_{k = 0}^{K-1}V^k(\x) \tilde{R}^{t,k}(\mathbf{x})}{\displaystyle\sum_{k = 0}^{K-1}V^k(\x)}
+L_{SS}^t(\mathbf{x}) = \frac{A_c}{N (t)} \frac{\displaystyle\sum_{k = 0}^{K-1}V^k(\x) \tilde{R}^{t,k}(\mathbf{x})}{\displaystyle\sum_{k = 0}^{K-1}V^k(\x)}
 $$
 
-The first factor $\frac{1}{t + 1}$ is to average over the number of frames, while the second is the average area of a sample in the circle $\frac{A_c}{N}$, that is necessary to complete equation \ref{eq:inter2}. We note that we tried to move all the layer-independent computation into the final computation step, in order to save as much performance as possible. 
+The first factor $\frac{1}{t}$ is to average over the number of frames, while the second is the average area of a sample in the circle $\frac{A_c}{N}$, that is necessary to complete equation \ref{eq:inter2}. We note that we tried to move all the layer-independent computation into the final computation step, in order to save as much performance as possible. 
 
 \begin{figure}[!ht]
 \centering
@@ -150,9 +138,10 @@ And we can finally send the radiance to the output device.
  
 
 \section{Implementation details}
-In this section, we will further expand the overview  given in the previous section by adding further details. We organized this section in topics, rather than following the order given by the algorithm, since most of the topic we will introduce will be later used in multiple places. We will point out where each topic will be used in the algorithm.
+In this section, we will further expand the overview given in the previous section by adding further details. We organized this section in topics, rather than following the order given by the algorithm, since most of the topics we will introduce will be later used in multiple places. Each point clarifies with examples one technique or approach used in the method. The code given on each example does not necessarily come from our implementation, but it can be simplified for illustration purposes.
 
 \subsection{Render-to-texture}
+\label{sec:rendertotexture}
 In a graphics API, and more specifically in OpenGL, all the output from a final shader stage is usually sent to the display device in order to be displayed on the screen. However, it is possible to redirect the output into another memory area of the GPU and reuse it for further computations. This allows to create complicated rendering techniques such as the ones described in this report. 
 
 In OpenGL, is possible to redirect the output more specifically to a texture object. We can do this through a so-called \emph{framebuffer object} (FBO). A FBO is a complex collection of objects that allows off-screen rendering. A FBO has \emph{attachment points}, to which we can attach textures. A texture can be attached to one of the output color channels of the fragment shader (\gl{GL_COLOR_ATTACHMENT0}, \gl{GL_COLOR_ATTACHMENT1}, ...), to the depth buffer output (\gl{GL_DEPTH_ATTACHMENT}) or to the stencil buffer output (\gl{GL_STENCIL_ATTACHMENT}).
@@ -166,7 +155,6 @@ glGenTextures(1, &tex);
 glBindTexture(GL_TEXTURE_2D, tex);
 [...] // setting up texture parameters...
 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, size, size, 0, GL_RGBA, GL_FLOAT, 0);
-
 
 glGenFramebuffers(1,&fbo);
 
@@ -184,6 +172,7 @@ glDrawBuffers(1, buffers);
 \end{lstlisting}
 
 \subsection{Layered rendering}
+\label{sec:layeredrendering}
 Layered rendering is a special feature used to render to a type of texture called \emph{layered texture}. Let us take as an example the step 2 of our algorithm, where we need to render the object from $K$ different directions. A first approach to this would be to create $K$ 2D textures of type \gl{GL_TEXTURE_2D}, and perform $K$ draw calls, rebinding the texture on the current FBO each time. OpenGL, however, provides a way to do this faster, and with a single draw call, potentially reducing the rendering costs due to context switching.
 
 \begin{figure}[!ht]
@@ -239,7 +228,7 @@ void main(void)
 As we can see, we duplicate each one of the incoming triangles and then output it multiplied by a different view matrix. the \gl{EndPrimitive()} function ensures that the output triangles in the final triangle strip are separated. In order to render to a different layer each triangle, we need to set the special \gl{gl_Layer} variable to the layer we want to render before emitting the triangle. The whole process is illustrated in figure \ref{fig:layered}.
 
 \subsection{Accumulation buffers}
-
+\label{sec:accumulation}
 Often, during the rendering process, we would like to accumulate the result of a computation, in order to progressively update the result of the computation. In order to do this, we encounter an obstacle: we would like to render to the currently bound texture, but at the same time we need to read the previous value stored on the texture. Unfortunately, the OpenGL Specification \citep{openglspec} advices against reading from the same texture we are rendering to. This is made to avoid a situation called \emph{feedback loop}. In fact, we cannot be sure of the results of what is stored in any pixel of the texture while we are rendering to it. 
 
 There are many possible solutions to the problem. The first approach is to rely on the driver implementation: some drivers, in fact, allow to render to the same texture we are bound to, under some conditions. However, if we want a general method that works over all platforms, this is not a viable path. The second solution is to use image textures, a new type introduced in OpenGL 4.2 that allows explicit load-store of values, as well as new special constructs for GPU memory management (atomic operations and memory barriers). Though the usage of these features is appealing, their performance is generally poor compared to a framebuffer-based implementation. 
@@ -332,7 +321,15 @@ float vanDerCorputPoint(int n, int basis)
 }
 \end{lstlisting}
 
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.5\linewidth]{images/matlab/cameras.pdf}
+\caption{Positions of the first 16 cameras generated using Halton points on a sphere.}
+\label{fig:cameras}
+\end{figure} 
+
 \subsubsection{Exponentially biased points}
+\label{sec:exponentiallybiased}
 In our algorithm, in order to obtain a better sampling, we need to have an exponentially biased distribution of points, as described in section \ref{sec:patterns} in the method chapter. To obtain this disc, we employ a technique called rejection sampling. The general idea is to generate a the sequence of halton points, then calculate their radius $r$ and calculate its probability distribution function using a coefficient $\sigma_{tr}$. Then, we use the following acceptance criterion:
 
 $$
@@ -341,22 +338,22 @@ $$
 
 Where $\zeta \in [0,1)$ is a pseudo-randomly generated number. We can see that if the point is close to the center ($r \rightarrow 0$), $e^{-\sigma_{tr} r} \approx 1$ and so the point is more probable to be accepted. On the other hand, if the point is far from the center of the disc ($r \rightarrow +\infty$), $e^{-\sigma_{tr} r} \approx 0$ and so the point is less probable to be accepted. The code for generating a vector of accepted points is reported in listing \ref{lst:randomexp}.
 
-\begin{lstlisting}[language=C++,label=lst:randomexp,caption={Generation by rejection of a exponentially distributed disc.}]
-void planeHaltonCircleRejectionExponential(std::vector<Vec2f> &result, int n, float sigma_tr)
+\begin{lstlisting}[language=C++,label=lst:randomexp,caption={Generation by rejection of a exponentially distributed disc. The function generates $M$ points with distribution $e^{-\sigma_{tr} r}$, and where \gl{radius} is the maximum final radius of the points.}]
+void planeHaltonCircleRejectionExponential(std::vector<Vec2f> &result, int m, float sigma_tr, float radius)
 {
-    //Better method based on hemisphere
-   unsigned int accepted = 0;
-   unsigned int i = 1;
-	
-   while(accepted < n)
+   uint accepted = 0;
+
+   gel_srand(0);
+   int i = 1;
+   while(accepted < m)
    {
         Vec2f point = haltonPointCircle(i, 2, 3);
-        float radius = point.length();
-        float expon = exp(-sigma_tr * radius);
-        float zeta = rand() / ((float)(RAND_MAX));
+        float rad = point.length() * radius;
+        float expon = exp(-sigma_tr * rad);
+        float zeta = gel_rand() / ((float)(GEL_RAND_MAX));
         if(zeta < expon)
         {
-            result.push_back(point);
+            result.push_back(radius * point);
             accepted++;
         }
         i++;
@@ -364,8 +361,23 @@ void planeHaltonCircleRejectionExponential(std::vector<Vec2f> &result, int n, fl
 }
 \end{lstlisting}
 
+In our algorithm, we generate a number of samples $M$ that is fixed, with a radius equal to the size of the bounding box of the model. Then in the actual calculation only the $N$ points closest to $\x_o$ are actually used, allowing us to tweak the performance and the result. Moreover, the value of the exponent we pass to this method is not the true $\sigma_{tr}$. We pass a modified one according to the formula:
+
+$$
+q \sigma_{tr}
+$$
+
+Where $q$ is a parameter tweakable from the user. The idea is that the user can modify the distribution of the points, making them span a wider area (that is for $q > 1$) without increasing the number of samples $N$. In fact, a bigger $N$ implies a worse performance, while a bigger $q$ requires only to recompute the points. The problem of increasing $q$ too much is that some effects may be lost since we are not sampling close enough to the exitance point. We will leave this discussion on the parameters to chapter \ref{chap:results}. 
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.7\linewidth]{images/matlab/halton_exp.eps}
+\caption{Exponentially biased Halton points on a disk. The maximum radius is 1, and $M = 300$.}
+\label{fig:hp}
+\end{figure} 
+
 \subsection{Shadow mapping}
-\label{ref:shadow_map}
+\label{sec:shadow_map}
 Shadow mapping is a common technique used in modern real-time graphics \citep{everitt,Segal:1992:FSL:142920.134071,williams1978a}. The idea behind it is to render an object from a light's point of view, and then use the generated depth information in order to decide if a point is shadowed or not. First of all, we convert the point into the light camera space, using a special space conversion matrix. After this, if we have a point $\mathbf{p} = (p_x,p_y,p_z)$, we compare $p_z$ to the texture $T$ sampled in the point $(p_x,p_y)$:
 
 $$
@@ -539,7 +551,7 @@ We tried different filters with different weights, and we will test some of them
 
 On the implementation level, the mipmaps need to be rendered one after the other, as we need the result of the first computation in order to perform the second. So, we use always the same shader, reported in listing \ref{lst:shaderimageprocessing}, to filter between two textures. In the first step, we bind layer zero (where the result of the rendering of step 2 is stored) as source and layer one as destination. Then, we bind layer 1 as source and layer 2 as destination, and so on. To perform the filtering, we render a full screen quad.
 
-However, OpenGL natively does not allow to bind the same image both as a source and as a destination, even if the mipmap levels are different. So, in order to overcome this difficulty, we use a new OpenGL feature called \emph{texture views}. Texture views are a way to create a texture in OpenGL, but on the opposite hand of \gl{glTexImage*D} or the \gl{glTexStorage*D} families of functions they allow to use another texture storage as the storage point for the current texture. The name comes from the fact that we can use texture views to see the content of a texture from two different points of view, by interpreting the storage in two different ways. In our case, we create a new texture for the mipmaps, but then we configure it to use the storage reserved to the mipmaps of the radiance map. So, we can bind it to the FBOS as it was a completely different texture, but then once we render the result will be rendered exactly where we want. % if time --> Figure TODO offer a visual explanation.
+However, OpenGL does not allow to bind the same image both as a source and as a destination, even if the mipmap levels are different. So, in order to overcome this difficulty, we use a new OpenGL feature called \emph{texture views}. Texture views are a way to create a texture in OpenGL, but on the opposite hand of \gl{glTexImage*D} or the \gl{glTexStorage*D} families of functions they allow to use another texture storage as the storage point for the current texture. The name comes from the fact that we can use texture views to see the content of a texture from two different points of view, by interpreting the storage in two different ways. In our case, we create a new texture for the mipmaps, but then we configure it to use the storage reserved to the mipmaps of the radiance map. So, we can bind it to the FBOS as it was a completely different texture, but then once we render the result will be rendered exactly where we want. % if time --> Figure TODO offer a visual explanation.
 
 \begin{lstlisting}[language=GLSL,label=lst:shaderimageprocessing,caption={Custom mipmap filtering on GPU. \gl{_tex} are the texture coordinates on the screen aligned quad.}]
 #version 430
@@ -620,7 +632,7 @@ void main(void)
 
 \subsection{Shadow bias}
 
-The shadow mapping described in section \ref{ref:shadow_map} has an obvious problem, called \emph{shadow acne}. As we can see in figure \ref{fig:shadowbias}, the discretization of depth comes with a problem: depending on the incidence angle, the surface starts generating an alternating pattern of dark and light on the visible areas. The solution in this case is to introduce a constant factor when we are comparing the texture space position and the depth of a point, called \emph{shadow bias} $\epsilon_b$. The test then becomes:
+The shadow mapping described in section \ref{sec:shadow_map} has an obvious problem, called \emph{shadow acne}. As we can see in figure \ref{fig:shadowbias}, the discretization of depth comes with a problem: depending on the incidence angle, the surface starts generating an alternating pattern of dark and light on the visible areas. The solution in this case is to introduce a constant factor when we are comparing the texture space position and the depth of a point, called \emph{shadow bias} $\epsilon_b$. The test then becomes:
 
 $$
 p_z - \epsilon_b < T(p_x,p_y)
@@ -647,7 +659,7 @@ The result is depicted in figure \ref{fig:shadowbias}. As we can see, we raise t
   \label{fig:biasres}
 }
 
-\caption{Shadow acne (figure \ref{fig:acne}) origin: the angle of the light causes little bands to appear. Adding a small offset $\epsilon_z$ to the sampling (\ref{fig:bias}) corrects the result, leading to a full lit surface. ON the bottom row, the two figures \ref{fig:acneres} amd \ref{fig:biasres} show the results with and without the correction.}
+\caption{Shadow acne (figure \ref{fig:acne}) origin: the angle of the light causes little bands to appear. Adding a small offset $\epsilon_z$ to the sampling (\ref{fig:bias}) corrects the result, leading to a full lit surface. On the bottom row, the two figures \ref{fig:acneres} and \ref{fig:biasres} show the results with and without the correction.}
 \label{fig:shadowbias}
 \end{figure}
 
@@ -775,13 +787,14 @@ L_l & \text{if l is directional with $\vomega_l$, $L_l$} \\
 On the implementation level, we can still use same uniform setup for lights. We make the position vector of the light carry some extra information in the alpha channel: if the alpha is zero, we are dealing with a directional light, while if the alpha is one we are using a point light. The code to calculate lights thus becomes:
 
 \begin{lstlisting}[language=GLSL,label=lst:multilighttype,caption={GLSL Code to calculate the radiance \gl{Li} and the incoming light direction \gl{wi} for the k-th directional or point light source.}]
-vec3 wi = light_pos[k].xyz;
-vec4 rad = light_diff[k];
-vec3 to_point = wi - xo;
-wi = (rad.a > 0)? normalize(to_point) : normalize(wi);
-
-vec3 Li = light_diff[k].xyz;
-Li = (rad.a > 0)? Li / dot(to_point,to_point) : Li;
+int current_light = k;
+vec3 wi = light_pos[current_light].xyz;
+vec4 rad = light_diff[current_light];
+vec3 topoint = wi - xo;
+float light_type = light_pos[current_light].a;
+wi = (light_type > 0)? normalize(topoint) : normalize(wi);
+vec3 Li = light_diff[current_light].xyz;
+Li = (light_type > 0)? Li / dot(topoint,topoint) : Li;
 \end{lstlisting}
 
 \begin{figure}
