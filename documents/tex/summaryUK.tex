@@ -1,3 +1,7 @@
-\chapter{Summary (English)}
+\chapter{Abstract}
 
-The goal of the thesis is to ...
+The goal of this thesis is to provide a fast rendering technique to render translucent materials. The goal is to create a method with low memory requirements that can be employed in real-time rendering applications such as computer games. To do this, we employ an analytical approach using a new BSSRDF model that includes the directionality of the incoming light into account. 
+
+Our method incrementally builds the result over a certain number of frames, rendering the model from different directions and storing it in a texture, that then is sampled using shadow mapping in order to obtain the final rendering. The result is built by sampling other points on the surface using a special sampling pattern based on the optical properties of the material.
+
+Using this approach, we obtained real-time results of 30 FPS for complex models of the magnitude normally employed in the computer game industry ($10^4$ triangles). The results are close in appearance to a path traced solution. Our method then provides a fast and robust way to account for the direction of the incoming light in the computation, providing a more realistic results that the ones reachable with previous analytical models. 

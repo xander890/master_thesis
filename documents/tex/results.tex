@@ -26,11 +26,11 @@ In the domain of quality, we compared our method to a solution obtain with a Mon
 
 The material tested where potato, a highly scattering isotropic material ($\alpha = \sigma_s / \sigma_a \approx 10^2$), a even higher high scattering material, marble ($\alpha \approx 10^4$), a material with a big forward scattering component, white grapefruit juice ($\alpha \approx 10^2$, $g \approx 0.5$), ketchup a material that has a strong absorption component in the red channel ($\alpha_{red} \approx 10^{-2}$, $\alpha_{green} \approx \alpha_{blue} \approx 10^2$), and beer, a high absorption, forward scattering material with nearly no scattering. We are biased against highly scattering material because those are the material where our BSSRDF model gives our best results. However, we included materials as beer and ketchup to provide a comparison of our method even where the orgiginal BSSRDF model should fail.
 
-The first comparison we make is with the path traced spheres generated in figure TODO. The results are illustrated in figure TODO, comparing different values of $M$ and $N$ for a potato sphere. We can see that different values of $M$ and $N$ greatly influence the results. In fact, for a big $M$ and the same $N$, the samples tend to be closer to the exitance point $x_o$, so the results is more accurate on the highlight region. If instead we chose a relatively small $M$, the points are more spread on the surface, to the absorption of the material is accounted more. This result in a sphere with gradients that are closer to the path trace solution. In this case, the highlights are way more difficult to see. 
+The first comparison we make is with the path traced spheres generated in figure \ref{fig:examplesmaterials}. The results are illustrated in figure \ref{fig:pathpotato}, comparing different values of $M$ and $N$ for a potato sphere. We can see that different values of $M$ and $N$ greatly influence the results. In fact, for a big $M$ and the same $N$, the samples tend to be closer to the exitance point $x_o$, so the results is more accurate on the highlight region. If instead we chose a relatively small $M$, the points are more spread on the surface, to the absorption of the material is accounted more. This result in a sphere with gradients that are closer to the path trace solution. In this case, the highlights are way more difficult to see. 
 
 The result that gets closer to the path traced solution is the one where $N = M = 1000$, but as we will see this values are unfeasible in the realm of performance, even for simple models. So, it is the artist that should find the right balance between $M$ and $N$ in order to get a satisfying result. 
 
-In all cases, however, we observe a color shift to a greenish material compared to the path traced solution. Our guess is that the radius we are using is based on the minimum transmission coefficient $\sigma_{tr}$, that for potato is $\sigma_tr \approx (7, 14, 49) dm^{-1}$. So, the absorption is accounted more for the channels with the highest transmission coefficients (in this case, green and blue), that is probably causing the color shift. We will see that for materials with more homogenous scattering and absorption coefficients this phenomena is way more limited (as for example, in grapefruit juice and marble in figures TODO).
+In all cases, however, we observe a color shift to a greenish material compared to the path traced solution. Our guess is that the radius we are using is based on the minimum transmission coefficient $\sigma_{tr}$, that for potato is $\sigma_tr \approx (7, 14, 49) dm^{-1}$. So, the absorption is accounted more for the channels with the highest transmission coefficients (in this case, green and blue), that is probably causing the color shift. We will see that for materials with more homogenous scattering and absorption coefficients this phenomena is way more limited (as for example, in grapefruit juice and marble in figures  \ref{fig:pathgrapefruit} and \ref{fig:pathmarble}).
 
 \begin{figure}
 \centering
@@ -60,7 +60,7 @@ In all cases, however, we observe a color shift to a greenish material compared 
 \caption{Path traced rendering on a sphere of potato material compared with the results of our method. The parameters are from table \ref{table:scatteringcoefficients}.}
 \end{figure}
  
-In the next set of experiments, we can see the utility of the $q$ parameter. We tested a sphere of white grapefruit juice, a material with a high forward scattering component. In this case we can see that that with a smaller number of samples $N = 100$ and a $q = 3$ we can approximate very well the solution where $N = 1000$ and $q = 1$, way more expensive for the GPU. In a test with marble, in figure TODO we can see that our sampling introduces artifacts, especially on the color transition area. In this case, $q$ slightly relieves the artifacts generated from the sampling. Also in this case, our method does not capture the red color shift of the path traced solution, due to a higher blue scattering coefficient.
+In the next set of experiments, we can see the utility of the $q$ parameter. We tested a sphere of white grapefruit juice in figure \ref{fig:pathgrapefruit}, a material with a high forward scattering component. In this case we can see that that with a smaller number of samples $N = 100$ and a $q = 3$ we can approximate very well the solution where $N = 1000$ and $q = 1$, way more expensive for the GPU. In a test with marble, in figure \ref{fig:pathmarble} we can see that our sampling introduces artifacts, especially on the color transition area. In this case, $q$ slightly relieves the artifacts generated from the sampling. Also in this case, our method does not capture the red color shift of the path traced solution, due to a higher blue scattering coefficient.
 
 \begin{figure}
 \centering
@@ -105,7 +105,7 @@ In the next set of experiments, we can see the utility of the $q$ parameter. We 
 \end{figure}
 
 \FloatBarrier
-In figure TODO, we can see a comparison between our method and a beer material: despite the obvious artifacts due to sampling, our results show a more realistic result that a path traced one. This happens because of the extremely low scattering coefficient of beer, that makes it unfeasible to use a Monte Carlo path tracer, since we need to sum a lot of contribution in order to remove all the noise. 
+In figure \ref{fig:pathbeer}, we can see a comparison between our method and a beer material: despite the obvious artifacts due to sampling, our results show a more realistic result that a path traced one. This happens because of the extremely low scattering coefficient of beer, that makes it unfeasible to use a Monte Carlo path tracer, since we need to sum a lot of contribution in order to remove all the noise. 
 
 \begin{figure}[!ht]
 \centering
@@ -119,7 +119,7 @@ In figure TODO, we can see a comparison between our method and a beer material: 
 \caption{Path traced rendering on a sphere of beer material compared with the results of our method. The parameters are from table \ref{table:scatteringcoefficients}.}
 \end{figure}
 
-The results that we obtained in the sphere renderings affect also the rendering of the full models. We tested a buddha made of potato, a dragon made of ketchup, and a bunny made of white grapefruit juice. We report here only the buddha and the dragon, while more results are available in appendix TODO. For the buddha, we observe a similar result (color shift) compared to reference as for the spheres in figure TODO.
+The results that we obtained in the sphere renderings affect also the rendering of the full models. We tested a buddha made of potato and a dragon made of ketchup, that will be tested for performance in section \ref{sec:perf}. For the buddha, we observe a similar result (color shift) compared to reference as for the spheres in figure TODO.
 
 For the ketchup dragon, instead, we observe that for a very low number of concentrated samples, the absorption contribution disappears, leaving only a gray scattering contribution that exhibits a pearling effect. If we reduce $M$, the highlights reduce and the absorption of red is accounted.
 
@@ -281,6 +281,7 @@ In the image of figure TODO, we compare the result using the Pisa Courtyard envi
 
 \clearpage
 \section{Performance tests}
+\label{sec:perf}
 In this section, we examine and analyze the performance of our method. The tests in this section were made by keeping in mind the performance requirements we made in chapter \ref{chap:intro}, and they exploit how the different parameters listed in \ref{sec:parameters} influence the final result. For the tests, we used three main models, to which we will refer as Bunny, Dragon and Buddha (see table \ref{table:models}). The models cover a varying range of complexity. The Bunny model represents a typical model used in modern games and consoles ($10^4$ triangles), while the Dragon represents a highly detailed model, usually for visualization purposes ($10^5$ triangles). Finally, the Buddha model represent a high resolution model, and it will be used as a stress test for our algorithm ($10^6$ triangles).
 
 \begin{table}[!ht]

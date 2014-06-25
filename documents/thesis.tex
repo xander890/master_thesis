@@ -4,30 +4,30 @@
 %------------------------
 %Pre-frontmatter material
 %------------------------
-%\prefrontmatter
+\prefrontmatter
 %-------------------- 
 %Frontmatter material
 %--------------------
 \frontmatter
-%\pagenumbering{roman}                               %Set frontmatter numbering style
-%\input{tex/summaryUK.tex}                                   %English summary of Thesis
+\pagenumbering{roman}                               %Set frontmatter numbering style
+\input{tex/summaryUK.tex}                                   %English summary of Thesis
 %\markboth{}{}                                       %Set headings (left)(right)
 %\input{tex/summaryDK.tex}                                   %Danish summary of Thesis
-%\markboth{}{}                                       %Set headings (left)(right)
-%\input{tex/preface.tex}                                     %Preface
-%\markboth{}{}                                       %Set headings (left)(right)
-%\input{tex/acknowledgements.tex}                            %Acknowledgements
-%\markboth{}{} 
-
-%\begin{table}[ht]
-%\begin{tabularx}{\textwidth}{X}
-%\vspace{5cm}
-%\hfill \includegraphics[height = 1em]{images/jap.pdf} \\
-%\hfill \emph{Not seeing is a flower.} \\
-%hfill (Japanese proverb) \\
-%\end{tabularx}
-%\end{table}
-%\markboth{}{}
+\markboth{}{}                                       %Set headings (left)(right)
+\input{tex/preface.tex}                                     %Preface
+\markboth{}{}                                       %Set headings (left)(right)
+\input{tex/acknowledgements.tex}                            %Acknowledgements
+\markboth{}{} 
+\clearpage
+\begin{table}[ht]
+\begin{tabularx}{\textwidth}{X}
+\vspace{5cm}
+\hfill \includegraphics[height = 1em]{images/jap.pdf} \\
+\hfill \emph{Not seeing is a flower.} \\
+\hfill (Japanese proverb) \\
+\end{tabularx}
+\end{table}
+\markboth{}{}
 %------------------
 % Table of contents
 %------------------
@@ -73,6 +73,7 @@
 \input{tex/implementation.tex}
 \input{tex/results.tex}
 \input{tex/futurework.tex}
+\input{tex/conclusion.tex}
 \appendix
 \input{tex/appendix.tex}                                 %Appendix A
 %-----------

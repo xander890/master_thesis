@@ -1,4 +1,7 @@
 \select@language {english}
+\contentsline {chapter}{Abstract}{i}{chapter*.1}
+\contentsline {chapter}{Preface}{iii}{chapter*.2}
+\contentsline {chapter}{Acknowledgements}{v}{chapter*.4}
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}
 \contentsline {section}{\numberline {1.1}Background}{1}{section.1.1}
 \contentsline {section}{\numberline {1.2}Problem statement}{4}{section.1.2}
@@ -76,8 +79,11 @@
 \contentsline {subsection}{\numberline {6.3.2}Tests for varying parameters}{114}{subsection.6.3.2}
 \contentsline {subsection}{\numberline {6.3.3}Tests on environment lighting}{118}{subsection.6.3.3}
 \contentsline {chapter}{\numberline {7}Future work}{119}{chapter.7}
-\contentsline {chapter}{\numberline {A}Model matrices}{121}{appendix.A}
-\contentsline {section}{\numberline {A.1}Model matrices}{121}{section.A.1}
-\contentsline {section}{\numberline {A.2}View Matrix}{122}{section.A.2}
-\contentsline {section}{\numberline {A.3}Projection Matrix}{123}{section.A.3}
-\contentsline {chapter}{Bibliography}{125}{section.A.3}
+\contentsline {section}{\numberline {7.1}Improving the quality}{119}{section.7.1}
+\contentsline {section}{\numberline {7.2}Improving the performance}{120}{section.7.2}
+\contentsline {chapter}{\numberline {8}Conclusions}{121}{chapter.8}
+\contentsline {chapter}{\numberline {A}Model matrices}{123}{appendix.A}
+\contentsline {section}{\numberline {A.1}Model matrices}{123}{section.A.1}
+\contentsline {section}{\numberline {A.2}View Matrix}{124}{section.A.2}
+\contentsline {section}{\numberline {A.3}Projection Matrix}{125}{section.A.3}
+\contentsline {chapter}{Bibliography}{127}{section.A.3}
