@@ -1,6 +1,6 @@
 const int DIRECTIONS = 16;
 const float ONE_M_PI = 0.31830988618f;
-const int MAX_LIGHTS = 1;
+const int MAX_LIGHTS = 16;
 const float M_PI = 3.141592654f;
 const float ARRAY_TEX_SIZE = 1024.0f;
 const float ARRAY_TEX_STEP = 1.0f / ARRAY_TEX_SIZE;

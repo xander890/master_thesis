@@ -16,9 +16,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->clearColor->init("Clear color: ", ui->translucentMaterials->getClearColor());
     connect(ui->clearColor,SIGNAL(vectorChanged(CGLA::Vec4f&)),ui->translucentMaterials,SLOT(setClearColor(CGLA::Vec4f&)));
-    //Vec3f userpos = Vec3f(0.016, 1.03, 0.054);
+    Vec3f userpos = Vec3f(0.016, 1.03, 0.054);
     //Vec3f userpos = Vec3f(0,0.65,-0.001);
-    Vec3f userpos = Vec3f(0,-2.2,0);
+    //Vec3f userpos = Vec3f(0,-2.2,0);
     ui->userPosition->init("User position: ", userpos);
     ui->translucentMaterials->setUserPosition(userpos);
     connect(ui->userPosition,SIGNAL(vectorChanged(CGLA::Vec3f&)),ui->translucentMaterials,SLOT(setUserPosition(CGLA::Vec3f&)));

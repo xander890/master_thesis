@@ -91,8 +91,8 @@ Terrain terra(30,0.025f);
 const int GBUFFER_SIZE = 512;
 const float LIGHT_CAMERA_SIZE = 1.0f;
 const float LIGHT_CAMERA_DISTANCE = 6.0f;
-const int ARRAY_TEXTURE_SIZE = 512;
-const int LIGHTS = 1;
+const int ARRAY_TEXTURE_SIZE = 1024;
+const int LIGHTS = 16;
 const int LAYERS = 16;
 const int MIPMAPS = 3;
 const float CAMERA_DISTANCE = 3.0f; //This should not matter (can be DIST = max bounding box + camera near + epsilon
@@ -109,7 +109,7 @@ LightManager manager;
 const Vec4f light_specular(0.6f,0.6f,0.3f,0.6f);
 const Vec4f light_diffuse(1.f,1.f,1.f,1.0f);
 //const Vec4f light_position(-1.f,-0.5f,1.f,1);
-const Vec4f light_position(0.f,0.f,1.f,1);
+const Vec4f light_position(1.f,0.f,0.f,1);
 const Vec4f light_diffuse_2(1.3,0.5,0.5,0.0);
 const Vec4f light_position_2(2.0,0.0,0.0,1.0);
 
@@ -152,7 +152,7 @@ TranslucentMaterials::TranslucentMaterials( QWidget* parent)
 void TranslucentMaterials::initialize()
 {
     Mesh::ScatteringMaterial * scattering_mat_bunny = getDefaultMaterial(S_Beer);
-    Mesh::ScatteringMaterial * scattering_mat_buddha = getDefaultMaterial(S_Ketchup);
+    Mesh::ScatteringMaterial * scattering_mat_buddha = getDefaultMaterial(S_Potato);
     Mesh::ScatteringMaterial * scattering_mat_dragon = getDefaultMaterial(S_Ketchup);
 
     ThreeDObject * bunny = new ThreeDObject();
@@ -160,21 +160,21 @@ void TranslucentMaterials::initialize()
     ThreeDObject * dragon = new ThreeDObject();
     ThreeDObject * sphere = new ThreeDSphere(40);
 
-    bunny->init(objects_path+"bunny-simplified.obj", "bunny", *scattering_mat_bunny);
+    //bunny->init(objects_path+"bunny-simplified.obj", "bunny", *scattering_mat_bunny);
     bunny->setScale(Vec3f(4.f));
     bunny->setRotation(Vec3f(90,0,0));
     bunny->setTranslation(Vec3f(0,0,0.f));
     bunny->enabled = true;
     bunny->boundingBoxEnabled = true;
 
-    //buddha->init(objects_path+"buddha.obj", "buddha", *scattering_mat_buddha);
+    buddha->init(objects_path+"buddha.obj", "buddha", *scattering_mat_buddha);
     buddha->setScale(Vec3f(1.f));
     buddha->setRotation(Vec3f(90,0,0));
     buddha->setTranslation(Vec3f(0,0,0.f));
     buddha->enabled = true;
     buddha->boundingBoxEnabled = true;
 
-    dragon->init(objects_path+"dragon.obj", "dragon", *scattering_mat_dragon);
+    //dragon->init(objects_path+"dragon.obj", "dragon", *scattering_mat_dragon);
     dragon->setScale(Vec3f(1.f));
     dragon->setRotation(Vec3f(0,0,0));
     dragon->setTranslation(Vec3f(0,0,0.f));
@@ -190,7 +190,7 @@ void TranslucentMaterials::initialize()
     objectPool.push_back(bunny);
     objectPool.push_back(buddha);
     objectPool.push_back(dragon);
-    currentObject =  bunny;
+    currentObject =  buddha;
 }
 
 
@@ -1770,7 +1770,7 @@ void initRectangle(GLuint * tex, GLenum * type, QImage & img)
     glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-    string name = string("pisa.png");
+    string name = string("doge2.png");
 
     ResourceLoader r;
     string base_path = r.compute_resource_path("./images/");

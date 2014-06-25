@@ -1,9 +1,10 @@
 \chapter{Results}
 \label{chap:results}
-In this chapter, after we discussed the implementation of our method, we are going to check it after the assumptions we stated in TODO, discussing advantages, disadvantages, and trade-offs that was necessary to account for. In the first section, we will discuss the quality result of our method, comparing it to path-traced results. In the second section, we will discuss how close we can get to the expected results in the performance domain, seeing how well our implementation scales in different domains. 
+In this chapter, after we discussed the implementation of our method, we are going to check it after the assumptions we stated in chapter \ref{chap:intro}, discussing advantages, disadvantages, and trade-offs that was necessary to account for. In the first section, we will discuss the quality result of our method, comparing it to path-traced results. In the second section, we will discuss how close we can get to the expected results in the performance domain, seeing how well our implementation scales in different domains. 
 
 \section{Parameters}
-In this section, we are going to refer to some parameters of our method. The parameters were introduced in the previous chapter TODO. We will sum them up here, in order to have a reference for this chapter.
+\label{sec:parameters}
+In this section, we are going to refer to some parameters of our method. The parameters were introduced in the previous chapter \ref{chap:implementation}. We will sum them up here, in order to have a reference for this chapter.
 
 \begin{itemize}
 \item $M$, the total number of points in the disk. We recall that we make a disc of the size of the object bounding box and then generate $M$ exponentially based samples in it. Unless otherwise stated, $M = 1000$
@@ -56,8 +57,8 @@ In all cases, however, we observe a color shift to a greenish material compared 
   \includegraphics[width=0.33 \linewidth]{images/pathtrace/image-potato.pdf}
 }
  \\
-\label{fig:pathpotato}
 \caption{Path traced rendering on a sphere of potato material compared with the results of our method. The parameters are from table \ref{table:scatteringcoefficients}.}
+\label{fig:pathpotato}
 \end{figure}
  
 In the next set of experiments, we can see the utility of the $q$ parameter. We tested a sphere of white grapefruit juice in figure \ref{fig:pathgrapefruit}, a material with a high forward scattering component. In this case we can see that that with a smaller number of samples $N = 100$ and a $q = 3$ we can approximate very well the solution where $N = 1000$ and $q = 1$, way more expensive for the GPU. In a test with marble, in figure \ref{fig:pathmarble} we can see that our sampling introduces artifacts, especially on the color transition area. In this case, $q$ slightly relieves the artifacts generated from the sampling. Also in this case, our method does not capture the red color shift of the path traced solution, due to a higher blue scattering coefficient.
@@ -77,8 +78,8 @@ In the next set of experiments, we can see the utility of the $q$ parameter. We 
 \subfloat[{Path traced result}]{
   \includegraphics[width=0.5 \linewidth]{images/pathtrace/image-grapefruit.pdf}
 }
-\label{fig:pathgrapefruit}
 \caption{Path traced rendering on a sphere of white grapefruit material compared with the results of our method. The parameters are from table \ref{table:scatteringcoefficients}. We can see that a higher $q$ helps us in approximating the path traced solution with fewer samples.}
+\label{fig:pathgrapefruit}
 \end{figure}
 
 \begin{figure}
@@ -100,8 +101,8 @@ In the next set of experiments, we can see the utility of the $q$ parameter. We 
 \subfloat[{Path traced result}]{
   \includegraphics[width=0.4 \linewidth]{images/pathtrace/image-marble.pdf}
 }
-\label{fig:pathmarble}
 \caption{Path traced rendering on a sphere of marble material compared with the results of our method. The parameters are from table \ref{table:scatteringcoefficients}.}
+\label{fig:pathmarble}
 \end{figure}
 
 \FloatBarrier
@@ -115,13 +116,13 @@ In figure \ref{fig:pathbeer}, we can see a comparison between our method and a b
 \subfloat[{Path traced result}]{
   \includegraphics[width=0.5 \linewidth]{images/pathtrace/image-beer.pdf}
 }
-\label{fig:pathbeer}
 \caption{Path traced rendering on a sphere of beer material compared with the results of our method. The parameters are from table \ref{table:scatteringcoefficients}.}
+\label{fig:pathbeer}
 \end{figure}
 
-The results that we obtained in the sphere renderings affect also the rendering of the full models. We tested a buddha made of potato and a dragon made of ketchup, that will be tested for performance in section \ref{sec:perf}. For the buddha, we observe a similar result (color shift) compared to reference as for the spheres in figure TODO.
+The results that we obtained in the sphere renderings affect also the rendering of the full models. We tested a buddha made of potato and a dragon made of ketchup, that will be tested for performance in section \ref{sec:perf}. For the buddha, we observe a similar result (color shift) compared to reference as for the spheres in figure \ref{fig:pathpotato}.
 
-For the ketchup dragon, instead, we observe that for a very low number of concentrated samples, the absorption contribution disappears, leaving only a gray scattering contribution that exhibits a pearling effect. If we reduce $M$, the highlights reduce and the absorption of red is accounted.
+For the ketchup dragon, instead, we observe that for a very low number of concentrated samples, the absorption contribution disappears, leaving only a gray scattering contribution that exhibits a pearling effect. If we reduce $M$, the highlights reduce and the absorption of the red part of the spectrum is accounted for.
 
 
 \begin{figure}
@@ -132,11 +133,15 @@ For the ketchup dragon, instead, we observe that for a very low number of concen
 \subfloat[{$N = 200$, $M = 1000$, $q = 1$}]{
   \includegraphics[width=0.333 \linewidth]{images/results/happy_buddha_200_over_1000_nobias.png}
 }
+\\
+\subfloat[{$N = 100$, $M = 300$, $q = 1$}]{
+  \includegraphics[width=0.333 \linewidth]{images/results/happy_buddha_100_over_300_nobias.png}
+}
 \subfloat[{Path traced result}]{
   \includegraphics[width=0.333 \linewidth]{images/results/potato_buddha_dir.png}
 }
+\caption{Rendering of a potato buddha using the directional dipole, with increasing number of samples.}
 \label{fig:pathbuddha}
-\caption{Rendering of a potato buddha using our method.}
 \end{figure}
 
 
@@ -156,14 +161,19 @@ For the ketchup dragon, instead, we observe that for a very low number of concen
   \includegraphics[width=0.5 \linewidth]{images/results/ketchup_dragon_dir.png}
 }
 \label{fig:pathdragon}
-\caption{TODO}
+\caption{Rendering of a ketchup dragon using the directional dipole, with changing values of $M$ and $N$. }
 \end{figure}
 
-
-\FloatBarrier
-
+\clearpage
 \subsection{Radiance map sizes tests}
-Finally, we tested the effect of reducing the size of the texture used for the radiance map, for the dragon test. As we can see, for diminishing values of $W_s$ the quality does not get too much worse until $W_s = 128$, where artifacts due to shadow mapping become evident. In figure TODO the difference between the 1024 and the 256 image is reported. In the image, we can see that most of the difference are within $10\%$ of the high resolution value (since the image is enlarged 10 times and the full colored pixels are only a minority).
+Finally, we tested the effect of reducing the size of the texture used for the radiance map, for the dragon test. As we can see, for diminishing values of $W_s$ the quality does not get too much worse until $W_s = 128$, where artifacts due to shadow mapping become evident. In figure \ref{fig:pathdragonsizett} the difference between the 1024 and the 256 image is reported. In the image, we can see that most of the difference are within $10\%$ of the high resolution value (since the image is enlarged 10 times and the full colored pixels are only a minority).
+
+\begin{figure}[!h]
+\centering
+  \includegraphics[width=0.7 \linewidth]{images/results/difference.png}
+\caption{Difference multiplied by 10 times between \ref{fig:pathdragonsize1024} and \ref{fig:pathdragonsize256}.}
+\label{fig:pathdragonsizett}
+\end{figure}
 
 \begin{figure}
 \centering
@@ -172,31 +182,27 @@ Finally, we tested the effect of reducing the size of the texture used for the r
 }
 \subfloat[{$W_s = 256$}]{
   \includegraphics[width=0.5 \linewidth]{images/results/dragon_50_over_120_ws256.png}
+	\label{fig:pathdragonsize256}
 }
 \\
 \subfloat[{$W_s = 512$}]{
   \includegraphics[width=0.5 \linewidth]{images/results/dragon_50_over_120_ws512.png}
+	\label{fig:pathdragonsize512}
 }
 \subfloat[{$W_s = 1024$}]{
-  \includegraphics[width=0.5 \linewidth]{images/results/dragon_50_over_120.png}
+  \includegraphics[width=0.5 \linewidth]{images/results/dragon_50_over_120_detail.png}
+	\label{fig:pathdragonsize1024}
 }
 \label{fig:pathdragonsize}
-\caption{TODO}
-\end{figure}
-
-\begin{figure}
-\centering
-  \includegraphics[width=1 \linewidth]{images/results/difference.png}
-\label{fig:pathdragon}
-\caption{Difference multiplied by 10 between TODO and TODO.}
+\caption{Rendering of a ketchup dragon using the directional dipole, with varying radiance map size $W_s$.}
 \end{figure}
 
 \FloatBarrier
 \subsection{Tests of mipmap blurring quality}
 
-In this part we tested the quality improvement from the mipmap blurring introduced in TODO to the final image. We can see the result of our method at the first frame and helfway though the simulation, as well as an adjusted mipmap level $m$. At the beginning of the evolution, a strong blurring is needed to compensate the high level noise, as we can see from image TODO. During the evolution, a lesser level of mipmaps is needed in order to preserve a noiseless image. At convergence, we do not need mipmap blurring at all. 
-
-\begin{figure}
+In this part we tested the quality improvement from the mipmap blurring introduced in section \ref{sec:mipmaps} to the final image. We can see the result of our method at the first frame of our simulation for different mipmap levels. At the beginning of the evolution, a strong blurring (two passes) is needed to compensate the high level noise, as we can see from image \ref{fig:mipblurring}. During the evolution, a lesser level of mipmaps is needed in order to preserve a noiseless image. At convergence, we do not need mipmap blurring at all, as the result converge to the solution. 
+\begin{figure}[!h]
+\vspace{-0.5cm}
 \centering
 \subfloat[{Mipmap level 0 (no blur)}]{
   \includegraphics[width=0.4 \linewidth]{images/results/mipmaps00.png}
@@ -211,34 +217,36 @@ In this part we tested the quality improvement from the mipmap blurring introduc
 \subfloat[{Convergence}]{
   \includegraphics[width=0.4 \linewidth]{images/results/mipmapsc.png}
 }
+
+\caption{Detail of rendering of a potato dragon in the first frame of the computation for different mipmap levels. We can see that the second mipmap level is very close to the final result. However, some artifacts due to the stretching of the mipmap appear, such as black spots and bright seams. All the figures use $N = 32$ and $M = 300$.}
 \label{fig:mipblurring}
-\caption{Rendering of a potato dragon with different mipmap levels in the first frame of the computation, apart from the last one, that shows the result at convergence. We can see that the second mipmap level helps a lot in getting closer to the final result. However, some artifacts due to the stretching of the mipmap appear, such as black spot and bright seams. All the maps use the standard parameters, apart from $N = 32$ and $M = 300$.}
 \end{figure}
+\FloatBarrier
 
 \subsection{Environment map illumination}
 
-All the given consideration so far are the same irregardless if we have an environment map or a single directional light. In this section we present the results obtained we environment light illumination. Visually, we obtain a nice result. Obviously, since the samples are split between different lights, an overlapping is inevitable, and we need an higher number of samples to obtain a decent result. The bunnies in figure TODO were obtained using 16 directional lights, sampled using the method in TODO and TODO, with $N = 80$ (5 samples per light) and $M = 1000$. 
+All the given consideration so far are the same irregardless if we have an environment map or a single directional light. In this section we present the results obtained we environment light illumination. Visually, we obtain a nice result. Obviously, since the samples are split between different lights, an overlapping is inevitable, and we need an higher number of samples to obtain a decent result. The bunnies in figures \ref{fig:bunnyenv1} and \ref{fig:bunnyenv} were obtained using 16 directional lights, sampled using the method in \ref{sec:envenv} and \ref{sec:env}, with $N = 80$ (5 samples per light) and $M = 1000$. 
 
-As for reference, we compared our results to the reference image of the potato buddha presented in TODO. We had to try to match the light settings and the camera, but here as well we notice the same color shift as before. Also in this case we used 16 directional lights to represent our skybox.
+As for reference, we compared our results to the reference image of the potato buddha from \cite{IMM2013-06646} in figure \ref{fig:pathbuddhaenv}. We had to try to match the light settings and the camera, but here as well we notice the same color shift as before. Also in this case we used 16 directional lights to represent our skybox.
 
-\begin{figure}
+\begin{figure}[!h]
 \centering
 \includegraphics[width=0.7 \linewidth]{images/results/bunny_env_80_1000_nobias.png}
+\caption{Marble Bunny rendered in the Doge environment map. Note that the light is predominantly from the up direction.}
 \label{fig:bunnyenv1}
-\caption{TODO}
 \end{figure}
 
-\begin{figure}
-\centering
-\subfloat[{Grace Cathedral}]{
-  \includegraphics[width=0.5 \linewidth]{images/results/bunny_envgrace_80_1000_nobias.png}
-}
-\subfloat[{Pisa Courtyard}]{
-  \includegraphics[width=0.5 \linewidth]{images/results/bunny_envPISA_80_1000_nobias.png}
-}
-\label{fig:bunnyenv}
-\caption{TODO}
-\end{figure}
+%\begin{figure}
+%\centering
+%\subfloat[{Grace Cathedral}]{
+%  \includegraphics[width=0.5 \linewidth]{images/results/bunny_envgrace_80_1000_nobias.png}
+%}
+%\subfloat[{Pisa Courtyard}]{
+%  \includegraphics[width=0.5 \linewidth]{images/results/bunny_envPISA_80_1000_nobias.png}
+%}
+%\caption{Marble bunny rendered in two other environment maps, Grace Catherdal and Pisa Courtyard.}
+%\label{fig:bunnyenv}
+%\end{figure}
 
 
 \begin{figure}
@@ -246,21 +254,24 @@ As for reference, we compared our results to the reference image of the potato b
 \subfloat[{$L = 16$, $N = 90$, $M = 1000$}]{
   \includegraphics[width=0.333 \linewidth]{images/results/happy_buddha_environment_90over16_1000_nobias.png}
 }
-\subfloat[{$L = 16$, $N = 90$, $M = 300$}]{
+\subfloat[{$L = 16$, $N = 90$, $M = 320$}]{
   \includegraphics[width=0.333 \linewidth]{images/results/happy_buddha_environment_90over16_310_nobias.png}
+}
+\\
+\subfloat[{$L = 16$, $N = 90$, $M = 160$}]{
+  \includegraphics[width=0.333 \linewidth]{images/results/happy_buddha_environment_90over16_160_nobias.png}
 }
 \subfloat[{Path traced result}]{
   \includegraphics[width=0.333 \linewidth]{images/results/reference_env.png}
 }
-\label{fig:pathbuddhaenv}
 \caption{Rendering of a potato buddha using our environment lighting and the Doge map.}
+\label{fig:pathbuddhaenv}
 \end{figure}
 
-\FloatBarrier
-
-In the image of figure TODO, we compare the result using the Pisa Courtyard environment map on a Stanford Dragon, comparing a different number of lights. We can see the more lights we introduce, the more closer we get to a result that approximate true environment illumination. We observe also that the images have more scattering than absorption the more we increase the number of lights: this is because the total number of samples $N$ does not change, so each light has less and less samples available. In this way, the sampels tend to concentrate in thecenter and produce a result where the scatterign component is predominant.
-
-\begin{figure}
+\clearpage
+In the image of figure \ref{fig:dragonenv}, we compare the result using the Pisa Courtyard environment map on a Stanford Dragon, comparing a different number of lights. We can see the more lights we introduce, the more closer we get to a result that approximate true environment illumination. We observe also that the images have more scattering than absorption the more we increase the number of lights: this is because the total number of samples $N$ does not change, so each light has less and less samples available. In this way, the samples tend to concentrate in the center and produce a result where the scattering component is predominant.
+\begin{figure}[!h]
+\vspace{-0.5cm}
 \centering
 \subfloat[{2 lights}]{
   \includegraphics[width=0.4 \linewidth]{images/results/env2.png}
@@ -275,8 +286,8 @@ In the image of figure TODO, we compare the result using the Pisa Courtyard envi
 \subfloat[{16 lights}]{
   \includegraphics[width=0.4 \linewidth]{images/results/env16.png}
 }
-\label{fig:mipblurring}
 \caption{Rendering of a potato dragon ($N = 32$, $M = 300$) using a different number of directional light to represent the environment map.}
+\label{fig:dragonenv}
 \end{figure}
 
 \clearpage
@@ -319,26 +330,38 @@ Regarding the mipmap generation, as expected its performance is not tied to the 
 
 \begin{figure}
 \centering
-\subfloat[Beer Bunny, $67.5 ms$. Point light. $N = 180$, $M = 210$, $q = 2$]{
+\subfloat[Beer Bunny, $67.6 ms$. Point light. $N = 180$, $M = 210$, $q = 2$]{
   \includegraphics[width=0.4 \linewidth]{images/results/example2.png}
 }
-\subfloat[a]{
-  \includegraphics[width=0.4 \linewidth]{images/results/example2.png}
+\subfloat[Detailed timings.]{
+\begin{tabular}[b]{lllll}
+\multicolumn{5}{c}{\includegraphics[width=0.3 \linewidth]{images/matlab/bunnychart.pdf}}                                                   \\ \hline
+\multicolumn{1}{|l|}{RL}   & \multicolumn{1}{l|}{RR}    & \multicolumn{1}{l|}{MG}   & \multicolumn{1}{l|}{FR}   & \multicolumn{1}{l|}{Tot}   \\ \hline
+\multicolumn{1}{|l|}{0.36} & \multicolumn{1}{l|}{65.18} & \multicolumn{1}{l|}{1.03} & \multicolumn{1}{l|}{1.00} & \multicolumn{1}{l|}{67.57} \\ \hline
+\end{tabular}
 }\\
-\subfloat[Ketchup Dragon, $60.4 ms$. Directional light. $N = 20$, $M = 180$.]{
+\subfloat[Ketchup Dragon, $60.3 ms$. Directional light. $N = 20$, $M = 180$.]{
   \includegraphics[width=0.4 \linewidth]{images/results/example1.png}
 }
-\subfloat[a]{
-  \includegraphics[width=0.4 \linewidth]{images/results/example1.png}
+\subfloat[Detailed timings.]{
+\begin{tabular}[b]{lllll}
+\multicolumn{5}{c}{\includegraphics[width=0.3 \linewidth]{images/matlab/dragonchart.pdf}}                                                   \\ \hline
+\multicolumn{1}{|l|}{RL}   & \multicolumn{1}{l|}{RR}    & \multicolumn{1}{l|}{MG}   & \multicolumn{1}{l|}{FR}   & \multicolumn{1}{l|}{Tot}   \\ \hline
+\multicolumn{1}{|l|}{1.13} & \multicolumn{1}{l|}{55.93} & \multicolumn{1}{l|}{0.97} & \multicolumn{1}{l|}{2.21} & \multicolumn{1}{l|}{60.25} \\ \hline
+\end{tabular}
 }\\
-\subfloat[Potato Buddha, $93.0 ms$. Point light. $N = 10$, $M = 300$, $q = 1$]{
+\subfloat[Potato Buddha, $92.9 ms$. Point light. $N = 10$, $M = 300$, $q = 1$]{
   \includegraphics[width=0.4 \linewidth]{images/results/example3.png}
 }
-\subfloat[{a}]{
-  \includegraphics[width=0.4 \linewidth]{images/results/example3.png}
+\subfloat[Detailed timings.]{
+\begin{tabular}[b]{lllll}
+\multicolumn{5}{c}{\includegraphics[width=0.3 \linewidth]{images/matlab/buddhachart.pdf}}                                                   \\ \hline
+\multicolumn{1}{|l|}{RL}   & \multicolumn{1}{l|}{RR}    & \multicolumn{1}{l|}{MG}   & \multicolumn{1}{l|}{FR}   & \multicolumn{1}{l|}{Tot}   \\ \hline
+\multicolumn{1}{|l|}{10.27} & \multicolumn{1}{l|}{79.30} & \multicolumn{1}{l|}{0.88} & \multicolumn{1}{l|}{2.48} & \multicolumn{1}{l|}{92.93} \\ \hline
+\end{tabular}
 }
+\caption{Rendering of different models, and graphs that illustrate how the timings are split into the different phases of the algorithm. All tests use $W_l = W_s = 512$. The acronyms represent RL = Render to lightmap, RR = Render to radiance map, MG = Mipmap Generation and FR = Final Rendering.}
 \label{fig:timingssplit}
-\caption{Rendering of different models, and graphs that illustrate how the timings are split into the different phases of the algorithm. All tests use $W_l = W_s = 512$. }
 \end{figure}
 
 \FloatBarrier
@@ -460,6 +483,7 @@ Model                        & \#$\Delta$ & \multicolumn{1}{c|}{1} & \multicolum
 \multicolumn{1}{|l|}{Dragon}  & $10^5$ & \mycolor{91}.1                 & \mycolor{95}.9                 & \mycolor{96}.4                 & \mycolor{101}.5            & \mycolor{108}.1      \\ \hline
 \end{tabular}
 \caption{Timings in milliseconds of our method for different number of lights (environment map approximation, material properties for potato). The other parameters were $N = 32$, $W_s = W_l = 512$, $M = 300$, $K = 16$.}
+\label{table:multilightenvdragon}
 \end{table}
 \vspace{-0.2cm}
 As we can see, even if we maintain the same number of samples ($N = 32$, so the number of samples per light changes) the performance worsen increasing the number of lights. To look at this into more detail, we broke down the timings again in the different steps. We can see in figure \ref{fig:numblights} that the increase in timing is due to step 1, the render to lightmap: in fact, we have to render the model once for each light, that implies a performance penalty.
@@ -468,6 +492,6 @@ As we can see, even if we maintain the same number of samples ($N = 32$, so the 
 \centering
   \includegraphics[width=0.7\linewidth]{images/matlab/multiple_lights_test.pdf}
 
-\caption{Rendering times for the environment lighting of figure TODO, split into the various components. The rendering times of step 2 are not shown, but they are $[87.2\ 90.2\ 89.4\ 91.6\ 95.2]$.}
+\caption{Rendering times for the environment lighting of figure \ref{table:multilightenvdragon}, split into the various components. The rendering times of step 2 are not shown, but they are $[87.2\ 90.2\ 89.4\ 91.6\ 95.2]$.}
 \label{fig:numblights}
 \end{figure}

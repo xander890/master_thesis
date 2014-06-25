@@ -800,7 +800,7 @@ Li = (rad.a > 0)? Li / dot(to_point,to_point) : Li;
 
 
 \subsection{Rendering with environment light illumination}
-
+\label{sec:envenv}
 As for the environment lighting, we proceed as we outlined in section \ref{sec:env}. In the method chapter, we omitted how we do actually organize and sample our CDF. The idea is to have one CDF for the rows of the function that gives us the CDF according to the probability $p_u(u)$. Then we have a CDF for each one of the column of the functions, that sample the probability $p_v(v|u)$. When we select a random couple of random points $(\zeta_1,\zeta_2)$ we first sample the first function according to $\zeta_1$, then we sample the resulting column using $\zeta_2$.
 
 We define our discreet CDF as and array $C$ of $s+1$ elements as follows, where $s$ is the size of the distribution $P$ (that would be either $n$ or $m$ in our case). $P$ is an array of $N$ elements.
@@ -824,9 +824,19 @@ Where $j = \min_j\{j \in [0,s] | C[j] > \zeta \} - 1$ is the CDF value right bef
 \caption{Rendering a dragon using sixteen directional lights geenrated from the Doge map. The material parameters are for white grapefruit juice.}
 \label{fig:doge_render_grape}
 \end{figure}
-%\section{Discussion}
-%\subsection{Advantages}
 
-%\subsection{Disadvantages}
+\section{Discussion}
+\subsection{Advantages}
+Soft shadows and occlusion
+Integrated in shadow mapping pipeline
+Low memory consumption
+The final rendering step can be adapted for deferred shading as well
 
+
+\subsection{Disadvantages}
+Hack - not real result after 100 frames
+computation must restart after any change in the scene
+Difficult to cover the whole model with automatic placement of cameras
+Seams need to be adjusted manually
+Problems with environmental light
 %vertex vs fragment shading
