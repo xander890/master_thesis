@@ -36,7 +36,7 @@
 \BOOKMARK [2][]{subsection.3.4.2}{3.4.2 Absorption}{section.3.4}% 36
 \BOOKMARK [2][]{subsection.3.4.3}{3.4.3 Out-scattering}{section.3.4}% 37
 \BOOKMARK [2][]{subsection.3.4.4}{3.4.4 In-scattering}{section.3.4}% 38
-\BOOKMARK [2][]{subsection.3.4.5}{3.4.5 Final formulation of the radiative transport equation}{section.3.4}% 39
+\BOOKMARK [2][]{subsection.3.4.5}{3.4.5 Final formulation of the radiative transfer equation}{section.3.4}% 39
 \BOOKMARK [2][]{subsection.3.4.6}{3.4.6 The diffusion approximation}{section.3.4}% 40
 \BOOKMARK [2][]{subsection.3.4.7}{3.4.7 Standard dipole model}{section.3.4}% 41
 \BOOKMARK [2][]{subsection.3.4.8}{3.4.8 Directional dipole model}{section.3.4}% 42
@@ -55,35 +55,36 @@
 \BOOKMARK [2][]{subsection.5.3.3}{5.3.3 Accumulation buffers}{section.5.3}% 55
 \BOOKMARK [2][]{subsection.5.3.4}{5.3.4 Generation of uniformly distributed points}{section.5.3}% 56
 \BOOKMARK [2][]{subsection.5.3.5}{5.3.5 Shadow mapping}{section.5.3}% 57
-\BOOKMARK [1][]{section.5.4}{5.4 Caveats}{chapter.5}% 58
-\BOOKMARK [2][]{subsection.5.4.1}{5.4.1 Random rotation of samples}{section.5.4}% 59
-\BOOKMARK [2][]{subsection.5.4.2}{5.4.2 Mipmap generation}{section.5.4}% 60
-\BOOKMARK [2][]{subsection.5.4.3}{5.4.3 Shadow bias}{section.5.4}% 61
-\BOOKMARK [2][]{subsection.5.4.4}{5.4.4 Texture discretization artifacts}{section.5.4}% 62
-\BOOKMARK [1][]{section.5.5}{5.5 Extensions to the method}{chapter.5}% 63
-\BOOKMARK [2][]{subsection.5.5.1}{5.5.1 Rendering with multiple lights}{section.5.5}% 64
-\BOOKMARK [2][]{subsection.5.5.2}{5.5.2 Rendering with other kinds of light}{section.5.5}% 65
-\BOOKMARK [2][]{subsection.5.5.3}{5.5.3 Rendering with environment light illumination}{section.5.5}% 66
-\BOOKMARK [1][]{section.5.6}{5.6 Discussion}{chapter.5}% 67
-\BOOKMARK [2][]{subsection.5.6.1}{5.6.1 Advantages}{section.5.6}% 68
-\BOOKMARK [2][]{subsection.5.6.2}{5.6.2 Disadvantages}{section.5.6}% 69
-\BOOKMARK [0][]{chapter.6}{6 Results}{}% 70
-\BOOKMARK [1][]{section.6.1}{6.1 Parameters}{chapter.6}% 71
-\BOOKMARK [1][]{section.6.2}{6.2 Quality comparison}{chapter.6}% 72
-\BOOKMARK [2][]{subsection.6.2.1}{6.2.1 Tests with different number of samples}{section.6.2}% 73
-\BOOKMARK [2][]{subsection.6.2.2}{6.2.2 Radiance map sizes tests}{section.6.2}% 74
-\BOOKMARK [2][]{subsection.6.2.3}{6.2.3 Tests of mipmap blurring quality}{section.6.2}% 75
-\BOOKMARK [2][]{subsection.6.2.4}{6.2.4 Environment map illumination}{section.6.2}% 76
-\BOOKMARK [1][]{section.6.3}{6.3 Performance tests}{chapter.6}% 77
-\BOOKMARK [2][]{subsection.6.3.1}{6.3.1 Time algorithm breakdown}{section.6.3}% 78
-\BOOKMARK [2][]{subsection.6.3.2}{6.3.2 Tests for varying parameters}{section.6.3}% 79
-\BOOKMARK [2][]{subsection.6.3.3}{6.3.3 Tests on environment lighting}{section.6.3}% 80
-\BOOKMARK [0][]{chapter.7}{7 Future work}{}% 81
-\BOOKMARK [1][]{section.7.1}{7.1 Improving the quality}{chapter.7}% 82
-\BOOKMARK [1][]{section.7.2}{7.2 Improving the performance}{chapter.7}% 83
-\BOOKMARK [0][]{chapter.8}{8 Conclusions}{}% 84
-\BOOKMARK [0][]{appendix.A}{A Model matrices}{}% 85
-\BOOKMARK [1][]{section.A.1}{A.1 Model matrices}{appendix.A}% 86
-\BOOKMARK [1][]{section.A.2}{A.2 View Matrix}{appendix.A}% 87
-\BOOKMARK [1][]{section.A.3}{A.3 Projection Matrix}{appendix.A}% 88
-\BOOKMARK [0][]{section.A.3}{Bibliography}{}% 89
+\BOOKMARK [2][]{subsection.5.3.6}{5.3.6 Memory layout}{section.5.3}% 58
+\BOOKMARK [1][]{section.5.4}{5.4 Caveats}{chapter.5}% 59
+\BOOKMARK [2][]{subsection.5.4.1}{5.4.1 Random rotation of samples}{section.5.4}% 60
+\BOOKMARK [2][]{subsection.5.4.2}{5.4.2 Mipmap generation}{section.5.4}% 61
+\BOOKMARK [2][]{subsection.5.4.3}{5.4.3 Shadow bias}{section.5.4}% 62
+\BOOKMARK [2][]{subsection.5.4.4}{5.4.4 Texture discretization artifacts}{section.5.4}% 63
+\BOOKMARK [1][]{section.5.5}{5.5 Extensions to the method}{chapter.5}% 64
+\BOOKMARK [2][]{subsection.5.5.1}{5.5.1 Rendering with multiple lights}{section.5.5}% 65
+\BOOKMARK [2][]{subsection.5.5.2}{5.5.2 Rendering with other kinds of light}{section.5.5}% 66
+\BOOKMARK [2][]{subsection.5.5.3}{5.5.3 Rendering with environment light illumination}{section.5.5}% 67
+\BOOKMARK [1][]{section.5.6}{5.6 Discussion}{chapter.5}% 68
+\BOOKMARK [2][]{subsection.5.6.1}{5.6.1 Advantages}{section.5.6}% 69
+\BOOKMARK [2][]{subsection.5.6.2}{5.6.2 Disadvantages}{section.5.6}% 70
+\BOOKMARK [0][]{chapter.6}{6 Results}{}% 71
+\BOOKMARK [1][]{section.6.1}{6.1 Parameters}{chapter.6}% 72
+\BOOKMARK [1][]{section.6.2}{6.2 Quality comparison}{chapter.6}% 73
+\BOOKMARK [2][]{subsection.6.2.1}{6.2.1 Tests with different number of samples}{section.6.2}% 74
+\BOOKMARK [2][]{subsection.6.2.2}{6.2.2 Radiance map sizes tests}{section.6.2}% 75
+\BOOKMARK [2][]{subsection.6.2.3}{6.2.3 Tests of mipmap blurring quality}{section.6.2}% 76
+\BOOKMARK [2][]{subsection.6.2.4}{6.2.4 Environment map illumination}{section.6.2}% 77
+\BOOKMARK [1][]{section.6.3}{6.3 Performance tests}{chapter.6}% 78
+\BOOKMARK [2][]{subsection.6.3.1}{6.3.1 Time algorithm breakdown}{section.6.3}% 79
+\BOOKMARK [2][]{subsection.6.3.2}{6.3.2 Tests for varying parameters}{section.6.3}% 80
+\BOOKMARK [2][]{subsection.6.3.3}{6.3.3 Tests on environment lighting}{section.6.3}% 81
+\BOOKMARK [0][]{chapter.7}{7 Future work}{}% 82
+\BOOKMARK [1][]{section.7.1}{7.1 Improving the quality}{chapter.7}% 83
+\BOOKMARK [1][]{section.7.2}{7.2 Improving the performance}{chapter.7}% 84
+\BOOKMARK [0][]{chapter.8}{8 Conclusions}{}% 85
+\BOOKMARK [0][]{appendix.A}{A Model matrices}{}% 86
+\BOOKMARK [1][]{section.A.1}{A.1 Model matrices}{appendix.A}% 87
+\BOOKMARK [1][]{section.A.2}{A.2 View Matrix}{appendix.A}% 88
+\BOOKMARK [1][]{section.A.3}{A.3 Projection Matrix}{appendix.A}% 89
+\BOOKMARK [0][]{section.A.3}{Bibliography}{}% 90

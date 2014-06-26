@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.10.2)  25 JUN 2014 23:56
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.10.2)  26 JUN 2014 12:36
 entering extended mode
 **thesis.tex
 (C:\Users\xander890\Documents\GitHub\master_thesis\documents\thesis.tex
@@ -1525,7 +1525,7 @@ LaTeX Font Info:    Try loading font information for OT1+lmtt on input line 3.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\lm\ot1lmtt.fd"
 File: ot1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-) <figures/DTU-logo.pdf, id=361, 38.98846pt x 56.87358pt>
+) <figures/DTU-logo.pdf, id=365, 38.98846pt x 56.87358pt>
 File: figures/DTU-logo.pdf Graphic file (type pdf)
 
 <use figures/DTU-logo.pdf>
@@ -1544,7 +1544,7 @@ ents/GitHub/master_thesis/documents/figures/DTU-logo.pdf>] [2]
 ] [2
 
 ] [3]
-<images/sig.png, id=392, 301.125pt x 174.6525pt> <use images/sig.png> <use images/sig.png>
+<images/sig.png, id=396, 301.125pt x 174.6525pt> <use images/sig.png> <use images/sig.png>
 File: images/sig.png Graphic file (type png)
  <use images/sig.png>
 Package pdftex.def Info: images/sig.png used on input line 22.
@@ -1553,7 +1553,7 @@ Package pdftex.def Info: images/sig.png used on input line 22.
 (C:\Users\xander890\Documents\GitHub\master_thesis\documents\tex/acknowledgements.tex [4 <C:/Users/xander890/Documents/G
 itHub/master_thesis/documents/images/sig.png>]) [5
 
-] <images/jap.pdf, id=403, 135.63171pt x 29.23422pt>
+] <images/jap.pdf, id=407, 135.63171pt x 29.23422pt>
 <use images/jap.pdf> <use images/jap.pdf>
 File: images/jap.pdf Graphic file (type pdf)
  <use images/jap.pdf>
@@ -1579,25 +1579,25 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <17.28> on input line 1.
 [1
 
-] <images/diagram.pdf, id=541, 536.18213pt x 281.24902pt>
+] <images/diagram.pdf, id=546, 536.18213pt x 281.24902pt>
 File: images/diagram.pdf Graphic file (type pdf)
  <use images/diagram.pdf>
 Package pdftex.def Info: images/diagram.pdf used on input line 10.
 (pdftex.def)             Requested size: 276.24316pt x 144.90707pt.
 
-<images/marble.jpg, id=555, 2741.24126pt x 1371.1225pt>
+<images/marble.jpg, id=560, 2741.24126pt x 1371.1225pt>
 File: images/marble.jpg Graphic file (type jpg)
  <use images/marble.jpg>
 Package pdftex.def Info: images/marble.jpg used on input line 25.
 (pdftex.def)             Requested size: 310.77026pt x 155.4267pt.
 
-<images/leaves.jpg, id=556, 2370.8575pt x 1185.42876pt>
+<images/leaves.jpg, id=561, 2370.8575pt x 1185.42876pt>
 File: images/leaves.jpg Graphic file (type jpg)
  <use images/leaves.jpg>
 Package pdftex.def Info: images/leaves.jpg used on input line 30.
 (pdftex.def)             Requested size: 310.77026pt x 155.37732pt.
 
-<images/candle.jpg, id=557, 2489.3pt x 1237.62375pt>
+<images/candle.jpg, id=562, 2489.3pt x 1237.62375pt>
 File: images/candle.jpg Graphic file (type jpg)
  <use images/candle.jpg>
 Package pdftex.def Info: images/candle.jpg used on input line 35.
@@ -1627,14 +1627,14 @@ LaTeX Font Info:    Try loading font information for TS1+lmr on input line 51.
  ("C:\Program Files\MiKTeX 2.9\tex\latex\lm\ts1lmr.fd"
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-<images/spectrum.pdf, id=779, 513.84715pt x 294.58528pt>
+<images/spectrum.pdf, id=784, 513.84715pt x 294.58528pt>
 File: images/spectrum.pdf Graphic file (type pdf)
  <use images/spectrum.pdf>
 Package pdftex.def Info: images/spectrum.pdf used on input line 55.
 (pdftex.def)             Requested size: 345.30264pt x 197.95995pt.
  [17
 
- <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/spectrum.pdf>] [18] <images/irradiance.pdf, id=899,
+ <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/spectrum.pdf>] [18] <images/irradiance.pdf, id=904,
  285.065pt x 285.065pt>
 File: images/irradiance.pdf Graphic file (type pdf)
 
@@ -1650,7 +1650,7 @@ LaTeX Font Info:    Font shape `U/lasy/b/n' in size <9> not available
 LaTeX Font Info:    Font shape `U/lasy/b/n' in size <6> not available
 (Font)              Font shape `U/lasy/m/n' tried instead on input line 91.
  [19 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/irradiance.pdf>]
-<images/radiance.pdf, id=921, 372.34169pt x 300.05444pt>
+<images/radiance.pdf, id=926, 372.34169pt x 300.05444pt>
 File: images/radiance.pdf Graphic file (type pdf)
  <use images/radiance.pdf>
 Package pdftex.def Info: images/radiance.pdf used on input line 110.
@@ -1663,31 +1663,31 @@ File: omslmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 LaTeX Font Info:    Font shape `OMS/lmr/m/n' in size <10> not available
 (Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 142.
  [21] [22]
-<images/brdf.pdf, id=957, 410.49837pt x 273.52559pt>
+<images/brdf.pdf, id=965, 410.49837pt x 273.52559pt>
 File: images/brdf.pdf Graphic file (type pdf)
  <use images/brdf.pdf>
 Package pdftex.def Info: images/brdf.pdf used on input line 209.
 (pdftex.def)             Requested size: 276.24316pt x 184.07922pt.
 
-<images/brdf_lambertian.pdf, id=958, 212.34332pt x 102.72453pt>
+<images/brdf_lambertian.pdf, id=966, 212.34332pt x 102.72453pt>
 File: images/brdf_lambertian.pdf Graphic file (type pdf)
  <use images/brdf_lambertian.pdf>
 Package pdftex.def Info: images/brdf_lambertian.pdf used on input line 223.
 (pdftex.def)             Requested size: 138.11894pt x 66.82187pt.
 
-<images/brdf_mirror.pdf, id=959, 212.34332pt x 102.72453pt>
+<images/brdf_mirror.pdf, id=967, 212.34332pt x 102.72453pt>
 File: images/brdf_mirror.pdf Graphic file (type pdf)
  <use images/brdf_mirror.pdf>
 Package pdftex.def Info: images/brdf_mirror.pdf used on input line 227.
 (pdftex.def)             Requested size: 138.11894pt x 66.82187pt.
 
-<images/brdf_glossy.pdf, id=960, 212.34332pt x 102.72453pt>
+<images/brdf_glossy.pdf, id=968, 212.34332pt x 102.72453pt>
 File: images/brdf_glossy.pdf Graphic file (type pdf)
  <use images/brdf_glossy.pdf>
 Package pdftex.def Info: images/brdf_glossy.pdf used on input line 231.
 (pdftex.def)             Requested size: 138.11894pt x 66.82187pt.
 
-<images/brdf_combined.pdf, id=961, 212.34332pt x 102.72453pt>
+<images/brdf_combined.pdf, id=969, 212.34332pt x 102.72453pt>
 File: images/brdf_combined.pdf Graphic file (type pdf)
  <use images/brdf_combined.pdf>
 Package pdftex.def Info: images/brdf_combined.pdf used on input line 235.
@@ -1706,25 +1706,29 @@ PDF inclusion: multiple pdfs with page group included in a single page
 
 pdfTeX warning: pdflatex.exe (file C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/brdf_combined.pdf)
 : PDF inclusion: multiple pdfs with page group included in a single page
->] [25] [26] <images/fresnelsetup.pdf, id=1022, 411.136pt x 411.136pt>
+>] [25]
+
+Package natbib Warning: Citation `montes2012overview' on page 26 undefined on input line 300.
+
+[26] <images/fresnelsetup.pdf, id=1038, 411.136pt x 411.136pt>
 File: images/fresnelsetup.pdf Graphic file (type pdf)
  <use images/fresnelsetup.pdf>
 Package pdftex.def Info: images/fresnelsetup.pdf used on input line 333.
 (pdftex.def)             Requested size: 172.65132pt x 172.65085pt.
  [27]
-<images/bssrdf.pdf, id=1029, 410.49837pt x 273.52559pt>
+<images/bssrdf.pdf, id=1049, 410.49837pt x 273.52559pt>
 File: images/bssrdf.pdf Graphic file (type pdf)
  <use images/bssrdf.pdf>
 Package pdftex.def Info: images/bssrdf.pdf used on input line 356.
 (pdftex.def)             Requested size: 276.24316pt x 184.07922pt.
  [28 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/fresnelsetup.pdf>] [29 <C:/Users/xander890/Docu
-ments/GitHub/master_thesis/documents/images/bssrdf.pdf>] <images/transport_emission.pdf, id=1060, 289.08pt x 96.36pt>
+ments/GitHub/master_thesis/documents/images/bssrdf.pdf>] <images/transport_emission.pdf, id=1083, 289.08pt x 96.36pt>
 File: images/transport_emission.pdf Graphic file (type pdf)
  <use images/transport_emission.pdf>
 Package pdftex.def Info: images/transport_emission.pdf used on input line 393.
 (pdftex.def)             Requested size: 172.65132pt x 57.5503pt.
 
-<images/transport_absorption.pdf, id=1061, 289.08pt x 96.36pt>
+<images/transport_absorption.pdf, id=1084, 289.08pt x 96.36pt>
 File: images/transport_absorption.pdf Graphic file (type pdf)
  <use images/transport_absorption.pdf>
 Package pdftex.def Info: images/transport_absorption.pdf used on input line 397.
@@ -1734,13 +1738,13 @@ Overfull \hbox (13.33331pt too wide) in paragraph at lines 393--397
  [][][][] 
  []
 
-<images/transport_outscattering.pdf, id=1062, 289.08pt x 96.36pt>
+<images/transport_outscattering.pdf, id=1085, 289.08pt x 96.36pt>
 File: images/transport_outscattering.pdf Graphic file (type pdf)
  <use images/transport_outscattering.pdf>
 Package pdftex.def Info: images/transport_outscattering.pdf used on input line 401.
 (pdftex.def)             Requested size: 172.65132pt x 57.5503pt.
 
-<images/transport_inscattering.pdf, id=1063, 289.08pt x 96.36pt>
+<images/transport_inscattering.pdf, id=1086, 289.08pt x 96.36pt>
 File: images/transport_inscattering.pdf Graphic file (type pdf)
  <use images/transport_inscattering.pdf>
 Package pdftex.def Info: images/transport_inscattering.pdf used on input line 405.
@@ -1763,7 +1767,7 @@ ering.pdf): PDF inclusion: multiple pdfs with page group included in a single pa
 
 pdfTeX warning: pdflatex.exe (file C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/transport_inscatte
 ring.pdf): PDF inclusion: multiple pdfs with page group included in a single page
->] [32] [33] [34]
+>] [32] [33]
 Underfull \hbox (badness 10000) in paragraph at lines 505--505
 []|\OT1/lmr/m/n/10 Backward
  []
@@ -1793,26 +1797,26 @@ Underfull \hbox (badness 10000) in paragraph at lines 505--505
 \OT1/lmr/m/n/10 Scat-ter-ing
  []
 
-[35] <images/jensen.pdf, id=1130, 954.79353pt x 537.62373pt>
+[34] [35] <images/jensen.pdf, id=1158, 954.79353pt x 537.62373pt>
 File: images/jensen.pdf Graphic file (type pdf)
  <use images/jensen.pdf>
 Package pdftex.def Info: images/jensen.pdf used on input line 553.
 (pdftex.def)             Requested size: 345.30264pt x 194.43037pt.
- [36] [37 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/jensen.pdf>] [38] <images/jeppe.pdf, id=11
-81, 953.98773pt x 607.17648pt>
+ [36] [37 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/jensen.pdf>] [38] <images/jeppe.pdf, id=12
+09, 953.98773pt x 607.17648pt>
 File: images/jeppe.pdf Graphic file (type pdf)
 
 <use images/jeppe.pdf>
 Package pdftex.def Info: images/jeppe.pdf used on input line 616.
 (pdftex.def)             Requested size: 345.30264pt x 219.76924pt.
  [39 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/jeppe.pdf>] [40] [41]
-[42] <images/gamma_potato_buddha_dipole.png, id=1233, 513.92pt x 513.92pt>
+[42] <images/gamma_potato_buddha_dipole.png, id=1261, 513.92pt x 513.92pt>
 File: images/gamma_potato_buddha_dipole.png Graphic file (type png)
  <use images/gamma_potato_buddha_dipole.png>
 Package pdftex.def Info: images/gamma_potato_buddha_dipole.png used on input line 742.
 (pdftex.def)             Requested size: 172.65132pt x 172.6524pt.
 
-<images/gamma_potato_buddha_dir.png, id=1234, 513.92pt x 513.92pt>
+<images/gamma_potato_buddha_dir.png, id=1262, 513.92pt x 513.92pt>
 File: images/gamma_potato_buddha_dir.png Graphic file (type png)
  <use images/gamma_potato_buddha_dir.png>
 Package pdftex.def Info: images/gamma_potato_buddha_dir.png used on input line 745.
@@ -1828,25 +1832,25 @@ sis/documents/images/gamma_potato_buddha_dir.png (PNG copy)>] [44
 
 ]
 Chapter 4.
-[45] <images/bssrdf_slab_potato.png, id=1252, 770.88pt x 770.88pt>
+[45] <images/bssrdf_slab_potato.png, id=1280, 770.88pt x 770.88pt>
 File: images/bssrdf_slab_potato.png Graphic file (type png)
  <use images/bssrdf_slab_potato.png>
 Package pdftex.def Info: images/bssrdf_slab_potato.png used on input line 17.
 (pdftex.def)             Requested size: 276.24316pt x 276.23445pt.
  [46 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/bssrdf_slab_potato.png (PNG copy)>]
-<images/disk_setup.pdf, id=1260, 608.35619pt x 421.11052pt>
+<images/disk_setup.pdf, id=1288, 608.35619pt x 421.11052pt>
 File: images/disk_setup.pdf Graphic file (type pdf)
  <use images/disk_setup.pdf>
 Package pdftex.def Info: images/disk_setup.pdf used on input line 28.
 (pdftex.def)             Requested size: 276.24316pt x 191.22005pt.
  [47 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/disk_setup.pdf>]
-<images/distribution_wrong_1.pdf, id=1290, 337.92793pt x 367.08572pt>
+<images/distribution_wrong_1.pdf, id=1318, 337.92793pt x 367.08572pt>
 File: images/distribution_wrong_1.pdf Graphic file (type pdf)
  <use images/distribution_wrong_1.pdf>
 Package pdftex.def Info: images/distribution_wrong_1.pdf used on input line 49.
 (pdftex.def)             Requested size: 172.65132pt x 187.5473pt.
 
-<images/distribution_wrong_3.pdf, id=1291, 337.92793pt x 367.08572pt>
+<images/distribution_wrong_3.pdf, id=1319, 337.92793pt x 367.08572pt>
 File: images/distribution_wrong_3.pdf Graphic file (type pdf)
  <use images/distribution_wrong_3.pdf>
 Package pdftex.def Info: images/distribution_wrong_3.pdf used on input line 53.
@@ -1862,13 +1866,13 @@ cuments/GitHub/master_thesis/documents/images/distribution_wrong_3.pdf
 
 pdfTeX warning: pdflatex.exe (file C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/distribution_wrong
 _3.pdf): PDF inclusion: multiple pdfs with page group included in a single page
->] <images/distribution_wrong_2.pdf, id=1353, 337.92793pt x 283.57368pt>
+>] <images/distribution_wrong_2.pdf, id=1381, 337.92793pt x 283.57368pt>
 File: images/distribution_wrong_2.pdf Graphic file (type pdf)
  <use images/distribution_wrong_2.pdf>
 Package pdftex.def Info: images/distribution_wrong_2.pdf used on input line 77.
 (pdftex.def)             Requested size: 172.65132pt x 144.88028pt.
 
-<images/distribution_wrong_4.pdf, id=1354, 330.658pt x 260.96327pt>
+<images/distribution_wrong_4.pdf, id=1382, 330.658pt x 260.96327pt>
 File: images/distribution_wrong_4.pdf Graphic file (type pdf)
  <use images/distribution_wrong_4.pdf>
 Package pdftex.def Info: images/distribution_wrong_4.pdf used on input line 81.
@@ -1894,7 +1898,7 @@ Package epstopdf Info: Source file: <images/matlab/halton_norm.eps>
 norm.eps>
 (epstopdf)             \includegraphics on input line 171.
 Package epstopdf Info: Output file is already uptodate.
- <images/matlab/halton_norm-eps-converted-to.pdf, id=1434, 456.70625pt x 449.68pt>
+ <images/matlab/halton_norm-eps-converted-to.pdf, id=1462, 456.70625pt x 449.68pt>
 File: images/matlab/halton_norm-eps-converted-to.pdf Graphic file (type pdf)
 
 <use images/matlab/halton_norm-eps-converted-to.pdf>
@@ -1915,7 +1919,7 @@ xp.eps>
 (epstopdf)             \includegraphics on input line 174.
 Package epstopdf Info: Output file is already uptodate.
 
-<images/matlab/halton_exp-eps-converted-to.pdf, id=1435, 457.71pt x 449.68pt>
+<images/matlab/halton_exp-eps-converted-to.pdf, id=1463, 457.71pt x 449.68pt>
 File: images/matlab/halton_exp-eps-converted-to.pdf Graphic file (type pdf)
 
 <use images/matlab/halton_exp-eps-converted-to.pdf>
@@ -1936,19 +1940,19 @@ Overfull \hbox (10.73029pt too wide) in paragraph at lines 191--191
 
 
 ]
-<images/pathtrace/image-apple.pdf, id=1501, 513.92pt x 513.92pt>
+<images/pathtrace/image-apple.pdf, id=1529, 513.92pt x 513.92pt>
 File: images/pathtrace/image-apple.pdf Graphic file (type pdf)
  <use images/pathtrace/image-apple.pdf>
 Package pdftex.def Info: images/pathtrace/image-apple.pdf used on input line 231.
 (pdftex.def)             Requested size: 113.9505pt x 113.94887pt.
 
-<images/pathtrace/image-marble.pdf, id=1502, 513.92pt x 513.92pt>
+<images/pathtrace/image-marble.pdf, id=1530, 513.92pt x 513.92pt>
 File: images/pathtrace/image-marble.pdf Graphic file (type pdf)
  <use images/pathtrace/image-marble.pdf>
 Package pdftex.def Info: images/pathtrace/image-marble.pdf used on input line 234.
 (pdftex.def)             Requested size: 113.9505pt x 113.94887pt.
 
-<images/pathtrace/image-potato.pdf, id=1503, 513.92pt x 513.92pt>
+<images/pathtrace/image-potato.pdf, id=1531, 513.92pt x 513.92pt>
 File: images/pathtrace/image-potato.pdf Graphic file (type pdf)
  <use images/pathtrace/image-potato.pdf>
 Package pdftex.def Info: images/pathtrace/image-potato.pdf used on input line 237.
@@ -1958,19 +1962,19 @@ Overfull \hbox (16.54883pt too wide) in paragraph at lines 231--237
  [][][][][][] 
  []
 
-<images/pathtrace/image-wholemilk.pdf, id=1504, 513.92pt x 513.92pt>
+<images/pathtrace/image-wholemilk.pdf, id=1532, 513.92pt x 513.92pt>
 File: images/pathtrace/image-wholemilk.pdf Graphic file (type pdf)
  <use images/pathtrace/image-wholemilk.pdf>
 Package pdftex.def Info: images/pathtrace/image-wholemilk.pdf used on input line 240.
 (pdftex.def)             Requested size: 113.9505pt x 113.94887pt.
 
-<images/pathtrace/image-coffee.pdf, id=1505, 513.92pt x 513.92pt>
+<images/pathtrace/image-coffee.pdf, id=1533, 513.92pt x 513.92pt>
 File: images/pathtrace/image-coffee.pdf Graphic file (type pdf)
  <use images/pathtrace/image-coffee.pdf>
 Package pdftex.def Info: images/pathtrace/image-coffee.pdf used on input line 243.
 (pdftex.def)             Requested size: 113.9505pt x 113.94887pt.
 
-<images/pathtrace/image-soymilk.pdf, id=1506, 513.92pt x 513.92pt>
+<images/pathtrace/image-soymilk.pdf, id=1534, 513.92pt x 513.92pt>
 File: images/pathtrace/image-soymilk.pdf Graphic file (type pdf)
  <use images/pathtrace/image-soymilk.pdf>
 Package pdftex.def Info: images/pathtrace/image-soymilk.pdf used on input line 246.
@@ -1980,19 +1984,19 @@ Overfull \hbox (16.54883pt too wide) in paragraph at lines 240--246
  [][][][][][] 
  []
 
-<images/pathtrace/image-merlot.pdf, id=1507, 513.92pt x 513.92pt>
+<images/pathtrace/image-merlot.pdf, id=1535, 513.92pt x 513.92pt>
 File: images/pathtrace/image-merlot.pdf Graphic file (type pdf)
  <use images/pathtrace/image-merlot.pdf>
 Package pdftex.def Info: images/pathtrace/image-merlot.pdf used on input line 249.
 (pdftex.def)             Requested size: 113.9505pt x 113.94887pt.
 
-<images/pathtrace/image-beer.pdf, id=1508, 513.92pt x 513.92pt>
+<images/pathtrace/image-beer.pdf, id=1536, 513.92pt x 513.92pt>
 File: images/pathtrace/image-beer.pdf Graphic file (type pdf)
  <use images/pathtrace/image-beer.pdf>
 Package pdftex.def Info: images/pathtrace/image-beer.pdf used on input line 252.
 (pdftex.def)             Requested size: 113.9505pt x 113.94887pt.
 
-<images/pathtrace/image-grapefruit.pdf, id=1509, 513.92pt x 513.92pt>
+<images/pathtrace/image-grapefruit.pdf, id=1537, 513.92pt x 513.92pt>
 File: images/pathtrace/image-grapefruit.pdf Graphic file (type pdf)
  <use images/pathtrace/image-grapefruit.pdf>
 Package pdftex.def Info: images/pathtrace/image-grapefruit.pdf used on input line 255.
@@ -2014,7 +2018,7 @@ Overfull \hbox (11.10477pt too wide) in paragraph at lines 265--266
 []\OT1/lmr/m/n/10 Sloan[], []2008[]] are usu-ally em-ployed. This tech-nique, given an heavy pre-computation
  []
 
-<images/matlab/doge2.png, id=1567, 903.375pt x 451.6875pt>
+<images/matlab/doge2.png, id=1595, 903.375pt x 451.6875pt>
 File: images/matlab/doge2.png Graphic file (type png)
  <use images/matlab/doge2.png>
 Package pdftex.def Info: images/matlab/doge2.png used on input line 269.
@@ -2035,7 +2039,7 @@ Package epstopdf Info: Source file: <images/matlab/notunif.eps>
 (epstopdf)             \includegraphics on input line 313.
 Package epstopdf Info: Output file is already uptodate.
 
-<images/matlab/notunif-eps-converted-to.pdf, id=1589, 430.60875pt x 453.695pt>
+<images/matlab/notunif-eps-converted-to.pdf, id=1617, 430.60875pt x 453.695pt>
 File: images/matlab/notunif-eps-converted-to.pdf Graphic file (type pdf)
 
 <use images/matlab/notunif-eps-converted-to.pdf>
@@ -2051,7 +2055,7 @@ Package epstopdf Info: Source file: <images/matlab/unif.eps>
 (epstopdf)             \includegraphics on input line 316.
 Package epstopdf Info: Output file is already uptodate.
 
-<images/matlab/unif-eps-converted-to.pdf, id=1590, 430.60875pt x 453.695pt>
+<images/matlab/unif-eps-converted-to.pdf, id=1618, 430.60875pt x 453.695pt>
 File: images/matlab/unif-eps-converted-to.pdf Graphic file (type pdf)
 
 <use images/matlab/unif-eps-converted-to.pdf>
@@ -2062,14 +2066,14 @@ Overfull \hbox (13.33331pt too wide) in paragraph at lines 313--316
  [][][][] 
  []
 
-<images/matlab/cdfex.pdf, id=1592, 278.6308pt x 276.40784pt>
+<images/matlab/cdfex.pdf, id=1620, 278.6308pt x 276.40784pt>
 File: images/matlab/cdfex.pdf Graphic file (type pdf)
  <use images/matlab/cdfex.pdf>
 Package pdftex.def Info: images/matlab/cdfex.pdf used on input line 338.
 (pdftex.def)             Requested size: 172.65132pt x 171.27408pt.
  [59 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/matlab/notunif-eps-converted-to.pdf> <C:/Users/
 xander890/Documents/GitHub/master_thesis/documents/images/matlab/unif-eps-converted-to.pdf>]
-<images/matlab/doge2_lights.png, id=1622, 903.375pt x 451.6875pt>
+<images/matlab/doge2_lights.png, id=1650, 903.375pt x 451.6875pt>
 File: images/matlab/doge2_lights.png Graphic file (type png)
  <use images/matlab/doge2_lights.png>
 Package pdftex.def Info: images/matlab/doge2_lights.png used on input line 360.
@@ -2086,19 +2090,19 @@ Underfull \hbox (badness 10000) in paragraph at lines 15--16
 
  []
 
-<images/method/step1.pdf, id=1670, 708.99193pt x 536.13312pt>
+<images/method/step1.pdf, id=1698, 708.99193pt x 536.13312pt>
 File: images/method/step1.pdf Graphic file (type pdf)
  <use images/method/step1.pdf>
 Package pdftex.def Info: images/method/step1.pdf used on input line 21.
 (pdftex.def)             Requested size: 276.24316pt x 208.89473pt.
 
-<images/method/vertices.png, id=1671, 385.44pt x 385.44pt>
+<images/method/vertices.png, id=1699, 385.44pt x 385.44pt>
 File: images/method/vertices.png Graphic file (type png)
  <use images/method/vertices.png>
 Package pdftex.def Info: images/method/vertices.png used on input line 32.
 (pdftex.def)             Requested size: 172.65132pt x 172.64653pt.
 
-<images/method/normals.png, id=1672, 385.44pt x 385.44pt>
+<images/method/normals.png, id=1700, 385.44pt x 385.44pt>
 File: images/method/normals.png Graphic file (type png)
  <use images/method/normals.png>
 Package pdftex.def Info: images/method/normals.png used on input line 36.
@@ -2108,14 +2112,14 @@ Overfull \hbox (13.33331pt too wide) in paragraph at lines 32--38
  [][][][][] 
  []
 
-[64] <images/method/step2_improved.pdf, id=1680, 598.86375pt x 526.11559pt>
+[64] <images/method/step2_improved.pdf, id=1708, 598.86375pt x 526.11559pt>
 File: images/method/step2_improved.pdf Graphic file (type pdf)
  <use images/method/step2_improved.pdf>
 Package pdftex.def Info: images/method/step2_improved.pdf used on input line 53.
 (pdftex.def)             Requested size: 310.77026pt x 273.01971pt.
 
 [65 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/method/step1.pdf>]
-<images/method/step2.pdf, id=1719, 597.95422pt x 426.57791pt>
+<images/method/step2.pdf, id=1747, 597.95422pt x 426.57791pt>
 File: images/method/step2.pdf Graphic file (type pdf)
  <use images/method/step2.pdf>
 Package pdftex.def Info: images/method/step2.pdf used on input line 71.
@@ -2124,20 +2128,20 @@ Package pdftex.def Info: images/method/step2.pdf used on input line 71.
 nts/GitHub/master_thesis/documents/images/method/normals.png>] [67 <C:/Users/xander890/Documents/GitHub/master_thesis/do
 cuments/images/method/step2_improved.pdf>] [68 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/metho
 d/step2.pdf>]
-<images/method/combination.pdf, id=1787, 350.25858pt x 388.52655pt>
+<images/method/combination.pdf, id=1815, 350.25858pt x 388.52655pt>
 File: images/method/combination.pdf Graphic file (type pdf)
  <use images/method/combination.pdf>
 Package pdftex.def Info: images/method/combination.pdf used on input line 106.
 (pdftex.def)             Requested size: 207.18369pt x 229.8215pt.
  [69 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/method/combination.pdf>]
-<images/results/potato_100_convergence.png, id=1799, 770.88pt x 770.88pt>
+<images/results/potato_100_convergence.png, id=1827, 770.88pt x 770.88pt>
 File: images/results/potato_100_convergence.png Graphic file (type png)
 
 <use images/results/potato_100_convergence.png>
 Package pdftex.def Info: images/results/potato_100_convergence.png used on input line 127.
 (pdftex.def)             Requested size: 276.24316pt x 276.23445pt.
 
-<images/results/beer_backlit_100_convergence.png, id=1800, 770.88pt x 770.88pt>
+<images/results/beer_backlit_100_convergence.png, id=1828, 770.88pt x 770.88pt>
 File: images/results/beer_backlit_100_convergence.png Graphic file (type png)
 
 <use images/results/beer_backlit_100_convergence.png>
@@ -2157,7 +2161,7 @@ File: lstmisc.sty 2013/08/26 1.5b (Carsten Heinz)
 )
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 151.
  [72]
-<images/method/layered.pdf, id=1838, 826.00624pt x 957.48045pt>
+<images/method/layered.pdf, id=1866, 826.00624pt x 957.48045pt>
 File: images/method/layered.pdf Graphic file (type pdf)
  <use images/method/layered.pdf>
 Package pdftex.def Info: images/method/layered.pdf used on input line 180.
@@ -2169,7 +2173,7 @@ Overfull \hbox (9.04901pt too wide) in paragraph at lines 185--186
  []
 
 [73] [74 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/method/layered.pdf>] [75] [76]
-<images/matlab/cameras.pdf, id=1948, 279.444pt x 283.459pt>
+<images/matlab/cameras.pdf, id=1976, 279.444pt x 283.459pt>
 File: images/matlab/cameras.pdf Graphic file (type pdf)
  <use images/matlab/cameras.pdf>
 Package pdftex.def Info: images/matlab/cameras.pdf used on input line 326.
@@ -2190,79 +2194,83 @@ File: images/matlab/halton_exp-eps-converted-to.pdf Graphic file (type pdf)
 <use images/matlab/halton_exp-eps-converted-to.pdf>
 Package pdftex.def Info: images/matlab/halton_exp-eps-converted-to.pdf used on input line 374.
 (pdftex.def)             Requested size: 241.71078pt x 237.47156pt.
- <images/method/shadow_map.pdf, id=2004, 453.81842pt x 358.43561pt>
+ <images/method/shadow_map.pdf, id=2032, 453.81842pt x 358.43561pt>
 File: images/method/shadow_map.pdf Graphic file (type pdf)
 
 <use images/method/shadow_map.pdf>
 Package pdftex.def Info: images/method/shadow_map.pdf used on input line 390.
 (pdftex.def)             Requested size: 345.30264pt x 272.72563pt.
- [79] [80] [81 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/method/shadow_map.pdf>] [82] <images/
-results/banding.png, id=2070, 770.88pt x 770.88pt>
+ [79] [80] [81 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/method/shadow_map.pdf>] [82]
+Overfull \hbox (32.46246pt too wide) in paragraph at lines 451--464
+ [][] 
+ []
+
+[83] <images/results/banding.png, id=2107, 770.88pt x 770.88pt>
 File: images/results/banding.png Graphic file (type png)
  <use images/results/banding.png>
-Package pdftex.def Info: images/results/banding.png used on input line 450.
+Package pdftex.def Info: images/results/banding.png used on input line 486.
 (pdftex.def)             Requested size: 172.65132pt x 172.64066pt.
 
-<images/results/nobanding.png, id=2071, 770.88pt x 770.88pt>
+<images/results/nobanding.png, id=2108, 770.88pt x 770.88pt>
 File: images/results/nobanding.png Graphic file (type png)
  <use images/results/nobanding.png>
-Package pdftex.def Info: images/results/nobanding.png used on input line 454.
+Package pdftex.def Info: images/results/nobanding.png used on input line 490.
 (pdftex.def)             Requested size: 172.65132pt x 172.64066pt.
 
-Overfull \hbox (13.33331pt too wide) in paragraph at lines 450--455
+Overfull \hbox (13.33331pt too wide) in paragraph at lines 486--491
  [][][][] 
  []
 
-[83 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/banding.png (PNG copy)> <C:/Users/xander
-890/Documents/GitHub/master_thesis/documents/images/results/nobanding.png (PNG copy)>]
-<images/method/noise_1.png, id=2084, 513.92pt x 513.92pt>
+[84] <images/method/noise_1.png, id=2120, 513.92pt x 513.92pt>
 File: images/method/noise_1.png Graphic file (type png)
  <use images/method/noise_1.png>
-Package pdftex.def Info: images/method/noise_1.png used on input line 487.
+Package pdftex.def Info: images/method/noise_1.png used on input line 523.
 (pdftex.def)             Requested size: 113.9505pt x 113.94887pt.
 
-<images/method/noise_2.png, id=2085, 385.44pt x 385.44pt>
+<images/method/noise_2.png, id=2121, 385.44pt x 385.44pt>
 File: images/method/noise_2.png Graphic file (type png)
  <use images/method/noise_2.png>
-Package pdftex.def Info: images/method/noise_2.png used on input line 491.
+Package pdftex.def Info: images/method/noise_2.png used on input line 527.
 (pdftex.def)             Requested size: 113.9505pt x 113.95082pt.
 
-<images/method/noise_3.png, id=2086, 385.44pt x 385.44pt>
+<images/method/noise_3.png, id=2122, 385.44pt x 385.44pt>
 File: images/method/noise_3.png Graphic file (type png)
  <use images/method/noise_3.png>
-Package pdftex.def Info: images/method/noise_3.png used on input line 495.
+Package pdftex.def Info: images/method/noise_3.png used on input line 531.
 (pdftex.def)             Requested size: 113.9505pt x 113.95082pt.
 
-Overfull \hbox (16.54883pt too wide) in paragraph at lines 487--496
+Overfull \hbox (16.54883pt too wide) in paragraph at lines 523--532
  [][][][][][] 
  []
 
-[84] <images/method/filter_1.pdf, id=2110, 316.93407pt x 317.41084pt>
+[85 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/banding.png (PNG copy)> <C:/Users/xander
+890/Documents/GitHub/master_thesis/documents/images/results/nobanding.png (PNG copy)>] [86 <C:/Users/xander890/Documents
+/GitHub/master_thesis/documents/images/method/noise_1.png (PNG copy)> <C:/Users/xander890/Documents/GitHub/master_thesis
+/documents/images/method/noise_2.png> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/method/noise_3
+.png>] <images/method/filter_1.pdf, id=2163, 316.93407pt x 317.41084pt>
 File: images/method/filter_1.pdf Graphic file (type pdf)
  <use images/method/filter_1.pdf>
-Package pdftex.def Info: images/method/filter_1.pdf used on input line 539.
+Package pdftex.def Info: images/method/filter_1.pdf used on input line 575.
 (pdftex.def)             Requested size: 113.9505pt x 114.12251pt.
 
-<images/method/filter_2.pdf, id=2111, 318.26404pt x 317.83743pt>
+<images/method/filter_2.pdf, id=2164, 318.26404pt x 317.83743pt>
 File: images/method/filter_2.pdf Graphic file (type pdf)
  <use images/method/filter_2.pdf>
-Package pdftex.def Info: images/method/filter_2.pdf used on input line 543.
+Package pdftex.def Info: images/method/filter_2.pdf used on input line 579.
 (pdftex.def)             Requested size: 113.9505pt x 113.79575pt.
 
-<images/method/filter_3.pdf, id=2112, 318.791pt x 319.01686pt>
+<images/method/filter_3.pdf, id=2165, 318.791pt x 319.01686pt>
 File: images/method/filter_3.pdf Graphic file (type pdf)
  <use images/method/filter_3.pdf>
-Package pdftex.def Info: images/method/filter_3.pdf used on input line 547.
+Package pdftex.def Info: images/method/filter_3.pdf used on input line 583.
 (pdftex.def)             Requested size: 113.9505pt x 114.02818pt.
 
-Overfull \hbox (16.54883pt too wide) in paragraph at lines 539--548
+Overfull \hbox (16.54883pt too wide) in paragraph at lines 575--584
  [][][][][][] 
  []
 
-[85 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/method/noise_1.png (PNG copy)> <C:/Users/xander8
-90/Documents/GitHub/master_thesis/documents/images/method/noise_2.png> <C:/Users/xander890/Documents/GitHub/master_thesi
-s/documents/images/method/noise_3.png>] [86 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/method/f
-ilter_1.pdf> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/method/filter_2.pdf
+[87 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/method/filter_1.pdf> <C:/Users/xander890/Documen
+ts/GitHub/master_thesis/documents/images/method/filter_2.pdf
 
 pdfTeX warning: pdflatex.exe (file C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/method/filter_2.pd
 f): PDF inclusion: multiple pdfs with page group included in a single page
@@ -2270,174 +2278,174 @@ f): PDF inclusion: multiple pdfs with page group included in a single page
 
 pdfTeX warning: pdflatex.exe (file C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/method/filter_3.pd
 f): PDF inclusion: multiple pdfs with page group included in a single page
->] <images/results/mipmap_0.png, id=2166, 513.92pt x 513.92pt>
+>] <images/results/mipmap_0.png, id=2199, 513.92pt x 513.92pt>
 File: images/results/mipmap_0.png Graphic file (type png)
  <use images/results/mipmap_0.png>
-Package pdftex.def Info: images/results/mipmap_0.png used on input line 607.
+Package pdftex.def Info: images/results/mipmap_0.png used on input line 643.
 (pdftex.def)             Requested size: 113.9505pt x 113.94887pt.
 
-<images/results/mipmap_1.png, id=2167, 513.92pt x 513.92pt>
+<images/results/mipmap_1.png, id=2200, 513.92pt x 513.92pt>
 File: images/results/mipmap_1.png Graphic file (type png)
  <use images/results/mipmap_1.png>
-Package pdftex.def Info: images/results/mipmap_1.png used on input line 611.
+Package pdftex.def Info: images/results/mipmap_1.png used on input line 647.
 (pdftex.def)             Requested size: 113.9505pt x 113.94887pt.
 
-<images/results/mipmap_2.png, id=2168, 513.92pt x 513.92pt>
+<images/results/mipmap_2.png, id=2201, 513.92pt x 513.92pt>
 File: images/results/mipmap_2.png Graphic file (type png)
  <use images/results/mipmap_2.png>
-Package pdftex.def Info: images/results/mipmap_2.png used on input line 615.
+Package pdftex.def Info: images/results/mipmap_2.png used on input line 651.
 (pdftex.def)             Requested size: 113.9505pt x 113.94887pt.
 
-Overfull \hbox (16.54883pt too wide) in paragraph at lines 607--615
+Overfull \hbox (16.54883pt too wide) in paragraph at lines 643--651
  [][][][][][] 
  []
 
-<images/results/jeppe_noise.png, id=2169, 770.88pt x 770.88pt>
+<images/results/jeppe_noise.png, id=2202, 770.88pt x 770.88pt>
 File: images/results/jeppe_noise.png Graphic file (type png)
  <use images/results/jeppe_noise.png>
-Package pdftex.def Info: images/results/jeppe_noise.png used on input line 619.
+Package pdftex.def Info: images/results/jeppe_noise.png used on input line 655.
 (pdftex.def)             Requested size: 113.9505pt x 113.94495pt.
 
-<images/results/jeppe_mipmap_1.png, id=2170, 770.88pt x 770.88pt>
+<images/results/jeppe_mipmap_1.png, id=2203, 770.88pt x 770.88pt>
 File: images/results/jeppe_mipmap_1.png Graphic file (type png)
  <use images/results/jeppe_mipmap_1.png>
-Package pdftex.def Info: images/results/jeppe_mipmap_1.png used on input line 623.
+Package pdftex.def Info: images/results/jeppe_mipmap_1.png used on input line 659.
 (pdftex.def)             Requested size: 113.9505pt x 113.94495pt.
 
-<images/results/jeppe_mipmap_2.png, id=2171, 770.88pt x 770.88pt>
+<images/results/jeppe_mipmap_2.png, id=2204, 770.88pt x 770.88pt>
 File: images/results/jeppe_mipmap_2.png Graphic file (type png)
  <use images/results/jeppe_mipmap_2.png>
-Package pdftex.def Info: images/results/jeppe_mipmap_2.png used on input line 627.
+Package pdftex.def Info: images/results/jeppe_mipmap_2.png used on input line 663.
 (pdftex.def)             Requested size: 113.9505pt x 113.94495pt.
 
-Overfull \hbox (16.54883pt too wide) in paragraph at lines 619--628
+Overfull \hbox (16.54883pt too wide) in paragraph at lines 655--664
  [][][][][][] 
  []
 
-[87] [88 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/mipmap_0.png (PNG copy)> <C:/Users/
+[88] [89 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/mipmap_0.png (PNG copy)> <C:/Users/
 xander890/Documents/GitHub/master_thesis/documents/images/results/mipmap_1.png (PNG copy)> <C:/Users/xander890/Documents
 /GitHub/master_thesis/documents/images/results/mipmap_2.png (PNG copy)> <C:/Users/xander890/Documents/GitHub/master_thes
 is/documents/images/results/jeppe_noise.png (PNG copy)> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/ima
 ges/results/jeppe_mipmap_1.png (PNG copy)> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/j
-eppe_mipmap_2.png (PNG copy)>] <images/method/shadow_bias.pdf, id=2229, 252.86876pt x 150.23355pt>
+eppe_mipmap_2.png (PNG copy)>] <images/method/shadow_bias.pdf, id=2267, 252.86876pt x 150.23355pt>
 File: images/method/shadow_bias.pdf Graphic file (type pdf)
 
 <use images/method/shadow_bias.pdf>
-Package pdftex.def Info: images/method/shadow_bias.pdf used on input line 648.
+Package pdftex.def Info: images/method/shadow_bias.pdf used on input line 684.
 (pdftex.def)             Requested size: 172.65132pt x 102.57695pt.
- <images/method/shadow_bias_correct.pdf, id=2230, 252.86876pt x 150.23355pt>
+ <images/method/shadow_bias_correct.pdf, id=2268, 252.86876pt x 150.23355pt>
 File: images/method/shadow_bias_correct.pdf Graphic file (type pdf)
 
 <use images/method/shadow_bias_correct.pdf>
-Package pdftex.def Info: images/method/shadow_bias_correct.pdf used on input line 652.
+Package pdftex.def Info: images/method/shadow_bias_correct.pdf used on input line 688.
 (pdftex.def)             Requested size: 172.65132pt x 102.57695pt.
 
-Overfull \hbox (13.33331pt too wide) in paragraph at lines 648--652
+Overfull \hbox (13.33331pt too wide) in paragraph at lines 684--688
  [][][][] 
  []
 
-<images/method/acne.png, id=2231, 770.88pt x 770.88pt>
+<images/method/acne.png, id=2269, 770.88pt x 770.88pt>
 File: images/method/acne.png Graphic file (type png)
  <use images/method/acne.png>
-Package pdftex.def Info: images/method/acne.png used on input line 656.
+Package pdftex.def Info: images/method/acne.png used on input line 692.
 (pdftex.def)             Requested size: 172.65132pt x 172.64066pt.
 
-<images/method/noacne.png, id=2232, 770.88pt x 770.88pt>
+<images/method/noacne.png, id=2270, 770.88pt x 770.88pt>
 File: images/method/noacne.png Graphic file (type png)
  <use images/method/noacne.png>
-Package pdftex.def Info: images/method/noacne.png used on input line 660.
+Package pdftex.def Info: images/method/noacne.png used on input line 696.
 (pdftex.def)             Requested size: 172.65132pt x 172.64066pt.
 
-Overfull \hbox (13.33331pt too wide) in paragraph at lines 656--661
+Overfull \hbox (13.33331pt too wide) in paragraph at lines 692--697
  [][][][] 
  []
 
-<images/results/comb_offset.png, id=2242, 770.88pt x 770.88pt>
+<images/results/comb_offset.png, id=2280, 770.88pt x 770.88pt>
 File: images/results/comb_offset.png Graphic file (type png)
  <use images/results/comb_offset.png>
-Package pdftex.def Info: images/results/comb_offset.png used on input line 681.
+Package pdftex.def Info: images/results/comb_offset.png used on input line 717.
 (pdftex.def)             Requested size: 172.65132pt x 172.64066pt.
 
-<images/results/comb_offset_solved.png, id=2243, 770.88pt x 770.88pt>
+<images/results/comb_offset_solved.png, id=2281, 770.88pt x 770.88pt>
 File: images/results/comb_offset_solved.png Graphic file (type png)
  <use images/results/comb_offset_solved.png>
-Package pdftex.def Info: images/results/comb_offset_solved.png used on input line 685.
+Package pdftex.def Info: images/results/comb_offset_solved.png used on input line 721.
 (pdftex.def)             Requested size: 172.65132pt x 172.64066pt.
 
-Overfull \hbox (13.33331pt too wide) in paragraph at lines 681--686
+Overfull \hbox (13.33331pt too wide) in paragraph at lines 717--722
  [][][][] 
  []
 
-<images/results/multiple.png, id=2244, 770.88pt x 770.88pt>
+<images/results/multiple.png, id=2282, 770.88pt x 770.88pt>
 File: images/results/multiple.png Graphic file (type png)
  <use images/results/multiple.png>
-Package pdftex.def Info: images/results/multiple.png used on input line 699.
+Package pdftex.def Info: images/results/multiple.png used on input line 735.
 (pdftex.def)             Requested size: 310.77026pt x 310.76965pt.
- [89] [90 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/method/shadow_bias.pdf> <C:/Users/xander89
+ [90] [91 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/method/shadow_bias.pdf> <C:/Users/xander89
 0/Documents/GitHub/master_thesis/documents/images/method/shadow_bias_correct.pdf
 
 pdfTeX warning: pdflatex.exe (file C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/method/shadow_bias
 _correct.pdf): PDF inclusion: multiple pdfs with page group included in a single page
 > <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/method/acne.png (PNG copy)> <C:/Users/xander890/Do
-cuments/GitHub/master_thesis/documents/images/method/noacne.png (PNG copy)>] [91 <C:/Users/xander890/Documents/GitHub/ma
+cuments/GitHub/master_thesis/documents/images/method/noacne.png (PNG copy)>] [92 <C:/Users/xander890/Documents/GitHub/ma
 ster_thesis/documents/images/results/comb_offset.png (PNG copy)> <C:/Users/xander890/Documents/GitHub/master_thesis/docu
-ments/images/results/comb_offset_solved.png (PNG copy)>] [92 <C:/Users/xander890/Documents/GitHub/master_thesis/document
+ments/images/results/comb_offset_solved.png (PNG copy)>] [93 <C:/Users/xander890/Documents/GitHub/master_thesis/document
 s/images/results/multiple.png (PNG copy)>]
-Overfull \hbox (1.04195pt too wide) detected at line 764
+Overfull \hbox (1.04195pt too wide) detected at line 800
 \OML/lmm/m/it/10 R[]\OT1/lmr/m/n/10 (\OT1/lmr/bx/n/10 x[]\OT1/lmr/m/n/10 ) = [] [] [] [] [] \OML/lmm/m/it/10 ;   t \OMS/
 lmsy/m/n/10 2 \OT1/lmr/m/n/10 [0\OML/lmm/m/it/10 ; T\OT1/lmr/m/n/10 ]\OML/lmm/m/it/10 ;   k \OMS/lmsy/m/n/10 2 \OT1/lmr/
 m/n/10 [0\OML/lmm/m/it/10 ; K \OMS/lmsy/m/n/10   \OT1/lmr/m/n/10 1][]
  []
 
-[93] <images/results/directional.png, id=2354, 770.88pt x 770.88pt>
+[94] <images/results/directional.png, id=2392, 770.88pt x 770.88pt>
 File: images/results/directional.png Graphic file (type png)
  <use images/results/directional.png>
-Package pdftex.def Info: images/results/directional.png used on input line 805.
+Package pdftex.def Info: images/results/directional.png used on input line 841.
 (pdftex.def)             Requested size: 172.65132pt x 172.64066pt.
 
-<images/results/point.png, id=2355, 770.88pt x 770.88pt>
+<images/results/point.png, id=2393, 770.88pt x 770.88pt>
 File: images/results/point.png Graphic file (type png)
  <use images/results/point.png>
-Package pdftex.def Info: images/results/point.png used on input line 809.
+Package pdftex.def Info: images/results/point.png used on input line 845.
 (pdftex.def)             Requested size: 172.65132pt x 172.64066pt.
 
-Overfull \hbox (13.33331pt too wide) in paragraph at lines 805--810
+Overfull \hbox (13.33331pt too wide) in paragraph at lines 841--846
  [][][][] 
  []
 
-[94] [95 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/directional.png (PNG copy)> <C:/Use
+[95] [96 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/directional.png (PNG copy)> <C:/Use
 rs/xander890/Documents/GitHub/master_thesis/documents/images/results/point.png (PNG copy)>]
-<images/results/skymap_1.png, id=2378, 770.88pt x 770.88pt>
+<images/results/skymap_1.png, id=2416, 770.88pt x 770.88pt>
 File: images/results/skymap_1.png Graphic file (type png)
  <use images/results/skymap_1.png>
-Package pdftex.def Info: images/results/skymap_1.png used on input line 836.
+Package pdftex.def Info: images/results/skymap_1.png used on input line 872.
 (pdftex.def)             Requested size: 310.77026pt x 310.76965pt.
- [96 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/skymap_1.png (PNG copy)>])
-(C:\Users\xander890\Documents\GitHub\master_thesis\documents\tex/results.tex [97] [98
+ [97 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/skymap_1.png (PNG copy)>] [98])
+(C:\Users\xander890\Documents\GitHub\master_thesis\documents\tex/results.tex [99] [100
 
 ]
 Chapter 6.
-[99] [100]
+[101] [102]
 
 Package caption Warning: \label without proper \caption on input line 256.
 See the caption package documentation for explanation.
 
 
-LaTeX Warning: Reference `fig:examplesmaterials' on page 101 undefined on input line 30.
+LaTeX Warning: Reference `fig:examplesmaterials' on page 103 undefined on input line 30.
 
-<images/results/test_120_over_120.png, id=2407, 770.88pt x 770.88pt>
+<images/results/test_120_over_120.png, id=2452, 770.88pt x 770.88pt>
 File: images/results/test_120_over_120.png Graphic file (type png)
  <use images/results/test_120_over_120.png>
 Package pdftex.def Info: images/results/test_120_over_120.png used on input line 40.
 (pdftex.def)             Requested size: 113.9505pt x 113.94495pt.
 
-<images/results/test_120_over_300.png, id=2408, 770.88pt x 770.88pt>
+<images/results/test_120_over_300.png, id=2453, 770.88pt x 770.88pt>
 File: images/results/test_120_over_300.png Graphic file (type png)
  <use images/results/test_120_over_300.png>
 Package pdftex.def Info: images/results/test_120_over_300.png used on input line 43.
 (pdftex.def)             Requested size: 113.9505pt x 113.94495pt.
 
-<images/results/test_300_over_300.png, id=2409, 770.88pt x 770.88pt>
+<images/results/test_300_over_300.png, id=2454, 770.88pt x 770.88pt>
 File: images/results/test_300_over_300.png Graphic file (type png)
  <use images/results/test_300_over_300.png>
 Package pdftex.def Info: images/results/test_300_over_300.png used on input line 46.
@@ -2447,19 +2455,19 @@ Overfull \hbox (16.54883pt too wide) in paragraph at lines 40--46
  [][][][][][] 
  []
 
-<images/results/test_120_over_1000.png, id=2410, 770.88pt x 770.88pt>
+<images/results/test_120_over_1000.png, id=2455, 770.88pt x 770.88pt>
 File: images/results/test_120_over_1000.png Graphic file (type png)
  <use images/results/test_120_over_1000.png>
 Package pdftex.def Info: images/results/test_120_over_1000.png used on input line 49.
 (pdftex.def)             Requested size: 113.9505pt x 113.94495pt.
 
-<images/results/test_300_over_1000.png, id=2411, 770.88pt x 770.88pt>
+<images/results/test_300_over_1000.png, id=2456, 770.88pt x 770.88pt>
 File: images/results/test_300_over_1000.png Graphic file (type png)
  <use images/results/test_300_over_1000.png>
 Package pdftex.def Info: images/results/test_300_over_1000.png used on input line 52.
 (pdftex.def)             Requested size: 113.9505pt x 113.94495pt.
 
-<images/results/test_1000_over_1000.png, id=2412, 770.88pt x 770.88pt>
+<images/results/test_1000_over_1000.png, id=2457, 770.88pt x 770.88pt>
 File: images/results/test_1000_over_1000.png Graphic file (type png)
  <use images/results/test_1000_over_1000.png>
 Package pdftex.def Info: images/results/test_1000_over_1000.png used on input line 55.
@@ -2474,14 +2482,14 @@ File: images/pathtrace/image-potato.pdf Graphic file (type pdf)
 Package pdftex.def Info: images/pathtrace/image-potato.pdf used on input line 58.
 (pdftex.def)             Requested size: 113.9505pt x 113.94887pt.
 
-<images/results/grapefruit_juice_comparison_100_over_1000_nobias.png, id=2417, 770.88pt x 770.88pt>
+<images/results/grapefruit_juice_comparison_100_over_1000_nobias.png, id=2462, 770.88pt x 770.88pt>
 File: images/results/grapefruit_juice_comparison_100_over_1000_nobias.png Graphic file (type png)
 
 <use images/results/grapefruit_juice_comparison_100_over_1000_nobias.png>
 Package pdftex.def Info: images/results/grapefruit_juice_comparison_100_over_1000_nobias.png used on input line 70.
 (pdftex.def)             Requested size: 172.65132pt x 172.64066pt.
 
-<images/results/grapefruit_juice_comparison_100_over_1000_bias3.png, id=2418, 770.88pt x 770.88pt>
+<images/results/grapefruit_juice_comparison_100_over_1000_bias3.png, id=2463, 770.88pt x 770.88pt>
 File: images/results/grapefruit_juice_comparison_100_over_1000_bias3.png Graphic file (type png)
 
 <use images/results/grapefruit_juice_comparison_100_over_1000_bias3.png>
@@ -2492,7 +2500,7 @@ Overfull \hbox (13.33331pt too wide) in paragraph at lines 70--74
  [][][][] 
  []
 
-<images/results/grapefruit_juice_comparison.png, id=2419, 770.88pt x 770.88pt>
+<images/results/grapefruit_juice_comparison.png, id=2464, 770.88pt x 770.88pt>
 File: images/results/grapefruit_juice_comparison.png Graphic file (type png)
 
 <use images/results/grapefruit_juice_comparison.png>
@@ -2507,28 +2515,28 @@ Overfull \hbox (13.33331pt too wide) in paragraph at lines 77--81
  [][][][] 
  []
 
-<images/results/marble_120_over_1000_bias_1-5.png, id=2422, 770.88pt x 770.88pt>
+<images/results/marble_120_over_1000_bias_1-5.png, id=2467, 770.88pt x 770.88pt>
 File: images/results/marble_120_over_1000_bias_1-5.png Graphic file (type png)
 
 <use images/results/marble_120_over_1000_bias_1-5.png>
 Package pdftex.def Info: images/results/marble_120_over_1000_bias_1-5.png used on input line 89.
 (pdftex.def)             Requested size: 138.11894pt x 138.11722pt.
 
-<images/results/marble_120_over_1000_nobias.png, id=2423, 770.88pt x 770.88pt>
+<images/results/marble_120_over_1000_nobias.png, id=2468, 770.88pt x 770.88pt>
 File: images/results/marble_120_over_1000_nobias.png Graphic file (type png)
 
 <use images/results/marble_120_over_1000_nobias.png>
 Package pdftex.def Info: images/results/marble_120_over_1000_nobias.png used on input line 92.
 (pdftex.def)             Requested size: 138.11894pt x 138.11722pt.
 
-<images/results/marble_1000_over_1000_bias_2.png, id=2424, 770.88pt x 770.88pt>
+<images/results/marble_1000_over_1000_bias_2.png, id=2469, 770.88pt x 770.88pt>
 File: images/results/marble_1000_over_1000_bias_2.png Graphic file (type png)
 
 <use images/results/marble_1000_over_1000_bias_2.png>
 Package pdftex.def Info: images/results/marble_1000_over_1000_bias_2.png used on input line 96.
 (pdftex.def)             Requested size: 138.11894pt x 138.11722pt.
 
-<images/results/marble_1000_over_1000_biasno.png, id=2425, 770.88pt x 770.88pt>
+<images/results/marble_1000_over_1000_biasno.png, id=2470, 770.88pt x 770.88pt>
 File: images/results/marble_1000_over_1000_biasno.png Graphic file (type png)
 
 <use images/results/marble_1000_over_1000_biasno.png>
@@ -2538,21 +2546,21 @@ File: images/pathtrace/image-marble.pdf Graphic file (type pdf)
  <use images/pathtrace/image-marble.pdf>
 Package pdftex.def Info: images/pathtrace/image-marble.pdf used on input line 103.
 (pdftex.def)             Requested size: 138.11894pt x 138.11722pt.
- [101] [102 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/test_120_over_120.png (PNG copy)
+ [103] [104 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/test_120_over_120.png (PNG copy)
 > <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/test_120_over_300.png (PNG copy)> <C:/User
 s/xander890/Documents/GitHub/master_thesis/documents/images/results/test_300_over_300.png (PNG copy)> <C:/Users/xander89
 0/Documents/GitHub/master_thesis/documents/images/results/test_120_over_1000.png (PNG copy)> <C:/Users/xander890/Documen
 ts/GitHub/master_thesis/documents/images/results/test_300_over_1000.png (PNG copy)> <C:/Users/xander890/Documents/GitHub
-/master_thesis/documents/images/results/test_1000_over_1000.png (PNG copy)>] [103 <C:/Users/xander890/Documents/GitHub/m
+/master_thesis/documents/images/results/test_1000_over_1000.png (PNG copy)>] [105 <C:/Users/xander890/Documents/GitHub/m
 aster_thesis/documents/images/results/grapefruit_juice_comparison_100_over_1000_nobias.png (PNG copy)> <C:/Users/xander8
 90/Documents/GitHub/master_thesis/documents/images/results/grapefruit_juice_comparison_100_over_1000_bias3.png (PNG copy
 )> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/grapefruit_juice_comparison.png (PNG copy
-)>] [104 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/marble_120_over_1000_bias_1-5.png (
+)>] [106 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/marble_120_over_1000_bias_1-5.png (
 PNG copy)> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/marble_120_over_1000_nobias.png (
 PNG copy)> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/marble_1000_over_1000_bias_2.png 
 (PNG copy)> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/marble_1000_over_1000_biasno.png
  (PNG copy)>]
-<images/results/beer_100_over_100_no_bias.png, id=2465, 770.88pt x 770.88pt>
+<images/results/beer_100_over_100_no_bias.png, id=2510, 770.88pt x 770.88pt>
 File: images/results/beer_100_over_100_no_bias.png Graphic file (type png)
 
 <use images/results/beer_100_over_100_no_bias.png>
@@ -2567,28 +2575,28 @@ Overfull \hbox (13.33331pt too wide) in paragraph at lines 115--119
  [][][][] 
  []
 
-<images/results/happy_buddha_100_over_1000_nobias.png, id=2470, 385.44pt x 770.88pt>
+<images/results/happy_buddha_100_over_1000_nobias.png, id=2515, 385.44pt x 770.88pt>
 File: images/results/happy_buddha_100_over_1000_nobias.png Graphic file (type png)
 
 <use images/results/happy_buddha_100_over_1000_nobias.png>
 Package pdftex.def Info: images/results/happy_buddha_100_over_1000_nobias.png used on input line 132.
 (pdftex.def)             Requested size: 114.9832pt x 229.96013pt.
 
-<images/results/happy_buddha_200_over_1000_nobias.png, id=2471, 385.44pt x 770.88pt>
+<images/results/happy_buddha_200_over_1000_nobias.png, id=2516, 385.44pt x 770.88pt>
 File: images/results/happy_buddha_200_over_1000_nobias.png Graphic file (type png)
 
 <use images/results/happy_buddha_200_over_1000_nobias.png>
 Package pdftex.def Info: images/results/happy_buddha_200_over_1000_nobias.png used on input line 135.
 (pdftex.def)             Requested size: 114.9832pt x 229.96013pt.
 
-<images/results/happy_buddha_100_over_300_nobias.png, id=2472, 385.44pt x 770.88pt>
+<images/results/happy_buddha_100_over_300_nobias.png, id=2517, 385.44pt x 770.88pt>
 File: images/results/happy_buddha_100_over_300_nobias.png Graphic file (type png)
 
 <use images/results/happy_buddha_100_over_300_nobias.png>
 Package pdftex.def Info: images/results/happy_buddha_100_over_300_nobias.png used on input line 139.
 (pdftex.def)             Requested size: 114.9832pt x 229.96013pt.
 
-<images/results/potato_buddha_dir.png, id=2473, 256.96pt x 513.92pt>
+<images/results/potato_buddha_dir.png, id=2518, 256.96pt x 513.92pt>
 File: images/results/potato_buddha_dir.png Graphic file (type png)
  <use images/results/potato_buddha_dir.png>
 Package pdftex.def Info: images/results/potato_buddha_dir.png used on input line 142.
@@ -2597,13 +2605,13 @@ Package pdftex.def Info: images/results/potato_buddha_dir.png used on input line
 
 LaTeX Warning: Float too large for page by 13.55208pt on input line 145.
 
-<images/results/dragon_10_over_100.png, id=2474, 770.88pt x 770.88pt>
+<images/results/dragon_10_over_100.png, id=2519, 770.88pt x 770.88pt>
 File: images/results/dragon_10_over_100.png Graphic file (type png)
  <use images/results/dragon_10_over_100.png>
 Package pdftex.def Info: images/results/dragon_10_over_100.png used on input line 152.
 (pdftex.def)             Requested size: 172.65132pt x 172.64066pt.
 
-<images/results/dragon_50_over_120.png, id=2475, 770.88pt x 770.88pt>
+<images/results/dragon_50_over_120.png, id=2520, 770.88pt x 770.88pt>
 File: images/results/dragon_50_over_120.png Graphic file (type png)
  <use images/results/dragon_50_over_120.png>
 Package pdftex.def Info: images/results/dragon_50_over_120.png used on input line 155.
@@ -2613,14 +2621,14 @@ Overfull \hbox (13.33331pt too wide) in paragraph at lines 152--156
  [][][][] 
  []
 
-<images/results/dragon_50_over_1000_nobias.png, id=2476, 770.88pt x 770.88pt>
+<images/results/dragon_50_over_1000_nobias.png, id=2521, 770.88pt x 770.88pt>
 File: images/results/dragon_50_over_1000_nobias.png Graphic file (type png)
 
 <use images/results/dragon_50_over_1000_nobias.png>
 Package pdftex.def Info: images/results/dragon_50_over_1000_nobias.png used on input line 159.
 (pdftex.def)             Requested size: 172.65132pt x 172.64066pt.
 
-<images/results/ketchup_dragon_dir.png, id=2477, 513.92pt x 513.92pt>
+<images/results/ketchup_dragon_dir.png, id=2522, 513.92pt x 513.92pt>
 File: images/results/ketchup_dragon_dir.png Graphic file (type png)
  <use images/results/ketchup_dragon_dir.png>
 Package pdftex.def Info: images/results/ketchup_dragon_dir.png used on input line 162.
@@ -2630,29 +2638,29 @@ Overfull \hbox (13.33331pt too wide) in paragraph at lines 159--164
  [][][][][] 
  []
 
-[105 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/beer_100_over_100_no_bias.png (PNG copy
-)>] [106 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/happy_buddha_100_over_1000_nobias.p
+[107 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/beer_100_over_100_no_bias.png (PNG copy
+)>] [108 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/happy_buddha_100_over_1000_nobias.p
 ng> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/happy_buddha_200_over_1000_nobias.png> <
 C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/happy_buddha_100_over_300_nobias.png> <C:/Use
-rs/xander890/Documents/GitHub/master_thesis/documents/images/results/potato_buddha_dir.png>] [107 <C:/Users/xander890/Do
+rs/xander890/Documents/GitHub/master_thesis/documents/images/results/potato_buddha_dir.png>] [109 <C:/Users/xander890/Do
 cuments/GitHub/master_thesis/documents/images/results/dragon_10_over_100.png (PNG copy)> <C:/Users/xander890/Documents/G
 itHub/master_thesis/documents/images/results/dragon_50_over_120.png (PNG copy)> <C:/Users/xander890/Documents/GitHub/mas
 ter_thesis/documents/images/results/dragon_50_over_1000_nobias.png (PNG copy)> <C:/Users/xander890/Documents/GitHub/mast
 er_thesis/documents/images/results/ketchup_dragon_dir.png (PNG copy)>]
-<images/results/difference.png, id=2504, 1027.84pt x 1027.84pt>
+<images/results/difference.png, id=2550, 1027.84pt x 1027.84pt>
 File: images/results/difference.png Graphic file (type png)
  <use images/results/difference.png>
 Package pdftex.def Info: images/results/difference.png used on input line 173.
 (pdftex.def)             Requested size: 241.71078pt x 241.69926pt.
 
-<images/results/dragon_50_over_120_ws128.png, id=2509, 385.44pt x 385.44pt>
+<images/results/dragon_50_over_120_ws128.png, id=2555, 385.44pt x 385.44pt>
 File: images/results/dragon_50_over_120_ws128.png Graphic file (type png)
 
 <use images/results/dragon_50_over_120_ws128.png>
 Package pdftex.def Info: images/results/dragon_50_over_120_ws128.png used on input line 182.
 (pdftex.def)             Requested size: 172.65132pt x 172.64653pt.
 
-<images/results/dragon_50_over_120_ws256.png, id=2510, 385.44pt x 385.44pt>
+<images/results/dragon_50_over_120_ws256.png, id=2556, 385.44pt x 385.44pt>
 File: images/results/dragon_50_over_120_ws256.png Graphic file (type png)
 
 <use images/results/dragon_50_over_120_ws256.png>
@@ -2663,14 +2671,14 @@ Overfull \hbox (13.33331pt too wide) in paragraph at lines 182--187
  [][][][] 
  []
 
-<images/results/dragon_50_over_120_ws512.png, id=2511, 385.44pt x 385.44pt>
+<images/results/dragon_50_over_120_ws512.png, id=2557, 385.44pt x 385.44pt>
 File: images/results/dragon_50_over_120_ws512.png Graphic file (type png)
 
 <use images/results/dragon_50_over_120_ws512.png>
 Package pdftex.def Info: images/results/dragon_50_over_120_ws512.png used on input line 191.
 (pdftex.def)             Requested size: 172.65132pt x 172.64653pt.
 
-<images/results/dragon_50_over_120_detail.png, id=2512, 385.44pt x 385.44pt>
+<images/results/dragon_50_over_120_detail.png, id=2558, 385.44pt x 385.44pt>
 File: images/results/dragon_50_over_120_detail.png Graphic file (type png)
 
 <use images/results/dragon_50_over_120_detail.png>
@@ -2681,72 +2689,72 @@ Overfull \hbox (13.33331pt too wide) in paragraph at lines 191--197
  [][][][][] 
  []
 
-[108
+[110
 
- <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/difference.png (PNG copy)>] [109 <C:/Users/
+ <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/difference.png (PNG copy)>] [111 <C:/Users/
 xander890/Documents/GitHub/master_thesis/documents/images/results/dragon_50_over_120_ws128.png> <C:/Users/xander890/Docu
 ments/GitHub/master_thesis/documents/images/results/dragon_50_over_120_ws256.png> <C:/Users/xander890/Documents/GitHub/m
 aster_thesis/documents/images/results/dragon_50_over_120_ws512.png> <C:/Users/xander890/Documents/GitHub/master_thesis/d
 ocuments/images/results/dragon_50_over_120_detail.png>]
-<images/results/mipmaps00.png, id=2530, 513.92pt x 513.92pt>
+<images/results/mipmaps00.png, id=2575, 513.92pt x 513.92pt>
 File: images/results/mipmaps00.png Graphic file (type png)
  <use images/results/mipmaps00.png>
 Package pdftex.def Info: images/results/mipmaps00.png used on input line 209.
 (pdftex.def)             Requested size: 138.11894pt x 138.11722pt.
 
-<images/results/mipmaps01.png, id=2531, 513.92pt x 513.92pt>
+<images/results/mipmaps01.png, id=2576, 513.92pt x 513.92pt>
 File: images/results/mipmaps01.png Graphic file (type png)
  <use images/results/mipmaps01.png>
 Package pdftex.def Info: images/results/mipmaps01.png used on input line 212.
 (pdftex.def)             Requested size: 138.11894pt x 138.11722pt.
 
-<images/results/mipmaps02.png, id=2532, 513.92pt x 513.92pt>
+<images/results/mipmaps02.png, id=2577, 513.92pt x 513.92pt>
 File: images/results/mipmaps02.png Graphic file (type png)
  <use images/results/mipmaps02.png>
 Package pdftex.def Info: images/results/mipmaps02.png used on input line 216.
 (pdftex.def)             Requested size: 138.11894pt x 138.11722pt.
 
-<images/results/mipmapsc.png, id=2533, 385.44pt x 385.44pt>
+<images/results/mipmapsc.png, id=2578, 385.44pt x 385.44pt>
 File: images/results/mipmapsc.png Graphic file (type png)
  <use images/results/mipmapsc.png>
 Package pdftex.def Info: images/results/mipmapsc.png used on input line 219.
 (pdftex.def)             Requested size: 138.11894pt x 138.11722pt.
 
 
-LaTeX Warning: Reference `fig:bunnyenv' on page 110 undefined on input line 228.
+LaTeX Warning: Reference `fig:bunnyenv' on page 112 undefined on input line 228.
 
-[110 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/mipmaps00.png> <C:/Users/xander890/Docu
+[112 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/mipmaps00.png> <C:/Users/xander890/Docu
 ments/GitHub/master_thesis/documents/images/results/mipmaps01.png> <C:/Users/xander890/Documents/GitHub/master_thesis/do
 cuments/images/results/mipmaps02.png> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/mipmap
-sc.png>] <images/results/bunny_env_80_1000_nobias.png, id=2549, 770.88pt x 770.88pt>
+sc.png>] <images/results/bunny_env_80_1000_nobias.png, id=2594, 770.88pt x 770.88pt>
 File: images/results/bunny_env_80_1000_nobias.png Graphic file (type png)
 
 <use images/results/bunny_env_80_1000_nobias.png>
 Package pdftex.def Info: images/results/bunny_env_80_1000_nobias.png used on input line 234.
 (pdftex.def)             Requested size: 241.71078pt x 241.71103pt.
 
-<images/results/happy_buddha_environment_90over16_1000_nobias.png, id=2550, 385.44pt x 770.88pt>
+<images/results/happy_buddha_environment_90over16_1000_nobias.png, id=2595, 385.44pt x 770.88pt>
 File: images/results/happy_buddha_environment_90over16_1000_nobias.png Graphic file (type png)
 
 <use images/results/happy_buddha_environment_90over16_1000_nobias.png>
 Package pdftex.def Info: images/results/happy_buddha_environment_90over16_1000_nobias.png used on input line 256.
 (pdftex.def)             Requested size: 114.9832pt x 229.96013pt.
 
-<images/results/happy_buddha_environment_90over16_310_nobias.png, id=2551, 385.44pt x 770.88pt>
+<images/results/happy_buddha_environment_90over16_310_nobias.png, id=2596, 385.44pt x 770.88pt>
 File: images/results/happy_buddha_environment_90over16_310_nobias.png Graphic file (type png)
 
 <use images/results/happy_buddha_environment_90over16_310_nobias.png>
 Package pdftex.def Info: images/results/happy_buddha_environment_90over16_310_nobias.png used on input line 259.
 (pdftex.def)             Requested size: 114.9832pt x 229.96013pt.
 
-<images/results/happy_buddha_environment_90over16_160_nobias.png, id=2552, 385.44pt x 770.88pt>
+<images/results/happy_buddha_environment_90over16_160_nobias.png, id=2597, 385.44pt x 770.88pt>
 File: images/results/happy_buddha_environment_90over16_160_nobias.png Graphic file (type png)
 
 <use images/results/happy_buddha_environment_90over16_160_nobias.png>
 Package pdftex.def Info: images/results/happy_buddha_environment_90over16_160_nobias.png used on input line 263.
 (pdftex.def)             Requested size: 114.9832pt x 229.96013pt.
 
-<images/results/reference_env.png, id=2553, 513.92pt x 1026.83624pt>
+<images/results/reference_env.png, id=2598, 513.92pt x 1026.83624pt>
 File: images/results/reference_env.png Graphic file (type png)
  <use images/results/reference_env.png>
 Package pdftex.def Info: images/results/reference_env.png used on input line 266.
@@ -2755,72 +2763,72 @@ Package pdftex.def Info: images/results/reference_env.png used on input line 266
 
 LaTeX Warning: Float too large for page by 13.54425pt on input line 269.
 
-[111 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/bunny_env_80_1000_nobias.png (PNG copy)
->] [112 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/happy_buddha_environment_90over16_10
+[113 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/bunny_env_80_1000_nobias.png (PNG copy)
+>] [114 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/happy_buddha_environment_90over16_10
 00_nobias.png> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/happy_buddha_environment_90ov
 er16_310_nobias.png> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/happy_buddha_environmen
 t_90over16_160_nobias.png> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/reference_env.png
->] <images/results/env2.png, id=2569, 770.88pt x 770.88pt>
+>] <images/results/env2.png, id=2614, 770.88pt x 770.88pt>
 File: images/results/env2.png Graphic file (type png)
  <use images/results/env2.png>
 Package pdftex.def Info: images/results/env2.png used on input line 278.
 (pdftex.def)             Requested size: 138.11894pt x 138.11722pt.
 
-<images/results/env4.png, id=2570, 770.88pt x 770.88pt>
+<images/results/env4.png, id=2615, 770.88pt x 770.88pt>
 File: images/results/env4.png Graphic file (type png)
  <use images/results/env4.png>
 Package pdftex.def Info: images/results/env4.png used on input line 281.
 (pdftex.def)             Requested size: 138.11894pt x 138.11722pt.
 
-<images/results/env8.png, id=2571, 770.88pt x 770.88pt>
+<images/results/env8.png, id=2616, 770.88pt x 770.88pt>
 File: images/results/env8.png Graphic file (type png)
  <use images/results/env8.png>
 Package pdftex.def Info: images/results/env8.png used on input line 285.
 (pdftex.def)             Requested size: 138.11894pt x 138.11722pt.
 
-<images/results/env16.png, id=2572, 770.88pt x 770.88pt>
+<images/results/env16.png, id=2617, 770.88pt x 770.88pt>
 File: images/results/env16.png Graphic file (type png)
  <use images/results/env16.png>
 Package pdftex.def Info: images/results/env16.png used on input line 288.
 (pdftex.def)             Requested size: 138.11894pt x 138.11722pt.
- [113
+ [115
 
  <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/env2.png (PNG copy)> <C:/Users/xander890/Do
 cuments/GitHub/master_thesis/documents/images/results/env4.png (PNG copy)> <C:/Users/xander890/Documents/GitHub/master_t
 hesis/documents/images/results/env8.png (PNG copy)> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/
-results/env16.png (PNG copy)>] [114
+results/env16.png (PNG copy)>] [116
 
-] <images/results/example2.png, id=2595, 770.88pt x 770.88pt>
+] <images/results/example2.png, id=2641, 770.88pt x 770.88pt>
 File: images/results/example2.png Graphic file (type png)
  <use images/results/example2.png>
 Package pdftex.def Info: images/results/example2.png used on input line 335.
 (pdftex.def)             Requested size: 138.11894pt x 138.11722pt.
 
-<images/matlab/bunnychart.pdf, id=2596, 361.04338pt x 215.05444pt>
+<images/matlab/bunnychart.pdf, id=2642, 361.04338pt x 215.05444pt>
 File: images/matlab/bunnychart.pdf Graphic file (type pdf)
  <use images/matlab/bunnychart.pdf>
 Package pdftex.def Info: images/matlab/bunnychart.pdf used on input line 342.
 (pdftex.def)             Requested size: 103.59184pt x 61.7046pt.
 
-<images/results/example1.png, id=2597, 770.88pt x 770.88pt>
+<images/results/example1.png, id=2643, 770.88pt x 770.88pt>
 File: images/results/example1.png Graphic file (type png)
  <use images/results/example1.png>
 Package pdftex.def Info: images/results/example1.png used on input line 345.
 (pdftex.def)             Requested size: 138.11894pt x 138.11722pt.
 
-<images/matlab/dragonchart.pdf, id=2598, 361.04338pt x 215.05444pt>
+<images/matlab/dragonchart.pdf, id=2644, 361.04338pt x 215.05444pt>
 File: images/matlab/dragonchart.pdf Graphic file (type pdf)
  <use images/matlab/dragonchart.pdf>
 Package pdftex.def Info: images/matlab/dragonchart.pdf used on input line 352.
 (pdftex.def)             Requested size: 103.59184pt x 61.7046pt.
 
-<images/results/example3.png, id=2599, 770.88pt x 770.88pt>
+<images/results/example3.png, id=2645, 770.88pt x 770.88pt>
 File: images/results/example3.png Graphic file (type png)
  <use images/results/example3.png>
 Package pdftex.def Info: images/results/example3.png used on input line 355.
 (pdftex.def)             Requested size: 138.11894pt x 138.11722pt.
 
-<images/matlab/buddhachart.pdf, id=2600, 361.04338pt x 215.05444pt>
+<images/matlab/buddhachart.pdf, id=2646, 361.04338pt x 215.05444pt>
 File: images/matlab/buddhachart.pdf Graphic file (type pdf)
  <use images/matlab/buddhachart.pdf>
 Package pdftex.def Info: images/matlab/buddhachart.pdf used on input line 362.
@@ -2829,7 +2837,7 @@ Package pdftex.def Info: images/matlab/buddhachart.pdf used on input line 362.
 
 LaTeX Warning: Float too large for page by 43.97563pt on input line 365.
 
-[115] [116 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/example2.png (PNG copy)> <C:/User
+[117] [118 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/example2.png (PNG copy)> <C:/User
 s/xander890/Documents/GitHub/master_thesis/documents/images/matlab/bunnychart.pdf> <C:/Users/xander890/Documents/GitHub/
 master_thesis/documents/images/results/example1.png (PNG copy)> <C:/Users/xander890/Documents/GitHub/master_thesis/docum
 ents/images/matlab/dragonchart.pdf
@@ -2841,40 +2849,44 @@ pdfTeX warning: pdflatex.exe (file C:/Users/xander890/Documents/GitHub/master_th
 
 pdfTeX warning: pdflatex.exe (file C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/matlab/buddhachart
 .pdf): PDF inclusion: multiple pdfs with page group included in a single page
->] [117] [118] [119] [120] <images/matlab/multiple_lights_test.pdf, id=2709, 508.05942pt x 317.22816pt>
+>] [119] [120] [121] [122] <images/matlab/multiple_lights_test.pdf, id=2755, 508.05942pt x 317.22816pt>
 File: images/matlab/multiple_lights_test.pdf Graphic file (type pdf)
 
 <use images/matlab/multiple_lights_test.pdf>
 Package pdftex.def Info: images/matlab/multiple_lights_test.pdf used on input line 493.
 (pdftex.def)             Requested size: 241.71078pt x 150.92212pt.
 )
-(C:\Users\xander890\Documents\GitHub\master_thesis\documents\tex/futurework.tex [121
+(C:\Users\xander890\Documents\GitHub\master_thesis\documents\tex/futurework.tex [123
 
- <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/matlab/multiple_lights_test.pdf>] [122
+ <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/matlab/multiple_lights_test.pdf>] [124
 
 ]
 Chapter 7.
-[123]) (C:\Users\xander890\Documents\GitHub\master_thesis\documents\tex/conclusion.tex [124]
+[125]) (C:\Users\xander890\Documents\GitHub\master_thesis\documents\tex/conclusion.tex [126]
 Chapter 8.
-[125
-
-]) (C:\Users\xander890\Documents\GitHub\master_thesis\documents\tex/appendix.tex [126]
-Appendix A.
 [127
 
-] [128]) [129] [130
+]) (C:\Users\xander890\Documents\GitHub\master_thesis\documents\tex/appendix.tex [128]
+Appendix A.
+[129
 
-] (C:\Users\xander890\Documents\GitHub\master_thesis\documents\thesis.bbl [131
+] [130]) [131] [132
 
-] [132] [133]
-[134]) [135]
+] (C:\Users\xander890\Documents\GitHub\master_thesis\documents\thesis.bbl [133
+
+] [134] [135]
+[136] [137])
+
+Package natbib Warning: There were undefined citations.
+
+[138]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 90.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 90.
  (C:\Users\xander890\Documents\GitHub\master_thesis\documents\thesis.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 90.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 90.
 Package rerunfilecheck Info: File `thesis.out' has not changed.
-(rerunfilecheck)             Checksum: DB033594FF18AC85B2ACB99C47025D5E;6470.
+(rerunfilecheck)             Checksum: B82451F5BE152D8DB975F7312476C5C9;6542.
 
 
 LaTeX Warning: There were undefined references.
@@ -2882,10 +2894,10 @@ LaTeX Warning: There were undefined references.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 90.
  ) 
 Here is how much of TeX's memory you used:
- 32033 strings out of 493921
- 609140 string characters out of 3147270
- 993848 words of memory out of 3000000
- 33853 multiletter control sequences out of 15000+200000
+ 32070 strings out of 493921
+ 610107 string characters out of 3147270
+ 1003512 words of memory out of 3000000
+ 33878 multiletter control sequences out of 15000+200000
  131157 words of font info for 129 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
  56i,27n,73p,10416b,2517s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -2911,9 +2923,9 @@ iKTeX 2.9/fonts/type1/public/lm/lmsy7.pfb><C:/Program Files/MiKTeX 2.9/fonts/typ
 /MiKTeX 2.9/fonts/type1/public/lm/lmtt10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmtt8.pfb><C:/Program Fi
 les/MiKTeX 2.9/fonts/type1/public/lm/lmtt9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10.p
 fb>
-Output written on thesis.pdf (147 pages, 31793359 bytes).
+Output written on thesis.pdf (150 pages, 31856315 bytes).
 PDF statistics:
- 3146 PDF objects out of 3580 (max. 8388607)
- 756 named destinations out of 1000 (max. 500000)
- 1370 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 3205 PDF objects out of 3580 (max. 8388607)
+ 768 named destinations out of 1000 (max. 500000)
+ 1378 words of extra memory for PDF output out of 10000 (max. 10000000)
 

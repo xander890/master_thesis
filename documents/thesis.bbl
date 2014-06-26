@@ -1,9 +1,15 @@
-\begin{thebibliography}{49}
+\begin{thebibliography}{56}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Akenine-M\"{o}ller et~al.(2008)Akenine-M\"{o}ller, Haines, and
+  Hoffman]{RTR3}
+Tomas Akenine-M\"{o}ller, Eric Haines, and Natty Hoffman.
+\newblock \emph{Real-Time Rendering 3rd Edition}.
+\newblock A. K. Peters, Ltd., Natick, MA, USA, 2008.
 
 \bibitem[Ashikmin et~al.(2000)Ashikmin, Premo\v{z}e, and
   Shirley]{Ashikmin:2000:MBG:344779.344814}
@@ -14,6 +20,13 @@ Michael Ashikmin, Simon Premo\v{z}e, and Peter Shirley.
   NY, USA, 2000. ACM Press/Addison-Wesley Publishing Co.
 \newblock URL \url{http://dx.doi.org/10.1145/344779.344814}.
 
+\bibitem[Blinn(1977)]{Blinn:1977:MLR:965141.563893}
+James~F. Blinn.
+\newblock Models of light reflection for computer synthesized pictures.
+\newblock \emph{SIGGRAPH Comput. Graph.}, 11\penalty0 (2):\penalty0 192--198,
+  July 1977.
+\newblock URL \url{http://doi.acm.org/10.1145/965141.563893}.
+
 \bibitem[B{\o}rlum et~al.(2011)B{\o}rlum, Christensen, Kjeldsen, Mikkelsen,
   Noe, Rimestad, and Mosegaard]{Borlum:2011:SSL:2018323.2018325}
 Jesper B{\o}rlum, Brian~Bunch Christensen, Thomas~Kim Kjeldsen, Peter~Trier
@@ -22,6 +35,16 @@ Jesper B{\o}rlum, Brian~Bunch Christensen, Thomas~Kim Kjeldsen, Peter~Trier
 \newblock In \emph{Proceedings of the ACM SIGGRAPH Symposium on High
   Performance Graphics}, HPG '11, pages 7--14, New York, NY, USA, 2011. ACM.
 \newblock URL \url{http://doi.acm.org/10.1145/2018323.2018325}.
+
+\bibitem[Born and Wolf(1999)]{ob:bornwolf}
+M~Born and E~Wolf.
+\newblock \emph{Principles of Optics}.
+\newblock Cambridge University Press, 7 edition, 1999.
+
+\bibitem[Chandrasekar(1950)]{Chandrasekar:1950:RT}
+S.~Chandrasekar.
+\newblock \emph{Radiative Transfer}.
+\newblock Oxford Univ. Press, 1950.
 
 \bibitem[Cohen et~al.(1993)Cohen, Wallace, and Hanrahan]{Cohen:1993:RRI:154731}
 Michael~F. Cohen, John Wallace, and Pat Hanrahan.
@@ -205,6 +228,13 @@ J.~H. {Joseph}, W.~J. {Wiscombe}, and J.~A. {Weinman}.
 \newblock \emph{Journal of Atmospheric Sciences}, 33:\penalty0 2452--2459,
   December 1976.
 
+\bibitem[Kajiya(1986)]{Kajiya:1986:RE:15886.15902}
+James~T. Kajiya.
+\newblock The rendering equation.
+\newblock \emph{SIGGRAPH Comput. Graph.}, 20\penalty0 (4):\penalty0 143--150,
+  August 1986.
+\newblock URL \url{http://doi.acm.org/10.1145/15886.15902}.
+
 \bibitem[Kaplanyan and Dachsbacher(2010)]{Kaplanyan:2010:CLP:1730804.1730821}
 Anton Kaplanyan and Carsten Dachsbacher.
 \newblock Cascaded light propagation volumes for real-time indirect
@@ -213,6 +243,13 @@ Anton Kaplanyan and Carsten Dachsbacher.
   Interactive 3D Graphics and Games}, I3D '10, pages 99--107, New York, NY,
   USA, 2010. ACM.
 \newblock URL \url{http://doi.acm.org/10.1145/1730804.1730821}.
+
+\bibitem[Kay and Greenberg(1979)]{Kay:1979:TCS:965103.807438}
+Douglas~Scott Kay and Donald Greenberg.
+\newblock Transparency for computer synthesized images.
+\newblock \emph{SIGGRAPH Comput. Graph.}, 13\penalty0 (2):\penalty0 158--164,
+  August 1979.
+\newblock URL \url{http://doi.acm.org/10.1145/965103.807438}.
 
 \bibitem[Kosaka et~al.(2012)Kosaka, Hattori, Kubo, and
   Morishima]{Kosaka:2012:RAR:2407156.2407206}
@@ -257,11 +294,6 @@ Tom Mertens, Jan Kautz, Philippe Bekaert, Hans-Peter Seidelz, and Frank
   2003{\natexlab{b}}. Eurographics Association.
 \newblock URL \url{http://dl.acm.org/citation.cfm?id=882404.882423}.
 
-\bibitem[Montes and Ure{\~n}a(2012)]{montes2012overview}
-Rosana Montes and Carlos Ure{\~n}a.
-\newblock An overview of brdf models.
-\newblock \emph{-}, -:\penalty0 --, 2012.
-
 \bibitem[Narasimhan et~al.(2006)Narasimhan, Gupta, Donner, Ramamoorthi, Nayar,
   and Jensen]{Narasimhan:2006:ASP:1141911.1141986}
 Srinivasa~G. Narasimhan, Mohit Gupta, Craig Donner, Ravi Ramamoorthi, Shree~K.
@@ -270,6 +302,15 @@ Srinivasa~G. Narasimhan, Mohit Gupta, Craig Donner, Ravi Ramamoorthi, Shree~K.
 \newblock \emph{ACM Trans. Graph.}, 25\penalty0 (3):\penalty0 1003--1012, July
   2006.
 \newblock URL \url{http://doi.acm.org/10.1145/1141911.1141986}.
+
+\bibitem[Nicodemus et~al.(1992)Nicodemus, Richmond, Hsia, Ginsberg, and
+  Limperis]{Nicodemus:1992:GCN:136913.136929}
+F.~E. Nicodemus, J.~C. Richmond, J.~J. Hsia, I.~W. Ginsberg, and T.~Limperis.
+\newblock Geometrical considerations and nomenclature for reflectance.
+\newblock In Lawrence~B. Wolff, Steven~A. Shafer, and Glenn Healey, editors,
+  \emph{Radiometry}, chapter Geometrical Considerations and Nomenclature for
+  Reflectance, pages 94--145. Jones and Bartlett Publishers, Inc., USA, 1992.
+\newblock URL \url{http://dl.acm.org/citation.cfm?id=136913.136929}.
 
 \bibitem[Niederreiter(1992)]{niederreiter1992a}
 H.~Niederreiter.
@@ -332,6 +373,14 @@ Anna Tomaszewska and Krzysztof Stefanowski.
   Analysis and Recognition}, volume 7324 of \emph{Lecture Notes in Computer
   Science}, pages 402--409. Springer Berlin Heidelberg, 2012.
 \newblock URL \url{http://dx.doi.org/10.1007/978-3-642-31295-3_47}.
+
+\bibitem[Torrance and Sparrow(1992)]{Torrance:1992:TOR:136913.136924}
+K.~E. Torrance and E.~M. Sparrow.
+\newblock Theory for off-specular reflection from roughened surfaces.
+\newblock In Lawrence~B. Wolff, Steven~A. Shafer, and Glenn Healey, editors,
+  \emph{Radiometry}, pages 32--41. Jones and Bartlett Publishers, Inc., USA,
+  1992.
+\newblock URL \url{http://dl.acm.org/citation.cfm?id=136913.136924}.
 
 \bibitem[Unity(2012)]{unitymanual}
 Unity.

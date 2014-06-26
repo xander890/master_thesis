@@ -437,6 +437,42 @@ glTexStorage3D(	GL_TEXTURE_2D_ARRAY, 1, GL_DEPTH_COMPONENT32F, size, size, layer
 
 We can see that we specify two extra parameters: \gl{GL_TEXTURE_COMPARE_MODE}, once set to \gl{GL_COMPARE_REF_TO_TEXTURE}, means that sampling the depth texture in a shader will give a value based on the comparison between an extra value $z$ and the depth value $d$ in the texture. The second parameter \gl{GL_TEXTURE_COMPARE_FUNC} specifies how to compare the values: \gl{GL_LESS} means that 1 is returned if $z<d$, and zero is returned otherwise. 
 
+\subsection{Memory layout}
+\label{sec:memorylayout}
+
+In this section, we briefly describe how memory is allocated in our method. The great advantage of using OpenGL 4.3 is that we can use \emph{texture views} \citep{openglspec}. Texture views are a way to create a texture in OpenGL, but on the opposite hand of \gl{glTexImage*D} or the \gl{glTexStorage*D} families of functions they allow for two texture to share the same storage on the GPU. To create a texture view, we use \gl{glTextureView}. We compare the standard way of allocating texture with our without texture view in figure TODO.
+
+In our method, this comes to great advantages in two areas. First of all, since the depth map of the radiance map is not accumulated, we can make the two radiance maps share the same depth map. In addition, we can render directly between two mipmap levels of the same texture, something that we will need later to generate a blurred version of our texture.
+
+A complete example memory layout for our algorithm is reported in table \ref{table:mlay}. As we will see, we will account for the contribution from multiple lights as more layers on the light map texture. More textures are loaded in order to make the method work, but their contribution is negligible.
+
+\begin{table}[!h]
+\centering
+\begin{tabular}{p{3cm}lllll|l|}
+\cline{2-7}
+\multicolumn{1}{l|}{}                        & \multicolumn{1}{l|}{\textbf{Ch.}} & \multicolumn{1}{l|}{\textbf{Bits}} & \multicolumn{1}{l|}{\textbf{Width}} & \multicolumn{1}{l|}{\textbf{Height}} & \textbf{Depth} & \textbf{Size (MB)} \\ \hline
+\multicolumn{1}{|l|}{Light map (vertex)}     & \multicolumn{1}{l|}{3}                 & \multicolumn{1}{l|}{32}                      & \multicolumn{1}{l|}{512}            & \multicolumn{1}{l|}{512}             & 1              & 3                  \\ \hline
+\multicolumn{1}{|l|}{Light map (normals)}    & \multicolumn{1}{l|}{3}                 & \multicolumn{1}{l|}{32}                      & \multicolumn{1}{l|}{512}            & \multicolumn{1}{l|}{512}             & 1              & 3                  \\ \hline
+\multicolumn{1}{|l|}{Light map (depth)}      & \multicolumn{1}{l|}{1}                 & \multicolumn{1}{l|}{32}                      & \multicolumn{1}{l|}{512}            & \multicolumn{1}{l|}{512}             & 1              & 1                  \\ \hline
+\multicolumn{1}{|l|}{Radiance map 1 (color)} & \multicolumn{1}{l|}{4}                 & \multicolumn{1}{l|}{32}                      & \multicolumn{1}{l|}{512}            & \multicolumn{1}{l|}{512}             & 16             & 64                 \\ \hline
+\multicolumn{1}{|l|}{Mipmaps 1}              & \multicolumn{1}{l|}{4}                 & \multicolumn{1}{l|}{32}                      & \multicolumn{1}{l|}{-}              & \multicolumn{1}{l|}{-}               & -              & 21                 \\ \hline
+\multicolumn{1}{|l|}{Radiance map 2 (color)} & \multicolumn{1}{l|}{4}                 & \multicolumn{1}{l|}{32}                      & \multicolumn{1}{l|}{512}            & \multicolumn{1}{l|}{512}             & 16             & 64                 \\ \hline
+\multicolumn{1}{|l|}{Mipmaps 2}              & \multicolumn{1}{l|}{4}                 & \multicolumn{1}{l|}{32}                      & \multicolumn{1}{l|}{-}              & \multicolumn{1}{l|}{-}               & -              & 21                 \\ \hline
+\multicolumn{1}{|l|}{Radiance map (depth)}   & \multicolumn{1}{l|}{1}                 & \multicolumn{1}{l|}{32}                      & \multicolumn{1}{l|}{512}            & \multicolumn{1}{l|}{512}             & 16             & 16                 \\ \hline
+                                             &                                        &                                              &                                     &                                      &                & \textbf{193 MB}       \\ \cline{7-7} 
+\end{tabular}
+\caption{Memory occupation of our method, for one light. Mipmaps are accounted for one additional third on the size of the radiance map. "Ch.` is the number of channels in the texture, "Bits` is the number of bits per channel.}
+\label{table:mlay}
+\end{table}
+
+If we name some of the parameters, such as $L$ as the number of lights, $W_l$ the size of the light map, $K$ the number of directions and $W_s$ the size of the radiance map, we can obtain a direct formula to calculate the memory consumption in bytes:
+
+$$
+4 \left\{ \left[\left(4 + 4\right) \frac{4}{3} + 1\right] K W_s^2 + \left[3 + 3 + 1\right] L W_l^2 \right\}
+$$
+
+The $4/3$ factor account for the extra space reserved for mipmaps. The 4 factor at the beginning is because of each channel involved has 32 bits, that equal to 4 bytes. 
+
 \section{Caveats}
 The algorithm described so far, if implemented \emph{as is}, unfortunately does not give a result that we can appreciate. In order to obtain the desired result, some extra corrections are necessary.
 
@@ -551,7 +587,7 @@ We tried different filters with different weights, and we will test some of them
 
 On the implementation level, the mipmaps need to be rendered one after the other, as we need the result of the first computation in order to perform the second. So, we use always the same shader, reported in listing \ref{lst:shaderimageprocessing}, to filter between two textures. In the first step, we bind layer zero (where the result of the rendering of step 2 is stored) as source and layer one as destination. Then, we bind layer 1 as source and layer 2 as destination, and so on. To perform the filtering, we render a full screen quad.
 
-However, OpenGL does not allow to bind the same image both as a source and as a destination, even if the mipmap levels are different. So, in order to overcome this difficulty, we use a new OpenGL feature called \emph{texture views}. Texture views are a way to create a texture in OpenGL, but on the opposite hand of \gl{glTexImage*D} or the \gl{glTexStorage*D} families of functions they allow to use another texture storage as the storage point for the current texture. The name comes from the fact that we can use texture views to see the content of a texture from two different points of view, by interpreting the storage in two different ways. In our case, we create a new texture for the mipmaps, but then we configure it to use the storage reserved to the mipmaps of the radiance map. So, we can bind it to the FBOS as it was a completely different texture, but then once we render the result will be rendered exactly where we want. % if time --> Figure TODO offer a visual explanation.
+However, OpenGL does not allow to bind the same image both as a source and as a destination, even if the mipmap levels are different. So, in order to overcome this difficulty, we use texture views as we described them in \ref{sec:memorylayout}. We create a new texture for the mipmaps, but then we configure it to use the storage reserved to the mipmaps of the radiance map. So, we can bind it to the FBO as it was a completely different texture, but then once we render the result will be rendered in the right memory location. % if time --> Figure TODO offer a visual explanation.
 
 \begin{lstlisting}[language=GLSL,label=lst:shaderimageprocessing,caption={Custom mipmap filtering on GPU. \gl{_tex} are the texture coordinates on the screen aligned quad.}]
 #version 430
@@ -834,22 +870,28 @@ Where $j = \min_j\{j \in [0,s] | C[j] > \zeta \} - 1$ is the CDF value right bef
 \centering
 
 \includegraphics[width=0.9 \linewidth]{images/results/skymap_1.png}
-\caption{Rendering a dragon using sixteen directional lights geenrated from the Doge map. The material parameters are for white grapefruit juice.}
+\caption{Rendering a dragon using sixteen directional lights generated from the Doge map. The material parameters are for white grapefruit juice.}
 \label{fig:doge_render_grape}
 \end{figure}
 
 \section{Discussion}
-\subsection{Advantages}
-Soft shadows and occlusion
-Integrated in shadow mapping pipeline
-Low memory consumption
-The final rendering step can be adapted for deferred shading as well
+In this section, we anticipate some of the results that will be presented in chapter \ref{chap:results}, in order to analyze our method and present advantages and disadvantages of the method, and more specifically of our implementation.
 
+\subsection{Advantages}
+
+The great advantage of this method, that comes from the BSSRDF model, is that it already accounts for self shadowing and self occlusion. So, no extra steps are required in order to account for these effects, that usually are difficult to evaluate in a real-time fashion. Moreover, if we reuse the same light map for all the objects in the scene, it is possible to account for the occlusion between objects. So, if an object is placed between the light and another object, a soft shadow of the first object on the second one will appear. However, since the material properties are not stored in the light map, the contribution from the other points will use the same properties that we are using to render the object (so, another object will cast a "potato shadow` on a potato object).  
+
+Another advantage of our method is that is tightly coupled with the shadow mapping pipeline. Shadow mapping is widely used nowadays in most of real time graphics applications, so the cost of introducing our method is greatly reduced, since the light map data are usually available for use. In addition, the method is generally adaptable to any kind of shadow mapping technique, providing that it is able to store vertices and normals, and that those are accessible from step two in the algorithm. The cost of adding normal and vertex storage is usually only heavy on the memory requirements, since the vertex position is calculated anyway during the render to the shadow map. 
+
+Compared to other techniques for rendering translucent materials (such as voxelization), our method has low memory requirements. As we will see, the size of the textures employed in the method should not be too big in order to ensure a reasonable quality. This also comes from the fact that subsurface scattering effects are result of blurring of the incoming light, so a low size texture can represent the effects very well.
+
+Finally, another advantage of the method is that the final step relies only on the knowledge of the exiting position and normal, so it can be integrated in both a forward and a deferred rendering pipeline, making it very flexible.
 
 \subsection{Disadvantages}
-Hack - not real result after 100 frames
-computation must restart after any change in the scene
-Difficult to cover the whole model with automatic placement of cameras
-Seams need to be adjusted manually
-Problems with environmental light
-%vertex vs fragment shading
+The first and biggest disadvantage of this method is that one frame is giving only an approximate and noisy approximation of the final result, that needs to be blurred using mipmaps in order to get a smooth result. In addition, every time something changed in the scene, the computations need to be redone every frame, not allowing the method to ever reach convergence. In this case, ping pong is not used at all, which results in a waste of precious memory space. The ping pong can be reused to account partially for the computation of the previous frame. In this way, the noise is reduced, at the price that the method is slower to react to swift changes of condition in the scene, generating ghosting artifacts.
+
+As we can see in figure TODO, it is difficult for our method to cover the whole surface of the object. The most hidden areas, such as the internal part of the dragon mouth, are not covered by any camera, and so the result are black holes on the surface. The problem is well known when acquiring an object from a 3D camera, where a rotation is often necessary in order to capture all the features of a mesh. A solution for this problem is to let the artist place the cameras himself/herself, but with an additional time effort. 
+
+Another problem is that our method, relying on shadow mapping at its core, inherits all the defects and problems of shadow mapping. One of these is that constant shadow bias and offsets are sometimes not enough to cover the defects that inevitably generate when using this method. In addition, the artist must tweak this parameters in order to get a good result.  
+
+Finally, a defect that comes from the method we are using to generate the directional lights from the environment map generally has the problem that in certain radiance maps, where there are a lot of very bright spots. In these maps, it tends to account only for the very bright spots and thus not approximate the overall result very well. In this case, a solution based on spherical harmonics \citep{peterpikeconference} environment lighting would be preferable.

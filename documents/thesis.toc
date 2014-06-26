@@ -39,7 +39,7 @@
 \contentsline {subsection}{\numberline {3.4.2}Absorption}{32}{subsection.3.4.2}
 \contentsline {subsection}{\numberline {3.4.3}Out-scattering}{32}{subsection.3.4.3}
 \contentsline {subsection}{\numberline {3.4.4}In-scattering}{32}{subsection.3.4.4}
-\contentsline {subsection}{\numberline {3.4.5}Final formulation of the radiative transport equation}{34}{subsection.3.4.5}
+\contentsline {subsection}{\numberline {3.4.5}Final formulation of the radiative transfer equation}{34}{subsection.3.4.5}
 \contentsline {subsection}{\numberline {3.4.6}The diffusion approximation}{34}{subsection.3.4.6}
 \contentsline {subsection}{\numberline {3.4.7}Standard dipole model}{36}{subsection.3.4.7}
 \contentsline {subsection}{\numberline {3.4.8}Directional dipole model}{38}{subsection.3.4.8}
@@ -59,35 +59,36 @@
 \contentsline {subsection}{\numberline {5.3.4}Generation of uniformly distributed points}{76}{subsection.5.3.4}
 \contentsline {subsubsection}{\numberline {5.3.4.1}Exponentially biased points}{77}{subsubsection.5.3.4.1}
 \contentsline {subsection}{\numberline {5.3.5}Shadow mapping}{79}{subsection.5.3.5}
-\contentsline {section}{\numberline {5.4}Caveats}{83}{section.5.4}
-\contentsline {subsection}{\numberline {5.4.1}Random rotation of samples}{83}{subsection.5.4.1}
-\contentsline {subsection}{\numberline {5.4.2}Mipmap generation}{85}{subsection.5.4.2}
-\contentsline {subsection}{\numberline {5.4.3}Shadow bias}{87}{subsection.5.4.3}
-\contentsline {subsection}{\numberline {5.4.4}Texture discretization artifacts}{89}{subsection.5.4.4}
-\contentsline {section}{\numberline {5.5}Extensions to the method}{89}{section.5.5}
-\contentsline {subsection}{\numberline {5.5.1}Rendering with multiple lights}{89}{subsection.5.5.1}
-\contentsline {subsection}{\numberline {5.5.2}Rendering with other kinds of light}{93}{subsection.5.5.2}
-\contentsline {subsection}{\numberline {5.5.3}Rendering with environment light illumination}{94}{subsection.5.5.3}
+\contentsline {subsection}{\numberline {5.3.6}Memory layout}{83}{subsection.5.3.6}
+\contentsline {section}{\numberline {5.4}Caveats}{84}{section.5.4}
+\contentsline {subsection}{\numberline {5.4.1}Random rotation of samples}{84}{subsection.5.4.1}
+\contentsline {subsection}{\numberline {5.4.2}Mipmap generation}{86}{subsection.5.4.2}
+\contentsline {subsection}{\numberline {5.4.3}Shadow bias}{88}{subsection.5.4.3}
+\contentsline {subsection}{\numberline {5.4.4}Texture discretization artifacts}{90}{subsection.5.4.4}
+\contentsline {section}{\numberline {5.5}Extensions to the method}{90}{section.5.5}
+\contentsline {subsection}{\numberline {5.5.1}Rendering with multiple lights}{92}{subsection.5.5.1}
+\contentsline {subsection}{\numberline {5.5.2}Rendering with other kinds of light}{94}{subsection.5.5.2}
+\contentsline {subsection}{\numberline {5.5.3}Rendering with environment light illumination}{96}{subsection.5.5.3}
 \contentsline {section}{\numberline {5.6}Discussion}{97}{section.5.6}
-\contentsline {subsection}{\numberline {5.6.1}Advantages}{97}{subsection.5.6.1}
-\contentsline {subsection}{\numberline {5.6.2}Disadvantages}{97}{subsection.5.6.2}
-\contentsline {chapter}{\numberline {6}Results}{99}{chapter.6}
-\contentsline {section}{\numberline {6.1}Parameters}{99}{section.6.1}
-\contentsline {section}{\numberline {6.2}Quality comparison}{100}{section.6.2}
-\contentsline {subsection}{\numberline {6.2.1}Tests with different number of samples}{100}{subsection.6.2.1}
-\contentsline {subsection}{\numberline {6.2.2}Radiance map sizes tests}{108}{subsection.6.2.2}
-\contentsline {subsection}{\numberline {6.2.3}Tests of mipmap blurring quality}{110}{subsection.6.2.3}
-\contentsline {subsection}{\numberline {6.2.4}Environment map illumination}{111}{subsection.6.2.4}
-\contentsline {section}{\numberline {6.3}Performance tests}{114}{section.6.3}
-\contentsline {subsection}{\numberline {6.3.1}Time algorithm breakdown}{114}{subsection.6.3.1}
-\contentsline {subsection}{\numberline {6.3.2}Tests for varying parameters}{117}{subsection.6.3.2}
-\contentsline {subsection}{\numberline {6.3.3}Tests on environment lighting}{121}{subsection.6.3.3}
-\contentsline {chapter}{\numberline {7}Future work}{123}{chapter.7}
-\contentsline {section}{\numberline {7.1}Improving the quality}{123}{section.7.1}
-\contentsline {section}{\numberline {7.2}Improving the performance}{124}{section.7.2}
-\contentsline {chapter}{\numberline {8}Conclusions}{125}{chapter.8}
-\contentsline {chapter}{\numberline {A}Model matrices}{127}{appendix.A}
-\contentsline {section}{\numberline {A.1}Model matrices}{127}{section.A.1}
-\contentsline {section}{\numberline {A.2}View Matrix}{128}{section.A.2}
-\contentsline {section}{\numberline {A.3}Projection Matrix}{129}{section.A.3}
-\contentsline {chapter}{Bibliography}{131}{section.A.3}
+\contentsline {subsection}{\numberline {5.6.1}Advantages}{98}{subsection.5.6.1}
+\contentsline {subsection}{\numberline {5.6.2}Disadvantages}{98}{subsection.5.6.2}
+\contentsline {chapter}{\numberline {6}Results}{101}{chapter.6}
+\contentsline {section}{\numberline {6.1}Parameters}{101}{section.6.1}
+\contentsline {section}{\numberline {6.2}Quality comparison}{102}{section.6.2}
+\contentsline {subsection}{\numberline {6.2.1}Tests with different number of samples}{102}{subsection.6.2.1}
+\contentsline {subsection}{\numberline {6.2.2}Radiance map sizes tests}{110}{subsection.6.2.2}
+\contentsline {subsection}{\numberline {6.2.3}Tests of mipmap blurring quality}{112}{subsection.6.2.3}
+\contentsline {subsection}{\numberline {6.2.4}Environment map illumination}{113}{subsection.6.2.4}
+\contentsline {section}{\numberline {6.3}Performance tests}{116}{section.6.3}
+\contentsline {subsection}{\numberline {6.3.1}Time algorithm breakdown}{116}{subsection.6.3.1}
+\contentsline {subsection}{\numberline {6.3.2}Tests for varying parameters}{119}{subsection.6.3.2}
+\contentsline {subsection}{\numberline {6.3.3}Tests on environment lighting}{123}{subsection.6.3.3}
+\contentsline {chapter}{\numberline {7}Future work}{125}{chapter.7}
+\contentsline {section}{\numberline {7.1}Improving the quality}{125}{section.7.1}
+\contentsline {section}{\numberline {7.2}Improving the performance}{126}{section.7.2}
+\contentsline {chapter}{\numberline {8}Conclusions}{127}{chapter.8}
+\contentsline {chapter}{\numberline {A}Model matrices}{129}{appendix.A}
+\contentsline {section}{\numberline {A.1}Model matrices}{129}{section.A.1}
+\contentsline {section}{\numberline {A.2}View Matrix}{130}{section.A.2}
+\contentsline {section}{\numberline {A.3}Projection Matrix}{131}{section.A.3}
+\contentsline {chapter}{Bibliography}{133}{section.A.3}

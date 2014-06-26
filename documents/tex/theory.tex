@@ -167,7 +167,7 @@ After introducing the basic radiometric quantities, we still lack a rigorous way
 
 \subsection{BRDF functions}
 \label{sec:brdf}
-One of the possible way to describe light-material interaction is by using a BDRF function, acronym for \emph{Bidirectional Reflectance Distribution Function}. The BRDF function $f(\x, \vomega_i, \vomega_o)$ is defined on one point $\x$ of the surface as the differential ratio between the exiting radiance and the incoming irradiance:
+One of the possible way to describe light-material interaction is by using a BDRF function \citep{Nicodemus:1992:GCN:136913.136929}, acronym for \emph{Bidirectional Reflectance Distribution Function}. The BRDF function $f(\x, \vomega_i, \vomega_o)$ is defined on one point $\x$ of the surface as the differential ratio between the exiting radiance and the incoming irradiance:
 
 \begin{equation}
 f(\x, \vomega_i, \vomega_o) = \frac{d L_o(\x, \vomega_o)}{d E_i(\x, \vomega_i)} = \frac{d L_o(\x, \vomega_o)}{L_i(\x, \vomega_i) \cos\theta_i d \vomega_i}
@@ -238,7 +238,7 @@ Later we will use this equation as a starting point to obtain a formulation of t
 \end{figure}
 
 
-There are many examples of BRDF functions in literature. In this section, in order to illustrate some examples, we will introduce three of them: the lambertian or diffuse BRDF, the specular or mirror BRDF and glossy BRDFs. For a detailed overview on BRDF functions, please refer to \citep{montes2012overview}.
+There are many examples of BRDF functions in literature. In this section, in order to illustrate some examples, we will introduce three of them: the lambertian or diffuse BRDF, the specular or mirror BRDF and glossy BRDFs. For a detailed overview on BRDF functions, please refer to \citep{RTR3}.
 
 \subsubsection{Lambertian BRDF}
 
@@ -283,7 +283,7 @@ that is the expected result, as all the radiance is reflected into the direction
 
 As we can see from real life experience, rarely objects are completely diffuse or completely specular. These two models are idealized models, that represent an ideal case. So, to create a realistic BRDF model, we often need to combine the two terms and add an additional one, called glossy reflection.
 
-The most used BRDF model used to model glossy reflections is based on microfacet theory \citep{Ashikmin:2000:MBG:344779.344814}. In this theory, the surface of an object is modeled as composed of small mirrors. In one of its classical formulation, the BRDF is represented as:
+The most used BRDF model used to model glossy reflections is based on microfacet theory \citep{Torrance:1992:TOR:136913.136924, Ashikmin:2000:MBG:344779.344814} and first introduced by \citep{Blinn:1977:MLR:965141.563893}. In this theory, the surface of an object is modeled as composed of small mirrors. In one of its classical formulation, the BRDF is represented as:
 
 $$
 f(\x, \vomega_i, \vomega_o) = \frac{D G R}{4 \cos\theta_r \cos\theta_i} = \frac{G R}{4} \frac{(\vec{n}\cdot\vec{h})^s}{(\vec{n}\cdot\vec{r})(\vec{n}\cdot\vomega_i)}
@@ -307,7 +307,7 @@ The first factor are emissive surfaces. We need to add an emissive radiance term
 
 The second factor is that the reflectance equation accounts only for direct illumination. In general, we want to model global illumination, i.e. to include also light that bounced onto another surface before reaching the current surface. To model this, we can replace the $L_i$ term in the reflectance equation with another term $L_r$ that accounts for light coming from another surface. This term can be usually modeled as the product of the radiance of the light plus a visibility function $V(\x)$.
 
-Accounting for all the described factors, we reach one formulation of the rendering equation:
+Accounting for all the described factors, we reach one formulation of the rendering equation \citep{Kajiya:1986:RE:15886.15902}:
 
 $$
 L_o(\x, \vomega_o) = L_e(\x, \vomega) + \int_{2\pi} f(\x, \vomega_i, \vomega_o) L_i(\x, \vomega_i) V(\x) \cos\theta_i d\vomega_i
@@ -319,7 +319,7 @@ This form of the rendering equation is still not completely general, since it is
 \label{sec:fresnel}
 
 
-Until now, on the described BRDF models, we did consider only the reflected part of the radiance. When a beam of light coming from direction $\vomega_i$ hits a surface, only part of the incoming radiance gets reflected, while another part gets refracted into the material. As we can see from the setup from figure \ref{fig:fresnelsetup}, we obtain the two vectors $\vomega_r$ and $\vomega_t$, the reflected and refracted vector, defined as follows:
+Until now, on the described BRDF models, we did consider only the reflected part of the radiance. When a beam of light coming from direction $\vomega_i$ hits a surface, only part of the incoming radiance gets reflected, while another part gets refracted into the material. As we can see from the setup from figure \ref{fig:fresnelsetup}, we obtain the two vectors $\vomega_r$ and $\vomega_t$, the reflected and refracted vector, defined as follows \citep{Kay:1979:TCS:965103.807438}:
 
 \begin{equation*}
 \begin{split}
@@ -336,7 +336,7 @@ Until now, on the described BRDF models, we did consider only the reflected part
 \end{figure}
  
 
-Where $\eta = \frac{n_1}{n_2}$ is the relative index of refraction of the material. With this setup, illustrated in figure \ref{fig:fresnelsetup}, we can use a solution to Maxwell's equations for wave propagation to describe the behavior of the radiant flux. In particular, we can tell which part of the power propagates in the reflected and refracted direction respectively. The numbers that describe this division are called \emph{Fresnel coefficients}. The coefficients are different according to the polarization of the incoming light (parallel or perpendicular), so there are two of them for the reflection ($R_s$, $R_p$) and two for transmission ($T_s$, $T_p$). The coefficients relate the incoming and outgoing radiant flux of the light, and by differentiation the radiance as well.
+Where $\eta = \frac{n_1}{n_2}$ is the relative index of refraction of the material. With this setup, illustrated in figure \ref{fig:fresnelsetup}, we can use a solution to Maxwell's equations for wave propagation to describe the behavior of the radiant flux. In particular, we can tell which part of the power propagates in the reflected and refracted direction respectively. The numbers that describe this division are called \emph{Fresnel coefficients} \citep{ob:bornwolf}. The coefficients are different according to the polarization of the incoming light (parallel or perpendicular), so there are two of them for the reflection ($R_s$, $R_p$) and two for transmission ($T_s$, $T_p$). The coefficients relate the incoming and outgoing radiant flux of the light, and by differentiation the radiance as well.
 
 \begin{equation*}
 \begin{split}
@@ -360,7 +360,7 @@ In most computer graphics applications (and this is reasonable for most of the r
 
 As we anticipated in section \ref{sec:brdf}, the BRDF theory that was introduced before is not accurate in predicting the behavior in the lighting for all materials, since BRDF models assume that the light enters and leaves the material in the same point. While this assumption holds true for a wide range of material, like metal or plastic, it poorly describes translucent materials, that exhibit a consistent amount of light transport under the surface. 
 
-In order to describe light transport in this material, we introduce a function, called BSSRDF, acronym for \emph{Bidirectional Subsurface Scattering Reflectance Distribution Function}. This function extends the concept of BRDF to account for two separate points. The BSSRDF is usually indicated with a capital $S$. We define the BRDF as the ratio between the incoming flux in a point $\x_i$ from the direction $\vomega_i$ and the outgoing radiance in \emph{another} point $\x_o$ on direction $\vomega_o$:
+In order to describe light transport in this material, we introduce a function, called BSSRDF \citep{Nicodemus:1992:GCN:136913.136929}, acronym for \emph{Bidirectional Subsurface Scattering Reflectance Distribution Function}. This function extends the concept of BRDF to account for two separate points. The BSSRDF is usually indicated with a capital $S$. We define the BRDF as the ratio between the incoming flux in a point $\x_i$ from the direction $\vomega_i$ and the outgoing radiance in \emph{another} point $\x_o$ on direction $\vomega_o$:
 
 $$
 S(\x_i, \vomega_i, \x_o, \vomega_o) = \frac{d L_o(\x_o,\vomega_o)}{d \Phi_i(\x_i,\vomega_i)} = \frac{d L_o(\x_o,\vomega_o)}{d E_i(\x_i,\vomega_i) d A_i} = \frac{d L_o(\x_o,\vomega_o)}{L_i(\x_i,\vomega_i) \cos \theta_i d\vomega_i d A_i}  
@@ -406,11 +406,11 @@ From now on, by `rendering equation' in this report we will mean the one in equa
 \label{fig:transport}
 \end{figure}
 
-When we derive our models for lighting, in general we assume that the light is traveling in vacuum. This assumption holds for light that is propagating though the air (which is assimilable to vacuum), but once we relax it, more variables should be taken into consideration. Objects through which light travels are referred as \emph{participating media}. In this chapter, we will derive and consider an alternative formulation of the rendering equation for light traveling into participating media, called \emph{radiative transport equation}.
+When we derive our models for lighting, in general we assume that the light is traveling in vacuum. This assumption holds for light that is propagating though the air (which is assimilable to vacuum), but once we relax it, more variables should be taken into consideration. Objects through which light travels are referred as \emph{participating media}. In this chapter, we will derive and consider an alternative formulation of the rendering equation for light traveling into participating media, called \emph{radiative transfer equation} \citep{Chandrasekar:1950:RT}.
 
 When a beam of light travels through an object, various phenomena occur. A photon on the beam can be either being absorbed (disappear), scattered (change direction) or emitted (appear). These phenomena can be uniform throughout the material (homogeneous materials), as in solid materials like wax or leaves, or be not uniform (heterogeneous materials), like in smoke or clouds.
 
-We will briefly describe all three mentioned effects, then combine them to compose the radiative transport equation. The purpose is to describe how radiance varies along a beam of light with direction $\vomega$. This directional derivative is indicated as:
+We will briefly describe all three mentioned effects, then combine them to compose the radiative transfer equation. The purpose is to describe how radiance varies along a beam of light with direction $\vomega$. This directional derivative is indicated as:
 
 $$
 (\vec{\nabla} \cdot \vomega) L(\x, \vomega) = \frac{\partial L_x}{\partial x} \vomega_x + \frac{\partial L_y}{\partial y} \vomega_y +\frac{\partial L_z}{\partial z} \vomega_z
@@ -474,8 +474,8 @@ So, the final 3D equation for in-scattering, accounting for the phase function, 
 (\vec{\nabla} \cdot \vomega) L(\x, \vomega) = \sigma_s(\x) \int_{4\pi} p(\x, \vomega, \vomega') L(\x,\vomega') d\omega'	
 \end{equation*}
 
-\subsection{Final formulation of the radiative transport equation}
-Combining emission, absorption, scattering described in the previous sections, we reach the final formulation of the radiative transport equation (RTE):
+\subsection{Final formulation of the radiative transfer equation}
+Combining emission, absorption, scattering described in the previous sections, we reach the final formulation of the radiative transfer equation (RTE):
 
 \begin{equation}
 (\vec{\nabla} \cdot \vomega) L(\x, \vomega) =   -\sigma_t(\x) L(\x, \vomega) + \epsilon(\x) + \sigma_s(\x) \int_{4\pi} p(\x, \vomega, \vomega') L(\x,\vomega') d\omega'
@@ -486,7 +486,7 @@ Where the two reducing term, scattering and absorption, have been combined toget
 
 
 \subsection{The diffusion approximation}
-The radiative transport equation \ref{eq:rte} is a integro-differential equation with many degrees of freedom. As we stated in chapter \ref{chap:previous}, there are rendering techniques that numerically solve the equation in order to obtain a realistic result. However, analytical methods tend to use some approximations of the RTE, that hold well given specific conditions. The \emph{diffusion approximation} is one of these approximations, and it is still widely used today since its introduction in the computer graphics community by Ishimaru\cite{books/daglib/0093591}. 
+The radiative transfer equation \ref{eq:rte} is a integro-differential equation with many degrees of freedom. As we stated in chapter \ref{chap:previous}, there are rendering techniques that numerically solve the equation in order to obtain a realistic result. However, analytical methods tend to use some approximations of the RTE, that hold well given specific conditions. The \emph{diffusion approximation} \citep{books/daglib/0093591} is one of these approximations, and it is still widely used today since its introduction in the computer graphics community by \citep{raey}. 
 
 The assumption under the diffusion approximation is simple: given that in a physical medium there are a lot of scattering events, the beam of light quickly becomes isotropic. Each one of the scattering events blurs the light distribution, and as a result the distribution becomes more uniform as the number of scattering events increases. This has been proven to be a reasonable assumption even for highly anisotropic light sources (e.g. a focused laser beam) and phase functions.
 
