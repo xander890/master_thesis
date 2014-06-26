@@ -1288,6 +1288,7 @@ static ShaderProgramDraw depth_only(shader_path,"ss_array_depth_pass.vert","ss_a
     Mesh::ScatteringMaterial * scattering_material = (Mesh::ScatteringMaterial*)obj->mesh.getMaterial();
     Vec3f tr = scattering_material->transmissionCoefficient;
     float selectedTransmission = min(tr[0],min(tr[1],tr[2])) / params->circleradius;
+    //float selectedTransmission = tr[0] + tr[1] + tr[2]) / (3*params->circleradius;
 
     if(reload)
     {

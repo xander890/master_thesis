@@ -273,7 +273,8 @@ OTHER_FILES += shaders/TranslucentMaterials/* \
     shaders/TranslucentMaterials/ss_array_debug_tex.frag \
     shaders/TranslucentMaterials/ss_array_depth_pass.vert \
     shaders/TranslucentMaterials/ss_array_depth_pass.geom \
-    shaders/TranslucentMaterials/ss_array_depth_pass.frag
+    shaders/TranslucentMaterials/ss_array_depth_pass.frag \
+    shaders/TranslucentMaterials/ss_aincludes_directional_bssrdf_correct.glinc
 
 FORMS += \
     exercises/TranslucentMaterials/mainwindow.ui \

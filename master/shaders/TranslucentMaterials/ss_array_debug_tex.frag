@@ -34,7 +34,7 @@ void main(void)
    //fragColor = vec4(bssrdf(xi,ni,wi,xo,no),1.0f) / 1;
     //fragColor = pow(fragColor,vec4(1/2.2f));
 
-        fragColor = textureLod(colorMap,vec3(_tex.xy, 0),0).r > 0 ? vec4(1): vec4(0);
+        fragColor = textureLod(colorMap,vec3(_tex.xy, 0),0);
         //fragColor +=  (0.5 - 0.5* texture(newDepthMap,vec4(_tex.xy, 0, 0.5)) ).xxxx;// + textureLod(colorMap,vec3(_tex.xy,level),1f);
         //fragColor = noise(gl_FragCoord.xy).xxxx;
 
