@@ -16,7 +16,14 @@ Another possibility in this area is to rotate the cameras during the rendering p
 \section{Improving the performance}
 Regarding the implementation, we tought about some possible extensions in order to make the implementation faster and more reliable.
 
-The first thing we have thought about would be to change the loop in step 2. The idea would be to have instead to have a single fragment shader invocation with cycling $N$ times on the samples, to have $N$ separate fragment shader invocations that calculate the result. The single invocations can be summed over using blending or atomic operations available since OpenGL 4.2. This would allow the GPU more flexibility in scheduling its work. However, we have seen in TODO that also the random number generation is an expensive operation for the GPU, and that would have to be repeated for each of the $N$ fragments, potentially undermining the advantages of GPU scheduling. 
+\begin{figure}[!h]
+\centering
+\includegraphics[width=0.7 \linewidth]{images/method/extension_shader.pdf}
+\caption{Different approaches to rendering to the radiance map: on the left, our approach (one random number generation, multiple samples in the same shader invocation). On the right, the proposed approach: smaller shader invocations, that can be distributed on the GPU.}
+\label{fig:shaderimprov}
+\end{figure}
+
+The first thing we have thought about would be to change the loop in step 2. The idea would be to have instead to have a single fragment shader invocation with cycling $N$ times on the samples, to have $N$ separate fragment shader invocations that calculate the result. The single invocations can be summed over using blending or atomic operations available since OpenGL 4.2. This would allow the GPU more flexibility in scheduling its work. However, we have seen in \ref{fig:shaderimprov} that also the random number generation is an expensive operation for the GPU, and that would have to be repeated for each of the $N$ fragments, potentially undermining the advantages of GPU scheduling. 
 
 Another improvement in order to make the performance more reliable would be to make the cameras more adaptive. At the moment, the size of the light and directional cameras is fixed and set up by the user. A simple extension to the method would be to make the camera size adaptive, in order to adapt to the object bounding box. This would make the area in the radiance map texture space more consistent regarding to the size of the object, leading to a more predictable result. 
 

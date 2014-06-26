@@ -61,9 +61,9 @@
 \contentsline {subsection}{\numberline {5.3.5}Shadow mapping}{79}{subsection.5.3.5}
 \contentsline {subsection}{\numberline {5.3.6}Memory layout}{83}{subsection.5.3.6}
 \contentsline {section}{\numberline {5.4}Caveats}{84}{section.5.4}
-\contentsline {subsection}{\numberline {5.4.1}Random rotation of samples}{84}{subsection.5.4.1}
-\contentsline {subsection}{\numberline {5.4.2}Mipmap generation}{86}{subsection.5.4.2}
-\contentsline {subsection}{\numberline {5.4.3}Shadow bias}{88}{subsection.5.4.3}
+\contentsline {subsection}{\numberline {5.4.1}Random rotation of samples}{85}{subsection.5.4.1}
+\contentsline {subsection}{\numberline {5.4.2}Mipmap generation}{87}{subsection.5.4.2}
+\contentsline {subsection}{\numberline {5.4.3}Shadow bias}{89}{subsection.5.4.3}
 \contentsline {subsection}{\numberline {5.4.4}Texture discretization artifacts}{90}{subsection.5.4.4}
 \contentsline {section}{\numberline {5.5}Extensions to the method}{90}{section.5.5}
 \contentsline {subsection}{\numberline {5.5.1}Rendering with multiple lights}{92}{subsection.5.5.1}
@@ -86,9 +86,9 @@
 \contentsline {chapter}{\numberline {7}Future work}{125}{chapter.7}
 \contentsline {section}{\numberline {7.1}Improving the quality}{125}{section.7.1}
 \contentsline {section}{\numberline {7.2}Improving the performance}{126}{section.7.2}
-\contentsline {chapter}{\numberline {8}Conclusions}{127}{chapter.8}
-\contentsline {chapter}{\numberline {A}Model matrices}{129}{appendix.A}
-\contentsline {section}{\numberline {A.1}Model matrices}{129}{section.A.1}
-\contentsline {section}{\numberline {A.2}View Matrix}{130}{section.A.2}
-\contentsline {section}{\numberline {A.3}Projection Matrix}{131}{section.A.3}
-\contentsline {chapter}{Bibliography}{133}{section.A.3}
+\contentsline {chapter}{\numberline {8}Conclusions}{129}{chapter.8}
+\contentsline {chapter}{\numberline {A}Model matrices}{131}{appendix.A}
+\contentsline {section}{\numberline {A.1}Model matrices}{131}{section.A.1}
+\contentsline {section}{\numberline {A.2}View Matrix}{132}{section.A.2}
+\contentsline {section}{\numberline {A.3}Projection Matrix}{133}{section.A.3}
+\contentsline {chapter}{Bibliography}{135}{section.A.3}

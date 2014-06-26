@@ -225,7 +225,7 @@ In this part we tested the quality improvement from the mipmap blurring introduc
 
 \subsection{Environment map illumination}
 
-All the given consideration so far are the same irregardless if we have an environment map or a single directional light. In this section we present the results obtained we environment light illumination. Visually, we obtain a nice result. Obviously, since the samples are split between different lights, an overlapping is inevitable, and we need an higher number of samples to obtain a decent result. The bunnies in figures \ref{fig:bunnyenv1} and \ref{fig:bunnyenv} were obtained using 16 directional lights, sampled using the method in \ref{sec:envenv} and \ref{sec:env}, with $N = 80$ (5 samples per light) and $M = 1000$. 
+All the given consideration so far are the same irregardless if we have an environment map or a single directional light. In this section we present the results obtained we environment light illumination. Visually, we obtain a nice result. Obviously, since the samples are split between different lights, an overlapping is inevitable, and we need an higher number of samples to obtain a decent result. The bunny in figure \ref{fig:bunnyenv1} was obtained using 16 directional lights, sampled using the method in \ref{sec:envenv} and \ref{sec:env}, with $N = 80$ (5 samples per light) and $M = 1000$. 
 
 As for reference, we compared our results to the reference image of the potato buddha from \cite{IMM2013-06646} in figure \ref{fig:pathbuddhaenv}. We had to try to match the light settings and the camera, but here as well we notice the same color shift as before. Also in this case we used 16 directional lights to represent our skybox.
 

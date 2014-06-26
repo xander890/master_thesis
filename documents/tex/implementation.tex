@@ -440,7 +440,20 @@ We can see that we specify two extra parameters: \gl{GL_TEXTURE_COMPARE_MODE}, o
 \subsection{Memory layout}
 \label{sec:memorylayout}
 
-In this section, we briefly describe how memory is allocated in our method. The great advantage of using OpenGL 4.3 is that we can use \emph{texture views} \citep{openglspec}. Texture views are a way to create a texture in OpenGL, but on the opposite hand of \gl{glTexImage*D} or the \gl{glTexStorage*D} families of functions they allow for two texture to share the same storage on the GPU. To create a texture view, we use \gl{glTextureView}. We compare the standard way of allocating texture with our without texture view in figure TODO.
+In this section, we briefly describe how memory is allocated in our method. The great advantage of using OpenGL 4.3 is that we can use \emph{texture views} \citep{openglspec}. Texture views are a way to create a texture in OpenGL, but on the opposite hand of \gl{glTexImage*D} or the \gl{glTexStorage*D} families of functions they allow for two texture to share the same storage on the GPU. To create a texture view, we use \gl{glTextureView}. We compare the standard way of allocating texture with our without texture view in figure \ref{fig:textureviews}.
+
+\begin{figure}[h]
+\centering
+\subfloat[{Without texture views}]{
+  \includegraphics[width=0.5 \linewidth]{images/method/layout_no_view.pdf}
+}
+\subfloat[{With texture views}]{
+  \includegraphics[width=0.5 \linewidth]{images/method/layout_view.pdf}
+} 
+\caption{Diagram illustrating texture views. On the top part of the picture the texture ids on the GPU, on the bottom the state of the memory. In the first case, we create two memory areas on the GPU using \gl{glTexStorage}, in the second case we make a single call to \gl{glTexStorage} and then a second call to \gl{glTextureView} to make them share the same storage space.}
+\label{fig:textureviews}
+\end{figure}
+
 
 In our method, this comes to great advantages in two areas. First of all, since the depth map of the radiance map is not accumulated, we can make the two radiance maps share the same depth map. In addition, we can render directly between two mipmap levels of the same texture, something that we will need later to generate a blurred version of our texture.
 
@@ -701,7 +714,7 @@ The result is depicted in figure \ref{fig:shadowbias}. As we can see, we raise t
 
 
 \subsection{Texture discretization artifacts}
-A problem related to the previous one is texture discretization artifacts, that appear as seams in the texture in figure TODO. The problem is similar to the one of depth bias, but it manifests on the direction perpendicular to the directional cameras. Because of the discretization and the depth bias in the shadow sampling, some pixels become false positives, being incorrectly sampled even if they are not visible. To fix this, we apply a transformation to the vertex in the final step that shrinks it a little bit towards the center of the texture. The shrinking is made using the camera direction as a main axis, according to the formula:
+A problem related to the previous one is texture discretization artifacts, that appear as seams in the texture in figure \ref{fig:combias}. The problem is similar to the one of depth bias, but it manifests on the direction perpendicular to the directional cameras. Because of the discretization and the depth bias in the shadow sampling, some pixels become false positives, being incorrectly sampled even if they are not visible. To fix this, we apply a transformation to the vertex in the final step that shrinks it a little bit towards the center of the texture. The shrinking is made using the camera direction as a main axis, according to the formula:
 
 $$
 \x_o^{shrink} = \x_o - \epsilon_c (\vec{n}_o - \vomega_d (\vec{n}_o \cdot \vomega_d));
@@ -799,7 +812,7 @@ R^{t,k}(\x_o) = {I_l} \sum_{i = 1}^N  \frac{S(\x^{t,k}_i, \frac{\x_l - \x_i}{\|\
 \label{eq:evolution_step_2}
 $$
 
-Where $\x_l$ is the light position and $I_l$ the light intensity. Equation TODO can be extended in the same way. More generally, if we have a function to compute the light direction $\vomega_l(\x_i)$ and a function to compute radiance $L(\x_i, \vomega_l(\x_i))$ we can express equation TODO in the following way:
+Where $\x_l$ is the light position and $I_l$ the light intensity. More generally, if we have a function to compute the light direction $\vomega_l(\x_i)$ and a function to compute radiance $L(\x_i, \vomega_l(\x_i))$ we can express equation \ref{eq:evolution_step} in the following way:
 
 $$
 R^{t,k}(\x_o) = \sum_{l = 1}^L \sum_{i = 1}^{N/L} L^t(\x_i, \vomega_l(\x_i)) S(\x^{t,k}_i, \vomega_l^t(\x_i), \x_o, \vomega_o) \exp\left(\sigma_{tr} r^{t,k}_i\right)
