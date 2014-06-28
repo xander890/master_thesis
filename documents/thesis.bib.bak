@@ -806,22 +806,6 @@
   url = {http://dl.acm.org/citation.cfm?id=136913.136929}
 }
 
-@INCOLLECTION{Nicodemus:1992:GCN:136913.136929,
-  author = {Nicodemus, F. E. and Richmond, J. C. and Hsia, J. J. and Ginsberg,
-	I. W. and Limperis, T.},
-  title = {Radiometry},
-  publisher = {Jones and Bartlett Publishers, Inc.},
-  year = {1992},
-  editor = {Wolff, Lawrence B. and Shafer, Steven A. and Healey, Glenn},
-  chapter = {Geometrical Considerations and Nomenclature for Reflectance},
-  pages = {94--145},
-  address = {USA},
-  acmid = {136929},
-  isbn = {0-86720-294-7},
-  numpages = {52},
-  url = {http://dl.acm.org/citation.cfm?id=136913.136929}
-}
-
 @BOOK{niederreiter1992a,
   title = {Random number generation and quasi-Monte Carlo methods},
   publisher = {SIAM},

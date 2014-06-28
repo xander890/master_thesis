@@ -1,4 +1,4 @@
-\begin{thebibliography}{56}
+\begin{thebibliography}{57}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -330,6 +330,14 @@ Matt Pharr and Pat Hanrahan.
 Matt Pharr and Greg Humphreys.
 \newblock \emph{Physically Based Rendering: From Theory to Implementation}.
 \newblock Morgan Kaufmann Publishers Inc., San Francisco, CA, USA, 2004.
+
+\bibitem[Ramamoorthi and Hanrahan(2001)]{Ramamoorthi:2001:ERI:383259.383317}
+Ravi Ramamoorthi and Pat Hanrahan.
+\newblock An efficient representation for irradiance environment maps.
+\newblock In \emph{Proceedings of the 28th Annual Conference on Computer
+  Graphics and Interactive Techniques}, SIGGRAPH '01, pages 497--500, New York,
+  NY, USA, 2001. ACM.
+\newblock URL \url{http://doi.acm.org/10.1145/383259.383317}.
 
 \bibitem[Segal and Akeley(2012)]{openglspec}
 Marc Segal and Kurt Akeley.

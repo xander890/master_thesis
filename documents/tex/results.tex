@@ -486,12 +486,12 @@ Model                        & \#$\Delta$ & \multicolumn{1}{c|}{1} & \multicolum
 \label{table:multilightenvdragon}
 \end{table}
 \vspace{-0.2cm}
-As we can see, even if we maintain the same number of samples ($N = 32$, so the number of samples per light changes) the performance worsen increasing the number of lights. To look at this into more detail, we broke down the timings again in the different steps. We can see in figure \ref{fig:numblights} that the increase in timing is due to step 1, the render to lightmap: in fact, we have to render the model once for each light, that implies a performance penalty.
+As we can see, even if we maintain the same number of samples ($N = 32$, so the number of samples per light changes) the performance worsen increasing the number of lights. To look at this into more detail, we broke down the timings again in the different steps. We can see in Figure \ref{fig:numblights} that the increase in timing is due to step 1, the render to lightmap: in fact, we have to render the model once for each light, that implies a performance penalty.
 
 \begin{figure}[!ht]
 \centering
   \includegraphics[width=0.7\linewidth]{images/matlab/multiple_lights_test.pdf}
 
-\caption{Rendering times for the environment lighting of figure \ref{table:multilightenvdragon}, split into the various components. The rendering times of step 2 are not shown, but they are $[87.2\ 90.2\ 89.4\ 91.6\ 95.2]$.}
+\caption{Rendering times for the environment lighting of Figure \ref{table:multilightenvdragon}, split into the various components. The rendering times of step 2 are not shown, but they are $[87.2\ 90.2\ 89.4\ 91.6\ 95.2]$.}
 \label{fig:numblights}
 \end{figure}
