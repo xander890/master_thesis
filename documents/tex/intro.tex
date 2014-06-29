@@ -52,6 +52,7 @@ In this section, we will introduce some constraints and assumptions to limit the
 \subsection{Quality constraints}
  \label{sec:quality}
 \begin{enumerate}
+\setlength{\itemsep}{-1pt}
 	\item Be visually close as much as possible to a path traced solution.
 	\item Be consistent with the directional dipole model for a wide range of material properties. In particular, the method should perform well in the domain of quality where the directional dipole model excels (highly scattering materials).
 	\item Be potentially able to render an object under an arbitrary number of different types of lights (point, directional, environment, etc.).
@@ -59,14 +60,15 @@ In this section, we will introduce some constraints and assumptions to limit the
 
 \subsection{Flexibility requirements}	
 \begin{enumerate}
+\setlength{\itemsep}{-1pt}
 	\item Work with the less amount as possible of provided model data, i.e. only the position data and eventually the normals should be provided in order for the method to run. In particular, no unwrap of the mesh (UV mapping) should be necessary. 
 	\item Being able to be integrated in a game engine environment, using data from other computations (e.g. other lighting computations) and being adaptable to different lighting paths (forward and deferred shading).
   \item The quality versus performance tradeoff should be set by a potential artist or developer, with the fewest number of parameters as possible.
 \end{enumerate}
 
 \subsection{Performance requirements}
-
 \begin{enumerate}
+\setlength{\itemsep}{-1pt}
 	\item Being real-time on a high-end modern GPU, i.e. one frame should take less that 100 ms (10 FPS) to render. The ideal result would be to reach a rendering time of less than 16 ms (60 FPS).
 	\item Being as less dependent as possible from the geometrical complexity of the model.
 	\item Being as less dependent as possible from the screen resolution.

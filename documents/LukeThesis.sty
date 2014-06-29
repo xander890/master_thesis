@@ -87,6 +87,49 @@
 %==================================================================================================
 % GENERATE PREFRONTMATTER
 %==================================================================================================
+\def\italianversion{unipd}
+\ifx\thesisfront\italianversion
+\newcommand{\prefrontmatter}{
+   \pagenumbering{alph}                                %Set prefrontmatter numbering style
+   \thispagestyle{empty}                               %Front page (inside cover)
+\begin{center}
+\includegraphics[width=0.5 \textwidth]{figures/UNIPD-logo}
+\end{center}
+\begin{spacing}{2.0}
+\begin{center}
+{\Large UNIVERSITÀ DEGLI STUDI DI PADOVA} \\
+{\Large Dipartimento di Ingegneria dell\textquoteright{}Informazione }\\
+{\Large Corso di Laurea in Ingegneria Informatica} 
+\end{center}
+\begin{center}
+\textit{\Large TESI DI LAUREA} 
+\par\end{center}
+\begin{center}
+\textbf{\huge \ttitle}
+\end{center}
+\end{spacing}\begin{spacing}{1.5}
+\begin{center}
+\vspace{-1cm}
+RELATORE: Emanuele Menegatti \\
+CORRELATORE: Jeppe Revall Frisvad \\
+LAUREANDO: \thesisauthor \\
+A.A. 2013-2014 
+\par\end{center}
+\end{spacing}
+   \newpage                                            %Back of front page
+   \thispagestyle{empty}
+   \vspace*{11cm}
+   {\sf Università degli Studi di Padova}\\
+   {\sf Dipartimento di Ingegneria dell'Informazione}\\
+   {\sf Via Gradenigo, 6/B,}\\ 
+   {\sf 35131 - Padova, Italy}\\
+   {\sf Phone +45 4525 3351}\\
+   {\sf +39-049-827-7600}\\
+   {\sf www.dei.unipd.it}
+   \vspace*{2.5cm}
+   \def\empty{}
+}
+\else
 \newcommand{\prefrontmatter}{
    \pagenumbering{alph}                                %Set prefrontmatter numbering style
    \thispagestyle{empty}                               %Front page (inside cover)
@@ -113,6 +156,7 @@
    \vspace*{2.5cm}
    \def\empty{}
 }
+\fi
 %
 %==================================================================================================
 % ENVIROMENTS SETUP
