@@ -786,12 +786,12 @@ Li = (light_type > 0)? Li / dot(topoint,topoint) : Li;
 \end{lstlisting}
 \begin{figure}[!h]
 \centering
-\subfloat[Directional:  $\vomega_l = (0,0,1)$ $L_d = (8,8,8)$]{
-  \includegraphics[width=0.4 \linewidth]{images/results/directional.png}
+\subfloat[Directional:  $\vomega_l = (0,0,1)$ $L_d = 25$]{
+  \includegraphics[width=0.5 \linewidth]{images/results/directional.png}
   \label{fig:dir_light_ex}
 }
-\subfloat[Point:  $\x_l = (0,0,2)$  $I_d = (18,18,18)$]{
-  \includegraphics[width=0.4 \linewidth]{images/results/point.png}
+\subfloat[Point:  $\x_l = (0,0,2)$  $I_d = 60$]{
+  \includegraphics[width=0.5 \linewidth]{images/results/point.png}
   \label{fig:point_light_ex}
 } 
 \caption{Rendering with a directional and a point light. The material parameters are the ones for potato.}
@@ -816,7 +816,7 @@ Where $j = \min_j\{j\ \in\ [0,s]\ |\ C[j] > \zeta \} - 1$ is the CDF value right
 \centering
 
 \includegraphics[width=0.9 \linewidth]{images/results/skymap_1.png}
-\caption{Rendering a dragon using sixteen directional lights generated from the Doge map. The material parameters are for white grapefruit juice.}
+\caption{Rendering a dragon using sixteen directional lights generated from the Doge map (with reflection). The material parameters are a potato material.}
 \label{fig:doge_render_grape}
 \end{figure}
 
@@ -836,7 +836,16 @@ Finally, another advantage of the method is that the final step relies only on t
 \subsection{Disadvantages}
 The first and biggest disadvantage of this method is that one frame is giving only an approximate and noisy approximation of the final result, that needs to be blurred using mipmaps in order to get a smooth result. In addition, every time something changed in the scene, the computations need to be redone every frame, not allowing the method to ever reach convergence. In this case, ping pong is not used at all, which results in a waste of precious memory space. The ping pong can be reused to account partially for the computation of the previous frame. In this way, the noise is reduced, at the price that the method is slower to react to swift changes of condition in the scene, generating ghosting artifacts.
 
-As we can see in Figure TODO, it is difficult for our method to cover the whole surface of the object. The most hidden areas, such as the internal part of the dragon mouth, are not covered by any camera, and so the result are black holes on the surface. The problem is well known when acquiring an object from a 3D camera, where a rotation is often necessary in order to capture all the features of a mesh. A solution for this problem is to let the artist place the cameras himself/herself, but with an additional time effort. 
+As we can see in Figure \ref{fig:tearing}, it is difficult for our method to cover the whole surface of the object. The most hidden areas, such as the internal part of the dragon mouth, are not covered by any camera, and so the result are black holes on the surface. The problem is well known when acquiring an object from a 3D camera, where a rotation is often necessary in order to capture all the features of a mesh. A solution for this problem is to let the artist place the cameras himself/herself, but with an additional time effort. 
+
+\begin{figure}
+\centering
+
+\includegraphics[width=0.7 \linewidth]{images/results/tearing.png}
+\caption{Back holes in the final appearance caused by a suboptimal placement of cameras.}
+\label{fig:tearing}
+\end{figure}
+
 
 Another problem is that our method, relying on shadow mapping at its core, inherits all the defects and problems of shadow mapping. One of these is that constant shadow bias and offsets are sometimes not enough to cover the defects that inevitably generate when using this method. In addition, the artist must tweak this parameters in order to get a good result.  
 

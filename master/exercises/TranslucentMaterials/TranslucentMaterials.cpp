@@ -91,8 +91,8 @@ Terrain terra(30,0.025f);
 const int GBUFFER_SIZE = 512;
 const float LIGHT_CAMERA_SIZE = 1.0f;
 const float LIGHT_CAMERA_DISTANCE = 6.0f;
-const int ARRAY_TEXTURE_SIZE = 1024;
-const int LIGHTS = 16;
+const int ARRAY_TEXTURE_SIZE = 512;
+const int LIGHTS = 1;
 const int LAYERS = 16;
 const int MIPMAPS = 3;
 const float CAMERA_DISTANCE = 3.0f; //This should not matter (can be DIST = max bounding box + camera near + epsilon
@@ -108,6 +108,7 @@ LightManager manager;
 
 const Vec4f light_specular(0.6f,0.6f,0.3f,0.6f);
 const Vec4f light_diffuse(1.f,1.f,1.f,1.0f);
+//const Vec4f light_diffuse(0.5f,0.5f,1.3f,1.0f);
 //const Vec4f light_position(-1.f,-0.5f,1.f,1);
 const Vec4f light_position(1.f,0.f,0.f,1);
 const Vec4f light_diffuse_2(1.3,0.5,0.5,0.0);
@@ -167,7 +168,7 @@ void TranslucentMaterials::initialize()
     bunny->enabled = true;
     bunny->boundingBoxEnabled = true;
 
-    buddha->init(objects_path+"buddha.obj", "buddha", *scattering_mat_buddha);
+    buddha->init(objects_path+"buddha_redone.obj", "buddha", *scattering_mat_buddha);
     buddha->setScale(Vec3f(1.f));
     buddha->setRotation(Vec3f(90,0,0));
     buddha->setTranslation(Vec3f(0,0,0.f));
@@ -469,6 +470,54 @@ void TranslucentMaterials::getDiscPoints(vector<Vec3f> * points, const int n, co
     //for(int i = 0 ; i < n; i++) cout << texture[0][i][0] << " " << texture[0][i][1] << endl;
 
     for(int k = 0; k < m; k++)
+    {
+        //cout << "Vector " << k <<endl;
+        if( k == 0)
+        {
+            //cout << "Vector, " << n << " points" << endl;
+        }
+
+        vector<Vec2f> discpoints = texture[k];
+        std::sort(discpoints.begin(),discpoints.end(),compareVec2fDistanceAscending);
+        for(int i = 0; i < discpoints.size(); i++)
+        {
+            if (k == 0)
+            {
+                //cout <<discpoints[i][0] << " " << discpoints[i][1] << endl;
+            }
+            Vec2f p = Vec2f(discpoints[i][0],discpoints[i][1]);
+            points->push_back(Vec3f(discpoints[i][0],discpoints[i][1],0.0f));
+
+        }
+    }
+}
+
+
+void TranslucentMaterials::getDiscPointsSpectral(vector<Vec3f> * points, const int n, const int m, Vec3f sigma_tr, float radius)
+{
+    vector<vector<Vec2f> > texture;
+
+//#if POINT_DIST == 0
+    planeHaltonCircleRejectionExponentialMulti(texture, n, m, sigma_tr[0], radius);
+    planeHaltonCircleRejectionExponentialMulti(texture, n, m, sigma_tr[1], radius);
+    planeHaltonCircleRejectionExponentialMulti(texture, n, m, sigma_tr[2], radius);
+//#elif POINT_DIST == 1
+//    planeHammersleyCircleMultiExp(texture, n, m,3.0f);
+//#else
+//    circleUniformPoints(texture, n / 50, m, 50);
+//#endif
+
+   // vector<Vec2f> test1;
+//    planeHammersleyCircleAlternative(test1, 200);
+    //planeHaltonCircleRejectionExponential(test1,200,0.11f);
+    //cout << "Alternative" << endl;
+    //for(int i = 0 ; i < 200; i++) cout << test1[i][0] << " " << test1[i][1] << endl;
+    //test1.clear();
+    //planeHammersleyCircle(test1,200);
+    //cout << "Standard" << endl;
+    //for(int i = 0 ; i < n; i++) cout << texture[0][i][0] << " " << texture[0][i][1] << endl;
+
+    for(int k = 0; k < 3 * m; k++)
     {
         //cout << "Vector " << k <<endl;
         if( k == 0)
@@ -1286,8 +1335,8 @@ static ShaderProgramDraw depth_only(shader_path,"ss_array_depth_pass.vert","ss_a
     float MAX_RADIUS = length(obj->getScale() * 0.5 *(obj->getBoundingBox()->high - obj->getBoundingBox()->low));
 
     Mesh::ScatteringMaterial * scattering_material = (Mesh::ScatteringMaterial*)obj->mesh.getMaterial();
-    Vec3f tr = scattering_material->transmissionCoefficient;
-    float selectedTransmission = min(tr[0],min(tr[1],tr[2])) / params->circleradius;
+    Vec3f tr = scattering_material->transmissionCoefficient / params->circleradius;
+    float selectedTransmission = min(tr[0],min(tr[1],tr[2]));
     //float selectedTransmission = tr[0] + tr[1] + tr[2]) / (3*params->circleradius;
 
     if(reload)
@@ -1307,7 +1356,7 @@ static ShaderProgramDraw depth_only(shader_path,"ss_array_depth_pass.vert","ss_a
 #ifdef EXPERIMENT
         depth_only.reload();
 #endif
-
+        cout << "Current sigma_tr: " << scattering_material->transmissionCoefficient << endl;
         currentFrame = 0;
     }
 
@@ -1771,7 +1820,7 @@ void initRectangle(GLuint * tex, GLenum * type, QImage & img)
     glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-    string name = string("doge2.png");
+    string name = string("uffizi.png");
 
     ResourceLoader r;
     string base_path = r.compute_resource_path("./images/");
@@ -1944,8 +1993,10 @@ void TranslucentMaterials::setUserDirection(Vec3f &direction)
 
 void TranslucentMaterials::setLightIntensity(float intensity)
 {
-    if(manager.size() > 0)
-        manager[0].intensity = intensity;
+    if(manager.size() == 0)
+        return;
+    for(int i = 0; i < manager.size(); i++)
+        manager[i].intensity = intensity;
     manager.reloadLights();
 }
 

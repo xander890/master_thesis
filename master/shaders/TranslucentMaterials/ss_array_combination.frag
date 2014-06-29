@@ -26,6 +26,7 @@ uniform float one_over_max_samples;
 uniform float total_area;
 uniform float disc_area;
 uniform float ior;
+uniform float ior_sq;
 
 uniform float mipmap_LOD;
 
@@ -98,7 +99,7 @@ void main(void)
 
     fragColor /= max(div,1.0);
 
-    float F = clamp(fresnel_T(wo,no,1.0f,ior),0.0f,1.0f);
+    float F = clamp(fresnel_T(wo,no),0.0f,1.0f);
 
 #if DEBUG == 1
     int i = 1;
@@ -115,12 +116,12 @@ void main(void)
     //fragColor = vec4(div/2);
 
     //if(div < 0.01)
-    if(false)
-    {
-        vec3 refl = reflect(wo,no);
-        vec4 refl_col = texture(skybox,vector_cubemap_to_uv(refl) * skybox_dim);
-        fragColor += refl_col * (1 - F);
-    }
+    //if(false)
+    //{
+    //    vec3 refl = reflect(wo,no);
+    //    vec4 refl_col = texture(skybox,vector_cubemap_to_uv(refl) * skybox_dim);
+    //    fragColor += refl_col * (1 - F);
+    //}
 
 
     fragColor = pow(vec4(1) - exp(-fragColor), vec4(1.0/gamma));

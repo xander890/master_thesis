@@ -16,15 +16,17 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->clearColor->init("Clear color: ", ui->translucentMaterials->getClearColor());
     connect(ui->clearColor,SIGNAL(vectorChanged(CGLA::Vec4f&)),ui->translucentMaterials,SLOT(setClearColor(CGLA::Vec4f&)));
-    //Vec3f userpos = Vec3f(0.016, 1.03, 0.054);
-    //Vec3f userpos = Vec3f(0,0.65,-0.001);
-    Vec3f userpos = Vec3f(0,-2.2,0);
+    Vec3f userpos = Vec3f(0.016, 1.03, 0.054);
+    //Vec3f userpos = Vec3f(-1.08199,-0.701759,0.8);
+    //Vec3f userpos = Vec3f(0,-2.2,0);
     ui->userPosition->init("User position: ", userpos);
     ui->translucentMaterials->setUserPosition(userpos);
     connect(ui->userPosition,SIGNAL(vectorChanged(CGLA::Vec3f&)),ui->translucentMaterials,SLOT(setUserPosition(CGLA::Vec3f&)));
     connect(ui->translucentMaterials,SIGNAL(userPositionChanged(CGLA::Vec3f&)),ui->userPosition,SLOT(setValue(CGLA::Vec3f&)));
 
-    Vec3f userdir = Vec3f(0,1,0);
+    Vec3f userdir = Vec3f(0,-1,0);
+    //Vec3f userdir = Vec3f(0.51831,0.69886,-0.492898);
+
     ui->userDirection->init("User direction: ", userdir);
     ui->translucentMaterials->setUserDirection(userdir);
     connect(ui->userDirection, SIGNAL(vectorChanged(CGLA::Vec3f&)),ui->translucentMaterials,SLOT(setUserDirection(CGLA::Vec3f&)));
@@ -34,10 +36,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->intensity->setValue(25);
 
     connect(ui->showgrid, SIGNAL(toggled(bool)), ui->translucentMaterials, SLOT(setGridVisible(bool)));
-    ui->showgrid->setChecked(true);
+    ui->showgrid->setChecked(false);
 
     connect(ui->showaxes, SIGNAL(toggled(bool)), ui->translucentMaterials, SLOT(setAxesVisible(bool)));
-    ui->showaxes->setChecked(true);
+    ui->showaxes->setChecked(false);
 
     connect(ui->translucentMaterials, SIGNAL(timeMeasurement(int)), this, SLOT(timeMeasurement(int)));
     ui->fpslabel->setTextInteractionFlags(Qt::TextSelectableByMouse);

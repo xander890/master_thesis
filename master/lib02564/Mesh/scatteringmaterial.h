@@ -51,6 +51,10 @@ public:
      CGLA::Vec3f rev_D;
      float global_coeff;
      CGLA::Vec3f two_a_de;
+     CGLA::Vec3f two_de;
+     CGLA::Vec3f one_over_three_ext;
+     CGLA::Vec3f de_sqr;
+     float iorsq;
 
      static const std::string IOR;
      static const std::string ABSORPTION;
@@ -71,6 +75,10 @@ public:
      static const std::string THREE_D;
      static const std::string D_REV;
      static const std::string TWO_A_DE;
+     static const std::string TWO_DE;
+     static const std::string ONE_OVER_THREE_EXT;
+     static const std::string DE_SQR;
+     static const std::string IOR_SQR;
 
     void computeCoefficients();
 };

@@ -1,5 +1,6 @@
 uniform float ior;
 uniform vec3 absorption;
+uniform float ior_sq;
 uniform vec3 scattering;
 uniform vec3 mean_cosine;
 uniform vec3 D;
@@ -18,3 +19,6 @@ uniform float global_coeff;
 uniform vec3 three_D;
 uniform vec3 D_rev;
 uniform vec3 two_a_de;
+uniform vec3 two_de;
+uniform vec3 one_over_three_ext;
+uniform vec3 de_sqr;

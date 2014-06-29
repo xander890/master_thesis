@@ -19,10 +19,10 @@ public:
         circleradius(1.f),
         samples(30),
         maxsamples(170),
-        epsilon_gbuffer(0.003),
-        epsilon_combination(0.0050),
+        epsilon_gbuffer(0.004),
+        epsilon_combination(0.003),
         shadow_bias(0.0024),
-        debugOverlayVisible(false), LOD(0.0f),  currentFlags(0), gamma(1.8f), environment(true)
+        debugOverlayVisible(false), LOD(0.0f),  currentFlags(0), gamma(1.8f), environment(false)
     {}
 
     enum
@@ -125,8 +125,9 @@ protected:
     void draw_bounding_boxes(bool reload);
     void getDiscPoints(std::vector<CGLA::Vec3f> * points, const int n, const int m);
     void getDiscPoints(std::vector<CGLA::Vec3f> * points, const int n, const int m, float sigma_tr, float radius);
+    void getDiscPointsSpectral(std::vector<CGLA::Vec3f> * points, const int n, const int m, CGLA::Vec3f sigma_tr, float radius);
 
-     void initialize();
+    void initialize();
      void initializeGL();
      void resizeGL( int w, int h );
      void paintGL();

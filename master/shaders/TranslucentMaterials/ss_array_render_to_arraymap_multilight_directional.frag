@@ -60,7 +60,7 @@ uniform int samples;
 
 #include "ss_aincludes_optics.glinc"
 
-#include "ss_aincludes_directional_bssrdf_opt.glinc"
+#include "ss_aincludes_directional_bssrdf_correct.glinc"
 
 #include "ss_aincludes_random.glinc"
 
@@ -120,7 +120,7 @@ void main(void)
         vec3 wi = light_pos[current_light].xyz;
         vec4 rad = light_diff[current_light];
         vec3 topoint = wi - xo;
-        float light_type = 0;
+        float light_type = 1;
         wi = (light_type > 0)? normalize(topoint) : normalize(wi);
         vec3 Li = light_diff[current_light].xyz;
         Li = (light_type > 0)? Li / dot(topoint,topoint) : Li;
@@ -130,7 +130,7 @@ void main(void)
 
         for(int i = 0; i < samples; i++)
         {
-            vec2 smpl = texture(discpoints,(i * one_over_max_samples)).xy;
+            vec2 smpl = texture(discpoints,((i) * one_over_max_samples)).xy;
             vec2 relative_point = (smpl.xy); //discradius * smpl;
             //float normalization = smpl.z;
 
@@ -149,7 +149,7 @@ void main(void)
                 {
                     vec3 ni = texture(ntex, sampl).rgb;
                     vec3 S = bssrdf(xi,wi,ni,xo,no);
-                    float normalization = exp(-min_tr * length(relative_point));
+                    float normalization = exp(min_tr * length(relative_point));
                     accumulate += Li * S * normalization;
                     //count += 1;
                 }
@@ -163,6 +163,7 @@ void main(void)
 
     }
 #ifdef OVERLAY
+
     if(color)
         fragColor = vec4(1,0,0,0);
     else
@@ -170,5 +171,6 @@ void main(void)
 #else
         fragColor = vec4(accumulate + oldColor.xyz,1.0);
 #endif
+
 
 }

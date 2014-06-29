@@ -24,7 +24,10 @@ namespace Mesh{
     const std::string ScatteringMaterial::THREE_D= "three_D";
     const std::string ScatteringMaterial::D_REV= "D_rev";
     const std::string ScatteringMaterial::TWO_A_DE= "two_a_de";
-
+    const std::string ScatteringMaterial::TWO_DE= "two_de";
+    const std::string ScatteringMaterial::ONE_OVER_THREE_EXT= "one_over_three_ext";
+    const std::string ScatteringMaterial::DE_SQR = "de_sqr";
+    const std::string ScatteringMaterial::IOR_SQR = "ior_sq";
 
     void ScatteringMaterial::loadUniforms(GLGraphics::ShaderProgramDraw &shader)
     {
@@ -48,6 +51,10 @@ namespace Mesh{
         shader.set_uniform(D_REV.c_str(), rev_D);
         shader.set_uniform(GLOBAL_COEFF.c_str(), global_coeff);
         shader.set_uniform(TWO_A_DE.c_str(), two_a_de);
+        shader.set_uniform(TWO_DE.c_str(),two_de);
+        shader.set_uniform(ONE_OVER_THREE_EXT.c_str(), one_over_three_ext);
+        shader.set_uniform(DE_SQR.c_str(), de_sqr);
+        shader.set_uniform(IOR_SQR.c_str(), iorsq);
     }
 
     void ScatteringMaterial::computeCoefficients()
@@ -73,5 +80,9 @@ namespace Mesh{
         this->rev_D = (3.f * reducedExtinctionCoefficent);
         this->two_a_de = 2.0f * A * de;
         this->global_coeff = 1.0f/(4.0f * C_s_inv) * 1.0f/(4.0f * M_PI * M_PI);
+        this->two_de  = 2.0f * de;
+        this->one_over_three_ext = Vec3f(1.0) / (3.0f * extinctionCoefficient);
+        this->de_sqr = de * de;
+        this->iorsq = indexOfRefraction * indexOfRefraction;
     }
 }

@@ -1,36 +1,29 @@
-vec3 refract2(vec3 inv, vec3 n, float n1, float n2)
+vec3 refract2(vec3 inv, vec3 n)
 {
-    float eta = n1/n2;
     float c = dot(inv, n);
-    return eta * (c * n - inv) - n * sqrt(max(0.0f,1 - eta * eta * (1 - c * c)));
+    return (1.0f/ior) * (c * n - inv) - n * sqrt(1 - (1.0f/ior)  * (1.0f/ior)  * (1 - c * c));
 }
 
-vec2 fresnelAmplitudeTransmittance(vec3 inv, vec3 n, float n1, float n2)
+vec3 refract3(vec3 inv, vec3 n, float c)
+{
+    return (1.0f/ior) * (c * n - inv) - n * sqrt(1 - (1.0f/ior)  * (1.0f/ior)  * (1 - c * c));
+}
+
+vec2 fresnelPowerTransmittance(vec3 inv, vec3 n)
 {
     float cosin = dot(inv,n);
-    vec3 refr = refract2(inv,n,n1,n2);
+    vec3 refr = refract3(inv,n,cosin);
     float costr = dot(refr,-n);
 
-    float t_s = (2 * n1 * cosin) / (n1 * cosin + n2 * costr);
-    float t_p = (2 * n1 * cosin) / (n1 * costr + n2 * cosin);
+    float t_s = (2 * cosin) / (ior * cosin + costr);
+    float t_p = (2 * cosin) / (ior * costr + cosin);
+    vec2 t = vec2(t_s,t_p);
 
-    return vec2(t_s,t_p);
+    return ior * (costr) * (t * t) / cosin;
 }
 
-
-vec2 fresnelPowerTransmittance(vec3 inv, vec3 n, float n1, float n2)
+float fresnel_T(vec3 inv, vec3 n)
 {
-    float cosin = dot(inv,n);
-    vec3 refr = refract2(inv,n,n1,n2);
-    float costr = dot(refr,-n);
-
-    vec2 t = fresnelAmplitudeTransmittance(inv,n,n1,n2);
-
-    return (n2 * costr) * ((t * t)/ (n1 * cosin));
-}
-
-float fresnel_T(vec3 inv, vec3 n, float n1, float n2)
-{
-    vec2 T = fresnelPowerTransmittance(inv,n,n1,n2);
+    vec2 T = fresnelPowerTransmittance(inv,n);
     return 0.5 * (T.x + T.y);
 }

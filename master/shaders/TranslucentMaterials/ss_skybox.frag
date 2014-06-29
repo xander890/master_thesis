@@ -30,7 +30,7 @@ void main()
        if(dot(normalize(pos),normalize(dd)) > 0.9999)
        {
             fragColor = vec4(1.0,0,0,0);
-            return;
+            //return;
        }
        else if (dot(normalize(pos),normalize(dir_lights[i].xyz)) < -0.9999)
        {

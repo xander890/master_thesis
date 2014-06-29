@@ -1,8 +1,9 @@
 const float EPSILON_MU = 0.0f;
+const vec3 one = vec3(1.0f);
 vec3 S_infinite(vec3 _r, vec3 _r_sq, float x_dot_w12, float no_dot_w12, float x_dot_no)
 {
     vec3 _r_tr = transmission * _r;
-    vec3 _r_tr_p1 = _r_tr + vec3(1.0f);
+    vec3 _r_tr_p1 = _r_tr + one;
     vec3 _T = exp(-_r_tr);
     vec3 coeff = _T / (_r * _r_sq);
     vec3 first = C_s * ( _r_sq * D_rev + 3 * _r_tr_p1 * x_dot_w12);
@@ -14,7 +15,7 @@ vec3 S_infinite(vec3 _r, vec3 _r_sq, float x_dot_w12, float no_dot_w12, float x_
 vec3 S_infinite_vec(vec3 _r, vec3 _r_sq, vec3 x_dot_w12, float no_dot_w12, vec3 x_dot_no)
 {
     vec3 _r_tr = transmission * _r;
-    vec3 _r_tr_p1 = _r_tr + vec3(1.0f);
+    vec3 _r_tr_p1 = _r_tr + one;
     vec3 _T = exp(-_r_tr);
     vec3 coeff = _T / (_r * _r_sq);
     vec3 first = C_s * ( _r_sq * D_rev + 3 * _r_tr_p1 * x_dot_w12);
@@ -29,7 +30,7 @@ vec3 bssrdf(vec3 _xi,vec3 _nin,vec3 _wi,vec3 _xo, vec3 _no)
     vec3 _x = _xo - _xi;
     float r_sqr = dot(_x,_x);
 
-    vec3 _w12 = refract2(_wi,_nin,1.0f,ior);
+    vec3 _w12 = refract2(_wi,_nin);
 
     float mu = -dot(_no, _w12);
     float dot_x_w12 = dot(_x,_w12);
@@ -38,17 +39,17 @@ vec3 bssrdf(vec3 _xi,vec3 _nin,vec3 _wi,vec3 _xo, vec3 _no)
     vec3 _r_sqr = r_sqr.xxx;
     vec3 _dr_sqr = _r_sqr;
 
-    float edge = clamp(step(mu, EPSILON_MU),0.0f,1.0f); // == 1.0 if mu > EPSILON_MU
+    float edge = step(mu, EPSILON_MU); // == 1.0 if mu > EPSILON_MU
 
-    vec3 project = sqrt(vec3(r_sqr - dot_x_w12 * dot_x_w12)/sqrt(_r_sqr + de*de));
-    vec3 _D_prime = abs(mu) * D * edge + vec3(1.0f) / (3 * (extinction)) * (1.0f - edge);
-    _dr_sqr += _D_prime * (_D_prime + 2.0f * de * project * edge);
+    vec3 project = sqrt(vec3(r_sqr - dot_x_w12 * dot_x_w12)/sqrt(_r_sqr + de_sqr));
+    vec3 _D_prime = abs(mu) * D * edge + one_over_three_ext * (1.0f - edge);
+    _dr_sqr += _D_prime * (_D_prime + two_de * project * edge);
 
     vec3 _dr = sqrt(_dr_sqr);
 
-    float edge_nistar = clamp(step(abs(dot_x_no),0.01f),0.0f,1.0f); // 1.0 if dot_x_no > 0.01
+    float edge_nistar = step(abs(dot_x_no),0.01f); // 1.0 if dot_x_no > 0.01
     vec3 _t = normalize(cross(_nin,_x));
-    vec3 _nistar = normalize(_nin) * edge_nistar + cross(normalize(_x),_t) * (1.0f - edge_nistar);
+    vec3 _nistar = _nin * edge_nistar + cross(normalize(_x),_t) * (1.0f - edge_nistar);
 
     mat3 _xov = mat3(
         _x - two_a_de.x * _nistar,
@@ -56,19 +57,18 @@ vec3 bssrdf(vec3 _xi,vec3 _nin,vec3 _wi,vec3 _xo, vec3 _no)
         _x - two_a_de.z * _nistar
     );
 
-    vec3 _dv_sqr = vec3(dot(_xov[0],_xov[0]),dot(_xov[1],_xov[1]),dot(_xov[2],_xov[2]));
+    vec3 _dv_sqr = max(vec3(0.01f),vec3(dot(_xov[0],_xov[0]),dot(_xov[1],_xov[1]),dot(_xov[2],_xov[2])));
     vec3 _dv = sqrt(_dv_sqr);
     vec3 _wv = _w12 - 2 * dot(_w12,_nistar) * _nistar;
 
-    vec3 _x_dot_wv = vec3(dot(_xov[0],_wv),dot(_xov[1],_wv),dot(_xov[2],_wv));
-    vec3 _x_dot_no = vec3(dot(_xov[0],_no),dot(_xov[1],_no),dot(_xov[2],_no));
+    vec3 _x_dot_wv = _wv * _xov;
+    vec3 _x_dot_no = _no * _xov;
 
     vec3 _S_r = S_infinite(_dr, _dr_sqr, dot_x_w12, -mu, dot_x_no);
     vec3 _S_v = S_infinite_vec(_dv, _dv_sqr, _x_dot_wv, dot(_no,_wv), _x_dot_no);
     vec3 _S = _S_r - _S_v;
 
-    float Ti = clamp(fresnel_T(_wi,_nin,1.0f,ior),0,1);
-    _S *= Ti;
+    _S *= fresnel_T(_wi,_nin);
     _S = max(vec3(0.0f),_S);
 
     return _S;
