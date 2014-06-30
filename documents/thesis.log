@@ -1,19 +1,19 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.10.2)  29 JUN 2014 23:17
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.2.28)  30 JUN 2014 18:42
 entering extended mode
 **thesis.tex
-(C:\Users\xander890\Documents\GitHub\master_thesis\documents\thesis.tex
+(C:\Users\alessandro\Documents\master_thesis\documents\thesis.tex
 LaTeX2e <2011/06/27>
 Babel <v3.8m> and hyphenation patterns for english, afrikaans, ancientgreek, arabic, armenian, assamese, basque, bengali
 , bokmal, bulgarian, catalan, coptic, croatian, czech, danish, dutch, esperanto, estonian, farsi, finnish, french, galic
-ian, german, german-x-2012-05-30, greek, gujarati, hindi, hungarian, icelandic, indonesian, interlingua, irish, italian,
+ian, german, german-x-2013-05-26, greek, gujarati, hindi, hungarian, icelandic, indonesian, interlingua, irish, italian,
  kannada, kurmanji, latin, latvian, lithuanian, malayalam, marathi, mongolian, mongolianlmc, monogreek, ngerman, ngerman
--x-2012-05-30, nynorsk, oriya, panjabi, pinyin, polish, portuguese, romanian, russian, sanskrit, serbian, slovak, sloven
+-x-2013-05-26, nynorsk, oriya, panjabi, pinyin, polish, portuguese, romanian, russian, sanskrit, serbian, slovak, sloven
 ian, spanish, swedish, swissgerman, tamil, telugu, turkish, turkmen, ukenglish, ukrainian, uppersorbian, usenglishmax, w
 elsh, loaded.
-(C:\Users\xander890\Documents\GitHub\master_thesis\documents\preamble.tex
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\book.cls"
+(C:\Users\alessandro\Documents\master_thesis\documents\preamble.tex
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\book.cls"
 Document Class: book 2007/10/19 v1.4h Standard LaTeX document class
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\bk10.clo"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\bk10.clo"
 File: bk10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 )
 \c@part=\count79
@@ -29,22 +29,22 @@ File: bk10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
 )
-(C:\Users\xander890\Documents\GitHub\master_thesis\documents\LukeThesis.sty
+(C:\Users\alessandro\Documents\master_thesis\documents\LukeThesis.sty
 ----------------------------------------------------
 USING LUKE'S PHD THESIS TEMPLATE 1.2
 ----------------------------------------------------
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\inputenc.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\inputenc.sty"
 Package: inputenc 2008/03/30 v1.1d Input encoding file
 \inpenc@prehook=\toks14
 \inpenc@posthook=\toks15
- ("C:\Program Files\MiKTeX 2.9\tex\latex\base\utf8.def"
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 Now handling font encoding OML ...
 ... no UTF-8 mapping file for font encoding OML
 Now handling font encoding T1 ...
 ... processing UTF-8 mapping file for font encoding T1
-
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\t1enc.dfu"
+ ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\t1enc.dfu"
 File: t1enc.dfu 2008/04/05 v1.1m UTF-8 support for inputenc
    defining Unicode char U+00A1 (decimal 161)
    defining Unicode char U+00A3 (decimal 163)
@@ -193,7 +193,7 @@ File: t1enc.dfu 2008/04/05 v1.1m UTF-8 support for inputenc
 )
 Now handling font encoding OT1 ...
 ... processing UTF-8 mapping file for font encoding OT1
- ("C:\Program Files\MiKTeX 2.9\tex\latex\base\ot1enc.dfu"
+ ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\ot1enc.dfu"
 File: ot1enc.dfu 2008/04/05 v1.1m UTF-8 support for inputenc
    defining Unicode char U+00A1 (decimal 161)
    defining Unicode char U+00A3 (decimal 163)
@@ -224,7 +224,7 @@ File: ot1enc.dfu 2008/04/05 v1.1m UTF-8 support for inputenc
 Now handling font encoding OMS ...
 ... processing UTF-8 mapping file for font encoding OMS
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\omsenc.dfu"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\omsenc.dfu"
 File: omsenc.dfu 2008/04/05 v1.1m UTF-8 support for inputenc
    defining Unicode char U+00A7 (decimal 167)
    defining Unicode char U+00B6 (decimal 182)
@@ -247,7 +247,8 @@ Now handling font encoding U ...
    defining Unicode char U+2026 (decimal 8230)
    defining Unicode char U+2122 (decimal 8482)
    defining Unicode char U+2423 (decimal 9251)
-)) ("C:\Program Files\MiKTeX 2.9\tex\latex\lm\lmodern.sty"
+))
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\lm\lmodern.sty"
 Package: lmodern 2009/10/30 v1.6 Latin Modern Fonts
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  OT1/cmr/m/n --> OT1/lmr/m/n on input line 22.
@@ -282,52 +283,56 @@ LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 (Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 38.
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\babel\babel.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\babel\babel.sty"
 Package: babel 2008/07/08 v3.8m The Babel package
 
 *************************************
 * Local config file bblopts.cfg used
 *
-("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\bblopts.cfg"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\bblopts.cfg"
 File: bblopts.cfg 2006/07/31 v1.0 MiKTeX 'babel' configuration
-) ("C:\Program Files\MiKTeX 2.9\tex\generic\babel\danish.ldf"
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\babel\danish.ldf"
 Language: danish 2009/09/19 v1.3r Danish support from the babel system
- ("C:\Program Files\MiKTeX 2.9\tex\generic\babel\babel.def"
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\babel\babel.def"
 File: babel.def 2008/07/08 v3.8m Babel common definitions
 \babel@savecnt=\count88
 \U@D=\dimen103
 )
 Package babel Info: Making " an active character on input line 82.
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\babel\english.ldf"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\babel\english.ldf"
 Language: english 2005/03/30 v3.3o English support from the babel system
 \l@canadian = a dialect from \language\l@american 
 \l@australian = a dialect from \language\l@british 
 \l@newzealand = a dialect from \language\l@british 
 ))
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
 Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
 Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
 \KV@toks@=\toks16
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
 Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
- ("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\trig.sty"
 Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
-) ("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\graphics.cfg"
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\graphics.cfg"
 File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
 )
 Package graphics Info: Driver file: pdftex.def on input line 91.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\pdftex-def\pdftex.def"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\pdftex-def\pdftex.def"
 File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
 Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
 Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
 )
 \Gread@gobject=\count89
@@ -335,16 +340,18 @@ Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
 \Gin@req@height=\dimen104
 \Gin@req@width=\dimen105
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\xcolor\xcolor.sty"
+(C:\Users\alessandro\AppData\Roaming\MiKTeX\2.9\tex\latex\xcolor\xcolor.sty
 Package: xcolor 2007/01/21 v2.11 LaTeX color extensions (UK)
- ("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\color.cfg"
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\color.cfg"
 File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
 )
 Package xcolor Info: Driver file: pdftex.def on input line 225.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\colortbl\colortbl.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\colortbl\colortbl.sty"
 Package: colortbl 2012/02/13 v1.0a Color table columns (DPC)
- ("C:\Program Files\MiKTeX 2.9\tex\latex\tools\array.sty"
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tools\array.sty"
 Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
 \col@sep=\dimen106
 \extrarowheight=\dimen107
@@ -365,10 +372,11 @@ Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1357.
 Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1358.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1359.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1360.
-) (C:\Users\xander890\AppData\Roaming\MiKTeX\2.9\tex\latex\caption\caption.sty
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\caption\caption.sty"
 Package: caption 2013/05/02 v3.3-89 Customizing captions (AR)
 
-(C:\Users\xander890\AppData\Roaming\MiKTeX\2.9\tex\latex\caption\caption3.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\caption\caption3.sty"
 Package: caption3 2013/05/02 v1.6-88 caption3 kernel (AR)
 Package caption3 Info: TeX engine: e-TeX on input line 57.
 \captionmargin=\dimen108
@@ -381,11 +389,11 @@ Package caption3 Info: TeX engine: e-TeX on input line 57.
 )
 \c@ContinuedFloat=\count91
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\tools\varioref.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tools\varioref.sty"
 Package: varioref 2011/10/02 v1.4z package for extended references (FMi)
 \c@vrcnt=\count92
 )
-(C:\Users\xander890\AppData\Roaming\MiKTeX\2.9\tex\latex\fancyhdr\fancyhdr.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\fancyhdr\fancyhdr.sty"
 \fancy@headwidth=\skip46
 \f@ncyO@elh=\skip47
 \f@ncyO@erh=\skip48
@@ -396,13 +404,13 @@ Package: varioref 2011/10/02 v1.4z package for extended references (FMi)
 \f@ncyO@olf=\skip53
 \f@ncyO@orf=\skip54
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\hyperref.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\hyperref.sty"
 Package: hyperref 2012/11/06 v6.83m Hypertext links for LaTeX
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\hobsub-hyperref.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\hobsub-hyperref.sty"
 Package: hobsub-hyperref 2012/04/25 v1.12 Bundle oberdiek, subset hyperref (HO)
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\hobsub-generic.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\hobsub-generic.sty"
 Package: hobsub-generic 2012/04/25 v1.12 Bundle oberdiek, subset generic (HO)
 Package: hobsub 2012/04/25 v1.12 Construct package bundles (HO)
 Package hobsub Info: Skipping package `infwarerr' (already loaded).
@@ -441,27 +449,27 @@ Package: atbegshi 2011/10/05 v1.16 At begin shipout hook (HO)
 Package: refcount 2011/10/16 v3.4 Data extraction from label references (HO)
 Package: hycolor 2011/01/30 v1.7 Color options for hyperref/bookmark (HO)
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\ifxetex\ifxetex.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\ifxetex\ifxetex.sty"
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\auxhook.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\oberdiek\auxhook.sty"
 Package: auxhook 2011/03/04 v1.3 Hooks for auxiliary files (HO)
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\kvoptions.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\oberdiek\kvoptions.sty"
 Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
 )
 \@linkdim=\dimen115
 \Hy@linkcounter=\count93
 \Hy@pagecounter=\count94
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\pd1enc.def"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\pd1enc.def"
 File: pd1enc.def 2012/11/06 v6.83m Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
 )
 \Hy@SavedSpaceFactor=\count95
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\hyperref.cfg"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\hyperref.cfg"
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
 )
 Package hyperref Info: Hyper figures OFF on input line 4443.
@@ -472,9 +480,10 @@ Package hyperref Info: Backreferencing OFF on input line 4463.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4688.
 \c@Hy@tempcnt=\count96
- ("C:\Program Files\MiKTeX 2.9\tex\latex\ltxmisc\url.sty"
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\url\url.sty"
 \Urlmuskip=\muskip10
-Package: url 2006/04/12  ver 3.3  Verb mode for urls, etc.
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 LaTeX Info: Redefining \url on input line 5041.
 \XeTeXLinkMargin=\dimen116
@@ -497,33 +506,35 @@ LaTeX Info: Redefining \pageref on input line 6369.
 
 Package hyperref Message: Driver (autodetected): hpdftex.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\hpdftex.def"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\hpdftex.def"
 File: hpdftex.def 2012/11/06 v6.83m Hyperref driver for pdfTeX
 \Fld@listcount=\count101
 \c@bookmark@seq@number=\count102
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\rerunfilecheck.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\oberdiek\rerunfilecheck.sty"
 Package: rerunfilecheck 2011/04/15 v1.7 Rerun checks for auxiliary files (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 282.
 )
 \Hy@SectionHShift=\skip55
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsmath.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsmath.sty"
 Package: amsmath 2013/01/14 v2.14 AMS math features
 \@mathmargin=\skip56
 
 For additional information on amsmath, use the `?' option.
-("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amstext.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amstext.sty"
 Package: amstext 2000/06/29 v2.01
- ("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsgen.sty"
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsgen.sty"
 File: amsgen.sty 1999/11/30 v2.0
 \@emptytoks=\toks19
 \ex@=\dimen119
-)) ("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsbsy.sty"
+))
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsbsy.sty"
 Package: amsbsy 1999/11/29 v1.2d
 \pmbraise@=\dimen120
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsopn.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsopn.sty"
 Package: amsopn 1999/12/14 v2.01 operator names
 )
 \inf@bad=\count103
@@ -564,22 +575,23 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
 LaTeX Info: Redefining \[ on input line 2665.
 LaTeX Info: Redefining \] on input line 2666.
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\amssymb.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\amssymb.sty"
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\amsfonts.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\amsfonts.sty"
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 ))
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\latexsym.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\latexsym.sty"
 Package: latexsym 1998/08/17 v2.2e Standard LaTeX package (lasy symbols)
 \symlasy=\mathgroup6
 LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
 (Font)                  U/lasy/m/n --> U/lasy/b/n on input line 47.
-) ("C:\Program Files\MiKTeX 2.9\tex\latex\eepic\epic.sty"
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\eepic\epic.sty"
 Enhancements to Picture Environment. Version 1.2 - Released June 1, 1986
 \@@multicnt=\count115
 \d@lta=\count116
@@ -597,46 +609,52 @@ Enhancements to Picture Environment. Version 1.2 - Released June 1, 1986
 \num@segments=\count121
 \num@segmentsi=\count122
 \@datafile=\read1
-) ("C:\Program Files\MiKTeX 2.9\tex\latex\eepic\eepic.sty"
+) ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\eepic\eepic.sty"
 Extension to Epic and LaTeX. Version 1.1e - Released Dec 21, 1999
 \@gphlinewidth=\count123
 \@eepictcnt=\count124
 \@tempdimc=\dimen134
 \maxovaldiam=\dimen135
 \@filltype=\box29
-) ("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\epsfig.sty"
+) ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\epsfig.sty"
 Package: epsfig 1999/02/16 v1.7a (e)psfig emulation (SPQR)
 \epsfxsize=\dimen136
 \epsfysize=\dimen137
-) ("C:\Program Files\MiKTeX 2.9\tex\latex\psfrag\psfrag.sty"
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\psfrag\psfrag.sty"
 Package: psfrag 1998/04/11 v3.04 PSfrag (MCG)
 \pfg@pcount=\count125
 \pfg@scount=\count126
 \pfg@temp=\write3
-) ("C:\Program Files\MiKTeX 2.9\tex\latex\tools\theorem.sty"
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tools\theorem.sty"
 Package: theorem 1995/11/23 v2.2c Theorem extension package (FMi)
 \theorem@style=\toks24
 \theorem@bodyfont=\toks25
 \theorempreskipamount=\skip59
 \theorempostskipamount=\skip60
- ("C:\Program Files\MiKTeX 2.9\tex\latex\tools\thp.sty"
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tools\thp.sty"
 File: thp.sty 1995/11/23 v2.2c Theorem extension package (FMi)
 ))
 \c@lemma=\count127
 \c@example=\count128
-) ("C:\Program Files\MiKTeX 2.9\tex\latex\xstring\xstring.sty"
-("C:\Program Files\MiKTeX 2.9\tex\generic\xstring\xstring.tex"
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\xstring\xstring.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\xstring\xstring.tex"
 \@xs@message=\write4
 \integerpart=\count129
 \decimalpart=\count130
 )
 Package: xstring 2013/10/13  v1.7c  String manipulations (C Tellechea)
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\pdfpages\pdfpages.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\pdfpages\pdfpages.sty"
 Package: pdfpages 2013/08/25 v0.4v Insert pages of external PDF documents (AM)
- ("C:\Program Files\MiKTeX 2.9\tex\latex\base\ifthen.sty"
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\ifthen.sty"
 Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
-) ("C:\Program Files\MiKTeX 2.9\tex\latex\tools\calc.sty"
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tools\calc.sty"
 Package: calc 2007/08/22 v4.3 Infix arithmetic (KKT,FJ)
 \calc@Acount=\count131
 \calc@Bcount=\count132
@@ -648,10 +666,11 @@ LaTeX Info: Redefining \setlength on input line 76.
 LaTeX Info: Redefining \addtolength on input line 77.
 \calc@Ccount=\count133
 \calc@Cskip=\skip63
-) ("C:\Program Files\MiKTeX 2.9\tex\latex\eso-pic\eso-pic.sty"
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\eso-pic\eso-pic.sty"
 Package: eso-pic 2013/10/06 v2.0d eso-pic (RN)
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\pdfpages\pppdftex.def"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\pdfpages\pppdftex.def"
 File: pppdftex.def 2013/08/25 v0.4v Pdfpages driver for pdfTeX (AM)
 )
 \AM@pagebox=\box30
@@ -659,10 +678,10 @@ File: pppdftex.def 2013/08/25 v0.4v Pdfpages driver for pdfTeX (AM)
 \c@AM@survey=\count134
 \AM@templatesizebox=\box31
 )
-(C:\Users\xander890\AppData\Roaming\MiKTeX\2.9\tex\latex\placeins\placeins.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\placeins\placeins.sty"
 Package: placeins 2005/04/18  v 2.2
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\subfig\subfig.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\subfig\subfig.sty"
 Package: subfig 2005/06/28 ver: 1.3 subfig package
 \c@KVtest=\count135
 \sf@farskip=\skip64
@@ -677,10 +696,12 @@ Package: subfig 2005/06/28 ver: 1.3 subfig package
 \c@lotdepth=\count141
 \sf@top=\skip67
 \sf@bottom=\skip68
-) ("C:\Program Files\MiKTeX 2.9\tex\latex\tools\enumerate.sty"
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tools\enumerate.sty"
 Package: enumerate 1999/03/05 v3.00 enumerate extensions (DPC)
 \@enLab=\toks27
-) (C:\Users\xander890\AppData\Roaming\MiKTeX\2.9\tex\latex\listings\listings.sty
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\listings\listings.sty"
 \lst@mode=\count142
 \lst@gtempboxa=\box32
 \lst@token=\toks28
@@ -694,18 +715,18 @@ Package: enumerate 1999/03/05 v3.00 enumerate extensions (DPC)
 \lst@lineno=\count147
 \lst@maxwidth=\dimen144
 
-(C:\Users\xander890\AppData\Roaming\MiKTeX\2.9\tex\latex\listings\lstmisc.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\listings\lstmisc.sty"
 File: lstmisc.sty 2013/08/26 1.5b (Carsten Heinz)
 \c@lstnumber=\count148
 \lst@skipnumbers=\count149
 \lst@framebox=\box33
 )
-(C:\Users\xander890\AppData\Roaming\MiKTeX\2.9\tex\latex\listings\listings.cfg
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\listings\listings.cfg"
 File: listings.cfg 2013/08/26 1.5b listings configuration
 ))
 Package: listings 2013/08/26 1.5b (Carsten Heinz)
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\tools\bm.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tools\bm.sty"
 Package: bm 2004/02/26 v1.1c Bold Symbol Support (DPC/FMi)
 \symboldoperators=\mathgroup7
 \symboldletters=\mathgroup8
@@ -714,7 +735,7 @@ Package: bm 2004/02/26 v1.1c Bold Symbol Support (DPC/FMi)
 LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 138.
 LaTeX Info: Redefining \bm on input line 204.
 )
-(C:\Users\xander890\AppData\Roaming\MiKTeX\2.9\tex\latex\wrapfig\wrapfig.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\wrapfig\wrapfig.sty"
 \wrapoverhang=\dimen145
 \WF@size=\dimen146
 \c@WF@wrappedlines=\count150
@@ -722,10 +743,11 @@ LaTeX Info: Redefining \bm on input line 204.
 \WF@everypar=\toks29
 Package: wrapfig 2003/01/31  v 3.6
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\lipsum\lipsum.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\lipsum\lipsum.sty"
 Package: lipsum 2011/04/14 v1.2 150 paragraphs of Lorem Ipsum dummy text
 \c@lips@count=\count151
-) ("C:\Program Files\MiKTeX 2.9\tex\latex\float\float.sty"
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\float\float.sty"
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \c@float@type=\count152
 \float@exts=\toks30
@@ -733,7 +755,7 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \@float@everytoks=\toks31
 \@floatcapt=\box36
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\titlesec\titlesec.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\titlesec\titlesec.sty"
 Package: titlesec 2011/12/15 v2.10.0 Sectioning titles
 \ttl@box=\box37
 \beforetitleunit=\skip69
@@ -744,26 +766,28 @@ Package: titlesec 2011/12/15 v2.10.0 Sectioning titles
 \titlewidth=\dimen149
 \titlewidthlast=\dimen150
 \titlewidthfirst=\dimen151
-) ("C:\Program Files\MiKTeX 2.9\tex\latex\natbib\natbib.sty"
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\natbib\natbib.sty"
 Package: natbib 2010/09/13 8.31b (PWD, AO)
 \bibhang=\skip71
 \bibsep=\skip72
 LaTeX Info: Redefining \cite on input line 694.
 \c@NAT@ctr=\count153
-) ("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\epstopdf.sty"
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\oberdiek\epstopdf.sty"
 Package: epstopdf 2010/02/09 v2.5 Conversion with epstopdf on the fly (HO)
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\epstopdf-base.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\oberdiek\epstopdf-base.sty"
 Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\grfext.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\oberdiek\grfext.sty"
 Package: grfext 2010/08/19 v1.1 Manage graphics extensions (HO)
 )
 Package grfext Info: Graphics extension search list:
 (grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPEG,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 452.
 ))
-("C:\Program Files\MiKTeX 2.9\tex\latex\tools\tabularx.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tools\tabularx.sty"
 Package: tabularx 1999/01/07 v2.07 `tabularx' package (DPC)
 \TX@col@width=\dimen152
 \TX@old@table=\dimen153
@@ -772,14 +796,16 @@ Package: tabularx 1999/01/07 v2.07 `tabularx' package (DPC)
 \TX@delta=\dimen156
 \TX@cols=\count154
 \TX@ftn=\toks33
-) ("C:\Program Files\MiKTeX 2.9\tex\latex\siunitx\siunitx.sty" ("C:\Program Files\MiKTeX 2.9\tex\latex\l3kernel\expl3.st
-y"
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\siunitx\siunitx.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\l3kernel\expl3.sty"
 Package: expl3 2014/05/20 v4814 L3 programming layer (loader) 
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\l3kernel\expl3-code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\l3kernel\expl3-code.tex"
 Package: expl3 2014/05/20 v4814 L3 programming layer (code) 
 L3 Module: l3bootstrap 2014/05/16 v4782 L3 Bootstrap code
- ("C:\Program Files\MiKTeX 2.9\tex\latex\misc\etex.sty"
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\misc\etex.sty"
 Package: etex 1998/03/26 v2.0 eTeX basic definition package (PEB)
 \et@xins=\count155
 )
@@ -886,7 +912,8 @@ L3 Module: l3candidates 2014/05/04 v4734 L3 Experimental additions to l3kernel
 \l__coffin_top_corner_dim=\dimen185
 \l__coffin_scaled_total_height_dim=\dimen186
 \l__coffin_scaled_width_dim=\dimen187
-)) ("C:\Program Files\MiKTeX 2.9\tex\latex\l3packages\xparse\xparse.sty"
+))
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\l3packages\xparse\xparse.sty"
 Package: xparse 2014/05/05 v4740 L3 Experimental document command parser
 \l__xparse_current_arg_int=\count180
 \l__xparse_m_args_int=\count181
@@ -896,7 +923,7 @@ Package: xparse 2014/05/05 v4740 L3 Experimental document command parser
 )
 Package: siunitx 2013/07/31 v2.5s A comprehensive (SI) units package
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\l3packages\l3keys2e\l3keys2e.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\l3packages\l3keys2e\l3keys2e.sty"
 Package: l3keys2e 2014/05/05 v4740 LaTeX2e option processing using LaTeX3 keys
 )
 Variant \tl_if_blank:VTF already defined; not changing it on line 50
@@ -1076,13 +1103,14 @@ Variant \prop_get:NVNTF already defined; not changing it on line 373
 .................................................
 \g__file_internal_ior=\read2
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\beamer\base\translator\translator.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\beamer\base\translator\translator.sty"
 Package: translator 2010/06/12 ver 1.10
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\beamer\base\translator\translator-language-mappings.tex")))
-("C:\Program Files\MiKTeX 2.9\tex\latex\mh\mathtools.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\beamer\base\translator\translator-language-mappings.tex")))
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\mh\mathtools.sty"
 Package: mathtools 2014/05/21 v1.14 mathematical typesetting tools
- ("C:\Program Files\MiKTeX 2.9\tex\latex\mh\mhsetup.sty"
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\mh\mhsetup.sty"
 Package: mhsetup 2010/01/21 v1.2a programming setup (MH)
 )
 LaTeX Info: Thecontrolsequence`\['isalreadyrobust on input line 129.
@@ -1099,38 +1127,38 @@ Normal \dimen register pool exhausted, switching to extended pool.
 \l_MT_above_shortintertext_sep=\dimen259
 \l_MT_below_shortintertext_sep=\dimen260
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\tcolorbox\tcolorbox.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tcolorbox\tcolorbox.sty"
 Package: tcolorbox 2014/05/18 version 3.04 text color boxes
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\pgf\basiclayer\pgf.sty"
-("C:\Program Files\MiKTeX 2.9\tex\latex\pgf\utilities\pgfrcs.sty"
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\utilities\pgfutil-common.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\pgf\basiclayer\pgf.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\pgf\utilities\pgfrcs.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\utilities\pgfutil-common.tex"
 \pgfutil@everybye=\toks34
 \pgfutil@tempdima=\dimen261
 \pgfutil@tempdimb=\dimen262
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\utilities\pgfutil-common-lists.tex"))
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\utilities\pgfutil-latex.def"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\utilities\pgfutil-common-lists.tex"))
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\utilities\pgfutil-latex.def"
 \pgfutil@abb=\box60
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\ms\everyshi.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ms\everyshi.sty"
 Package: everyshi 2001/05/15 v3.00 EveryShipout Package (MS)
 ))
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\utilities\pgfrcs.code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\utilities\pgfrcs.code.tex"
 Package: pgfrcs 2013/12/20 v3.0.0 (rcs-revision 1.28)
 ))
 Package: pgf 2013/12/18 v3.0.0 (rcs-revision 1.14)
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\pgf\basiclayer\pgfcore.sty"
-("C:\Program Files\MiKTeX 2.9\tex\latex\pgf\systemlayer\pgfsys.sty"
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\systemlayer\pgfsys.code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\pgf\basiclayer\pgfcore.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\pgf\systemlayer\pgfsys.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\systemlayer\pgfsys.code.tex"
 Package: pgfsys 2013/11/30 v3.0.0 (rcs-revision 1.47)
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\utilities\pgfkeys.code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\utilities\pgfkeys.code.tex"
 \pgfkeys@pathtoks=\toks35
 \pgfkeys@temptoks=\toks36
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\utilities\pgfkeysfiltered.code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\utilities\pgfkeysfiltered.code.tex"
 \pgfkeys@tmptoks=\toks37
 ))
 \pgf@x=\dimen263
@@ -1151,32 +1179,32 @@ Package: pgfsys 2013/11/30 v3.0.0 (rcs-revision 1.47)
 \t@pgf@tokb=\toks39
 \t@pgf@tokc=\toks40
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\systemlayer\pgf.cfg"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\systemlayer\pgf.cfg"
 File: pgf.cfg 2008/05/14  (rcs-revision 1.7)
 )
 Driver file for pgf: pgfsys-pdftex.def
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\systemlayer\pgfsys-pdftex.def"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\systemlayer\pgfsys-pdftex.def"
 File: pgfsys-pdftex.def 2013/07/18  (rcs-revision 1.33)
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\systemlayer\pgfsys-common-pdf.def"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\systemlayer\pgfsys-common-pdf.def"
 File: pgfsys-common-pdf.def 2013/10/10  (rcs-revision 1.13)
 )))
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\systemlayer\pgfsyssoftpath.code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\systemlayer\pgfsyssoftpath.code.tex"
 File: pgfsyssoftpath.code.tex 2013/09/09  (rcs-revision 1.9)
 \pgfsyssoftpath@smallbuffer@items=\count282
 \pgfsyssoftpath@bigbuffer@items=\count283
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\systemlayer\pgfsysprotocol.code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\systemlayer\pgfsysprotocol.code.tex"
 File: pgfsysprotocol.code.tex 2006/10/16  (rcs-revision 1.4)
 ))
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcore.code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcore.code.tex"
 Package: pgfcore 2010/04/11 v3.0.0 (rcs-revision 1.7)
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\math\pgfmath.code.tex"
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\math\pgfmathcalc.code.tex"
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\math\pgfmathutil.code.tex")
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\math\pgfmathparser.code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\math\pgfmath.code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\math\pgfmathcalc.code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\math\pgfmathutil.code.tex")
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\math\pgfmathparser.code.tex"
 \pgfmath@dimen=\dimen271
 \pgfmath@count=\count284
 \pgfmath@box=\box61
@@ -1184,19 +1212,19 @@ Package: pgfcore 2010/04/11 v3.0.0 (rcs-revision 1.7)
 \pgfmath@stack@operand=\toks42
 \pgfmath@stack@operation=\toks43
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\math\pgfmathfunctions.code.tex"
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\math\pgfmathfunctions.basic.code.tex")
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\math\pgfmathfunctions.trigonometric.code.tex")
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\math\pgfmathfunctions.random.code.tex")
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\math\pgfmathfunctions.comparison.code.tex")
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\math\pgfmathfunctions.base.code.tex")
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\math\pgfmathfunctions.round.code.tex")
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\math\pgfmathfunctions.misc.code.tex")
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\math\pgfmathfunctions.integerarithmetics.code.tex")))
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\math\pgfmathfloat.code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\math\pgfmathfunctions.code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\math\pgfmathfunctions.basic.code.tex")
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\math\pgfmathfunctions.trigonometric.code.tex")
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\math\pgfmathfunctions.random.code.tex")
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\math\pgfmathfunctions.comparison.code.tex")
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\math\pgfmathfunctions.base.code.tex")
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\math\pgfmathfunctions.round.code.tex")
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\math\pgfmathfunctions.misc.code.tex")
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\math\pgfmathfunctions.integerarithmetics.code.tex")))
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\math\pgfmathfloat.code.tex"
 \c@pgfmathroundto@lastzeros=\count285
 ))
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcorepoints.code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcorepoints.code.tex"
 File: pgfcorepoints.code.tex 2013/10/07  (rcs-revision 1.27)
 \pgf@picminx=\dimen272
 \pgf@picmaxx=\dimen273
@@ -1213,93 +1241,95 @@ File: pgfcorepoints.code.tex 2013/10/07  (rcs-revision 1.27)
 \pgf@zx=\dimen284
 \pgf@zy=\dimen285
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcorepathconstruct.code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcorepathconstruct.code.tex"
 File: pgfcorepathconstruct.code.tex 2013/10/07  (rcs-revision 1.29)
 \pgf@path@lastx=\dimen286
 \pgf@path@lasty=\dimen287
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcorepathusage.code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcorepathusage.code.tex"
 File: pgfcorepathusage.code.tex 2013/12/13  (rcs-revision 1.23)
 \pgf@shorten@end@additional=\dimen288
 \pgf@shorten@start@additional=\dimen289
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcorescopes.code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcorescopes.code.tex"
 File: pgfcorescopes.code.tex 2013/10/09  (rcs-revision 1.44)
 \pgfpic=\box62
 \pgf@hbox=\box63
 \pgf@layerbox@main=\box64
 \pgf@picture@serial@count=\count286
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcoregraphicstate.code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcoregraphicstate.code.tex"
 File: pgfcoregraphicstate.code.tex 2013/09/19  (rcs-revision 1.11)
 \pgflinewidth=\dimen290
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcoretransformations.code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcoretransformations.code.tex"
 File: pgfcoretransformations.code.tex 2013/10/10  (rcs-revision 1.17)
 \pgf@pt@x=\dimen291
 \pgf@pt@y=\dimen292
 \pgf@pt@temp=\dimen293
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcorequick.code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcorequick.code.tex"
 File: pgfcorequick.code.tex 2008/10/09  (rcs-revision 1.3)
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcoreobjects.code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcoreobjects.code.tex"
 File: pgfcoreobjects.code.tex 2006/10/11  (rcs-revision 1.2)
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcorepathprocessing.code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcorepathprocessing.code.tex"
 File: pgfcorepathprocessing.code.tex 2013/09/09  (rcs-revision 1.9)
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcorearrows.code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcorearrows.code.tex"
 File: pgfcorearrows.code.tex 2013/11/07  (rcs-revision 1.40)
 \pgfarrowsep=\dimen294
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcoreshade.code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcoreshade.code.tex"
 File: pgfcoreshade.code.tex 2013/07/15  (rcs-revision 1.15)
 \pgf@max=\dimen295
 \pgf@sys@shading@range@num=\count287
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcoreimage.code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcoreimage.code.tex"
 File: pgfcoreimage.code.tex 2013/07/15  (rcs-revision 1.18)
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcoreexternal.code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcoreexternal.code.tex"
 File: pgfcoreexternal.code.tex 2013/07/15  (rcs-revision 1.20)
 \pgfexternal@startupbox=\box65
 ))
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcorelayers.code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcorelayers.code.tex"
 File: pgfcorelayers.code.tex 2013/07/18  (rcs-revision 1.7)
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcoretransparency.code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcoretransparency.code.tex"
 File: pgfcoretransparency.code.tex 2013/09/30  (rcs-revision 1.5)
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcorepatterns.code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcorepatterns.code.tex"
 File: pgfcorepatterns.code.tex 2013/11/07  (rcs-revision 1.5)
 )))
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\modules\pgfmoduleshapes.code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\modules\pgfmoduleshapes.code.tex"
 File: pgfmoduleshapes.code.tex 2013/10/31  (rcs-revision 1.34)
 \pgfnodeparttextbox=\box66
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\pgf\modules\pgfmoduleplot.code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\modules\pgfmoduleplot.code.tex"
 File: pgfmoduleplot.code.tex 2013/07/31  (rcs-revision 1.12)
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\pgf\compatibility\pgfcomp-version-0-65.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\pgf\compatibility\pgfcomp-version-0-65.sty"
 Package: pgfcomp-version-0-65 2007/07/03 v3.0.0 (rcs-revision 1.7)
 \pgf@nodesepstart=\dimen296
 \pgf@nodesepend=\dimen297
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\pgf\compatibility\pgfcomp-version-1-18.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\pgf\compatibility\pgfcomp-version-1-18.sty"
 Package: pgfcomp-version-1-18 2007/07/23 v3.0.0 (rcs-revision 1.1)
 ))
-("C:\Program Files\MiKTeX 2.9\tex\latex\tools\verbatim.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tools\verbatim.sty"
 Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
 \every@verbatim=\toks44
 \verbatim@line=\toks45
 \verbatim@in@stream=\read4
-) ("C:\Program Files\MiKTeX 2.9\tex\latex\environ\environ.sty"
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\environ\environ.sty"
 Package: environ 2014/05/04 v0.3 A new way to define environments
- ("C:\Program Files\MiKTeX 2.9\tex\latex\trimspaces\trimspaces.sty"
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\trimspaces\trimspaces.sty"
 Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
 ))
-("C:\Program Files\MiKTeX 2.9\tex\latex\etoolbox\etoolbox.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\etoolbox\etoolbox.sty"
 Package: etoolbox 2011/01/03 v2.1 e-TeX tools for LaTeX
 \etb@tempcnta=\count288
 )
@@ -1315,28 +1345,28 @@ Package: etoolbox 2011/01/03 v2.1 e-TeX tools for LaTeX
 \tcb@temp=\box74
 \tcb@out=\write6
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\lscape.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\lscape.sty"
 Package: lscape 2000/10/22 v3.01 Landscape Pages (DPC)
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\multirow\multirow.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\multirow\multirow.sty"
 \bigstrutjot=\dimen298
 )
-(C:\Users\xander890\AppData\Roaming\MiKTeX\2.9\tex\latex\setspace\setspace.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\setspace\setspace.sty"
 Package: setspace 2011/12/19 v6.7a set line spacing
 )
-(C:\Users\xander890\Documents\GitHub\master_thesis\documents\glslListings.sty
+(C:\Users\alessandro\Documents\master_thesis\documents\glslListings.sty
 Package: glslListings 
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\tcolorbox\tcbbreakable.code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tcolorbox\tcbbreakable.code.tex"
 Library (tcolorbox): 'tcbbreakable.code.tex' version '3.04'
 \tcb@totalupperbox=\box75
 \tcb@totallowerbox=\box76
 )
-Package hyperref Info: Option `breaklinks' set `true' on input line 82.
-Package hyperref Info: Option `bookmarksopen' set `true' on input line 82.
-Package hyperref Info: Option `bookmarksnumbered' set `true' on input line 82.
-Package hyperref Info: Option `plainpages' set `false' on input line 82.
-) (C:\Users\xander890\Documents\GitHub\master_thesis\documents\thesis.aux)
+Package hyperref Info: Option `breaklinks' set `true' on input line 83.
+Package hyperref Info: Option `bookmarksopen' set `true' on input line 83.
+Package hyperref Info: Option `bookmarksnumbered' set `true' on input line 83.
+Package hyperref Info: Option `plainpages' set `false' on input line 83.
+) (C:\Users\alessandro\Documents\master_thesis\documents\thesis.aux)
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 3.
 LaTeX Font Info:    ... okay on input line 3.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 3.
@@ -1353,9 +1383,10 @@ LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 3.
 LaTeX Font Info:    ... okay on input line 3.
 LaTeX Font Info:    Try loading font information for OT1+lmr on input line 3.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\lm\ot1lmr.fd"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\lm\ot1lmr.fd"
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-) ("C:\Program Files\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count291
 \scratchdimen=\dimen299
@@ -1378,10 +1409,10 @@ Package caption Info: wrapfig package is loaded.
 Package caption Info: End \AtBeginDocument code.
 \AtBeginShipoutBox=\box78
 Package hyperref Info: Link coloring OFF on input line 3.
- ("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
+ ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\gettitlestring.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\gettitlestring.sty"
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
 \c@section@level=\count297
@@ -1391,15 +1422,15 @@ LaTeX Info: Redefining \ref on input line 3.
 LaTeX Info: Redefining \pageref on input line 3.
 LaTeX Info: Redefining \nameref on input line 3.
 
-(C:\Users\xander890\Documents\GitHub\master_thesis\documents\thesis.out)
-(C:\Users\xander890\Documents\GitHub\master_thesis\documents\thesis.out)
+(C:\Users\alessandro\Documents\master_thesis\documents\thesis.out)
+(C:\Users\alessandro\Documents\master_thesis\documents\thesis.out)
 \@outlinefile=\write7
 LaTeX Info: Redefining \Ref on input line 3.
 \c@lstlisting=\count298
 Now handling font encoding TS1 ...
 ... processing UTF-8 mapping file for font encoding TS1
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\ts1enc.dfu"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\ts1enc.dfu"
 File: ts1enc.dfu 2008/04/05 v1.1m UTF-8 support for inputenc
    defining Unicode char U+00A2 (decimal 162)
    defining Unicode char U+00A3 (decimal 163)
@@ -1471,25 +1502,25 @@ File: ts1enc.dfu 2008/04/05 v1.1m UTF-8 support for inputenc
    defining Unicode char U+25EF (decimal 9711)
    defining Unicode char U+266A (decimal 9834)
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\beamer\base\translator\dicts\translator-basic-dictionary\translator-basic-dictio
-nary-English.dict"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\beamer\base\translator\dicts\translator-basic-dictionary\translator-basic-
+dictionary-English.dict"
 Dictionary: translator-basic-dictionary, Language: English 
-) ("C:\Program Files\MiKTeX 2.9\tex\latex\siunitx\config\siunitx-abbreviations.cfg"
+) ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\siunitx\config\siunitx-abbreviations.cfg"
 File: siunitx-abbreviations.cfg 2013/07/31 v2.5s siunitx: Abbreviated units
 )
 ABD: EveryShipout initializing macros
 \c__siunitx_mathsf_int=\count299
 LaTeX Font Info:    Try loading font information for OML+lmm on input line 3.
- ("C:\Program Files\MiKTeX 2.9\tex\latex\lm\omllmm.fd"
+ ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\lm\omllmm.fd"
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 3.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\lm\omslmsy.fd"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\lm\omslmsy.fd"
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Try loading font information for OMX+lmex on input line 3.
- ("C:\Program Files\MiKTeX 2.9\tex\latex\lm\omxlmex.fd"
+ ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\lm\omxlmex.fd"
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
@@ -1499,17 +1530,17 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <5> on input line 3.
 LaTeX Font Info:    Try loading font information for U+msa on input line 3.
-
-("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
+ ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
 LaTeX Font Info:    Try loading font information for U+msb on input line 3.
- ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Try loading font information for U+lasy on input line 3.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\ulasy.fd"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\ulasy.fd"
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
 LaTeX Font Info:    Font shape `U/lasy/b/n' in size <7> not available
@@ -1517,59 +1548,58 @@ LaTeX Font Info:    Font shape `U/lasy/b/n' in size <7> not available
 LaTeX Font Info:    Font shape `U/lasy/b/n' in size <5> not available
 (Font)              Font shape `U/lasy/m/n' tried instead on input line 3.
 LaTeX Font Info:    Try loading font information for OT1+lmss on input line 3.
- ("C:\Program Files\MiKTeX 2.9\tex\latex\lm\ot1lmss.fd"
+ ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\lm\ot1lmss.fd"
 File: ot1lmss.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 \c__siunitx_mathtt_int=\count300
 LaTeX Font Info:    Try loading font information for OT1+lmtt on input line 3.
-
-("C:\Program Files\MiKTeX 2.9\tex\latex\lm\ot1lmtt.fd"
+ ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\lm\ot1lmtt.fd"
 File: ot1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-) <figures/UNIPD-logo.png, id=361, 216.81pt x 216.0873pt>
+)
+<figures/UNIPD-logo.png, id=365, 216.81pt x 216.0873pt>
 File: figures/UNIPD-logo.png Graphic file (type png)
-
-<use figures/UNIPD-logo.png>
+ <use figures/UNIPD-logo.png>
 Package pdftex.def Info: figures/UNIPD-logo.png used on input line 7.
 (pdftex.def)             Requested size: 172.65132pt x 172.08533pt.
  [1
 Non-PDF special ignored!
 
 
-Non-PDF special ignored!{C:/Users/xander890/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map} <C:/Users/xander890/Docum
-ents/GitHub/master_thesis/documents/figures/UNIPD-logo.png>] [2]
-(C:\Users\xander890\Documents\GitHub\master_thesis\documents\tex/summaryUK.tex)
-(C:\Users\xander890\Documents\GitHub\master_thesis\documents\tex/preface.tex [1
+Non-PDF special ignored!{C:/Users/alessandro/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map} <C:/Users/alessandro/Doc
+uments/master_thesis/documents/figures/UNIPD-logo.png>] [2]
+(C:\Users\alessandro\Documents\master_thesis\documents\tex/summaryUK.tex)
+(C:\Users\alessandro\Documents\master_thesis\documents\tex/preface.tex [1
 
 
 ] [2
 
 ] [3]
-<images/sig.png, id=392, 301.125pt x 174.6525pt> <use images/sig.png> <use images/sig.png>
+<images/sig.png, id=396, 301.125pt x 174.6525pt> <use images/sig.png> <use images/sig.png>
 File: images/sig.png Graphic file (type png)
  <use images/sig.png>
 Package pdftex.def Info: images/sig.png used on input line 21.
 (pdftex.def)             Requested size: 120.44786pt x 69.85976pt.
 )
-(C:\Users\xander890\Documents\GitHub\master_thesis\documents\tex/acknowledgements.tex [4 <C:/Users/xander890/Documents/G
-itHub/master_thesis/documents/images/sig.png>]) [5
+(C:\Users\alessandro\Documents\master_thesis\documents\tex/acknowledgements.tex [4 <C:/Users/alessandro/Documents/master
+_thesis/documents/images/sig.png>]) [5
 
-] <images/jap.pdf, id=403, 39.89906pt x 135.90271pt>
-<use images/jap.pdf> <use images/jap.pdf>
+] <images/jap.pdf, id=407, 39.89906pt x 135.90271pt> <use images/jap.pdf>
+<use images/jap.pdf>
 File: images/jap.pdf Graphic file (type pdf)
  <use images/jap.pdf>
 Package pdftex.def Info: images/jap.pdf used on input line 29.
 (pdftex.def)             Requested size: 17.61469pt x 60.0pt.
  [6
 
- <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/jap.pdf>] (C:\Users\xander890\Documents\GitHub\mast
-er_thesis\documents\thesis.toc [7
+ <C:/Users/alessandro/Documents/master_thesis/documents/images/jap.pdf>]
+(C:\Users\alessandro\Documents\master_thesis\documents\thesis.toc [7
 
 ] [8])
 \tf@toc=\write8
  [9] [10
 
 ]
-(C:\Users\xander890\Documents\GitHub\master_thesis\documents\tex/intro.tex
+(C:\Users\alessandro\Documents\master_thesis\documents\tex/intro.tex
 Chapter 1.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <24.88> on input line 1.
@@ -1579,25 +1609,25 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <17.28> on input line 1.
 [1
 
-] <images/diagram.pdf, id=548, 536.18213pt x 281.24902pt>
+] <images/diagram.pdf, id=553, 536.18213pt x 281.24902pt>
 File: images/diagram.pdf Graphic file (type pdf)
  <use images/diagram.pdf>
 Package pdftex.def Info: images/diagram.pdf used on input line 11.
 (pdftex.def)             Requested size: 276.24316pt x 144.90707pt.
 
-<images/marble.jpg, id=570, 2741.24126pt x 1371.1225pt>
+<images/marble.jpg, id=575, 2741.24126pt x 1371.1225pt>
 File: images/marble.jpg Graphic file (type jpg)
  <use images/marble.jpg>
 Package pdftex.def Info: images/marble.jpg used on input line 25.
 (pdftex.def)             Requested size: 310.77026pt x 155.4267pt.
 
-<images/leaves.jpg, id=571, 2370.8575pt x 1185.42876pt>
+<images/leaves.jpg, id=576, 2370.8575pt x 1185.42876pt>
 File: images/leaves.jpg Graphic file (type jpg)
  <use images/leaves.jpg>
 Package pdftex.def Info: images/leaves.jpg used on input line 30.
 (pdftex.def)             Requested size: 310.77026pt x 155.37732pt.
 
-<images/candle.jpg, id=572, 2489.3pt x 1237.62375pt>
+<images/candle.jpg, id=577, 2489.3pt x 1237.62375pt>
 File: images/candle.jpg Graphic file (type jpg)
  <use images/candle.jpg>
 Package pdftex.def Info: images/candle.jpg used on input line 35.
@@ -1608,29 +1638,29 @@ LaTeX Warning: Float too large for page by 25.9229pt on input line 38.
 
 [2
 
- <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/diagram.pdf>] [3 <C:/Users/xander890/Documents/GitH
-ub/master_thesis/documents/images/marble.jpg> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/leaves
-.jpg> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/candle.jpg>] [4] [5])
-(C:\Users\xander890\Documents\GitHub\master_thesis\documents\tex/previous.tex [6]
+ <C:/Users/alessandro/Documents/master_thesis/documents/images/diagram.pdf>] [3 <C:/Users/alessandro/Documents/master_th
+esis/documents/images/marble.jpg> <C:/Users/alessandro/Documents/master_thesis/documents/images/leaves.jpg> <C:/Users/al
+essandro/Documents/master_thesis/documents/images/candle.jpg>] [4] [5])
+(C:\Users\alessandro\Documents\master_thesis\documents\tex/previous.tex [6]
 Chapter 2.
 [7
 
-] [8] [9] [10]) (C:\Users\xander890\Documents\GitHub\master_thesis\documents\tex/theory.tex [11] [12]
+] [8] [9] [10]) (C:\Users\alessandro\Documents\master_thesis\documents\tex/theory.tex [11] [12]
 Chapter 3.
 [13
 
 ] [14]
 LaTeX Font Info:    Try loading font information for TS1+lmr on input line 51.
- ("C:\Program Files\MiKTeX 2.9\tex\latex\lm\ts1lmr.fd"
+ ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\lm\ts1lmr.fd"
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-<images/spectrum.pdf, id=787, 513.84715pt x 294.58528pt>
+<images/spectrum.pdf, id=792, 513.84715pt x 294.58528pt>
 File: images/spectrum.pdf Graphic file (type pdf)
  <use images/spectrum.pdf>
 Package pdftex.def Info: images/spectrum.pdf used on input line 55.
 (pdftex.def)             Requested size: 345.30264pt x 197.95995pt.
- [15 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/spectrum.pdf>] [16] <images/irradiance.pdf, id=
-907, 285.065pt x 285.065pt>
+ [15 <C:/Users/alessandro/Documents/master_thesis/documents/images/spectrum.pdf>] [16] <images/irradiance.pdf, id=912, 2
+85.065pt x 285.065pt>
 File: images/irradiance.pdf Graphic file (type pdf)
 
 <use images/irradiance.pdf>
@@ -1644,88 +1674,88 @@ LaTeX Font Info:    Font shape `U/lasy/b/n' in size <9> not available
 (Font)              Font shape `U/lasy/m/n' tried instead on input line 89.
 LaTeX Font Info:    Font shape `U/lasy/b/n' in size <6> not available
 (Font)              Font shape `U/lasy/m/n' tried instead on input line 89.
- [17 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/irradiance.pdf>]
-<images/radiance.pdf, id=928, 372.34169pt x 300.05444pt>
+ [17 <C:/Users/alessandro/Documents/master_thesis/documents/images/irradiance.pdf>]
+<images/radiance.pdf, id=933, 372.34169pt x 300.05444pt>
 File: images/radiance.pdf Graphic file (type pdf)
  <use images/radiance.pdf>
 Package pdftex.def Info: images/radiance.pdf used on input line 111.
 (pdftex.def)             Requested size: 241.71078pt x 194.7904pt.
- [18 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/radiance.pdf>]
+ [18 <C:/Users/alessandro/Documents/master_thesis/documents/images/radiance.pdf>]
 LaTeX Font Info:    Try loading font information for OMS+lmr on input line 134.
- ("C:\Program Files\MiKTeX 2.9\tex\latex\lm\omslmr.fd"
+ ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\lm\omslmr.fd"
 File: omslmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Font shape `OMS/lmr/m/n' in size <10> not available
 (Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 134.
  [19] [20]
-<images/brdf.pdf, id=968, 410.49837pt x 273.52559pt>
+<images/brdf.pdf, id=973, 410.49837pt x 273.52559pt>
 File: images/brdf.pdf Graphic file (type pdf)
  <use images/brdf.pdf>
 Package pdftex.def Info: images/brdf.pdf used on input line 195.
 (pdftex.def)             Requested size: 276.24316pt x 184.07922pt.
 
-<images/brdf_lambertian.pdf, id=969, 212.34332pt x 102.72453pt>
+<images/brdf_lambertian.pdf, id=974, 212.34332pt x 102.72453pt>
 File: images/brdf_lambertian.pdf Graphic file (type pdf)
  <use images/brdf_lambertian.pdf>
 Package pdftex.def Info: images/brdf_lambertian.pdf used on input line 207.
 (pdftex.def)             Requested size: 138.11894pt x 66.82187pt.
 
-<images/brdf_mirror.pdf, id=970, 212.34332pt x 102.72453pt>
+<images/brdf_mirror.pdf, id=975, 212.34332pt x 102.72453pt>
 File: images/brdf_mirror.pdf Graphic file (type pdf)
  <use images/brdf_mirror.pdf>
 Package pdftex.def Info: images/brdf_mirror.pdf used on input line 211.
 (pdftex.def)             Requested size: 138.11894pt x 66.82187pt.
 
-<images/brdf_glossy.pdf, id=971, 212.34332pt x 102.72453pt>
+<images/brdf_glossy.pdf, id=976, 212.34332pt x 102.72453pt>
 File: images/brdf_glossy.pdf Graphic file (type pdf)
  <use images/brdf_glossy.pdf>
 Package pdftex.def Info: images/brdf_glossy.pdf used on input line 215.
 (pdftex.def)             Requested size: 138.11894pt x 66.82187pt.
 
-<images/brdf_combined.pdf, id=972, 212.34332pt x 102.72453pt>
+<images/brdf_combined.pdf, id=977, 212.34332pt x 102.72453pt>
 File: images/brdf_combined.pdf Graphic file (type pdf)
  <use images/brdf_combined.pdf>
 Package pdftex.def Info: images/brdf_combined.pdf used on input line 219.
 (pdftex.def)             Requested size: 138.11894pt x 66.82187pt.
- [21 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/brdf.pdf>] [22 <C:/Users/xander890/Documents/Gi
-tHub/master_thesis/documents/images/brdf_lambertian.pdf> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/im
-ages/brdf_mirror.pdf
+ [21 <C:/Users/alessandro/Documents/master_thesis/documents/images/brdf.pdf>] [22 <C:/Users/alessandro/Documents/master_
+thesis/documents/images/brdf_lambertian.pdf> <C:/Users/alessandro/Documents/master_thesis/documents/images/brdf_mirror.p
+df
 
-pdfTeX warning: pdflatex.exe (file C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/brdf_mirror.pdf): 
-PDF inclusion: multiple pdfs with page group included in a single page
-> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/brdf_glossy.pdf
+pdfTeX warning: pdflatex.exe (file C:/Users/alessandro/Documents/master_thesis/documents/images/brdf_mirror.pdf): PDF in
+clusion: multiple pdfs with page group included in a single page
+> <C:/Users/alessandro/Documents/master_thesis/documents/images/brdf_glossy.pdf
 
-pdfTeX warning: pdflatex.exe (file C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/brdf_glossy.pdf): 
-PDF inclusion: multiple pdfs with page group included in a single page
-> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/brdf_combined.pdf
+pdfTeX warning: pdflatex.exe (file C:/Users/alessandro/Documents/master_thesis/documents/images/brdf_glossy.pdf): PDF in
+clusion: multiple pdfs with page group included in a single page
+> <C:/Users/alessandro/Documents/master_thesis/documents/images/brdf_combined.pdf
 
-pdfTeX warning: pdflatex.exe (file C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/brdf_combined.pdf)
-: PDF inclusion: multiple pdfs with page group included in a single page
->] [23] <images/glossy_setup.pdf, id=1032, 410.49837pt x 273.52559pt>
+pdfTeX warning: pdflatex.exe (file C:/Users/alessandro/Documents/master_thesis/documents/images/brdf_combined.pdf): PDF 
+inclusion: multiple pdfs with page group included in a single page
+>] [23] <images/glossy_setup.pdf, id=1037, 410.49837pt x 273.52559pt>
 File: images/glossy_setup.pdf Graphic file (type pdf)
  <use images/glossy_setup.pdf>
 Package pdftex.def Info: images/glossy_setup.pdf used on input line 275.
 (pdftex.def)             Requested size: 241.71078pt x 161.0615pt.
- [24 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/glossy_setup.pdf>]
-<images/fresnelsetup.pdf, id=1060, 411.136pt x 411.136pt>
+ [24 <C:/Users/alessandro/Documents/master_thesis/documents/images/glossy_setup.pdf>]
+<images/fresnelsetup.pdf, id=1065, 411.136pt x 411.136pt>
 File: images/fresnelsetup.pdf Graphic file (type pdf)
  <use images/fresnelsetup.pdf>
 Package pdftex.def Info: images/fresnelsetup.pdf used on input line 308.
 (pdftex.def)             Requested size: 172.65132pt x 172.65085pt.
  [25]
-<images/bssrdf.pdf, id=1074, 410.49837pt x 273.52559pt>
+<images/bssrdf.pdf, id=1079, 410.49837pt x 273.52559pt>
 File: images/bssrdf.pdf Graphic file (type pdf)
  <use images/bssrdf.pdf>
 Package pdftex.def Info: images/bssrdf.pdf used on input line 326.
 (pdftex.def)             Requested size: 276.24316pt x 184.07922pt.
- [26 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/fresnelsetup.pdf>] [27 <C:/Users/xander890/Docu
-ments/GitHub/master_thesis/documents/images/bssrdf.pdf>] <images/transport_emission.pdf, id=1109, 289.08pt x 96.36pt>
+ [26 <C:/Users/alessandro/Documents/master_thesis/documents/images/fresnelsetup.pdf>] [27 <C:/Users/alessandro/Documents
+/master_thesis/documents/images/bssrdf.pdf>] <images/transport_emission.pdf, id=1114, 289.08pt x 96.36pt>
 File: images/transport_emission.pdf Graphic file (type pdf)
  <use images/transport_emission.pdf>
 Package pdftex.def Info: images/transport_emission.pdf used on input line 357.
 (pdftex.def)             Requested size: 172.65132pt x 57.5503pt.
 
-<images/transport_absorption.pdf, id=1110, 289.08pt x 96.36pt>
+<images/transport_absorption.pdf, id=1115, 289.08pt x 96.36pt>
 File: images/transport_absorption.pdf Graphic file (type pdf)
  <use images/transport_absorption.pdf>
 Package pdftex.def Info: images/transport_absorption.pdf used on input line 361.
@@ -1735,13 +1765,13 @@ Overfull \hbox (13.33331pt too wide) in paragraph at lines 357--361
  [][][][] 
  []
 
-<images/transport_outscattering.pdf, id=1111, 289.08pt x 96.36pt>
+<images/transport_outscattering.pdf, id=1116, 289.08pt x 96.36pt>
 File: images/transport_outscattering.pdf Graphic file (type pdf)
  <use images/transport_outscattering.pdf>
 Package pdftex.def Info: images/transport_outscattering.pdf used on input line 365.
 (pdftex.def)             Requested size: 172.65132pt x 57.5503pt.
 
-<images/transport_inscattering.pdf, id=1112, 289.08pt x 96.36pt>
+<images/transport_inscattering.pdf, id=1117, 289.08pt x 96.36pt>
 File: images/transport_inscattering.pdf Graphic file (type pdf)
  <use images/transport_inscattering.pdf>
 Package pdftex.def Info: images/transport_inscattering.pdf used on input line 369.
@@ -1751,19 +1781,19 @@ Overfull \hbox (13.33331pt too wide) in paragraph at lines 365--371
  [][][][][] 
  []
 
-[28] [29 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/transport_emission.pdf> <C:/Users/xander890
-/Documents/GitHub/master_thesis/documents/images/transport_absorption.pdf
+[28] [29 <C:/Users/alessandro/Documents/master_thesis/documents/images/transport_emission.pdf> <C:/Users/alessandro/Docu
+ments/master_thesis/documents/images/transport_absorption.pdf
 
-pdfTeX warning: pdflatex.exe (file C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/transport_absorpti
-on.pdf): PDF inclusion: multiple pdfs with page group included in a single page
-> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/transport_outscattering.pdf
+pdfTeX warning: pdflatex.exe (file C:/Users/alessandro/Documents/master_thesis/documents/images/transport_absorption.pdf
+): PDF inclusion: multiple pdfs with page group included in a single page
+> <C:/Users/alessandro/Documents/master_thesis/documents/images/transport_outscattering.pdf
 
-pdfTeX warning: pdflatex.exe (file C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/transport_outscatt
-ering.pdf): PDF inclusion: multiple pdfs with page group included in a single page
-> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/transport_inscattering.pdf
+pdfTeX warning: pdflatex.exe (file C:/Users/alessandro/Documents/master_thesis/documents/images/transport_outscattering.
+pdf): PDF inclusion: multiple pdfs with page group included in a single page
+> <C:/Users/alessandro/Documents/master_thesis/documents/images/transport_inscattering.pdf
 
-pdfTeX warning: pdflatex.exe (file C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/transport_inscatte
-ring.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+pdfTeX warning: pdflatex.exe (file C:/Users/alessandro/Documents/master_thesis/documents/images/transport_inscattering.p
+df): PDF inclusion: multiple pdfs with page group included in a single page
 >] [30] [31]
 Underfull \hbox (badness 10000) in paragraph at lines 454--454
 []|\OT1/lmr/m/n/10 Backward
@@ -1794,26 +1824,26 @@ Underfull \hbox (badness 10000) in paragraph at lines 454--454
 \OT1/lmr/m/n/10 Scat-ter-ing
  []
 
-[32] <images/jensen.pdf, id=1179, 954.79353pt x 537.62373pt>
+[32] <images/jensen.pdf, id=1184, 954.79353pt x 537.62373pt>
 File: images/jensen.pdf Graphic file (type pdf)
  <use images/jensen.pdf>
 Package pdftex.def Info: images/jensen.pdf used on input line 492.
 (pdftex.def)             Requested size: 345.30264pt x 194.43037pt.
- [33] [34 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/jensen.pdf>] <images/jeppe.pdf, id=1224, 9
-53.98773pt x 607.17648pt>
+ [33] [34 <C:/Users/alessandro/Documents/master_thesis/documents/images/jensen.pdf>] <images/jeppe.pdf, id=1229, 953.987
+73pt x 607.17648pt>
 File: images/jeppe.pdf Graphic file (type pdf)
 
 <use images/jeppe.pdf>
 Package pdftex.def Info: images/jeppe.pdf used on input line 541.
 (pdftex.def)             Requested size: 310.77026pt x 197.79324pt.
- [35] [36 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/jeppe.pdf>] [37]
-[38] <images/gamma_potato_buddha_dipole.png, id=1283, 513.92pt x 513.92pt>
+ [35] [36 <C:/Users/alessandro/Documents/master_thesis/documents/images/jeppe.pdf>] [37] [38]
+<images/gamma_potato_buddha_dipole.png, id=1288, 513.92pt x 513.92pt>
 File: images/gamma_potato_buddha_dipole.png Graphic file (type png)
  <use images/gamma_potato_buddha_dipole.png>
 Package pdftex.def Info: images/gamma_potato_buddha_dipole.png used on input line 650.
 (pdftex.def)             Requested size: 172.65132pt x 172.6524pt.
 
-<images/gamma_potato_buddha_dir.png, id=1284, 513.92pt x 513.92pt>
+<images/gamma_potato_buddha_dir.png, id=1289, 513.92pt x 513.92pt>
 File: images/gamma_potato_buddha_dir.png Graphic file (type png)
  <use images/gamma_potato_buddha_dir.png>
 Package pdftex.def Info: images/gamma_potato_buddha_dir.png used on input line 653.
@@ -1823,31 +1853,31 @@ Overfull \hbox (13.33331pt too wide) in paragraph at lines 650--654
  [][][][] 
  []
 
-) (C:\Users\xander890\Documents\GitHub\master_thesis\documents\tex/method.tex [39 <C:/Users/xander890/Documents/GitHub/m
-aster_thesis/documents/images/gamma_potato_buddha_dipole.png (PNG copy)> <C:/Users/xander890/Documents/GitHub/master_the
-sis/documents/images/gamma_potato_buddha_dir.png (PNG copy)>] [40
+) (C:\Users\alessandro\Documents\master_thesis\documents\tex/method.tex [39 <C:/Users/alessandro/Documents/master_thesis
+/documents/images/gamma_potato_buddha_dipole.png (PNG copy)> <C:/Users/alessandro/Documents/master_thesis/documents/imag
+es/gamma_potato_buddha_dir.png (PNG copy)>] [40
 
 ]
 Chapter 4.
-[41] <images/bssrdf_slab_potato.png, id=1303, 770.88pt x 770.88pt>
+[41] <images/bssrdf_slab_potato.png, id=1308, 770.88pt x 770.88pt>
 File: images/bssrdf_slab_potato.png Graphic file (type png)
  <use images/bssrdf_slab_potato.png>
 Package pdftex.def Info: images/bssrdf_slab_potato.png used on input line 15.
 (pdftex.def)             Requested size: 276.24316pt x 276.23445pt.
- [42 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/bssrdf_slab_potato.png (PNG copy)>]
-<images/disk_setup.pdf, id=1311, 608.35619pt x 421.11052pt>
+ [42 <C:/Users/alessandro/Documents/master_thesis/documents/images/bssrdf_slab_potato.png (PNG copy)>]
+<images/disk_setup.pdf, id=1316, 608.35619pt x 421.11052pt>
 File: images/disk_setup.pdf Graphic file (type pdf)
  <use images/disk_setup.pdf>
 Package pdftex.def Info: images/disk_setup.pdf used on input line 26.
 (pdftex.def)             Requested size: 276.24316pt x 191.22005pt.
- [43 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/disk_setup.pdf>]
-<images/distribution_wrong_1.pdf, id=1342, 337.92793pt x 367.08572pt>
+ [43 <C:/Users/alessandro/Documents/master_thesis/documents/images/disk_setup.pdf>]
+<images/distribution_wrong_1.pdf, id=1347, 337.92793pt x 367.08572pt>
 File: images/distribution_wrong_1.pdf Graphic file (type pdf)
  <use images/distribution_wrong_1.pdf>
 Package pdftex.def Info: images/distribution_wrong_1.pdf used on input line 44.
 (pdftex.def)             Requested size: 172.65132pt x 187.5473pt.
 
-<images/distribution_wrong_3.pdf, id=1343, 337.92793pt x 367.08572pt>
+<images/distribution_wrong_3.pdf, id=1348, 337.92793pt x 367.08572pt>
 File: images/distribution_wrong_3.pdf Graphic file (type pdf)
  <use images/distribution_wrong_3.pdf>
 Package pdftex.def Info: images/distribution_wrong_3.pdf used on input line 48.
@@ -1858,18 +1888,18 @@ Overfull \hbox (13.33331pt too wide) in paragraph at lines 44--49
  []
 
 Missing character: There is no b in font msbm10!
-[44 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/distribution_wrong_1.pdf> <C:/Users/xander890/Do
-cuments/GitHub/master_thesis/documents/images/distribution_wrong_3.pdf
+[44 <C:/Users/alessandro/Documents/master_thesis/documents/images/distribution_wrong_1.pdf> <C:/Users/alessandro/Documen
+ts/master_thesis/documents/images/distribution_wrong_3.pdf
 
-pdfTeX warning: pdflatex.exe (file C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/distribution_wrong
-_3.pdf): PDF inclusion: multiple pdfs with page group included in a single page
->] <images/distribution_wrong_2.pdf, id=1405, 337.92793pt x 283.57368pt>
+pdfTeX warning: pdflatex.exe (file C:/Users/alessandro/Documents/master_thesis/documents/images/distribution_wrong_3.pdf
+): PDF inclusion: multiple pdfs with page group included in a single page
+>] <images/distribution_wrong_2.pdf, id=1410, 337.92793pt x 283.57368pt>
 File: images/distribution_wrong_2.pdf Graphic file (type pdf)
  <use images/distribution_wrong_2.pdf>
 Package pdftex.def Info: images/distribution_wrong_2.pdf used on input line 66.
 (pdftex.def)             Requested size: 172.65132pt x 144.88028pt.
 
-<images/distribution_wrong_4.pdf, id=1406, 330.658pt x 260.96327pt>
+<images/distribution_wrong_4.pdf, id=1411, 330.658pt x 260.96327pt>
 File: images/distribution_wrong_4.pdf Graphic file (type pdf)
  <use images/distribution_wrong_4.pdf>
 Package pdftex.def Info: images/distribution_wrong_4.pdf used on input line 70.
@@ -1879,23 +1909,23 @@ Overfull \hbox (13.33331pt too wide) in paragraph at lines 66--72
  [][][][][] 
  []
 
-[45 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/distribution_wrong_2.pdf> <C:/Users/xander890/Do
-cuments/GitHub/master_thesis/documents/images/distribution_wrong_4.pdf
+[45 <C:/Users/alessandro/Documents/master_thesis/documents/images/distribution_wrong_2.pdf> <C:/Users/alessandro/Documen
+ts/master_thesis/documents/images/distribution_wrong_4.pdf
 
-pdfTeX warning: pdflatex.exe (file C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/distribution_wrong
-_4.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+pdfTeX warning: pdflatex.exe (file C:/Users/alessandro/Documents/master_thesis/documents/images/distribution_wrong_4.pdf
+): PDF inclusion: multiple pdfs with page group included in a single page
 >] [46] [47]
 Package epstopdf Info: Source file: <images/matlab/halton_norm.eps>
-(epstopdf)                    date: 2014-06-12 09:37:45
-(epstopdf)                    size: 187015 bytes
+(epstopdf)                    date: 2014-06-10 11:28:38
+(epstopdf)                    size: 184122 bytes
 (epstopdf)             Output file: <images/matlab/halton_norm-eps-converted-to.pdf>
-(epstopdf)                    date: 2014-06-12 09:37:45
+(epstopdf)                    date: 2014-06-10 11:28:44
 (epstopdf)                    size: 53413 bytes
 (epstopdf)             Command: <epstopdf --outfile=images/matlab/halton_norm-eps-converted-to.pdf images/matlab/halton_
 norm.eps>
 (epstopdf)             \includegraphics on input line 135.
 Package epstopdf Info: Output file is already uptodate.
- <images/matlab/halton_norm-eps-converted-to.pdf, id=1488, 456.70625pt x 449.68pt>
+ <images/matlab/halton_norm-eps-converted-to.pdf, id=1493, 456.70625pt x 449.68pt>
 File: images/matlab/halton_norm-eps-converted-to.pdf Graphic file (type pdf)
 
 <use images/matlab/halton_norm-eps-converted-to.pdf>
@@ -1906,17 +1936,17 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 LaTeX Font Info:    Font shape `U/lasy/b/n' in size <8> not available
 (Font)              Font shape `U/lasy/m/n' tried instead on input line 135.
 Package epstopdf Info: Source file: <images/matlab/halton_exp.eps>
-(epstopdf)                    date: 2014-06-12 09:37:45
-(epstopdf)                    size: 189749 bytes
+(epstopdf)                    date: 2014-06-10 11:28:22
+(epstopdf)                    size: 186857 bytes
 (epstopdf)             Output file: <images/matlab/halton_exp-eps-converted-to.pdf>
-(epstopdf)                    date: 2014-06-12 09:37:45
+(epstopdf)                    date: 2014-06-10 11:28:44
 (epstopdf)                    size: 52501 bytes
 (epstopdf)             Command: <epstopdf --outfile=images/matlab/halton_exp-eps-converted-to.pdf images/matlab/halton_e
 xp.eps>
 (epstopdf)             \includegraphics on input line 138.
 Package epstopdf Info: Output file is already uptodate.
 
-<images/matlab/halton_exp-eps-converted-to.pdf, id=1489, 457.71pt x 449.68pt>
+<images/matlab/halton_exp-eps-converted-to.pdf, id=1494, 457.71pt x 449.68pt>
 File: images/matlab/halton_exp-eps-converted-to.pdf Graphic file (type pdf)
 
 <use images/matlab/halton_exp-eps-converted-to.pdf>
@@ -1932,24 +1962,24 @@ Overfull \hbox (10.73029pt too wide) in paragraph at lines 152--152
 [] 
  []
 
-[48 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/matlab/halton_norm-eps-converted-to.pdf> <C:/Use
-rs/xander890/Documents/GitHub/master_thesis/documents/images/matlab/halton_exp-eps-converted-to.pdf>] [49] [50
+[48 <C:/Users/alessandro/Documents/master_thesis/documents/images/matlab/halton_norm-eps-converted-to.pdf> <C:/Users/ale
+ssandro/Documents/master_thesis/documents/images/matlab/halton_exp-eps-converted-to.pdf>] [49] [50
 
 
 ]
-<images/pathtrace/image-apple.pdf, id=1550, 513.92pt x 513.92pt>
+<images/pathtrace/image-apple.pdf, id=1555, 513.92pt x 513.92pt>
 File: images/pathtrace/image-apple.pdf Graphic file (type pdf)
  <use images/pathtrace/image-apple.pdf>
 Package pdftex.def Info: images/pathtrace/image-apple.pdf used on input line 192.
 (pdftex.def)             Requested size: 113.9505pt x 113.94887pt.
 
-<images/pathtrace/image-marble.pdf, id=1551, 513.92pt x 513.92pt>
+<images/pathtrace/image-marble.pdf, id=1556, 513.92pt x 513.92pt>
 File: images/pathtrace/image-marble.pdf Graphic file (type pdf)
  <use images/pathtrace/image-marble.pdf>
 Package pdftex.def Info: images/pathtrace/image-marble.pdf used on input line 195.
 (pdftex.def)             Requested size: 113.9505pt x 113.94887pt.
 
-<images/pathtrace/image-potato.pdf, id=1552, 513.92pt x 513.92pt>
+<images/pathtrace/image-potato.pdf, id=1557, 513.92pt x 513.92pt>
 File: images/pathtrace/image-potato.pdf Graphic file (type pdf)
  <use images/pathtrace/image-potato.pdf>
 Package pdftex.def Info: images/pathtrace/image-potato.pdf used on input line 198.
@@ -1959,19 +1989,19 @@ Overfull \hbox (16.54883pt too wide) in paragraph at lines 192--198
  [][][][][][] 
  []
 
-<images/pathtrace/image-wholemilk.pdf, id=1553, 513.92pt x 513.92pt>
+<images/pathtrace/image-wholemilk.pdf, id=1558, 513.92pt x 513.92pt>
 File: images/pathtrace/image-wholemilk.pdf Graphic file (type pdf)
  <use images/pathtrace/image-wholemilk.pdf>
 Package pdftex.def Info: images/pathtrace/image-wholemilk.pdf used on input line 201.
 (pdftex.def)             Requested size: 113.9505pt x 113.94887pt.
 
-<images/pathtrace/image-coffee.pdf, id=1554, 513.92pt x 513.92pt>
+<images/pathtrace/image-coffee.pdf, id=1559, 513.92pt x 513.92pt>
 File: images/pathtrace/image-coffee.pdf Graphic file (type pdf)
  <use images/pathtrace/image-coffee.pdf>
 Package pdftex.def Info: images/pathtrace/image-coffee.pdf used on input line 204.
 (pdftex.def)             Requested size: 113.9505pt x 113.94887pt.
 
-<images/pathtrace/image-soymilk.pdf, id=1555, 513.92pt x 513.92pt>
+<images/pathtrace/image-soymilk.pdf, id=1560, 513.92pt x 513.92pt>
 File: images/pathtrace/image-soymilk.pdf Graphic file (type pdf)
  <use images/pathtrace/image-soymilk.pdf>
 Package pdftex.def Info: images/pathtrace/image-soymilk.pdf used on input line 207.
@@ -1981,19 +2011,19 @@ Overfull \hbox (16.54883pt too wide) in paragraph at lines 201--207
  [][][][][][] 
  []
 
-<images/pathtrace/image-merlot.pdf, id=1556, 513.92pt x 513.92pt>
+<images/pathtrace/image-merlot.pdf, id=1561, 513.92pt x 513.92pt>
 File: images/pathtrace/image-merlot.pdf Graphic file (type pdf)
  <use images/pathtrace/image-merlot.pdf>
 Package pdftex.def Info: images/pathtrace/image-merlot.pdf used on input line 210.
 (pdftex.def)             Requested size: 113.9505pt x 113.94887pt.
 
-<images/pathtrace/image-beer.pdf, id=1557, 513.92pt x 513.92pt>
+<images/pathtrace/image-beer.pdf, id=1562, 513.92pt x 513.92pt>
 File: images/pathtrace/image-beer.pdf Graphic file (type pdf)
  <use images/pathtrace/image-beer.pdf>
 Package pdftex.def Info: images/pathtrace/image-beer.pdf used on input line 213.
 (pdftex.def)             Requested size: 113.9505pt x 113.94887pt.
 
-<images/pathtrace/image-grapefruit.pdf, id=1558, 513.92pt x 513.92pt>
+<images/pathtrace/image-grapefruit.pdf, id=1563, 513.92pt x 513.92pt>
 File: images/pathtrace/image-grapefruit.pdf Graphic file (type pdf)
  <use images/pathtrace/image-grapefruit.pdf>
 Package pdftex.def Info: images/pathtrace/image-grapefruit.pdf used on input line 216.
@@ -2003,19 +2033,18 @@ Overfull \hbox (16.54883pt too wide) in paragraph at lines 210--216
  [][][][][][] 
  []
 
-[51 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/pathtrace/image-apple.pdf> <C:/Users/xander890/D
-ocuments/GitHub/master_thesis/documents/images/pathtrace/image-marble.pdf> <C:/Users/xander890/Documents/GitHub/master_t
-hesis/documents/images/pathtrace/image-potato.pdf> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/p
-athtrace/image-wholemilk.pdf> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/pathtrace/image-coffee
-.pdf> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/pathtrace/image-soymilk.pdf> <C:/Users/xander8
-90/Documents/GitHub/master_thesis/documents/images/pathtrace/image-merlot.pdf> <C:/Users/xander890/Documents/GitHub/mast
-er_thesis/documents/images/pathtrace/image-beer.pdf> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images
-/pathtrace/image-grapefruit.pdf>]
+[51 <C:/Users/alessandro/Documents/master_thesis/documents/images/pathtrace/image-apple.pdf> <C:/Users/alessandro/Docume
+nts/master_thesis/documents/images/pathtrace/image-marble.pdf> <C:/Users/alessandro/Documents/master_thesis/documents/im
+ages/pathtrace/image-potato.pdf> <C:/Users/alessandro/Documents/master_thesis/documents/images/pathtrace/image-wholemilk
+.pdf> <C:/Users/alessandro/Documents/master_thesis/documents/images/pathtrace/image-coffee.pdf> <C:/Users/alessandro/Doc
+uments/master_thesis/documents/images/pathtrace/image-soymilk.pdf> <C:/Users/alessandro/Documents/master_thesis/document
+s/images/pathtrace/image-merlot.pdf> <C:/Users/alessandro/Documents/master_thesis/documents/images/pathtrace/image-beer.
+pdf> <C:/Users/alessandro/Documents/master_thesis/documents/images/pathtrace/image-grapefruit.pdf>]
 Overfull \hbox (11.10477pt too wide) in paragraph at lines 226--227
 []\OT1/lmr/m/n/10 Sloan[], []2008[]] are usu-ally em-ployed. This tech-nique, given an heavy pre-computation
  []
 
-<images/matlab/doge2.png, id=1618, 903.375pt x 451.6875pt>
+<images/matlab/doge2.png, id=1623, 903.375pt x 451.6875pt>
 File: images/matlab/doge2.png Graphic file (type png)
  <use images/matlab/doge2.png>
 Package pdftex.def Info: images/matlab/doge2.png used on input line 230.
@@ -2024,35 +2053,35 @@ Package pdftex.def Info: images/matlab/doge2.png used on input line 230.
 
 
 
- <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/matlab/doge2.png>]
+ <C:/Users/alessandro/Documents/master_thesis/documents/images/matlab/doge2.png>]
 Package epstopdf Info: Source file: <images/matlab/notunif.eps>
-(epstopdf)                    date: 2014-06-12 09:37:45
-(epstopdf)                    size: 270910 bytes
+(epstopdf)                    date: 2014-06-10 15:05:53
+(epstopdf)                    size: 266924 bytes
 (epstopdf)             Output file: <images/matlab/notunif-eps-converted-to.pdf>
-(epstopdf)                    date: 2014-06-12 09:37:45
+(epstopdf)                    date: 2014-06-10 15:09:12
 (epstopdf)                    size: 72723 bytes
 (epstopdf)             Command: <epstopdf --outfile=images/matlab/notunif-eps-converted-to.pdf images/matlab/notunif.eps
 >
 (epstopdf)             \includegraphics on input line 263.
 Package epstopdf Info: Output file is already uptodate.
 
-<images/matlab/notunif-eps-converted-to.pdf, id=1637, 430.60875pt x 453.695pt>
+<images/matlab/notunif-eps-converted-to.pdf, id=1642, 430.60875pt x 453.695pt>
 File: images/matlab/notunif-eps-converted-to.pdf Graphic file (type pdf)
 
 <use images/matlab/notunif-eps-converted-to.pdf>
 Package pdftex.def Info: images/matlab/notunif-eps-converted-to.pdf used on input line 263.
 (pdftex.def)             Requested size: 172.65132pt x 181.91092pt.
 Package epstopdf Info: Source file: <images/matlab/unif.eps>
-(epstopdf)                    date: 2014-06-12 09:37:45
-(epstopdf)                    size: 270777 bytes
+(epstopdf)                    date: 2014-06-10 15:05:35
+(epstopdf)                    size: 266791 bytes
 (epstopdf)             Output file: <images/matlab/unif-eps-converted-to.pdf>
-(epstopdf)                    date: 2014-06-12 09:37:45
+(epstopdf)                    date: 2014-06-10 15:09:12
 (epstopdf)                    size: 72700 bytes
 (epstopdf)             Command: <epstopdf --outfile=images/matlab/unif-eps-converted-to.pdf images/matlab/unif.eps>
 (epstopdf)             \includegraphics on input line 266.
 Package epstopdf Info: Output file is already uptodate.
 
-<images/matlab/unif-eps-converted-to.pdf, id=1638, 430.60875pt x 453.695pt>
+<images/matlab/unif-eps-converted-to.pdf, id=1643, 430.60875pt x 453.695pt>
 File: images/matlab/unif-eps-converted-to.pdf Graphic file (type pdf)
 
 <use images/matlab/unif-eps-converted-to.pdf>
@@ -2063,39 +2092,38 @@ Overfull \hbox (13.33331pt too wide) in paragraph at lines 263--266
  [][][][] 
  []
 
-[53] <images/matlab/cdfex.pdf, id=1645, 278.6308pt x 276.40784pt>
+[53] <images/matlab/cdfex.pdf, id=1650, 278.6308pt x 276.40784pt>
 File: images/matlab/cdfex.pdf Graphic file (type pdf)
  <use images/matlab/cdfex.pdf>
 Package pdftex.def Info: images/matlab/cdfex.pdf used on input line 277.
 (pdftex.def)             Requested size: 172.65132pt x 171.27408pt.
 
-<images/matlab/doge2_lights.png, id=1647, 903.375pt x 451.6875pt>
+<images/matlab/doge2_lights.png, id=1652, 903.375pt x 451.6875pt>
 File: images/matlab/doge2_lights.png Graphic file (type png)
  <use images/matlab/doge2_lights.png>
 Package pdftex.def Info: images/matlab/doge2_lights.png used on input line 292.
 (pdftex.def)             Requested size: 345.30264pt x 172.65617pt.
 )
-(C:\Users\xander890\Documents\GitHub\master_thesis\documents\tex/implementation.tex [54 <C:/Users/xander890/Documents/Gi
-tHub/master_thesis/documents/images/matlab/notunif-eps-converted-to.pdf> <C:/Users/xander890/Documents/GitHub/master_the
-sis/documents/images/matlab/unif-eps-converted-to.pdf>] [55 <C:/Users/xander890/Documents/GitHub/master_thesis/documents
-/images/matlab/cdfex.pdf> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/matlab/doge2_lights.png (P
-NG copy)>] [56
+(C:\Users\alessandro\Documents\master_thesis\documents\tex/implementation.tex [54 <C:/Users/alessandro/Documents/master_
+thesis/documents/images/matlab/notunif-eps-converted-to.pdf> <C:/Users/alessandro/Documents/master_thesis/documents/imag
+es/matlab/unif-eps-converted-to.pdf>] [55 <C:/Users/alessandro/Documents/master_thesis/documents/images/matlab/cdfex.pdf
+> <C:/Users/alessandro/Documents/master_thesis/documents/images/matlab/doge2_lights.png (PNG copy)>] [56
 
 ]
 Chapter 5.
-[57] <images/method/step1.pdf, id=1718, 708.99193pt x 536.13312pt>
+[57] <images/method/step1.pdf, id=1723, 708.99193pt x 536.13312pt>
 File: images/method/step1.pdf Graphic file (type pdf)
  <use images/method/step1.pdf>
 Package pdftex.def Info: images/method/step1.pdf used on input line 20.
 (pdftex.def)             Requested size: 276.24316pt x 208.89473pt.
 
-<images/method/vertices.png, id=1719, 173.89969pt x 173.89969pt>
+<images/method/vertices.png, id=1724, 173.89969pt x 173.89969pt>
 File: images/method/vertices.png Graphic file (type png)
  <use images/method/vertices.png>
 Package pdftex.def Info: images/method/vertices.png used on input line 30.
 (pdftex.def)             Requested size: 172.65132pt x 172.65741pt.
 
-<images/method/normals.png, id=1720, 173.89969pt x 173.89969pt>
+<images/method/normals.png, id=1725, 173.89969pt x 173.89969pt>
 File: images/method/normals.png Graphic file (type png)
  <use images/method/normals.png>
 Package pdftex.def Info: images/method/normals.png used on input line 34.
@@ -2105,15 +2133,15 @@ Overfull \hbox (13.33331pt too wide) in paragraph at lines 30--36
  [][][][][] 
  []
 
-[58] [59 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/method/step1.pdf> <C:/Users/xander890/Docum
-ents/GitHub/master_thesis/documents/images/method/vertices.png> <C:/Users/xander890/Documents/GitHub/master_thesis/docum
-ents/images/method/normals.png>] <images/method/step2_improved.pdf, id=1765, 598.86375pt x 526.11559pt>
+[58] [59 <C:/Users/alessandro/Documents/master_thesis/documents/images/method/step1.pdf> <C:/Users/alessandro/Documents/
+master_thesis/documents/images/method/vertices.png> <C:/Users/alessandro/Documents/master_thesis/documents/images/method
+/normals.png>] <images/method/step2_improved.pdf, id=1770, 598.86375pt x 526.11559pt>
 File: images/method/step2_improved.pdf Graphic file (type pdf)
 
 <use images/method/step2_improved.pdf>
 Package pdftex.def Info: images/method/step2_improved.pdf used on input line 50.
 (pdftex.def)             Requested size: 310.77026pt x 273.01971pt.
- <images/method/step2.pdf, id=1769, 597.95422pt x 426.57791pt>
+ <images/method/step2.pdf, id=1774, 597.95422pt x 426.57791pt>
 File: images/method/step2.pdf Graphic file (type pdf)
 
 <use images/method/step2.pdf>
@@ -2121,37 +2149,36 @@ Package pdftex.def Info: images/method/step2.pdf used on input line 66.
 (pdftex.def)             Requested size: 345.30264pt x 246.34135pt.
  [60
 
-] [61 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/method/step2_improved.pdf>] [62 <C:/Users/xand
-er890/Documents/GitHub/master_thesis/documents/images/method/step2.pdf>]
-<images/method/combination.pdf, id=1836, 350.25858pt x 388.52655pt>
+] [61 <C:/Users/alessandro/Documents/master_thesis/documents/images/method/step2_improved.pdf>] [62 <C:/Users/alessandro
+/Documents/master_thesis/documents/images/method/step2.pdf>]
+<images/method/combination.pdf, id=1841, 350.25858pt x 388.52655pt>
 File: images/method/combination.pdf Graphic file (type pdf)
  <use images/method/combination.pdf>
 Package pdftex.def Info: images/method/combination.pdf used on input line 95.
 (pdftex.def)             Requested size: 207.18369pt x 229.8215pt.
- [63 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/method/combination.pdf>]
-<images/results/potato_100_convergence.png, id=1848, 770.88pt x 770.88pt>
+ [63 <C:/Users/alessandro/Documents/master_thesis/documents/images/method/combination.pdf>]
+<images/results/potato_100_convergence.png, id=1853, 770.88pt x 770.88pt>
 File: images/results/potato_100_convergence.png Graphic file (type png)
 
 <use images/results/potato_100_convergence.png>
 Package pdftex.def Info: images/results/potato_100_convergence.png used on input line 111.
 (pdftex.def)             Requested size: 276.24316pt x 276.23445pt.
 
-<images/results/beer_backlit_100_convergence.png, id=1849, 770.88pt x 770.88pt>
+<images/results/beer_backlit_100_convergence.png, id=1854, 770.88pt x 770.88pt>
 File: images/results/beer_backlit_100_convergence.png Graphic file (type png)
 
 <use images/results/beer_backlit_100_convergence.png>
 Package pdftex.def Info: images/results/beer_backlit_100_convergence.png used on input line 117.
 (pdftex.def)             Requested size: 276.24316pt x 276.23445pt.
- [64 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/potato_100_convergence.png (PNG copy)>]
- [65 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/beer_backlit_100_convergence.png (PNG c
-opy)>]
-(C:\Users\xander890\AppData\Roaming\MiKTeX\2.9\tex\latex\listings\lstlang1.sty
+ [64 <C:/Users/alessandro/Documents/master_thesis/documents/images/results/potato_100_convergence.png (PNG copy)>] [65 <
+C:/Users/alessandro/Documents/master_thesis/documents/images/results/beer_backlit_100_convergence.png (PNG copy)>] ("C:\
+Program Files (x86)\MiKTeX 2.9\tex\latex\listings\lstlang1.sty"
 File: lstlang1.sty 2013/08/26 1.5b listings language file
 )
-(C:\Users\xander890\AppData\Roaming\MiKTeX\2.9\tex\latex\listings\lstlang1.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\listings\lstlang1.sty"
 File: lstlang1.sty 2013/08/26 1.5b listings language file
 )
-(C:\Users\xander890\AppData\Roaming\MiKTeX\2.9\tex\latex\listings\lstmisc.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\listings\lstmisc.sty"
 File: lstmisc.sty 2013/08/26 1.5b (Carsten Heinz)
 )
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 133.
@@ -2161,24 +2188,24 @@ Overfull \hbox (9.04901pt too wide) in paragraph at lines 160--161
 /m/n/10 : 
  []
 
-[67] <images/method/layered.pdf, id=1921, 826.00624pt x 957.48045pt>
+[67] <images/method/layered.pdf, id=1926, 826.00624pt x 957.48045pt>
 File: images/method/layered.pdf Graphic file (type pdf)
  <use images/method/layered.pdf>
 Package pdftex.def Info: images/method/layered.pdf used on input line 203.
 (pdftex.def)             Requested size: 345.30264pt x 400.25436pt.
- [68 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/method/layered.pdf>] [69] [70
+ [68 <C:/Users/alessandro/Documents/master_thesis/documents/images/method/layered.pdf>] [69] [70
 
 ]
-<images/matlab/cameras.pdf, id=1995, 279.444pt x 283.459pt>
+<images/matlab/cameras.pdf, id=2000, 279.444pt x 283.459pt>
 File: images/matlab/cameras.pdf Graphic file (type pdf)
  <use images/matlab/cameras.pdf>
 Package pdftex.def Info: images/matlab/cameras.pdf used on input line 296.
 (pdftex.def)             Requested size: 172.65132pt x 175.13289pt.
 Package epstopdf Info: Source file: <images/matlab/halton_exp.eps>
-(epstopdf)                    date: 2014-06-12 09:37:45
-(epstopdf)                    size: 189749 bytes
+(epstopdf)                    date: 2014-06-10 11:28:22
+(epstopdf)                    size: 186857 bytes
 (epstopdf)             Output file: <images/matlab/halton_exp-eps-converted-to.pdf>
-(epstopdf)                    date: 2014-06-12 09:37:45
+(epstopdf)                    date: 2014-06-10 11:28:44
 (epstopdf)                    size: 52501 bytes
 (epstopdf)             Command: <epstopdf --outfile=images/matlab/halton_exp-eps-converted-to.pdf images/matlab/halton_e
 xp.eps>
@@ -2193,20 +2220,20 @@ Package pdftex.def Info: images/matlab/halton_exp-eps-converted-to.pdf used on i
 
 LaTeX Warning: Text page 72 contains only floats.
 
-[72 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/matlab/cameras.pdf>] [73]
-<images/method/shadow_map.pdf, id=2066, 453.81842pt x 358.43561pt>
+[72 <C:/Users/alessandro/Documents/master_thesis/documents/images/matlab/cameras.pdf>] [73]
+<images/method/shadow_map.pdf, id=2070, 453.81842pt x 358.43561pt>
 File: images/method/shadow_map.pdf Graphic file (type pdf)
  <use images/method/shadow_map.pdf>
 Package pdftex.def Info: images/method/shadow_map.pdf used on input line 355.
 (pdftex.def)             Requested size: 345.30264pt x 272.72563pt.
- [74 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/method/shadow_map.pdf>] [75]
-<images/method/layout_no_view.pdf, id=2107, 372.76453pt x 237.98741pt>
+ [74 <C:/Users/alessandro/Documents/master_thesis/documents/images/method/shadow_map.pdf>] [75]
+<images/method/layout_no_view.pdf, id=2114, 372.76453pt x 237.98741pt>
 File: images/method/layout_no_view.pdf Graphic file (type pdf)
  <use images/method/layout_no_view.pdf>
 Package pdftex.def Info: images/method/layout_no_view.pdf used on input line 411.
 (pdftex.def)             Requested size: 172.65132pt x 110.23087pt.
 
-<images/method/layout_view.pdf, id=2108, 372.76453pt x 237.98741pt>
+<images/method/layout_view.pdf, id=2115, 372.76453pt x 237.98741pt>
 File: images/method/layout_view.pdf Graphic file (type pdf)
  <use images/method/layout_view.pdf>
 Package pdftex.def Info: images/method/layout_view.pdf used on input line 414.
@@ -2224,18 +2251,18 @@ Overfull \hbox (32.46246pt too wide) in paragraph at lines 424--437
  [][] 
  []
 
-[77 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/method/layout_no_view.pdf> <C:/Users/xander890/D
-ocuments/GitHub/master_thesis/documents/images/method/layout_view.pdf
+[77 <C:/Users/alessandro/Documents/master_thesis/documents/images/method/layout_no_view.pdf> <C:/Users/alessandro/Docume
+nts/master_thesis/documents/images/method/layout_view.pdf
 
-pdfTeX warning: pdflatex.exe (file C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/method/layout_view
-.pdf): PDF inclusion: multiple pdfs with page group included in a single page
->] <images/results/banding.png, id=2146, 770.88pt x 770.88pt>
+pdfTeX warning: pdflatex.exe (file C:/Users/alessandro/Documents/master_thesis/documents/images/method/layout_view.pdf):
+ PDF inclusion: multiple pdfs with page group included in a single page
+>] <images/results/banding.png, id=2153, 770.88pt x 770.88pt>
 File: images/results/banding.png Graphic file (type png)
  <use images/results/banding.png>
 Package pdftex.def Info: images/results/banding.png used on input line 457.
 (pdftex.def)             Requested size: 172.65132pt x 172.64066pt.
 
-<images/results/nobanding.png, id=2147, 770.88pt x 770.88pt>
+<images/results/nobanding.png, id=2154, 770.88pt x 770.88pt>
 File: images/results/nobanding.png Graphic file (type png)
  <use images/results/nobanding.png>
 Package pdftex.def Info: images/results/nobanding.png used on input line 461.
@@ -2245,21 +2272,21 @@ Overfull \hbox (13.33331pt too wide) in paragraph at lines 457--462
  [][][][] 
  []
 
-[78] [79 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/banding.png (PNG copy)> <C:/Users/x
-ander890/Documents/GitHub/master_thesis/documents/images/results/nobanding.png (PNG copy)>]
-<images/method/noise_1.png, id=2167, 513.92pt x 513.92pt>
+[78] [79 <C:/Users/alessandro/Documents/master_thesis/documents/images/results/banding.png (PNG copy)> <C:/Users/alessan
+dro/Documents/master_thesis/documents/images/results/nobanding.png (PNG copy)>]
+<images/method/noise_1.png, id=2174, 513.92pt x 513.92pt>
 File: images/method/noise_1.png Graphic file (type png)
  <use images/method/noise_1.png>
 Package pdftex.def Info: images/method/noise_1.png used on input line 490.
 (pdftex.def)             Requested size: 113.9505pt x 113.94887pt.
 
-<images/method/noise_2.png, id=2168, 385.44pt x 385.44pt>
+<images/method/noise_2.png, id=2175, 385.44pt x 385.44pt>
 File: images/method/noise_2.png Graphic file (type png)
  <use images/method/noise_2.png>
 Package pdftex.def Info: images/method/noise_2.png used on input line 494.
 (pdftex.def)             Requested size: 113.9505pt x 113.95082pt.
 
-<images/method/noise_3.png, id=2169, 385.44pt x 385.44pt>
+<images/method/noise_3.png, id=2176, 385.44pt x 385.44pt>
 File: images/method/noise_3.png Graphic file (type png)
  <use images/method/noise_3.png>
 Package pdftex.def Info: images/method/noise_3.png used on input line 498.
@@ -2269,24 +2296,23 @@ Overfull \hbox (16.54883pt too wide) in paragraph at lines 490--499
  [][][][][][] 
  []
 
-[80 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/method/noise_1.png (PNG copy)> <C:/Users/xander8
-90/Documents/GitHub/master_thesis/documents/images/method/noise_2.png> <C:/Users/xander890/Documents/GitHub/master_thesi
-s/documents/images/method/noise_3.png>] <images/method/filter_1.pdf, id=2203, 316.93407pt x 317.41084pt>
+[80 <C:/Users/alessandro/Documents/master_thesis/documents/images/method/noise_1.png (PNG copy)> <C:/Users/alessandro/Do
+cuments/master_thesis/documents/images/method/noise_2.png> <C:/Users/alessandro/Documents/master_thesis/documents/images
+/method/noise_3.png>] <images/method/filter_1.pdf, id=2210, 316.93407pt x 317.41084pt>
 File: images/method/filter_1.pdf Graphic file (type pdf)
-
-<use images/method/filter_1.pdf>
+ <use images/method/filter_1.pdf>
 Package pdftex.def Info: images/method/filter_1.pdf used on input line 541.
 (pdftex.def)             Requested size: 113.9505pt x 114.12251pt.
- <images/method/filter_2.pdf, id=2204, 318.26404pt x 317.83743pt>
-File: images/method/filter_2.pdf Graphic file (type pdf)
 
-<use images/method/filter_2.pdf>
+<images/method/filter_2.pdf, id=2211, 318.26404pt x 317.83743pt>
+File: images/method/filter_2.pdf Graphic file (type pdf)
+ <use images/method/filter_2.pdf>
 Package pdftex.def Info: images/method/filter_2.pdf used on input line 545.
 (pdftex.def)             Requested size: 113.9505pt x 113.79575pt.
- <images/method/filter_3.pdf, id=2205, 318.791pt x 319.01686pt>
-File: images/method/filter_3.pdf Graphic file (type pdf)
 
-<use images/method/filter_3.pdf>
+<images/method/filter_3.pdf, id=2212, 318.791pt x 319.01686pt>
+File: images/method/filter_3.pdf Graphic file (type pdf)
+ <use images/method/filter_3.pdf>
 Package pdftex.def Info: images/method/filter_3.pdf used on input line 549.
 (pdftex.def)             Requested size: 113.9505pt x 114.02818pt.
 
@@ -2294,28 +2320,28 @@ Overfull \hbox (16.54883pt too wide) in paragraph at lines 541--550
  [][][][][][] 
  []
 
-[81 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/method/filter_1.pdf> <C:/Users/xander890/Documen
-ts/GitHub/master_thesis/documents/images/method/filter_2.pdf
+[81 <C:/Users/alessandro/Documents/master_thesis/documents/images/method/filter_1.pdf> <C:/Users/alessandro/Documents/ma
+ster_thesis/documents/images/method/filter_2.pdf
 
-pdfTeX warning: pdflatex.exe (file C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/method/filter_2.pd
-f): PDF inclusion: multiple pdfs with page group included in a single page
-> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/method/filter_3.pdf
+pdfTeX warning: pdflatex.exe (file C:/Users/alessandro/Documents/master_thesis/documents/images/method/filter_2.pdf): PD
+F inclusion: multiple pdfs with page group included in a single page
+> <C:/Users/alessandro/Documents/master_thesis/documents/images/method/filter_3.pdf
 
-pdfTeX warning: pdflatex.exe (file C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/method/filter_3.pd
-f): PDF inclusion: multiple pdfs with page group included in a single page
->] <images/results/mipmap_0.png, id=2239, 513.92pt x 513.92pt>
+pdfTeX warning: pdflatex.exe (file C:/Users/alessandro/Documents/master_thesis/documents/images/method/filter_3.pdf): PD
+F inclusion: multiple pdfs with page group included in a single page
+>] <images/results/mipmap_0.png, id=2246, 513.92pt x 513.92pt>
 File: images/results/mipmap_0.png Graphic file (type png)
  <use images/results/mipmap_0.png>
 Package pdftex.def Info: images/results/mipmap_0.png used on input line 609.
 (pdftex.def)             Requested size: 113.9505pt x 113.94887pt.
 
-<images/results/mipmap_1.png, id=2240, 513.92pt x 513.92pt>
+<images/results/mipmap_1.png, id=2247, 513.92pt x 513.92pt>
 File: images/results/mipmap_1.png Graphic file (type png)
  <use images/results/mipmap_1.png>
 Package pdftex.def Info: images/results/mipmap_1.png used on input line 613.
 (pdftex.def)             Requested size: 113.9505pt x 113.94887pt.
 
-<images/results/mipmap_2.png, id=2241, 513.92pt x 513.92pt>
+<images/results/mipmap_2.png, id=2248, 513.92pt x 513.92pt>
 File: images/results/mipmap_2.png Graphic file (type png)
  <use images/results/mipmap_2.png>
 Package pdftex.def Info: images/results/mipmap_2.png used on input line 617.
@@ -2325,19 +2351,19 @@ Overfull \hbox (16.54883pt too wide) in paragraph at lines 609--617
  [][][][][][] 
  []
 
-<images/results/jeppe_noise.png, id=2242, 1027.84pt x 1027.84pt>
+<images/results/jeppe_noise.png, id=2249, 1027.84pt x 1027.84pt>
 File: images/results/jeppe_noise.png Graphic file (type png)
  <use images/results/jeppe_noise.png>
 Package pdftex.def Info: images/results/jeppe_noise.png used on input line 621.
 (pdftex.def)             Requested size: 113.9505pt x 113.94102pt.
 
-<images/results/jeppe_mipmap_1.png, id=2243, 1027.84pt x 1027.84pt>
+<images/results/jeppe_mipmap_1.png, id=2250, 1027.84pt x 1027.84pt>
 File: images/results/jeppe_mipmap_1.png Graphic file (type png)
  <use images/results/jeppe_mipmap_1.png>
 Package pdftex.def Info: images/results/jeppe_mipmap_1.png used on input line 625.
 (pdftex.def)             Requested size: 113.9505pt x 113.94102pt.
 
-<images/results/jeppe_mipmap_2.png, id=2244, 1027.84pt x 1027.84pt>
+<images/results/jeppe_mipmap_2.png, id=2251, 1027.84pt x 1027.84pt>
 File: images/results/jeppe_mipmap_2.png Graphic file (type png)
  <use images/results/jeppe_mipmap_2.png>
 Package pdftex.def Info: images/results/jeppe_mipmap_2.png used on input line 629.
@@ -2350,13 +2376,13 @@ Overfull \hbox (16.54883pt too wide) in paragraph at lines 621--630
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[82] <images/method/shadow_bias.pdf, id=2295, 252.86876pt x 150.23355pt>
+[82] <images/method/shadow_bias.pdf, id=2302, 252.86876pt x 150.23355pt>
 File: images/method/shadow_bias.pdf Graphic file (type pdf)
  <use images/method/shadow_bias.pdf>
 Package pdftex.def Info: images/method/shadow_bias.pdf used on input line 648.
 (pdftex.def)             Requested size: 172.65132pt x 102.57695pt.
 
-<images/method/shadow_bias_correct.pdf, id=2296, 252.86876pt x 150.23355pt>
+<images/method/shadow_bias_correct.pdf, id=2303, 252.86876pt x 150.23355pt>
 File: images/method/shadow_bias_correct.pdf Graphic file (type pdf)
  <use images/method/shadow_bias_correct.pdf>
 Package pdftex.def Info: images/method/shadow_bias_correct.pdf used on input line 652.
@@ -2366,13 +2392,13 @@ Overfull \hbox (13.33331pt too wide) in paragraph at lines 648--652
  [][][][] 
  []
 
-<images/method/acne.png, id=2297, 770.88pt x 770.88pt>
+<images/method/acne.png, id=2304, 770.88pt x 770.88pt>
 File: images/method/acne.png Graphic file (type png)
  <use images/method/acne.png>
 Package pdftex.def Info: images/method/acne.png used on input line 656.
 (pdftex.def)             Requested size: 172.65132pt x 172.64066pt.
 
-<images/method/noacne.png, id=2298, 770.88pt x 770.88pt>
+<images/method/noacne.png, id=2305, 770.88pt x 770.88pt>
 File: images/method/noacne.png Graphic file (type png)
  <use images/method/noacne.png>
 Package pdftex.def Info: images/method/noacne.png used on input line 660.
@@ -2382,25 +2408,25 @@ Overfull \hbox (13.33331pt too wide) in paragraph at lines 656--661
  [][][][] 
  []
 
-[83 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/mipmap_0.png (PNG copy)> <C:/Users/xande
-r890/Documents/GitHub/master_thesis/documents/images/results/mipmap_1.png (PNG copy)> <C:/Users/xander890/Documents/GitH
-ub/master_thesis/documents/images/results/mipmap_2.png (PNG copy)> <C:/Users/xander890/Documents/GitHub/master_thesis/do
-cuments/images/results/jeppe_noise.png (PNG copy)> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/r
-esults/jeppe_mipmap_1.png (PNG copy)> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/jeppe_
-mipmap_2.png (PNG copy)>] [84 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/method/shadow_bias.pdf
-> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/method/shadow_bias_correct.pdf
+[83 <C:/Users/alessandro/Documents/master_thesis/documents/images/results/mipmap_0.png (PNG copy)> <C:/Users/alessandro/
+Documents/master_thesis/documents/images/results/mipmap_1.png (PNG copy)> <C:/Users/alessandro/Documents/master_thesis/d
+ocuments/images/results/mipmap_2.png (PNG copy)> <C:/Users/alessandro/Documents/master_thesis/documents/images/results/j
+eppe_noise.png (PNG copy)> <C:/Users/alessandro/Documents/master_thesis/documents/images/results/jeppe_mipmap_1.png (PNG
+ copy)> <C:/Users/alessandro/Documents/master_thesis/documents/images/results/jeppe_mipmap_2.png (PNG copy)>] [84 <C:/Us
+ers/alessandro/Documents/master_thesis/documents/images/method/shadow_bias.pdf> <C:/Users/alessandro/Documents/master_th
+esis/documents/images/method/shadow_bias_correct.pdf
 
-pdfTeX warning: pdflatex.exe (file C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/method/shadow_bias
-_correct.pdf): PDF inclusion: multiple pdfs with page group included in a single page
-> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/method/acne.png (PNG copy)> <C:/Users/xander890/Do
-cuments/GitHub/master_thesis/documents/images/method/noacne.png (PNG copy)>]
-<images/results/comb_offset.png, id=2363, 770.88pt x 770.88pt>
+pdfTeX warning: pdflatex.exe (file C:/Users/alessandro/Documents/master_thesis/documents/images/method/shadow_bias_corre
+ct.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+> <C:/Users/alessandro/Documents/master_thesis/documents/images/method/acne.png (PNG copy)> <C:/Users/alessandro/Documen
+ts/master_thesis/documents/images/method/noacne.png (PNG copy)>]
+<images/results/comb_offset.png, id=2370, 770.88pt x 770.88pt>
 File: images/results/comb_offset.png Graphic file (type png)
  <use images/results/comb_offset.png>
 Package pdftex.def Info: images/results/comb_offset.png used on input line 679.
 (pdftex.def)             Requested size: 172.65132pt x 172.64066pt.
 
-<images/results/comb_offset_solved.png, id=2364, 770.88pt x 770.88pt>
+<images/results/comb_offset_solved.png, id=2371, 770.88pt x 770.88pt>
 File: images/results/comb_offset_solved.png Graphic file (type png)
  <use images/results/comb_offset_solved.png>
 Package pdftex.def Info: images/results/comb_offset_solved.png used on input line 683.
@@ -2410,7 +2436,7 @@ Overfull \hbox (13.33331pt too wide) in paragraph at lines 679--684
  [][][][] 
  []
 
-<images/results/multiple.png, id=2365, 770.88pt x 770.88pt>
+<images/results/multiple.png, id=2372, 770.88pt x 770.88pt>
 File: images/results/multiple.png Graphic file (type png)
  <use images/results/multiple.png>
 Package pdftex.def Info: images/results/multiple.png used on input line 697.
@@ -2419,22 +2445,22 @@ Package pdftex.def Info: images/results/multiple.png used on input line 697.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[85 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/comb_offset.png (PNG copy)> <C:/Users/xa
-nder890/Documents/GitHub/master_thesis/documents/images/results/comb_offset_solved.png (PNG copy)>] [86 <C:/Users/xander
-890/Documents/GitHub/master_thesis/documents/images/results/multiple.png (PNG copy)>] [87]
+[85 <C:/Users/alessandro/Documents/master_thesis/documents/images/results/comb_offset.png (PNG copy)> <C:/Users/alessand
+ro/Documents/master_thesis/documents/images/results/comb_offset_solved.png (PNG copy)>] [86 <C:/Users/alessandro/Documen
+ts/master_thesis/documents/images/results/multiple.png (PNG copy)>] [87]
 Overfull \hbox (1.04195pt too wide) detected at line 758
 \OML/lmm/m/it/10 R[]\OT1/lmr/m/n/10 (\OT1/lmr/bx/n/10 x[]\OT1/lmr/m/n/10 ) = [] [] [] [] [] \OML/lmm/m/it/10 ;   t \OMS/
 lmsy/m/n/10 2 \OT1/lmr/m/n/10 [0\OML/lmm/m/it/10 ; T\OT1/lmr/m/n/10 ]\OML/lmm/m/it/10 ;   k \OMS/lmsy/m/n/10 2 \OT1/lmr/
 m/n/10 [0\OML/lmm/m/it/10 ; K \OMS/lmsy/m/n/10   \OT1/lmr/m/n/10 1][]
  []
 
-<images/results/directional.png, id=2430, 770.88pt x 770.88pt>
+<images/results/directional.png, id=2437, 770.88pt x 770.88pt>
 File: images/results/directional.png Graphic file (type png)
  <use images/results/directional.png>
 Package pdftex.def Info: images/results/directional.png used on input line 792.
 (pdftex.def)             Requested size: 172.65132pt x 172.64066pt.
 
-<images/results/point.png, id=2431, 770.88pt x 770.88pt>
+<images/results/point.png, id=2438, 770.88pt x 770.88pt>
 File: images/results/point.png Graphic file (type png)
  <use images/results/point.png>
 Package pdftex.def Info: images/results/point.png used on input line 796.
@@ -2449,515 +2475,563 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [88
 
-] [89 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/directional.png (PNG copy)> <C:/Users/
-xander890/Documents/GitHub/master_thesis/documents/images/results/point.png (PNG copy)>]
-<images/results/skymap_1.png, id=2455, 770.88pt x 770.88pt>
+] [89 <C:/Users/alessandro/Documents/master_thesis/documents/images/results/directional.png (PNG copy)> <C:/Users/alessa
+ndro/Documents/master_thesis/documents/images/results/point.png (PNG copy)>]
+<images/results/skymap_1.png, id=2462, 770.88pt x 770.88pt>
 File: images/results/skymap_1.png Graphic file (type png)
  <use images/results/skymap_1.png>
 Package pdftex.def Info: images/results/skymap_1.png used on input line 818.
 (pdftex.def)             Requested size: 310.77026pt x 310.76965pt.
- [90 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/skymap_1.png (PNG copy)>] [91]
-<images/results/tearing.png, id=2468, 770.88pt x 770.88pt>
+ [90 <C:/Users/alessandro/Documents/master_thesis/documents/images/results/skymap_1.png (PNG copy)>] [91]
+<images/results/tearing.png, id=2475, 770.88pt x 770.88pt>
 File: images/results/tearing.png Graphic file (type png)
  <use images/results/tearing.png>
 Package pdftex.def Info: images/results/tearing.png used on input line 844.
 (pdftex.def)             Requested size: 241.71078pt x 241.71103pt.
 )
-(C:\Users\xander890\Documents\GitHub\master_thesis\documents\tex/results.tex [92 <C:/Users/xander890/Documents/GitHub/ma
-ster_thesis/documents/images/results/tearing.png (PNG copy)>] [93] [94
+(C:\Users\alessandro\Documents\master_thesis\documents\tex/results.tex [92 <C:/Users/alessandro/Documents/master_thesis/
+documents/images/results/tearing.png (PNG copy)>] [93] [94
 
 ]
 Chapter 6.
-[95] [96] <images/results/test_120_over_120.png, id=2498, 770.88pt x 770.88pt>
-File: images/results/test_120_over_120.png Graphic file (type png)
+[95] [96] <images/radius_potato.pdf, id=2507, 336.21455pt x 341.24731pt>
+File: images/radius_potato.pdf Graphic file (type pdf)
+ <use images/radius_potato.pdf>
+Package pdftex.def Info: images/radius_potato.pdf used on input line 43.
+(pdftex.def)             Requested size: 172.65132pt x 175.23663pt.
 
-<use images/results/test_120_over_120.png>
-Package pdftex.def Info: images/results/test_120_over_120.png used on input line 40.
-(pdftex.def)             Requested size: 113.9505pt x 113.94495pt.
- <images/results/test_120_over_300.png, id=2499, 770.88pt x 770.88pt>
-File: images/results/test_120_over_300.png Graphic file (type png)
+<images/radius_ketchup.pdf, id=2508, 336.21455pt x 341.24731pt>
+File: images/radius_ketchup.pdf Graphic file (type pdf)
+ <use images/radius_ketchup.pdf>
+Package pdftex.def Info: images/radius_ketchup.pdf used on input line 46.
+(pdftex.def)             Requested size: 172.65132pt x 175.23663pt.
 
-<use images/results/test_120_over_300.png>
-Package pdftex.def Info: images/results/test_120_over_300.png used on input line 43.
-(pdftex.def)             Requested size: 113.9505pt x 113.94495pt.
- <images/results/test_300_over_300.png, id=2500, 770.88pt x 770.88pt>
-File: images/results/test_300_over_300.png Graphic file (type png)
+Overfull \hbox (13.33331pt too wide) in paragraph at lines 43--47
+ [][][][] 
+ []
 
-<use images/results/test_300_over_300.png>
-Package pdftex.def Info: images/results/test_300_over_300.png used on input line 46.
-(pdftex.def)             Requested size: 113.9505pt x 113.94495pt.
+<images/results/bunny_tr0.png, id=2509, 465.23813pt x 465.23813pt>
+File: images/results/bunny_tr0.png Graphic file (type png)
+ <use images/results/bunny_tr0.png>
+Package pdftex.def Info: images/results/bunny_tr0.png used on input line 55.
+(pdftex.def)             Requested size: 113.9505pt x 113.94528pt.
 
-Overfull \hbox (16.54883pt too wide) in paragraph at lines 40--46
+<images/results/bunny_tr1.png, id=2510, 465.23813pt x 465.23813pt>
+File: images/results/bunny_tr1.png Graphic file (type png)
+ <use images/results/bunny_tr1.png>
+Package pdftex.def Info: images/results/bunny_tr1.png used on input line 58.
+(pdftex.def)             Requested size: 113.9505pt x 113.94528pt.
+
+<images/results/bunny_tr2.png, id=2511, 465.23813pt x 465.23813pt>
+File: images/results/bunny_tr2.png Graphic file (type png)
+ <use images/results/bunny_tr2.png>
+Package pdftex.def Info: images/results/bunny_tr2.png used on input line 61.
+(pdftex.def)             Requested size: 113.9505pt x 113.94528pt.
+
+Overfull \hbox (16.54883pt too wide) in paragraph at lines 55--62
  [][][][][][] 
  []
 
-<images/results/test_120_over_1000.png, id=2501, 770.88pt x 770.88pt>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[97 <C:/Users/alessandro/Documents/master_thesis/documents/images/radius_potato.pdf> <C:/Users/alessandro/Documents/mast
+er_thesis/documents/images/radius_ketchup.pdf
+
+pdfTeX warning: pdflatex.exe (file C:/Users/alessandro/Documents/master_thesis/documents/images/radius_ketchup.pdf): PDF
+ inclusion: multiple pdfs with page group included in a single page
+>] [98 <C:/Users/alessandro/Documents/master_thesis/documents/images/results/bunny_tr0.png> <C:/Users/alessandro/Documen
+ts/master_thesis/documents/images/results/bunny_tr1.png> <C:/Users/alessandro/Documents/master_thesis/documents/images/r
+esults/bunny_tr2.png>] <images/results/test_120_over_120.png, id=2536, 770.88pt x 770.88pt>
+File: images/results/test_120_over_120.png Graphic file (type png)
+
+<use images/results/test_120_over_120.png>
+Package pdftex.def Info: images/results/test_120_over_120.png used on input line 80.
+(pdftex.def)             Requested size: 113.9505pt x 113.94495pt.
+ <images/results/test_120_over_300.png, id=2537, 770.88pt x 770.88pt>
+File: images/results/test_120_over_300.png Graphic file (type png)
+
+<use images/results/test_120_over_300.png>
+Package pdftex.def Info: images/results/test_120_over_300.png used on input line 83.
+(pdftex.def)             Requested size: 113.9505pt x 113.94495pt.
+ <images/results/test_300_over_300.png, id=2538, 770.88pt x 770.88pt>
+File: images/results/test_300_over_300.png Graphic file (type png)
+
+<use images/results/test_300_over_300.png>
+Package pdftex.def Info: images/results/test_300_over_300.png used on input line 86.
+(pdftex.def)             Requested size: 113.9505pt x 113.94495pt.
+
+Overfull \hbox (16.54883pt too wide) in paragraph at lines 80--86
+ [][][][][][] 
+ []
+
+<images/results/test_120_over_1000.png, id=2539, 770.88pt x 770.88pt>
 File: images/results/test_120_over_1000.png Graphic file (type png)
  <use images/results/test_120_over_1000.png>
-Package pdftex.def Info: images/results/test_120_over_1000.png used on input line 49.
+Package pdftex.def Info: images/results/test_120_over_1000.png used on input line 89.
 (pdftex.def)             Requested size: 113.9505pt x 113.94495pt.
 
-<images/results/test_300_over_1000.png, id=2502, 770.88pt x 770.88pt>
+<images/results/test_300_over_1000.png, id=2540, 770.88pt x 770.88pt>
 File: images/results/test_300_over_1000.png Graphic file (type png)
  <use images/results/test_300_over_1000.png>
-Package pdftex.def Info: images/results/test_300_over_1000.png used on input line 52.
+Package pdftex.def Info: images/results/test_300_over_1000.png used on input line 92.
 (pdftex.def)             Requested size: 113.9505pt x 113.94495pt.
 
-<images/results/test_1000_over_1000.png, id=2503, 770.88pt x 770.88pt>
+<images/results/test_1000_over_1000.png, id=2541, 770.88pt x 770.88pt>
 File: images/results/test_1000_over_1000.png Graphic file (type png)
  <use images/results/test_1000_over_1000.png>
-Package pdftex.def Info: images/results/test_1000_over_1000.png used on input line 55.
+Package pdftex.def Info: images/results/test_1000_over_1000.png used on input line 95.
 (pdftex.def)             Requested size: 113.9505pt x 113.94495pt.
 
-Overfull \hbox (16.54883pt too wide) in paragraph at lines 49--55
+Overfull \hbox (16.54883pt too wide) in paragraph at lines 89--95
  [][][][][][] 
  []
 
 File: images/pathtrace/image-potato.pdf Graphic file (type pdf)
 <use images/pathtrace/image-potato.pdf>
-Package pdftex.def Info: images/pathtrace/image-potato.pdf used on input line 58.
+Package pdftex.def Info: images/pathtrace/image-potato.pdf used on input line 98.
 (pdftex.def)             Requested size: 113.9505pt x 113.94887pt.
 
-<images/results/grapefruit_juice_comparison_100_over_1000_nobias.png, id=2508, 770.88pt x 770.88pt>
+<images/results/grapefruit_juice_comparison_100_over_1000_nobias.png, id=2546, 770.88pt x 770.88pt>
 File: images/results/grapefruit_juice_comparison_100_over_1000_nobias.png Graphic file (type png)
 
 <use images/results/grapefruit_juice_comparison_100_over_1000_nobias.png>
-Package pdftex.def Info: images/results/grapefruit_juice_comparison_100_over_1000_nobias.png used on input line 70.
+Package pdftex.def Info: images/results/grapefruit_juice_comparison_100_over_1000_nobias.png used on input line 110.
 (pdftex.def)             Requested size: 172.65132pt x 172.64066pt.
 
-<images/results/grapefruit_juice_comparison_100_over_1000_bias3.png, id=2509, 770.88pt x 770.88pt>
+<images/results/grapefruit_juice_comparison_100_over_1000_bias3.png, id=2547, 770.88pt x 770.88pt>
 File: images/results/grapefruit_juice_comparison_100_over_1000_bias3.png Graphic file (type png)
 
 <use images/results/grapefruit_juice_comparison_100_over_1000_bias3.png>
-Package pdftex.def Info: images/results/grapefruit_juice_comparison_100_over_1000_bias3.png used on input line 73.
+Package pdftex.def Info: images/results/grapefruit_juice_comparison_100_over_1000_bias3.png used on input line 113.
 (pdftex.def)             Requested size: 172.65132pt x 172.64066pt.
 
-Overfull \hbox (13.33331pt too wide) in paragraph at lines 70--74
+Overfull \hbox (13.33331pt too wide) in paragraph at lines 110--114
  [][][][] 
  []
 
-<images/results/grapefruit_juice_comparison.png, id=2510, 770.88pt x 770.88pt>
+<images/results/grapefruit_juice_comparison.png, id=2548, 770.88pt x 770.88pt>
 File: images/results/grapefruit_juice_comparison.png Graphic file (type png)
 
 <use images/results/grapefruit_juice_comparison.png>
-Package pdftex.def Info: images/results/grapefruit_juice_comparison.png used on input line 77.
+Package pdftex.def Info: images/results/grapefruit_juice_comparison.png used on input line 117.
 (pdftex.def)             Requested size: 172.65132pt x 172.64066pt.
 File: images/pathtrace/image-grapefruit.pdf Graphic file (type pdf)
  <use images/pathtrace/image-grapefruit.pdf>
-Package pdftex.def Info: images/pathtrace/image-grapefruit.pdf used on input line 80.
+Package pdftex.def Info: images/pathtrace/image-grapefruit.pdf used on input line 120.
 (pdftex.def)             Requested size: 172.65132pt x 172.6524pt.
 
-Overfull \hbox (13.33331pt too wide) in paragraph at lines 77--81
+Overfull \hbox (13.33331pt too wide) in paragraph at lines 117--121
  [][][][] 
  []
 
-<images/results/marble_120_over_1000_bias_1-5.png, id=2513, 770.88pt x 770.88pt>
+<images/results/marble_120_over_1000_bias_1-5.png, id=2551, 770.88pt x 770.88pt>
 File: images/results/marble_120_over_1000_bias_1-5.png Graphic file (type png)
 
 <use images/results/marble_120_over_1000_bias_1-5.png>
-Package pdftex.def Info: images/results/marble_120_over_1000_bias_1-5.png used on input line 89.
+Package pdftex.def Info: images/results/marble_120_over_1000_bias_1-5.png used on input line 129.
 (pdftex.def)             Requested size: 138.11894pt x 138.11722pt.
 
-<images/results/marble_120_over_1000_nobias.png, id=2514, 770.88pt x 770.88pt>
+<images/results/marble_120_over_1000_nobias.png, id=2552, 770.88pt x 770.88pt>
 File: images/results/marble_120_over_1000_nobias.png Graphic file (type png)
 
 <use images/results/marble_120_over_1000_nobias.png>
-Package pdftex.def Info: images/results/marble_120_over_1000_nobias.png used on input line 92.
+Package pdftex.def Info: images/results/marble_120_over_1000_nobias.png used on input line 132.
 (pdftex.def)             Requested size: 138.11894pt x 138.11722pt.
 
-<images/results/marble_1000_over_1000_bias_2.png, id=2515, 770.88pt x 770.88pt>
+<images/results/marble_1000_over_1000_bias_2.png, id=2553, 770.88pt x 770.88pt>
 File: images/results/marble_1000_over_1000_bias_2.png Graphic file (type png)
 
 <use images/results/marble_1000_over_1000_bias_2.png>
-Package pdftex.def Info: images/results/marble_1000_over_1000_bias_2.png used on input line 96.
+Package pdftex.def Info: images/results/marble_1000_over_1000_bias_2.png used on input line 136.
 (pdftex.def)             Requested size: 138.11894pt x 138.11722pt.
 
-<images/results/marble_1000_over_1000_biasno.png, id=2516, 770.88pt x 770.88pt>
+<images/results/marble_1000_over_1000_biasno.png, id=2554, 770.88pt x 770.88pt>
 File: images/results/marble_1000_over_1000_biasno.png Graphic file (type png)
 
 <use images/results/marble_1000_over_1000_biasno.png>
-Package pdftex.def Info: images/results/marble_1000_over_1000_biasno.png used on input line 99.
+Package pdftex.def Info: images/results/marble_1000_over_1000_biasno.png used on input line 139.
 (pdftex.def)             Requested size: 138.11894pt x 138.11722pt.
 File: images/pathtrace/image-marble.pdf Graphic file (type pdf)
  <use images/pathtrace/image-marble.pdf>
-Package pdftex.def Info: images/pathtrace/image-marble.pdf used on input line 103.
+Package pdftex.def Info: images/pathtrace/image-marble.pdf used on input line 143.
 (pdftex.def)             Requested size: 138.11894pt x 138.11722pt.
- [97] [98 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/test_120_over_120.png (PNG copy)> 
-<C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/test_120_over_300.png (PNG copy)> <C:/Users/
-xander890/Documents/GitHub/master_thesis/documents/images/results/test_300_over_300.png (PNG copy)> <C:/Users/xander890/
-Documents/GitHub/master_thesis/documents/images/results/test_120_over_1000.png (PNG copy)> <C:/Users/xander890/Documents
-/GitHub/master_thesis/documents/images/results/test_300_over_1000.png (PNG copy)> <C:/Users/xander890/Documents/GitHub/m
-aster_thesis/documents/images/results/test_1000_over_1000.png (PNG copy)>] [99 <C:/Users/xander890/Documents/GitHub/mast
-er_thesis/documents/images/results/grapefruit_juice_comparison_100_over_1000_nobias.png (PNG copy)> <C:/Users/xander890/
-Documents/GitHub/master_thesis/documents/images/results/grapefruit_juice_comparison_100_over_1000_bias3.png (PNG copy)> 
-<C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/grapefruit_juice_comparison.png (PNG copy)>]
- [100 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/marble_120_over_1000_bias_1-5.png (PNG
- copy)> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/marble_120_over_1000_nobias.png (PNG
- copy)> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/marble_1000_over_1000_bias_2.png (PN
-G copy)> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/marble_1000_over_1000_biasno.png (P
-NG copy)>]
-<images/results/beer_100_over_100_no_bias.png, id=2556, 770.88pt x 770.88pt>
+ [99] [100 <C:/Users/alessandro/Documents/master_thesis/documents/images/results/test_120_over_120.png (PNG copy)> <C:/U
+sers/alessandro/Documents/master_thesis/documents/images/results/test_120_over_300.png (PNG copy)> <C:/Users/alessandro/
+Documents/master_thesis/documents/images/results/test_300_over_300.png (PNG copy)> <C:/Users/alessandro/Documents/master
+_thesis/documents/images/results/test_120_over_1000.png (PNG copy)> <C:/Users/alessandro/Documents/master_thesis/documen
+ts/images/results/test_300_over_1000.png (PNG copy)> <C:/Users/alessandro/Documents/master_thesis/documents/images/resul
+ts/test_1000_over_1000.png (PNG copy)>] [101 <C:/Users/alessandro/Documents/master_thesis/documents/images/results/grape
+fruit_juice_comparison_100_over_1000_nobias.png (PNG copy)> <C:/Users/alessandro/Documents/master_thesis/documents/image
+s/results/grapefruit_juice_comparison_100_over_1000_bias3.png (PNG copy)> <C:/Users/alessandro/Documents/master_thesis/d
+ocuments/images/results/grapefruit_juice_comparison.png (PNG copy)>] [102 <C:/Users/alessandro/Documents/master_thesis/d
+ocuments/images/results/marble_120_over_1000_bias_1-5.png (PNG copy)> <C:/Users/alessandro/Documents/master_thesis/docum
+ents/images/results/marble_120_over_1000_nobias.png (PNG copy)> <C:/Users/alessandro/Documents/master_thesis/documents/i
+mages/results/marble_1000_over_1000_bias_2.png (PNG copy)> <C:/Users/alessandro/Documents/master_thesis/documents/images
+/results/marble_1000_over_1000_biasno.png (PNG copy)>] <images/results/beer_100_over_100_no_bias.png, id=2592, 770.88pt 
+x 770.88pt>
 File: images/results/beer_100_over_100_no_bias.png Graphic file (type png)
 
 <use images/results/beer_100_over_100_no_bias.png>
-Package pdftex.def Info: images/results/beer_100_over_100_no_bias.png used on input line 115.
+Package pdftex.def Info: images/results/beer_100_over_100_no_bias.png used on input line 155.
 (pdftex.def)             Requested size: 172.65132pt x 172.64066pt.
 File: images/pathtrace/image-beer.pdf Graphic file (type pdf)
  <use images/pathtrace/image-beer.pdf>
-Package pdftex.def Info: images/pathtrace/image-beer.pdf used on input line 118.
+Package pdftex.def Info: images/pathtrace/image-beer.pdf used on input line 158.
 (pdftex.def)             Requested size: 172.65132pt x 172.6524pt.
 
-Overfull \hbox (13.33331pt too wide) in paragraph at lines 115--119
+Overfull \hbox (13.33331pt too wide) in paragraph at lines 155--159
  [][][][] 
  []
 
-<images/results/happy_buddha_100_over_1000_nobias.png, id=2561, 385.44pt x 770.88pt>
+<images/results/happy_buddha_100_over_1000_nobias.png, id=2597, 385.44pt x 770.88pt>
 File: images/results/happy_buddha_100_over_1000_nobias.png Graphic file (type png)
 
 <use images/results/happy_buddha_100_over_1000_nobias.png>
-Package pdftex.def Info: images/results/happy_buddha_100_over_1000_nobias.png used on input line 132.
+Package pdftex.def Info: images/results/happy_buddha_100_over_1000_nobias.png used on input line 172.
 (pdftex.def)             Requested size: 114.9832pt x 229.96013pt.
 
-<images/results/happy_buddha_200_over_1000_nobias.png, id=2562, 385.44pt x 770.88pt>
+<images/results/happy_buddha_200_over_1000_nobias.png, id=2598, 385.44pt x 770.88pt>
 File: images/results/happy_buddha_200_over_1000_nobias.png Graphic file (type png)
 
 <use images/results/happy_buddha_200_over_1000_nobias.png>
-Package pdftex.def Info: images/results/happy_buddha_200_over_1000_nobias.png used on input line 135.
+Package pdftex.def Info: images/results/happy_buddha_200_over_1000_nobias.png used on input line 175.
 (pdftex.def)             Requested size: 114.9832pt x 229.96013pt.
 
-<images/results/happy_buddha_100_over_300_nobias.png, id=2563, 385.44pt x 770.88pt>
+<images/results/happy_buddha_100_over_300_nobias.png, id=2599, 385.44pt x 770.88pt>
 File: images/results/happy_buddha_100_over_300_nobias.png Graphic file (type png)
 
 <use images/results/happy_buddha_100_over_300_nobias.png>
-Package pdftex.def Info: images/results/happy_buddha_100_over_300_nobias.png used on input line 139.
+Package pdftex.def Info: images/results/happy_buddha_100_over_300_nobias.png used on input line 179.
 (pdftex.def)             Requested size: 114.9832pt x 229.96013pt.
 
-<images/results/potato_buddha_dir.png, id=2564, 256.96pt x 513.92pt>
+<images/results/potato_buddha_dir.png, id=2600, 256.96pt x 513.92pt>
 File: images/results/potato_buddha_dir.png Graphic file (type png)
  <use images/results/potato_buddha_dir.png>
-Package pdftex.def Info: images/results/potato_buddha_dir.png used on input line 142.
+Package pdftex.def Info: images/results/potato_buddha_dir.png used on input line 182.
 (pdftex.def)             Requested size: 114.9832pt x 229.96796pt.
 
 
-LaTeX Warning: Float too large for page by 13.55208pt on input line 145.
+LaTeX Warning: Float too large for page by 13.55208pt on input line 185.
 
-<images/results/dragon_10_over_100.png, id=2565, 770.88pt x 770.88pt>
+<images/results/dragon_10_over_100.png, id=2601, 770.88pt x 770.88pt>
 File: images/results/dragon_10_over_100.png Graphic file (type png)
  <use images/results/dragon_10_over_100.png>
-Package pdftex.def Info: images/results/dragon_10_over_100.png used on input line 152.
+Package pdftex.def Info: images/results/dragon_10_over_100.png used on input line 192.
 (pdftex.def)             Requested size: 172.65132pt x 172.64066pt.
 
-<images/results/dragon_50_over_120.png, id=2566, 770.88pt x 770.88pt>
+<images/results/dragon_50_over_120.png, id=2602, 770.88pt x 770.88pt>
 File: images/results/dragon_50_over_120.png Graphic file (type png)
  <use images/results/dragon_50_over_120.png>
-Package pdftex.def Info: images/results/dragon_50_over_120.png used on input line 155.
+Package pdftex.def Info: images/results/dragon_50_over_120.png used on input line 195.
 (pdftex.def)             Requested size: 172.65132pt x 172.64066pt.
 
-Overfull \hbox (13.33331pt too wide) in paragraph at lines 152--156
+Overfull \hbox (13.33331pt too wide) in paragraph at lines 192--196
  [][][][] 
  []
 
-<images/results/dragon_50_over_1000_nobias.png, id=2567, 770.88pt x 770.88pt>
+<images/results/dragon_50_over_1000_nobias.png, id=2603, 770.88pt x 770.88pt>
 File: images/results/dragon_50_over_1000_nobias.png Graphic file (type png)
 
 <use images/results/dragon_50_over_1000_nobias.png>
-Package pdftex.def Info: images/results/dragon_50_over_1000_nobias.png used on input line 159.
+Package pdftex.def Info: images/results/dragon_50_over_1000_nobias.png used on input line 199.
 (pdftex.def)             Requested size: 172.65132pt x 172.64066pt.
 
-<images/results/ketchup_dragon_dir.png, id=2568, 513.92pt x 513.92pt>
+<images/results/ketchup_dragon_dir.png, id=2604, 513.92pt x 513.92pt>
 File: images/results/ketchup_dragon_dir.png Graphic file (type png)
  <use images/results/ketchup_dragon_dir.png>
-Package pdftex.def Info: images/results/ketchup_dragon_dir.png used on input line 162.
+Package pdftex.def Info: images/results/ketchup_dragon_dir.png used on input line 202.
 (pdftex.def)             Requested size: 172.65132pt x 172.6524pt.
 
-Overfull \hbox (13.33331pt too wide) in paragraph at lines 159--164
+Overfull \hbox (13.33331pt too wide) in paragraph at lines 199--204
  [][][][][] 
  []
 
-[101 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/beer_100_over_100_no_bias.png (PNG copy
-)>] [102 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/happy_buddha_100_over_1000_nobias.p
-ng> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/happy_buddha_200_over_1000_nobias.png> <
-C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/happy_buddha_100_over_300_nobias.png> <C:/Use
-rs/xander890/Documents/GitHub/master_thesis/documents/images/results/potato_buddha_dir.png>] [103 <C:/Users/xander890/Do
-cuments/GitHub/master_thesis/documents/images/results/dragon_10_over_100.png (PNG copy)> <C:/Users/xander890/Documents/G
-itHub/master_thesis/documents/images/results/dragon_50_over_120.png (PNG copy)> <C:/Users/xander890/Documents/GitHub/mas
-ter_thesis/documents/images/results/dragon_50_over_1000_nobias.png (PNG copy)> <C:/Users/xander890/Documents/GitHub/mast
-er_thesis/documents/images/results/ketchup_dragon_dir.png (PNG copy)>]
-<images/results/difference.png, id=2596, 1027.84pt x 1027.84pt>
+[103 <C:/Users/alessandro/Documents/master_thesis/documents/images/results/beer_100_over_100_no_bias.png (PNG copy)>]
+[104 <C:/Users/alessandro/Documents/master_thesis/documents/images/results/happy_buddha_100_over_1000_nobias.png> <C:/Us
+ers/alessandro/Documents/master_thesis/documents/images/results/happy_buddha_200_over_1000_nobias.png> <C:/Users/alessan
+dro/Documents/master_thesis/documents/images/results/happy_buddha_100_over_300_nobias.png> <C:/Users/alessandro/Document
+s/master_thesis/documents/images/results/potato_buddha_dir.png>] [105 <C:/Users/alessandro/Documents/master_thesis/docum
+ents/images/results/dragon_10_over_100.png (PNG copy)> <C:/Users/alessandro/Documents/master_thesis/documents/images/res
+ults/dragon_50_over_120.png (PNG copy)> <C:/Users/alessandro/Documents/master_thesis/documents/images/results/dragon_50_
+over_1000_nobias.png (PNG copy)> <C:/Users/alessandro/Documents/master_thesis/documents/images/results/ketchup_dragon_di
+r.png (PNG copy)>] <images/results/difference.png, id=2632, 1027.84pt x 1027.84pt>
 File: images/results/difference.png Graphic file (type png)
  <use images/results/difference.png>
-Package pdftex.def Info: images/results/difference.png used on input line 173.
+Package pdftex.def Info: images/results/difference.png used on input line 213.
 (pdftex.def)             Requested size: 241.71078pt x 241.69926pt.
 
-<images/results/dragon_50_over_120_ws128.png, id=2601, 770.88pt x 770.88pt>
+<images/results/dragon_50_over_120_ws128.png, id=2637, 770.88pt x 770.88pt>
 File: images/results/dragon_50_over_120_ws128.png Graphic file (type png)
 
 <use images/results/dragon_50_over_120_ws128.png>
-Package pdftex.def Info: images/results/dragon_50_over_120_ws128.png used on input line 182.
+Package pdftex.def Info: images/results/dragon_50_over_120_ws128.png used on input line 222.
 (pdftex.def)             Requested size: 172.65132pt x 172.64066pt.
 
-<images/results/dragon_50_over_120_ws256.png, id=2602, 770.88pt x 770.88pt>
+<images/results/dragon_50_over_120_ws256.png, id=2638, 770.88pt x 770.88pt>
 File: images/results/dragon_50_over_120_ws256.png Graphic file (type png)
 
 <use images/results/dragon_50_over_120_ws256.png>
-Package pdftex.def Info: images/results/dragon_50_over_120_ws256.png used on input line 186.
+Package pdftex.def Info: images/results/dragon_50_over_120_ws256.png used on input line 226.
 (pdftex.def)             Requested size: 172.65132pt x 172.64066pt.
 
-Overfull \hbox (13.33331pt too wide) in paragraph at lines 182--187
+Overfull \hbox (13.33331pt too wide) in paragraph at lines 222--227
  [][][][] 
  []
 
-<images/results/dragon_50_over_120_ws512.png, id=2603, 770.88pt x 770.88pt>
+<images/results/dragon_50_over_120_ws512.png, id=2639, 770.88pt x 770.88pt>
 File: images/results/dragon_50_over_120_ws512.png Graphic file (type png)
 
 <use images/results/dragon_50_over_120_ws512.png>
-Package pdftex.def Info: images/results/dragon_50_over_120_ws512.png used on input line 191.
+Package pdftex.def Info: images/results/dragon_50_over_120_ws512.png used on input line 231.
 (pdftex.def)             Requested size: 172.65132pt x 172.64066pt.
 
-<images/results/dragon_50_over_120_detail.png, id=2604, 770.88pt x 770.88pt>
+<images/results/dragon_50_over_120_detail.png, id=2640, 770.88pt x 770.88pt>
 File: images/results/dragon_50_over_120_detail.png Graphic file (type png)
 
 <use images/results/dragon_50_over_120_detail.png>
-Package pdftex.def Info: images/results/dragon_50_over_120_detail.png used on input line 195.
+Package pdftex.def Info: images/results/dragon_50_over_120_detail.png used on input line 235.
 (pdftex.def)             Requested size: 172.65132pt x 172.64066pt.
 
-Overfull \hbox (13.33331pt too wide) in paragraph at lines 191--197
+Overfull \hbox (13.33331pt too wide) in paragraph at lines 231--237
  [][][][][] 
  []
 
-[104
+[106
 
- <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/difference.png (PNG copy)>] [105 <C:/Users/
-xander890/Documents/GitHub/master_thesis/documents/images/results/dragon_50_over_120_ws128.png (PNG copy)> <C:/Users/xan
-der890/Documents/GitHub/master_thesis/documents/images/results/dragon_50_over_120_ws256.png (PNG copy)> <C:/Users/xander
-890/Documents/GitHub/master_thesis/documents/images/results/dragon_50_over_120_ws512.png (PNG copy)> <C:/Users/xander890
-/Documents/GitHub/master_thesis/documents/images/results/dragon_50_over_120_detail.png (PNG copy)>]
-<images/results/mipmaps00.png, id=2621, 513.92pt x 513.92pt>
+ <C:/Users/alessandro/Documents/master_thesis/documents/images/results/difference.png (PNG copy)>] [107 <C:/Users/alessa
+ndro/Documents/master_thesis/documents/images/results/dragon_50_over_120_ws128.png (PNG copy)> <C:/Users/alessandro/Docu
+ments/master_thesis/documents/images/results/dragon_50_over_120_ws256.png (PNG copy)> <C:/Users/alessandro/Documents/mas
+ter_thesis/documents/images/results/dragon_50_over_120_ws512.png (PNG copy)> <C:/Users/alessandro/Documents/master_thesi
+s/documents/images/results/dragon_50_over_120_detail.png (PNG copy)>]
+<images/results/mipmaps00.png, id=2657, 513.92pt x 513.92pt>
 File: images/results/mipmaps00.png Graphic file (type png)
  <use images/results/mipmaps00.png>
-Package pdftex.def Info: images/results/mipmaps00.png used on input line 209.
+Package pdftex.def Info: images/results/mipmaps00.png used on input line 249.
 (pdftex.def)             Requested size: 138.11894pt x 138.11722pt.
 
-<images/results/mipmaps01.png, id=2622, 513.92pt x 513.92pt>
+<images/results/mipmaps01.png, id=2658, 513.92pt x 513.92pt>
 File: images/results/mipmaps01.png Graphic file (type png)
  <use images/results/mipmaps01.png>
-Package pdftex.def Info: images/results/mipmaps01.png used on input line 212.
+Package pdftex.def Info: images/results/mipmaps01.png used on input line 252.
 (pdftex.def)             Requested size: 138.11894pt x 138.11722pt.
 
-<images/results/mipmaps02.png, id=2623, 513.92pt x 513.92pt>
+<images/results/mipmaps02.png, id=2659, 513.92pt x 513.92pt>
 File: images/results/mipmaps02.png Graphic file (type png)
  <use images/results/mipmaps02.png>
-Package pdftex.def Info: images/results/mipmaps02.png used on input line 216.
+Package pdftex.def Info: images/results/mipmaps02.png used on input line 256.
 (pdftex.def)             Requested size: 138.11894pt x 138.11722pt.
 
-<images/results/mipmapsc.png, id=2624, 385.44pt x 385.44pt>
+<images/results/mipmapsc.png, id=2660, 385.44pt x 385.44pt>
 File: images/results/mipmapsc.png Graphic file (type png)
  <use images/results/mipmapsc.png>
-Package pdftex.def Info: images/results/mipmapsc.png used on input line 219.
+Package pdftex.def Info: images/results/mipmapsc.png used on input line 259.
 (pdftex.def)             Requested size: 138.11894pt x 138.11722pt.
- [106 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/mipmaps00.png> <C:/Users/xander890/Doc
-uments/GitHub/master_thesis/documents/images/results/mipmaps01.png> <C:/Users/xander890/Documents/GitHub/master_thesis/d
-ocuments/images/results/mipmaps02.png> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/mipma
-psc.png>]
-<images/results/bunny_env_80_1000_nobias.png, id=2640, 770.88pt x 770.88pt>
+ [108 <C:/Users/alessandro/Documents/master_thesis/documents/images/results/mipmaps00.png> <C:/Users/alessandro/Document
+s/master_thesis/documents/images/results/mipmaps01.png> <C:/Users/alessandro/Documents/master_thesis/documents/images/re
+sults/mipmaps02.png> <C:/Users/alessandro/Documents/master_thesis/documents/images/results/mipmapsc.png>]
+<images/results/bunny_env_80_1000_nobias.png, id=2676, 770.88pt x 770.88pt>
 File: images/results/bunny_env_80_1000_nobias.png Graphic file (type png)
 
 <use images/results/bunny_env_80_1000_nobias.png>
-Package pdftex.def Info: images/results/bunny_env_80_1000_nobias.png used on input line 234.
+Package pdftex.def Info: images/results/bunny_env_80_1000_nobias.png used on input line 274.
 (pdftex.def)             Requested size: 241.71078pt x 241.71103pt.
 
-<images/results/happy_buddha_environment_90over16_1000_nobias.png, id=2641, 385.44pt x 770.88pt>
+<images/results/happy_buddha_environment_90over16_1000_nobias.png, id=2677, 385.44pt x 770.88pt>
 File: images/results/happy_buddha_environment_90over16_1000_nobias.png Graphic file (type png)
 
 <use images/results/happy_buddha_environment_90over16_1000_nobias.png>
-Package pdftex.def Info: images/results/happy_buddha_environment_90over16_1000_nobias.png used on input line 256.
+Package pdftex.def Info: images/results/happy_buddha_environment_90over16_1000_nobias.png used on input line 296.
 (pdftex.def)             Requested size: 114.9832pt x 229.96013pt.
 
-<images/results/happy_buddha_environment_90over16_310_nobias.png, id=2642, 385.44pt x 770.88pt>
+<images/results/happy_buddha_environment_90over16_310_nobias.png, id=2678, 385.44pt x 770.88pt>
 File: images/results/happy_buddha_environment_90over16_310_nobias.png Graphic file (type png)
 
 <use images/results/happy_buddha_environment_90over16_310_nobias.png>
-Package pdftex.def Info: images/results/happy_buddha_environment_90over16_310_nobias.png used on input line 259.
+Package pdftex.def Info: images/results/happy_buddha_environment_90over16_310_nobias.png used on input line 299.
 (pdftex.def)             Requested size: 114.9832pt x 229.96013pt.
 
-<images/results/happy_buddha_environment_90over16_160_nobias.png, id=2643, 385.44pt x 770.88pt>
+<images/results/happy_buddha_environment_90over16_160_nobias.png, id=2679, 385.44pt x 770.88pt>
 File: images/results/happy_buddha_environment_90over16_160_nobias.png Graphic file (type png)
 
 <use images/results/happy_buddha_environment_90over16_160_nobias.png>
-Package pdftex.def Info: images/results/happy_buddha_environment_90over16_160_nobias.png used on input line 263.
+Package pdftex.def Info: images/results/happy_buddha_environment_90over16_160_nobias.png used on input line 303.
 (pdftex.def)             Requested size: 114.9832pt x 229.96013pt.
 
-<images/results/reference_env.png, id=2644, 513.92pt x 1026.83624pt>
+<images/results/reference_env.png, id=2680, 513.92pt x 1026.83624pt>
 File: images/results/reference_env.png Graphic file (type png)
  <use images/results/reference_env.png>
-Package pdftex.def Info: images/results/reference_env.png used on input line 266.
+Package pdftex.def Info: images/results/reference_env.png used on input line 306.
 (pdftex.def)             Requested size: 114.9832pt x 229.7434pt.
 
 
-LaTeX Warning: Float too large for page by 13.54425pt on input line 269.
+LaTeX Warning: Float too large for page by 13.54425pt on input line 309.
 
-[107 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/bunny_env_80_1000_nobias.png (PNG copy)
->] [108 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/happy_buddha_environment_90over16_10
-00_nobias.png> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/happy_buddha_environment_90ov
-er16_310_nobias.png> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/happy_buddha_environmen
-t_90over16_160_nobias.png> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/reference_env.png
->] <images/results/env2.png, id=2660, 770.88pt x 770.88pt>
+[109 <C:/Users/alessandro/Documents/master_thesis/documents/images/results/bunny_env_80_1000_nobias.png (PNG copy)>]
+[110 <C:/Users/alessandro/Documents/master_thesis/documents/images/results/happy_buddha_environment_90over16_1000_nobias
+.png> <C:/Users/alessandro/Documents/master_thesis/documents/images/results/happy_buddha_environment_90over16_310_nobias
+.png> <C:/Users/alessandro/Documents/master_thesis/documents/images/results/happy_buddha_environment_90over16_160_nobias
+.png> <C:/Users/alessandro/Documents/master_thesis/documents/images/results/reference_env.png>]
+<images/results/env2.png, id=2697, 770.88pt x 770.88pt>
 File: images/results/env2.png Graphic file (type png)
  <use images/results/env2.png>
-Package pdftex.def Info: images/results/env2.png used on input line 278.
+Package pdftex.def Info: images/results/env2.png used on input line 318.
 (pdftex.def)             Requested size: 138.11894pt x 138.11722pt.
 
-<images/results/env4.png, id=2661, 770.88pt x 770.88pt>
+<images/results/env4.png, id=2698, 770.88pt x 770.88pt>
 File: images/results/env4.png Graphic file (type png)
  <use images/results/env4.png>
-Package pdftex.def Info: images/results/env4.png used on input line 281.
+Package pdftex.def Info: images/results/env4.png used on input line 321.
 (pdftex.def)             Requested size: 138.11894pt x 138.11722pt.
 
-<images/results/env8.png, id=2662, 770.88pt x 770.88pt>
+<images/results/env8.png, id=2699, 770.88pt x 770.88pt>
 File: images/results/env8.png Graphic file (type png)
  <use images/results/env8.png>
-Package pdftex.def Info: images/results/env8.png used on input line 285.
+Package pdftex.def Info: images/results/env8.png used on input line 325.
 (pdftex.def)             Requested size: 138.11894pt x 138.11722pt.
 
-<images/results/env16.png, id=2663, 770.88pt x 770.88pt>
+<images/results/env16.png, id=2700, 770.88pt x 770.88pt>
 File: images/results/env16.png Graphic file (type png)
  <use images/results/env16.png>
-Package pdftex.def Info: images/results/env16.png used on input line 288.
+Package pdftex.def Info: images/results/env16.png used on input line 328.
 (pdftex.def)             Requested size: 138.11894pt x 138.11722pt.
- [109
+ [111
 
- <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/env2.png (PNG copy)> <C:/Users/xander890/Do
-cuments/GitHub/master_thesis/documents/images/results/env4.png (PNG copy)> <C:/Users/xander890/Documents/GitHub/master_t
-hesis/documents/images/results/env8.png (PNG copy)> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/
-results/env16.png (PNG copy)>] [110
+ <C:/Users/alessandro/Documents/master_thesis/documents/images/results/env2.png (PNG copy)> <C:/Users/alessandro/Documen
+ts/master_thesis/documents/images/results/env4.png (PNG copy)> <C:/Users/alessandro/Documents/master_thesis/documents/im
+ages/results/env8.png (PNG copy)> <C:/Users/alessandro/Documents/master_thesis/documents/images/results/env16.png (PNG c
+opy)>] [112
 
-] <images/results/example2.png, id=2687, 770.88pt x 770.88pt>
+]
+<images/results/example2.png, id=2723, 770.88pt x 770.88pt>
 File: images/results/example2.png Graphic file (type png)
  <use images/results/example2.png>
-Package pdftex.def Info: images/results/example2.png used on input line 335.
+Package pdftex.def Info: images/results/example2.png used on input line 375.
 (pdftex.def)             Requested size: 138.11894pt x 138.11722pt.
 
-<images/matlab/bunnychart.pdf, id=2688, 361.04338pt x 215.05444pt>
+<images/matlab/bunnychart.pdf, id=2724, 361.04338pt x 215.05444pt>
 File: images/matlab/bunnychart.pdf Graphic file (type pdf)
  <use images/matlab/bunnychart.pdf>
-Package pdftex.def Info: images/matlab/bunnychart.pdf used on input line 342.
+Package pdftex.def Info: images/matlab/bunnychart.pdf used on input line 382.
 (pdftex.def)             Requested size: 103.59184pt x 61.7046pt.
 
-<images/results/example1.png, id=2689, 770.88pt x 770.88pt>
+<images/results/example1.png, id=2725, 770.88pt x 770.88pt>
 File: images/results/example1.png Graphic file (type png)
  <use images/results/example1.png>
-Package pdftex.def Info: images/results/example1.png used on input line 345.
+Package pdftex.def Info: images/results/example1.png used on input line 385.
 (pdftex.def)             Requested size: 138.11894pt x 138.11722pt.
 
-<images/matlab/dragonchart.pdf, id=2690, 361.04338pt x 215.05444pt>
+<images/matlab/dragonchart.pdf, id=2726, 361.04338pt x 215.05444pt>
 File: images/matlab/dragonchart.pdf Graphic file (type pdf)
  <use images/matlab/dragonchart.pdf>
-Package pdftex.def Info: images/matlab/dragonchart.pdf used on input line 352.
+Package pdftex.def Info: images/matlab/dragonchart.pdf used on input line 392.
 (pdftex.def)             Requested size: 103.59184pt x 61.7046pt.
 
-<images/results/example3.png, id=2691, 770.88pt x 770.88pt>
+<images/results/example3.png, id=2727, 770.88pt x 770.88pt>
 File: images/results/example3.png Graphic file (type png)
  <use images/results/example3.png>
-Package pdftex.def Info: images/results/example3.png used on input line 355.
+Package pdftex.def Info: images/results/example3.png used on input line 395.
 (pdftex.def)             Requested size: 138.11894pt x 138.11722pt.
 
-<images/matlab/buddhachart.pdf, id=2692, 361.04338pt x 215.05444pt>
+<images/matlab/buddhachart.pdf, id=2728, 361.04338pt x 215.05444pt>
 File: images/matlab/buddhachart.pdf Graphic file (type pdf)
  <use images/matlab/buddhachart.pdf>
-Package pdftex.def Info: images/matlab/buddhachart.pdf used on input line 362.
+Package pdftex.def Info: images/matlab/buddhachart.pdf used on input line 402.
 (pdftex.def)             Requested size: 103.59184pt x 61.7046pt.
 
 
-LaTeX Warning: Float too large for page by 43.97563pt on input line 365.
+LaTeX Warning: Float too large for page by 43.97563pt on input line 405.
 
-[111] [112 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/example2.png (PNG copy)> <C:/User
-s/xander890/Documents/GitHub/master_thesis/documents/images/matlab/bunnychart.pdf> <C:/Users/xander890/Documents/GitHub/
-master_thesis/documents/images/results/example1.png (PNG copy)> <C:/Users/xander890/Documents/GitHub/master_thesis/docum
-ents/images/matlab/dragonchart.pdf
+[113] [114 <C:/Users/alessandro/Documents/master_thesis/documents/images/results/example2.png (PNG copy)> <C:/Users/ales
+sandro/Documents/master_thesis/documents/images/matlab/bunnychart.pdf> <C:/Users/alessandro/Documents/master_thesis/docu
+ments/images/results/example1.png (PNG copy)> <C:/Users/alessandro/Documents/master_thesis/documents/images/matlab/drago
+nchart.pdf
 
-pdfTeX warning: pdflatex.exe (file C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/matlab/dragonchart
-.pdf): PDF inclusion: multiple pdfs with page group included in a single page
-> <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/results/example3.png (PNG copy)> <C:/Users/xander8
-90/Documents/GitHub/master_thesis/documents/images/matlab/buddhachart.pdf
+pdfTeX warning: pdflatex.exe (file C:/Users/alessandro/Documents/master_thesis/documents/images/matlab/dragonchart.pdf):
+ PDF inclusion: multiple pdfs with page group included in a single page
+> <C:/Users/alessandro/Documents/master_thesis/documents/images/results/example3.png (PNG copy)> <C:/Users/alessandro/Do
+cuments/master_thesis/documents/images/matlab/buddhachart.pdf
 
-pdfTeX warning: pdflatex.exe (file C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/matlab/buddhachart
-.pdf): PDF inclusion: multiple pdfs with page group included in a single page
->] [113] [114] [115] [116] <images/matlab/multiple_lights_test.pdf, id=2801, 508.05942pt x 317.22816pt>
+pdfTeX warning: pdflatex.exe (file C:/Users/alessandro/Documents/master_thesis/documents/images/matlab/buddhachart.pdf):
+ PDF inclusion: multiple pdfs with page group included in a single page
+>] [115] [116] [117] [118] <images/matlab/multiple_lights_test.pdf, id=2837, 508.05942pt x 317.22816pt>
 File: images/matlab/multiple_lights_test.pdf Graphic file (type pdf)
 
 <use images/matlab/multiple_lights_test.pdf>
-Package pdftex.def Info: images/matlab/multiple_lights_test.pdf used on input line 493.
+Package pdftex.def Info: images/matlab/multiple_lights_test.pdf used on input line 533.
 (pdftex.def)             Requested size: 241.71078pt x 150.92212pt.
-)
-(C:\Users\xander890\Documents\GitHub\master_thesis\documents\tex/futurework.tex [117
+) (C:\Users\alessandro\Documents\master_thesis\documents\tex/futurework.tex
+[119
 
- <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/matlab/multiple_lights_test.pdf>] [118
+ <C:/Users/alessandro/Documents/master_thesis/documents/images/matlab/multiple_lights_test.pdf>] [120
 
 ]
 Chapter 7.
-[119] <images/method/extension_shader.pdf, id=2862, 656.10121pt x 376.04152pt>
+[121] <images/method/extension_shader.pdf, id=2899, 656.10121pt x 376.04152pt>
 File: images/method/extension_shader.pdf Graphic file (type pdf)
  <use images/method/extension_shader.pdf>
 Package pdftex.def Info: images/method/extension_shader.pdf used on input line 21.
 (pdftex.def)             Requested size: 241.71078pt x 138.53642pt.
 
-[120 <C:/Users/xander890/Documents/GitHub/master_thesis/documents/images/method/extension_shader.pdf>])
-(C:\Users\xander890\Documents\GitHub\master_thesis\documents\tex/conclusion.tex [121] [122
+[122 <C:/Users/alessandro/Documents/master_thesis/documents/images/method/extension_shader.pdf>])
+(C:\Users\alessandro\Documents\master_thesis\documents\tex/conclusion.tex [123] [124
 
 ]
 Chapter 8.
-[123]) (C:\Users\xander890\Documents\GitHub\master_thesis\documents\tex/appendix.tex [124]
+[125]) (C:\Users\alessandro\Documents\master_thesis\documents\tex/appendix.tex [126]
 Appendix A.
-[125
+[127
 
-] [126]) [127] [128
+] [128]) [129] [130
 
-] (C:\Users\xander890\Documents\GitHub\master_thesis\documents\thesis.bbl [129
+] (C:\Users\alessandro\Documents\master_thesis\documents\thesis.bbl [131
 
-] [130] [131]
-[132] [133]) [134]
+] [132] [133] [134]
+[135]) [136]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 91.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 91.
- (C:\Users\xander890\Documents\GitHub\master_thesis\documents\thesis.aux)
+ (C:\Users\alessandro\Documents\master_thesis\documents\thesis.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 91.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 91.
 Package rerunfilecheck Info: File `thesis.out' has not changed.
-(rerunfilecheck)             Checksum: DE6388D80D098C5A274A38ACDB2E1F2D;6476.
+(rerunfilecheck)             Checksum: D6FC5CDCCE8CBFCB87194572E405B826;6550.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 91.
  ) 
 Here is how much of TeX's memory you used:
- 32104 strings out of 493921
- 611028 string characters out of 3147270
- 1004230 words of memory out of 3000000
- 33905 multiletter control sequences out of 15000+200000
+ 32143 strings out of 493921
+ 613493 string characters out of 3144861
+ 1004678 words of memory out of 3000000
+ 33929 multiletter control sequences out of 15000+200000
  135375 words of font info for 130 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
  56i,27n,73p,10416b,2519s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-rm.enc}{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-rmtt.enc}
-{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathit.enc}{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathsy.
-enc}{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathex.enc}{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ts1
-.enc}{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-rmsc.enc}<C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmbx
-10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/
-lmbx6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmbx7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/l
-m/lmbx8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmbx9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public
-/lm/lmcsc10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmex10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/p
-ublic/lm/lmmi10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmmi5.pfb><C:/Program Files/MiKTeX 2.9/fonts/type
-1/public/lm/lmmi6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmmi7.pfb><C:/Program Files/MiKTeX 2.9/fonts/ty
-pe1/public/lm/lmmi8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmmi9.pfb><C:/Program Files/MiKTeX 2.9/fonts/
-type1/public/lm/lmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmr12.pfb><C:/Program Files/MiKTeX 2.9/font
-s/type1/public/lm/lmr17.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmr5.pfb><C:/Program Files/MiKTeX 2.9/fon
-ts/type1/public/lm/lmr6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmr7.pfb><C:/Program Files/MiKTeX 2.9/fon
-ts/type1/public/lm/lmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmr9.pfb><C:/Program Files/MiKTeX 2.9/fon
-ts/type1/public/lm/lmri10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmri12.pfb><C:/Program Files/MiKTeX 2.9
-/fonts/type1/public/lm/lmss10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmssbx10.pfb><C:/Program Files/MiKT
-eX 2.9/fonts/type1/public/lm/lmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmsy6.pfb><C:/Program Files/M
-iKTeX 2.9/fonts/type1/public/lm/lmsy7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmsy9.pfb><C:/Program Files
-/MiKTeX 2.9/fonts/type1/public/lm/lmtt10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmtt8.pfb><C:/Program Fi
-les/MiKTeX 2.9/fonts/type1/public/lm/lmtt9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10.p
-fb>
-Output written on thesis.pdf (146 pages, 34559928 bytes).
+{C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/lm/lm-rm.enc}{C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/lm/
+lm-mathsy.enc}{C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/lm/lm-rmtt.enc}{C:/Program Files (x86)/MiKTeX 2.9/fonts
+/enc/dvips/lm/lm-mathit.enc}{C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathex.enc}{C:/Program Files (x86)/
+MiKTeX 2.9/fonts/enc/dvips/lm/lm-ts1.enc}{C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/lm/lm-rmsc.enc}<C:/Program F
+iles (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmbx10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmbx12.p
+fb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmbx6.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/pub
+lic/lm/lmbx7.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmbx8.pfb><C:/Program Files (x86)/MiKTeX 2.9/f
+onts/type1/public/lm/lmbx9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmcsc10.pfb><C:/Program Files (x
+86)/MiKTeX 2.9/fonts/type1/public/lm/lmex10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmmi10.pfb><C:/
+Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmmi5.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/
+lmmi6.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmmi7.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/ty
+pe1/public/lm/lmmi8.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmmi9.pfb><C:/Program Files (x86)/MiKTe
+X 2.9/fonts/type1/public/lm/lmr10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmr12.pfb><C:/Program Fil
+es (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmr17.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmr5.pfb><C
+:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmr6.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm
+/lmr7.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmr8.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/typ
+e1/public/lm/lmr9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmri10.pfb><C:/Program Files (x86)/MiKTeX
+ 2.9/fonts/type1/public/lm/lmri12.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmss10.pfb><C:/Program Fi
+les (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmssbx10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmsy10.
+pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmsy5.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/pu
+blic/lm/lmsy6.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmsy7.pfb><C:/Program Files (x86)/MiKTeX 2.9/
+fonts/type1/public/lm/lmsy9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmtt10.pfb><C:/Program Files (x
+86)/MiKTeX 2.9/fonts/type1/public/lm/lmtt8.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmtt9.pfb><C:/Pr
+ogram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on thesis.pdf (148 pages, 35237317 bytes).
 PDF statistics:
- 3274 PDF objects out of 3580 (max. 8388607)
- 769 named destinations out of 1000 (max. 500000)
- 1395 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 3314 PDF objects out of 3580 (max. 8388607)
+ 779 named destinations out of 1000 (max. 500000)
+ 1428 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -152,23 +152,23 @@ TranslucentMaterials::TranslucentMaterials( QWidget* parent)
 
 void TranslucentMaterials::initialize()
 {
-    Mesh::ScatteringMaterial * scattering_mat_bunny = getDefaultMaterial(S_Beer);
+    Mesh::ScatteringMaterial * scattering_mat_bunny = getDefaultMaterial(S_Ketchup);
     Mesh::ScatteringMaterial * scattering_mat_buddha = getDefaultMaterial(S_Potato);
-    Mesh::ScatteringMaterial * scattering_mat_dragon = getDefaultMaterial(S_Ketchup);
+    Mesh::ScatteringMaterial * scattering_mat_dragon = getDefaultMaterial(S_Potato);
 
     ThreeDObject * bunny = new ThreeDObject();
     ThreeDObject * buddha = new ThreeDObject();
     ThreeDObject * dragon = new ThreeDObject();
     ThreeDObject * sphere = new ThreeDSphere(40);
 
-    //bunny->init(objects_path+"bunny-simplified.obj", "bunny", *scattering_mat_bunny);
+    bunny->init(objects_path+"bunny-simplified.obj", "bunny", *scattering_mat_bunny);
     bunny->setScale(Vec3f(4.f));
     bunny->setRotation(Vec3f(90,0,0));
     bunny->setTranslation(Vec3f(0,0,0.f));
     bunny->enabled = true;
     bunny->boundingBoxEnabled = true;
 
-    buddha->init(objects_path+"buddha_redone.obj", "buddha", *scattering_mat_buddha);
+    //buddha->init(objects_path+"buddha_redone.obj", "buddha", *scattering_mat_buddha);
     buddha->setScale(Vec3f(1.f));
     buddha->setRotation(Vec3f(90,0,0));
     buddha->setTranslation(Vec3f(0,0,0.f));
@@ -191,7 +191,7 @@ void TranslucentMaterials::initialize()
     objectPool.push_back(bunny);
     objectPool.push_back(buddha);
     objectPool.push_back(dragon);
-    currentObject =  buddha;
+    currentObject =  bunny;
 }
 
 
@@ -1337,6 +1337,7 @@ static ShaderProgramDraw depth_only(shader_path,"ss_array_depth_pass.vert","ss_a
     Mesh::ScatteringMaterial * scattering_material = (Mesh::ScatteringMaterial*)obj->mesh.getMaterial();
     Vec3f tr = scattering_material->transmissionCoefficient / params->circleradius;
     float selectedTransmission = min(tr[0],min(tr[1],tr[2]));
+    selectedTransmission = tr[0];
     //float selectedTransmission = tr[0] + tr[1] + tr[2]) / (3*params->circleradius;
 
     if(reload)

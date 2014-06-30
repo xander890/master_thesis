@@ -377,8 +377,8 @@
 \citation{everitt,Segal:1992:FSL:142920.134071,williams1978a}
 \newlabel{lst:randomexp}{{5.7}{73}{Generation by rejection of a exponentially distributed disc. The function generates $M$ points with distribution $e^{-\sigma _{tr} r}$, and where \gl {radius} is the maximum final radius of the points}{lstlisting.5.7}{}}
 \@writefile{lol}{\contentsline {lstlisting}{\numberline {5.7}Generation by rejection of a exponentially distributed disc. The function generates $M$ points with distribution $e^{-\sigma _{tr} r}$, and where \texttt  {\nolinkurl  {radius}} is the maximum final radius of the points.}{73}{lstlisting.5.7}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.5}Shadow mapping}{73}{subsection.5.3.5}}
-\newlabel{sec:shadow_map}{{5.3.5}{73}{Shadow mapping}{subsection.5.3.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.5}Shadow mapping}{74}{subsection.5.3.5}}
+\newlabel{sec:shadow_map}{{5.3.5}{74}{Shadow mapping}{subsection.5.3.5}{}}
 \newlabel{eq:shadowtest}{{5.3.5}{74}{Shadow mapping}{subsection.5.3.5}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {5.11}{\ignorespaces Shadow mapping. We see the different results for three points $\mathbf  {p^1}$, $\mathbf  {p^2}$ and $\mathbf  {p^3}$. The red length represents the value sampled from the depth texture($T(p_x,p_y)$), while the green length represents the value we compare against ($p_z$). When $p_z$ is less than $T(P_{xy})$, as in $\mathbf  {p_1}$, the point is not shadowed. In the other cases, $\mathbf  {p_2}$ and $\mathbf  {p_3}$, $p_z > T(P_{xy})$and the point is not visible.\relax }}{74}{figure.caption.45}}
 \newlabel{fig:shadow_map}{{5.11}{74}{Shadow mapping. We see the different results for three points $\mathbf {p^1}$, $\mathbf {p^2}$ and $\mathbf {p^3}$. The red length represents the value sampled from the depth texture($T(p_x,p_y)$), while the green length represents the value we compare against ($p_z$). When $p_z$ is less than $T(P_{xy})$, as in $\mathbf {p_1}$, the point is not shadowed. In the other cases, $\mathbf {p_2}$ and $\mathbf {p_3}$, $p_z > T(P_{xy})$and the point is not visible.\relax }{figure.caption.45}{}}
@@ -503,128 +503,140 @@
 \@writefile{toc}{\contentsline {section}{\numberline {6.1}Parameters}{95}{section.6.1}}
 \newlabel{sec:parameters}{{6.1}{95}{Parameters}{section.6.1}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {6.2}Quality comparison}{96}{section.6.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.1}Tests with different number of samples}{96}{subsection.6.2.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.1}{\ignorespaces Path traced rendering on a sphere of potato material compared with the results of our method. The parameters are from table \ref  {table:scatteringcoefficients}.\relax }}{98}{figure.caption.58}}
-\newlabel{fig:pathpotato}{{6.1}{98}{Path traced rendering on a sphere of potato material compared with the results of our method. The parameters are from table \ref {table:scatteringcoefficients}.\relax }{figure.caption.58}{}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {$N = 120$, $M = 120$}}}{98}{subfigure.1.1}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {$N = 120$, $M = 300$}}}{98}{subfigure.1.2}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {$N = 300$, $M = 300$}}}{98}{subfigure.1.3}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {$N = 120$, $M = 1000$}}}{98}{subfigure.1.4}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(e)}{\ignorespaces {$N = 300$, $M = 1000$}}}{98}{subfigure.1.5}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(f)}{\ignorespaces {$N = 1000$, $M = 1000$}}}{98}{subfigure.1.6}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(g)}{\ignorespaces {Path traced solution}}}{98}{subfigure.1.7}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.2}{\ignorespaces Path traced rendering on a sphere of white grapefruit material compared with the results of our method. The parameters are from table \ref  {table:scatteringcoefficients}. We can see that a higher $q$ helps us in approximating the path traced solution with fewer samples.\relax }}{99}{figure.caption.59}}
-\newlabel{fig:pathgrapefruit}{{6.2}{99}{Path traced rendering on a sphere of white grapefruit material compared with the results of our method. The parameters are from table \ref {table:scatteringcoefficients}. We can see that a higher $q$ helps us in approximating the path traced solution with fewer samples.\relax }{figure.caption.59}{}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {$N = 100$, $M = 1000$, $q = 1$}}}{99}{subfigure.2.1}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {$N = 100$, $M = 1000$, $q = 3$}}}{99}{subfigure.2.2}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {$N = 1000$, $M = 1000$, $q = 1$}}}{99}{subfigure.2.3}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {Path traced result}}}{99}{subfigure.2.4}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.3}{\ignorespaces Path traced rendering on a sphere of marble material compared with the results of our method. The parameters are from table \ref  {table:scatteringcoefficients}.\relax }}{100}{figure.caption.60}}
-\newlabel{fig:pathmarble}{{6.3}{100}{Path traced rendering on a sphere of marble material compared with the results of our method. The parameters are from table \ref {table:scatteringcoefficients}.\relax }{figure.caption.60}{}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {$N = 120$, $M = 1000$, $q = 1.5$}}}{100}{subfigure.3.1}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {$N = 120$, $M = 1000$, $q = 1$}}}{100}{subfigure.3.2}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {$N = 1000$, $M = 1000$, $q = 1.5$}}}{100}{subfigure.3.3}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {$N = 1000$, $M = 1000$, $q = 1$}}}{100}{subfigure.3.4}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(e)}{\ignorespaces {Path traced result}}}{100}{subfigure.3.5}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.4}{\ignorespaces Path traced rendering on a sphere of beer material compared with the results of our method. The parameters are from table \ref  {table:scatteringcoefficients}.\relax }}{101}{figure.caption.61}}
-\newlabel{fig:pathbeer}{{6.4}{101}{Path traced rendering on a sphere of beer material compared with the results of our method. The parameters are from table \ref {table:scatteringcoefficients}.\relax }{figure.caption.61}{}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {$N = 100$, $M = 100$, $q = 1$}}}{101}{subfigure.4.1}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Path traced result}}}{101}{subfigure.4.2}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.5}{\ignorespaces Rendering of a potato buddha using the directional dipole, with increasing number of samples.\relax }}{102}{figure.caption.62}}
-\newlabel{fig:pathbuddha}{{6.5}{102}{Rendering of a potato buddha using the directional dipole, with increasing number of samples.\relax }{figure.caption.62}{}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {$N = 100$, $M = 1000$, $q = 1$}}}{102}{subfigure.5.1}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {$N = 200$, $M = 1000$, $q = 1$}}}{102}{subfigure.5.2}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {$N = 100$, $M = 300$, $q = 1$}}}{102}{subfigure.5.3}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {Path traced result}}}{102}{subfigure.5.4}}
-\newlabel{fig:pathdragon}{{\caption@xref {fig:pathdragon}{ on input line 163}}{103}{Tests with different number of samples}{subfigure.6.6.4}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.6}{\ignorespaces Rendering of a ketchup dragon using the directional dipole, with changing values of $M$ and $N$. \relax }}{103}{figure.caption.63}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {$N = 10$, $M = 100$, $q = 1.5$}}}{103}{subfigure.6.1}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {$N = 50$, $M = 120$, $q = 1$}}}{103}{subfigure.6.2}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {$N = 50$, $M = 1000$, $q = 1.5$}}}{103}{subfigure.6.3}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {Path traced result}}}{103}{subfigure.6.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.2}Radiance map sizes tests}{104}{subsection.6.2.2}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.7}{\ignorespaces Difference multiplied by 10 times between \ref  {fig:pathdragonsize1024} and \ref  {fig:pathdragonsize256}.\relax }}{104}{figure.caption.64}}
-\newlabel{fig:pathdragonsizett}{{6.7}{104}{Difference multiplied by 10 times between \ref {fig:pathdragonsize1024} and \ref {fig:pathdragonsize256}.\relax }{figure.caption.64}{}}
-\newlabel{fig:pathdragonsize256}{{6.8b}{105}{Subfigure 6 6.8b}{subfigure.6.8.2}{}}
-\newlabel{sub@fig:pathdragonsize256}{{(b)}{b}{Subfigure 6 6.8b\relax }{subfigure.6.8.2}{}}
-\newlabel{fig:pathdragonsize512}{{6.8c}{105}{Subfigure 6 6.8c}{subfigure.6.8.3}{}}
-\newlabel{sub@fig:pathdragonsize512}{{(c)}{c}{Subfigure 6 6.8c\relax }{subfigure.6.8.3}{}}
-\newlabel{fig:pathdragonsize1024}{{6.8d}{105}{Subfigure 6 6.8d}{subfigure.6.8.4}{}}
-\newlabel{sub@fig:pathdragonsize1024}{{(d)}{d}{Subfigure 6 6.8d\relax }{subfigure.6.8.4}{}}
-\newlabel{fig:pathdragonsize}{{\caption@xref {fig:pathdragonsize}{ on input line 196}}{105}{Radiance map sizes tests}{subfigure.6.8.4}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.8}{\ignorespaces Rendering of a ketchup dragon using the directional dipole, with varying radiance map size $W_s$.\relax }}{105}{figure.caption.65}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {$W_s = 128$}}}{105}{subfigure.8.1}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {$W_s = 256$}}}{105}{subfigure.8.2}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {$W_s = 512$}}}{105}{subfigure.8.3}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {$W_s = 1024$}}}{105}{subfigure.8.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.3}Tests of mipmap blurring quality}{106}{subsection.6.2.3}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.9}{\ignorespaces Detail of rendering of a potato dragon in the first frame of the computation for different mipmap levels. We can see that the second mipmap level is very close to the final result. However, some artifacts due to the stretching of the mipmap appear, such as black spots and bright seams. All the figures use $N = 32$ and $M = 300$.\relax }}{106}{figure.caption.66}}
-\newlabel{fig:mipblurring}{{6.9}{106}{Detail of rendering of a potato dragon in the first frame of the computation for different mipmap levels. We can see that the second mipmap level is very close to the final result. However, some artifacts due to the stretching of the mipmap appear, such as black spots and bright seams. All the figures use $N = 32$ and $M = 300$.\relax }{figure.caption.66}{}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Mipmap level 0 (no blur)}}}{106}{subfigure.9.1}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Mipmap level 1}}}{106}{subfigure.9.2}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {Mipmap level 2}}}{106}{subfigure.9.3}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {Convergence}}}{106}{subfigure.9.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.1}Optimal radius}{96}{subsection.6.2.1}}
+\newlabel{sec:radius}{{6.2.1}{96}{Optimal radius}{subsection.6.2.1}{}}
+\newlabel{eq:moo}{{6.2.1}{96}{Optimal radius}{subsection.6.2.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.1}{\ignorespaces Average radius of which the scattering effects are important for ketchup and potato materials.\relax }}{97}{figure.caption.58}}
+\newlabel{fig:radiuscolor}{{6.1}{97}{Average radius of which the scattering effects are important for ketchup and potato materials.\relax }{figure.caption.58}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Potato}}}{97}{subfigure.1.1}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Ketchup}}}{97}{subfigure.1.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.2}{\ignorespaces Bunny rendered with different radiuses. We can appreciate the different absorptions according to the distribution radius. $N = 20$, $M = 160$, $q = 1$ in all images.\relax }}{98}{figure.caption.59}}
+\newlabel{fig:bunnytr}{{6.2}{98}{Bunny rendered with different radiuses. We can appreciate the different absorptions according to the distribution radius. $N = 20$, $M = 160$, $q = 1$ in all images.\relax }{figure.caption.59}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {$\sigma ^* = \sigma _{tr,x}$}}}{98}{subfigure.2.1}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {$\sigma ^* = \sigma _{tr,y}$}}}{98}{subfigure.2.2}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {$\sigma ^* = \sigma _{tr,z}$}}}{98}{subfigure.2.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.2}Tests with different number of samples}{98}{subsection.6.2.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.3}{\ignorespaces Path traced rendering on a sphere of potato material compared with the results of our method. The parameters are from table \ref  {table:scatteringcoefficients}.\relax }}{100}{figure.caption.60}}
+\newlabel{fig:pathpotato}{{6.3}{100}{Path traced rendering on a sphere of potato material compared with the results of our method. The parameters are from table \ref {table:scatteringcoefficients}.\relax }{figure.caption.60}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {$N = 120$, $M = 120$}}}{100}{subfigure.3.1}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {$N = 120$, $M = 300$}}}{100}{subfigure.3.2}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {$N = 300$, $M = 300$}}}{100}{subfigure.3.3}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {$N = 120$, $M = 1000$}}}{100}{subfigure.3.4}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(e)}{\ignorespaces {$N = 300$, $M = 1000$}}}{100}{subfigure.3.5}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(f)}{\ignorespaces {$N = 1000$, $M = 1000$}}}{100}{subfigure.3.6}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(g)}{\ignorespaces {Path traced solution}}}{100}{subfigure.3.7}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.4}{\ignorespaces Path traced rendering on a sphere of white grapefruit material compared with the results of our method. The parameters are from table \ref  {table:scatteringcoefficients}. We can see that a higher $q$ helps us in approximating the path traced solution with fewer samples.\relax }}{101}{figure.caption.61}}
+\newlabel{fig:pathgrapefruit}{{6.4}{101}{Path traced rendering on a sphere of white grapefruit material compared with the results of our method. The parameters are from table \ref {table:scatteringcoefficients}. We can see that a higher $q$ helps us in approximating the path traced solution with fewer samples.\relax }{figure.caption.61}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {$N = 100$, $M = 1000$, $q = 1$}}}{101}{subfigure.4.1}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {$N = 100$, $M = 1000$, $q = 3$}}}{101}{subfigure.4.2}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {$N = 1000$, $M = 1000$, $q = 1$}}}{101}{subfigure.4.3}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {Path traced result}}}{101}{subfigure.4.4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.5}{\ignorespaces Path traced rendering on a sphere of marble material compared with the results of our method. The parameters are from table \ref  {table:scatteringcoefficients}.\relax }}{102}{figure.caption.62}}
+\newlabel{fig:pathmarble}{{6.5}{102}{Path traced rendering on a sphere of marble material compared with the results of our method. The parameters are from table \ref {table:scatteringcoefficients}.\relax }{figure.caption.62}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {$N = 120$, $M = 1000$, $q = 1.5$}}}{102}{subfigure.5.1}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {$N = 120$, $M = 1000$, $q = 1$}}}{102}{subfigure.5.2}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {$N = 1000$, $M = 1000$, $q = 1.5$}}}{102}{subfigure.5.3}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {$N = 1000$, $M = 1000$, $q = 1$}}}{102}{subfigure.5.4}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(e)}{\ignorespaces {Path traced result}}}{102}{subfigure.5.5}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.6}{\ignorespaces Path traced rendering on a sphere of beer material compared with the results of our method. The parameters are from table \ref  {table:scatteringcoefficients}.\relax }}{103}{figure.caption.63}}
+\newlabel{fig:pathbeer}{{6.6}{103}{Path traced rendering on a sphere of beer material compared with the results of our method. The parameters are from table \ref {table:scatteringcoefficients}.\relax }{figure.caption.63}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {$N = 100$, $M = 100$, $q = 1$}}}{103}{subfigure.6.1}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Path traced result}}}{103}{subfigure.6.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.7}{\ignorespaces Rendering of a potato buddha using the directional dipole, with increasing number of samples.\relax }}{104}{figure.caption.64}}
+\newlabel{fig:pathbuddha}{{6.7}{104}{Rendering of a potato buddha using the directional dipole, with increasing number of samples.\relax }{figure.caption.64}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {$N = 100$, $M = 1000$, $q = 1$}}}{104}{subfigure.7.1}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {$N = 200$, $M = 1000$, $q = 1$}}}{104}{subfigure.7.2}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {$N = 100$, $M = 300$, $q = 1$}}}{104}{subfigure.7.3}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {Path traced result}}}{104}{subfigure.7.4}}
+\newlabel{fig:pathdragon}{{\caption@xref {fig:pathdragon}{ on input line 203}}{105}{Tests with different number of samples}{subfigure.6.8.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.8}{\ignorespaces Rendering of a ketchup dragon using the directional dipole, with changing values of $M$ and $N$. \relax }}{105}{figure.caption.65}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {$N = 10$, $M = 100$, $q = 1.5$}}}{105}{subfigure.8.1}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {$N = 50$, $M = 120$, $q = 1$}}}{105}{subfigure.8.2}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {$N = 50$, $M = 1000$, $q = 1.5$}}}{105}{subfigure.8.3}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {Path traced result}}}{105}{subfigure.8.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.3}Radiance map sizes tests}{106}{subsection.6.2.3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.9}{\ignorespaces Difference multiplied by 10 times between \ref  {fig:pathdragonsize1024} and \ref  {fig:pathdragonsize256}.\relax }}{106}{figure.caption.66}}
+\newlabel{fig:pathdragonsizett}{{6.9}{106}{Difference multiplied by 10 times between \ref {fig:pathdragonsize1024} and \ref {fig:pathdragonsize256}.\relax }{figure.caption.66}{}}
+\newlabel{fig:pathdragonsize256}{{6.10b}{107}{Subfigure 6 6.10b}{subfigure.6.10.2}{}}
+\newlabel{sub@fig:pathdragonsize256}{{(b)}{b}{Subfigure 6 6.10b\relax }{subfigure.6.10.2}{}}
+\newlabel{fig:pathdragonsize512}{{6.10c}{107}{Subfigure 6 6.10c}{subfigure.6.10.3}{}}
+\newlabel{sub@fig:pathdragonsize512}{{(c)}{c}{Subfigure 6 6.10c\relax }{subfigure.6.10.3}{}}
+\newlabel{fig:pathdragonsize1024}{{6.10d}{107}{Subfigure 6 6.10d}{subfigure.6.10.4}{}}
+\newlabel{sub@fig:pathdragonsize1024}{{(d)}{d}{Subfigure 6 6.10d\relax }{subfigure.6.10.4}{}}
+\newlabel{fig:pathdragonsize}{{\caption@xref {fig:pathdragonsize}{ on input line 236}}{107}{Radiance map sizes tests}{subfigure.6.10.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.10}{\ignorespaces Rendering of a ketchup dragon using the directional dipole, with varying radiance map size $W_s$.\relax }}{107}{figure.caption.67}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {$W_s = 128$}}}{107}{subfigure.10.1}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {$W_s = 256$}}}{107}{subfigure.10.2}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {$W_s = 512$}}}{107}{subfigure.10.3}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {$W_s = 1024$}}}{107}{subfigure.10.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.4}Tests of mipmap blurring quality}{108}{subsection.6.2.4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.11}{\ignorespaces Detail of rendering of a potato dragon in the first frame of the computation for different mipmap levels. We can see that the second mipmap level is very close to the final result. However, some artifacts due to the stretching of the mipmap appear, such as black spots and bright seams. All the figures use $N = 32$ and $M = 300$.\relax }}{108}{figure.caption.68}}
+\newlabel{fig:mipblurring}{{6.11}{108}{Detail of rendering of a potato dragon in the first frame of the computation for different mipmap levels. We can see that the second mipmap level is very close to the final result. However, some artifacts due to the stretching of the mipmap appear, such as black spots and bright seams. All the figures use $N = 32$ and $M = 300$.\relax }{figure.caption.68}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Mipmap level 0 (no blur)}}}{108}{subfigure.11.1}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Mipmap level 1}}}{108}{subfigure.11.2}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {Mipmap level 2}}}{108}{subfigure.11.3}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {Convergence}}}{108}{subfigure.11.4}}
 \citation{IMM2013-06646}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.4}Environment map illumination}{107}{subsection.6.2.4}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.10}{\ignorespaces Marble Bunny rendered in the Doge environment map. Note that the light is predominantly from the up direction.\relax }}{107}{figure.caption.67}}
-\newlabel{fig:bunnyenv1}{{6.10}{107}{Marble Bunny rendered in the Doge environment map. Note that the light is predominantly from the up direction.\relax }{figure.caption.67}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.11}{\ignorespaces Rendering of a potato buddha using our environment lighting and the Uffizi map.\relax }}{108}{figure.caption.68}}
-\newlabel{fig:pathbuddhaenv}{{6.11}{108}{Rendering of a potato buddha using our environment lighting and the Uffizi map.\relax }{figure.caption.68}{}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {$L = 16$, $N = 90$, $M = 1000$}}}{108}{subfigure.11.1}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {$L = 16$, $N = 90$, $M = 320$}}}{108}{subfigure.11.2}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {$L = 16$, $N = 90$, $M = 160$}}}{108}{subfigure.11.3}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {Path traced result}}}{108}{subfigure.11.4}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.12}{\ignorespaces Rendering of a potato dragon ($N = 32$, $M = 170$) using a different number of directional light to represent the environment map.\relax }}{109}{figure.caption.69}}
-\newlabel{fig:dragonenv}{{6.12}{109}{Rendering of a potato dragon ($N = 32$, $M = 170$) using a different number of directional light to represent the environment map.\relax }{figure.caption.69}{}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {2 lights}}}{109}{subfigure.12.1}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {4 lights}}}{109}{subfigure.12.2}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {8 lights}}}{109}{subfigure.12.3}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {16 lights}}}{109}{subfigure.12.4}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.3}Performance tests}{110}{section.6.3}}
-\newlabel{sec:perf}{{6.3}{110}{Performance tests}{section.6.3}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {6.1}{\ignorespaces The three models used for our tests, with number of vertices and triangles.\relax }}{110}{table.caption.70}}
-\newlabel{table:models}{{6.1}{110}{The three models used for our tests, with number of vertices and triangles.\relax }{table.caption.70}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.1}Time algorithm breakdown}{110}{subsection.6.3.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.13}{\ignorespaces Rendering of different models, and graphs that illustrate how the timings are split into the different phases of the algorithm. All tests use $W_l = W_s = 512$. The acronyms represent RL = Render to lightmap, RR = Render to radiance map, MG = Mipmap Generation and FR = Final Rendering.\relax }}{112}{figure.caption.71}}
-\newlabel{fig:timingssplit}{{6.13}{112}{Rendering of different models, and graphs that illustrate how the timings are split into the different phases of the algorithm. All tests use $W_l = W_s = 512$. The acronyms represent RL = Render to lightmap, RR = Render to radiance map, MG = Mipmap Generation and FR = Final Rendering.\relax }{figure.caption.71}{}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Beer Bunny, $67.6 ms$. Point light. $N = 180$, $M = 210$, $q = 2$}}}{112}{subfigure.13.1}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Detailed timings.}}}{112}{subfigure.13.2}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {Ketchup Dragon, $60.3 ms$. Directional light. $N = 20$, $M = 180$.}}}{112}{subfigure.13.3}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {Detailed timings.}}}{112}{subfigure.13.4}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(e)}{\ignorespaces {Potato Buddha, $92.9 ms$. Point light. $N = 10$, $M = 300$, $q = 1$}}}{112}{subfigure.13.5}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(f)}{\ignorespaces {Detailed timings.}}}{112}{subfigure.13.6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.2}Tests for varying parameters}{113}{subsection.6.3.2}}
-\@writefile{lot}{\contentsline {table}{\numberline {6.2}{\ignorespaces Timings in milliseconds of our method for different models and number of samples $N$ (potato material properties). The other parameters were $L = 1$, $W_s = W_l = 512$, $M = 1000$, $K = 16$.\relax }}{113}{table.caption.72}}
-\@writefile{lot}{\contentsline {table}{\numberline {6.3}{\ignorespaces Timings in milliseconds of our method for different model size (potato material properties). The size of the camera is 2 units, and the model is 2 units wide. The camera does not scale with the model. The other parameters were $N = 50$, $L = 1$, $W_s = W_l = 512$, $M = 1000$, $K = 16$.\relax }}{114}{table.caption.73}}
-\@writefile{lot}{\contentsline {table}{\numberline {6.4}{\ignorespaces Timings in milliseconds of our method for different models and size of the radiance map $W_s$ (ketchup material properties). The other parameters were $N = 50$, $L = 1$, $W_l = 512$, $M = 1000$, $K = 16$.\relax }}{114}{table.caption.74}}
-\newlabel{table:sizews}{{6.4}{114}{Timings in milliseconds of our method for different models and size of the radiance map $W_s$ (ketchup material properties). The other parameters were $N = 50$, $L = 1$, $W_l = 512$, $M = 1000$, $K = 16$.\relax }{table.caption.74}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {6.5}{\ignorespaces Timings in milliseconds of our method for different models and different number of directions $K$ (ketchup material properties). The other parameters were $N = 50$, $L = 1$, $W_s = W_l = 512$, $M = 1000$, $q = 1$.\relax }}{115}{table.caption.75}}
-\@writefile{lot}{\contentsline {table}{\numberline {6.6}{\ignorespaces Timings in milliseconds of our method for different types of light (potato material properties), one light. The other parameters were $N = 20$, $W_s = W_l = 512$, $M = 1000$, $K = 16$.\relax }}{116}{table.caption.76}}
-\@writefile{lot}{\contentsline {table}{\numberline {6.7}{\ignorespaces Timings in milliseconds of our method for different materials. The other parameters were $N = 30$, $L = 1$, $W_s = W_l = 512$, $M = 300$, $K = 16$.\relax }}{116}{table.caption.77}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.3}Tests on environment lighting}{117}{subsection.6.3.3}}
-\@writefile{lot}{\contentsline {table}{\numberline {6.8}{\ignorespaces Timings in milliseconds of our method for different number of lights (environment map approximation, material properties for potato). The other parameters were $N = 32$, $W_s = W_l = 512$, $M = 300$, $K = 16$.\relax }}{117}{table.caption.78}}
-\newlabel{table:multilightenvdragon}{{6.8}{117}{Timings in milliseconds of our method for different number of lights (environment map approximation, material properties for potato). The other parameters were $N = 32$, $W_s = W_l = 512$, $M = 300$, $K = 16$.\relax }{table.caption.78}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.14}{\ignorespaces Rendering times for the environment lighting of Figure \ref  {table:multilightenvdragon}, split into the various components. The rendering times of step 2 are not shown, but they are $[87.2\ 90.2\ 89.4\ 91.6\ 95.2]$.\relax }}{117}{figure.caption.79}}
-\newlabel{fig:numblights}{{6.14}{117}{Rendering times for the environment lighting of Figure \ref {table:multilightenvdragon}, split into the various components. The rendering times of step 2 are not shown, but they are $[87.2\ 90.2\ 89.4\ 91.6\ 95.2]$.\relax }{figure.caption.79}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {7}Future work}{119}{chapter.7}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.5}Environment map illumination}{109}{subsection.6.2.5}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.12}{\ignorespaces Marble Bunny rendered in the Doge environment map. Note that the light is predominantly from the up direction.\relax }}{109}{figure.caption.69}}
+\newlabel{fig:bunnyenv1}{{6.12}{109}{Marble Bunny rendered in the Doge environment map. Note that the light is predominantly from the up direction.\relax }{figure.caption.69}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.13}{\ignorespaces Rendering of a potato buddha using our environment lighting and the Uffizi map.\relax }}{110}{figure.caption.70}}
+\newlabel{fig:pathbuddhaenv}{{6.13}{110}{Rendering of a potato buddha using our environment lighting and the Uffizi map.\relax }{figure.caption.70}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {$L = 16$, $N = 90$, $M = 1000$}}}{110}{subfigure.13.1}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {$L = 16$, $N = 90$, $M = 320$}}}{110}{subfigure.13.2}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {$L = 16$, $N = 90$, $M = 160$}}}{110}{subfigure.13.3}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {Hierarchical integration}}}{110}{subfigure.13.4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.14}{\ignorespaces Rendering of a potato dragon ($N = 32$, $M = 170$) using a different number of directional light to represent the environment map.\relax }}{111}{figure.caption.71}}
+\newlabel{fig:dragonenv}{{6.14}{111}{Rendering of a potato dragon ($N = 32$, $M = 170$) using a different number of directional light to represent the environment map.\relax }{figure.caption.71}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {2 lights}}}{111}{subfigure.14.1}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {4 lights}}}{111}{subfigure.14.2}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {8 lights}}}{111}{subfigure.14.3}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {16 lights}}}{111}{subfigure.14.4}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.3}Performance tests}{112}{section.6.3}}
+\newlabel{sec:perf}{{6.3}{112}{Performance tests}{section.6.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.1}{\ignorespaces The three models used for our tests, with number of vertices and triangles.\relax }}{112}{table.caption.72}}
+\newlabel{table:models}{{6.1}{112}{The three models used for our tests, with number of vertices and triangles.\relax }{table.caption.72}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.1}Time algorithm breakdown}{112}{subsection.6.3.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.15}{\ignorespaces Rendering of different models, and graphs that illustrate how the timings are split into the different phases of the algorithm. All tests use $W_l = W_s = 512$. The acronyms represent RL = Render to lightmap, RR = Render to radiance map, MG = Mipmap Generation and FR = Final Rendering.\relax }}{114}{figure.caption.73}}
+\newlabel{fig:timingssplit}{{6.15}{114}{Rendering of different models, and graphs that illustrate how the timings are split into the different phases of the algorithm. All tests use $W_l = W_s = 512$. The acronyms represent RL = Render to lightmap, RR = Render to radiance map, MG = Mipmap Generation and FR = Final Rendering.\relax }{figure.caption.73}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Beer Bunny, $67.6 ms$. Point light. $N = 180$, $M = 210$, $q = 2$}}}{114}{subfigure.15.1}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Detailed timings.}}}{114}{subfigure.15.2}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {Ketchup Dragon, $60.3 ms$. Directional light. $N = 20$, $M = 180$.}}}{114}{subfigure.15.3}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {Detailed timings.}}}{114}{subfigure.15.4}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(e)}{\ignorespaces {Potato Buddha, $92.9 ms$. Point light. $N = 10$, $M = 300$, $q = 1$}}}{114}{subfigure.15.5}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(f)}{\ignorespaces {Detailed timings.}}}{114}{subfigure.15.6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.2}Tests for varying parameters}{115}{subsection.6.3.2}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.2}{\ignorespaces Timings in milliseconds of our method for different models and number of samples $N$ (potato material properties). The other parameters were $L = 1$, $W_s = W_l = 512$, $M = 1000$, $K = 16$.\relax }}{115}{table.caption.74}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.3}{\ignorespaces Timings in milliseconds of our method for different model size (potato material properties). The size of the camera is 2 units, and the model is 2 units wide. The camera does not scale with the model. The other parameters were $N = 50$, $L = 1$, $W_s = W_l = 512$, $M = 1000$, $K = 16$.\relax }}{116}{table.caption.75}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.4}{\ignorespaces Timings in milliseconds of our method for different models and size of the radiance map $W_s$ (ketchup material properties). The other parameters were $N = 50$, $L = 1$, $W_l = 512$, $M = 1000$, $K = 16$.\relax }}{116}{table.caption.76}}
+\newlabel{table:sizews}{{6.4}{116}{Timings in milliseconds of our method for different models and size of the radiance map $W_s$ (ketchup material properties). The other parameters were $N = 50$, $L = 1$, $W_l = 512$, $M = 1000$, $K = 16$.\relax }{table.caption.76}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.5}{\ignorespaces Timings in milliseconds of our method for different models and different number of directions $K$ (ketchup material properties). The other parameters were $N = 50$, $L = 1$, $W_s = W_l = 512$, $M = 1000$, $q = 1$.\relax }}{117}{table.caption.77}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.6}{\ignorespaces Timings in milliseconds of our method for different types of light (potato material properties), one light. The other parameters were $N = 20$, $W_s = W_l = 512$, $M = 1000$, $K = 16$.\relax }}{118}{table.caption.78}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.7}{\ignorespaces Timings in milliseconds of our method for different materials. The other parameters were $N = 30$, $L = 1$, $W_s = W_l = 512$, $M = 300$, $K = 16$.\relax }}{118}{table.caption.79}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.3}Tests on environment lighting}{119}{subsection.6.3.3}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.8}{\ignorespaces Timings in milliseconds of our method for different number of lights (environment map approximation, material properties for potato). The other parameters were $N = 32$, $W_s = W_l = 512$, $M = 300$, $K = 16$.\relax }}{119}{table.caption.80}}
+\newlabel{table:multilightenvdragon}{{6.8}{119}{Timings in milliseconds of our method for different number of lights (environment map approximation, material properties for potato). The other parameters were $N = 32$, $W_s = W_l = 512$, $M = 300$, $K = 16$.\relax }{table.caption.80}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.16}{\ignorespaces Rendering times for the environment lighting of Figure \ref  {table:multilightenvdragon}, split into the various components. The rendering times of step 2 are not shown, but they are $[87.2\ 90.2\ 89.4\ 91.6\ 95.2]$.\relax }}{119}{figure.caption.81}}
+\newlabel{fig:numblights}{{6.16}{119}{Rendering times for the environment lighting of Figure \ref {table:multilightenvdragon}, split into the various components. The rendering times of step 2 are not shown, but they are $[87.2\ 90.2\ 89.4\ 91.6\ 95.2]$.\relax }{figure.caption.81}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {7}Future work}{121}{chapter.7}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{chap:futurework}{{7}{119}{Future work}{chapter.7}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {7.1}Improving the quality}{119}{section.7.1}}
-\@writefile{toc}{\contentsline {section}{\numberline {7.2}Improving the performance}{120}{section.7.2}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7.1}{\ignorespaces Different approaches to rendering to the radiance map: on the left, our approach (one random number generation, multiple samples in the same shader invocation). On the right, the proposed approach: smaller shader invocations, that can be distributed on the GPU.\relax }}{120}{figure.caption.80}}
-\newlabel{fig:shaderimprov}{{7.1}{120}{Different approaches to rendering to the radiance map: on the left, our approach (one random number generation, multiple samples in the same shader invocation). On the right, the proposed approach: smaller shader invocations, that can be distributed on the GPU.\relax }{figure.caption.80}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {8}Conclusions}{123}{chapter.8}}
+\newlabel{chap:futurework}{{7}{121}{Future work}{chapter.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7.1}Improving the quality}{121}{section.7.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {7.2}Improving the performance}{122}{section.7.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7.1}{\ignorespaces Different approaches to rendering to the radiance map: on the left, our approach (one random number generation, multiple samples in the same shader invocation). On the right, the proposed approach: smaller shader invocations, that can be distributed on the GPU.\relax }}{122}{figure.caption.82}}
+\newlabel{fig:shaderimprov}{{7.1}{122}{Different approaches to rendering to the radiance map: on the left, our approach (one random number generation, multiple samples in the same shader invocation). On the right, the proposed approach: smaller shader invocations, that can be distributed on the GPU.\relax }{figure.caption.82}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {8}Conclusions}{125}{chapter.8}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{chap:conclusions}{{8}{123}{Conclusions}{chapter.8}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {A}Model matrices}{125}{appendix.A}}
+\newlabel{chap:conclusions}{{8}{125}{Conclusions}{chapter.8}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {A}Model matrices}{127}{appendix.A}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{sec:matrices}{{A}{125}{Model matrices}{appendix.A}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {A.1}Model matrices}{125}{section.A.1}}
-\@writefile{toc}{\contentsline {section}{\numberline {A.2}View Matrix}{126}{section.A.2}}
-\@writefile{toc}{\contentsline {section}{\numberline {A.3}Projection Matrix}{127}{section.A.3}}
+\newlabel{sec:matrices}{{A}{127}{Model matrices}{appendix.A}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.1}Model matrices}{127}{section.A.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.2}View Matrix}{128}{section.A.2}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.3}Projection Matrix}{129}{section.A.3}}
 \bibstyle{alexnat}
 \bibdata{thesis}
 \bibcite{RTR3}{{1}{2008}{{Akenine-M\"{o}ller et~al.}}{{Akenine-M\"{o}ller, Haines, and Hoffman}}}
@@ -635,7 +647,7 @@
 \bibcite{Chandrasekar:1950:RT}{{6}{1950}{{Chandrasekar}}{{}}}
 \bibcite{Cohen:1993:RRI:154731}{{7}{1993}{{Cohen et~al.}}{{Cohen, Wallace, and Hanrahan}}}
 \bibcite{Dachsbacher:2003:TSM:882404.882433}{{8}{2003}{{Dachsbacher and Stamminger}}{{}}}
-\@writefile{toc}{\contentsline {chapter}{Bibliography}{129}{section.A.3}}
+\@writefile{toc}{\contentsline {chapter}{Bibliography}{131}{section.A.3}}
 \bibcite{ntt}{{9}{1958}{{Davison and Sykes}}{{}}}
 \bibcite{deondeon}{{10}{2012}{{D'Eon}}{{}}}
 \bibcite{D'Eon:2011:QMR:1964921.1964951}{{11}{2011}{{D'Eon and Irving}}{{}}}

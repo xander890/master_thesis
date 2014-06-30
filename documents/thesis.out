@@ -70,20 +70,21 @@
 \BOOKMARK [0][]{chapter.6}{6 Results}{}% 70
 \BOOKMARK [1][]{section.6.1}{6.1 Parameters}{chapter.6}% 71
 \BOOKMARK [1][]{section.6.2}{6.2 Quality comparison}{chapter.6}% 72
-\BOOKMARK [2][]{subsection.6.2.1}{6.2.1 Tests with different number of samples}{section.6.2}% 73
-\BOOKMARK [2][]{subsection.6.2.2}{6.2.2 Radiance map sizes tests}{section.6.2}% 74
-\BOOKMARK [2][]{subsection.6.2.3}{6.2.3 Tests of mipmap blurring quality}{section.6.2}% 75
-\BOOKMARK [2][]{subsection.6.2.4}{6.2.4 Environment map illumination}{section.6.2}% 76
-\BOOKMARK [1][]{section.6.3}{6.3 Performance tests}{chapter.6}% 77
-\BOOKMARK [2][]{subsection.6.3.1}{6.3.1 Time algorithm breakdown}{section.6.3}% 78
-\BOOKMARK [2][]{subsection.6.3.2}{6.3.2 Tests for varying parameters}{section.6.3}% 79
-\BOOKMARK [2][]{subsection.6.3.3}{6.3.3 Tests on environment lighting}{section.6.3}% 80
-\BOOKMARK [0][]{chapter.7}{7 Future work}{}% 81
-\BOOKMARK [1][]{section.7.1}{7.1 Improving the quality}{chapter.7}% 82
-\BOOKMARK [1][]{section.7.2}{7.2 Improving the performance}{chapter.7}% 83
-\BOOKMARK [0][]{chapter.8}{8 Conclusions}{}% 84
-\BOOKMARK [0][]{appendix.A}{A Model matrices}{}% 85
-\BOOKMARK [1][]{section.A.1}{A.1 Model matrices}{appendix.A}% 86
-\BOOKMARK [1][]{section.A.2}{A.2 View Matrix}{appendix.A}% 87
-\BOOKMARK [1][]{section.A.3}{A.3 Projection Matrix}{appendix.A}% 88
-\BOOKMARK [0][]{section.A.3}{Bibliography}{}% 89
+\BOOKMARK [2][]{subsection.6.2.1}{6.2.1 Optimal radius}{section.6.2}% 73
+\BOOKMARK [2][]{subsection.6.2.2}{6.2.2 Tests with different number of samples}{section.6.2}% 74
+\BOOKMARK [2][]{subsection.6.2.3}{6.2.3 Radiance map sizes tests}{section.6.2}% 75
+\BOOKMARK [2][]{subsection.6.2.4}{6.2.4 Tests of mipmap blurring quality}{section.6.2}% 76
+\BOOKMARK [2][]{subsection.6.2.5}{6.2.5 Environment map illumination}{section.6.2}% 77
+\BOOKMARK [1][]{section.6.3}{6.3 Performance tests}{chapter.6}% 78
+\BOOKMARK [2][]{subsection.6.3.1}{6.3.1 Time algorithm breakdown}{section.6.3}% 79
+\BOOKMARK [2][]{subsection.6.3.2}{6.3.2 Tests for varying parameters}{section.6.3}% 80
+\BOOKMARK [2][]{subsection.6.3.3}{6.3.3 Tests on environment lighting}{section.6.3}% 81
+\BOOKMARK [0][]{chapter.7}{7 Future work}{}% 82
+\BOOKMARK [1][]{section.7.1}{7.1 Improving the quality}{chapter.7}% 83
+\BOOKMARK [1][]{section.7.2}{7.2 Improving the performance}{chapter.7}% 84
+\BOOKMARK [0][]{chapter.8}{8 Conclusions}{}% 85
+\BOOKMARK [0][]{appendix.A}{A Model matrices}{}% 86
+\BOOKMARK [1][]{section.A.1}{A.1 Model matrices}{appendix.A}% 87
+\BOOKMARK [1][]{section.A.2}{A.2 View Matrix}{appendix.A}% 88
+\BOOKMARK [1][]{section.A.3}{A.3 Projection Matrix}{appendix.A}% 89
+\BOOKMARK [0][]{section.A.3}{Bibliography}{}% 90

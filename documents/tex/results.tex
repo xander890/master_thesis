@@ -23,6 +23,46 @@ Other parameters are available in the method, such as all the parameters of the 
 
 In the domain of quality, we compared our method to a solution obtain with a Monte Carlo path tracer that uses the directional dipole. The solutions are compared only visually, since if was not possible to perfectly match the perspective and view cameras of the original pictures. Thus, a RMSE comparison would not make sense.  We will see that the visual results of our method, given enough samples, can produce a result ofter comparable to the one of a path traced solution. We will compare our results at convergence (after 100 frames of evolution), to then also compare some of the results obtained during the evolution of the method. 
 
+\subsection{Optimal radius}
+\label{sec:radius}
+In section \ref{sec:exponentiallybiased}, we discussed how to generate exponentially biased points in our implementation. In our algorithm, to choose how to distribute the sampling points, we adopt the strategy of choosing a distribution biased toard the following exponent:
+$$
+\sigma^* = \frac{\min(\sigma_{tr,x},\sigma_{tr,y},\sigma_{tr,z})}{q}
+\label{eq:moo}
+$$
+We can see why we use the minimum coefficient in figures \ref{fig:radiuscolor} and \ref{fig:bunnytr}. $\sigma_{tr}$ as a coefficient, is related to how much the scattering effects propagate. If we look at the directional dipole formula REF, we can see that the dipole has a leading term depending on $e^{-\sigma_{tr} t}$. If we consider only this value, we can see that the average distance the light travels in the medium is $1/\sigma_{tr}$. Figure \ref{fig:radiuscolor} shows these radiuses for the potato and the ketchup material. So, in order to account for all channels in our sampling, we need choose as a exponent for our sampling pdf the maximum radius:
+$$
+\max\left(\frac{1}{\sigma_{tr,x}},\frac{1}{\sigma_{tr,y}},\frac{1}{\sigma_{tr,z}}\right) = \min(\sigma_{tr,x},\sigma_{tr,y},\sigma_{tr,z})
+$$
+And this is how we obtain Equation \ref{eq:moo}. We will see in the next section that the $q$ parameter in the Equation is necessary in order to allow better performance with a fewer number of samples. In figure \ref{fig:bunnytr} we can see the effects of choosing different radiuses according to the three coefficients in ketchup. When we use the red radius, all the effects are accounted for. When we use the green radius, we lose all the red absorption part. If we use the blue channel, the green and the red part of the absorption spectrum disappear, resulting in a gray/blue appearance.
+
+\begin{figure}[h]
+\centering
+\subfloat[Potato]{
+  \includegraphics[width=0.5\linewidth]{images/radius_potato}
+}
+\subfloat[Ketchup]{
+  \includegraphics[width=0.5 \linewidth]{images/radius_ketchup}
+}
+\caption{Average radius of which the scattering effects are important for ketchup and potato materials.}
+\label{fig:radiuscolor}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\subfloat[{$\sigma^* = \sigma_{tr,x}$}]{
+  \includegraphics[width=0.33 \linewidth]{images/results/bunny_tr0.png}
+}
+\subfloat[{$\sigma^* = \sigma_{tr,y}$}]{
+  \includegraphics[width=0.33 \linewidth]{images/results/bunny_tr1.png}
+}
+\subfloat[{$\sigma^* = \sigma_{tr,z}$}]{
+  \includegraphics[width=0.33 \linewidth]{images/results/bunny_tr2.png}
+}
+\caption{Bunny rendered with different radiuses. We can appreciate the different absorptions according to the distribution radius. $N = 20$, $M = 160$, $q = 1$ in all images.}
+\label{fig:bunnytr}
+\end{figure}
+
 \subsection{Tests with different number of samples}
 
 The material tested where potato, a highly scattering isotropic material ($\alpha = \sigma_s / \sigma_a \approx 10^2$), a even higher high scattering material, marble ($\alpha \approx 10^4$), a material with a big forward scattering component, white grapefruit juice ($\alpha \approx 10^2$, $g \approx 0.5$), ketchup a material that has a strong absorption component in the red channel ($\alpha_{red} \approx 10^{-2}$, $\alpha_{green} \approx \alpha_{blue} \approx 10^2$), and beer, a high absorption, forward scattering material with nearly no scattering. We are biased against highly scattering material because those are the material where our BSSRDF model gives our best results. However, we included materials as beer and ketchup to provide a comparison of our method even where the orgiginal BSSRDF model should fail.
@@ -261,7 +301,7 @@ As for reference, we compared our results to the reference image of the potato b
 \subfloat[{$L = 16$, $N = 90$, $M = 160$}]{
   \includegraphics[width=0.333 \linewidth]{images/results/happy_buddha_environment_90over16_160_nobias.png}
 }
-\subfloat[{Path traced result}]{
+\subfloat[{Hierarchical integration}]{
   \includegraphics[width=0.333 \linewidth]{images/results/reference_env.png}
 }
 \caption{Rendering of a potato buddha using our environment lighting and the Uffizi map.}

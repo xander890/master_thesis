@@ -16,16 +16,18 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->clearColor->init("Clear color: ", ui->translucentMaterials->getClearColor());
     connect(ui->clearColor,SIGNAL(vectorChanged(CGLA::Vec4f&)),ui->translucentMaterials,SLOT(setClearColor(CGLA::Vec4f&)));
-    Vec3f userpos = Vec3f(0.016, 1.03, 0.054);
-    //Vec3f userpos = Vec3f(-1.08199,-0.701759,0.8);
-    //Vec3f userpos = Vec3f(0,-2.2,0);
+    //Vec3f userpos = Vec3f(0.016, 1.03, 0.054);// buddha
+    Vec3f userpos = Vec3f(-0.1,-1.2,0.8); //bunny
+    //Vec3f userpos = Vec3f(-1.08199,-0.701759,0.8); //dragon cloaseup
+    //Vec3f userpos = Vec3f(0,-2.2,0); //dragon
     ui->userPosition->init("User position: ", userpos);
     ui->translucentMaterials->setUserPosition(userpos);
     connect(ui->userPosition,SIGNAL(vectorChanged(CGLA::Vec3f&)),ui->translucentMaterials,SLOT(setUserPosition(CGLA::Vec3f&)));
     connect(ui->translucentMaterials,SIGNAL(userPositionChanged(CGLA::Vec3f&)),ui->userPosition,SLOT(setValue(CGLA::Vec3f&)));
 
-    Vec3f userdir = Vec3f(0,-1,0);
-    //Vec3f userdir = Vec3f(0.51831,0.69886,-0.492898);
+    Vec3f userdir = Vec3f(0,0.918,-0.397);
+    //Vec3f userdir = Vec3f(0,-1,0);
+    //Vec3f userdir = Vec3f(0.51831,0.69886,-0.492898); //dragon closeup
 
     ui->userDirection->init("User direction: ", userdir);
     ui->translucentMaterials->setUserDirection(userdir);

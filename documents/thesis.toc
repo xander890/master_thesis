@@ -57,7 +57,7 @@
 \contentsline {subsection}{\numberline {5.3.3}Accumulation buffers}{69}{subsection.5.3.3}
 \contentsline {subsection}{\numberline {5.3.4}Generation of uniformly distributed points}{70}{subsection.5.3.4}
 \contentsline {subsubsection}{\numberline {5.3.4.1}Exponentially biased points}{71}{subsubsection.5.3.4.1}
-\contentsline {subsection}{\numberline {5.3.5}Shadow mapping}{73}{subsection.5.3.5}
+\contentsline {subsection}{\numberline {5.3.5}Shadow mapping}{74}{subsection.5.3.5}
 \contentsline {subsection}{\numberline {5.3.6}Memory layout}{76}{subsection.5.3.6}
 \contentsline {section}{\numberline {5.4}Caveats}{78}{section.5.4}
 \contentsline {subsection}{\numberline {5.4.1}Random rotation of samples}{78}{subsection.5.4.1}
@@ -74,20 +74,21 @@
 \contentsline {chapter}{\numberline {6}Results}{95}{chapter.6}
 \contentsline {section}{\numberline {6.1}Parameters}{95}{section.6.1}
 \contentsline {section}{\numberline {6.2}Quality comparison}{96}{section.6.2}
-\contentsline {subsection}{\numberline {6.2.1}Tests with different number of samples}{96}{subsection.6.2.1}
-\contentsline {subsection}{\numberline {6.2.2}Radiance map sizes tests}{104}{subsection.6.2.2}
-\contentsline {subsection}{\numberline {6.2.3}Tests of mipmap blurring quality}{106}{subsection.6.2.3}
-\contentsline {subsection}{\numberline {6.2.4}Environment map illumination}{107}{subsection.6.2.4}
-\contentsline {section}{\numberline {6.3}Performance tests}{110}{section.6.3}
-\contentsline {subsection}{\numberline {6.3.1}Time algorithm breakdown}{110}{subsection.6.3.1}
-\contentsline {subsection}{\numberline {6.3.2}Tests for varying parameters}{113}{subsection.6.3.2}
-\contentsline {subsection}{\numberline {6.3.3}Tests on environment lighting}{117}{subsection.6.3.3}
-\contentsline {chapter}{\numberline {7}Future work}{119}{chapter.7}
-\contentsline {section}{\numberline {7.1}Improving the quality}{119}{section.7.1}
-\contentsline {section}{\numberline {7.2}Improving the performance}{120}{section.7.2}
-\contentsline {chapter}{\numberline {8}Conclusions}{123}{chapter.8}
-\contentsline {chapter}{\numberline {A}Model matrices}{125}{appendix.A}
-\contentsline {section}{\numberline {A.1}Model matrices}{125}{section.A.1}
-\contentsline {section}{\numberline {A.2}View Matrix}{126}{section.A.2}
-\contentsline {section}{\numberline {A.3}Projection Matrix}{127}{section.A.3}
-\contentsline {chapter}{Bibliography}{129}{section.A.3}
+\contentsline {subsection}{\numberline {6.2.1}Optimal radius}{96}{subsection.6.2.1}
+\contentsline {subsection}{\numberline {6.2.2}Tests with different number of samples}{98}{subsection.6.2.2}
+\contentsline {subsection}{\numberline {6.2.3}Radiance map sizes tests}{106}{subsection.6.2.3}
+\contentsline {subsection}{\numberline {6.2.4}Tests of mipmap blurring quality}{108}{subsection.6.2.4}
+\contentsline {subsection}{\numberline {6.2.5}Environment map illumination}{109}{subsection.6.2.5}
+\contentsline {section}{\numberline {6.3}Performance tests}{112}{section.6.3}
+\contentsline {subsection}{\numberline {6.3.1}Time algorithm breakdown}{112}{subsection.6.3.1}
+\contentsline {subsection}{\numberline {6.3.2}Tests for varying parameters}{115}{subsection.6.3.2}
+\contentsline {subsection}{\numberline {6.3.3}Tests on environment lighting}{119}{subsection.6.3.3}
+\contentsline {chapter}{\numberline {7}Future work}{121}{chapter.7}
+\contentsline {section}{\numberline {7.1}Improving the quality}{121}{section.7.1}
+\contentsline {section}{\numberline {7.2}Improving the performance}{122}{section.7.2}
+\contentsline {chapter}{\numberline {8}Conclusions}{125}{chapter.8}
+\contentsline {chapter}{\numberline {A}Model matrices}{127}{appendix.A}
+\contentsline {section}{\numberline {A.1}Model matrices}{127}{section.A.1}
+\contentsline {section}{\numberline {A.2}View Matrix}{128}{section.A.2}
+\contentsline {section}{\numberline {A.3}Projection Matrix}{129}{section.A.3}
+\contentsline {chapter}{Bibliography}{131}{section.A.3}

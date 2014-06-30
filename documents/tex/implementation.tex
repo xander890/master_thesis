@@ -308,11 +308,11 @@ float vanDerCorputPoint(int n, int basis)
 \label{fig:hp}
 \end{figure} 
 
-In our algorithm, in order to obtain a better sampling, we need to have an exponentially biased distribution of points, as described in Section \ref{sec:patterns}. To obtain the disc, we employ a technique called rejection sampling. The general idea is to generate a the sequence of Halton points, then calculate their radius $r$ and calculate its probability distribution function using $\sigma_{tr}$. Then, we use the following acceptance criterion:
+In our algorithm, in order to obtain a better sampling, we need to have an exponentially biased distribution of points, as described in Section \ref{sec:patterns}. To obtain the disc, we employ a technique called rejection sampling. The general idea is to generate a the sequence of Halton points, then calculate their radius $r$ and calculate its probability distribution function using a value $\sigma^*$. Then, we use the following acceptance criterion:
 $$
-e^{-\sigma_{tr} r} > \zeta
+e^{-\sigma^* r} > \zeta
 $$
-Where $\zeta \in [0,1)$ is a pseudo-randomly generated number. We can see that if the point is close to the center ($r \rightarrow 0$), $e^{-\sigma_{tr} r} \approx 1$ and so the point is more probable to be accepted. On the other hand, if the point is far from the center of the disc ($r \rightarrow +\infty$), $e^{-\sigma_{tr} r} \approx 0$ and so the point is less probable to be accepted. The code for generating a vector of accepted points is reported in listing \ref{lst:randomexp}.
+Where $\zeta \in [0,1)$ is a pseudo-randomly generated number. We can see that if the point is close to the center ($r \rightarrow 0$), $e^{-\sigma^* r} \approx 1$ and so the point is more probable to be accepted. On the other hand, if the point is far from the center of the disc ($r \rightarrow +\infty$), $e^{-\sigma^* r} \approx 0$ and so the point is less probable to be accepted. The code for generating a vector of accepted points is reported in listing \ref{lst:randomexp}.
 
 \begin{lstlisting}[language=C++,label=lst:randomexp,caption={Generation by rejection of a exponentially distributed disc. The function generates $M$ points with distribution $e^{-\sigma_{tr} r}$, and where \gl{radius} is the maximum final radius of the points.}]
 void planeHaltonCircleRejectionExponential(std::vector<Vec2f> &result, int m, float sigma_tr, float radius)
@@ -337,11 +337,11 @@ void planeHaltonCircleRejectionExponential(std::vector<Vec2f> &result, int m, fl
 }
 \end{lstlisting}
 
-In our algorithm, we generate a number of samples $M$ that is fixed, with a radius equal to the size of the bounding box of the model. Then in the actual calculation only the $N$ points closest to $\x_o$ are actually used, allowing us to tweak the performance and the result. Moreover, the value of the exponent we pass to this method is not the true $\sigma_{tr}$. We pass a modified $\sigma_{tr}^*$ according to the formula:
+In our algorithm, we generate a number of samples $M$ that is fixed, with a radius equal to the size of the bounding box of the model. Then in the actual calculation only the $N$ points closest to $\x_o$ are actually used, allowing us to tweak the performance and the result. Moreover, the value of the exponent $\sigma^*$ we pass to this method is related to $\sigma_{tr}$ (that is a vector, since the transmission rates are spectral), to account for the material scattering properties. We calculate $\sigma^*$ with the formula:
 $$
-\sigma_{tr}^* = \frac{\sigma_{tr}}{q}
+\sigma^* = \frac{\min(\sigma_{tr,x},\sigma_{tr,y},\sigma_{tr,z})}{q}
 $$
-Where $q$ is a parameter tweakable from the user. The idea is that the user can modify the distribution of the points, making them span a wider area (that is for $q > 1$) without increasing the number of samples $N$. In fact, a bigger $N$ implies a worse performance, while a bigger $q$ requires only to recompute the points. We will discuss the results for varying values of $q$ in Chapter \ref{chap:results}. 
+Where $q$ is a parameter tweakable from the user. We will justify why we use the minimum transmission coefficient has to be used in section \ref{sec:radius}. The idea is that the user can modify the distribution of the points, making them span a wider area (that is for $q > 1$) without increasing the number of samples $N$. In fact, a bigger $N$ implies a worse performance, while a bigger $q$ requires only to recompute the points. We will discuss the results for varying values of $q$ in Chapter \ref{chap:results}. 
 
 \subsection{Shadow mapping}
 \label{sec:shadow_map}
