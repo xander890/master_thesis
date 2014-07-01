@@ -125,7 +125,7 @@ void main(void)
         vec3 Li = light_diff[current_light].xyz;
         Li = (light_type > 0)? Li / dot(topoint,topoint) : Li;
 
-        vec4 light_post = lightMatrices[k] * vec4(xo,1.0f);
+        vec4 light_post = lightMatrices[current_light] * vec4(xo,1.0f);
         vec2 circle_center = light_post.xy;
 
         for(int i = 0; i < samples; i++)
@@ -140,7 +140,7 @@ void main(void)
             vec2 discoffset = relative_point;
     #endif
             vec2 uvin = circle_center + discoffset;
-            vec3 sampl = vec3(uvin, k);
+            vec3 sampl = vec3(uvin, current_light);
 
             if(uvin.x >= 0.0f && uvin.x <= 1.0f && uvin.y >= 0.0f && uvin.y <= 1.0f)
             {

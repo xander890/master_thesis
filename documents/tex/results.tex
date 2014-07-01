@@ -377,27 +377,27 @@ Regarding the mipmap generation, as expected its performance is not tied to the 
 \begin{tabular}[b]{lllll}
 \multicolumn{5}{c}{\includegraphics[width=0.3 \linewidth]{images/matlab/bunnychart.pdf}}                                                   \\ \hline
 \multicolumn{1}{|l|}{RL}   & \multicolumn{1}{l|}{RR}    & \multicolumn{1}{l|}{MG}   & \multicolumn{1}{l|}{FR}   & \multicolumn{1}{l|}{Tot}   \\ \hline
-\multicolumn{1}{|l|}{0.36} & \multicolumn{1}{l|}{65.18} & \multicolumn{1}{l|}{1.03} & \multicolumn{1}{l|}{1.00} & \multicolumn{1}{l|}{67.57} \\ \hline
+\multicolumn{1}{|l|}{0.20} & \multicolumn{1}{l|}{66.18} & \multicolumn{1}{l|}{0.8} & \multicolumn{1}{l|}{0.44} & \multicolumn{1}{l|}{67.72} \\ \hline
 \end{tabular}
 }\\
-\subfloat[Ketchup Dragon, $60.3 ms$. Directional light. $N = 20$, $M = 180$.]{
+\subfloat[Ketchup Dragon, $62.0 ms$. Directional light. $N = 20$, $M = 180$.]{
   \includegraphics[width=0.4 \linewidth]{images/results/example1.png}
 }
 \subfloat[Detailed timings.]{
 \begin{tabular}[b]{lllll}
 \multicolumn{5}{c}{\includegraphics[width=0.3 \linewidth]{images/matlab/dragonchart.pdf}}                                                   \\ \hline
 \multicolumn{1}{|l|}{RL}   & \multicolumn{1}{l|}{RR}    & \multicolumn{1}{l|}{MG}   & \multicolumn{1}{l|}{FR}   & \multicolumn{1}{l|}{Tot}   \\ \hline
-\multicolumn{1}{|l|}{1.13} & \multicolumn{1}{l|}{55.93} & \multicolumn{1}{l|}{0.97} & \multicolumn{1}{l|}{2.21} & \multicolumn{1}{l|}{60.25} \\ \hline
+\multicolumn{1}{|l|}{1.07} & \multicolumn{1}{l|}{57.59} & \multicolumn{1}{l|}{0.76} & \multicolumn{1}{l|}{2.56} & \multicolumn{1}{l|}{62.04} \\ \hline
 \end{tabular}
 }\\
-\subfloat[Potato Buddha, $92.9 ms$. Point light. $N = 10$, $M = 300$, $q = 1$]{
+\subfloat[Potato Buddha, $98.0 ms$. Point light. $N = 10$, $M = 300$, $q = 1$]{
   \includegraphics[width=0.4 \linewidth]{images/results/example3.png}
 }
 \subfloat[Detailed timings.]{
 \begin{tabular}[b]{lllll}
 \multicolumn{5}{c}{\includegraphics[width=0.3 \linewidth]{images/matlab/buddhachart.pdf}}                                                   \\ \hline
 \multicolumn{1}{|l|}{RL}   & \multicolumn{1}{l|}{RR}    & \multicolumn{1}{l|}{MG}   & \multicolumn{1}{l|}{FR}   & \multicolumn{1}{l|}{Tot}   \\ \hline
-\multicolumn{1}{|l|}{10.27} & \multicolumn{1}{l|}{79.30} & \multicolumn{1}{l|}{0.88} & \multicolumn{1}{l|}{2.48} & \multicolumn{1}{l|}{92.93} \\ \hline
+\multicolumn{1}{|l|}{11.18} & \multicolumn{1}{l|}{83.90} & \multicolumn{1}{l|}{0.86} & \multicolumn{1}{l|}{1.41} & \multicolumn{1}{l|}{98.00} \\ \hline
 \end{tabular}
 }
 \caption{Rendering of different models, and graphs that illustrate how the timings are split into the different phases of the algorithm. All tests use $W_l = W_s = 512$. The acronyms represent RL = Render to lightmap, RR = Render to radiance map, MG = Mipmap Generation and FR = Final Rendering.}
@@ -417,9 +417,9 @@ We start by discussing $N$. We can see the results for different value of the pa
 \cline{3-6}
                              &      & \multicolumn{4}{c|}{Number of samples ($N$)}                                          \\ \cline{3-6} 
 Model                        & \#$\Delta$& \multicolumn{1}{c|}{1} & \multicolumn{1}{c|}{10} & \multicolumn{1}{c|}{50} & \multicolumn{1}{c|}{100} \\ \hline
-\multicolumn{1}{|l|}{Bunny}  & $10^4$ & \mycolor{4}.1                  & \mycolor{10}.1                 & \mycolor{21}.4                  & \mycolor{38}.7                 \\ \hline
-\multicolumn{1}{|l|}{Dragon} & $10^5$ & \mycolor{13}.9                 & \mycolor{35}.2                  & \mycolor{139}.6                & \mycolor{270}.8                \\ \hline
-\multicolumn{1}{|l|}{Buddha} & $10^6$ & \mycolor{91}.5                 & \mycolor{93}.0                  & \mycolor{121}.4                & \mycolor{209}.2                 \\ \hline
+\multicolumn{1}{|l|}{Bunny}  & $10^4$ & \mycolor{2}.1                  & \mycolor{5}.3                 & \mycolor{19}.8                  & \mycolor{38}.2                 \\ \hline
+\multicolumn{1}{|l|}{Dragon} & $10^5$ & \mycolor{12}.5                 & \mycolor{35}.2                  & \mycolor{140}.6                & \mycolor{275}.3                \\ \hline
+\multicolumn{1}{|l|}{Buddha} & $10^6$ & \mycolor{96}.7                 & \mycolor{97}.7                  & \mycolor{128}.0                & \mycolor{216}.0                 \\ \hline
 \end{tabular}
 \caption{Timings in milliseconds of our method for different models and number of samples $N$ (potato material properties). The other parameters were $L = 1$, $W_s = W_l = 512$, $M = 1000$, $K = 16$.}
 \end{table}
@@ -436,7 +436,7 @@ We tested this changing performance according to the area in the following test:
 \cline{3-6}
                              &      & \multicolumn{4}{c|}{Size of the model (units)}                                          \\ \cline{3-6} 
 Model                        & \#$\Delta$& \multicolumn{1}{c|}{1} & \multicolumn{1}{c|}{0.5} & \multicolumn{1}{c|}{0.25} & \multicolumn{1}{c|}{0.125} \\ \hline
-\multicolumn{1}{|l|}{Dragon}  & $10^5$ & \mycolor{147}.3                  & \mycolor{73}.7                 & \mycolor{14}.1                  & \mycolor{11}.7                 \\ \hline
+\multicolumn{1}{|l|}{Dragon}  & $10^5$ & \mycolor{142}.1                  & \mycolor{74}.3                 & \mycolor{34}.9                  & \mycolor{15}.4                 \\ \hline
 \end{tabular}
 \caption{Timings in milliseconds of our method for different model size (potato material properties). The size of the camera is 2 units, and the model is 2 units wide. The camera does not scale with the model. The other parameters were $N = 50$, $L = 1$, $W_s = W_l = 512$, $M = 1000$, $K = 16$.}
 \end{table}
@@ -452,9 +452,9 @@ The next test we performed was on the size of the radiance map.
 \cline{3-5}
                              &      & \multicolumn{3}{c|}{Size of the radiance map ($W_s$)}                                          \\ \cline{3-5} 
 Model                        & \#$\Delta$& \multicolumn{1}{>{\centering\arraybackslash}p{1.2cm}|}{256} & \multicolumn{1}{>{\centering\arraybackslash}p{1.2cm}|}{512} & \multicolumn{1}{>{\centering\arraybackslash}p{1.2cm}|}{1024} \\ \hline
-\multicolumn{1}{|l|}{Bunny}  & $10^4$ & \mycolor{12}.1                  & \mycolor{20}.2                 & \mycolor{40}.2                               \\ \hline
-\multicolumn{1}{|l|}{Dragon} & $10^5$ & \mycolor{76}.0                 & \mycolor{139}.7                  & \mycolor{291}.1                             \\ \hline
-\multicolumn{1}{|l|}{Buddha} & $10^6$ & \mycolor{92}.1                 & \mycolor{122}.1                  & \mycolor{252}.6                             \\ \hline
+\multicolumn{1}{|l|}{Bunny}  & $10^4$ & \mycolor{11}.4                  & \mycolor{20}.0                 & \mycolor{39}.0                               \\ \hline
+\multicolumn{1}{|l|}{Dragon} & $10^5$ & \mycolor{75}.4                 & \mycolor{142}.1                  & \mycolor{299}.4                             \\ \hline
+\multicolumn{1}{|l|}{Buddha} & $10^6$ & \mycolor{98}.2                 & \mycolor{127}.0                  & \mycolor{258}.2                             \\ \hline
 \end{tabular}
 \caption{Timings in milliseconds of our method for different models and size of the radiance map $W_s$ (ketchup material properties). The other parameters were $N = 50$, $L = 1$, $W_l = 512$, $M = 1000$, $K = 16$.}
 \label{table:sizews}
@@ -471,9 +471,9 @@ The next test is about the number of directions used to render the model, $K$.
 \cline{3-6}
                              &      & \multicolumn{4}{c|}{Number of directions ($K$)}                                          \\ \cline{3-6} 
 Model                        & \#$\Delta$& \multicolumn{1}{c|}{4} & \multicolumn{1}{c|}{8} & \multicolumn{1}{c|}{16} & \multicolumn{1}{c|}{32} \\ \hline
-\multicolumn{1}{|l|}{Bunny}  & $10^4$ & \mycolor{6}.3                  & \mycolor{15}.0                 & \mycolor{22}.8                  & \mycolor{44}.0                 \\ \hline
-\multicolumn{1}{|l|}{Dragon} & $10^5$ & \mycolor{37}.9                 & \mycolor{68}.1                  & \mycolor{141}.0                & \mycolor{299}.4                \\ \hline
-\multicolumn{1}{|l|}{Buddha} & $10^6$ & \mycolor{29}.9                 & \mycolor{54}.8                  & \mycolor{120}.4                & \mycolor{327}.0                 \\ \hline
+\multicolumn{1}{|l|}{Bunny}  & $10^4$ & \mycolor{6}.6                  & \mycolor{10}.0                 & \mycolor{20}.1                  & \mycolor{42}.1                 \\ \hline
+\multicolumn{1}{|l|}{Dragon} & $10^5$ & \mycolor{36}.7                 & \mycolor{70}.1                  & \mycolor{143}.0                & \mycolor{306}.2               \\ \hline
+\multicolumn{1}{|l|}{Buddha} & $10^6$ & \mycolor{32}.5                 & \mycolor{55}.8                  & \mycolor{128}.3                & \mycolor{363}.5                 \\ \hline
 \end{tabular}
 \caption{Timings in milliseconds of our method for different models and different number of directions $K$ (ketchup material properties). The other parameters were $N = 50$, $L = 1$, $W_s = W_l = 512$, $M = 1000$, $q = 1$.}
 \end{table}
@@ -489,7 +489,7 @@ We tested the different times in performance for different kind of lights. Since
 \cline{3-5}
                              &      & \multicolumn{3}{c|}{Type of light}                                          \\ \cline{3-5} 
 Model                        & \#$\Delta$& \multicolumn{1}{c|}{Point light} & \multicolumn{1}{c|}{Directional light}  & \multicolumn{1}{c|}{No loop} \\ \hline
-\multicolumn{1}{|l|}{Dragon}  & $10^5$ & \mycolor{60}.5                  & \mycolor{60}.3                            & \mycolor{58}.2                 \\ \hline
+\multicolumn{1}{|l|}{Dragon}  & $10^5$ & \mycolor{61}.8                  & \mycolor{60}.3                            & \mycolor{60}.1                 \\ \hline
 \end{tabular}
 \caption{Timings in milliseconds of our method for different types of light (potato material properties), one light. The other parameters were $N = 20$, $W_s = W_l = 512$, $M = 1000$, $K = 16$.}
 \end{table}
@@ -504,9 +504,9 @@ We finally tried to see if different materials gave a different performance on t
 \cline{3-6}
                              &      & \multicolumn{4}{c|}{Material}                                          \\ \cline{3-6} 
 Model                        & \#$\Delta$& \multicolumn{1}{c|}{Ketchup} & \multicolumn{1}{c|}{Beer} & \multicolumn{1}{c|}{White grapefruit} & \multicolumn{1}{c|}{Potato} \\ \hline
-\multicolumn{1}{|l|}{Dragon}  & $10^5$ & \mycolor{87}.7                  & \mycolor{86}.6                 & \mycolor{87}.6                 & \mycolor{88}.4                 \\ \hline
+\multicolumn{1}{|l|}{Dragon}  & $10^5$ & \mycolor{61}.7                  & \mycolor{61}.6                 & \mycolor{62}.0                 & \mycolor{62}.1                 \\ \hline
 \end{tabular}
-\caption{Timings in milliseconds of our method for different materials. The other parameters were $N = 30$, $L = 1$, $W_s = W_l = 512$, $M = 300$, $K = 16$.}
+\caption{Timings in milliseconds of our method for different materials. The other parameters were $N = 20$, $L = 1$, $W_s = W_l = 512$, $M = 300$, $K = 16$.}
 \end{table}
 
 \clearpage
@@ -520,7 +520,7 @@ The timings for different kind of lights are reported in the following table:
 \cline{3-7}
                              &                      & \multicolumn{5}{c|}{Number of lights $L$}                                                             \\ \cline{3-7} 
 Model                        & \#$\Delta$ & \multicolumn{1}{c|}{1} & \multicolumn{1}{c|}{2} & \multicolumn{1}{c|}{4} & \multicolumn{1}{c|}{8} &  \multicolumn{1}{c|}{16} \\ \hline
-\multicolumn{1}{|l|}{Dragon}  & $10^5$ & \mycolor{91}.1                 & \mycolor{95}.9                 & \mycolor{96}.4                 & \mycolor{101}.5            & \mycolor{108}.1      \\ \hline
+\multicolumn{1}{|l|}{Dragon}  & $10^5$ & \mycolor{96}.6                 & \mycolor{98}.0                 & \mycolor{100}.0                 & \mycolor{103}.8           & \mycolor{110}.5      \\ \hline
 \end{tabular}
 \caption{Timings in milliseconds of our method for different number of lights (environment map approximation, material properties for potato). The other parameters were $N = 32$, $W_s = W_l = 512$, $M = 300$, $K = 16$.}
 \label{table:multilightenvdragon}

@@ -92,7 +92,7 @@ const int GBUFFER_SIZE = 512;
 const float LIGHT_CAMERA_SIZE = 1.0f;
 const float LIGHT_CAMERA_DISTANCE = 6.0f;
 const int ARRAY_TEXTURE_SIZE = 512;
-const int LIGHTS = 1;
+const int LIGHTS = 16;
 const int LAYERS = 16;
 const int MIPMAPS = 3;
 const float CAMERA_DISTANCE = 3.0f; //This should not matter (can be DIST = max bounding box + camera near + epsilon
@@ -154,35 +154,35 @@ void TranslucentMaterials::initialize()
 {
     Mesh::ScatteringMaterial * scattering_mat_bunny = getDefaultMaterial(S_Ketchup);
     Mesh::ScatteringMaterial * scattering_mat_buddha = getDefaultMaterial(S_Potato);
-    Mesh::ScatteringMaterial * scattering_mat_dragon = getDefaultMaterial(S_Potato);
+    Mesh::ScatteringMaterial * scattering_mat_dragon = getDefaultMaterial(S_Ketchup);
 
     ThreeDObject * bunny = new ThreeDObject();
     ThreeDObject * buddha = new ThreeDObject();
     ThreeDObject * dragon = new ThreeDObject();
     ThreeDObject * sphere = new ThreeDSphere(40);
 
-    bunny->init(objects_path+"bunny-simplified.obj", "bunny", *scattering_mat_bunny);
+    //bunny->init(objects_path+"bunny-simplified.obj", "bunny", *scattering_mat_bunny);
     bunny->setScale(Vec3f(4.f));
     bunny->setRotation(Vec3f(90,0,0));
     bunny->setTranslation(Vec3f(0,0,0.f));
     bunny->enabled = true;
     bunny->boundingBoxEnabled = true;
 
-    //buddha->init(objects_path+"buddha_redone.obj", "buddha", *scattering_mat_buddha);
+   // buddha->init(objects_path+"buddha_redone.obj", "buddha", *scattering_mat_buddha);
     buddha->setScale(Vec3f(1.f));
     buddha->setRotation(Vec3f(90,0,0));
     buddha->setTranslation(Vec3f(0,0,0.f));
     buddha->enabled = true;
     buddha->boundingBoxEnabled = true;
 
-    //dragon->init(objects_path+"dragon.obj", "dragon", *scattering_mat_dragon);
+    dragon->init(objects_path+"dragon.obj", "dragon", *scattering_mat_dragon);
     dragon->setScale(Vec3f(1.f));
     dragon->setRotation(Vec3f(0,0,0));
     dragon->setTranslation(Vec3f(0,0,0.f));
     dragon->enabled = true;
     dragon->boundingBoxEnabled = true;
 
-    sphere->init("","sphere", *scattering_mat_bunny);
+    //sphere->init("","sphere", *scattering_mat_bunny);
     sphere->setScale(Vec3f(.25f));
     sphere->setTranslation(Vec3f(0,0,0.f));
     sphere->enabled = true;
@@ -191,7 +191,7 @@ void TranslucentMaterials::initialize()
     objectPool.push_back(bunny);
     objectPool.push_back(buddha);
     objectPool.push_back(dragon);
-    currentObject =  bunny;
+    currentObject =  dragon;
 }
 
 

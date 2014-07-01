@@ -55,6 +55,7 @@ namespace Mesh{
         shader.set_uniform(ONE_OVER_THREE_EXT.c_str(), one_over_three_ext);
         shader.set_uniform(DE_SQR.c_str(), de_sqr);
         shader.set_uniform(IOR_SQR.c_str(), iorsq);
+        shader.set_uniform("t0",t0);
     }
 
     void ScatteringMaterial::computeCoefficients()
@@ -84,5 +85,6 @@ namespace Mesh{
         this->one_over_three_ext = Vec3f(1.0) / (3.0f * extinctionCoefficient);
         this->de_sqr = de * de;
         this->iorsq = indexOfRefraction * indexOfRefraction;
+        this->t0 = 1.0f - pow((indexOfRefraction - 1) / (indexOfRefraction + 1),2.0f);
     }
 }

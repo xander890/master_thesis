@@ -51,13 +51,8 @@ vec3 bssrdf(vec3 _xi,vec3 _nin,vec3 _wi,vec3 _xo, vec3 _no)
     vec3 _t = normalize(cross(_nin,_x));
     vec3 _nistar = _nin * edge_nistar + cross(normalize(_x),_t) * (1.0f - edge_nistar);
 
-    mat3 _xov = mat3(
-        _x - two_a_de.x * _nistar,
-        _x - two_a_de.y * _nistar,
-        _x - two_a_de.z * _nistar
-    );
-
-    vec3 _dv_sqr = max(vec3(0.01f),vec3(dot(_xov[0],_xov[0]),dot(_xov[1],_xov[1]),dot(_xov[2],_xov[2])));
+    mat3 _xov = mat3(_x,_x,_x) - outerProduct(_nistar, two_a_de);
+    vec3 _dv_sqr = vec3(dot(_xov[0],_xov[0]),dot(_xov[1],_xov[1]),dot(_xov[2],_xov[2]));
     vec3 _dv = sqrt(_dv_sqr);
     vec3 _wv = _w12 - 2 * dot(_w12,_nistar) * _nistar;
 

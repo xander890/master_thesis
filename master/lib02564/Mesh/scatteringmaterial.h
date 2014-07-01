@@ -55,6 +55,7 @@ public:
      CGLA::Vec3f one_over_three_ext;
      CGLA::Vec3f de_sqr;
      float iorsq;
+     float t0;
 
      static const std::string IOR;
      static const std::string ABSORPTION;

@@ -1,0 +1,32 @@
+
+[0: Initialization]: 0.004
+[1: Render to lightmap]: 1.153
+[2: Render to array]: 91.773
+[3: Compute mipmaps]: 0.969
+[4: Combination]: 2.548
+[Total time]: 96.639
+
+[0: Initialization]: 0.003
+[1: Render to lightmap]: 1.526
+[2: Render to array]: 93.263
+[3: Compute mipmaps]: 0.820
+[4: Combination]: 2.384
+[Total time]: 98.074
+
+
+[-1: Start]: 0.065
+[0: Initialization]: 0.005
+[1: Render to lightmap]: 2.717
+[2: Render to array]: 93.507
+[3: Compute mipmaps]: 0.990
+[4: Combination]: 2.594
+[Total time]: 100.010
+
+[-1: Start]: 0.062
+[0: Initialization]: 0.006
+[1: Render to lightmap]: 4.711
+[2: Render to array]: 94.997
+[3: Compute mipmaps]: 1.084
+[4: Combination]: 2.817
+[Total time]: 103.881
+

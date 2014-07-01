@@ -27,6 +27,8 @@ uniform float total_area;
 uniform float disc_area;
 uniform float ior;
 uniform float ior_sq;
+uniform float t0;
+
 
 uniform float mipmap_LOD;
 

@@ -22,3 +22,4 @@ uniform vec3 two_a_de;
 uniform vec3 two_de;
 uniform vec3 one_over_three_ext;
 uniform vec3 de_sqr;
+uniform float t0;
