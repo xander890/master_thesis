@@ -93,10 +93,10 @@ Irradiance is usually the term in literature used for the \emph{incoming} power 
 
 \subsection{Intensity}
 Intensity is defined as the differential radiant flux per differential solid angle:
-$$
+\begin{equation}
 I(\vomega) = \frac{d \Phi}{d \omega}
 \label{eq:i}
-$$
+\end{equation}
 It is measured in Watts per steradian [\si{\watt\per\steradian}] and it is indicated with the letter $I$. Intensity is often a misused term in the physics community, as it is used for many different quantities. Depending on the research community, intensity may refer to irradiance or even to radiance (see the following section). The definition given in \ref{eq:i} we use the most common definition given by the optics community.
 
 \subsection{Radiance}
@@ -457,10 +457,10 @@ The rationale behind this reduced coefficient is that a highly forward scatterin
 \end{table}
 
 We leave to \cite{books/daglib/0093591} and \cite{Jensen:2001:PMS:383259.383319} for the algebraic details of the calculation. Once we solve the diffusion equation, we obtain the following formula for $\phi(\x)$, the fluence of light in an infinite scattering medium.
-$$
+\begin{equation}
 \phi(\x) = \frac{\Phi}{4\pi D} \frac{e^{\sigma_{tr} r}}{r}
 \label{eq:dasimple}
-$$
+\end{equation}
 We recall that $\phi(\x) = \int_{4\pi}L(\x,\vomega) d\vomega$. $r = \|\x\|$ is the distance from the point to the light source. The two coefficients $D$ and $\sigma_{tr}$ are called \emph{diffusion coefficient} and \emph{transmission coefficient} respectively. The two coefficients are defined as follows:
 \begin{equation*}
 \begin{split}
@@ -518,18 +518,18 @@ $$
 Various evolutions to the standard dipole model have been proposed throughout the years. In this chapter, we will introduce the BSSRDF approximation called \emph{directional dipole}, proposed by \cite{IMM2013-06646}. In the standard dipole model, in fact, the diffusive part of the BSSRDF depends only on the distance between the point of incidence and the point of emergence, that is $S_d(\x_i, \vomega_i, \x_o, \vomega_o) = S_d(\|\x_o - \x_i\|)$. 
 
 The directional dipole model, based on the diffusion approximation, accounts for the direction of the incoming light in its calculations, in order to model the scattering effects more precisely. Moreover, the model, instead of splitting the BSSRDF in a multiple and single scattering term, splits the BSSRDF into a diffusive term $S_d$ and a term $S_{\delta E}$, called \emph{reduced intensity}, that can be computed using the delta-Eddington approximation\cite{delta}. The final BSSRDF thus becomes:
-$$
+\begin{equation}
 S(\x_i, \vomega_i, \x_o, \vomega_o) = T(\eta,\vomega_i) (S_d(\x_i, \vomega_i, \x_o) + S_{\delta E}(\x_i, \vomega_i, \x_o, \vomega_o)) T(\eta,\vomega_o)
 \label{eq:bssrdfgen}
-$$
+\end{equation}
 Where $T$ are the Fresnel transmission coefficients for the incoming and outgoing directions. We note also that the diffusive part of the BSSRDF does not depend on the outgoing direction $\vomega_o$. 
 
 \textbf{Diffusive BSSRDF}
 The diffusive part of the directional dipole model uses a first-order approximation of the RTE, that for a point light in an infinite medium gives the following fluence:
-$$
+\begin{equation}
 \phi(\x_o, \theta) = \frac{\Phi}{4\pi D} \frac{e^{\sigma_{tr} r}}{r} \left( 1 + 3D\frac{1 + \sigma_{tr} r}{r}\cos\theta\right)
 \label{eq:daa}
-$$
+\end{equation}
 Where $D$ and $\sigma_{tr}$ are the two scattering coefficients defined beforehand, $r = \|\x_o\|$ and 
 $$
 \cos \theta = \frac{\x \cdot \vomega_{12}}{r}
@@ -544,15 +544,15 @@ Where $\vomega_{12}$ is the refracted vector as defined in Section \ref{sec:fres
 \end{figure}
 
 Using the diffusion approximation, we can first establish a relationship between the radiant exitance $M(\x_o)$ and the diffusive BSSRDF $S'_d$ in an infinite medium:
-$$
+\begin{equation}
 \frac{d M(\x_o)}{d \Phi_i(\x, \vomega_i)} = T(\eta, \vomega_i) S'_d(\x_i, \vomega_i, \x_o) \; 4\pi\csinv 
 \label{eq:m2}
-$$
+\end{equation}
 Where $\csinv$ is related to the integral on the hemisphere of the fresnel coefficients. Using the definition of radiant exitance and inserting inside the classical diffusion approximation, we reach the diffusion formulation of the radiant exitance:
-$$
+\begin{equation}
 M(\x_o) = \cs \phi(\x_o) + \ce D \vec{n}_o \cdot \nabla \phi(\x_o)
 \label{eq:m3}
-$$
+\end{equation}
 Again, $\cs$ and $\ce$ are two terms that are related to the integration of the fresnel coefficients. Combining the three equations \ref{eq:daa}, \ref{eq:m2} and \ref{eq:m3}, we reach the final form for our diffusive BSSRDF in an infinite medium:
 \begin{equation}
 \begin{split}
