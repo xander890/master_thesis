@@ -8,7 +8,7 @@ First of all, we recall the general form of the rendering equation for participa
 \begin{equation*}
 L_o(\x_o,\vomega_o) = L_e(\x_o,\vomega_o) + \int_A \int_{2\pi} S(\x_i, \vomega_i, \x_o, \vomega_o) L_i(\x_i,\vomega_i) V(\x_i) (\vec{n}_i \cdot \vomega_i) d\vomega_i d A_i
 \end{equation*}
-In the usual approach to offline path traced rendering, we need to integrate the radiance from all the possible sources on the surface point seen by each pixel of the final image. For this surface element subtended by one pixel, all the incoming radiance contributions from the other points in the scene must be accounted an then multiplied by the BSSRDF function in the direction of the camera. In a way, we are basically performing the integral in equation \ref{eq:bssrdfeq} numerically. If we use a BSSRDF function, the contribution from all the points from the other surfaces must be employed, while in the case of a BRDF some contribution may be excluded (e.g., if there is a opaque surface between two points). Given its natural exponential explosion, path tracing is not suitable for real-time rendering.
+In the usual approach to offline path traced rendering, we need to integrate the radiance from all the possible sources on the surface point seen by each pixel of the final image. For this surface element subtended by one pixel, all the incoming radiance contributions from the other points in the scene must be accounted an then multiplied by the BSSRDF function in the direction of the camera. In a way, we are basically performing the integral in equation \ref{eq:bssrdfeq} numerically. If we use a BSSRDF function, the contribution from all the points from the other surfaces must be employed, while in the case of a BRDF some contributions may be excluded. Given its natural exponential explosion, path tracing is not generally suitable for real-time rendering.
 
 \begin{figure}[!ht]
 \centering
@@ -243,10 +243,10 @@ $$
 p(u,v) = \frac{f(u,v)}{ \displaystyle\iint f(u,v) du dv} = \frac{f(u,v)}{ \displaystyle\sum_u \sum_v f(u,v)}
 $$
 However, in order to be able to sample from the distribution $p(u,v)$, there are some things to take care about. We would like now to separate the two variables, in order to sample from two one-dimensional distributions, instead of one two-dimensional distribution. To do this, we use the conditional probability formula:
-$$
+\begin{equation}
 p(u,v) = p_v(v|u) p_u(u)
 \label{eq:conditional_prob}
-$$
+\end{equation}
 So that we first choose u, sample its probability $p_u(u)$ and then compute the conditional density $p_v(v|u)$ using the found value for $u$. Using the marginal formulas, the first probability is easily found:
 $$
 p_u(u) =\int p(u,v) dv = \frac{ \displaystyle\sum_v f(u,v)}{ \displaystyle\sum_u \sum_v f(u,v)}
@@ -267,11 +267,11 @@ The $\sin \theta$ comes from the fact that the latitude-longitude map with a equ
 \caption{Effect of $\sin\theta$ on a random point distribution on a sphere.}
 \label{fig:randomsamplingsphere}
 \end{figure}
-Now we are ready to sample the function. In order to bias our sample according to the radiance distribution, we need to calculate the cumulative distribution function (CDF) for a one-dimensional probability distribution function. The CDF is defined as:
+Now we are ready to sample the function. In order to bias our sample according to the radiance distribution, we need to calculate the cumulative distribution function (CDF) for a one-dimensional probability distribution function, then inverse sample it. The CDF is defined as:
 $$
 c_u(u) = \int_{-\infty}^{u} p_u(u) du = \sum_{i=0}^u p_u(u)
 $$
-That is the discrete integral of the function up to the point $u$. Figure \ref{fig:cdfweight} explains why. If, as the figure, all the radiance is distributed towards the right side of the picture (i.e. the CDF rises slowly), if we pick a set of random points (on the y axis) and reverse the CDF on them (on the x axis), we obtain a new set of points that is biased towards the highest concentration of radiance.
+That is the discrete integral of the function up to the point $u$. Figure \ref{fig:cdfweight} explains why we need to inverse sample the CDF. If, as the figure, all the radiance is distributed towards the right side of the picture (i.e. the CDF rises slowly), if we pick a set of random points (on the y axis) and inverse sample the CDF on them (on the x axis), we obtain a new set of points that is biased towards the highest concentration of radiance.
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=0.5\textwidth]{images/matlab/cdfex.pdf}

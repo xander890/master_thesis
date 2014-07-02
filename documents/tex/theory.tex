@@ -221,7 +221,7 @@ Later we will use this equation as a starting point to obtain a formulation of t
 \caption{Examples of BRDF functions. In this particular example, the three simple BRDFs can be evaluated separately and then combined in the more complex BRDF of Figure \ref{fig:combinedbrdf} in order to represent multiple effects.}
 \end{figure}
 
-There are many examples of BRDF functions in literature. In this section, in order to illustrate some examples, we will introduce three of them: the lambertian or diffuse BRDF, the specular or mirror BRDF and glossy BRDFs. For a detailed overview on BRDF functions, please refer to \citep{RTR3}.
+There are many examples of BRDF functions in literature. In this section, in order to illustrate some examples, we will introduce three of them: the lambertian or diffuse BRDF, the specular or mirror BRDF and glossy BRDFs. For a detailed overview on BRDF functions, refer to \citep{RTR3}.
 
 \subsubsection{Lambertian BRDF}
 In the lambertian BRDF, the incoming radiance is distributed equally in all directions, regardless of the incoming direction. To do this, the BRDF must be constant:
@@ -238,7 +238,7 @@ L_o(\x, \vomega_o) &= k_d \; E(\x) \\
 \end{split}
 \end{equation*}
 
-The lambertian model is an ideal model, so very few material exhibit a lambertian diffusion, like unfinished wood or \emph{spectralon}, a synthetic material created in order to be as close as possible to a perfect lambertian material. Given its properties, spectralon is usually employed in calibrating radiance testing equipment. 
+The lambertian model is an ideal model, so very few material exhibit a lambertian diffusion. Some of them are unfinished wood and \emph{spectralon}, a synthetic material created in order to be as close as possible to a perfect lambertian material. Given its properties, spectralon is usually employed in calibrating radiance testing equipment. 
 
 \subsubsection{Mirror BRDF}
 
@@ -524,7 +524,7 @@ S(\x_i, \vomega_i, \x_o, \vomega_o) = T(\eta,\vomega_i) (S_d(\x_i, \vomega_i, \x
 \end{equation}
 Where $T$ are the Fresnel transmission coefficients for the incoming and outgoing directions. We note also that the diffusive part of the BSSRDF does not depend on the outgoing direction $\vomega_o$. 
 
-\textbf{Diffusive BSSRDF}
+\textbf{Diffusive BSSRDF} \\
 The diffusive part of the directional dipole model uses a first-order approximation of the RTE, that for a point light in an infinite medium gives the following fluence:
 \begin{equation}
 \phi(\x_o, \theta) = \frac{\Phi}{4\pi D} \frac{e^{\sigma_{tr} r}}{r} \left( 1 + 3D\frac{1 + \sigma_{tr} r}{r}\cos\theta\right)
@@ -619,7 +619,7 @@ $$
 \frac{\x_o - \x_i}{\|\x_o - \x_i\|} \times \frac{\vec{n}_i \times (\x_o - \x_i)}{\|\vec{n}_i \times (\x_o - \x_i)\|} & \text{otherwise}
 \end{dcases}
 $$
-Another important modification is the distance to the real source. In the standard dipole, we used $d_r = \sqrt{z_r^2 + r^2}$, with $z_r = 1 / \sigma_t'$, which is the average distance a photon travels within the material before being absorbed or scattered. The problem of this definition is that it introduces a singularity in $r = 0$. Moreover, the standard dipole becomes fairly imprecise when $r$ is small, overestimating the overall effect. In order to avoid these problems, \cite{IMM2013-06646} proposed a more complicated definition of $d_r$ that matches simulation of transport theory more closely. For the details, see Appendix B in the original paper. $d_r$ is defined as follows, recalling $\sigma_t = \sigma_s + \sigma_a$:
+Another important modification is the distance to the real source. In the standard dipole, we used $d_r = \sqrt{z_r^2 + r^2}$, with $z_r = 1 / \sigma_t'$, which is the average distance a photon travels within the material before being absorbed or scattered. The problem of this definition is that it introduces a singularity in $r = 0$. Moreover, the standard dipole becomes fairly imprecise when $r$ is small, overestimating the overall effect. In order to avoid these problems, \cite{IMM2013-06646} proposed a more complicated definition of $d_r$ that matches simulations of transport theory more closely. For the details, see Appendix B in the original paper. $d_r$ is defined as follows, recalling $\sigma_t = \sigma_s + \sigma_a$:
 $$
 d_r^2 = \begin{dcases}
 r^2 + D \mu_0 (D \mu_0 - 2 d_e \cos \beta) & \mu_0 \geq 0 \  \text{(frontlit)}\\
@@ -644,7 +644,7 @@ d_v &= \|x_o - x_v\|
 \end{equation*}
 The directional dipole model described in this chapter, gives a better result that the standard dipole, at the extra price of additional calculations. In particular, the model improves the previous one for highly forward scattering materials, where it is sensibly closer to the path traced result. The final goal of this thesis is to provide a real-time implementation of it. Given this theoretical introduction, in the next section we will describe our contribution in order to breakdown the problems and the issues of a real-time implementation.
 
-\begin{figure}
+\begin{figure}[!h]
 \centering
 \subfloat[{Standard dipole}]{
   \includegraphics[width=0.5 \linewidth]{images/gamma_potato_buddha_dipole.png}

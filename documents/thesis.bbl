@@ -21,7 +21,7 @@ Michael Ashikmin, Simon Premo\v{z}e, and Peter Shirley.
 \newblock URL \url{http://dx.doi.org/10.1145/344779.344814}.
 
 \bibitem[Blinn(1977)]{Blinn:1977:MLR:965141.563893}
-James~F. Blinn.
+James Blinn.
 \newblock Models of light reflection for computer synthesized pictures.
 \newblock \emph{SIGGRAPH Comput. Graph.}, 11\penalty0 (2):\penalty0 192--198,
   July 1977.
@@ -36,18 +36,18 @@ Jesper B{\o}rlum, Brian~Bunch Christensen, Thomas~Kim Kjeldsen, Peter~Trier
   Performance Graphics}, HPG '11, pages 7--14, New York, NY, USA, 2011. ACM.
 \newblock URL \url{http://doi.acm.org/10.1145/2018323.2018325}.
 
-\bibitem[Born and Wolf(1999)]{ob:bornwolf}
-M~Born and E~Wolf.
+\bibitem[Born and Emil(1999)]{ob:bornwolf}
+Max Born and Wolf Emil.
 \newblock \emph{Principles of Optics}.
 \newblock Cambridge University Press, 7 edition, 1999.
 
 \bibitem[Chandrasekar(1950)]{Chandrasekar:1950:RT}
-S.~Chandrasekar.
+Subrahmanyan Chandrasekar.
 \newblock \emph{Radiative Transfer}.
-\newblock Oxford Univ. Press, 1950.
+\newblock Oxford University Press, 1950.
 
 \bibitem[Cohen et~al.(1993)Cohen, Wallace, and Hanrahan]{Cohen:1993:RRI:154731}
-Michael~F. Cohen, John Wallace, and Pat Hanrahan.
+Michael Cohen, John Wallace, and Pat Hanrahan.
 \newblock \emph{Radiosity and Realistic Image Synthesis}.
 \newblock Academic Press Professional, Inc., San Diego, CA, USA, 1993.
 
@@ -60,7 +60,7 @@ Carsten Dachsbacher and Marc Stamminger.
 \newblock URL \url{http://dl.acm.org/citation.cfm?id=882404.882433}.
 
 \bibitem[Davison and Sykes(1958)]{ntt}
-B.~Davison and John~Bradbury Sykes.
+Boris Davison and John~Bradbury Sykes.
 \newblock \emph{Neutron transport theory}.
 \newblock Oxford University Press, 1958.
 
@@ -93,6 +93,13 @@ Agns Desolneux, Lionel Moisan, and Jean-Michel Morel.
   Approach}.
 \newblock Springer Publishing Company, Incorporated, 1st edition, 2007.
 
+\bibitem[Donner(2006)]{Donner:2006:TRI:1236937}
+Craig Donner.
+\newblock \emph{Towards Realistic Image Synthesis of Scattering Materials}.
+\newblock PhD thesis, University of California, San Diego, La Jolla, CA, USA,
+  2006.
+\newblock AAI3226771.
+
 \bibitem[Donner and Jensen(2005)]{Donner:2005:LDM:1186822.1073308}
 Craig Donner and Henrik~Wann Jensen.
 \newblock Light diffusion in multi-layered translucent materials.
@@ -108,13 +115,6 @@ Craig Donner, Jason Lawrence, Ravi Ramamoorthi, Toshiya Hachisuka, Henrik~Wann
 \newblock \emph{ACM Trans. Graph.}, 28\penalty0 (3):\penalty0 30:1--30:10, July
   2009.
 \newblock URL \url{http://doi.acm.org/10.1145/1531326.1531336}.
-
-\bibitem[Donner(2006)]{Donner:2006:TRI:1236937}
-Craig~Steven Donner.
-\newblock \emph{Towards Realistic Image Synthesis of Scattering Materials}.
-\newblock PhD thesis, University of California, San Diego, La Jolla, CA, USA,
-  2006.
-\newblock AAI3226771.
 
 \bibitem[Dorsey et~al.(1999)Dorsey, Edelman, Jensen, Legakis, and
   Pedersen]{Dorsey:1999:MRW:311535.311560}

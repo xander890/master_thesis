@@ -67,7 +67,7 @@
 
 #define POINT_DIST 0 // 0 random, 1 exponential, 2 uniform
 #define TIMER
-//#define DIR
+#define DIR
 
 #define GPU_MEMORY_INFO_DEDICATED_VIDMEM_NVX 0x9047
 #define GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX 0x9048
@@ -168,7 +168,7 @@ void TranslucentMaterials::initialize()
     bunny->enabled = true;
     bunny->boundingBoxEnabled = true;
 
-   // buddha->init(objects_path+"buddha_redone.obj", "buddha", *scattering_mat_buddha);
+    //buddha->init(objects_path+"buddha_redone.obj", "buddha", *scattering_mat_buddha);
     buddha->setScale(Vec3f(1.f));
     buddha->setRotation(Vec3f(90,0,0));
     buddha->setTranslation(Vec3f(0,0,0.f));
@@ -191,7 +191,7 @@ void TranslucentMaterials::initialize()
     objectPool.push_back(bunny);
     objectPool.push_back(buddha);
     objectPool.push_back(dragon);
-    currentObject =  dragon;
+    currentObject = dragon;
 }
 
 

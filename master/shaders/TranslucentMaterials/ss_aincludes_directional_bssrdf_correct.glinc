@@ -29,7 +29,6 @@ vec3 bssrdf(vec3 _xi,vec3 _nin,vec3 _wi,vec3 _xo, vec3 _no)
 {
     vec3 _x = _xo - _xi;
     float r_sqr = dot(_x,_x);
-
     vec3 _w12 = refract2(_wi,_nin);
 
     float mu = -dot(_no, _w12);
@@ -40,7 +39,6 @@ vec3 bssrdf(vec3 _xi,vec3 _nin,vec3 _wi,vec3 _xo, vec3 _no)
     vec3 _dr_sqr = _r_sqr;
 
     float edge = step(mu, EPSILON_MU); // == 1.0 if mu > EPSILON_MU
-
     vec3 project = sqrt(vec3(r_sqr - dot_x_w12 * dot_x_w12)/sqrt(_r_sqr + de_sqr));
     vec3 _D_prime = abs(mu) * D * edge + one_over_three_ext * (1.0f - edge);
     _dr_sqr += _D_prime * (_D_prime + two_de * project * edge);

@@ -1,6 +1,6 @@
 \chapter{Related Work}
 \label{chap:previous}
-In rendering of subsurface scattering, most approaches rely on approximating correctly the \emph{Radiative Transfer Equation} (RTE). We identified two main approaches to the problem in literature:
+In rendering of subsurface scattering, most approaches rely on approximating the \emph{Radiative Transfer Equation} (RTE). We identified two main approaches to the problem in literature:
 
 \begin{description}
 	\item[Analytical] One class of solutions consists of approximating the RTE or one of its approximations via an analytical model. These models can have different levels of complexity and computation times, and are often adaptable to a wide range of materials. However, often they rely on assumptions on the scattering parameters that limit their applicability.
@@ -11,7 +11,7 @@ In this thesis, we focus on efficiently implementing a model that falls in the f
 
 \section{Analytical techniques}
 
-In the analytical techniques, two different areas of research must be distinguished. The first area is the research on the actual models, while the second is research on how the actual models can be implemented efficiently. Each model is usually represented by a specific function called BSSRDF (\emph{Bidirectional Subsurface Scattering Reflectance Distribution Function}), that describes how light propagates between two points on the surface. Two integrations, one on the surface one from all the directions, must be performed in order to get the amount of light that actually exits from a point on the surface (see chapter \ref{chap:theory}). Implementation techniques focus on efficiently implementing this integration steps, often making assumptions for which points computations can be avoided. 
+In the analytical techniques, two different areas of research must be distinguished. The first area is the research on the actual models, while the second is research on how the actual models can be implemented efficiently. Each model is usually represented by a specific function called BSSRDF (\emph{Bidirectional Subsurface Scattering Reflectance Distribution Function}), that describes how light propagates between two points on the surface. Two integrations, one on the surface and one from all the directions, must be performed in order to get the amount of light that actually exits from a point on the surface (see chapter \ref{chap:theory}). Implementation techniques focus on efficiently implementing this integration steps, often making assumptions for which points computations can be avoided. 
 
 \subsection{Models}
 Regarding the models, the first and most important is the dipole developed by \cite{Jensen:2001:PMS:383259.383319}. This models relies on an approximation of the RTE called the \emph{diffusion approximation}, which again relies on the assumption of highly scattering materials. In this case, a BSSRDF for a planar surface in a semi-infinite medium can be obtained. The BSSRDF needs only the distance between two points to be calculated, and with some precautions it can be also used with arbitrary geometry. This model does not include any single scattering term: it needs to be evaluated separately. The model has been further extended in order to account for thin object regions and multi-layered materials \citep{Donner:2005:LDM:1186822.1073308}.
