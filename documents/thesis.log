@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.2.28)  2 JUL 2014 18:35
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.2.28)  3 JUL 2014 12:08
 entering extended mode
 **thesis.tex
 (C:\Users\alessandro\Documents\master_thesis\documents\thesis.tex
@@ -1556,17 +1556,17 @@ LaTeX Font Info:    Try loading font information for OT1+lmtt on input line 3.
  ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\lm\ot1lmtt.fd"
 File: ot1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-<figures/UNIPD-logo.png, id=370, 216.81pt x 216.0873pt>
-File: figures/UNIPD-logo.png Graphic file (type png)
- <use figures/UNIPD-logo.png>
-Package pdftex.def Info: figures/UNIPD-logo.png used on input line 7.
-(pdftex.def)             Requested size: 172.65132pt x 172.08533pt.
+<images/results/front.png, id=370, 770.88pt x 770.88pt>
+File: images/results/front.png Graphic file (type png)
+ <use images/results/front.png>
+Package pdftex.def Info: images/results/front.png used on input line 7.
+(pdftex.def)             Requested size: 256.0748pt x 256.07324pt.
  [1
 Non-PDF special ignored!
 
 
 Non-PDF special ignored!{C:/Users/alessandro/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map} <C:/Users/alessandro/Doc
-uments/master_thesis/documents/figures/UNIPD-logo.png>] [2] <images/jap.pdf, id=387, 39.89906pt x 135.90271pt>
+uments/master_thesis/documents/images/results/front.png>] [2] <images/jap.pdf, id=386, 39.89906pt x 135.90271pt>
 <use images/jap.pdf> <use images/jap.pdf>
 File: images/jap.pdf Graphic file (type pdf)
  <use images/jap.pdf>
@@ -2710,7 +2710,7 @@ Package pdftex.def Info: images/results/potato_Buddha_dir.png used on input line
 (pdftex.def)             Requested size: 114.9832pt x 229.96796pt.
 
 
-LaTeX Warning: Float too large for page by 13.55208pt on input line 189.
+LaTeX Warning: Float too large for page by 34.05208pt on input line 189.
 
 <images/results/Dragon_10_over_100.png, id=2625, 770.88pt x 770.88pt>
 File: images/results/Dragon_10_over_100.png Graphic file (type png)
@@ -2999,11 +2999,11 @@ Package rerunfilecheck Info: File `thesis.out' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 92.
  ) 
 Here is how much of TeX's memory you used:
- 32354 strings out of 493921
- 616162 string characters out of 3144861
- 1004273 words of memory out of 3000000
- 34056 multiletter control sequences out of 15000+200000
- 135375 words of font info for 130 fonts, out of 3000000 for 9000
+ 32349 strings out of 493921
+ 616115 string characters out of 3144861
+ 1004258 words of memory out of 3000000
+ 34053 multiletter control sequences out of 15000+200000
+ 131157 words of font info for 129 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
  56i,27n,73p,10416b,2519s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/lm/lm-rm.enc}{C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/lm/
@@ -3018,19 +3018,19 @@ onts/type1/public/lm/lmbx9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/pu
 Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmmi5.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/
 lmmi6.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmmi7.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/ty
 pe1/public/lm/lmmi8.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmmi9.pfb><C:/Program Files (x86)/MiKTe
-X 2.9/fonts/type1/public/lm/lmr10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmr12.pfb><C:/Program Fil
-es (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmr17.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmr5.pfb><C
-:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmr6.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm
-/lmr7.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmr8.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/typ
-e1/public/lm/lmr9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmri10.pfb><C:/Program Files (x86)/MiKTeX
- 2.9/fonts/type1/public/lm/lmri12.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmss10.pfb><C:/Program Fi
+X 2.9/fonts/type1/public/lm/lmr10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmr17.pfb><C:/Program Fil
+es (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmr5.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmr6.pfb><C:
+/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmr7.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/
+lmr8.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmr9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type
+1/public/lm/lmri10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmss10.pfb><C:/Program Files (x86)/MiKTe
+X 2.9/fonts/type1/public/lm/lmss17.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmss9.pfb><C:/Program Fi
 les (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmssbx10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmsy10.
 pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmsy5.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/pu
 blic/lm/lmsy6.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmsy7.pfb><C:/Program Files (x86)/MiKTeX 2.9/
 fonts/type1/public/lm/lmsy9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmtt10.pfb><C:/Program Files (x
 86)/MiKTeX 2.9/fonts/type1/public/lm/lmtt8.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmtt9.pfb><C:/Pr
 ogram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on thesis.pdf (152 pages, 35257436 bytes).
+Output written on thesis.pdf (152 pages, 35490967 bytes).
 PDF statistics:
  3430 PDF objects out of 3580 (max. 8388607)
  863 named destinations out of 1000 (max. 500000)
