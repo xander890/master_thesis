@@ -38,8 +38,8 @@ void main(void)
         //fragColor +=  (0.5 - 0.5* texture(newDepthMap,vec4(_tex.xy, 0, 0.5)) ).xxxx;// + textureLod(colorMap,vec3(_tex.xy,level),1f);
         //fragColor = noise(gl_FragCoord.xy).xxxx;
 
-       //fragColor = LCG(int(gl_FragCoord.x + 1024 * gl_FragCoord.y)).xxxx;
-
+    fragColor = LCG(uint(gl_FragCoord.x + 1000 * gl_FragCoord.y)).xxxx;
+    //fragColor = vec4(1.0f);
     //fragColor = (texture(vtex, vec3(_tex.xy,1)));
     //if(fragColor.z > 100)
     //    fragColor = vec4(0);

@@ -67,7 +67,7 @@
 
 #define POINT_DIST 0 // 0 random, 1 exponential, 2 uniform
 #define TIMER
-#define DIR
+//#define DIR
 
 #define GPU_MEMORY_INFO_DEDICATED_VIDMEM_NVX 0x9047
 #define GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX 0x9048
@@ -110,7 +110,7 @@ const Vec4f light_specular(0.6f,0.6f,0.3f,0.6f);
 const Vec4f light_diffuse(1.f,1.f,1.f,1.0f);
 //const Vec4f light_diffuse(0.5f,0.5f,1.3f,1.0f);
 //const Vec4f light_position(-1.f,-0.5f,1.f,1);
-const Vec4f light_position(1.f,0.f,0.f,1);
+const Vec4f light_position(0.f,0.f,1.f,1);
 const Vec4f light_diffuse_2(1.3,0.5,0.5,0.0);
 const Vec4f light_position_2(2.0,0.0,0.0,1.0);
 
@@ -152,7 +152,7 @@ TranslucentMaterials::TranslucentMaterials( QWidget* parent)
 
 void TranslucentMaterials::initialize()
 {
-    Mesh::ScatteringMaterial * scattering_mat_bunny = getDefaultMaterial(S_Ketchup);
+    Mesh::ScatteringMaterial * scattering_mat_bunny = getDefaultMaterial(S_Beer);
     Mesh::ScatteringMaterial * scattering_mat_buddha = getDefaultMaterial(S_Potato);
     Mesh::ScatteringMaterial * scattering_mat_dragon = getDefaultMaterial(S_Ketchup);
 
@@ -161,7 +161,7 @@ void TranslucentMaterials::initialize()
     ThreeDObject * dragon = new ThreeDObject();
     ThreeDObject * sphere = new ThreeDSphere(40);
 
-    //bunny->init(objects_path+"bunny-simplified.obj", "bunny", *scattering_mat_bunny);
+    bunny->init(objects_path+"bunny-simplified.obj", "bunny", *scattering_mat_bunny);
     bunny->setScale(Vec3f(4.f));
     bunny->setRotation(Vec3f(90,0,0));
     bunny->setTranslation(Vec3f(0,0,0.f));
@@ -175,7 +175,7 @@ void TranslucentMaterials::initialize()
     buddha->enabled = true;
     buddha->boundingBoxEnabled = true;
 
-    dragon->init(objects_path+"dragon.obj", "dragon", *scattering_mat_dragon);
+    //dragon->init(objects_path+"dragon.obj", "dragon", *scattering_mat_dragon);
     dragon->setScale(Vec3f(1.f));
     dragon->setRotation(Vec3f(0,0,0));
     dragon->setTranslation(Vec3f(0,0,0.f));
@@ -191,7 +191,7 @@ void TranslucentMaterials::initialize()
     objectPool.push_back(bunny);
     objectPool.push_back(buddha);
     objectPool.push_back(dragon);
-    currentObject = dragon;
+    currentObject = bunny;
 }
 
 
@@ -1889,8 +1889,10 @@ void TranslucentMaterials::paintGL()
 
 
 
-    //manager[0].position = Vec4f(6.0f * sin(float(frame) / 100.0f * 2 * M_PI), 0.0f, 6.0f * cos(float(frame) / 100.0f * 2 * M_PI), 1.0f);
-    //manager.reloadLights();
+    manager[0].position = Vec4f(6.0f * sin(float(frame) / 100.0f * 2 * M_PI), 0.0f, 6.0f * cos(float(frame) / 100.0f * 2 * M_PI), 1.0f);
+    manager.reloadLights();
+    currentFrame = 0;
+
     performanceTimer.start();
 
 

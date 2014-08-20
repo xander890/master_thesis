@@ -73,9 +73,9 @@ float LFSR_Rand_Gen(in int n)
   return s / (4294967296.0f) * 2;
 }
 
-float LCG(in int n)
+float LCG(in uint n)
 {
-    return float((n * 1664525 + 1013904223) % 4294967295) / 4294967296.0f;
+    return float((n * 49 + 3125)) * (64 / 4294967296.0f);
 }
 
 float LFSR_Rand_Gen_f( in int n )
