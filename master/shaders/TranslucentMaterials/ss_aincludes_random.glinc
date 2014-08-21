@@ -73,9 +73,24 @@ float LFSR_Rand_Gen(in int n)
   return s / (4294967296.0f) * 2;
 }
 
-float LCG(in uint n)
+float LCG(in uint k)
 {
-    return float((n * 49 + 3125)) * (64 / 4294967296.0f);
+  uint b = 3125;
+  uint c = 49;
+  uint result = 1; /* have to start somewhere */
+
+  for (;k > 0;k>>=1)
+  {
+    if ((k & 1) == 1) result = result * b + c;
+    c += b * c;
+    b *= b;
+  }
+  return float(result) / 4294967296.0f;
+}
+
+float LCG(in vec2 k)
+{
+    return LCG(uint(k.x*1000 + k.y));
 }
 
 float LFSR_Rand_Gen_f( in int n )
