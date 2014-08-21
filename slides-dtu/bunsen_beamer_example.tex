@@ -17,7 +17,8 @@
 \usepackage{subfig}
 \usepackage{colortbl}
 \usepackage[square,authoryear]{natbib}
-
+\usepackage{pgfpages}
+%\setbeameroption{show notes on second screen}
 \definecolor{myblue}{HTML}{D4DEFF}
 \definecolor{redcell}{HTML}{FFE8E8}
 \definecolor{greencell}{HTML}{E8FFEB}
@@ -96,6 +97,14 @@ Supervisor: Jeppe Revall Frisvad
   \vspace{10cm}
 \column{2.0in}
 \end{columns}
+\note{
+\begin{itemize}
+\item Alessandro, Msc in DME
+\item Thesis title: RTR Translucent Materials with Dir SS
+\item DTU Compute
+\item Supervisor
+\end{itemize}
+}
 \end{frame}
 
 %-------------------------------------------------------------------
@@ -128,6 +137,13 @@ Supervisor: Jeppe Revall Frisvad
 			\end{itemize}
     \end{column}
   \end{columns}
+\note{
+\begin{itemize}
+\item Subsurface scattering: describe in words
+\item Light bouncing + comes out (show picture)
+\item State problem: physically render faithfully synthetic image
+\end{itemize}
+}
 \end{frame}
 
 \begin{frame}
@@ -139,6 +155,13 @@ Supervisor: Jeppe Revall Frisvad
 		\includegraphics[width=\paperwidth]{comb}
 \end{column}
 ​\end{columns}
+\note{
+\begin{itemize}
+\item Examples in nature
+\item Marble, leaves, wax
+\item Very present in nature
+\end{itemize}
+}
 \end{frame}
 
 \begin{frame}
@@ -151,6 +174,15 @@ Supervisor: Jeppe Revall Frisvad
 			\item With low memory requirements 
 			\item In real-time or at least at interactive frame rates \\(<100ms per frame) using a GPU-based solution
 		\end{itemize}
+		\note{
+\begin{itemize}
+\item Approach
+\item Proposal: use an analytical model (BSSRDF) - opposed to numerical
+\item Close to offline - never implemented
+\item Low memory requirements (console) 
+\item Real time - 100 ms - GPUs
+\end{itemize}
+}
 \end{frame}
 
 
@@ -187,6 +219,15 @@ $$
 		\end{itemize}
     \end{column}
 ​  \end{columns}
+\note{
+\begin{itemize}
+\item small theoretical introduction
+\item define radiance and BSSRDF
+\item radiance flux over solid angle over projected area
+\item radiance and ray
+\item 
+\end{itemize}
+}
 \end{frame}
 
 \begin{frame}
@@ -196,6 +237,7 @@ $$
 				$$L_o(\x_o,\vomega_o) = L_e(\x_o,\vomega_o) + \int_A \int_{2\pi} S(\x_i, \vomega_i, \x_o, \vomega_o) L_i(\x_i,\vomega_i) (\vec{n} \cdot \vomega_i) d\vomega_i d A_i$$
 				\item Many BSSRDF functions have been proposed in literature \citep{Jensen:2001:PMS:383259.383319,D'Eon:2011:QMR:1964921.1964951,IMM2013-06646}  
 			\end{itemize}
+
 \end{frame}
 
 \begin{frame}
@@ -378,22 +420,28 @@ $$
 \vspace{0.4cm}
 	\item \texttt{Multiple lights} \\ We sum the contribution of multiple lights in the shader
 	\item \texttt{Point lights} \\ We scale the incoming intensity by a inverse square distance term	
-	\item \texttt{Environment lighting} \\ We simulate it using 16 directional lights
 \end{itemize}
 \begin{columns}
-    \begin{column}{0.33\textwidth}
+    \begin{column}{0.45\textwidth}
       \centering
 		\includegraphics[width=0.9\textwidth]{multiple}
 				\end{column}
-   \begin{column}{0.33\textwidth}
+   \begin{column}{0.45\textwidth}
       \centering
 		\includegraphics[width=0.9\textwidth]{point}
 				\end{column}
-    \begin{column}{0.33\textwidth}
-      \centering
-		\includegraphics[width=0.9\textwidth]{skymap}
-    \end{column}
 ​  \end{columns}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Environment lighting}
+\begin{itemize}
+	\item We simulate it using 16 directional lights 
+	\item We choose "random" points on a light map 
+	\item The distribution chosen accounts to make the points fall in areas with high radiance
+\end{itemize}
+      \centering
+		\includegraphics[width=0.4\textwidth]{skymap}
 \end{frame}
 
 \section{Results}
