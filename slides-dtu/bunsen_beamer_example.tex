@@ -18,7 +18,7 @@
 \usepackage{colortbl}
 \usepackage[square,authoryear]{natbib}
 \usepackage{pgfpages}
-%\setbeameroption{show notes on second screen}
+\setbeameroption{show notes on second screen=left}
 \definecolor{myblue}{HTML}{D4DEFF}
 \definecolor{redcell}{HTML}{FFE8E8}
 \definecolor{greencell}{HTML}{E8FFEB}
@@ -49,7 +49,7 @@
 
 % set fonts
 \usepackage{fontspec}
-\setsansfont{Fontin Regular}
+\setsansfont{Fontin Sans Regular}
 \setbeamerfont{frametitle}{size=\LARGE,series=\bfseries}
 
 % color definitions
@@ -225,7 +225,9 @@ $$
 \item define radiance and BSSRDF
 \item radiance flux over solid angle over projected area
 \item radiance and ray
-\item 
+\item BSSRDF: bidir surface scattering distrib function
+\item Two points on a surface (figure)
+\item Out rad over in flux
 \end{itemize}
 }
 \end{frame}
@@ -237,7 +239,13 @@ $$
 				$$L_o(\x_o,\vomega_o) = L_e(\x_o,\vomega_o) + \int_A \int_{2\pi} S(\x_i, \vomega_i, \x_o, \vomega_o) L_i(\x_i,\vomega_i) (\vec{n} \cdot \vomega_i) d\vomega_i d A_i$$
 				\item Many BSSRDF functions have been proposed in literature \citep{Jensen:2001:PMS:383259.383319,D'Eon:2011:QMR:1964921.1964951,IMM2013-06646}  
 			\end{itemize}
-
+\note{
+\begin{itemize}
+\item Derivation from the previous
+\item Add emission and visibility terms
+\item Jensen, d'Eon, Jeppe (describe very briefly)
+\end{itemize}
+}
 \end{frame}
 
 \begin{frame}
@@ -253,7 +261,17 @@ $$
 \end{equation*}
 $\ \ $Where
 $$\phi(\x) = \int_{4\pi}L(\x,\vomega) d\vomega$$
+\note{
+\begin{itemize}
+\item Jensen dipole: diffusion approximation
+\item Ishimaru - light scatters isotropically after too many scattering events
+\item formula for point light infinite medium
+\item Exponential decay of fluence 
+\item x is the position in space assuming the light is in the origin
+\end{itemize}
+}
 \end{frame}
+
 \begin{frame}
     \frametitle{Standard dipole}
 			\begin{itemize}
@@ -267,7 +285,15 @@ $$\phi(\x) = \int_{4\pi}L(\x,\vomega) d\vomega$$
 	$$
 S_d(\x_i,\vomega_i,\x_i,\vomega_o) = \frac{\alpha'}{4 \pi^2} \left[\frac{z_r (1 + \sigma_{tr} d_r) \; e^{-\sigma_{tr} d_r}}{d_r^3} + \frac{z_v (1 + \sigma_{tr} d_v) \; e^{-\sigma_{tr} d_v}}{d_v^3} \right]
 $$			
-
+\note{
+\begin{itemize}
+\item Boundary conditions (semi infinite medium)
+\item z = 2AD (mismatching indices of refraction)
+\item we can extend it to arbitrary geometry
+\item Solution in the form of a dipole
+\item Formula
+\end{itemize}
+}
 \end{frame}
 
 \begin{frame}
@@ -282,6 +308,14 @@ $$
 			Where we have an extra term that accounts for directionality
 			\item As in the previous model, a dipole is used, but with ray sources
 	\end{itemize}
+	\note{
+\begin{itemize}
+\item Different BSSRDF functions, more precise
+\item always use the diffusion approximation, but a second order one
+\item Directional term in the fluence (cosine) - same exponential part
+\end{itemize}
+}
+
 \end{frame}
 
 \begin{frame}
@@ -296,7 +330,17 @@ $$
 			$$
 			S_d(\x_i, \vomega_i, \x_o) = S'_d(\x_o - \x_i, \vomega_{12}, d_r) - S'_d(\x_o - \x_v, \vomega_{v}, d_v)
 			$$
+			\note{
+\begin{itemize}
+\item Extra corrections and boundary conditions
+\item Modified tangent plane (show on picture normals)
+\item Distance to the real source (changed to avoid singularity - only on real)
+\item Formula
+\end{itemize}
+}
+
 \end{frame}
+
 \section{Method}
 \begin{frame}
     \frametitle{Method}
@@ -308,6 +352,16 @@ $$
 			\end{itemize}
 			\centering
 			\includegraphics[width=0.55\textwidth]{disk_setup.pdf} 
+\note{
+\begin{itemize}
+\item Rationale behind our approach
+\item Limited range - effective transport coefficient
+\item We consider only point on a projected disk on a surface
+\item Show on image
+\item disk has xd and omegad
+\end{itemize}
+}
+
 \end{frame}
 
 \begin{frame}
@@ -328,7 +382,13 @@ $$
 		\\\textit{Our disk placement}
     \end{column}
 ​  \end{columns}
-
+\note{
+\begin{itemize}
+\item Describe optimal placement on slab
+\item Naive: xo no
+\item Our:   x weird, wl
+\end{itemize}
+}
 \end{frame}
 
 \begin{frame}
@@ -343,7 +403,13 @@ $$
 				\vspace{-0.6cm}
 				\centering
 				\includegraphics[width=0.3\textwidth]{halton.pdf} \hspace{1cm}	\includegraphics[width=0.3\textwidth]{halton_exp.pdf}
-
+\note{
+\begin{itemize}
+\item We discretize the rendering eq - only a number of samples N.
+\item Sum BSSRDF over points (radiance)
+\item Exponential term and images
+\end{itemize}
+}
 \end{frame}
 
 \section{Implementation}
@@ -356,6 +422,15 @@ $$
 			\end{itemize}
 			\centering
 			\includegraphics[width=0.5\textwidth]{step1.jpg} 
+			\note{
+\begin{itemize}
+\item Implementation how?
+\item Little details - three steps
+\item Render to light map
+\item Show on image
+\item closest point to the light
+\end{itemize}
+}
 \end{frame}
 
 \begin{frame}
@@ -364,9 +439,19 @@ $$
 			\item We render the object from a certain number of directions in the \emph{radiance map}
 			\item The directions can be chosen randomly or placed by the artist
 			\item For each pixel we sample the points from the light map and sum up the BSSRDF contribution
+			\item The result is accumulated over multiple frames
 			\end{itemize}
 			\centering
-			\includegraphics[width=0.4\textwidth]{step2.jpg} 
+			\includegraphics[width=0.35\textwidth]{step2.jpg} 
+		\note{
+\begin{itemize}
+\item Render the object from multiple directions
+\item directions random or placed, research on that
+\item radiance map
+\item fragment shader - sample light maps and accumulate bssrdf as in method
+\item Show on image
+\end{itemize}
+}
 \end{frame}
 
 \begin{frame}
@@ -378,6 +463,14 @@ $$
 			\centering
 			\vspace{-0.5cm}
 			\includegraphics[width=0.4\textwidth]{step3.jpg} 
+		\note{
+\begin{itemize}
+\item Combination - visibility
+\item Averaged over directions
+\item Depth map
+\item Show on image
+\end{itemize}
+}
 \end{frame}
 
 \begin{frame}
@@ -389,6 +482,11 @@ $$
 \vspace{-0.3cm}
 \caption{Stanford Bunny, potato material. Note the self shadowing automatically generated by the algorithm.}
 \end{figure}
+		\note{
+\begin{itemize}
+\item Result at convergence - bunny potato - real time
+\end{itemize}
+}
 \end{frame}
 
 \begin{frame}
@@ -400,6 +498,15 @@ $$
 	\item Low memory requirements compared to a full voxelization
 	\item The final step can be adapted to forward and deferred shading pipelines
 \end{itemize}
+		\note{
+\begin{itemize}
+\item self shadows
+\item occlusion - multiple object
+\item coupling shadow mapping comes in!
+\item compared to a full voxelization, low memory requirements
+\item forward and deferred paths - uncoupling
+\end{itemize}
+}
 \end{frame}
 
 
@@ -412,6 +519,13 @@ $$
 \end{itemize}
 	\centering
 	\includegraphics[width=0.3 \textwidth]{tearing}
+		\note{
+\begin{itemize}
+\item Noise (see later in videos) - need blurring
+\item Tearing
+\item Constant shadow bias
+\end{itemize}
+}
 \end{frame}
 
 \begin{frame}
@@ -431,17 +545,32 @@ $$
 		\includegraphics[width=0.9\textwidth]{point}
 				\end{column}
 ​  \end{columns}
+		\note{
+\begin{itemize}
+\item Extensions to our base implementation, only one directional light
+\item Multiple: sum over (show image)
+\item Point lights: we change the term we multiply: no radiance, reduced intensity
+\end{itemize}
+}
 \end{frame}
 
 \begin{frame}
     \frametitle{Environment lighting}
 \begin{itemize}
 	\item We simulate it using 16 directional lights 
-	\item We choose "random" points on a light map 
-	\item The distribution chosen accounts to make the points fall in areas with high radiance
+	\item We choose "random" points on a environment map 
+	\item The distribution chosen accounts to make the points fall in areas with high luminosity
 \end{itemize}
       \centering
 		\includegraphics[width=0.4\textwidth]{skymap}
+				\note{
+\begin{itemize}
+\item Environment lighting
+\item 16 directional lights from a environment map
+\item Chosen on a distribution - more probable to have points on areas with higher luminosity  
+\item show image
+\end{itemize}
+}
 \end{frame}
 
 \section{Results}
@@ -470,6 +599,14 @@ $$
 } 
 \vspace{-0.2cm}
 \caption{Comparison on spheres of potato and white grapefruit juice.}
+		\note{
+\begin{itemize}
+\item Results - sphere first
+\item potato and grapefruit
+\item 100 is ok and realtime, 1000 is very ok but not realtime
+\item Very close to path traced solution
+\end{itemize}
+}
 \end{figure}
 \end{frame}
 
@@ -488,6 +625,14 @@ $$
 \vspace{-0.2cm}
 \caption{Result comparison for the Stanford Dragon model. Parameters for ketchup.}
 \end{figure}
+\note{
+\begin{itemize}
+\item Dragon - around 50000 vertices (simplified)
+\item Missing highlights in ketchup
+\item Improvements in the time of five orders of magnitude
+\item 16 millions samples prior to rejection
+\end{itemize}
+}
 \end{frame}
 
 \begin{frame}
@@ -503,7 +648,18 @@ $$
 } 
 \vspace{-0.1cm}
 \caption{Result comparison for the Happy Buddha model. Parameters for potato.}
+\note{
+\begin{itemize}
+\item Buddha - big model (millions of vertices)
+\item 300 ms
+\item potato
+\item Lose details
+\item Little greenish tone
+\item General appearance is captured - more work should be done in order to get the highlights
+\end{itemize}
+}
 \end{figure}
+
 \end{frame}
 
 \begin{frame}
@@ -520,6 +676,14 @@ $$
 \vspace{-0.1cm}
 \caption{Result comparison for the Happy Buddha model (environment lighting, Uffizi map). Parameters for potato.}
 \end{figure}
+\note{
+\begin{itemize}
+\item Environment lighting
+\item Image from paper Frisvad
+\item Similar method to ours
+\item The result is similar, may have different lights
+\end{itemize}
+}
 \end{frame}
 
 \begin{frame}
@@ -538,7 +702,25 @@ $$
 }
 \caption{Graph that illustrates how the timings are split into the different phases of the algorithm. All tests use $W_l = W_s = 512$. }
 \label{fig:timingssplit}
+\note{
+\begin{itemize}
+\item Buddha - big model (millions of vertices)
+\item 300 ms
+\item potato
+\item Lose details
+\item General appearance is captured - more work should be done in order to get the highlights
+\end{itemize}
+}
 \end{figure}
+\note{
+\begin{itemize}
+\item Performance analysis
+\item Nvidia GTX 780Ti
+\item Beer bunny split times
+\item Most of time lost on step 2
+\item The other steps are neglegible (multi light maybe)
+\end{itemize}
+}
 
 \end{frame}
 
@@ -558,6 +740,15 @@ Model                        & \#$\Delta$& \multicolumn{1}{c|}{1} & \multicolumn
 \end{tabular}
 \caption{Timings in milliseconds of our method for different models and number of samples $N$ (potato material properties). One directional light, 16 directions for rendering and reconstructing.}
 \end{table}
+\note{
+\begin{itemize}
+\item color code
+\item Performance increase with N
+\item 16 directions is conservative (random)
+\item explain why buddha rises less than dragon (area occupation)
+\item at low N rasterization wins
+\end{itemize}
+}
 \end{frame}
 
 \begin{frame}
@@ -576,6 +767,13 @@ Model                        & \#$\Delta$& \multicolumn{1}{p{1.2cm}|}{256} & \mu
 \end{tabular}
 \caption{Timings in milliseconds of our method for different models and size of the radiance map $W_s$ (ketchup material properties). The other parameters were $N = 50$, $L = 1$, $W_l = 512$, $M = 1000$, $K =16$.}
 \end{table}
+\note{
+\begin{itemize}
+\item size of the radiance map
+\item 256 is a little bit too low, but depends on the complexity and the details
+\item Also here, fragment shader, so resolution dependent
+\end{itemize}
+}
 \end{frame}
 
 
@@ -594,6 +792,13 @@ Model                        & \#$\Delta$& \multicolumn{1}{c|}{4} & \multicolumn
 \multicolumn{1}{|l|}{Buddha} & $10^6$ & \mycolor{32}.5                 & \mycolor{55}.8                  & \mycolor{128}.3                & \mycolor{363}.5                 \\ \hline
 \end{tabular}
 \caption{Timings in milliseconds of our method for different models and different number of directions $K$ (ketchup material properties). The other parameters were $N = 50$, $L = 1$, $W_s = W_l = 512$, $M = 1000$.}
+\note{
+\begin{itemize}
+\item Number of directions
+\item Less directions, less time 
+\item Many directions - filling of gpu memory - timings difficult to evaluate
+\end{itemize}
+}
 \end{table}
 
 \end{frame}
@@ -609,6 +814,14 @@ Model                        & \#$\Delta$& \multicolumn{1}{c|}{4} & \multicolumn
 \item We obtained an improvement of five orders of magnitude over offline rendered solutions
 \item We obtained a flexible method that is applicable to current real-time graphics engines
 \end{itemize}
+\note{
+\begin{itemize}
+\item Fast rendering
+\item Results comparables
+\item Five orders
+\item Flexible - in engines
+\end{itemize}
+}
 
 \end{frame}
 
