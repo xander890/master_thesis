@@ -118,8 +118,6 @@ float C_e(float ni)
     return 0.5 * (1 - 3 * C_2(ni));
 }
 
-
-
 void debugFresnelTerms()
 {
     int steps = 50;
@@ -140,7 +138,6 @@ void debugFresnelTerms()
         std::cout << "*Fresnel test: n1 = " << n1 << ", n2 = " << n2 << ", dot = " << dot(incident,normal) << " (t,T,r,R) = " << c << ", R+T = " << (T+R) << std::endl;
     }
 }
-
 
 
 
@@ -175,7 +172,6 @@ void planeHammersley(std::vector<Vec2f> &result, int n)
         result.push_back(Vec2f(u,v));
     }
 }
-
 
 void planeHammersleyCircleAlternative(std::vector<Vec2f> &result, int n)
 {
@@ -385,5 +381,20 @@ void sphereHalton(std::vector<Vec3f> &result, int n)
     {
         result.push_back(haltonPointSphere(i+1,2,3));
     }
+}
+
+void print_memory_info_nvidia()
+{
+    GLint data[5];
+    const char * messages[5] = {"Dedicated video memory: %1 Mb", "Total available memory: %1 Mb", "Current available video memory: %1 Mb", "Eviction count: %1 ", "Evicted memory: %1 Mb"};
+    const int divisors[5] = {1024,1024,1024,1,1024};
+    glGetIntegerv(GPU_MEMORY_INFO_DEDICATED_VIDMEM_NVX, &data[0]);
+    glGetIntegerv(GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX, &data[1]);
+    glGetIntegerv(GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX, &data[2]);
+    glGetIntegerv(GPU_MEMORY_INFO_EVICTION_COUNT_NVX, &data[3]);
+    glGetIntegerv(GPU_MEMORY_INFO_EVICTED_MEMORY_NVX, &data[4]);
+    for(int i = 0; i < 5; i++)
+        cout << QString(messages[i]).arg(data[i] / divisors[i]).toStdString() << endl;
+    check_gl_error();
 }
 

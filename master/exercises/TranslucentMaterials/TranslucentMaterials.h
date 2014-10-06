@@ -110,16 +110,9 @@ signals:
 
 protected:
     void set_light_and_camera(GLGraphics::ShaderProgramDraw& shader_prog);
-    void render_jensen(bool reload);
-    void render_better_dipole(bool reload);
-
-    void render_direct_compute_time(bool reload, GLGraphics::ShaderProgramDraw & render_to_cubemap);
-    void render_direct_array(bool reload, GLGraphics::ShaderProgramDraw & render_to_cubemap);
-    void render_direct_array_time(bool reload, GLGraphics::ShaderProgramDraw & render_to_cubemap);
+    void render_dirss(bool reload, GLGraphics::ShaderProgramDraw & render_to_cubemap);
 
     void render_to_gbuffer(GBuffer& gbuffer, bool reload);
-    void render_directional_dipole(bool reload);
-    void setup_shadow(bool reload);
     void draw_axes(bool reload);
     void draw_grid(bool reload);
     void draw_bounding_boxes(bool reload);
@@ -138,6 +131,7 @@ protected:
      RenderMethod render_method;
      std::vector<GLGraphics::ThreeDObject*> objectPool;
      GLGraphics::ThreeDObject * currentObject;
+
 
 
      int currentFrame;

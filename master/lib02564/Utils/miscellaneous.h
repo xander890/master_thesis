@@ -8,6 +8,11 @@
 #include <CGLA/Mat3x3f.h>
 #include <CGLA/Mat4x4f.h>
 
+#define GPU_MEMORY_INFO_DEDICATED_VIDMEM_NVX 0x9047
+#define GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX 0x9048
+#define GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX 0x9049
+#define GPU_MEMORY_INFO_EVICTION_COUNT_NVX 0x904A
+#define GPU_MEMORY_INFO_EVICTED_MEMORY_NVX 0x904B
 
 CGLA::Vec3f refract(const CGLA::Vec3f & in, const CGLA::Vec3f & n, float n1, float n2);
 
@@ -57,4 +62,5 @@ void planeHaltonCircleRejectionExponentialMulti(std::vector<std::vector<CGLA::Ve
 void planeHammersleyCircleMulti(std::vector<std::vector<CGLA::Vec2f> > & result, int n, int cols);
 void planeHammersleyCircleMultiExp(std::vector<std::vector<CGLA::Vec2f> > & result, int n, int cols, float sigma);
 void circleUniformPoints(std::vector<std::vector<CGLA::Vec2f> > &result, int n, int cols, int m);
+void print_memory_info_nvidia();
 #endif // MISCELLANEOUS_H
