@@ -147,7 +147,7 @@ TranslucentMaterials::TranslucentMaterials( QWidget* parent)
 
 void TranslucentMaterials::initialize()
 {
-    Mesh::ScatteringMaterial * scattering_mat_bunny = getDefaultMaterial(S_Beer);
+    Mesh::ScatteringMaterial * scattering_mat_bunny = getDefaultMaterial(S_Potato);
     Mesh::ScatteringMaterial * scattering_mat_buddha = getDefaultMaterial(S_Potato);
     Mesh::ScatteringMaterial * scattering_mat_dragon = getDefaultMaterial(S_Ketchup);
 
@@ -399,6 +399,8 @@ void TranslucentMaterials::getDiscPointsSpectral(vector<Vec3f> * points, const i
 
 void TranslucentMaterials::render_dirss(bool reload, ShaderProgramDraw & render_to_array)
 {
+#define BLENDING
+
     performanceTimer.registerEvent("-1: Start");
     //static ShaderProgramDraw obj_shader(shader_path,"object.vert","","object.frag");
     //static ShaderProgramDraw gbuff_quad(shader_path,"ss_cubemap_test_gbuffer.vert","","ss_cubemap_test_gbuffer.frag");
@@ -418,10 +420,15 @@ void TranslucentMaterials::render_dirss(bool reload, ShaderProgramDraw & render_
     int maximum_samples = params->maxsamples;
 
     static ArrayTextureBuffer arraytexmap(ARRAY_TEXTURE_SIZE,LAYERS,MIPMAPS + 1, 0);
+
+#ifndef BLENDING
     static ArrayTextureBuffer arraytexmap_back(ARRAY_TEXTURE_SIZE,LAYERS,MIPMAPS + 1, arraytexmap.getDepthTexture()->get_id());
+#endif
 
     static MipMapGeneratorView * mipmaps = new MipMapGeneratorView(arraytexmap.getColorTexture()->get_id(), arraytexmap.getDepthTexture()->get_id(), ARRAY_TEXTURE_SIZE, LAYERS, MIPMAPS);
+#ifndef BLENDING
     static MipMapGeneratorView * mipmaps_back = new MipMapGeneratorView(arraytexmap_back.getColorTexture()->get_id(), arraytexmap_back.getDepthTexture()->get_id(), ARRAY_TEXTURE_SIZE, LAYERS, MIPMAPS);
+#endif
 
     static ArrayVertexNormalBuffer light_buffer(GBUFFER_SIZE, LIGHTS);
 
@@ -484,7 +491,6 @@ void TranslucentMaterials::render_dirss(bool reload, ShaderProgramDraw & render_
 
         // preparing first color buffer from which to read (just for avoiding errors,
         // the shader already avoids that)
-        scattering_material->addTexture(arraytexmap_back.getColorTexture());
 
         Mesh::Texture * vtex = light_buffer.getVertexTexture();
         Mesh::Texture * ntex = light_buffer.getNormalTexture();
@@ -495,10 +501,19 @@ void TranslucentMaterials::render_dirss(bool reload, ShaderProgramDraw & render_
         screen_quad_material->addTexture(vtex);
         screen_quad_material->addTexture(ntex);
 
+#ifndef BLENDING
+        scattering_material->addTexture(arraytexmap_back.getColorTexture());
         scattering_material->addTexture(arraytexmap_back.getDepthTexture());
+#else
+        scattering_material->addTexture(arraytexmap.getColorTexture());
+        scattering_material->addTexture(arraytexmap.getDepthTexture());
+#endif
         sphereHalton(spherePoints, LAYERS);
 
         for(int i = 0; i < LAYERS; i++) cout << spherePoints[i] <<endl;
+
+        //blending parameters
+        glBlendColor(0.0f,0.0f,0.0f,0.0f);
 
     }
 
@@ -577,8 +592,6 @@ void TranslucentMaterials::render_dirss(bool reload, ShaderProgramDraw & render_
         }
 
 
-
-
         render_to_array.use();
         glViewport(0,0,ARRAY_TEXTURE_SIZE,ARRAY_TEXTURE_SIZE);
         check_gl_error();
@@ -601,6 +614,7 @@ void TranslucentMaterials::render_dirss(bool reload, ShaderProgramDraw & render_
 
         set_light_and_camera(render_to_array);
 
+#ifndef BLENDING
         bool isFrontArrayMap = ((frame % 2) == 0)? true : false;
 
         // ping-pong between buffers
@@ -614,7 +628,10 @@ void TranslucentMaterials::render_dirss(bool reload, ShaderProgramDraw & render_
             front = &arraytexmap_back;
             front_mipmaps = mipmaps_back;
         }
-
+#else
+        front = &arraytexmap;
+        front_mipmaps = mipmaps;
+#endif
         //Render to front from back
         render_to_array.set_uniform("viewMatrices", viewMatrices, LAYERS);
         render_to_array.set_uniform("layers", LAYERS);
@@ -622,8 +639,33 @@ void TranslucentMaterials::render_dirss(bool reload, ShaderProgramDraw & render_
         render_to_array.set_projection_matrix(projection_array);
 
         front->enable();
+
+
+#ifndef BLENDING
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
         obj->display(render_to_array);
         check_gl_error();
+#else
+        glClear(GL_DEPTH_BUFFER_BIT);
+        if(currentFrame > 0)
+        {
+            glEnable(GL_BLEND);
+            glBlendFuncSeparate(GL_ONE, GL_ONE, GL_ONE, GL_ONE);
+            glBlendEquation(GL_FUNC_ADD);
+            obj->display(render_to_array);
+            check_gl_error();
+            glDisable(GL_BLEND);
+        }
+        else
+        {
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            obj->display(render_to_array);
+        }
+#endif
+
+
+
         performanceTimer.registerEvent("2: Render to array");
 
         // Need to disable mipmaps, otherwise I cannot copy from level 0 to another (weird opengl stuff)
@@ -732,6 +774,7 @@ void TranslucentMaterials::render_dirss(bool reload, ShaderProgramDraw & render_
     screen_quad_display_shader.use();
     screen_quad_display_shader.set_uniform("mipmap_LOD",params->LOD);
     scattering_material->loadUniforms(screen_quad_display_shader);
+     screen_quad_display_shader.set_uniform("current_frame_rev", 1.0f/min(currentFrame,CONVERGENCE_FRAMES));
     if(params->debugOverlayVisible)
         screen_quad->display(screen_quad_display_shader);
 
@@ -893,9 +936,9 @@ void TranslucentMaterials::paintGL()
 
 
 
-    manager[0].position = Vec4f(6.0f * sin(float(frame) / 100.0f * 2 * M_PI), 0.0f, 6.0f * cos(float(frame) / 100.0f * 2 * M_PI), 1.0f);
-    manager.reloadLights();
-    currentFrame = 0;
+    //manager[0].position = Vec4f(6.0f * sin(float(frame) / 100.0f * 2 * M_PI), 0.0f, 6.0f * cos(float(frame) / 100.0f * 2 * M_PI), 1.0f);
+    //manager.reloadLights();
+    //currentFrame = 0;
 
     performanceTimer.start();
 

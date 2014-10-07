@@ -3,8 +3,8 @@
 #define TIME
 #define MULTI_LIGHTS
 //#define OVERLAY
-//#define PREDEPTH
 #define SPECTRAL
+#define BLENDING
 
 layout(location = 0) out vec4 fragColor;
 
@@ -15,7 +15,9 @@ uniform sampler2DArray vtex;
 uniform sampler1D discpoints;
 
 #ifdef TIME
+#ifndef BLENDING
 uniform sampler2DArray colorMap;
+#endif
 #endif
 
 smooth in vec3 position;
@@ -36,25 +38,10 @@ uniform float current_frame_percentage;
 uniform mat4 cameraMatrices[DIRECTIONS];
 uniform int global_frame;
 uniform int current_frame;
-
 #endif
 
 uniform float discradius;
 uniform int samples;
-
-#ifdef PREDEPTH
-    uniform float shadow_bias;
-    uniform sampler2DArrayShadow newDepthMap;
-
-    float sample_shadow_map(vec3 camera_pos, float layer)
-    {
-        camera_pos.z -= 0; //bias to avoid shadow acne
-        if(camera_pos.x < 0.0 || camera_pos.x > 1.0) return 1.0;
-        if(camera_pos.y < 0.0 || camera_pos.y > 1.0) return 1.0;
-        return texture(newDepthMap,vec4(camera_pos.x,camera_pos.y,layer,camera_pos.z)).r;
-    }
-
-#endif
 
 #include "ss_aincludes_ss_uniforms.glinc"
 
@@ -71,6 +58,7 @@ void main(void)
     vec3 xo = position;
     vec3 no = normalize(norm);
 
+#ifndef BLENDING
 #ifdef TIME
     vec4 l = cameraMatrices[layer] * vec4(position,1.0f);
 
@@ -85,6 +73,9 @@ void main(void)
     #endif
 
     vec4 oldColor = (current_frame > 0)? texture(colorMap,vec3(l.xy,layer)) : vec4(0.0f) ;
+#else
+    vec4 oldColor = vec4(0.0f);
+#endif
 #else
     vec4 oldColor = vec4(0.0f);
 #endif
@@ -120,7 +111,7 @@ void main(void)
         vec3 wi = light_pos[current_light].xyz;
         vec4 rad = light_diff[current_light];
         vec3 topoint = wi - xo;
-        float light_type = rad.a;
+        float light_type = 0;
         wi = (light_type > 0)? normalize(topoint) : normalize(wi);
         vec3 Li = light_diff[current_light].xyz;
         Li = (light_type > 0)? Li / dot(topoint,topoint) : Li;
@@ -169,7 +160,7 @@ void main(void)
     else
         fragColor = vec4(1);
 #else
-        fragColor = vec4(accumulate + oldColor.xyz,1.0);
+        fragColor = vec4(oldColor.xyz + accumulate,1.0);
 #endif
 
 
