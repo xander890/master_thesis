@@ -45,7 +45,7 @@ float C_2(float ni);
 float clamp01(float x);
 float clamp(float x, float min, float max);
 int clamp(int x, int min, int max);
-
+float exponential_over_cube_approximation(float sigma_tr, float min_radius);
 void planeHammersley(std::vector<CGLA::Vec2f> & result, int n);
 void planeHammersleyCircle(std::vector<CGLA::Vec2f> & result, int n);
 void planeHammersleyCircleAlternative(std::vector<CGLA::Vec2f> & result, int n);
@@ -57,6 +57,8 @@ void sphereHalton(std::vector<CGLA::Vec3f> & result, int n);
 void planeHaltonCircle(std::vector<CGLA::Vec2f> & result, int n);
 void planeHaltonCircleRejectionExponential(std::vector<CGLA::Vec2f> &result, int n, float sigma_tr, float radius);
 void planeHaltonCircleRejectionExponentialMulti(std::vector<std::vector<CGLA::Vec2f> > & result, int n, int cols, float sigma_tr, float radius);
+void planeHaltonCircleUniformMulti(std::vector<std::vector<CGLA::Vec2f> > & result, int n, int cols, float sigma_tr, float radius);
+
 
 
 void planeHammersleyCircleMulti(std::vector<std::vector<CGLA::Vec2f> > & result, int n, int cols);

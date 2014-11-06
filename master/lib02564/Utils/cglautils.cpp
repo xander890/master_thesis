@@ -36,3 +36,8 @@ Vec3f expVec3f(const Vec3f vector)
 {
     return Vec3f(expf(vector[0]),expf(vector[1]),expf(vector[2]));
 }
+
+float max3(const Vec3f vector)
+{
+    return std::max(vector[0], std::max(vector[1],vector[2]));
+}

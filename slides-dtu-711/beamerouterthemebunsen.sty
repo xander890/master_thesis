@@ -1,0 +1,33 @@
+% This program can be redistributed and/or modified under the terms
+% of the GNU Public License, version 3.
+
+\mode<presentation>
+
+% color definitions
+\definecolor{uired}{RGB}{153,0,0}
+
+% footer styling
+\setbeamercolor{section in footer}{fg=white,bg=uired}
+\setbeamercolor{subsection in footer}{fg=white,bg=uired}
+\setbeamercolor{pagenumber in footer}{fg=white,bg=uired}
+
+\defbeamertemplate*{footline}{bunsentheme}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.50\paperwidth,ht=2.25ex,dp=1ex,center]{section in footer}%
+    \insertshorttitle
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.25\paperwidth,ht=2.25ex,dp=1ex,center]{subsection in footer}%
+    \insertsectionhead
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.25\paperwidth,ht=2.25ex,dp=1ex,center]{pagenumber in footer}%
+   \insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+\setbeamersize{text margin left=1em,text margin right=1em}
+
+\mode
+<all>

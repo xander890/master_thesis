@@ -68,12 +68,12 @@ HEADERS += exercises/TranslucentMaterials/GBuffer.h\
     exercises/TranslucentMaterials/arrayvertexnormalbuffer.h \
     exercises/TranslucentMaterials/depthonlybuffer.h \
     lib02564/Mesh/imagetexture.h \
-    exercises/TranslucentMaterials/arrayimagebuffer.h \
     lib02564/GLGraphics/computeshader.h \
     lib02564/Utils/performancetimer.h \
     exercises/TranslucentMaterials/shaderpreprocessor.h \
     exercises/TranslucentMaterials/mipmapgeneratorview.h \
-    lib02564/GLGraphics/infinitearealight.h
+    lib02564/GLGraphics/infinitearealight.h \
+    lib02564/Mesh/texturebuffer.h
 
 SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
         exercises/TranslucentMaterials/ShadowBuffer.cpp\
@@ -115,12 +115,12 @@ SOURCES += exercises/TranslucentMaterials/GBuffer.cpp\
     exercises/TranslucentMaterials/arrayvertexnormalbuffer.cpp \
     exercises/TranslucentMaterials/depthonlybuffer.cpp \
     lib02564/Mesh/imagetexture.cpp \
-    exercises/TranslucentMaterials/arrayimagebuffer.cpp \
     lib02564/GLGraphics/computeshader.cpp \
     lib02564/Utils/performancetimer.cpp \
     exercises/TranslucentMaterials/shaderpreprocessor.cpp \
     exercises/TranslucentMaterials/mipmapgeneratorview.cpp \
-    lib02564/GLGraphics/infinitearealight.cpp
+    lib02564/GLGraphics/infinitearealight.cpp \
+    lib02564/Mesh/texturebuffer.cpp
 
 
 HEADERS += lib02564/CGLA/ArithMatFloat.h\
@@ -274,7 +274,10 @@ OTHER_FILES += shaders/TranslucentMaterials/* \
     shaders/TranslucentMaterials/ss_array_depth_pass.vert \
     shaders/TranslucentMaterials/ss_array_depth_pass.geom \
     shaders/TranslucentMaterials/ss_array_depth_pass.frag \
-    shaders/TranslucentMaterials/ss_aincludes_directional_bssrdf_correct.glinc
+    shaders/TranslucentMaterials/ss_aincludes_directional_bssrdf_correct.glinc \
+    shaders/TranslucentMaterials/ss_array_render_to_arraymap_pass.frag \
+    shaders/TranslucentMaterials/ss_array_render_to_arraymap_multilight_directional_spectral.frag \
+    shaders/TranslucentMaterials/ss_array_render_to_arraymap_multilight_directional_nospectral.frag
 
 FORMS += \
     exercises/TranslucentMaterials/mainwindow.ui \

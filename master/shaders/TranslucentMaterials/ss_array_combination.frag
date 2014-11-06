@@ -1,6 +1,5 @@
 #version 430
-#define TIME 1
-#define DEBUG 0
+#define RR
 uniform sampler2DArray colorMap;
 uniform sampler2DArrayShadow depthMap;
 
@@ -37,8 +36,19 @@ uniform vec3 camera_dirs[DIRECTIONS];
 
 uniform float gamma;
 
-uniform float current_frame_rev;
+uniform int current_frame;
+uniform int samples;
 uniform float global_coeff;
+
+uniform float combined_uniform_coefficient;
+
+const vec2 adj [5]= {
+    vec2(0),
+    0.5*ARRAY_TEX_STEP * vec2(-1.0f, +3.0f),
+    0.5*ARRAY_TEX_STEP * vec2(+3.0f, +1.0f),
+    0.5*ARRAY_TEX_STEP * vec2(+1.0f, -3.0f),
+    0.5*ARRAY_TEX_STEP * vec2(-3.0f, +1.0f)
+};
 
 #include "ss_aincludes_optics.glinc"
 
@@ -50,72 +60,61 @@ vec2 vector_cubemap_to_uv(vec3 pos)
     return vec2(0.5f + 0.5f * atan(p.x,-p.z) * ONE_M_PI, acos(p.y) * ONE_M_PI);
 }
 
-float sample_shadow_map(vec3 light_pos, float layer)
+float sample_shadow_map(vec4 light_pos)
 {
-    light_pos.z -= shadow_bias; //bias to avoid shadow acne
+    light_pos.w -= shadow_bias; //bias to avoid shadow acne
     if(light_pos.x < 0.0 || light_pos.x > 1.0) return 1.0;
     if(light_pos.y < 0.0 || light_pos.y > 1.0) return 1.0;
-    return texture(depthMap,vec4(light_pos.x,light_pos.y,layer,light_pos.z)).r;
+    return texture(depthMap,light_pos).r;
 }
 
-float sample_shadow_map_more(vec3 light_pos, float layer)
+vec4 sample_color_map(vec3 coord)
 {
-    light_pos.z -= shadow_bias; //bias to avoid shadow acne
-    if(light_pos.x < 0.0 || light_pos.x > 1.0) return 1.0;
-    if(light_pos.y < 0.0 || light_pos.y > 1.0) return 1.0;
-
-    vec2 adj [4]= {vec2(ARRAY_TEX_STEP,0.0f), vec2(0.0f,ARRAY_TEX_STEP) ,vec2(-ARRAY_TEX_STEP,0.0f) ,vec2(0.0f,-ARRAY_TEX_STEP)};
-
-    float res = texture(depthMap,vec4(light_pos.x,light_pos.y,layer,light_pos.z)).r;
-    float mipmap = (mipmap_LOD == 0.0f)? 1.0f : ((mipmap_LOD == 1.0f)? 3.0f : 8.0f);
-    for(int i = 0; i < 4; i++)
-    {
-        res *= texture(depthMap,vec4(light_pos.x + mipmap * adj[i].x,light_pos.y + mipmap * adj[i].y,layer,light_pos.z)).r;
-    }
-    return res;
+    return textureLod(colorMap, coord, mipmap_LOD);
 }
 
 void main(void)
 {
     vec3 no = normalize(norm);
-    vec3 wi = vec3(light_pos[0]);
-    wi = normalize(wi);
-    //vec3 offset = epsilon * (no - wi * dot(no,wi));
-
     vec3 wo = normalize(user_pos - position);
 
     fragColor = vec4(0.0f);
     float div = 0.0f;
+
     for(int i = 0; i < DIRECTIONS; i++)
     {
         vec3 dir = camera_dirs[i];
         vec3 offset = epsilon_combination * (no - dir * dot(no,dir));
         vec3 pos = position - offset;
         vec4 l = cameraMatrices[i] * vec4(pos,1.0f);
-        vec4 color = textureLod(colorMap,vec3(l.xy,i), mipmap_LOD);
 
-        float vis = sample_shadow_map_more(l.xyz,i);
+        float vis = 1.0f;
+        for(int j = 0; j < 5; j++)
+        {
+            float offset = 1.0f;
+            vec4 adjj = vec4(l.xy + offset * adj[j], i, l.z);
+            float vi = sample_shadow_map(adjj.xyzw);
+            vis *= vi;
+        }
+
+        vec4 color = sample_color_map(vec3(l.xy,i));
+#ifdef RR
         fragColor += color * vis;
+#else
+        fragColor += (color.xyza / max(color.a,1)) * vis;
+#endif
         div += vis;
     }
 
+
     fragColor /= max(div,1.0);
 
-    float F = clamp(fresnel_T(wo,no),0.0f,1.0f);
+    float F = fresnel_T(wo,no);
+    fragColor *= clamp(F,0.0f,1.0f);
 
-#if DEBUG == 1
-    int i = 1;
-    vec4 l = cameraMatrices[i] * vec4(pos,1.0f);
-    fragColor = textureLod(colorMap,vec3(l.xy,i), 3) * vec4(sample_shadow_map(l.xyz,i));
+#ifdef RR
+    fragColor *= 1.0f/((current_frame) * samples);
 #endif
-
-    fragColor *= disc_area * one_over_max_samples * global_coeff;
-
-#if TIME == 1
-    fragColor *= current_frame_rev;
-#endif
-
-    //fragColor = vec4(div/2);
 
     //if(div < 0.01)
     //if(false)
@@ -125,6 +124,11 @@ void main(void)
     //    fragColor += refl_col * (1 - F);
     //}
 
+    //fragColor *= combined_uniform_coefficient / disc_area;
 
-    fragColor = pow(vec4(1) - exp(-fragColor), vec4(1.0/gamma));
+    //fragColor = pow(vec4(1) - exp(-fragColor), vec4(1.0/gamma));
+   fragColor = pow(fragColor , vec4(1.0/gamma));
+
+   // fragColor = vec4((max(0,1-div)),0,0,1);
+
 }

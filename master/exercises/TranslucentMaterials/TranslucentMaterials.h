@@ -17,12 +17,14 @@ class TranslucentParameters
 public:
     TranslucentParameters::TranslucentParameters() :
         circleradius(1.f),
-        samples(32),
-        maxsamples(170),
+        samples(10),
+        maxsamples(10000),
         epsilon_gbuffer(0.004),
-        epsilon_combination(0.003),
-        shadow_bias(0.0024),
-        debugOverlayVisible(false), LOD(0.0f),  currentFlags(0), gamma(1.8f), environment(false)
+        epsilon_combination(0.0005),
+        shadow_bias(0.0003),
+        debugOverlayVisible(false), LOD(0.0f),  currentFlags(0), gamma(1.8f), environment(false),
+        a(1.0f),
+        b(1.0f)
     {}
 
     enum
@@ -45,7 +47,7 @@ public:
 
     float LOD;
     float gamma;
-
+    float a,b;
 };
 
 class TranslucentMaterials : public QGLWidget
@@ -116,8 +118,8 @@ protected:
     void draw_axes(bool reload);
     void draw_grid(bool reload);
     void draw_bounding_boxes(bool reload);
-    void getDiscPoints(std::vector<CGLA::Vec3f> * points, const int n, const int m);
-    void getDiscPoints(std::vector<CGLA::Vec3f> * points, const int n, const int m, float sigma_tr, float radius);
+    void getDiscPoints(std::vector<CGLA::Vec2f> * points, const int n, const int m);
+    void getDiscPoints(std::vector<CGLA::Vec2f> * points, const int n, const int m, float sigma_tr, float radius);
     void getDiscPointsSpectral(std::vector<CGLA::Vec3f> * points, const int n, const int m, CGLA::Vec3f sigma_tr, float radius);
 
     void initialize();

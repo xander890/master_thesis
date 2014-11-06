@@ -19,6 +19,7 @@ enum DefaultScatteringMaterial{
 };
 
 Mesh::ScatteringMaterial* getDefaultMaterial(DefaultScatteringMaterial material);
+Mesh::ScatteringMaterial* getDefaultMaterial(DefaultScatteringMaterial material, float scale);
 
 
 #endif // DEFAULTMATERIALS_H

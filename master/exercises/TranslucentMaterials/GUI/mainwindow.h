@@ -32,6 +32,8 @@ private slots:
     void epsilonCombinationChanged(float value);
     void shadowBiasChanged(float value);
     void LODChanged(float value);
+    void achanged(float value);
+    void bchanged(float value);
     void gammaChanged(float value);
     void modelChanged(QString & newModel);
 

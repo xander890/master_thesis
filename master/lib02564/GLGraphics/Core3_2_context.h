@@ -9,6 +9,7 @@ struct Core4_3_context : public QGLContext {
         QGLFormat * format = new QGLFormat();
         format->setVersion(4,3);
         format->setProfile(QGLFormat::CoreProfile);
+
         return *format;
     }
 

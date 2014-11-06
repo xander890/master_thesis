@@ -36,9 +36,20 @@ bool TriangleMesh::load(const string &filename, Material & material){
     if (!loaded){
         return false;
     }
-    std::cout << "Loaded triangle mesh: " << filename << ". " << outPositions->size() << " vertices, " << outIndices->at(0).size() << " triangles." <<std::endl;
 
-    return load_external((*outIndices)[0], (*outPositions),(*outNormal),(*outUv),material, GL_TRIANGLES);
+    int choice;
+    int max_size = 0;
+    for(int i = 0; i < outIndices->size(); i++)
+    {
+        if(outIndices[i].size() > max_size)
+        {
+            max_size = outIndices[i].size();
+            choice = i;
+        }
+    }
+    std::cout << "Loaded triangle mesh: " << filename << ". " << outPositions->size() << " vertices, " << outIndices->at(choice).size() << " triangles." <<std::endl;
+
+    return load_external((*outIndices)[choice],(*outPositions),(*outNormal),(*outUv),material,GL_TRIANGLES);
 }
 
 bool TriangleMesh::load_external(vector<GLuint> & indices, vector<Vec3f>& outPositions, vector<Vec3f>& outNormal, vector<Vec2f>& outUv, Material& outMaterial, GLenum type)

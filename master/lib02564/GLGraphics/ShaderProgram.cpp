@@ -210,9 +210,9 @@ namespace GLGraphics {
     void ShaderProgram::use_texture(Mesh::Texture * tex, GLuint active_texture)
     {
         GLint u = get_uniform_location(tex->get_name());
-        glUniform1i(u, active_texture);
         glActiveTexture(GL_TEXTURE0 + active_texture);
-        glBindTexture(tex->get_target(), tex->get_id());
+        tex->bind();
+        glUniform1i(u, active_texture);
     }
 
     GLuint ShaderProgram::load_a_shader(GLenum shader_type, const string& shader_path, const string& str)
@@ -248,6 +248,7 @@ namespace GLGraphics {
         {
             GLint infologLength = 0;
             glGetShaderiv(S, GL_INFO_LOG_LENGTH, &infologLength);
+            cout << src << endl;
             if (infologLength > 0)
             {
                 char* infoLog = new char[infologLength];
@@ -255,7 +256,7 @@ namespace GLGraphics {
                 cout << "InfoLog: " << infoLog << endl;
                 delete infoLog;
             }
-            cout << src << endl;
+
             return 0;
         }
         return S;

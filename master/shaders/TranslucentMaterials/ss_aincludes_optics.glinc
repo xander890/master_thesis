@@ -24,10 +24,6 @@ vec2 fresnelPowerTransmittance(vec3 inv, vec3 n)
 
 float fresnel_T(vec3 inv, vec3 n)
 {
-#ifdef SCHLICK
-    return t0 + t0 * pow(1 - dot(inv,n),5.0f);
-#else
     vec2 T = fresnelPowerTransmittance(inv,n);
     return 0.5 * (T.x + T.y);
-#endif
 }

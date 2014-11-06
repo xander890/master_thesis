@@ -5,10 +5,16 @@ using namespace CGLA;
 
 Mesh::ScatteringMaterial* getDefaultMaterial(DefaultScatteringMaterial material)
 {
-    const float scale = 100.0f;
+    return getDefaultMaterial(material, 100.0f);
+}
+
+Mesh::ScatteringMaterial* getDefaultMaterial(DefaultScatteringMaterial material, float scale)
+{
+
     Vec3f g = Vec3f(0);
     Vec3f sigma_s = Vec3f(0);
     Vec3f sigma_a = Vec3f(0);
+    float ior = 1.333f;
     switch(material)
     {
     case S_Chicken:
@@ -29,7 +35,7 @@ Mesh::ScatteringMaterial* getDefaultMaterial(DefaultScatteringMaterial material)
     case S_Whitegrapefruit:
      sigma_s = Vec3f(0.3513f, 0.3669f, 0.5237f);
      sigma_a = Vec3f(0.3609f, 0.3800f, 0.5632f) - sigma_s;
-     g = Vec3f(0.548f, 0.545f, 0.565f);
+     g = Vec3f(0.00548f, 0.00545f, 0.00565f);
     break;
     case S_Beer:
      sigma_a = Vec3f(0.1449f,0.3141f,0.7286f);
@@ -48,13 +54,15 @@ Mesh::ScatteringMaterial* getDefaultMaterial(DefaultScatteringMaterial material)
 
     break;
     case S_Marble:
-     sigma_a = Vec3f(0.0021f,0.0041f,0.0071f);
-     sigma_s = Vec3f(2.19f,2.62f,3.00f);
+     ior = 1.5f;
+     sigma_a = Vec3f(0.00021f,0.00041f,0.00071f);
+     sigma_s = Vec3f(0.219f,0.262f,0.300f);
      g = Vec3f(0.0f,0.0f,0.0f);
     break;
     case S_Potato:
-     sigma_s = Vec3f(0.68f, 0.70f, 0.55f);
-     sigma_a = Vec3f(0.0024f, 0.0090f, 0.12f);
+
+     sigma_s = Vec3f( 0.68f,0.70f,0.55f);
+     sigma_a = Vec3f(0.0024f,0.0090f,0.12f);
      g = Vec3f(0.0f, 0.0f, 0.0f);
     break;
     case S_Ketchup:
@@ -74,5 +82,5 @@ Mesh::ScatteringMaterial* getDefaultMaterial(DefaultScatteringMaterial material)
     break;
     }
 
-    return new Mesh::ScatteringMaterial(1.33f,scale * sigma_a, scale * sigma_s, g);
+    return new Mesh::ScatteringMaterial(ior,scale * sigma_a, scale * sigma_s, g);
 }

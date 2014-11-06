@@ -11,6 +11,6 @@ CGLA::Vec3f invertVec3f(const CGLA::Vec3f vector);
 CGLA::Vec3f sqrtVec3f(const CGLA::Vec3f vector);
 CGLA::Vec3f powVec3f(const CGLA::Vec3f vector, const float exp);
 CGLA::Vec3f expVec3f(const CGLA::Vec3f vector);
-
+float max3(const CGLA::Vec3f vector);
 
 #endif // CGLAUTILS_H

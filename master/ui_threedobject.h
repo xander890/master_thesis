@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QComboBox>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
@@ -37,13 +38,14 @@ public:
     VectorForm *position;
     VectorForm *rotation;
     VectorForm *scale;
+    QComboBox *modelcombobox;
     QSpacerItem *verticalSpacer;
 
     void setupUi(QWidget *ThreeDObjectGUI)
     {
         if (ThreeDObjectGUI->objectName().isEmpty())
             ThreeDObjectGUI->setObjectName(QStringLiteral("ThreeDObjectGUI"));
-        ThreeDObjectGUI->resize(430, 210);
+        ThreeDObjectGUI->resize(430, 250);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -52,12 +54,12 @@ public:
         ThreeDObjectGUI->setMinimumSize(QSize(430, 210));
         groupBox = new QGroupBox(ThreeDObjectGUI);
         groupBox->setObjectName(QStringLiteral("groupBox"));
-        groupBox->setGeometry(QRect(10, 10, 411, 191));
+        groupBox->setGeometry(QRect(10, 10, 411, 231));
         groupBox->setFlat(false);
         groupBox->setCheckable(true);
         verticalLayoutWidget = new QWidget(groupBox);
         verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(10, 20, 402, 161));
+        verticalLayoutWidget->setGeometry(QRect(10, 20, 402, 211));
         verticalLayout = new QVBoxLayout(verticalLayoutWidget);
         verticalLayout->setSpacing(0);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
@@ -113,14 +115,17 @@ public:
 
         verticalLayout->addWidget(scale);
 
+        modelcombobox = new QComboBox(verticalLayoutWidget);
+        modelcombobox->setObjectName(QStringLiteral("modelcombobox"));
+        modelcombobox->setMinimumSize(QSize(0, 30));
+        modelcombobox->setEditable(false);
+
+        verticalLayout->addWidget(modelcombobox);
+
         verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         verticalLayout->addItem(verticalSpacer);
 
-        verticalLayoutWidget->raise();
-        groupBox->raise();
-        scale->raise();
-        scale->raise();
 
         retranslateUi(ThreeDObjectGUI);
 
@@ -132,6 +137,7 @@ public:
         ThreeDObjectGUI->setWindowTitle(QApplication::translate("ThreeDObjectGUI", "Form", 0));
         groupBox->setTitle(QApplication::translate("ThreeDObjectGUI", "Object", 0));
         label->setText(QApplication::translate("ThreeDObjectGUI", "Name: ", 0));
+        modelcombobox->setCurrentText(QString());
     } // retranslateUi
 
 };

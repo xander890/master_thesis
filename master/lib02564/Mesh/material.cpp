@@ -24,8 +24,8 @@ namespace Mesh
             Texture * texture = *it;
             shader.use_texture(texture, count);
 
-            if(texture->isImage())
-                glBindImageTexture(count, texture->get_id(), 0, texture->isLayered(), 0, texture->getAccess(), GL_RGBA32F);
+//            if(texture->isImage())
+//                glBindImageTexture(count, texture->get_id(), 0, texture->isLayered(), 0, texture->getAccess(), GL_RGBA32F);
 
             count++;
         }

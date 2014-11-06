@@ -80,6 +80,7 @@ int ArrayTextureBuffer::enable(int layer)
 
     glDrawBuffer(GL_COLOR_ATTACHMENT0);
 
+    glClearColor(0,0,0,0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     check_gl_error();
 

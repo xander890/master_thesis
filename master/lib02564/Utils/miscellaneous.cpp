@@ -209,11 +209,17 @@ void planeHaltonCircleRejectionExponential(std::vector<Vec2f> &result, int n, fl
 
    gel_srand(0);
    int i = 1;
+   sigma_tr = 21.0f;
+   float D = 0.0138f;
    while(accepted < n)
    {
         Vec2f point = haltonPointCircle(i, 2, 3);
         float rad = point.length() * radius;
-        float expon = exp(-1 * (sigma_tr * rad));
+        Vec3f refr = refract(normalize(Vec3f(1,1,1) - Vec3f(point[0],point[1],0)),Vec3f(0,0,1),1.0f,1.3f);
+        float cosp = dot(refr, normalize(Vec3f(point[0],point[1],0)));
+        float expon = D * sigma_tr * sigma_tr * 0.5 *
+                (( rad * rad  * (1.0f/D + 3 * sigma_tr * rad * cosp) + 3 * rad * cosp)
+                   * exp(-1 * (sigma_tr * rad)));
         float zeta = gel_rand() / ((float)(GEL_RAND_MAX));
         if(zeta < expon)
         {
@@ -222,6 +228,8 @@ void planeHaltonCircleRejectionExponential(std::vector<Vec2f> &result, int n, fl
         }
         i++;
    }
+   //cout << "Points, halton" << endl;
+   //for(int i = 0; i < n; i++) cout << result[i][0] << " " << result[i][1] << endl;
    cout << "Acceptance rate: " << (float)n / i << endl;
 }
 
@@ -329,8 +337,13 @@ void planeHalton(std::vector<Vec2f> &result, int n)
 
 Vec2f haltonPointCircle(int k, int p1, int p2)
 {
-    Vec3f sph = haltonPointSphere(k,p1,p2);
-    return Vec2f(sph[0],sph[1]);
+    Vec2f p = haltonPoint(k,p1,p2);
+    float x = p[0];
+    float y = p[1];
+    float phi = 2 * M_PI * y;
+    float radius = sqrt(x);
+    //Vec3f sph = haltonPointSphere(k,p1,p2);
+    return Vec2f(radius * cos(phi), radius * sin(phi));
 }
 
 
@@ -374,6 +387,28 @@ void planeHaltonCircleRejectionExponentialMulti(std::vector<std::vector<Vec2f> >
     }
 }
 
+void planeHaltonCircleUniformMulti(std::vector<std::vector<Vec2f> > &result, int n, int cols, float sigma_tr, float radius)
+{
+    vector<Vec2f> intermediate;
+    for(int i = 1; i < (n + 1); i++)
+    {
+        intermediate.push_back(radius * haltonPointCircle(i,2,3));
+    }
+    for(int k = 0; k < cols; k++)
+    {
+        float angle = ((float)k) / cols * 2 * M_PI;
+        Mat2x2f rot = Mat2x2f(cos(angle),sin(angle), -sin(angle), cos(angle));
+
+        vector<Vec2f> * vec = new vector<Vec2f>(n);
+        for(int i = 0; i < n; i++)
+        {
+            (*vec)[i] = rot * intermediate[i];
+        }
+        result.push_back(*vec);
+    }
+}
+
+
 
 void sphereHalton(std::vector<Vec3f> &result, int n)
 {
@@ -398,3 +433,19 @@ void print_memory_info_nvidia()
     check_gl_error();
 }
 
+float exponential_over_cube_approximation(float sigma_tr, float min_radius)
+{
+    float a = min_radius;
+    float t1 = sigma_tr * a;
+    float t2 = exp(-t1);
+    float t7 = sqrt(t1);
+    float t11 = sqrt(0.806e3);
+    float t13 = pow(t1, (float)(t11 / 0.26e2));
+    float t21 = pow(0.1e1 / (t1 * t7 + 0.1e1) + 0.4596323387e0 * t13 / (0.1e1 + 0.20e2 / 0.47e2 * t13) + 0.1042076494e1 * t1, 0.2e1);
+    float t25 = log(0.1e1 + 0.5614594836e0 / sigma_tr / a - 0.4385405164e0 / t21);
+    float t28 = exp(-0.2280291017e1 * t1);
+    float t32 = sigma_tr * sigma_tr;
+    float t34 = a * a;
+    return (t2 * t25 / (0.5614594836e0 + 0.4385405164e0 * t28) * t32 * t34 - t2 * a * sigma_tr + t2) / t34 / 0.2e1;
+
+}

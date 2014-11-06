@@ -1,4 +1,4 @@
-vec3 bssrdf(in vec3 xi, in vec3 wi, in vec3 ni, in vec3 xo, in vec3 no)
+vec3 bssrdf(vec3 xi,vec3 ni,vec3 wi,vec3 xo, vec3 no)
 {
     float l = length(xo - xi);
 
@@ -26,11 +26,11 @@ vec3 bssrdf(in vec3 xi, in vec3 wi, in vec3 ni, in vec3 xo, in vec3 no)
 
     vec3 S = coeff * (real + virt);
 
-    float Ti = fresnel_T(wi,ni,nin,ntr);
+    float Ti = fresnel_T(wi,ni);
     //float To = fresnel_T(wo,no,nin,ntr);
 
-    S = S *(1.0f/M_PI)* Ti;// * To;
-    S /= global_coeff;
+    S *= Ti;// * To;
+
     S = max(vec3(0.0f),S);
     //S = vec3(length(xo-xi));
 

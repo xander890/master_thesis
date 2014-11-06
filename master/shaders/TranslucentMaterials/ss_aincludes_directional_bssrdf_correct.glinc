@@ -1,4 +1,5 @@
 const float EPSILON_MU = 0.0f;
+const vec3 MIN_DV_SQR = vec3(0.01f);
 const vec3 one = vec3(1.0f);
 vec3 S_infinite(vec3 _r, vec3 _r_sq, float x_dot_w12, float no_dot_w12, float x_dot_no)
 {
@@ -46,11 +47,11 @@ vec3 bssrdf(vec3 _xi,vec3 _nin,vec3 _wi,vec3 _xo, vec3 _no)
     vec3 _dr = sqrt(_dr_sqr);
 
     float edge_nistar = step(abs(dot_x_no),0.01f); // 1.0 if dot_x_no > 0.01
-    vec3 _t = normalize(cross(_nin,_x));
+    vec3 _t = normalize(cross(_nin,normalize(_x)));
     vec3 _nistar = _nin * edge_nistar + cross(normalize(_x),_t) * (1.0f - edge_nistar);
 
     mat3 _xov = mat3(_x,_x,_x) - outerProduct(_nistar, two_a_de);
-    vec3 _dv_sqr = vec3(dot(_xov[0],_xov[0]),dot(_xov[1],_xov[1]),dot(_xov[2],_xov[2]));
+    vec3 _dv_sqr = max(MIN_DV_SQR,vec3(dot(_xov[0],_xov[0]),dot(_xov[1],_xov[1]),dot(_xov[2],_xov[2])));
     vec3 _dv = sqrt(_dv_sqr);
     vec3 _wv = _w12 - 2 * dot(_w12,_nistar) * _nistar;
 
@@ -62,7 +63,171 @@ vec3 bssrdf(vec3 _xi,vec3 _nin,vec3 _wi,vec3 _xo, vec3 _no)
     vec3 _S = _S_r - _S_v;
 
     _S *= fresnel_T(_wi,_nin);
-    _S = max(vec3(0.0f),_S);
+    _S = max(vec3(0.0f),_S * global_coeff);
 
     return _S;
 }
+
+
+float S_infinite_spectral_r(float _r, float _r_sq, float x_dot_w12, float no_dot_w12, float x_dot_no)
+{
+    float _r_tr = transmission.r * _r;
+    float _r_tr_p1 = _r_tr + one;
+    float _T = exp(-_r_tr);
+    float coeff = _T / (_r * _r_sq);
+    float first = C_s * ( _r_sq * D_rev.r + 3 * _r_tr_p1 * x_dot_w12);
+    float second = C_e * ( three_D.r * _r_tr_p1 * no_dot_w12 - (_r_tr_p1 + three_D.r * (3 *_r_tr_p1 + _r_tr * _r_tr) / (_r_sq) * x_dot_w12) * x_dot_no);
+    float _S = coeff * (first - second);
+    return _S;
+}
+
+float bssrdf_spectral_part_r(vec3 _xi,vec3 _nin,vec3 _wi,vec3 _xo, vec3 _no)
+{
+    vec3 _x = _xo - _xi;
+    float r_sqr = dot(_x,_x);
+    vec3 _w12 = refract2(_wi,_nin);
+
+    float mu = -dot(_no, _w12);
+    float dot_x_w12 = dot(_x,_w12);
+    float dot_x_no = dot(_x,_no);
+
+    float _r_sqr = r_sqr;
+    float _dr_sqr = _r_sqr;
+
+    float edge = step(mu, EPSILON_MU); // == 1.0 if mu > EPSILON_MU
+    float project = sqrt((r_sqr - dot_x_w12 * dot_x_w12)/sqrt(_r_sqr + de_sqr.r));
+    float _D_prime = abs(mu) * D.r * edge + one_over_three_ext.r * (1.0f - edge);
+    _dr_sqr += _D_prime * (_D_prime + two_de.r * project * edge);
+
+    float _dr = sqrt(_dr_sqr);
+
+    float edge_nistar = step(abs(dot_x_no),0.0f); // 1.0 if dot_x_no > 0.01
+    vec3 _t = normalize(cross(_nin,normalize(_x)));
+    vec3 _nistar = _nin * edge_nistar + cross(normalize(_x),_t) * (1.0f - edge_nistar);
+
+    vec3 _xov = _x - _nistar * two_a_de.r;
+    float _dv_sqr = dot(_xov,_xov);
+    float _dv = sqrt(_dv_sqr);
+    vec3 _wv = _w12 - 2 * dot(_w12,_nistar) * _nistar;
+
+    float _x_dot_wv = dot(_wv,_xov);
+    float _x_dot_no = dot(_no,_xov);
+
+    float _S_r = S_infinite_spectral_r(_dr, _dr_sqr, dot_x_w12, -mu, dot_x_no);
+    float _S_v = S_infinite_spectral_r(_dv, _dv_sqr, _x_dot_wv, dot(_no,_wv),_x_dot_no);
+    float _S = _S_r - _S_v;
+
+    _S *= fresnel_T(_wi,_nin);
+    _S = max(0.0f,_S * global_coeff);
+
+    return _S;
+}
+
+float S_infinite_spectral_g(float _r, float _r_sq, float x_dot_w12, float no_dot_w12, float x_dot_no)
+{
+    float _r_tr = transmission.g * _r;
+    float _r_tr_p1 = _r_tr + one;
+    float _T = exp(-_r_tr);
+    float coeff = _T / (_r * _r_sq);
+    float first = C_s * ( _r_sq * D_rev.g + 3 * _r_tr_p1 * x_dot_w12);
+    float second = C_e * ( three_D.g * _r_tr_p1 * no_dot_w12 - (_r_tr_p1 + three_D.g * (3 *_r_tr_p1 + _r_tr * _r_tr) / (_r_sq) * x_dot_w12) * x_dot_no);
+    float _S = coeff * (first - second);
+    return _S;
+}
+
+float bssrdf_spectral_part_g(vec3 _xi,vec3 _nin,vec3 _wi,vec3 _xo, vec3 _no)
+{
+    vec3 _x = _xo - _xi;
+    float r_sqr = dot(_x,_x);
+    vec3 _w12 = refract2(_wi,_nin);
+
+    float mu = -dot(_no, _w12);
+    float dot_x_w12 = dot(_x,_w12);
+    float dot_x_no = dot(_x,_no);
+
+    float _r_sqr = r_sqr;
+    float _dr_sqr = _r_sqr;
+
+    float edge = step(mu, EPSILON_MU); // == 1.0 if mu > EPSILON_MU
+    float project = sqrt((r_sqr - dot_x_w12 * dot_x_w12)/sqrt(_r_sqr + de_sqr.g));
+    float _D_prime = abs(mu) * D.g * edge + one_over_three_ext.r * (1.0f - edge);
+    _dr_sqr += _D_prime * (_D_prime + two_de.g * project * edge);
+
+    float _dr = sqrt(_dr_sqr);
+
+    float edge_nistar = step(abs(dot_x_no),0.0f); // 1.0 if dot_x_no > 0.01
+    vec3 _t = normalize(cross(_nin,normalize(_x)));
+    vec3 _nistar = _nin * edge_nistar + cross(normalize(_x),_t) * (1.0f - edge_nistar);
+
+    vec3 _xov = _x - _nistar * two_a_de.g;
+    float _dv_sqr = dot(_xov,_xov);
+    float _dv = sqrt(_dv_sqr);
+    vec3 _wv = _w12 - 2 * dot(_w12,_nistar) * _nistar;
+
+    float _x_dot_wv = dot(_wv,_xov);
+    float _x_dot_no = dot(_no,_xov);
+
+    float _S_r = S_infinite_spectral_g(_dr, _dr_sqr, dot_x_w12, -mu, dot_x_no);
+    float _S_v = S_infinite_spectral_g(_dv, _dv_sqr, _x_dot_wv, dot(_no,_wv),_x_dot_no);
+    float _S = _S_r - _S_v;
+
+    _S *= fresnel_T(_wi,_nin);
+    _S = max(0.0f,_S * global_coeff);
+
+    return _S;
+}
+
+float S_infinite_spectral_b(float _r, float _r_sq, float x_dot_w12, float no_dot_w12, float x_dot_no)
+{
+    float _r_tr = transmission.b * _r;
+    float _r_tr_p1 = _r_tr + one;
+    float _T = exp(-_r_tr);
+    float coeff = _T / (_r * _r_sq);
+    float first = C_s * ( _r_sq * D_rev.b + 3 * _r_tr_p1 * x_dot_w12);
+    float second = C_e * ( three_D.b * _r_tr_p1 * no_dot_w12 - (_r_tr_p1 + three_D.b * (3 *_r_tr_p1 + _r_tr * _r_tr) / (_r_sq) * x_dot_w12) * x_dot_no);
+    float _S = coeff * (first - second);
+    return _S;
+}
+
+float bssrdf_spectral_part_b(vec3 _xi,vec3 _nin,vec3 _wi,vec3 _xo, vec3 _no)
+{
+    vec3 _x = _xo - _xi;
+    float r_sqr = dot(_x,_x);
+    vec3 _w12 = refract2(_wi,_nin);
+
+    float mu = -dot(_no, _w12);
+    float dot_x_w12 = dot(_x,_w12);
+    float dot_x_no = dot(_x,_no);
+
+    float _r_sqr = r_sqr;
+    float _dr_sqr = _r_sqr;
+
+    float edge = step(mu, EPSILON_MU); // == 1.0 if mu > EPSILON_MU
+    float project = sqrt((r_sqr - dot_x_w12 * dot_x_w12)/sqrt(_r_sqr + de_sqr.b));
+    float _D_prime = abs(mu) * D.b * edge + one_over_three_ext.r * (1.0f - edge);
+    _dr_sqr += _D_prime * (_D_prime + two_de.b * project * edge);
+
+    float _dr = sqrt(_dr_sqr);
+
+    float edge_nistar = step(abs(dot_x_no),0.0f); // 1.0 if dot_x_no > 0.01
+    vec3 _t = normalize(cross(_nin,normalize(_x)));
+    vec3 _nistar = _nin * edge_nistar + cross(normalize(_x),_t) * (1.0f - edge_nistar);
+
+    vec3 _xov = _x - _nistar * two_a_de.b;
+    float _dv_sqr = dot(_xov,_xov);
+    float _dv = sqrt(_dv_sqr);
+    vec3 _wv = _w12 - 2 * dot(_w12,_nistar) * _nistar;
+
+    float _x_dot_wv = dot(_wv,_xov);
+    float _x_dot_no = dot(_no,_xov);
+
+    float _S_r = S_infinite_spectral_b(_dr, _dr_sqr, dot_x_w12, -mu, dot_x_no);
+    float _S_v = S_infinite_spectral_b(_dv, _dv_sqr, _x_dot_wv, dot(_no,_wv),_x_dot_no);
+    float _S = _S_r - _S_v;
+
+    _S *= fresnel_T(_wi,_nin);
+    _S = max(0.0f,_S * global_coeff);
+
+    return _S;
+}
+

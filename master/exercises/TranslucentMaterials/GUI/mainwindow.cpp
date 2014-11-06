@@ -16,17 +16,19 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->clearColor->init("Clear color: ", ui->translucentMaterials->getClearColor());
     connect(ui->clearColor,SIGNAL(vectorChanged(CGLA::Vec4f&)),ui->translucentMaterials,SLOT(setClearColor(CGLA::Vec4f&)));
+    //Vec3f userpos = Vec3f(-0.01684, -0.2174, 0.1101);// buddha
     //Vec3f userpos = Vec3f(0.016, 1.03, 0.054);// buddha
-    Vec3f userpos = Vec3f(-0.1,-1.2,0.8); //bunny
+    //Vec3f userpos = Vec3f(-0.1,-1.2,0.8); //bunny
     //Vec3f userpos = Vec3f(-1.08199,-0.701759,0.8); //dragon cloaseup
-    //Vec3f userpos = Vec3f(0,-2.2,0); //dragon
+    Vec3f userpos = Vec3f(0,-2.2,0); //dragon
+    //Vec3f userpos = Vec3f(0,1,0);
     ui->userPosition->init("User position: ", userpos);
     ui->translucentMaterials->setUserPosition(userpos);
     connect(ui->userPosition,SIGNAL(vectorChanged(CGLA::Vec3f&)),ui->translucentMaterials,SLOT(setUserPosition(CGLA::Vec3f&)));
     connect(ui->translucentMaterials,SIGNAL(userPositionChanged(CGLA::Vec3f&)),ui->userPosition,SLOT(setValue(CGLA::Vec3f&)));
 
-    Vec3f userdir = Vec3f(0,0.918,-0.397);
-    //Vec3f userdir = Vec3f(0,-1,0);
+    //Vec3f userdir = Vec3f(0,0.918,-0.397);
+    Vec3f userdir = Vec3f(0,1,0);
     //Vec3f userdir = Vec3f(0.51831,0.69886,-0.492898); //dragon closeup
 
     ui->userDirection->init("User direction: ", userdir);
@@ -34,8 +36,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->userDirection, SIGNAL(vectorChanged(CGLA::Vec3f&)),ui->translucentMaterials,SLOT(setUserDirection(CGLA::Vec3f&)));
     connect(ui->translucentMaterials,SIGNAL(userDirectionChanged(CGLA::Vec3f&)),ui->userDirection,SLOT(setValue(CGLA::Vec3f&)));
 
-    ui->translucentMaterials->setLightIntensity(25.0f);
-    ui->intensity->setValue(25);
+    ui->translucentMaterials->setLightIntensity(5.0f);
+    ui->intensity->setValue(5);
 
     connect(ui->showgrid, SIGNAL(toggled(bool)), ui->translucentMaterials, SLOT(setGridVisible(bool)));
     ui->showgrid->setChecked(false);
@@ -54,21 +56,27 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->radius, SIGNAL(valueChanged(float)), this, SLOT(radiusChanged(float)));
 
 
-    ui->samples->init("Samples (per all lights): ",ui->translucentMaterials->getParameters()->samples,1,1000, true);
+    ui->samples->init("Samples (per all lights): ",ui->translucentMaterials->getParameters()->samples,1,500, true);
     connect(ui->samples, SIGNAL(valueChanged(float)), this, SLOT(samplesChanged(float)));
 
-    ui->maxsamples->init("Max samples: ",ui->translucentMaterials->getParameters()->maxsamples,1,1000, true);
+    ui->maxsamples->init("Max samples: ",ui->translucentMaterials->getParameters()->maxsamples,50000,1000000, true);
     connect(ui->maxsamples, SIGNAL(valueChanged(float)), this, SLOT(maxsamplesChanged(float)));
 
 
-    ui->epsilon_combination->init("Comb. offset: ", ui->translucentMaterials->getParameters()->epsilon_combination, 0.0, 0.1, false);
+    ui->epsilon_combination->init("Comb. offset: ", ui->translucentMaterials->getParameters()->epsilon_combination, 0.0, 0.05, false);
     connect(ui->epsilon_combination,SIGNAL(valueChanged(float)), this, SLOT(epsilonCombinationChanged(float)));
 
-    ui->shadow_bias->init("Shadow bias: ", ui->translucentMaterials->getParameters()->shadow_bias, 0.0, 0.06, false);
+    ui->shadow_bias->init("Shadow bias: ", ui->translucentMaterials->getParameters()->shadow_bias, 0.0, 0.03, false);
     connect(ui->shadow_bias, SIGNAL(valueChanged(float)), this, SLOT(shadowBiasChanged(float)));
 
     ui->lod->init("Lod: ", ui->translucentMaterials->getParameters()->LOD, 0, 3, true);
     connect(ui->lod, SIGNAL(valueChanged(float)), this, SLOT(LODChanged(float)));
+
+    ui->a->init("A: ", ui->translucentMaterials->getParameters()->a, 0, 2, false);
+    connect(ui->a, SIGNAL(valueChanged(float)), this, SLOT(achanged(float)));
+
+    ui->b->init("B: ", ui->translucentMaterials->getParameters()->b, 0, 50, false);
+    connect(ui->b, SIGNAL(valueChanged(float)), this, SLOT(bchanged(float)));
 
     ui->gamma->init("Gamma: ", ui->translucentMaterials->getParameters()->gamma, 0.1, 3.5, false);
     connect(ui->gamma, SIGNAL(valueChanged(float)), this, SLOT(gammaChanged(float)));
@@ -186,6 +194,16 @@ void MainWindow::shadowBiasChanged(float value)
 void MainWindow::LODChanged(float value)
 {
     ui->translucentMaterials->getParameters()->LOD = value;
+}
+
+void MainWindow::achanged(float value)
+{
+    ui->translucentMaterials->getParameters()->a = value;
+}
+
+void MainWindow::bchanged(float value)
+{
+    ui->translucentMaterials->getParameters()->b = value;
 }
 
 void MainWindow::gammaChanged(float value)

@@ -36,6 +36,11 @@ void Mesh::Texture::reloadData(std::vector<CGLA::Vec3f> & ndata, int newWidth, i
     }
 }
 
+void Mesh::Texture::bind()
+{
+    glBindTexture(target, id);
+}
+
 std::vector<CGLA::Vec3f> Mesh::Texture::getData()
 {
     return data;

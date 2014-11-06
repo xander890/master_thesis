@@ -57,7 +57,7 @@ public:
     QWidget *General;
     QWidget *verticalLayoutWidget;
     QVBoxLayout *verticalLayout;
-    QGroupBox *groupBox;
+    QGroupBox *general;
     VectorForm *userPosition;
     ColorForm *clearColor;
     VectorForm *userDirection;
@@ -76,7 +76,6 @@ public:
     QVBoxLayout *verticalLayout_2;
     QLabel *fpslabel;
     QSpacerItem *verticalSpacer_2;
-    QCheckBox *vertexpixel;
     QVBoxLayout *verticalLayout_4;
     QLabel *label_2;
     QRadioButton *jensenbutton;
@@ -91,21 +90,15 @@ public:
     QWidget *tab;
     QWidget *verticalLayoutWidget_4;
     QVBoxLayout *verticalLayout_3;
+    SliderLabel *maxsamples;
     SliderLabel *radius;
     SliderLabel *samples;
-    SliderLabel *epsilon_gbuffer;
     SliderLabel *epsilon_combination;
     SliderLabel *shadow_bias;
     SliderLabel *lod;
     QGridLayout *gridLayout;
     QCheckBox *cubemapVisible;
-    QLabel *label;
-    QCheckBox *minusZcheck;
-    QCheckBox *minusYcheck;
-    QCheckBox *plusZcheck;
-    QCheckBox *plusYcheck;
-    QCheckBox *minusXcheck;
-    QCheckBox *plusXcheck;
+    QCheckBox *environment;
     QSpacerItem *verticalSpacer_4;
     QMenuBar *menubar;
     QMenu *menuFile;
@@ -117,7 +110,8 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(1143, 746);
+        MainWindow->resize(1470, 1024);
+        MainWindow->setMinimumSize(QSize(1024, 1024));
         actionSave_Image = new QAction(MainWindow);
         actionSave_Image->setObjectName(QStringLiteral("actionSave_Image"));
         actionQuit = new QAction(MainWindow);
@@ -136,7 +130,7 @@ public:
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
         horizontalLayoutWidget = new QWidget(centralwidget);
         horizontalLayoutWidget->setObjectName(QStringLiteral("horizontalLayoutWidget"));
-        horizontalLayoutWidget->setGeometry(QRect(0, 0, 1141, 702));
+        horizontalLayoutWidget->setGeometry(QRect(0, 0, 1464, 1071));
         mainLayout = new QHBoxLayout(horizontalLayoutWidget);
         mainLayout->setSpacing(6);
         mainLayout->setObjectName(QStringLiteral("mainLayout"));
@@ -148,7 +142,7 @@ public:
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(translucentMaterials->sizePolicy().hasHeightForWidth());
         translucentMaterials->setSizePolicy(sizePolicy);
-        translucentMaterials->setMinimumSize(QSize(700, 700));
+        translucentMaterials->setMinimumSize(QSize(1024, 1024));
 
         mainLayout->addWidget(translucentMaterials);
 
@@ -172,15 +166,15 @@ public:
         verticalLayout = new QVBoxLayout(verticalLayoutWidget);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         verticalLayout->setContentsMargins(6, 0, 0, 0);
-        groupBox = new QGroupBox(verticalLayoutWidget);
-        groupBox->setObjectName(QStringLiteral("groupBox"));
+        general = new QGroupBox(verticalLayoutWidget);
+        general->setObjectName(QStringLiteral("general"));
         QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy2.setHorizontalStretch(0);
         sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(groupBox->sizePolicy().hasHeightForWidth());
-        groupBox->setSizePolicy(sizePolicy2);
-        groupBox->setMinimumSize(QSize(400, 250));
-        userPosition = new VectorForm(groupBox);
+        sizePolicy2.setHeightForWidth(general->sizePolicy().hasHeightForWidth());
+        general->setSizePolicy(sizePolicy2);
+        general->setMinimumSize(QSize(400, 250));
+        userPosition = new VectorForm(general);
         userPosition->setObjectName(QStringLiteral("userPosition"));
         userPosition->setGeometry(QRect(10, 50, 400, 30));
         QSizePolicy sizePolicy3(QSizePolicy::Preferred, QSizePolicy::Fixed);
@@ -190,21 +184,21 @@ public:
         userPosition->setSizePolicy(sizePolicy3);
         userPosition->setMinimumSize(QSize(400, 30));
         userPosition->setMaximumSize(QSize(400, 30));
-        clearColor = new ColorForm(groupBox);
+        clearColor = new ColorForm(general);
         clearColor->setObjectName(QStringLiteral("clearColor"));
         clearColor->setGeometry(QRect(10, 20, 400, 30));
         sizePolicy3.setHeightForWidth(clearColor->sizePolicy().hasHeightForWidth());
         clearColor->setSizePolicy(sizePolicy3);
         clearColor->setMinimumSize(QSize(400, 30));
         clearColor->setMaximumSize(QSize(400, 30));
-        userDirection = new VectorForm(groupBox);
+        userDirection = new VectorForm(general);
         userDirection->setObjectName(QStringLiteral("userDirection"));
         userDirection->setGeometry(QRect(10, 80, 400, 30));
         sizePolicy3.setHeightForWidth(userDirection->sizePolicy().hasHeightForWidth());
         userDirection->setSizePolicy(sizePolicy3);
         userDirection->setMinimumSize(QSize(400, 30));
         userDirection->setMaximumSize(QSize(400, 30));
-        horizontalLayoutWidget_2 = new QWidget(groupBox);
+        horizontalLayoutWidget_2 = new QWidget(general);
         horizontalLayoutWidget_2->setObjectName(QStringLiteral("horizontalLayoutWidget_2"));
         horizontalLayoutWidget_2->setGeometry(QRect(10, 170, 381, 29));
         horizontalLayout = new QHBoxLayout(horizontalLayoutWidget_2);
@@ -230,7 +224,7 @@ public:
 
         horizontalLayout->addWidget(intensitylabel);
 
-        horizontalLayoutWidget_3 = new QWidget(groupBox);
+        horizontalLayoutWidget_3 = new QWidget(general);
         horizontalLayoutWidget_3->setObjectName(QStringLiteral("horizontalLayoutWidget_3"));
         horizontalLayoutWidget_3->setGeometry(QRect(10, 140, 371, 31));
         horizontalLayout_2 = new QHBoxLayout(horizontalLayoutWidget_3);
@@ -246,11 +240,11 @@ public:
 
         horizontalLayout_2->addWidget(showgrid);
 
-        gamma = new SliderLabel(groupBox);
+        gamma = new SliderLabel(general);
         gamma->setObjectName(QStringLiteral("gamma"));
         gamma->setGeometry(QRect(0, 110, 401, 31));
 
-        verticalLayout->addWidget(groupBox);
+        verticalLayout->addWidget(general);
 
         statistics = new QGroupBox(verticalLayoutWidget);
         statistics->setObjectName(QStringLiteral("statistics"));
@@ -272,11 +266,6 @@ public:
 
 
         verticalLayout->addWidget(statistics);
-
-        vertexpixel = new QCheckBox(verticalLayoutWidget);
-        vertexpixel->setObjectName(QStringLiteral("vertexpixel"));
-
-        verticalLayout->addWidget(vertexpixel);
 
         verticalLayout_4 = new QVBoxLayout();
         verticalLayout_4->setObjectName(QStringLiteral("verticalLayout_4"));
@@ -340,6 +329,13 @@ public:
         verticalLayout_3->setSpacing(0);
         verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
         verticalLayout_3->setContentsMargins(6, 0, 0, 0);
+        maxsamples = new SliderLabel(verticalLayoutWidget_4);
+        maxsamples->setObjectName(QStringLiteral("maxsamples"));
+        maxsamples->setEnabled(true);
+        maxsamples->setMinimumSize(QSize(0, 30));
+
+        verticalLayout_3->addWidget(maxsamples);
+
         radius = new SliderLabel(verticalLayoutWidget_4);
         radius->setObjectName(QStringLiteral("radius"));
         radius->setEnabled(true);
@@ -353,13 +349,6 @@ public:
         samples->setMinimumSize(QSize(0, 30));
 
         verticalLayout_3->addWidget(samples);
-
-        epsilon_gbuffer = new SliderLabel(verticalLayoutWidget_4);
-        epsilon_gbuffer->setObjectName(QStringLiteral("epsilon_gbuffer"));
-        epsilon_gbuffer->setEnabled(true);
-        epsilon_gbuffer->setMinimumSize(QSize(0, 30));
-
-        verticalLayout_3->addWidget(epsilon_gbuffer);
 
         epsilon_combination = new SliderLabel(verticalLayoutWidget_4);
         epsilon_combination->setObjectName(QStringLiteral("epsilon_combination"));
@@ -389,46 +378,10 @@ public:
 
         gridLayout->addWidget(cubemapVisible, 2, 0, 1, 1);
 
-        label = new QLabel(verticalLayoutWidget_4);
-        label->setObjectName(QStringLiteral("label"));
+        environment = new QCheckBox(verticalLayoutWidget_4);
+        environment->setObjectName(QStringLiteral("environment"));
 
-        gridLayout->addWidget(label, 3, 0, 1, 1);
-
-        minusZcheck = new QCheckBox(verticalLayoutWidget_4);
-        minusZcheck->setObjectName(QStringLiteral("minusZcheck"));
-        minusZcheck->setChecked(true);
-
-        gridLayout->addWidget(minusZcheck, 9, 0, 1, 1);
-
-        minusYcheck = new QCheckBox(verticalLayoutWidget_4);
-        minusYcheck->setObjectName(QStringLiteral("minusYcheck"));
-        minusYcheck->setChecked(true);
-
-        gridLayout->addWidget(minusYcheck, 7, 0, 1, 1);
-
-        plusZcheck = new QCheckBox(verticalLayoutWidget_4);
-        plusZcheck->setObjectName(QStringLiteral("plusZcheck"));
-        plusZcheck->setChecked(true);
-
-        gridLayout->addWidget(plusZcheck, 8, 0, 1, 1);
-
-        plusYcheck = new QCheckBox(verticalLayoutWidget_4);
-        plusYcheck->setObjectName(QStringLiteral("plusYcheck"));
-        plusYcheck->setChecked(true);
-
-        gridLayout->addWidget(plusYcheck, 6, 0, 1, 1);
-
-        minusXcheck = new QCheckBox(verticalLayoutWidget_4);
-        minusXcheck->setObjectName(QStringLiteral("minusXcheck"));
-        minusXcheck->setChecked(true);
-
-        gridLayout->addWidget(minusXcheck, 5, 0, 1, 1);
-
-        plusXcheck = new QCheckBox(verticalLayoutWidget_4);
-        plusXcheck->setObjectName(QStringLiteral("plusXcheck"));
-        plusXcheck->setChecked(true);
-
-        gridLayout->addWidget(plusXcheck, 4, 0, 1, 1);
+        gridLayout->addWidget(environment, 3, 0, 1, 1);
 
 
         verticalLayout_3->addLayout(gridLayout);
@@ -447,7 +400,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 1143, 21));
+        menubar->setGeometry(QRect(0, 0, 1470, 21));
         menuFile = new QMenu(menubar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuObjects = new QMenu(menubar);
@@ -473,7 +426,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        Objects->setCurrentIndex(0);
+        Objects->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -491,27 +444,20 @@ public:
         actionBunny->setText(QApplication::translate("MainWindow", "Model", 0));
         actionCow->setText(QApplication::translate("MainWindow", "Cow", 0));
         actionPlane->setText(QApplication::translate("MainWindow", "Plane", 0));
-        groupBox->setTitle(QApplication::translate("MainWindow", "General properties", 0));
+        general->setTitle(QApplication::translate("MainWindow", "General properties", 0));
         intlable->setText(QApplication::translate("MainWindow", "Light intensity:", 0));
         intensitylabel->setText(QApplication::translate("MainWindow", "0", 0));
         showaxes->setText(QApplication::translate("MainWindow", "Show Axes", 0));
         showgrid->setText(QApplication::translate("MainWindow", "Show Grid", 0));
         statistics->setTitle(QApplication::translate("MainWindow", "Statistics", 0));
         fpslabel->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" color:#000000;\">Median time frame (ms): - </span></p></body></html>", 0));
-        vertexpixel->setText(QApplication::translate("MainWindow", "Vertex Mode", 0));
         label_2->setText(QApplication::translate("MainWindow", "Dipole:", 0));
         jensenbutton->setText(QApplication::translate("MainWindow", "Jensen", 0));
         directionalbutton->setText(QApplication::translate("MainWindow", "Directional", 0));
         Objects->setTabText(Objects->indexOf(General), QApplication::translate("MainWindow", "General", 0));
         Objects->setTabText(Objects->indexOf(Objects_2), QApplication::translate("MainWindow", "Objects", 0));
-        cubemapVisible->setText(QApplication::translate("MainWindow", "Enable cubemap", 0));
-        label->setText(QApplication::translate("MainWindow", "Enable cubemap faces:", 0));
-        minusZcheck->setText(QApplication::translate("MainWindow", "-Z", 0));
-        minusYcheck->setText(QApplication::translate("MainWindow", "-Y", 0));
-        plusZcheck->setText(QApplication::translate("MainWindow", "+Z", 0));
-        plusYcheck->setText(QApplication::translate("MainWindow", "+Y", 0));
-        minusXcheck->setText(QApplication::translate("MainWindow", "-X", 0));
-        plusXcheck->setText(QApplication::translate("MainWindow", "+X", 0));
+        cubemapVisible->setText(QApplication::translate("MainWindow", "Enable debug overlay", 0));
+        environment->setText(QApplication::translate("MainWindow", "Enable environment", 0));
         Objects->setTabText(Objects->indexOf(tab), QApplication::translate("MainWindow", "Lights", 0));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", 0));
         menuObjects->setTitle(QApplication::translate("MainWindow", "Objects", 0));
