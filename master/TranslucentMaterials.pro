@@ -24,6 +24,7 @@ mac{
 
 INCLUDEPATH += lib02564
 INCLUDEPATH += exercises/TranslucentMaterials
+QMAKE_LIBDIR += "glu32_location"
 
 QMAKE_CXXFLAGS += /wd4996
 

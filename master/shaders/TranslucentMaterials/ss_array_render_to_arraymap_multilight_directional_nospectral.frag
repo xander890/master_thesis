@@ -15,7 +15,7 @@ smooth in vec3 norm;
 uniform vec4 light_pos[MAX_LIGHTS];
 uniform vec4 light_diff[MAX_LIGHTS];
 uniform int light_number;
-uniform mat4 lightMatrices[MAX_LIGHTS];
+uniform mat4 worldToLightMatrices[MAX_LIGHTS];
 
 uniform float one_over_max_samples;
 uniform float one_over_discs;
@@ -85,8 +85,8 @@ void main(void)
         Li = (light_type > 0.0f)? Li / dot(topoint,topoint) : Li;
 
         float epsilon_gb = 0.001f;
-        vec4 light_post = lightMatrices[current_light] * vec4(xo,1.0f);
-        vec4 light_post_corr = lightMatrices[current_light] * vec4(xo - epsilon_gb * (no - wi * dot(no,wi)),1.0f);
+        vec4 light_post = worldToLightMatrices[current_light] * vec4(xo,1.0f);
+        vec4 light_post_corr = worldToLightMatrices[current_light] * vec4(xo - epsilon_gb * (no - wi * dot(no,wi)),1.0f);
         vec2 circle_center = light_post.xy;
         vec3 circle_center_light = vec3(circle_center, current_light);
         vec3 surface_point =  texture(vtex, vec3(light_post_corr.xy,current_light)).rgb;

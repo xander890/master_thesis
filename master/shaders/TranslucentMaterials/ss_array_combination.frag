@@ -113,7 +113,7 @@ void main(void)
     fragColor *= clamp(F,0.0f,1.0f);
 
 #ifdef RR
-    fragColor *= 1.0f/((current_frame) * samples);
+    fragColor *= 1.0f/((current_frame));
 #endif
 
     //if(div < 0.01)
@@ -127,7 +127,7 @@ void main(void)
     //fragColor *= combined_uniform_coefficient / disc_area;
 
     //fragColor = pow(vec4(1) - exp(-fragColor), vec4(1.0/gamma));
-   fragColor = pow(fragColor , vec4(1.0/gamma));
+   //fragColor = pow(fragColor , vec4(1.0/gamma));
 
    // fragColor = vec4((max(0,1-div)),0,0,1);
 

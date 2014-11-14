@@ -7,6 +7,8 @@ uniform sampler2DArray ntex;
 uniform sampler2DArrayShadow depthMap;
 uniform sampler2DArrayShadow newDepthMap;
 uniform samplerBuffer discpoints;
+uniform sampler2D reference_tex;
+
 uniform float current_frame_rev;
 out vec4 fragColor;
 uniform float mipmap_LOD;
@@ -28,7 +30,8 @@ void main(void)
 {
     int level = 1;
     fragColor = vec4(0);
-
+    fragColor = texture(reference_tex, _tex.xy);
+    return;
     vec2 texcoord = 0.25 * _tex.xy + vec2(0.75 /2);
     vec3 xo = vec3(0,0,0);
     vec3 xi = vec3(2 * texcoord - vec2(1,1),0);
@@ -48,10 +51,10 @@ void main(void)
     //fragColor = vec4(float(lcg(lcg(tea(gl_FragCoord.x, gl_FragCoord.y))))/ 16777216.0f);
 
     //return;
-    vec3 l = transmission;
+    vec3 l = extinction;
     vec3 s = red_extinction;
-    vec3 a = a_m  / s;
-    vec3 b = b_m / l;
+    vec3 a = 0  / s;
+    vec3 b = 1 / l;
     uint seed_circle = tea(vec2(0,17.0f));
     uint seed_circle_o = seed_circle;
 

@@ -1,7 +1,6 @@
 #include "GLHeader.h"
 #include <iostream>
 
-
 using namespace std;
 
 void _check_gl_error(const char *file, int line) {

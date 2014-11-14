@@ -16,11 +16,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->clearColor->init("Clear color: ", ui->translucentMaterials->getClearColor());
     connect(ui->clearColor,SIGNAL(vectorChanged(CGLA::Vec4f&)),ui->translucentMaterials,SLOT(setClearColor(CGLA::Vec4f&)));
-    //Vec3f userpos = Vec3f(-0.01684, -0.2174, 0.1101);// buddha
+    Vec3f userpos = Vec3f(-0.01684, -0.2174, 0.1101);// buddha
     //Vec3f userpos = Vec3f(0.016, 1.03, 0.054);// buddha
     //Vec3f userpos = Vec3f(-0.1,-1.2,0.8); //bunny
     //Vec3f userpos = Vec3f(-1.08199,-0.701759,0.8); //dragon cloaseup
-    Vec3f userpos = Vec3f(0,-2.2,0); //dragon
+    //Vec3f userpos = Vec3f(0,-2.2,0); //dragon
     //Vec3f userpos = Vec3f(0,1,0);
     ui->userPosition->init("User position: ", userpos);
     ui->translucentMaterials->setUserPosition(userpos);
@@ -72,7 +72,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->lod->init("Lod: ", ui->translucentMaterials->getParameters()->LOD, 0, 3, true);
     connect(ui->lod, SIGNAL(valueChanged(float)), this, SLOT(LODChanged(float)));
 
-    ui->a->init("A: ", ui->translucentMaterials->getParameters()->a, 0, 2, false);
+    ui->a->init("A: ", ui->translucentMaterials->getParameters()->a, 0, 10, false);
     connect(ui->a, SIGNAL(valueChanged(float)), this, SLOT(achanged(float)));
 
     ui->b->init("B: ", ui->translucentMaterials->getParameters()->b, 0, 50, false);

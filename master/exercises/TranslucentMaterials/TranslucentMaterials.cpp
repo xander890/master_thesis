@@ -81,21 +81,22 @@ using namespace GLGraphics;
 const string shader_path = "./shaders/TranslucentMaterials/";
 const string objects_path = "./data/";
 const string default_obj = "bunny1";
+const string ref_picture = "./references/marble_bunny.png";
 static const Vec4f light_ambient(0.3f,0.4f,0.6f,0.4f);
 
 Terrain terra(30,0.025f);
 
 const int GBUFFER_SIZE = 512;
-const float LIGHT_CAMERA_SIZE = 1.0f;
+const float LIGHT_CAMERA_SIZE = 0.1f;
 const float LIGHT_CAMERA_DISTANCE = 6.0f;
-const int ARRAY_TEXTURE_SIZE = 1024;
+const int ARRAY_TEXTURE_SIZE = 512;
 const int LIGHTS = 1;
 const int LAYERS = 16;
 const int MIPMAPS = 3;
 const float CAMERA_DISTANCE = 3.0f; //This should not matter (can be DIST = max bounding box + camera near + epsilon
 const float CAMERA_NEAR = 0.1f;
 const float CAMERA_FAR = 10.0f;
-const float RADIANCE_CAMERA_SIZE = 1.0f;
+const float RADIANCE_CAMERA_SIZE = 0.2f;
 const int CONVERGENCE_FRAMES = 1000;
 
 User user (&terra);
@@ -190,7 +191,7 @@ TranslucentMaterials::TranslucentMaterials( QWidget* parent)
         manager.addLight(mainLight);
         //manager.addLight(secondaryLight);
 #endif
-        manager.addLight(secondaryLight);
+        //manager.addLight(secondaryLight);
         setFocusPolicy(Qt::ClickFocus);
         timer = new QTimer(this);
         connect(timer, SIGNAL(timeout()), this, SLOT(animate()));
@@ -249,7 +250,7 @@ void TranslucentMaterials::initialize()
     objectPool.push_back(bunny);
     objectPool.push_back(buddha);
     objectPool.push_back(dragon);
-    currentObject = dragon;
+    currentObject = bunny;
 }
 
 
@@ -493,8 +494,6 @@ void TranslucentMaterials::render_dirss(bool reload, ShaderProgramDraw & render_
     int discPoints = maximum_samples; //TODO more LIGHTS!
 
     ThreeDObject * obj = currentObject;
-    Vec3f m = currentObject->getScale() * (currentObject->getBoundingBox()->high - currentObject->getBoundingBox()->low);
-    float MAX_RADIUS = 1.0f;//max3(m) / (2 * CAMERA_SIZE);
 
     Mesh::ScatteringMaterial * scattering_material = (Mesh::ScatteringMaterial*)obj->mesh.getMaterial();
     Vec3f tr = scattering_material->transmissionCoefficient / params->circleradius;
@@ -540,12 +539,12 @@ void TranslucentMaterials::render_dirss(bool reload, ShaderProgramDraw & render_
         initialized = true;
         screen_quad->init("","plane",*screen_quad_material);
 
-        getDiscPoints(&discpoint_data,discPoints,1, selectedTransmission, MAX_RADIUS);
+        //getDiscPoints(&discpoint_data,discPoints,1, selectedTransmission, MAX_RADIUS);
 
         //Mesh::Texture * tex = new Mesh::Texture("discpoints",GL_TEXTURE_1D, discPoints, 1, discpoint_data);
-        Mesh::Texture * tex = new Mesh::TextureBuffer<Vec2f>("discpoints",discPoints, GL_RG32F, discpoint_data);
-        tex->init();
-        scattering_material->addTexture(tex);
+       // Mesh::Texture * tex = new Mesh::TextureBuffer<Vec2f>("discpoints",discPoints, GL_RG32F, discpoint_data);
+        //tex->init();
+        //scattering_material->addTexture(tex);
 
         // preparing first color buffer from which to read (just for avoiding errors,
         // the shader already avoids that)
@@ -573,16 +572,34 @@ void TranslucentMaterials::render_dirss(bool reload, ShaderProgramDraw & render_
 #ifdef DEBUG_SCREEN
         screen_quad_material->addTexture(vtex);
         screen_quad_material->addTexture(ntex);
+        GLuint id;
+        string s = ResourceLoader::compute_resource_path(ref_picture);
+        QImage * image = new QImage();
+        QImage qgl_data;
+        if(image->load(QString(s.c_str()))) {
+            qgl_data = QGLWidget::convertToGLFormat(*image);
+        }
+
+        glGenTextures(1,&id);
+        glBindTexture(GL_TEXTURE_2D, id);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, qgl_data.width(), qgl_data.height(),0,GL_RGBA,GL_UNSIGNED_BYTE,qgl_data.bits());
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        screen_quad_material->addTexture(new Mesh::Texture("reference_tex", id, GL_TEXTURE_2D));
 #endif
 
     }
 
     if(params->currentFlags & TranslucentParameters::SAMPLES_CHANGED)
     {
+        /*
         discpoint_data.clear();
         getDiscPoints(&discpoint_data,discPoints,1, selectedTransmission, MAX_RADIUS);
         Mesh::TextureBuffer<Vec2f> * tex = static_cast<Mesh::TextureBuffer<Vec2f> *>(scattering_material->getTexture(string("discpoints")));
         tex->reloadBufferData(discpoint_data);
+        */
         params->currentFlags &= ~(TranslucentParameters::SAMPLES_CHANGED);
     }
 
@@ -601,8 +618,9 @@ void TranslucentMaterials::render_dirss(bool reload, ShaderProgramDraw & render_
         gbuff_shader.set_model_matrix(model_identity_matrix);
         gbuff_shader.set_projection_matrix(projection_light_matrix);
 
-        vector<Mat4x4f> lightMatrices;
-        vector<Mat4x4f> inverseLightMatrices;
+        vector<Mat4x4f> lightViewMatrices;
+        vector<Mat4x4f> worldToLightMatrices;
+        vector<Mat4x4f> lightToWorldMatrices;
 
         for(int i = 0; i < manager.size(); i++)
         {
@@ -617,16 +635,21 @@ void TranslucentMaterials::render_dirss(bool reload, ShaderProgramDraw & render_
             }
 
             Mat4x4f V = lookat_Mat4x4f_target(light_pos,center,up);
-            lightMatrices.push_back(V); //PARALLEL!
+            lightViewMatrices.push_back(V); //PARALLEL!
 
             Mat4x4f mat = translation_Mat4x4f(Vec3f(0.5));
             mat *= scaling_Mat4x4f(Vec3f(0.5));
             mat *= projection_light_matrix;
             mat *= V;
-            inverseLightMatrices.push_back(mat);
+            worldToLightMatrices.push_back(mat);
+            lightToWorldMatrices.push_back(invert(mat));
+            cout << "Matrix :" <<mat;
+            cout << "norm to light :" << mat * (Vec4f(center,0.0f) + Vec4f(-0.1,-0.1,1,1));
+            cout << "Matrix 2:" <<invert(mat);
+
         }
 
-        gbuff_shader.set_uniform("lightMatrices",lightMatrices,manager.size());
+        gbuff_shader.set_uniform("lightMatrices",lightViewMatrices,manager.size());
         gbuff_shader.set_uniform("layers", manager.size());
 
         // Switch viewport size to that of shadow buffer.
@@ -677,14 +700,16 @@ void TranslucentMaterials::render_dirss(bool reload, ShaderProgramDraw & render_
         //render_to_array.set_uniform("discradius",trueRadius);
         render_to_array.set_uniform("epsilon_gbuffer", params->epsilon_gbuffer);
         render_to_array.set_uniform("min_tr", selectedTransmission);
-        render_to_array.set_uniform("lightMatrices",inverseLightMatrices, manager.size());
+        render_to_array.set_uniform("worldToLightMatrices",worldToLightMatrices, manager.size());
+        render_to_array.set_uniform("lightToWorldMatrices",lightToWorldMatrices, manager.size());
+
         render_to_array.set_uniform("epsilon_combination", params->epsilon_combination);
         render_to_array.set_uniform("cameraMatrices", radiance_map_project_view_matrices,LAYERS);
         render_to_array.set_uniform("current_frame_percentage", currentFrame / float(CONVERGENCE_FRAMES));
         render_to_array.set_uniform("current_frame", currentFrame);
         render_to_array.set_uniform("convergence_frames", CONVERGENCE_FRAMES);
         render_to_array.set_uniform("global_frame",frame);
-        render_to_array.set_uniform("point_radius",MAX_RADIUS);
+        //render_to_array.set_uniform("point_radius",MAX_RADIUS);
         set_light_and_camera(render_to_array);
         render_to_array.set_uniform("viewMatrices", radiance_map_view_matrices, LAYERS);
         render_to_array.set_uniform("layers", LAYERS);
@@ -789,7 +814,7 @@ void TranslucentMaterials::render_dirss(bool reload, ShaderProgramDraw & render_
     render_combination.set_uniform("current_frame", min(currentFrame + 1,CONVERGENCE_FRAMES));
     render_combination.set_uniform("cameraMatrices", radiance_map_project_view_matrices,LAYERS);
     render_combination.set_uniform("has_environment", params->environment);
-    float worldCircleRadius = MAX_RADIUS;
+    float worldCircleRadius = 1.0f; // TODO remove
     render_combination.set_uniform("disc_area", (float)(worldCircleRadius * worldCircleRadius * M_PI));
     render_combination.set_uniform("step_tex", 1.0f/ARRAY_TEXTURE_SIZE);
     render_combination.set_uniform("skybox_dim", Vec2f(skybox->width,skybox->height));
@@ -831,8 +856,11 @@ void TranslucentMaterials::render_dirss(bool reload, ShaderProgramDraw & render_
     screen_quad_display_shader.set_uniform("points",samples_per_texel);
     screen_quad_display_shader.set_uniform("a_m",params->a);
     screen_quad_display_shader.set_uniform("b_m",params->b);
+    glDisable(GL_DEPTH_TEST);
     if(params->debugOverlayVisible)
         screen_quad->display(screen_quad_display_shader);
+    glEnable(GL_DEPTH_TEST);
+
 #endif
 }
 
